@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Hexo PK Octopress - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="今天发现到有另一种风格的博客系统 Hexo，跟 Octopress 的区别是 Hexo 运行会更快，更流畅，打算来实际证明一下。顺便记下 Hexo 的安装和使用过程。本博文配置环境为 iMac。 What&rsquo;s Node.js? Node.js® is a platform built &hellip;">
+  <meta name="keywords" content="Hexo">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/23/hexo/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Hexo PK Octopress</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-23T09:23:06+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:23 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>今天发现到有另一种风格的博客系统 Hexo，跟 Octopress 的区别是 Hexo 运行会更快，更流畅，打算来实际证明一下。顺便记下 Hexo 的安装和使用过程。本博文配置环境为 iMac。<!--More--></p>
+
+<h2>What&rsquo;s Node.js?</h2>
+
+<blockquote><p>Node.js® is a platform built on <strong>Chrome&rsquo;s JavaScript runtime</strong> for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.</p></blockquote>
+
+<p>实际上 <code>Node.js</code> 只是计算机上执行代码的另一种方式，它是一个简单的 <code>JavaScript Runtime</code>。</p>
+
+<h2>What&rsquo;s Hexo?</h2>
+
+<blockquote><p>A fast, simple &amp; powerful <strong>blog framework</strong></p></blockquote>
+
+<h2>搭建步骤</h2>
+
+<h3>安装 Node.js</h3>
+
+<p>有多种安装方式，这里采用最简单的安装方式，直接登录网站 <a href="https://nodejs.org/">https://nodejs.org/</a>，下载后一键安装，就可以在 Mac 上安装 <code>node</code> 和 <code>npm(node package manager)</code>。</p>
+
+<h3>安装 Hexo</h3>
+
+<p>一步安装 Hexo 本体和所有依赖套件。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">npm</span> <span class="n">install</span> <span class="n">hexo</span> <span class="o">-</span><span class="n">g</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>初始化</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">hexo</span> <span class="n">init</span> <span class="o">&lt;</span><span class="n">folder</span><span class="o">&gt;</span>
+</span><span class='line'><span class="n">npm</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果指定 <code>&lt;folder&gt;</code>，便会在目前的资料夹建立一个名为 <code>&lt;folder&gt;</code> 的新资料夹；否则会在目前资料夹初始化。</p>
+
+<h3>创建新博文</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">hexo</span> <span class="n">new</span> <span class="s">&quot;Hello World&quot;</span> <span class="err">或</span> <span class="n">hexo</span> <span class="n">n</span> <span class="s">&quot;Hello World&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>生成网站</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">hexo</span> <span class="n">generate</span> <span class="err">或</span> <span class="n">hexo</span> <span class="n">g</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>登录服务器</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">hexo</span> <span class="n">server</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>服务器会跑在 <code>http://localhost:port</code> （<code>port</code> 预设为 <code>4000</code>，可在 <code>_config.yml</code> 设定）</p>
+
+<h3>安装 yillia 主题</h3>
+
+<p>执行命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">litten</span><span class="o">/</span><span class="n">hexo</span><span class="o">-</span><span class="n">theme</span><span class="o">-</span><span class="n">yilia</span><span class="o">.</span><span class="n">git</span> <span class="n">themes</span><span class="o">/</span><span class="n">yilia</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>配置</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="err">修改</span><span class="n">hexo</span><span class="err">根目录下的</span> <span class="n">_config</span><span class="o">.</span><span class="n">yml</span> <span class="err">：</span> <span class="n">theme</span><span class="p">:</span> <span class="n">yilia</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更新</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">cd</span> <span class="n">themes</span><span class="o">/</span><span class="n">yilia</span>
+</span><span class='line'><span class="n">git</span> <span class="n">pull</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://hexo.io/">http://hexo.io/</a></li>
+<li><a href="https://www.npmjs.com/">https://www.npmjs.com/</a></li>
+<li><a href="https://nodejs.org/">https://nodejs.org/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-23T09:23:06+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:23 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/22/zhi-qing-chun-1/" title="Previous Post: 致青春-1">&laquo; 致青春-1</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/23/dream-it/" title="Next Post: Dream it,Believe it,Just do IT">Dream it,Believe it,Just do IT &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

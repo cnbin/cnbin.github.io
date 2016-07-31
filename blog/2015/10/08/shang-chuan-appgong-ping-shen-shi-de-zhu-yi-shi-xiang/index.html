@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>上传APP供评审时的注意事项 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1、上传APP二进制文件的另一种方法是通过Application Loader实用工具，该工具包含在Xcode的开发工具下载中。在苹果文档的各个地方，都会引导你使用Application Loader将APP二进制文件上传到iTunes Connect。虽然这是一个有效的选项， &hellip;">
+  <meta name="keywords" content="app">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/08/shang-chuan-appgong-ping-shen-shi-de-zhu-yi-shi-xiang/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">上传APP供评审时的注意事项</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-08T15:46:53+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:46 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>1、上传APP二进制文件的另一种方法是通过Application Loader实用工具，该工具包含在Xcode的开发工具下载中。在苹果文档的各个地方，都会引导你使用Application Loader将APP二进制文件上传到iTunes Connect。虽然这是一个有效的选项，但大多数iOS开发人员推荐使用Xcode的Build and Archive选项编译你的APP，然后通过最新版本的Xcode Organizer上传APP二进制文件。</p>
+
+<p>2、目前的出口法律规定，任何包含加密内容的产品均需要经过授权才可出口。出口合规性页面会询问，APP中是否包含加密内容或需要访问加密内容。如果你的答案是No，则可以继续操作，只需单击Save按钮即可。如果你的答案是Yes，那么将会出现几个关于加密的问题，你需要先回答，然后才可以继续。根据你对这些额外问题的回答，系统可能会要求上传CCATS（Commodity Classification Automated Tracking System，商品分类自动跟踪系统）文档的副本。</p>
+
+<p>3、为了实现透明度更高、更顺畅的沟通，苹果公司还创建了News and Announcements for Apple Developers（苹果开发人员新闻和公告）网站，作为在线资源，提供各种APP提交提示、iOS开发计划更新、SDK新闻以及推荐的编程技术。这个网站甚至会公布APP评审的最新周期，例如“最近7天内提交的iOS已评审的比例：新APP：80%；APP更新：92%”。</p>
+
+<p>4、但如果你固执地认为你可能会错过那些极为重要的电子邮件通知，那么，苹果公司还为你提供了方便的Status History功能。在iTunes Connect中APP列表的摘要主页面上，单击Status History链接，即可查看已经进行到了评审的过程的哪些阶段，已执行了那些具体操作以及由谁执行了这些操作。</p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://www.rs.net.cn/news_view_b2271cd8f6.html">http://www.rs.net.cn/news_view_b2271cd8f6.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-08T15:46:53+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:46 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/08/app-ti-jiao-itunes-connect-er-jin-zhi-wu-xiao-wen-ti-jie-jue-fang-an/" title="Previous Post: App 提交 iTunes Connect 二进制无效问题解决方案">&laquo; App 提交 iTunes Connect 二进制无效问题解决方案</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/08/guan-yu-yan-gao-biao-shi-de-idfa-yong-tu-,qing-que-bao-xuan-ze-zheng-que-de-da-an/" title="Next Post: 关于广告标识的 (IDFA) 用途，请确保选择正确的答案">关于广告标识的 (IDFA) 用途，请确保选择正确的答案 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

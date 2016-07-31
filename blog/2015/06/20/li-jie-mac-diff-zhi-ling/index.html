@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>理解 Mac-diff 指令 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、diff 的三种格式 由于历史原因，diff 有三种格式： 正常格式（normal diff）
+上下文格式（context diff）
+合并格式（unified diff） 我们依次来看。 二、示例文件 为了便于讲解，先新建两个示例文件。 第一个文件叫做 f1，内容是每行一个a，一共 7 行 &hellip;">
+  <meta name="keywords" content="diff,unix,linux,mac">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/20/li-jie-mac-diff-zhi-ling/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">理解 Mac-diff 指令</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-20T17:26:37+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:26 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>一、diff 的三种格式</h3>
+
+<p>由于历史原因，diff 有三种格式：</p>
+
+<ul>
+<li><p>正常格式（normal diff）</p></li>
+<li><p>上下文格式（context diff）</p></li>
+<li><p>合并格式（unified diff）</p></li>
+</ul>
+
+
+<p>我们依次来看。</p>
+
+<h3>二、示例文件</h3>
+
+<p>为了便于讲解，先新建两个示例文件。</p>
+
+<p>第一个文件叫做 f1，内容是每行一个a，一共 7 行。</p>
+
+<pre><code>a
+a
+a
+a
+a
+a
+a
+</code></pre>
+
+<p>第二个文件叫做 f2，修改 f1 而成，第 4 行变成 b，其他不变。</p>
+
+<pre><code>a
+a
+a
+b
+a
+a
+a
+</code></pre>
+
+<h3>三、正常格式的 diff</h3>
+
+<p>现在对 f1 和 f2 进行比较：</p>
+
+<pre><code>$ diff f1 f2
+</code></pre>
+
+<p>这时，diff 就会显示正常格式的结果：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et77vp9q5fj20b502b74d.jpg" alt="img" /></p>
+
+<p>第一行是一个提示，用来说明变动位置。</p>
+
+<pre><code>4c4
+</code></pre>
+
+<p>它分成三个部分：前面的"4"，表示 f1 的第 4 行有变化；中间的"c"表示变动的模式是内容改变（change），其他模式还有"增加"（a，代表 addition）和"删除"（d，代表 deletion）；后面的"4"，表示变动后变成 f2 的第 4 行。</p>
+
+<p>第二行分成两个部分。</p>
+
+<pre><code>&lt; a
+</code></pre>
+
+<p>前面的小于号，表示要从 f1 当中去除该行（也就是第 4 行），后面的"a"表示该行的内容。</p>
+
+<p>第三行用来分割 f1 和 f2。</p>
+
+<pre><code>---
+</code></pre>
+
+<p>第四行，类似于第二行。</p>
+
+<pre><code>&gt; b
+</code></pre>
+
+<p>前面的大于号表示 f2 增加了该行，后面的"b"表示该行的内容。</p>
+
+<p>最早的 Unix（即 AT&amp;T版本的 Unix），使用的就是这种格式的 diff。</p>
+
+<h3>四、上下文格式的 diff</h3>
+
+<p>　　上个世纪 80 年代初，加州大学伯克利分校推出 BSD 版本的 Unix 时，觉得 diff 的显示结果太简单，最好加入上下文，便于了解发生的变动。因此，推出了上下文格式的 diff。</p>
+
+<p>它的使用方法是加入c参数（代表 context）。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et77z3rleaj20dg0aa757.jpg" alt="img" /></p>
+
+<p>这个结果分成四个部分。</p>
+
+<p>第一部分的两行，显示两个文件的基本情况：文件名和时间信息。</p>
+
+<pre><code>*** f1  Wed Jun 17 17:25:50 2015
+--- f2  Wed Jun 17 17:25:43 2015
+</code></pre>
+
+<p><code>***</code> 表示变动前的文件，<code>---</code> 表示变动后的文件。</p>
+
+<p>第二部分是 15 个星号，将文件的基本情况与变动内容分割开。</p>
+
+<pre><code>***************
+</code></pre>
+
+<p>第三部分显示变动前的文件，即 f1。</p>
+
+<pre><code>*** 1,7 ****
+  a
+  a
+  a
+! a
+  a
+  a
+  a
+  \ No newline at end of file
+</code></pre>
+
+<p>这时不仅显示发生变化的第 4 行，还显示第 4 行的前面三行和后面三行，因此一共显示 7 行。所以，前面的"<strong>* 1,7 </strong>**&ldquo;就表示，从第 1 行开始连续 7 行。</p>
+
+<p>另外，文件内容的每一行最前面，还有一个标记位。如果为空，表示该行无变化；如果是感叹号（!），表示该行有改动；如果是减号（-），表示该行被删除；如果是加号（+），表示该行为新增。</p>
+
+<p>第四部分显示变动后的文件，即 f2。</p>
+
+<pre><code>--- 1,7 ----
+  a
+  a
+  a
+! b
+  a
+  a
+  a
+\ No newline at end of file
+</code></pre>
+
+<p>除了变动行（第 4 行）以外，也是上下文各显示三行，总共显示 7 行。</p>
+
+<h3>五、合并格式的 diff</h3>
+
+<p>如果两个文件相似度很高，那么上下文格式的 diff，将显示大量重复的内容，很浪费空间。1990年，GNU diff 率先推出了"合并格式"的 diff，将 f1 和 f2 的上下文合并在一起显示。</p>
+
+<p>它的使用方法是加入 u 参数（代表 unified）。</p>
+
+<pre><code>$ diff -u f1 f2
+</code></pre>
+
+<p>显示结果如下：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1et783gr1ipj20e8062751.jpg" alt="img" /></p>
+
+<p>它的第一部分，也是文件的基本信息。</p>
+
+<pre><code>--- f1  2015-06-17 17:25:50.000000000 +0800
++++ f2  2015-06-17 17:25:43.000000000 +0800
+</code></pre>
+
+<p><code>---</code> 表示变动前的文件，<code>+++</code> 表示变动后的文件。</p>
+
+<p>第二部分，变动的位置用两个 <code>@</code> 作为起首和结束。</p>
+
+<pre><code>@@ -1,7 +1,7 @@
+</code></pre>
+
+<p>前面的"-1,7"分成三个部分：减号表示第一个文件（即 f1），"1"表示第 1 行，"7"表示连续 7 行。合在一起，就表示下面是第一个文件从第 1 行开始的连续 7 行。同样的，"+1,7"表示变动后，成为第二个文件从第 1 行开始的连续 7 行。</p>
+
+<p>第三部分是变动的具体内容。</p>
+
+<pre><code> a
+ a
+ a
+-a
++b
+ a
+ a
+ a
+\ No newline at end of file
+</code></pre>
+
+<p>了有变动的那些行以外，也是上下文各显示 3 行。它将两个文件的上下文，合并显示在一起，所以叫做"合并格式"。每一行最前面的标志位，空表示无变动，减号表示第一个文件删除的行，加号表示第二个文件新增的行。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.open-open.com/lib/view/open1346250890067.html">OPEN 经验库</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-20T17:26:37+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:26 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/20/rvm-an-zhuang-hou-de-bu-chong-gong-zuo-:source-slash-dot-profile/" title="Previous Post: rvm 安装后的补充工作：source /.profile">&laquo; rvm 安装后的补充工作：source /.profile</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/20/she-zhi-gopath-huan-jing-bian-liang/" title="Next Post: 设置 GOPATH 环境变量">设置 GOPATH 环境变量 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

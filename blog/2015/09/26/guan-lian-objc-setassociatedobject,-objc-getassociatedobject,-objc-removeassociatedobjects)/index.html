@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>关联(objc_setAssociatedObject、objc_getAssociatedObject、objc_removeAssociatedObjects） - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="关联 关联是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分。
+关联特性只有在Mac OS X V10.6以及以后的版本上才是可用的。 在类的定义之外为类增加额外的存储空间 使用关联，我们可以不用修改类的定义而为其对象增加存储空间。 &hellip;">
+  <meta name="keywords" content="ios">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/26/guan-lian-objc-setassociatedobject,-objc-getassociatedobject,-objc-removeassociatedobjects)/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">关联(objc_setAssociatedObject、objc_getAssociatedObject、objc_removeAssociatedObjects）</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-26T14:11:59+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:11 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>关联</h2>
+
+<ul>
+<li>关联是指把两个对象相互关联起来，使得其中的一个对象作为另外一个对象的一部分。</li>
+<li>关联特性只有在Mac OS X V10.6以及以后的版本上才是可用的。</li>
+</ul>
+
+
+<h3>在类的定义之外为类增加额外的存储空间</h3>
+
+<p>   使用关联，我们可以不用修改类的定义而为其对象增加存储空间。这在我们无法访问到类的源码的时候或者是考虑到二进制兼容性的时候是非常有用。</p>
+
+<p>   关联是基于关键字的，因此，我们可以为任何对象增加任意多的关联，每个都使用不同的关键字即可。关联是可以保证被关联的对象在关联对象的整个生命周期都是可用的（在垃圾自动回收环境下也不会导致资源不可回收）。</p>
+
+<h3>创建关联</h3>
+
+<p>   创建关联要使用到Objective-C的运行时函数：objc_setAssociatedObject来把一个对象与另外一个对象进行关联。该函数需要四个参数：源对象，关键字，关联的对象和一个关联策略。当然，此处的关键字和关联策略是需要进一步讨论的。</p>
+
+<ul>
+<li>关键字是一个void类型的指针。每一个关联的关键字必须是唯一的。通常都是会采用静态变量来作为关键字。</li>
+<li>关联策略表明了相关的对象是通过赋值，保留引用还是复制的方式进行关联的；还有这种关联是原子的还是非原子的。</li>
+</ul>
+
+
+<p>这里的关联策略和声明属性时的很类似。这种关联策略是通过使用预先定义好的常量来表示的。</p>
+
+<p> 下面的代码展示了如何把一个字符串关联到一个数组上。</p>
+
+<p>列表7-1 把一个字符串关联到一个数组</p>
+
+<pre><code>static char overviewKey;  
+NSArray * array =[[NSArray alloc] initWidthObjects:@"One", @"Two", @"Three", nil];  
+//为了演示的目的，这里使用initWithFormat:来确保字符串可以被销毁  
+NSString * overview = [[NSString alloc] initWithFormat:@"@",@"First three numbers"];  
+objc_setAssociatedObject(array, &amp;overviewKey, overview, OBJC_ASSOCIATION_RETAIN);  
+
+[overview release];  
+
+//(1) overview仍然是可用的  
+
+[array release];  
+
+//(2)overview 不可用  
+</code></pre>
+
+<p>在（1）处，字符串overview仍然是可用的，这是因为OBJC_ASSOCIATION_RETAIN策略指明了数组要保有相关的对象。当数组array被销毁的时候，也就是在（2）处overview也就会被释放，因此而被销毁。如果此时还想使用overview，例如想通过log来输出overview的值，则会出现运行时异常。</p>
+
+<h3>获取相关联的对象</h3>
+
+<p>获取相关联的对象时使用Objective-C函数objc_getAssociatedObject。接着上面列表7-1的代码，我们可以使用如下代码来获取与array相关联的字符串：</p>
+
+<pre><code>NSString * associatedObject = (NSString *)objc_getAssociatedObject(array, &amp;oveviewKey);  
+</code></pre>
+
+<h3>断开关联</h3>
+
+<p>断开关联是使用objc_setAssociatedObject函数，传入nil值即可。</p>
+
+<p>接着列表7-1中的程序，我们可以使用如下的代码来断开字符串overview和arry之间的关联：</p>
+
+<pre><code>objc_setAssociatedObject(array, &amp;overviewKey, nil, OBJC_ASSOCIATION_ASSIGN);  
+</code></pre>
+
+<p>其中，被关联的对象为nil，此时关联策略也就无关紧要了。</p>
+
+<p>使用函数objc_removeAssociatedObjects可以断开所有关联。通常情况下不建议使用这个函数，因为他会断开所有关联。只有在需要把对象恢复到“原始状态”的时候才会使用这个函数。</p>
+
+<h3>一个完整的实例程序</h3>
+
+<p>下面的程序综合了前面的代码.</p>
+
+<pre><code>NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];  
+
+static char overviewKey;  
+NSArray *array =[[NSArray alloc] initWithObjects:@"One", @"Two", @"Three", nil nil];  
+
+
+//为了演示的目的，这里使用initWithFormat:来确保字符串可以被销毁  
+NSString * overview = [[NSString alloc] initWithFormat:@"%@",@"First three numbers"];  
+objc_setAssociatedObject(array, &amp;overviewKey, overview, OBJC_ASSOCIATION_RETAIN);  
+[overview release];  
+
+NSString *associatedObject = (NSString *)objc_getAssociatedObject(array, &amp;overviewKey);  
+NSLog(@"associatedObject:%@", associatedObject);  
+
+objc_setAssociatedObject(array, &amp;overviewKey, nil, OBJC_ASSOCIATION_ASSIGN);  
+[array release];  
+
+[pool drain];  
+return 0;  
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-26T14:11:59+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:11 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/26/nsbundle/" title="Previous Post: NSBundle">&laquo; NSBundle</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/26/responder-chain-jian-xi/" title="Next Post: Responder Chain 简析">Responder Chain 简析 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

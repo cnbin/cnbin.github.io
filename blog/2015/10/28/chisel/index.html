@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Chisel - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Chisel Chisel is a collection of LLDB commands to assist in the debugging of iOS apps. [Installation &bull; Commands &bull; Custom Commands &bull; &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/28/chisel/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Chisel</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-28T16:26:09+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:26 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>Chisel</h1>
+
+<p><code>Chisel</code> is a collection of <code>LLDB</code> commands to assist in the debugging of iOS apps.</p>
+
+<p>[<a href="#installation">Installation</a> &bull; <a href="#commands">Commands</a> &bull; <a href="#custom-commands">Custom Commands</a> &bull; <a href="#development-workflow">Development Workflow</a> <a href="#contributing">Contributing</a> &bull; <a href="#license">License</a>]</p>
+
+<p>For a comprehensive overview of LLDB, and how Chisel complements it, read Ari Grant&rsquo;s <a href="http://www.objc.io/issue-19/lldb-debugging.html">Dancing in the Debugger — A Waltz with LLDB</a> in issue 19 of <a href="http://www.objc.io/">objc.io</a>.</p>
+
+<h2>Installation</h2>
+
+<pre><code>brew update
+brew install chisel
+</code></pre>
+
+<p>Then follow the instructions that Homebrew displays to add chisel to your <em>~/.lldbinit</em>.</p>
+
+<p>Alternatively, download chisel and add the following line to your <em>~/.lldbinit</em> file. If it doesn&rsquo;t exist, create it.</p>
+
+<pre><code># ~/.lldbinit
+...
+command script import /path/to/fblldb.py
+</code></pre>
+
+<p>The commands will be available the next time <code>Xcode</code> starts.</p>
+
+<h2>Commands</h2>
+
+<p>There are many commands; here&rsquo;s a few:
+<em>(Compatibility with iOS/Mac indicated at right)</em></p>
+
+<table>
+<thead>
+<tr>
+<th>Command          </th>
+<th>Description     </th>
+<th>iOS    </th>
+<th>OS X   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pviews           </td>
+<td>Print the recursive view description for the key window.</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>pvc              </td>
+<td>Print the recursive view controller description for the key window.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>visualize        </td>
+<td>Open a <code>UIImage</code>, <code>CGImageRef</code>, <code>UIView</code>, <code>CALayer</code>, <code>NSData</code> (of an image), <code>UIColor</code>, <code>CIColor</code>, or <code>CGColorRef</code> in Preview.app on your Mac.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>fv               </td>
+<td>Find a view in the hierarchy whose class name matches the provided regex.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>fvc              </td>
+<td>Find a view controller in the hierarchy whose class name matches the provided regex.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>show/hide        </td>
+<td>Show or hide the given view or layer. You don&rsquo;t even have to continue the process to see the changes!</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>mask/unmask      </td>
+<td>Overlay a view or layer with a transparent rectangle to visualize where it is.</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>border/unborder  </td>
+<td>Add a border to a view or layer to visualize where it is.</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>caflush          </td>
+<td>Flush the render server (equivalent to a &ldquo;repaint&rdquo; if no animations are in-flight).)</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>bmessage         </td>
+<td>Set a symbolic breakpoint on the method of a class or the method of an instance without worrying which class in the hierarchy actually implements the method.</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>wivar            </td>
+<td>Set a watchpoint on an instance variable of an object.</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>presponder       </td>
+<td>Print the responder chain starting from the given object.</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>&hellip;              </td>
+<td>&hellip; and many more!</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+
+<p>To see the list of <strong>all</strong> of the commands execute the help command in <code>LLDB</code>.</p>
+
+<pre><code>(lldb) help
+The following is a list of built-in, permanent debugger commands:
+...
+
+The following is a list of your current user-defined commands:
+...
+</code></pre>
+
+<p>The bottom of the list will contain all of the commands sourced from <code>Chisel</code>.</p>
+
+<p>You can also inspect a specific command by passing its name as an argument to the help command (as with all other <code>LLDB</code> commands).</p>
+
+<pre><code>(lldb) help border
+Draws a border around &lt;viewOrLayer&gt;. Color and width can be optionally provided.
+
+Arguments:
+  &lt;viewOrLayer&gt;; Type: UIView*; The view to border.
+
+Options:
+  --color/-c &lt;color&gt;; Type: string; A color name such as 'red', 'green', 'magenta', etc.
+  --width/-w &lt;width&gt;; Type: CGFloat; Desired width of border.
+
+Syntax: border [--color=color] [--width=width] &lt;viewOrLayer&gt;
+</code></pre>
+
+<p>All of the commands provided by <code>Chisel</code> come with verbose help. Be sure to read it when in doubt!</p>
+
+<h2>Custom Commands</h2>
+
+<p>You can add local, custom commands. Here&rsquo;s a contrived example.</p>
+
+<pre><code>#!/usr/bin/python
+# Example file with custom commands, located at /magical/commands/example.py
+
+import lldb
+import fblldbbase as fb
+
+def lldbcommands():
+  return [ PrintKeyWindowLevel() ]
+
+class PrintKeyWindowLevel(fb.FBCommand):
+  def name(self):
+    return 'pkeywinlevel'
+
+  def description(self):
+    return 'An incredibly contrived command that prints the window level of the key window.'
+
+  def run(self, arguments, options):
+    # It's a good habit to explicitly cast the type of all return
+    # values and arguments. LLDB can't always find them on its own.
+    lldb.debugger.HandleCommand('p (CGFloat)[(id)[(id)[UIApplication sharedApplication] keyWindow] windowLevel]')
+</code></pre>
+
+<p>Then all that&rsquo;s left is to source the commands in lldbinit. <code>Chisel</code> has a python function just for this, <em>loadCommandsInDirectory</em> in the <em>fblldb.py</em> module.</p>
+
+<pre><code># ~/.lldbinit
+...
+command script import /path/to/fblldb.py
+script fblldb.loadCommandsInDirectory('/magical/commands/')
+</code></pre>
+
+<p>There&rsquo;s also builtin support to make it super easy to specify the arguments and options that a command takes. See the <em>border</em> and <em>pinvocation</em> commands for example use.</p>
+
+<h2>Development Workflow</h2>
+
+<p>Developing commands, whether for local use or contributing to <code>Chisel</code> directly, both follow the same workflow. Create a command as described in the <a href="#custom-commands">Custom Commands</a> section and then</p>
+
+<ol>
+<li>Start <code>LLDB</code></li>
+<li>Reach a breakpoint (or simply pause execution via the pause button in <code>Xcode</code>&rsquo;s debug bar or <code>process interrupt</code> if attached directly)</li>
+<li>Execute <code>command source ~/.lldbinit</code> in LLDB to source the commands</li>
+<li>Run the command you are working on</li>
+<li>Modify the command</li>
+<li>Optionally run <code>script reload(modulename)</code></li>
+<li>Repeat steps 3-6 until the command becomes a source of happiness</li>
+</ol>
+
+
+<h2>Contributing</h2>
+
+<p>Please contribute any generic commands that you make. If it helps you then it will likely help many others! :D See <code>CONTRIBUTING.md</code> to learn how to contribute.</p>
+
+<h2>License</h2>
+
+<p><code>Chisel</code> is BSD-licensed. See <code>LICENSE</code>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-28T16:26:09+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:26 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/28/zhi-zuo-hua-xun-wang-luo-appdeng-lu-mei-guo-shang-dian/" title="Previous Post: 制作华讯网络app发布美国商店(原创)">&laquo; 制作华讯网络app发布美国商店(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/29/oc-yu-swift-hun-bian/" title="Next Post: OC 与 Swift 混编">OC 与 Swift 混编 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

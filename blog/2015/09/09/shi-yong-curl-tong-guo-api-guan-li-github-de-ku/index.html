@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>使用 Curl 通过 Api 管理 Github 的库 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="github提供了管理库的api，我们可以利用curl（我是在Linux系统下）这个工具，来利用github的api对github上的库进行管理。 github对库的的各种api在这里查看： https://developer.github.com/v3/repos/ 从里面选几个例子： GET &hellip;">
+  <meta name="keywords" content="curl,api,github">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/09/shi-yong-curl-tong-guo-api-guan-li-github-de-ku/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">使用 Curl 通过 Api 管理 Github 的库</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-09T09:17:45+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:17 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>github提供了管理库的api，我们可以利用curl（我是在Linux系统下）这个工具，来利用github的api对github上的库进行管理。</p>
+
+<p>github对库的的各种api在这里查看： <a href="https://developer.github.com/v3/repos/">https://developer.github.com/v3/repos/</a></p>
+
+<p>从里面选几个例子：</p>
+
+<pre><code>GET /users/:user/repos
+POST /user/repos
+DELETE /repos/:owner/:repo
+</code></pre>
+
+<p>这些api一般由两部分组成，前面大写的单词和后面带有斜杠的一些东西。</p>
+
+<p>前面的大写单词表示网络请求，具体啥请求我暂不知道称呼，后面是地址，如/user/repos在使用的时候就换成<a href="https://api.github.com/user/repos">https://api.github.com/user/repos</a>，也就是在前面加上域名，其它都是这样。</p>
+
+<p>像这样<code>/repos/:owner/:repo</code>，里面有冒号，不能照抄，实际上冒号和后面的单词组成的这部分是要被替换掉的，<code>:owner</code>和<code>:user</code>一个表示库所有者，这个表示用户，反正都是换成github用户名，:repo换成库名。其它带冒号的先自己推断吧。</p>
+
+<p>再看curl的使用，它是一个命令行工具。</p>
+
+<p>各种请求curl怎么发？我在man手册看的，GET用参数-G。可以用-X参数并在它后面直接加上请求名，如<code>-X DELETE，-X PATCH</code>。POST呢？一般POST请求都要带数据的把，数据传输要用到-d参数，只用这个参数而没用其它请求的时候，就认为的POST请求，当然你也可以加上-X POST。</p>
+
+<p>Ok，接下来说怎么传数据。有的api是需要传数据的，如创建库。</p>
+
+<p>curl的数据传输放在-d参数的后面。</p>
+
+<p>github api的数据格式你也可以在那个api页面看到，是包含在花括号中，里面各个部分的信息用逗号隔开。每部分信息由名字和值两部分组成，用冒号隔开，名字要加双引号，值如果是字符串也要加双引号，具体例子如：</p>
+
+<pre><code>{“name”: “Hello-World”,”description”: “This is your first repository”} 
+</code></pre>
+
+<p>各部分信息有的是必须的，有的可以省略。</p>
+
+<p>在curl的-d参数后面的信息要放在单引号里面如：</p>
+
+<pre><code>-d ‘{“name”: “Hello-World”,”description”: “This is your first repository”}’
+</code></pre>
+
+<p>后面地址部分直接把完整地址放在后面即可。</p>
+
+<p>对了，建立连接有时候需要权限的吧，如建立或删除库时。此时再多加个curl的参数-u，后面跟用户名。如-u xxx</p>
+
+<p>举个完整例子，这个是创建库的：</p>
+
+<pre><code>curl -u username -d ‘{“name”: “Hello-World”,”description”: “This is your first repository”}’ https://api.github.com/user/repos
+</code></pre>
+
+<p>提醒一点，注意参数大小写。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-09T09:17:45+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:17 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/git/'>git</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/09/github-qian-10000ming-pai-xing-bang/" title="Previous Post: Github 前1000名排行榜">&laquo; Github 前1000名排行榜</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/09/iphone-ping-mu-gua-pei-,li-shi-ji-xian-zhuang/" title="Next Post: iPhone 屏幕适配，历史及现状">iPhone 屏幕适配，历史及现状 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

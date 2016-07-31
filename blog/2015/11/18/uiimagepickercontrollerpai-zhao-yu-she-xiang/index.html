@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>UIImagePickerController拍照与摄像 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="该类继承自UINavigationController类 步骤： 检查媒体来源模式是否可用
+检查该来源模式下所支持的媒体类型
+创建图像选取控制器，设置其属性并显示
+在委托协议方法中处理 1.检查媒体来源 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/18/uiimagepickercontrollerpai-zhao-yu-she-xiang/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">UIImagePickerController拍照与摄像</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-18T12:54:56+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:54 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>该类继承自UINavigationController类</p>
+
+<p>步骤：</p>
+
+<ul>
+<li>检查媒体来源模式是否可用</li>
+<li>检查该来源模式下所支持的媒体类型</li>
+<li>创建图像选取控制器，设置其属性并显示</li>
+<li>在委托协议方法中处理</li>
+</ul>
+
+
+<h4>1.检查媒体来源</h4>
+
+<p>调用UIImagePickerController类的静态方法isSourceTypeAvailable来检查</p>
+
+<pre><code>sourceType是一个UIImagePickerControllerSourceType类型的枚举值，它表示图像选取控制器的3种不同的媒体来源模式
+UIImagePickerControllerSourceTypePhotoLibrary:照片库模式。图像选取控制器以该模式显示时会浏览系统照片库的根目录。
+UIImagePickerControllerSourceTypeCamera:相机模式，图像选取控制器以该模式显示时可以进行拍照或摄像。
+UIImagePickerControllerSourceTypeSavedPhotosAlbum:相机胶卷模式，图像选取控制器以该模式显示时会浏览相机胶卷目录。
+如果设备支持指定的媒体来源模式，则isSourceTypeAvailable:方法返回YES，否则返回NO。
+</code></pre>
+
+<h4>2.检查支持的媒体类型</h4>
+
+<p>调用UIImagePickerController类的另一个静态方法 availableMediaTypesForSourceType:
+返回的是字符串数组，kUTTypeImage表示静态图片，kUTTypeMovie表示视频。这两个字符串常量定义在MobileCoreServices框架中。</p>
+
+<p>参数info是一个字典，包含媒体类型，拍照的原始图片，编辑后的图片，或是摄像的视频文件的URL等。</p>
+
+<pre><code>//
+//  ViewController.h
+//  Camera
+//
+//  Created by gao wuhang on 12-11-23.
+//  Copyright (c) 2012年 gao wuhang. All rights reserved.
+//
+
+#import
+
+@interface ViewController : UIViewController&lt;&lt;/span&gt;UINavigationControllerDelegate, UIImagePickerControllerDelegate&gt;
+
+- (IBAction)takePictureButtonClick:(id)sender;
+- (IBAction)captureVideoButtonClick:(id)sender;
+
+@end
+//
+//  ViewController.m
+//  Camera
+//
+//  Created by gao wuhang on 12-11-23.
+//  Copyright (c) 2012年 gao wuhang. All rights reserved.
+//
+
+#import "ViewController.h"
+#import
+#import
+
+@interface ViewController ()
+
+@end
+
+@implementation ViewController
+
+
+- (IBAction)takePictureButtonClick:(id)sender{
+    //检查相机模式是否可用
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        NSLog(@"sorry, no camera or camera is unavailable.");
+        return;
+    }
+    //获得相机模式下支持的媒体类型
+    NSArray* availableMediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
+    BOOL canTakePicture = NO;
+    for (NSString* mediaType in availableMediaTypes) {
+        if ([mediaType isEqualToString:(NSString*)kUTTypeImage]) {
+            //支持拍照
+            canTakePicture = YES;
+            break;
+        }
+    }
+    //检查是否支持拍照
+    if (!canTakePicture) {
+        NSLog(@"sorry, taking picture is not supported.");
+        return;
+    }
+    //创建图像选取控制器
+    UIImagePickerController* imagePickerController = [[UIImagePickerController alloc] init];
+    //设置图像选取控制器的来源模式为相机模式
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    //设置图像选取控制器的类型为静态图像
+    imagePickerController.mediaTypes = [[[NSArray alloc] initWithObjects:(NSString*)kUTTypeImage, nil] autorelease];
+    //允许用户进行编辑
+    imagePickerController.allowsEditing = YES;
+    //设置委托对象
+    imagePickerController.delegate = self;
+    //以模视图控制器的形式显示
+    [self presentModalViewController:imagePickerController animated:YES];
+    [imagePickerController release];
+}
+
+- (IBAction)captureVideoButtonClick:(id)sender{
+    //检查相机模式是否可用
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        NSLog(@"sorry, no camera or camera is unavailable!!!");
+        return;
+    }
+    //获得相机模式下支持的媒体类型
+    NSArray* availableMediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera];
+    BOOL canTakeVideo = NO;
+    for (NSString* mediaType in availableMediaTypes) {
+        if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
+            //支持摄像
+            canTakeVideo = YES;
+            break;
+        }
+    }
+    //检查是否支持摄像
+    if (!canTakeVideo) {
+        NSLog(@"sorry, capturing video is not supported.!!!");
+        return;
+    }
+    //创建图像选取控制器
+    UIImagePickerController* imagePickerController = [[UIImagePickerController alloc] init];
+    //设置图像选取控制器的来源模式为相机模式
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    //设置图像选取控制器的类型为动态图像
+    imagePickerController.mediaTypes = [[[NSArray alloc] initWithObjects:(NSString*)kUTTypeMovie, nil] autorelease];
+    //设置摄像图像品质
+    imagePickerController.videoQuality = UIImagePickerControllerQualityTypeHigh;
+    //设置最长摄像时间
+    imagePickerController.videoMaximumDuration = 30;
+    //允许用户进行编辑
+    imagePickerController.allowsEditing = YES;
+    //设置委托对象
+    imagePickerController.delegate = self;
+    //以模式视图控制器的形式显示
+    [self presentModalViewController:imagePickerController animated:YES];
+    [imagePickerController release];
+
+}
+
+- (void)image:(UIImage*)image didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo{
+    if (!error) {
+        NSLog(@"picture saved with no error.");
+    }
+    else
+    {
+        NSLog(@"error occured while saving the picture%@", error);
+    }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    //打印出字典中的内容
+    NSLog(@"get the media info: %@", info);
+    //获取媒体类型
+    NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    //判断是静态图像还是视频
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
+        //获取用户编辑之后的图像
+    UIImage* editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+        //将该图像保存到媒体库中
+                                UIImageWriteToSavedPhotosAlbum(editedImage, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+    }else if ([mediaType isEqualToString:(NSString *)kUTTypeMovie])
+                                {
+                                    //获取视频文件的url
+                                    NSURL* mediaURL = [info objectForKey:UIImagePickerControllerMediaURL];
+                                    //创建ALAssetsLibrary对象并将视频保存到媒体库
+                                    ALAssetsLibrary* assetsLibrary = [[ALAssetsLibrary alloc] init];
+                                    [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:mediaURL completionBlock:^(NSURL *assetURL, NSError *error) {
+                                        if (!error) {
+                                            NSLog(@"captured video saved with no error.");
+                                        }else
+                                        {
+                                            NSLog(@"error occured while saving the video:%@", error);
+                                        }
+                                    }];
+                                    [assetsLibrary release];
+                                }
+                                [picker dismissModalViewControllerAnimated:YES];
+
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissModalViewControllerAnimated:YES];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+// Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+@end
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-18T12:54:56+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:54 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/18/lbs-yu-gps-ding-wei-zhi-jian-de-qu-bie/" title="Previous Post: LBS 与 GPS 定位之间的区别">&laquo; LBS 与 GPS 定位之间的区别</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/18/objective-czhong-nsstringde-writetofile-atomicallycan-shu-jie-shi/" title="Next Post: Objective-C中NSString的writeToFile atomically参数解释">Objective-C中NSString的writeToFile atomically参数解释 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

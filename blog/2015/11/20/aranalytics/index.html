@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ARAnalytics - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="ARAnalytics v3.X.Y ARAnalytics is to iOS what Analytical is to ruby, or Analytics.js is to javascript. ARAnalytics is an analytics abstraction &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/20/aranalytics/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ARAnalytics</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-20T15:39:06+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:39 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>ARAnalytics v3.X.Y <a href="https://travis-ci.org/orta/ARAnalytics"><img src="https://travis-ci.org/orta/ARAnalytics.svg?branch=master" alt="Build Status" /></a></h1>
+
+<p>ARAnalytics is to iOS what <a href="https://github.com/jkrall/analytical">Analytical</a> is to ruby, or <a href="http://segmentio.github.com/analytics.js/">Analytics.js</a> is to javascript.</p>
+
+<p>ARAnalytics is an analytics abstraction library offering a sane API for tracking events and user data. It currently supports on iOS: Mixpanel, Localytics, Flurry, GoogleAnalytics, KISSmetrics, Crittercism, Crashlytics, Fabric, Bugsnag, Countly, Helpshift, Tapstream, NewRelic, Amplitude, HockeyApp, HockeyAppLib, ParseAnalytics, HeapAnalytics, Chartbeat, UMengAnalytics, Librato, Segmentio, Swrve, YandexMobileMetrica, Adjust, AppsFlyer, Branch, Snowplow, Sentry, Intercom, Keen and Adobe. And for OS X: KISSmetrics, Mixpanel and HockeyApp.</p>
+
+<p>It does this by using CocoaPods subspecs to let you decide which libraries you&rsquo;d like to use. You are free to also use the official API for any provider too. Also, it comes with an amazing <a href="#aspect-oriented-dsl">DSL</a> to clear up your methods.</p>
+
+<p><a href="https://github.com/orta/ARAnalytics/blob/master/CHANGELOG.md">Changelog</a></p>
+
+<h1>Integration</h1>
+
+<p>You shouldn&rsquo;t just use: <code>pod "ARAnalytics"</code>. Since CocoaPods 0.36+ you should do something like:</p>
+
+<pre><code>pod "ARAnalytics", :subspecs =&gt; ["Mixpanel", "Segmentio", "HockeyApp"]
+</code></pre>
+
+<h1>Usage</h1>
+
+<h2>Setup</h2>
+
+<p>Once you&rsquo;ve <code>pod installed</code>&rsquo;d the libraries you can either use the individual (for example) <code>[ARAnalytics setupTestFlightWithTeamToken:@"TOKEN"]</code> methods to start up each individual analytics platform or use the generic setupWithAnalytics with our constants.</p>
+
+<pre><code>  [ARAnalytics setupWithAnalytics:@{
+      ARCrittercismAppID : @"KEY",
+      ARKISSMetricsAPIKey : @"KEY",
+      ARGoogleAnalyticsID : @"KEY"
+   }];
+</code></pre>
+
+<h2>Logging</h2>
+
+<p>Submit a console log that is stored online, for crash reporting this provides a great way to provide breadcrumbs. <code>ARLog(@"Looked at Artwork (%@)", _artwork.name);</code></p>
+
+<pre><code>extern void ARLog (NSString *format, ...);
+</code></pre>
+
+<h2>Event Tracking</h2>
+
+<pre><code>/// Submit user events
++ (void)event:(NSString *)event;
++ (void)event:(NSString *)event withProperties:(NSDictionary *)properties;
+
+// Add extra properties to get sent along with every event
++ (void)addEventSuperProperties:(NSDictionary *)superProperties;
+
+
+/// Let ARAnalytics deal with the timing of an event
++ (void)startTimingEvent:(NSString *)event;
++ (void)finishTimingEvent:(NSString *)event;
+</code></pre>
+
+<h2>Error Tracking</h2>
+
+<pre><code>/// Submit errors to providers
++ (void)error:(NSError *)error;
++ (void)error:(NSError *)error withMessage:(NSString *)message;
+</code></pre>
+
+<h2>User Properties</h2>
+
+<pre><code>/// Set a per user property
++ (void)identifyUserWithID:(NSString *)userID andEmailAddress:(NSString *)email;
++ (void)setUserProperty:(NSString *)property toValue:(NSString *)value;
++ (void)incrementUserProperty:(NSString*)counterName byInt:(int)amount;
+</code></pre>
+
+<h2>Page View Tracking</h2>
+
+<pre><code>/// Monitor Navigation changes as page view
++ (void)pageView:(NSString *)pageTitle;
++ (void)monitorNavigationViewController:(UINavigationController *)controller;
+</code></pre>
+
+<p>On top of this you get access to use the original SDK. ARAnalytics provides a common API between lots of providers, so it will try to map most of the functionality between providers, but if you&rsquo;re doing complex things, expect to also use your provider&rsquo;s SDK.</p>
+
+<h2>Aspect-Oriented DSL</h2>
+
+<p>There is also a DSL-like setup constructor in the <code>ARAnalytics/DSL</code> subspec that lets you do all of your analytics setup at once. Example usage:</p>
+
+<pre><code>[ARAnalytics setupWithAnalytics: @{ /* keys */ } configuration: @{
+   ARAnalyticsTrackedScreens: @[ @{
+      ARAnalyticsClass: UIViewController.class,
+      ARAnalyticsDetails: @[ @{
+          ARAnalyticsPageNameKeyPath: @"title",
+      }]
+  }],
+   ARAnalyticsTrackedEvents: @[@{
+      ARAnalyticsClass: MyViewController.class,
+      ARAnalyticsDetails: @[ @{
+          ARAnalyticsEventName: @"button pressed",
+          ARAnalyticsSelectorName: NSStringFromSelector(@selector(buttonPressed:)),
+      },
+      @{
+          ARAnalyticsEventName: @"switch switched",
+          ARAnalyticsSelectorName: NSStringFromSelector(@selector(switchSwitched:)),
+      }]
+   },
+   ...
+</code></pre>
+
+<p>The above configuration specifies that the &ldquo;button pressed&rdquo; event be sent whenever the selector <code>buttonPressed:</code> is invoked on <em>any</em> instance of <code>MyViewController</code>. Additionally, every view controller will send a page view with its title as the page name whenever <code>viewDidAppear:</code> is called. There are also advanced uses using blocks in the DSL to selectively disable certain events, or to provide event property dictionaries.</p>
+
+<pre><code>[ARAnalytics setupWithAnalytics: @{ /* keys */ } configuration: @{
+  ARAnalyticsTrackedEvents: @[ @{
+    ARAnalyticsClass: MyViewController.class,
+    ARAnalyticsDetails: @[ 
+      @{
+        ARAnalyticsEventName: @"button pressed",
+        ARAnalyticsSelectorName: NSStringFromSelector(@selector(buttonPressed:)),
+        ARAnalyticsShouldFire: ^BOOL(MyViewController *controller, NSArray *parameters) {
+          return /* some condition */;
+        },
+        ARAnalyticsEventProperties: ^NSDictionary*(MyViewController *controller, NSArray *parameters) {
+          return @{ /* Custom properties */ };
+        }
+      },
+      /* more events for this class */
+    ]
+  },
+  ...
+</code></pre>
+
+<p>Note that when using page tracking on <code>UIViewControllers</code>, <em>all</em> instances <em>must</em> have a non-<code>nil</code> value for their <code>title</code> property. If your app uses nested view controllers, that may not be the case. In this instance, use the <code>ARAnalyticsShouldFire</code> block to disable these view controllers from firing analytics events.</p>
+
+<pre><code>ARAnalyticsShouldFire: ^BOOL(MyViewController *controller, NSArray *parameters) {
+  return controller.title != nil;
+},
+</code></pre>
+
+<h2>HockeyApp</h2>
+
+<p>Starting with HockeyApp version 3.7.0, the HockeyApp provider will automatically keep logs of events and include those in crash reports, thus adding ‘breadcrumbs’ to your report and hopefully providing helpful context for your crash reports. Any messages logged with <code>ARLog()</code> will also get included in the report.</p>
+
+<p>Note, however, that on iOS <code>syslogd</code> will not keep logs around for a long time, as such you should only expect logs of people that re-start the application immediately after the application crashing.</p>
+
+<h2>Full list of subspecs</h2>
+
+<p>iOS: <code>Mixpanel</code>, <code>Localytics</code>, <code>Flurry</code>, <code>GoogleAnalytics</code>, <code>KISSmetrics</code>, <code>Crittercism</code>, <code>Countly</code>, <code>Bugsnag</code>, <code>Helpshift</code>, <code>Tapstream</code>, <code>NewRelic</code>, <code>Amplitude</code>, <code>HockeyApp</code>, <code>HockeyAppLib</code>, <code>ParseAnalytics</code>, <code>HeapAnalytics</code>, <code>Chartbeat</code>, <code>UMengAnalytics</code>, <code>Segmentio</code>, <code>Swrve</code>, <code>YandexMobileMetrica</code>, <code>Adjust</code>, <code>Intercom</code>, <code>Librato</code>, <code>Crashlytics</code>, <code>Fabric</code>, <code>AppsFlyer</code>, <code>Branch</code>, <code>Snowplow</code>, <code>Sentry</code>, <code>Keen</code> &amp; <code>Adobe</code>.</p>
+
+<p>OSX: <code>KISSmetricsOSX</code>, <code>HockeyAppOSX</code>, <code>MixpanelOSX</code> &amp; <code>ParseAnalyticsOSX</code>.</p>
+
+<h1>Contributing, or adding a new analytics provider</h1>
+
+<p>See <a href="https://github.com/orta/ARAnalytics/blob/master/CONTRIBUTING.md">Contributing</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-20T15:39:06+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:39 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/20/magicalrecord-working-with-managed-object-contexts/" title="Previous Post: MagicalRecord-Working with Managed Object Contexts">&laquo; MagicalRecord-Working with Managed Object Contexts</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/21/kycirclemenu/" title="Next Post: KYCircleMenu">KYCircleMenu &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,500 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JSQMessagesViewController Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; More screenshots available at CocoaControls Features See the website for the list of features. Dependencies &hellip;">
+  <meta name="keywords" content="jsqmessages">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/31/jsqmessagesviewcontroller-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JSQMessagesViewController Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-31T09:37:36+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:37 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="https://raw.githubusercontent.com/jessesquires/JSQMessagesViewController/develop/Assets/jsq_messages_banner.png" alt="JSQMessagesViewController banner" /></p>
+
+<p><img src="https://raw.githubusercontent.com/jessesquires/JSQMessagesViewController/develop/Screenshots/screenshot0.png" alt="Screenshot0" /> &nbsp;&nbsp; <img src="https://raw.githubusercontent.com/jessesquires/JSQMessagesViewController/develop/Screenshots/screenshot1.png" alt="Screenshot1" /> &nbsp;&nbsp;</p>
+
+<p><img src="https://raw.githubusercontent.com/jessesquires/JSQMessagesViewController/develop/Screenshots/screenshot2.png" alt="Screenshot2" /> &nbsp;&nbsp; <img src="https://raw.githubusercontent.com/jessesquires/JSQMessagesViewController/develop/Screenshots/screenshot3.png" alt="Screenshot3" /></p>
+
+<blockquote><p>More screenshots available at <a href="https://www.cocoacontrols.com/controls/jsqmessagesviewcontroller">CocoaControls</a></p></blockquote>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1evylond461j20xc0ms0vv.jpg" alt="img" /></p>
+
+<h2>Features</h2>
+
+<p>See the <a href="http://www.jessesquires.com/JSQMessagesViewController/">website</a> for the list of features.</p>
+
+<h2>Dependencies</h2>
+
+<ul>
+<li><a href="https://github.com/jessesquires/JSQSystemSoundPlayer">JSQSystemSoundPlayer</a></li>
+</ul>
+
+
+<h2>Requirements</h2>
+
+<ul>
+<li>iOS 7.0+</li>
+<li>ARC</li>
+</ul>
+
+
+<h2>Installation</h2>
+
+<p>From <a href="http://cocoapods.org">CocoaPods</a>:</p>
+
+<pre><code># For latest release in cocoapods
+pod 'JSQMessagesViewController'  
+
+# Feeling adventurous? Get the latest on develop
+pod 'JSQMessagesViewController', :git =&gt; 'https://github.com/jessesquires/JSQMessagesViewController.git', :branch =&gt; 'develop'
+
+# For version 5.3.2
+pod 'JSQMessagesViewController', :git =&gt; 'https://github.com/jessesquires/JSQMessagesViewController', :branch =&gt; 'version_5.3.2_patch'
+</code></pre>
+
+<p>Without CocoaPods:</p>
+
+<ol>
+<li><em>Why aren&rsquo;t you using CocoaPods?</em></li>
+<li>Drag the <code>JSQMessagesViewController/</code> folder to your project and install <a href="https://github.com/jessesquires/JSQSystemSoundPlayer"><code>JSQSystemSoundPlayer</code></a>.</li>
+</ol>
+
+
+<blockquote><p><strong>NOTE:</strong></p>
+
+<p>This repo was formerly named <code>MessagesTableViewController</code>.</p>
+
+<p>And this pod was formerly named <code>JSMessagesViewController</code>.</p></blockquote>
+
+<h2>Getting Started</h2>
+
+<pre><code>#import &lt;JSQMessagesViewController/JSQMessages.h&gt;    // import all the things
+</code></pre>
+
+<blockquote><p>Read the <a href="http://www.jessesquires.com/introducing-jsqmessagesvc-6-0/">blog post</a> about the 6.0 release!</p></blockquote>
+
+<ul>
+<li><p><strong>Demo Project</strong></p>
+
+<ul>
+<li>There&rsquo;s a sweet demo project: <code>JSQMessages.xcworkspace</code>.</li>
+<li>Run <code>pod install</code> first.</li>
+<li><a href="https://www.firebase.com">Firebase</a> also has a sweet <a href="https://github.com/firebase/ios-swift-chat-example">demo project</a>, and it&rsquo;s in Swift!</li>
+</ul>
+</li>
+<li><p><strong>Message Model</strong></p>
+
+<ul>
+<li>Your message model objects should conform to the <code>JSQMessageData</code> protocol.</li>
+<li>However, you may use the provided <code>JSQMessage</code> class.</li>
+</ul>
+</li>
+<li><p><strong>Media Attachment Model</strong></p>
+
+<ul>
+<li>Your media attachment model objects should conform to the <code>JSQMessageMediaData</code> protocol.</li>
+<li>However, you may use the provided classes: <code>JSQPhotoMediaItem</code>, <code>JSQLocationMediaItem</code>, <code>JSQVideoMediaItem</code>.</li>
+<li>Creating your own custom media items is easy! Simply follow the pattern used by the built-in media types.</li>
+<li>Also see <code>JSQMessagesMediaViewBubbleImageMasker</code> for masking your custom media views as message bubbles.</li>
+</ul>
+</li>
+<li><p><strong>Avatar Model</strong></p>
+
+<ul>
+<li>Your avatar model objects should conform to the <code>JSQMessageAvatarImageDataSource</code> protocol.</li>
+<li>However, you may use the provided <code>JSQMessagesAvatarImage</code> class.</li>
+<li>Also see <code>JSQMessagesAvatarImageFactory</code> for easily generating custom avatars.</li>
+</ul>
+</li>
+<li><p><strong>Message Bubble Model</strong></p>
+
+<ul>
+<li>Your message bubble model objects should conform to the <code>JSQMessageBubbleImageDataSource</code> protocol.</li>
+<li>However, you may use the provided <code>JSQMessagesBubbleImage</code> class.</li>
+<li>Also see <code>JSQMessagesBubbleImageFactory</code> and <code>UIImage+JSQMessages.h</code> for easily generating custom bubbles.</li>
+</ul>
+</li>
+<li><p><strong>View Controller</strong></p>
+
+<ul>
+<li>Subclass <code>JSQMessagesViewController</code>.</li>
+<li>Implement the required methods in the <code>JSQMessagesCollectionViewDataSource</code> protocol.</li>
+<li>Implement the required methods in the <code>JSQMessagesCollectionViewDelegateFlowLayout</code> protocol.</li>
+<li>Set your <code>senderId</code> and <code>senderDisplayName</code>. These properties correspond to the methods found in <code>JSQMessageData</code> and determine which messages are incoming or outgoing.</li>
+</ul>
+</li>
+<li><p><strong>Customizing</strong></p>
+
+<ul>
+<li>The demo project is well-commented. Please use this as a guide.</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Quick Tips</h2>
+
+<h5><em>Springy bubbles?</em></h5>
+
+<pre><code>- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.collectionView.collectionViewLayout.springinessEnabled = YES;
+}
+</code></pre>
+
+<h5><em>Remove avatars?</em></h5>
+
+<pre><code>- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
+    self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+}
+
+- (id&lt;JSQMessageAvatarImageDataSource&gt;)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
+</code></pre>
+
+<p>}</p>
+
+<h5><em>Customize your cells?</em></h5>
+
+<pre><code>- (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+
+    // Customize the shit out of this cell
+    // See the docs for JSQMessagesCollectionViewCell
+
+    return cell;
+}
+</code></pre>
+
+<h5><em>Customize your toolbar buttons?</em></h5>
+
+<pre><code>- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    // This button will call the `didPressAccessoryButton:` selector on your JSQMessagesViewController subclass
+    self.inputToolbar.contentView.leftBarButtonItem = /* custom button or nil to remove */
+
+    // This button will call the `didPressSendButton:` selector on your JSQMessagesViewController subclass
+    self.inputToolbar.contentView.rightBarButtonItem = /* custom button or nil to remove */
+
+    // Swap buttons, move send button to the LEFT side and the attachment button to the RIGHT
+    // For RTL language support
+    self.inputToolbar.contentView.leftBarButtonItem = [JSQMessagesToolbarButtonFactory defaultSendButtonItem];
+    self.inputToolbar.contentView.rightBarButtonItem = [JSQMessagesToolbarButtonFactory defaultAccessoryButtonItem];
+
+    // The library will call the correct selector for each button, based on this value
+    self.inputToolbar.sendButtonOnRight = NO;
+}
+</code></pre>
+
+<h2>Questions &amp; Help</h2>
+
+<p>There&rsquo;s <a href="https://github.com/jessesquires/JSQMessagesViewController/labels/questions%20&amp;%20help">a label</a> for that. Before asking a question, see if it has <a href="https://github.com/jessesquires/JSQMessagesViewController/issues?q=label%3A%22questions+%26+help%22+is%3Aclosed">already been answered</a>. <strong>Please only ask questions that are <em>specific</em> to this library.</strong></p>
+
+<blockquote><p><strong>NOTE:</strong> Please try to avoid emailing me with questions. I prefer to keep questions and their answers open-source.</p></blockquote>
+
+<h2>Migrating between major versions</h2>
+
+<h5>From 5.x to 6.x</h5>
+
+<p>See the <a href="https://github.com/jessesquires/JSQMessagesViewController/releases/tag/6.0.0">6.0 release notes</a> for details about API changes.</p>
+
+<h5>From 6.x to 7.x</h5>
+
+<p>See the <a href="https://github.com/jessesquires/JSQMessagesViewController/releases/tag/7.0.0">7.0 release notes</a> for details about API changes.</p>
+
+<h2>Documentation</h2>
+
+<p>Read the fucking docs, <a href="http://cocoadocs.org/docsets/JSQMessagesViewController">available here</a> via <a href="https://twitter.com/CocoaDocs">@CocoaDocs</a>.</p>
+
+<h2>Contribute</h2>
+
+<p>Please follow these sweet <a href="https://github.com/jessesquires/HowToContribute">contribution guidelines</a>.</p>
+
+<h2>Credits</h2>
+
+<p>Created by <a href="https://twitter.com/jesse_squires"><strong>@jesse_squires</strong></a>, a <a href="http://programming-motherfucker.com">programming-motherfucker</a>.</p>
+
+<ul>
+<li>Assets extracted using <a href="https://github.com/0xced"><strong>@0xced</strong></a> / <a href="https://github.com/0xced/iOS-Artwork-Extractor">iOS-Artwork-Extractor</a>.</li>
+<li>Originally inspired by <a href="http://github.com/soffes"><strong>@soffes</strong></a> / <a href="https://github.com/soffes/ssmessagesviewcontroller">SSMessagingViewController</a>.</li>
+<li>Many thanks to <a href="https://github.com/jessesquires/JSQMessagesViewController/graphs/contributors"><strong>the contributors</strong></a> of this project.</li>
+</ul>
+
+
+<h2>About</h2>
+
+<p>I initially developed this library to use in <a href="http://bit.ly/hmglb">Hemoglobe</a> for private messages between users.</p>
+
+<p>As it turns out, messaging is something that iOS devs and users really want. Messaging of any kind has turned out to be an increasingly popular mobile app feature in all sorts of contexts and for all sorts of reasons. Thus, I am supporting this project in my free time and have added features way beyond what Hemoglobe ever needed.</p>
+
+<p>Feel free to read <a href="http://bit.ly/jsqsf">my blog</a> and check out my work at <a href="http://bit.ly/0x29A">Hexed Bits</a>.</p>
+
+<h2>Apps using this library</h2>
+
+<ul>
+<li><a href="http://bit.ly/hemoglobeapp">Hemoglobe</a></li>
+<li><a href="https://itunes.apple.com/us/app/pocketsuite/id721795146">PocketSuite</a></li>
+<li><a href="https://github.com/WhisperSystems/Signal-iOS">Signal</a></li>
+<li><a href="https://itunes.apple.com/us/app/classdojo/id552602056">ClassDojo</a></li>
+<li><a href="https://itunes.apple.com/us/app/schools-app/id495845755">Schools App</a></li>
+<li><a href="https://chatsecure.org">ChatSecure</a></li>
+<li><a href="https://itunes.apple.com/us/app/bryx-911/id813078029">Bryx 911</a></li>
+<li><a href="https://itunes.apple.com/de/app/kytt-neue-leute-in-der-umgebung/id848959696">Kytt</a></li>
+<li><a href="https://itunes.apple.com/us/app/spark-social/id823785892">Spark Social</a></li>
+<li><a href="https://itunes.apple.com/us/app/spabbit/id737363908">Spabbit</a></li>
+<li><a href="https://itunes.apple.com/app/elodie/id821610181">Elodie</a></li>
+<li><a href="https://itunes.apple.com/us/app/instaply/id558562920">Instaply</a></li>
+<li><a href="https://itunes.apple.com/us/app/loopse-spots-friends-sessions/id704783915">Loopse</a></li>
+<li><a href="https://github.com/tochman/OxwallMessenger">Oxwall Messenger</a></li>
+<li><a href="https://itunes.apple.com/us/app/fourchat/id650833730">FourChat</a></li>
+<li><a href="https://itunes.apple.com/us/app/vcinity-chat-without-internet/id875395391">vCinity</a></li>
+<li><a href="https://itunes.apple.com/us/app/quick-text-message-fast-sms/id583729997">Quick Text Message</a></li>
+<li><a href="https://itunes.apple.com/us/app/libraries-for-developers/id653427112">Libraries for developers</a></li>
+<li><a href="http://itunes.apple.com/us/app/buhz-hyve/id818568956">Buhz|Hyve</a></li>
+<li><a href="https://github.com/ringring-io/ringring-ios">Ringring.io</a></li>
+<li><a href="https://itunes.apple.com/ca/app/gdecide/id716801285">gDecide</a></li>
+<li><a href="https://github.com/relatedcode/AwesomeChat">AwesomeChat</a></li>
+<li><a href="https://github.com/relatedcode/ParseChat">ParseChat</a></li>
+<li><a href="http://jibapp.com">Jib</a></li>
+<li><a href="https://itunes.apple.com/us/app/onvolo/id869332351">Onvolo</a></li>
+<li><a href="https://github.com/evermeer/EVCloudKitDao">EVCloudKitDao</a></li>
+<li><a href="https://itunes.apple.com/us/app/fluky-chat-secure-anonymous/id958605886">Fluky Chat</a></li>
+<li><a href="https://itunes.apple.com/us/app/village-unity/id919972368">VillageUnity</a></li>
+<li><a href="https://itunes.apple.com/us/app/pine-innovation-product-life/id946589228">Pine</a></li>
+<li><a href="https://github.com/relatedcode/NotificationChat">NotificationChat</a></li>
+<li><a href="https://github.com/relatedcode/RealtimeChat">RealtimeChat</a></li>
+<li><a href="https://itunes.apple.com/ru/app/bazar-talk-about-everything/id885453058">Bazar</a></li>
+<li><a href="https://itunes.apple.com/us/app/roomie-find-your-roomie/id962585201">Roomie</a></li>
+<li><em>Your app here</em></li>
+</ul>
+
+
+<h2>License</h2>
+
+<p><code>JSQMessagesViewController</code> is released under an <a href="http://opensource.org/licenses/MIT">MIT License</a>. See <code>LICENSE</code> for details.</p>
+
+<blockquote><p><strong>Copyright &copy; 2013-present Jesse Squires.</strong></p></blockquote>
+
+<p><em>Please provide attribution, it is greatly appreciated.</em></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-31T09:37:36+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:37 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/31/dispatch-apply/" title="Previous Post: dispatch_apply">&laquo; dispatch_apply</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/31/mwphotobrowser-introduction/" title="Next Post: MWPhotoBrowser Introduction">MWPhotoBrowser Introduction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

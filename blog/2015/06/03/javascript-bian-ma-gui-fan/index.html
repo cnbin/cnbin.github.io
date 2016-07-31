@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Javascript 编码规范 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1.变量命名规范 变量名包括全局变量，局部变量，类变量，函数参数等等，他们都属于这一类。 基本规范：变量命名都以类型前缀+有意义的单词组成，单词首字母都需要大写。例如：sUserName，nCount。 前缀规范：每个局部变量都需要有一个类型前缀，按照类型可以分为： s：表示字符串。例如： &hellip;">
+  <meta name="keywords" content="javascript">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/03/javascript-bian-ma-gui-fan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Javascript 编码规范</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-03T08:40:08+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>8:40 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>1.变量命名规范</h3>
+
+<p>变量名包括全局变量，局部变量，类变量，函数参数等等，他们都属于这一类。</p>
+
+<p>基本规范：变量命名都以类型前缀+有意义的单词组成，单词首字母都需要大写。例如：sUserName，nCount。</p>
+
+<p>前缀规范：每个局部变量都需要有一个类型前缀，按照类型可以分为：</p>
+
+<pre><code>    s：表示字符串。例如：sName，sHtml;
+
+    n：表示数字。例如：nPage，nTotal;
+
+    b：表示逻辑。例如：bChecked，bHasLogin;
+
+    a：表示数组。例如：aList，aGroup;
+
+    r：表示正则表达式。例如：rDomain，rEmail;
+
+    f：表示函数。例如：fGetHtml，fInit;
+
+    o：表示以上未涉及到的其他对象，例如：oButton，oDate;
+</code></pre>
+
+<h4>例外情况：</h4>
+
+<p>1：作用域不大临时变量可以简写，比如：str，num，bol，obj，fun，arr。</p>
+
+<p>2：循环变量可以简写，比如：i，j，k 等。</p>
+
+<pre><code>//不推荐
+var checked = false;  
+var check = function(){  
+    return true;  
+}  
+/**  
+some code  
+**/
+if(check){//可能将 checked 写成 check，由于不能很快速的发现check 是函数，造成逻辑错误  
+    //do some thing  
+}
+
+//推荐
+var bChecked = false;  
+var fCheck = function(){  
+    return true;  
+}  
+/**  
+some code  
+**/
+if(bChecked){  
+    // do some thing  
+}  
+if(fCheck()){  
+    // do other thing  
+}
+</code></pre>
+
+<h4>全局变量以及常量规范</h4>
+
+<p>每个类定义都是在一个闭包函数中，除了在 window 下有类的定义而外，只允许有两种变量定义在全局，那就是全局变量和常量。</p>
+
+<p>全局变量使用 <strong>g</strong> 作为前缀，定义在 window 下。例如 gUserName，gLoginTime。</p>
+
+<p>某些作为不允许修改值的变量认为是常量，全部字母都大写。例如：COPYRIGHT，PI。常量可以存在于函数中，也可以存在于全局。</p>
+
+<p>例子：</p>
+
+<pre><code>var userName = "dongua";  
+function checkName(userName){  
+    //存在函数参数userName以及全局变量userName,如果要比较两个值是否相等，必需写为  
+    return window.userName == userName  
+}
+</code></pre>
+
+<p>如果使用了全局变量的前缀，就十分清晰了。</p>
+
+<h3>2.函数命名规范</h3>
+
+<p>统一使用动词或者动词[+名词]形式，例如：fGetVersion()，fSubmitForm()，fInit(); 涉及返回逻辑值的函数可以使用 is，has 等表示逻辑的词语代替动词。</p>
+
+<p>如果有内部函数，使用 <strong>__f</strong> +动词[+名词]形式，内部函数必需在函数最后定义。例如：</p>
+
+<pre><code>function fGetNumber(nTotal){  
+    if(nTotal&lt;100){  
+  nTotal = 100;  
+   }  
+ return __fAdd(nTotal);    
+
+ function __fAdd(nNumber){  
+  nNumber++;  
+  return nNumber;  
+ }  
+}  
+alert(fGetNumber(30));//alert 101
+</code></pre>
+
+<h4>对象方法实现</h4>
+
+<p>对象方法命名使用 <strong>f</strong> +对象类名+动词[+名词]形式;例如    fAddressGetEmail</p>
+
+<h4>事件响应函数</h4>
+
+<p>某事件响应函数命名方式为触发事件对象名+事件名或者模块名+触发事件对象名+事件名，例如：fDivClick()，fAddressSubmitButtonClick()</p>
+
+<h3>3.其他注意事项</h3>
+
+<p>1：所有命名最好使用英语表示。</p>
+
+<p>2：所有变量名应该明确而必要，尽量避免不必要的容易混淆的缩写。</p>
+
+<p>3：netease.events.mouse.Handler，而不是 netease.events.mouse.MouseEventHandler。</p>
+
+<p>4：对应的方法应该使用对应的动词，例如：get/set, add/remove, create/destroy, start/stop, insert/delete, begin/end。</p>
+
+<p>5：应该避免双重否定意义的变量，例如：bIsNotError, bIsNotFound，不可取。</p>
+
+<p>6：变量应该在最小的范围内定义，并尽可能的保持最少的活动时间。</p>
+
+<p>7：循环变量最好在循环中定义。例如 for(var i=0,m=10;i&lt;m;i++){ do something}。</p>
+
+<p>8：尽量避免复杂的条件语句，可以使用临时的boolean变量代替。</p>
+
+<p>9：一定要避免在条件中执行语句，例如：if((i=3)>2){}，不可取。</p>
+
+<p>10：不要在代码中重复使用相同意义的数字，用一个变量代替，比如 nTotal=100; num= total。</p>
+
+<h3>4.文件注释</h3>
+
+<p> 文件注释位于文件的最前面，应包括文件的以下信息：概要说明及版本（必须）项目地址（开源组件必须）版权声明（必须）开源协议（开源组件必须）版本号（必须）修改时间（必须），以 ISO 格式表示（可使用Sublime Text 的 InsertDate 插件插入）文件注释必须全部以英文字符表示，并存在于文件的开发版本与生产版本中。
+例1：</p>
+
+<pre><code>/*!
+ * jRaiser 2 Javascript Library
+ * waterfall - v1.0.0 (2015-05-15T14:55:51+0800)
+ * http://jraiser.org/ | Released under MIT license
+ */
+</code></pre>
+
+<p>例2：</p>
+
+<pre><code>/*!
+ * hx.com - v1.1 (2015-05-08T15:30:32+0800)
+ * Copyright 2005-2015 hx.com
+ */
+</code></pre>
+
+<p> 如果文件内包含了一些开源组件，则必须在文件注释中进行说明。例如：</p>
+
+<pre><code>/*!
+ * jRaiser 2 Javascript Library
+ * sizzle - v1.9.1 (2015-05-15T10:07:24+0800)
+ * http://jraiser.org/ | Released under MIT license
+ *
+ * Include sizzle (http://sizzlejs.com/)
+ */
+</code></pre>
+
+<h4>普通注释</h4>
+
+<p> 普通注释是为了帮助开发者和阅读者更好地理解程序，不会出现在 API 文档中。其中，单行注释以 <code>//</code> 开头；多行注释以 <code>/*</code> 开头，以 <code>*/</code> 结束。普通注释的使用需遵循以下规定。</p>
+
+<p>1.在单行注释符后留一个空格。例如：</p>
+
+<pre><code>// this is comment
+</code></pre>
+
+<p>2.在多行注释的结束符前留一个空格（使星号对齐）。例如：</p>
+
+<pre><code>/*
+
+ */
+</code></pre>
+
+<p>3.不要把注释写在多行注释的开始符、结束符所在行。例如：</p>
+
+<pre><code>/* start
+
+end */
+</code></pre>
+
+<p>改成：</p>
+
+<pre><code>/*
+here is line 1
+here is line 2
+ */
+</code></pre>
+
+<p>4.不要编写无意义的注释。例如：</p>
+
+<pre><code>// 初始化value变量为0
+var value = 0;
+</code></pre>
+
+<p>5.如果某段代码有功能未实现，或者有待完善，必须添加 <strong>TODO</strong> 标记，<strong>TODO</strong> 前后应留一个空格。例如：</p>
+
+<pre><code>// TODO 未处理IE6-8的兼容性
+function setOpacity(node, val) {
+    node.style.opacity = val;
+}
+</code></pre>
+
+<h4>文档注释</h4>
+
+<p> 1.文档注释将会以预定格式出现在 API 文档中。它以 <code>/**</code> 开头，以 <code>*/</code> 结束，其间的每一行均以 <code>*</code> 开头（均与开始符的第一个 <code>*</code> 对齐），且注释内容与 <code>*</code> 间留一个空格。例如：</p>
+
+<pre><code>/**
+ * comment
+ */
+</code></pre>
+
+<p>2.文档注释必须包含一个或多个注释标签。</p>
+
+<p><strong>@module</strong>。声明模块，用法：</p>
+
+<pre><code>/**
+ * 模块说明
+ * @module 模块名
+ */
+</code></pre>
+
+<p>例如：</p>
+
+<pre><code>/**
+ * Core模块提供最基础、最核心的接口
+ * @module Core
+ */
+</code></pre>
+
+<p>3.<strong>@class</strong>。声明类，用法：</p>
+
+<pre><code>/**
+ * 类说明
+ * @class 类名
+ * @constructor
+ */
+</code></pre>
+
+<p> <code>@class</code> 必须搭配 <code>@constructor</code> 或 <code>@static</code> 使用，分别标记非静态类与静态类。</p>
+
+<pre><code>/**
+ * 节点集合类
+ * @class NodeList
+ * @constructor
+ * @param {ArrayLike&lt;Element&gt;} nodes 初始化节点
+ */
+</code></pre>
+
+<p>4.<strong>@method</strong>。声明函数或类方法，用法：</p>
+
+<pre><code>/**
+ * 方法说明
+ * @method 方法名
+ * @for 所属类名
+ * @param {参数类型} 参数名 参数说明
+ * @return {返回值类型} 返回值说明
+ */
+</code></pre>
+
+<p>没有指定 <code>@for</code> 时，表示此函数为全局或模块顶层函数。当函数为静态函数时，必须添加 <code>@static</code>；当函数有参数时，必须使用 <code>@param</code>；当函数有返回值时，必须使用 <code>@return</code>。</p>
+
+<p><code>@param</code>。声明函数参数，必须与 <code>@method</code> 搭配使用。</p>
+
+<p>当参数出现以下情况时，使用对应的格式：</p>
+
+<pre><code>[参数名]
+</code></pre>
+
+<p>参数有默认值：</p>
+
+<pre><code>[参数名=默认值]
+</code></pre>
+
+<p><code>@property</code>。声明类属性，用法：</p>
+
+<pre><code>/**
+ * 属性说明
+ * @property {属性类型} 属性名
+ */
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-03T08:40:08+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>8:40 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/02/objective-c-block-shi-xian-xing-shi/" title="Previous Post: Objective-C Block 实现方式">&laquo; Objective-C Block 实现方式</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/03/ios-nsuserdefaults/" title="Next Post: iOS-NSUserDefaults">iOS-NSUserDefaults &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ios | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/ios/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[OX10.11安装homebrew和cocoapods]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/"/>
+    <updated>2016-07-26T07:27:40+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>rvm pkg install libyaml</p>
+
+<p><a href="http://serverfault.com/questions/442150/how-to-fix-ruby-installation-is-missing-psych-for-yaml-output-on-centos">http://serverfault.com/questions/442150/how-to-fix-ruby-installation-is-missing-psych-for-yaml-output-on-centos</a></p>
+
+<p>下面这句话输入后
+/usr/bin/ruby -e &ldquo;$(curl -fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/master/install">https://raw.githubusercontent.com/Homebrew/install/master/install</a>)&rdquo;</p>
+
+<p>cmd+shift+g 打开/usr 文件夹后，点击local文件夹，右击简介，选择权限为可读写。
+然后修改/usr/local文件夹下面Library和share文件夹的权限为可读写。</p>
+
+<p>因为cocoapod需要ruby>=2.2，所以
+brew update
+rvm install 2.2</p>
+
+<p>然后
+sudo gem install cocoapods</p>
+
+<p>gem sources -a <a href="https://ruby.taob.org/">https://ruby.taob.org/</a></p>
+
+<p>获取ruby已安装列表
+rvm list</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS关于微信支付]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/"/>
+    <updated>2016-07-11T17:38:42+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://blog.csdn.net/wwmusic/article/details/46727663">http://blog.csdn.net/wwmusic/article/details/46727663</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS解析XML Demo]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/05/iosjie-xi-xml-demo/"/>
+    <updated>2016-07-05T15:26:02+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/05/iosjie-xi-xml-demo</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>webxml地址：<a href="http://ws.webxml.com.cn/WebServices/WeatherWS.asmx">http://ws.webxml.com.cn/WebServices/WeatherWS.asmx</a></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f5j29y3ae8j208v0g8aan.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 应用之间调用]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/05/ios-ying-yong-zhi-jian-diao-yong/"/>
+    <updated>2016-07-05T10:43:15+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/05/ios-ying-yong-zhi-jian-diao-yong</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>1.在appA的info.plist中定义URL，就是在文件中添加URL types一项。可按下图进行添加</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f5iu4e81kgj20j704kwez.jpg" alt="img" /></p>
+
+<p>2.在appB的代码中打开刚才定义的URL，代码如下</p>
+
+<pre><code>NSURL *url = [NSURL URLWithString:@"myapp:"];  
+
+[[UIApplication sharedApplication] openURL:url];  
+</code></pre>
+
+<p>3.打开之后，会调用appA的AppDelegate的</p>
+
+<pre><code>- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation ｛｝
+</code></pre>
+
+<p>4.判断是否能打开应用</p>
+
+<pre><code>[[UIApplication sharedApplication] canOpenURL:[NSURLURLWithString:@"myapp://"]];
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS :聚光灯效果的功能引导]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/30/ios-ju-guang-deng-xiao-guo-de-gong-neng-yin-dao/"/>
+    <updated>2016-06-30T16:49:07+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/30/ios-ju-guang-deng-xiao-guo-de-gong-neng-yin-dao</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://www.jianshu.com/p/e6db182ce76e">http://www.jianshu.com/p/e6db182ce76e</a></h3>
+]]></content>
+  </entry>
+  
+</feed>

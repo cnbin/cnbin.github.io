@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>高性能网站原则要点 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="原则1 减少HTTP请求数 构造请求、等待响应需要时间，因此请求数量越少越好。减少请求的总体思路就是合并资源，减少显示一个页面需要的文件数。 Image Map 通过设置 &lt;img&gt; 标签的usemap属性与使用 &lt;map&gt; 标签可以在一幅图片上切分出多个区域， &hellip;">
+  <meta name="keywords" content="高性能网站">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/13/gao-xing-neng-wang-zhan-yuan-ze-yao-dian/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">高性能网站原则要点</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-13T08:27:05+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:27 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>原则1 减少HTTP请求数</h2>
+
+<p>构造请求、等待响应需要时间，因此请求数量越少越好。减少请求的总体思路就是合并资源，减少显示一个页面需要的文件数。</p>
+
+<ol>
+<li>Image Map</li>
+</ol>
+
+
+<p>通过设置 <code>&lt;img&gt;</code> 标签的usemap属性与使用 <code>&lt;map&gt;</code> 标签可以在一幅图片上切分出多个区域，指向不同的链接。比起使用多幅图片分别构造链接减少了请求数。</p>
+
+<ol>
+<li>CSS Sprite（CSS贴图整合/贴图拼合/贴图定位）</li>
+</ol>
+
+
+<p>通过设置元素的 <code>background-position</code> 样式做到。一般用于界面图标。典型的可以参考 TinyMCE 编辑器上方的那些小按钮。多个小图实质是从一个统一的大图通过不同的偏移量裁剪而来，这样加载界面上的众多按钮实际上只要请求一次（请求大图一次），从而减少 HTTP 请求数。</p>
+
+<ol>
+<li>Inline Image（内联图片）</li>
+</ol>
+
+
+<p>在 <code>&lt;img&gt;</code> 的src中不指定外部图片文件的URL，而是直接将图片信息放入。例如 <code>src="data:image/gif;base64,R0lGODlhDAAMAL..."</code> 某些特殊情况下有用（例如一个不大的图片仅在当前页面用到）。</p>
+
+<h2>原则2 利用多线路CDN</h2>
+
+<p>为你的站点提供多种线路（例如国内电信、联通、移动）、多个地理位置（北方、南方、西部）的访问，使得所有用户都能够快速访问。</p>
+
+<h2>原则3 利用HTTP Cache</h2>
+
+<p>给不频繁更新的资源（例如静态图）加较长的 Expires 头信息，这些资源一经缓存，未来很长时间都可以不再重复传输了。</p>
+
+<h2>原则4 使用Gzip压缩</h2>
+
+<p>使用 Gzip 压缩 HTTP 报文，减小体积，减少传输时间。</p>
+
+<h2>原则5 将样式表置于页面前部</h2>
+
+<p>先加载样式表，这样页面渲染得以较早开始，给用户页面加载较快的感觉。</p>
+
+<h2>原则6 将脚本置于页面尾部</h2>
+
+<p>原因同5，先处理页面显示，页面渲染较早完成，而脚本逻辑稍后执行，这样给用户页面加载较快的感觉。</p>
+
+<h2>原则7 避免使用CSS表达式</h2>
+
+<p>过于复杂的 JavaScript 脚本逻辑、 DOM 查找、选择操作将会降低页面处理效率。</p>
+
+<h2>原则8 将JavaScript与CSS作为外联资源</h2>
+
+<p>这似乎与原则1中的合并思想相悖，但其实不然：考虑每个页面都引入了一个公共的 JavaScript 资源（例如 jQuery 或是 ExtJS 这样的JavaScript 库），单就一个页面的表现来看，内联（即将 JavaScript 嵌入 HTML）页面将比外联（使用 <code>&lt;script&gt;</code> 标签引入）页面加载更快（因为其较少的HTTP请求数）。但如果有很多页面都引入了这个公共 JavaScript 资源，那么内联方案会造成重复传输（因为这个资源内嵌在每个页面中了，所以每次打开一个页面都要将这部分资源传输一遍，从而造成网络传输资源的浪费）。而将这种资源独立出来外联引用可以解决这个问题。</p>
+
+<p>由于 JavaScript 和 CSS 相对稳定，我们可以对其对应的资源设置较长的失效期（参考原则3）。</p>
+
+<h2>原则9 减少DNS查找</h2>
+
+<p>作者给出的建议是：</p>
+
+<ol>
+<li>使用 Keep-Alive 保持连接</li>
+</ol>
+
+
+<p>如果连接断开，那么下次连接又要执行 DNS 查找，即使对应的域名-IP 映射已被缓存，查找也是要消耗一些时间的</p>
+
+<ol>
+<li>减少域名</li>
+</ol>
+
+
+<p>每次请求新域名都需要进行通过 DNS 查找不同的域名，且 DNS 缓存无法发挥作用。因此应该尽量将站点组织在一个统一域名下，避免使用过多子域名</p>
+
+<h2>原则10 压缩你的JavaScript</h2>
+
+<p>使用JS压缩工具压缩你的 JavaScript 吧，很有效哦。看看 jQuery 的两个不同的发行版本就知道区别了：</p>
+
+<p><a href="http://code.jquery.com/jquery-1.6.2.js">http://code.jquery.com/jquery-1.6.2.js</a> 阅读版jQuery代码，230KB</p>
+
+<p><a href="http://code.jquery.com/jquery-1.6.2.min.js">http://code.jquery.com/jquery-1.6.2.min.js</a> 压缩版jQuery代码（用于实际部署），89.4KB</p>
+
+<h2>原则11 尽量避免重定向</h2>
+
+<p>一次重定向意味着在你真正访问到想要看到的页面前加入了一轮额外的 HTTP 请求（客户端发起HTTP请求→HTTP服务器返回重定向响应→客户端对新URL发起请求→HTTP服务器返回内容，下划线部分为额外的请求），因此消耗更多的时间（也就给人反应更慢的感觉）。因此除非必要，不要随意使用重定向。几个“必要”的情况：</p>
+
+<ol>
+<li>避免 URL 失效</li>
+</ol>
+
+
+<p>旧站点迁移后，为了避免旧的URL失效，通常将对旧 URL 的请求重定向至新系统的对应地址。</p>
+
+<ol>
+<li>URL美化</li>
+</ol>
+
+
+<p>在可读性好的URL与实际资源URL之间转换，例如对于 Google Toolbar，用户记得住 <a href="http://toolbar.google.com">http://toolbar.google.com</a> 这个对人类富有语义的地址，却很难记住 <a href="http://www.google.com/tools/firefox/toolbar/FT3/intl/en/index.html">http://www.google.com/tools/firefox/toolbar/FT3/intl/en/index.html</a> 这个真正的资源地址。因此有必要保留前者，并且将对前者的请求重定向至后者。</p>
+
+<h2>原则12 移除重复的脚本</h2>
+
+<p>不要在一个页面中重复引入相同的脚本。例如脚本 B 和 C 都依赖于 A，那么在使用了B和C的页面中就有可能存在对 A 的重复引用。解决方法，对于简单的站点手动检查依赖性，消去重复引入；对于复杂的站点则需要构建自己的依赖管理/版本控制机制。</p>
+
+<h2>原则13 小心处理ETag</h2>
+
+<p>ETag 是除 Last-Modified 之外的另一种 HTTP Cache 手段。通过 hash 的办法辨识资源是否被修改。但 ETag 存在一些问题，例如：</p>
+
+<ol>
+<li><p>不一致：不同 Web 服务器（Apache， IIS等）定义的ETag格式不同</p></li>
+<li><p>ETag 的计算是不稳定的（由于考虑过多因素），例如：</p></li>
+</ol>
+
+
+<p>1） 相同资源在不同服务器上计算出来的 ETag 不一样，而大型 Web 应用通常由不止一台服务器提供服务，这就导致客户端在服务器A缓存好的资源明明仍然有效，而在下次请求 B 时由于 ETag 不同而被认定为失效，导致相同资源的重复传输。</p>
+
+<p>2） 资源不变，而由于一些其他因素的变化，例如配置文件更改，导致 ETag 变化。直接后果是系统更新后客户端大规模发生Cache失效，导致传输量大增，站点性能下降。</p>
+
+<p>作者给出的建议是：要么根据你的应用特点改进已有的 ETag 计算方法，要么干脆就不用 ETag，而改用最简单的 Last-Modified。</p>
+
+<h2>原则14 在Ajax中利用HTTP Cache</h2>
+
+<p>Ajax 是异步请求，异步请求不会阻塞你现在的操作，而且当请求完成时，你马上就可以看到结果。但异步不代表能够瞬时完成，也不代表能够容忍它花无限多的时间完成。因此对于 Ajax 请求的性能也需要重视。有很多 Ajax 请求访问的是一些相对稳定的资源，因此别忘了对 Ajax 请求利用好 HTTP Cache 机制，具体参见原则3、13。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-13T08:27:05+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:27 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/php/'>php</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/12/mac-an-zhuang-broccoli/" title="Previous Post: Mac 安装 broccoli">&laquo; Mac 安装 broccoli</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/13/18ge-kai-fa-ren-yuan-ying-gai-yue-du-de-bo-ke/" title="Next Post: 18个 web 开发人员应该阅读的外国博客">18个 web 开发人员应该阅读的外国博客 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 消息推送 (Message) 证书设置指南(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="本文档包括: 创建App ID
+创建并配置Provisioning Profiles
+创建并配置Certificates 1.1 创建App ID 如果你已经拥有所需的App ID，请跳至创建并配置 Provisioning Profiles 登陆Apple Member Center &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/12/ios-xiao-xi-tui-song-message-zheng-shu-she-zhi-zhi-nan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 消息推送 (Message) 证书设置指南(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-12T14:36:33+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:36 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>本文档包括:</h2>
+
+<ul>
+<li>创建App ID</li>
+<li>创建并配置Provisioning Profiles</li>
+<li>创建并配置Certificates</li>
+</ul>
+
+
+<h3>1.1   创建App ID</h3>
+
+<p>如果你已经拥有所需的App ID，请跳至创建并配置 Provisioning Profiles</p>
+
+<p>登陆Apple Member Center <a href="https://developer.apple.com/membercenter">https://developer.apple.com/membercenter</a></p>
+
+<h3>1.1.1  选择Certificates, Identifiers &amp; Profiles</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewych2jj7nj20ss0dtdj4.jpg" alt="img" /></p>
+
+<h4>选择 Identifiers中的 App IDs</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewycinbp84j20hz0fddhv.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ewyciog9f2j206k0dfmxf.jpg" alt="img" /></p>
+
+<h3>1.1.2  创建Explicit App ID</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewyckx6cq9j20ji0jewgv.jpg" alt="img" /></p>
+
+<h3>1.1.3  App Services选择Push Notifications</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewyckxiz51j20hp0h4ta5.jpg" alt="img" /></p>
+
+<p>至此 bundle IdentifierIDApp ID 已经创建完毕，最终形如下图：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewycnc2vlrj20kd08xdgp.jpg" alt="img" /></p>
+
+<p>注意</p>
+
+<p>上面在Member Center设置的App id需要和工程的bundle Identifier一致</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewycq3kvyuj20eh04l74i.jpg" alt="img" /></p>
+
+<h3>1.2 创建并配置Provisioning Profiles</h3>
+
+<h4>1.2.1  选择Development（如果是发布上线，需要选择Distribution）</h4>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ewydge9co1j20qm0meq63.jpg" alt="img" /></p>
+
+<h4>1.2.2  创建新的Provisioning Profiles，并选择之前生成好的App ID</h4>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ewydgepelhj20qo0mxtcb.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewydgf52j8j20k00l0gnh.jpg" alt="img" /></p>
+
+<h3>1.2.3  选择你自己的开发证书，并选择好需要调试Push的开发设备</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewydgfkljcj20jz0ldgnc.jpg" alt="img" /></p>
+
+<p>注意</p>
+
+<p>1、如果需要的设备不在列表中，需要通过左侧的Devices中手动添加，或者通过XCode的Organizer自动添加。</p>
+
+<p>2、Provisioning Profiles创建完成后是可以重新编辑更新的</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewydgg4jhxj20kb0kwwgb.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewydgh3kl9j20kn0l1gnd.jpg" alt="img" /></p>
+
+<h3>1.2.4 下载刚刚创建Provisioning Profiles，并双击导入至电脑</h3>
+
+<h3>1.2.5  在XCode的Target中对应Build Settings选择这个Provisioning Profiles</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ewydnplstcj20jf069q4n.jpg" alt="img" /></p>
+
+<p>如果电脑中有Provisioning Profiles中引用的证书，XCode会自动选择相应的证书对代码进行签名</p>
+
+<p>至此iOS Push Notification客户端的配置就完成了，如果你一切配置正确，第一次真机启动应用时会弹出是否允许消息通知的提示框。</p>
+
+<h2>1.3   创建并配置Certificates</h2>
+
+<h3>1.3.1  创建certSigningRequest</h3>
+
+<h4>1.3.1.1  在Mac中开启“钥匙串访问（keychain）”应用，并从证书助理中选择“从证书颁发机构请求证书”</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewydridmz7j20hh0900ux.jpg" alt="img" /></p>
+
+<h4>1.3.1.2  填写邮件地址、名称并保存到磁盘</h4>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewydrirjm1j20h40c4ta2.jpg" alt="img" /></p>
+
+<h3>1.3.2  根据certSigningRequest创建Certificates</h3>
+
+<h4>1.3.2.1  回到Apple Member Center选择Development证书（如果是发布上线，需要选择Distribution）</h4>
+
+<h4>1.3.2.2  b2.选择证书的类型“Apple Push Notification service SSL (Sandbox)”</h4>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ewyd6yl4f4j20rj0lt421.jpg" alt="img" /></p>
+
+<h4>1.3.2.3  选择之前创建的AppId</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewyd6yzwi6j20k90kzwgv.jpg" alt="img" /></p>
+
+<h4>1.3.2.4  下一步提示创建certSigningRequest，我们已经创建完毕，直接下一步选择即可</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewyd6zbyhdj20jv0kgn04.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewyd6zsw5rj20k70ksdhs.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewyd707cquj20ng0grac6.jpg" alt="img" /></p>
+
+<h4>1.3.2.5  没有问题的话，便创建成功，下载至本地并导入钥匙串访问(KeyChain)即可</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1exi104wvmqj20dr05b75x.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewyd70j1vhj20s80beq5l.jpg" alt="img" /></p>
+
+<h3>1.3.3  导出p12证书</h3>
+
+<h4>1.3.3.1  在钥匙串访问(KeyChain)的我的证书中选择刚刚导入的证书，选择导出，注意不要选中私钥，并设置相应密码即可</h4>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ewye13tucuj20p808sq6g.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewye14mvrfj20je0gm77j.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ewye151xn2j20c707bq3j.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewye15gcy5j202z02na9y.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ewyergq9rfj20oz0mrn1e.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewyerh7kfaj20vd0oqjyy.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ewyeulbf2lj20w30a576v.jpg" alt="img" /></p>
+
+<h3>下载友盟SDK Demo</h3>
+
+<h4>测试</h4>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ewyftfs580j20ku112gny.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewyftfax15j20f20bzwi2.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-12T14:36:33+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:36 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/12/nsstring-he-nsintegerde-xiang-hu-zhuan-huan/" title="Previous Post: NSString 和 NSInteger 的相互转换">&laquo; NSString 和 NSInteger 的相互转换</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/13/ios-zi-dai-json-jie-xi-zhong-guo-he-shi-jie-tian-qi-yu-bao-json-shu-ju/" title="Next Post: iOS 自带 JSON 解析中国和世界天气预报 JSON 数据(原创)">iOS 自带 JSON 解析中国和世界天气预报 JSON 数据(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

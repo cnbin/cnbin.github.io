@@ -1,0 +1,517 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PureLayout Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="PureLayout The ultimate API for iOS &amp; OS X Auto Layout — impressively simple, immensely powerful. PureLayout extends UIView/NSView, NSArray, and &hellip;">
+  <meta name="keywords" content="purelayout">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/08/purelayout-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">PureLayout Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-08T08:27:31+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:27 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>PureLayout</h3>
+
+<p>The ultimate API for iOS &amp; OS X Auto Layout — impressively simple, immensely powerful. PureLayout extends <code>UIView</code>/<code>NSView</code>, <code>NSArray</code>, and <code>NSLayoutConstraint</code> with a comprehensive Auto Layout API that is modeled after Apple&rsquo;s own frameworks. PureLayout is a cross-platform Objective-C library that works (and looks!) great in Swift. It is fully backwards-compatible with all versions of iOS and OS X that support Auto Layout.</p>
+
+<p>Writing Auto Layout code from scratch isn&rsquo;t easy. PureLayout provides a fully capable and developer-friendly interface for Auto Layout. It is designed for clarity and simplicity, and takes inspiration from the AutoLayout UI options available in Interface Builder while delivering far more flexibility. The API is also highly efficient, as it adds only a thin layer of third party code and is engineered for maximum performance.</p>
+
+<h3>Table of Contents</h3>
+
+<ol>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#api-cheat-sheet">API Cheat Sheet</a></li>
+<li><a href="#usage">Usage</a></li>
+<li> <a href="#sample-code-swift">Sample Code</a></li>
+<li> <a href="#example-apps">Example Apps</a></li>
+<li><a href="#purelayout-vs-the-rest">PureLayout vs. the rest</a></li>
+<li><a href="#problems-suggestions-pull-requests">Problems, Suggestions, Pull Requests?</a></li>
+</ol>
+
+
+<h2>Setup</h2>
+
+<h3>Compatibility</h3>
+
+<p>The current release of PureLayout supports all versions of iOS and OS X since the introduction of Auto Layout on each platform, in both Swift and Objective-C, with a single codebase!</p>
+
+<ul>
+<li>Xcode
+
+<ul>
+<li>Language Support: <strong>Swift</strong> <em>(any version)</em>, <strong>Objective-C</strong></li>
+<li>Fully Compatible With: <strong>Xcode 7.0</strong></li>
+<li>Minimum Supported Version: <strong>Xcode 5.0</strong></li>
+</ul>
+</li>
+<li>iOS
+
+<ul>
+<li>Fully Compatible With: <strong>iOS 9.0</strong></li>
+<li>Minimum Deployment Target: <strong>iOS 6.0</strong></li>
+</ul>
+</li>
+<li>OS X
+
+<ul>
+<li>Fully Compatible With: <strong>OS X 10.11</strong></li>
+<li>Minimum Deployment Target: <strong>OS X 10.7</strong></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Using <a href="http://cocoapods.org">CocoaPods</a></h3>
+
+<ol>
+<li><p>Add the pod <code>PureLayout</code> to your <a href="http://guides.cocoapods.org/using/the-podfile.html">Podfile</a>.</p>
+
+<p> pod &lsquo;PureLayout&rsquo;</p></li>
+<li><p>Run <code>pod install</code> from Terminal, then open your app&rsquo;s <code>.xcworkspace</code> file to launch Xcode.</p></li>
+<li>Import the <code>PureLayout.h</code> umbrella header.</li>
+<li>With <code>use_frameworks!</code> in your Podfile
+
+<ul>
+<li>Swift: <code>import PureLayout</code></li>
+<li>Objective-C: <code>#import &lt;PureLayout/PureLayout.h&gt;</code> (or with Modules enabled: <code>@import PureLayout;</code>)</li>
+</ul>
+</li>
+<li>Without <code>use_frameworks!</code> in your Podfile
+
+<ul>
+<li>Swift: Add <code>#import "PureLayout.h"</code> to your bridging header.</li>
+<li>Objective-C: <code>#import "PureLayout.h"</code></li>
+</ul>
+</li>
+</ol>
+
+
+<p>That&rsquo;s it - now go write some beautiful Auto Layout code!</p>
+
+<h3>Using <a href="https://github.com/Carthage/Carthage">Carthage</a></h3>
+
+<ol>
+<li><p>Add the <code>PureLayout/PureLayout</code> project to your <a href="https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile">Cartfile</a>.</p>
+
+<p> github &ldquo;PureLayout/PureLayout&rdquo;</p></li>
+<li><p>Run <code>carthage update</code>, then follow the <a href="https://github.com/Carthage/Carthage#adding-frameworks-to-an-application">additional steps required</a> to add the framework into your project.</p></li>
+<li>Import the PureLayout framework/module.</li>
+<li>Swift: <code>import PureLayout</code></li>
+<li>Objective-C: <code>#import &lt;PureLayout/PureLayout.h&gt;</code> (or with Modules enabled: <code>@import PureLayout;</code>)</li>
+</ol>
+
+
+<p>That&rsquo;s it - now go write some beautiful Auto Layout code!</p>
+
+<h3>Manually from GitHub</h3>
+
+<ol>
+<li>Download the source files in the <a href="PureLayout/PureLayout">PureLayout subdirectory</a>.</li>
+<li>Add the source files to your Xcode project.</li>
+<li>Import the <code>PureLayout.h</code> header.</li>
+<li>Swift: Add <code>#import "PureLayout.h"</code> to your bridging header.</li>
+<li>Objective-C: <code>#import "PureLayout.h"</code></li>
+</ol>
+
+
+<p>That&rsquo;s it - now go write some beautiful Auto Layout code!</p>
+
+<h3>App Extensions</h3>
+
+<p>To use PureLayout in an App Extension, you need to do a bit of extra configuration to prevent usage of unavailable APIs. <a href="https://github.com/PureLayout/PureLayout/wiki/App-Extensions">Click here</a> for more info.</p>
+
+<h3>Releases</h3>
+
+<p>Releases are tagged in the git commit history using <a href="http://semver.org">semantic versioning</a>. Check out the <a href="https://github.com/PureLayout/PureLayout/releases">releases and release notes</a> for each version.</p>
+
+<h2>API Cheat Sheet</h2>
+
+<p>This is just a handy overview of the core API methods. Explore the <a href="PureLayout/PureLayout">header files</a> for the full API, and find the complete documentation above the implementation of each method in the corresponding .m file. A couple of notes:</p>
+
+<ul>
+<li>All of the public API methods are namespaced with the prefix <code>auto...</code>, which also makes it easy for Xcode to autocomplete as you type.</li>
+<li>Methods that create constraints also automatically install (activate) the constraint(s), then return the new constraint(s) for you to optionally store for later adjustment or removal.</li>
+<li>Many methods below also have a variant which includes a <code>relation:</code> parameter to make the constraint an inequality.</li>
+</ul>
+
+
+<h3>Attributes</h3>
+
+<p>PureLayout defines view attributes that are used to create auto layout constraints. Here is an <a href="Images/PureLayout-CommonAttributes.png">illustration of the most common attributes</a>.</p>
+
+<p>There are 5 specific attribute types, which are used throughout most of the API:</p>
+
+<ul>
+<li><code>ALEdge</code></li>
+<li><code>ALDimension</code></li>
+<li><code>ALAxis</code></li>
+<li><code>ALMargin</code> <em>available in iOS 8.0 and higher only</em></li>
+<li><code>ALMarginAxis</code> <em>available in iOS 8.0 and higher only</em></li>
+</ul>
+
+
+<p>Additionally, there is one generic attribute type, <code>ALAttribute</code>, which is effectively a union of all the specific types. You can think of this as the &ldquo;supertype&rdquo; of all of the specific attribute types, which means that it is always safe to cast a specific type to the generic <code>ALAttribute</code> type. (Note that the reverse is not true &ndash; casting a generic ALAttribute to a specific attribute type is unsafe!)</p>
+
+<h3><a href="PureLayout/PureLayout/ALView%2BPureLayout.h"><code>UIView</code>/<code>NSView</code></a></h3>
+
+<pre><code>- autoSetContent(CompressionResistance|Hugging)PriorityForAxis:
+- autoCenterInSuperview(Margins): // Margins variant iOS 8.0+ only
+- autoAlignAxisToSuperview(Margin)Axis: // Margin variant iOS 8.0+ only
+- autoPinEdgeToSuperview(Edge:|Margin:)(withInset:) // Margin variant iOS 8.0+ only
+- autoPinEdgesToSuperview(Edges|Margins)(WithInsets:)(excludingEdge:) // Margins variant iOS 8.0+ only
+- autoPinEdge:toEdge:ofView:(withOffset:)
+- autoAlignAxis:toSameAxisOfView:(withOffset:|withMultiplier:)
+- autoMatchDimension:toDimension:ofView:(withOffset:|withMultiplier:)
+- autoSetDimension(s)ToSize:
+- autoConstrainAttribute:toAttribute:ofView:(withOffset:|withMultiplier:)
+- autoPinTo(Top|Bottom)LayoutGuideOfViewController:withInset: // iOS only
+</code></pre>
+
+<h3><a href="PureLayout/PureLayout/NSArray%2BPureLayout.h"><code>NSArray</code></a></h3>
+
+<pre><code>// Arrays of Constraints
+- autoInstallConstraints
+- autoRemoveConstraints
+- autoIdentifyConstraints: // iOS 7.0+, OS X 10.9+ only
+
+// Arrays of Views
+- autoAlignViewsToEdge:
+- autoAlignViewsToAxis:
+- autoMatchViewsDimension:
+- autoSetViewsDimension:toSize:
+- autoSetViewsDimensionsToSize:
+- autoDistributeViewsAlongAxis:alignedTo:withFixedSpacing:(insetSpacing:)(matchedSizes:)
+- autoDistributeViewsAlongAxis:alignedTo:withFixedSize:(insetSpacing:)
+</code></pre>
+
+<h3><a href="PureLayout/PureLayout/NSLayoutConstraint%2BPureLayout.h"><code>NSLayoutConstraint</code></a></h3>
+
+<pre><code>+ autoCreateAndInstallConstraints:
++ autoCreateConstraintsWithoutInstalling:
++ autoSetPriority:forConstraints:
++ autoSetIdentifier:forConstraints: // iOS 7.0+, OS X 10.9+ only
+- autoIdentify: // iOS 7.0+, OS X 10.9+ only
+- autoInstall
+- autoRemove
+</code></pre>
+
+<h2>Usage</h2>
+
+<h3>Sample Code (Swift)</h3>
+
+<p>PureLayout dramatically simplifies writing Auto Layout code. Let&rsquo;s take a quick look at some examples, using PureLayout from Swift.</p>
+
+<p>Here&rsquo;s a constraint between two views created (and automatically activated) using PureLayout:</p>
+
+<pre><code>view1.autoPinEdge(.Top, toEdge: .Bottom, ofView: view2)
+</code></pre>
+
+<p>Without PureLayout, here&rsquo;s the equivalent code you&rsquo;d have to write using Apple&rsquo;s Foundation API directly:</p>
+
+<pre><code>NSLayoutConstraint(item: view1, attribute: .Top, relatedBy: .Equal, toItem: view2, attribute: .Bottom, multiplier: 1.0, constant: 0.0).active = true
+</code></pre>
+
+<p>Many APIs of PureLayout create multiple constraints for you under the hood, letting you write highly readable layout code:</p>
+
+<pre><code>// 2 constraints created &amp; activated in one line!
+logoImageView.autoCenterInSuperview()
+
+// 4 constraints created &amp; activated in one line!
+textContentView.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsets(top: 20.0, left: 5.0, bottom: 10.0, right: 5.0))
+</code></pre>
+
+<p>PureLayout always returns the constraints it creates so you have full control:</p>
+
+<pre><code>let constraint = skinnyView.autoMatchDimension(.Height, toDimension: .Width, ofView: tallView)
+</code></pre>
+
+<p>PureLayout supports all Auto Layout features including inequalities, priorities, layout margins, identifiers, and much more. It&rsquo;s a comprehensive, developer-friendly way to use Auto Layout.</p>
+
+<p>Check out the example apps below for many more demos of PureLayout in use.</p>
+
+<h3>Example Apps</h3>
+
+<p>Open the project included in the repository (requires Xcode 6 or higher). It contains <a href="PureLayout/Example-iOS">iOS</a> (<code>Example-iOS</code> scheme) and <a href="PureLayout/Example-Mac">OS X</a> (<code>Example-Mac</code> scheme) demos of the library being used in various scenarios. The demos in the iOS example app make a great introductory tutorial to PureLayout &ndash; run each demo, review the code used to implement it, then practice by making some changes of your own to the demo code.</p>
+
+<p>Each demo in the iOS example app has a Swift and Objective-C version. <strong>To compile &amp; run the Swift demos, you must use Xcode 7.0 or higher (Swift 2.0) and choose the <code>Example-iOS-Xcode7</code> scheme.</strong> When you run the example app, you can easily switch between using the Swift and Objective-C versions of the demos. To see the constraints in action while running the iOS demos, try using different device simulators, rotating the device to different orientations, as well as toggling the taller in-call status bar in the iOS Simulator.</p>
+
+<p>On OS X, while running the app, press any key to cycle through the demos. You can resize the window to see the constraints in action.</p>
+
+<h3>Tips and Tricks</h3>
+
+<p>Check out some <a href="https://github.com/PureLayout/PureLayout/wiki/Tips-and-Tricks">Tips and Tricks</a> to keep in mind when using the API.</p>
+
+<h2>PureLayout vs. the rest</h2>
+
+<p>There are quite a few different ways to implement Auto Layout. Here is a quick overview of the available options:</p>
+
+<ul>
+<li>Apple <a href="https://developer.apple.com/library/ios/documentation/AppKit/Reference/NSLayoutConstraint_Class/index.html#//apple_ref/occ/clm/NSLayoutConstraint/constraintWithItem:attribute:relatedBy:toItem:attribute:multiplier:constant:">NSLayoutConstraint SDK API</a>
+
+<ul>
+<li>Pros: Raw power</li>
+<li>Cons: Extremely verbose; tedious to write; difficult to read</li>
+</ul>
+</li>
+<li>Apple <a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html">Visual Format Language</a>
+
+<ul>
+<li>Pros: Concise; convenient</li>
+<li>Cons: Doesn&rsquo;t support some use cases; lacks compile-time checking and safety; must learn syntax; hard to debug</li>
+</ul>
+</li>
+<li>Apple Interface Builder
+
+<ul>
+<li>Pros: Visual; interactive; provides compile-time layout checking</li>
+<li>Cons: Difficult for complex layouts; cannot dynamically set constraints at runtime; encourages hardcoded magic numbers; not always WYSIWYG</li>
+</ul>
+</li>
+<li>Apple <a href="https://developer.apple.com/library/prerelease/ios/documentation/AppKit/Reference/NSLayoutAnchor_ClassReference/index.html">NSLayoutAnchor SDK API</a>
+
+<ul>
+<li>Pros: Clean, readable, and type-safe API for creating individual constraints</li>
+<li>Cons: Only available in iOS 9.0 and OS X 10.11 and higher; requires manually activating each constraint; no API for creating multiple constraints at once</li>
+</ul>
+</li>
+<li><strong>PureLayout</strong>
+
+<ul>
+<li>Pros: Compatible with Objective-C and Swift codebases; consistent with Cocoa API style; cross-platform API and implementation shared across iOS and OS X; fully backwards-compatible to iOS 6 &amp; OS X 10.7; easy to use; type-safe; efficient</li>
+<li>Cons: Not the most concise expression of layout code</li>
+</ul>
+</li>
+<li>High-level Auto Layout Libraries/DSLs (<a href="https://github.com/robb/Cartography">Cartography</a>, <a href="https://github.com/SnapKit/SnapKit">SnapKit</a>, <a href="https://github.com/iMartinKiss/KeepLayout">KeepLayout</a>)
+
+<ul>
+<li>Pros: Very clean, concise, and convenient</li>
+<li>Cons: Unique API style is foreign to Apple&rsquo;s APIs; mixed compatibility with Objective-C &amp; Swift; greater dependency on third party code</li>
+</ul>
+</li>
+</ul>
+
+
+<p>PureLayout takes a balanced approach to Auto Layout that makes it well suited for any project.</p>
+
+<h2>Problems, Suggestions, Pull Requests?</h2>
+
+<p>Please open a <a href="https://github.com/PureLayout/PureLayout/issues/new">new Issue here</a> if you run into a problem specific to PureLayout, have a feature request, or want to share a comment. Note that general Auto Layout questions should be asked on <a href="http://stackoverflow.com">Stack Overflow</a>.</p>
+
+<p>Pull requests are encouraged and greatly appreciated! Please try to maintain consistency with the existing code style. If you&rsquo;re considering taking on significant changes or additions to the project, please communicate in advance by opening a new Issue. This allows everyone to get onboard with upcoming changes, ensures that changes align with the project&rsquo;s design philosophy, and avoids duplicated work.</p>
+
+<h2>Meta</h2>
+
+<p>Originally designed &amp; built by Tyler Fox (<a href="https://github.com/smileyborg">@smileyborg</a>). Currently maintained by Mickey Reiss (<a href="https://github.com/mickeyreiss">@mickeyreiss</a>). Distributed with the MIT license.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-08T08:27:31+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:27 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/08/masonry-introduction/" title="Previous Post: Masonry Introduction">&laquo; Masonry Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/08/snapkit-introduction/" title="Next Post: SnapKit Introduction">SnapKit Introduction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MySQL 与 PostgreSQL 比较 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="MySQL MySQL 相对来说比较年轻，首度出现在1994年。它声称自己是最流行的开源数据库。MySQL就是 LAMP（用于Web开发的软件包，包括 Linux、Apache及Perl/PHP/Python）中的M。构建在 LAMP 栈之上的大多数应用都会使用 MySQL，包括那些知名的应用， &hellip;">
+  <meta name="keywords" content="mysql,postgresql,js">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/10/mysql-yu-postgresql-bi-jiao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MySQL 与 PostgreSQL 比较</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-10T10:48:32+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:48 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esxnhgpkywj209t0a3jri.jpg" alt="img" /></p>
+
+<!--More-->
+
+
+<h3>MySQL</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esxnhh4vz5j20a705aaa8.jpg" alt="img" /></p>
+
+<p>MySQL 相对来说比较年轻，首度出现在1994年。它声称自己是最流行的开源数据库。MySQL就是 <strong>LAMP</strong>（用于Web开发的软件包，包括 Linux、Apache及Perl/PHP/Python）中的M。构建在 LAMP 栈之上的大多数应用都会使用 MySQL，包括那些知名的应用，如 WordPress、Drupal、Zend 及 phpBB 等。</p>
+
+<p>一开始，MySQL 的设计目标是成为一个快速的Web服务器后端，使用快速的索引序列访问方法（ISAM），不支持 ACID。经过早期快速的发展之 后，MySQL 开始支持更多的存储引擎，并通过 InnoD B引擎实现了 ACID。MySQL 还支持其他存储引擎，提供了临时表的功能（使用MEMORY存 储引擎），通过MyISAM引擎实现了高速读的数据库，此外还有其他的核心存储引擎与第三方引擎。</p>
+
+<p>MySQL 的文档非常丰富，有很多质量不错的免费参考手册、图书与在线文档，还有来自于 Oracle 和第三方厂商的培训与支持。</p>
+
+<p>MySQL 近几年经历了所有权的变更和一些颇具戏剧性的事件。它最初是由 MySQL AB 开发的，然后在2008年以10亿美金的价格卖给了 Sun 公司，Sun 公司又在2010年被 Oracle 收购。Oracle 支持 MySQL 的多个版 本：Standard、Enterprise、Classic、Cluster、Embedded 与 Community。其中有一些是免费下载的，另外一 些则是收费的。其核心代码基于 GPL 许可，对于那些不想使用 GPL 许可的开发者与厂商来说还有商业许可可供使用。</p>
+
+<p>现在，基于最初的 MySQL 代码还有更多的数据库可供选择，因为几个核心的 MySQL 开发者已经发布了 MySQL 分支。最初的 MySQL 创建者之一 Michael &ldquo;Monty&rdquo; Widenius貌似后悔将MySQL卖给了Sun公司，于是又开发了他自己的 MySQL 分支 MariaDB，它是免费的，基于 GPL 许可。知名的 MySQL 开发者 Brian Aker 所创建的分支 Drizzle 对其进行了大量的改写，特别针对多 CPU、云、网络应用与高并发进行了优化。</p>
+
+<h3>PostgreSQL</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esxnhhki5hj20a808cdfw.jpg" alt="img" /></p>
+
+<p>PostgreSQL 标榜自己是世界上最先进的开源数据库。PostgreSQL 的一些粉丝说它能与 Oracle 相媲美，而且没有那么昂贵的价格和傲慢的客服。它拥有很长的历史，最初是1985年在加利福尼亚大学伯克利分校开发的，作为Ingres数据库的后继。</p>
+
+<p>PostgreSQL 是完全由社区驱动的开源项目，由全世界超过1000名贡献者所维护。它提供了单个完整功能的版本，而不像 MySQL 那样提供了 多个不同的社区版、商业版与企业版。PostgreSQL 基于自由的 BSD/MIT 许可，组织可以使用、复制、修改和重新分发代码，只需要提供一个版权声 明即可。</p>
+
+<p>可靠性是 PostgreSQL 的最高优先级。它以坚如磐石的品质和良好的工程化而闻名，支持高事务、任务关键型应用。PostgreSQL 的文档非 常精良，提供了大量免费的在线手册，还针对旧版本提供了归档的参考手册。PostgreSQL 的社区支持是非常棒的，还有来自于独立厂商的商业支持。
+数据一致性与完整性也是 PostgreSQL 的高优先级特性。PostgreSQL 是完全支持 ACID 特性的，它对于数据库访问提供了强大的安全性 保证，充分利用了企业安全工具，如 Kerberos 与 OpenSSL 等。你可以定义自己的检查，根据自己的业务规则确保数据质量。在众多的管理特性 中，point-in-time recovery（PITR）是非常棒的特性，这是个灵活的高可用特性，提供了诸如针对失败恢复创建热备份以及快照与恢复的能力。但这并不是 PostgreSQL 的全部，项目还提供了几个方法来管理PostgreSQL以实现高可用、负载均衡与复制等，这样你就可以使用适合自己特定需求的功能 了。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-10T10:48:32+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:48 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/10/mac-an-zhuang-browserify/" title="Previous Post: Mac 安装 browserify(原创)">&laquo; Mac 安装 browserify(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/10/fu-wen-ben-bian-ji-qi-simditor/" title="Next Post: 富文本编辑器-Simditor">富文本编辑器-Simditor &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

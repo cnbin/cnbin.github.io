@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GCDWebServer - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Overview GCDWebServer is a modern and lightweight GCD based HTTP 1.1 server designed to be embedded in OS X &amp; iOS apps. It was written from &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/06/gcdwebserver/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GCDWebServer</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-06T15:33:58+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:33 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>Overview</h1>
+
+<p><a href="https://travis-ci.org/swisspol/GCDWebServer"><img src="https://travis-ci.org/swisspol/GCDWebServer.svg?branch=master" alt="Build Status" /></a>
+<a href="http://cocoadocs.org/docsets/GCDWebServer"><img src="http://cocoapod-badges.herokuapp.com/v/GCDWebServer/badge.png" alt="Version" /></a>
+<a href="https://github.com/swisspol/GCDWebServer"><img src="http://cocoapod-badges.herokuapp.com/p/GCDWebServer/badge.png" alt="Platform" /></a>
+<a href="LICENSE"><img src="http://img.shields.io/cocoapods/l/GCDWebServer.svg" alt="License" /></a></p>
+
+<p>GCDWebServer is a modern and lightweight GCD based HTTP 1.1 server designed to be embedded in OS X &amp; iOS apps. It was written from scratch with the following goals in mind:
+* Elegant and easy to use architecture with only 4 core classes: server, connection, request and response (see &ldquo;Understanding GCDWebServer&rsquo;s Architecture&rdquo; below)
+* Well designed API with fully documented headers for easy integration and customization
+* Entirely built with an event-driven design using <a href="http://en.wikipedia.org/wiki/Grand_Central_Dispatch">Grand Central Dispatch</a> for best performance and concurrency
+* No dependencies on third-party source code
+* Available under a friendly <a href="LICENSE">New BSD License</a></p>
+
+<p>Extra built-in features:
+* Allow implementation of fully asynchronous handlers of incoming HTTP requests
+* Minimize memory usage with disk streaming of large HTTP request or response bodies
+* Parser for <a href="http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4">web forms</a> submitted using &ldquo;application/x-www-form-urlencoded&rdquo; or &ldquo;multipart/form-data&rdquo; encodings (including file uploads)
+* <a href="http://www.json.org/">JSON</a> parsing and serialization for request and response HTTP bodies
+* <a href="https://en.wikipedia.org/wiki/Chunked_transfer_encoding">Chunked transfer encoding</a> for request and response HTTP bodies
+* <a href="https://en.wikipedia.org/wiki/HTTP_compression">HTTP compression</a> with gzip for request and response HTTP bodies
+* <a href="https://en.wikipedia.org/wiki/Byte_serving">HTTP range</a> support for requests of local files
+* <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">Basic</a> and <a href="https://en.wikipedia.org/wiki/Digest_access_authentication">Digest Access</a> authentications for password protection
+* Automatically handle transitions between foreground, background and suspended modes in iOS apps
+* Full support for both IPv4 and IPv6</p>
+
+<p>Included extensions:
+* <a href="GCDWebUploader/GCDWebUploader.h">GCDWebUploader</a>: subclass of <code>GCDWebServer</code> that implements an interface for uploading and downloading files using a web browser
+* <a href="GCDWebDAVServer/GCDWebDAVServer.h">GCDWebDAVServer</a>: subclass of <code>GCDWebServer</code> that implements a class 1 <a href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a> server (with partial class 2 support for OS X Finder)</p>
+
+<p>What&rsquo;s not supported (but not really required from an embedded HTTP server):
+* Keep-alive connections
+* HTTPS</p>
+
+<p>Requirements:
+* OS X 10.7 or later (x86_64)
+* iOS 5.0 or later (armv7, armv7s or arm64)
+* ARC memory management only (if you need MRC support use GCDWebServer 3.1 and earlier)</p>
+
+<h1>Getting Started</h1>
+
+<p>Download or check out the <a href="https://github.com/swisspol/GCDWebServer/releases">latest release</a> of GCDWebServer then add the entire &ldquo;GCDWebServer&rdquo; subfolder to your Xcode project. If you intend to use one of the extensions like GCDWebDAVServer or GCDWebUploader, add these subfolders as well.</p>
+
+<p>Alternatively, you can install GCDWebServer using <a href="http://cocoapods.org/">CocoaPods</a> by simply adding this line to your Podfile:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod "GCDWebServer", "~&gt; 3.0"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you want to use GCDWebUploader, use this line instead:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod "GCDWebServer/WebUploader", "~&gt; 3.0"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or this line for GCDWebDAVServer:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod "GCDWebServer/WebDAV", "~&gt; 3.0"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And finally run <code>$ pod install</code>.</p>
+
+<p>You can also use <a href="https://github.com/Carthage/Carthage">Carthage</a> by adding this line to your Cartfile (3.2.5 is the first release with Carthage support):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>github "swisspol/GCDWebServer" ~&gt; 3.2.5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then run <code>$ carthage update</code> and add the generated frameworks to your Xcode projects (see <a href="https://github.com/Carthage/Carthage#adding-frameworks-to-an-application">Carthage instructions</a>).</p>
+
+<h1>Help &amp; Support</h1>
+
+<p>For help with using GCDWebServer, it&rsquo;s best to ask your question on Stack Overflow with the <a href="http://stackoverflow.com/questions/tagged/gcdwebserver"><code>gcdwebserver</code></a> tag. Be sure to read this entire README first though!</p>
+
+<p>For bug reports or enhancement requests, please use <a href="https://github.com/swisspol/GCDWebServer/issues">GitHub issues</a> instead.</p>
+
+<h1>Hello World</h1>
+
+<p>These code snippets show how to implement a custom HTTP server that runs on port 8080 and returns a &ldquo;Hello World&rdquo; HTML page to any request. Since GCDWebServer uses GCD blocks to handle requests, no subclassing or delegates are needed, which results in very clean code.</p>
+
+<p><strong>IMPORTANT:</strong> If not using CocoaPods, be sure to add the <code>libz</code> shared system library to the Xcode target for your app.</p>
+
+<p><strong>OS X version (command line tool):</strong></p>
+
+<pre><code>#import "GCDWebServer.h"
+#import "GCDWebServerDataResponse.h"
+
+int main(int argc, const char* argv[]) {
+  @autoreleasepool {
+
+    // Create server
+    GCDWebServer* webServer = [[GCDWebServer alloc] init];
+
+    // Add a handler to respond to GET requests on any URL
+    [webServer addDefaultHandlerForMethod:@"GET"
+                             requestClass:[GCDWebServerRequest class]
+                             processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
+
+      return [GCDWebServerDataResponse responseWithHTML:@"&lt;html&gt;&lt;body&gt;&lt;p&gt;Hello World&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"];
+
+    }];
+
+    // Use convenience method that runs server on port 8080
+    // until SIGINT (Ctrl-C in Terminal) or SIGTERM is received
+    [webServer runWithPort:8080 bonjourName:nil];
+    NSLog(@"Visit %@ in your web browser", webServer.serverURL);
+
+  }
+  return 0;
+}
+</code></pre>
+
+<p><strong>iOS version:</strong></p>
+
+<pre><code>#import "GCDWebServer.h"
+#import "GCDWebServerDataResponse.h"
+
+@interface AppDelegate : NSObject &lt;UIApplicationDelegate&gt; {
+  GCDWebServer* _webServer;
+}
+@end
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
+
+  // Create server
+  _webServer = [[GCDWebServer alloc] init];
+
+  // Add a handler to respond to GET requests on any URL
+  [_webServer addDefaultHandlerForMethod:@"GET"
+                            requestClass:[GCDWebServerRequest class]
+                            processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
+
+    return [GCDWebServerDataResponse responseWithHTML:@"&lt;html&gt;&lt;body&gt;&lt;p&gt;Hello World&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"];
+
+  }];
+
+  // Start server on port 8080
+  [_webServer startWithPort:8080 bonjourName:nil];
+  NSLog(@"Visit %@ in your web browser", _webServer.serverURL);
+
+  return YES;
+}
+
+@end
+</code></pre>
+
+<p><strong>OS X Swift version (command line tool):</strong></p>
+
+<p><strong><em>webServer.swift</em></strong></p>
+
+<pre><code>import Foundation
+import GCDWebServers
+
+func initWebServer() {
+
+    let webServer = GCDWebServer()
+
+    webServer.addDefaultHandlerForMethod("GET", requestClass: GCDWebServerRequest.self, processBlock: {request in
+    return GCDWebServerDataResponse(HTML:"&lt;html&gt;&lt;body&gt;&lt;p&gt;Hello World&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;")
+
+    })
+
+    webServer.runWithPort(8080, bonjourName: "GCD Web Server")
+
+    print("Visit \(webServer.serverURL) in your web browser")
+}
+</code></pre>
+
+<p><strong><em>WebServer-Bridging-Header.h</em></strong></p>
+
+<pre><code>#import &lt;GCDWebServers/GCDWebServer.h&gt;
+#import &lt;GCDWebServers/GCDWebServerDataResponse.h&gt;
+</code></pre>
+
+<h1>Web Based Uploads in iOS Apps</h1>
+
+<p>GCDWebUploader is a subclass of <code>GCDWebServer</code> that provides a ready-to-use HTML 5 file uploader &amp; downloader. This lets users upload, download, delete files and create directories from a directory inside your iOS app&rsquo;s sandbox using a clean user interface in their web browser.</p>
+
+<p>Simply instantiate and run a <code>GCDWebUploader</code> instance then visit <code>http://{YOUR-IOS-DEVICE-IP-ADDRESS}/</code> from your web browser:</p>
+
+<pre><code>#import "GCDWebUploader.h"
+
+@interface AppDelegate : NSObject &lt;UIApplicationDelegate&gt; {
+  GCDWebUploader* _webUploader;
+}
+@end
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
+  NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+  _webUploader = [[GCDWebUploader alloc] initWithUploadDirectory:documentsPath];
+  [_webUploader start];
+  NSLog(@"Visit %@ in your web browser", _webUploader.serverURL);
+  return YES;
+}
+
+@end
+</code></pre>
+
+<h1>WebDAV Server in iOS Apps</h1>
+
+<p>GCDWebDAVServer is a subclass of <code>GCDWebServer</code> that provides a class 1 compliant <a href="https://en.wikipedia.org/wiki/WebDAV">WebDAV</a> server. This lets users upload, download, delete files and create directories from a directory inside your iOS app&rsquo;s sandbox using any WebDAV client like <a href="https://panic.com/transmit/">Transmit</a> (Mac), <a href="http://binarynights.com/forklift/">ForkLift</a> (Mac) or <a href="http://cyberduck.io/">CyberDuck</a> (Mac / Windows).</p>
+
+<p>GCDWebDAVServer should also work with the <a href="http://support.apple.com/kb/PH13859">OS X Finder</a> as it is partially class 2 compliant (but only when the client is the OS X WebDAV implementation).</p>
+
+<p>Simply instantiate and run a <code>GCDWebDAVServer</code> instance then connect to <code>http://{YOUR-IOS-DEVICE-IP-ADDRESS}/</code> using a WebDAV client:</p>
+
+<pre><code>#import "GCDWebDAVServer.h"
+
+@interface AppDelegate : NSObject &lt;UIApplicationDelegate&gt; {
+  GCDWebDAVServer* _davServer;
+}
+@end
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
+  NSString* documentsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+  _davServer = [[GCDWebDAVServer alloc] initWithUploadDirectory:documentsPath];
+  [_davServer start];
+  NSLog(@"Visit %@ in your WebDAV client", _davServer.serverURL);
+  return YES;
+}
+
+@end
+</code></pre>
+
+<h1>Serving a Static Website</h1>
+
+<p>GCDWebServer includes a built-in handler that can recursively serve a directory (it also lets you control how the <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">&ldquo;Cache-Control&rdquo;</a> header should be set):</p>
+
+<p><strong>OS X version (command line tool):</strong></p>
+
+<pre><code>#import "GCDWebServer.h"
+
+int main(int argc, const char* argv[]) {
+  @autoreleasepool {
+
+    GCDWebServer* webServer = [[GCDWebServer alloc] init];
+    [webServer addGETHandlerForBasePath:@"/" directoryPath:NSHomeDirectory() indexFilename:nil cacheAge:3600 allowRangeRequests:YES];
+    [webServer runWithPort:8080];
+
+  }
+  return 0;
+}
+</code></pre>
+
+<h1>Using GCDWebServer</h1>
+
+<p>You start by creating an instance of the <code>GCDWebServer</code> class. Note that you can have multiple web servers running in the same app as long as they listen on different ports.</p>
+
+<p>Then you add one or more &ldquo;handlers&rdquo; to the server: each handler gets a chance to handle an incoming web request and provide a response. Handlers are called in a LIFO queue, so the latest added handler overrides any previously added ones.</p>
+
+<p>Finally you start the server on a given port.</p>
+
+<h1>Understanding GCDWebServer&rsquo;s Architecture</h1>
+
+<p>GCDWebServer&rsquo;s architecture consists of only 4 core classes:
+* <a href="GCDWebServer/Core/GCDWebServer.h">GCDWebServer</a> manages the socket that listens for new HTTP connections and the list of handlers used by the server.
+* <a href="GCDWebServer/Core/GCDWebServerConnection.h">GCDWebServerConnection</a> is instantiated by <code>GCDWebServer</code> to handle each new HTTP connection. Each instance stays alive until the connection is closed. You cannot use this class directly, but it is exposed so you can subclass it to override some hooks.
+* <a href="GCDWebServer/Core/GCDWebServerRequest.h">GCDWebServerRequest</a> is created by the <code>GCDWebServerConnection</code> instance after HTTP headers have been received. It wraps the request and handles the HTTP body if any. GCDWebServer comes with <a href="GCDWebServer/Requests">several subclasses</a> of <code>GCDWebServerRequest</code> to handle common cases like storing the body in memory or stream it to a file on disk.
+* <a href="GCDWebServer/Core/GCDWebServerResponse.h">GCDWebServerResponse</a> is created by the request handler and wraps the response HTTP headers and optional body. GCDWebServer comes with <a href="GCDWebServer/Responses">several subclasses</a> of <code>GCDWebServerResponse</code> to handle common cases like HTML text in memory or streaming a file from disk.</p>
+
+<h1>Implementing Handlers</h1>
+
+<p>GCDWebServer relies on &ldquo;handlers&rdquo; to process incoming web requests and generating responses. Handlers are implemented with GCD blocks which makes it very easy to provide your owns. However, they are executed on arbitrary threads within GCD so <strong>special attention must be paid to thread-safety and re-entrancy</strong>.</p>
+
+<p>Handlers require 2 GCD blocks:
+* The <code>GCDWebServerMatchBlock</code> is called on every handler added to the <code>GCDWebServer</code> instance whenever a web request has started (i.e. HTTP headers have been received). It is passed the basic info for the web request (HTTP method, URL, headers&hellip;) and must decide if it wants to handle it or not. If yes, it must return a new <code>GCDWebServerRequest</code> instance (see above) created with this info. Otherwise, it simply returns nil.
+* The <code>GCDWebServerProcessBlock</code> or <code>GCDWebServerAsyncProcessBlock</code> is called after the web request has been fully received and is passed the <code>GCDWebServerRequest</code> instance created at the previous step. It must return synchronously (if using <code>GCDWebServerProcessBlock</code>) or asynchronously (if using <code>GCDWebServerAsyncProcessBlock</code>) a <code>GCDWebServerResponse</code> instance (see above) or nil on error, which will result in a 500 HTTP status code returned to the client. It&rsquo;s however recommended to return an instance of <a href="GCDWebServer/Responses/GCDWebServerErrorResponse.h">GCDWebServerErrorResponse</a> on error so more useful information can be returned to the client.</p>
+
+<p>Note that most methods on <code>GCDWebServer</code> to add handlers only require the <code>GCDWebServerProcessBlock</code> or <code>GCDWebServerAsyncProcessBlock</code> as they already provide a built-in <code>GCDWebServerMatchBlock</code> e.g. to match a URL path with a Regex.</p>
+
+<h1>Asynchronous HTTP Responses</h1>
+
+<p>New in GCDWebServer 3.0 is the ability to process HTTP requests aysnchronously i.e. add handlers to the server which generate their <code>GCDWebServerResponse</code> asynchronously. This is achieved by adding handlers that use a <code>GCDWebServerAsyncProcessBlock</code> instead of a <code>GCDWebServerProcessBlock</code>. Here&rsquo;s an example:</p>
+
+<p><strong>(Synchronous version)</strong> The handler blocks while generating the HTTP response:</p>
+
+<pre><code>[webServer addDefaultHandlerForMethod:@"GET"
+                         requestClass:[GCDWebServerRequest class]
+                         processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
+
+  GCDWebServerDataResponse* response = [GCDWebServerDataResponse responseWithHTML:@"&lt;html&gt;&lt;body&gt;&lt;p&gt;Hello World&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"];
+  return response;
+
+}];
+</code></pre>
+
+<p><strong>(Asynchronous version)</strong> The handler returns immediately and calls back GCDWebServer later with the generated HTTP response:</p>
+
+<pre><code>[webServer addDefaultHandlerForMethod:@"GET"
+                         requestClass:[GCDWebServerRequest class]
+                    asyncProcessBlock:^(GCDWebServerRequest* request, GCDWebServerCompletionBlock completionBlock) {
+
+  // Do some async operation like network access or file I/O (simulated here using dispatch_after())
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    GCDWebServerDataResponse* response = [GCDWebServerDataResponse responseWithHTML:@"&lt;html&gt;&lt;body&gt;&lt;p&gt;Hello World&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"];
+    completionBlock(response);
+  });
+
+}];
+</code></pre>
+
+<p><strong>(Advanced asynchronous version)</strong> The handler returns immediately a streamed HTTP response which itself generates its contents asynchronously:</p>
+
+<pre><code>[webServer addDefaultHandlerForMethod:@"GET"
+                         requestClass:[GCDWebServerRequest class]
+                         processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
+
+  NSMutableArray* contents = [NSMutableArray arrayWithObjects:@"&lt;html&gt;&lt;body&gt;&lt;p&gt;\n", @"Hello World!\n", @"&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;\n", nil];  // Fake data source we are reading from
+  GCDWebServerStreamedResponse* response = [GCDWebServerStreamedResponse responseWithContentType:@"text/html" asyncStreamBlock:^(GCDWebServerBodyReaderCompletionBlock completionBlock) {
+
+    // Simulate a delay reading from the fake data source
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      NSString* string = contents.firstObject;
+      if (string) {
+        [contents removeObjectAtIndex:0];
+        completionBlock([string dataUsingEncoding:NSUTF8StringEncoding], nil);  // Generate the 2nd part of the stream data
+      } else {
+        completionBlock([NSData data], nil);  // Must pass an empty NSData to signal the end of the stream
+      }
+    });
+
+  }];
+  return response;
+
+}];
+</code></pre>
+
+<p><em>Note that you can even combine both the asynchronous and advanced asynchronous versions to return asynchronously an asynchronous HTTP response!</em></p>
+
+<h1>GCDWebServer &amp; Background Mode for iOS Apps</h1>
+
+<p>When doing networking operations in iOS apps, you must handle carefully <a href="https://developer.apple.com/library/ios/technotes/tn2277/_index.html">what happens when iOS puts the app in the background</a>. Typically you must stop any network servers while the app is in the background and restart them when the app comes back to the foreground. This can become quite complex considering servers might have ongoing connections when they need to be stopped.</p>
+
+<p>Fortunately, GCDWebServer does all of this automatically for you:
+- GCDWebServer begins a <a href="https://developer.apple.com/library/ios/documentation/iphone/conceptual/iphoneosprogrammingguide/ManagingYourApplicationsFlow/ManagingYourApplicationsFlow.html">background task</a> whenever the first HTTP connection is opened and ends it only when the last one is closed. This prevents iOS from suspending the app after it goes in the background, which would immediately kill HTTP connections to the client.
+ - While the app is in the background, as long as new HTTP connections keep being initiated, the background task will continue to exist and iOS will not suspend the app (unless under sudden and unexpected memory pressure).
+ - If the app is still in the background when the last HTTP connection is closed, GCDWebServer will suspend itself and stop accepting new connections as if you had called <code>-stop</code> (this behavior can be disabled with the <code>GCDWebServerOption_AutomaticallySuspendInBackground</code> option).
+- If the app goes in the background while no HTTP connections are opened, GCDWebServer will immediately suspend itself and stop accepting new connections as if you had called <code>-stop</code> (this behavior can be disabled with the <code>GCDWebServerOption_AutomaticallySuspendInBackground</code> option).
+- If the app comes back to the foreground and GCDWebServer had been suspended, it will automatically resume itself and start accepting again new HTTP connections as if you had called <code>-start</code>.</p>
+
+<p>HTTP connections are often initiated in batches (or bursts), for instance when loading a web page with multiple resources. This makes it difficult to accurately detect when the <em>very last</em> HTTP connection has been closed: it&rsquo;s possible 2 consecutive HTTP connections part of the same batch would be separated by a small delay instead of overlapping. It would be bad for the client if GCDWebServer suspended itself right in between. The <code>GCDWebServerOption_ConnectedStateCoalescingInterval</code> option solves this problem elegantly by forcing GCDWebServer to wait some extra delay before performing any action after the last HTTP connection has been closed, just in case a new HTTP connection is initiated within this delay.</p>
+
+<h1>Logging in GCDWebServer</h1>
+
+<p>Both for debugging and informational purpose, GCDWebServer logs messages extensively whenever something happens. Furthermore, when building GCDWebServer in &ldquo;Debug&rdquo; mode versus &ldquo;Release&rdquo; mode, it logs even more information but also performs a number of internal consistency checks. To enable this behavior, define the preprocessor constant <code>DEBUG=1</code> when compiling GCDWebServer. In Xcode target settings, this can be done by adding <code>DEBUG=1</code> to the build setting <code>GCC_PREPROCESSOR_DEFINITIONS</code> when building in &ldquo;Debug&rdquo; configuration. Finally, you can also control the logging verbosity at run time by calling <code>+[GCDWebServer setLogLevel:]</code>.</p>
+
+<p>By default, all messages logged by GCDWebServer are sent to its built-in logging facility, which simply outputs to <code>stderr</code> (assuming a terminal type device is connected). In order to better integrate with the rest of your app or because of the amount of information logged, you might want to use another logging facility.</p>
+
+<p>GCDWebServer has automatic support for <a href="https://github.com/swisspol/XLFacility">XLFacility</a> (by the same author as GCDWebServer and also open-source) and <a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a>. If either of them is in the same Xcode project, GCDWebServer should use it automatically instead of the built-in logging facility (see <a href="GCDWebServer/Core/GCDWebServerPrivate.h">GCDWebServerPrivate.h</a> for the implementation details).</p>
+
+<p>It&rsquo;s also possible to use a custom logging facility - see <a href="GCDWebServer/Core/GCDWebServer.h">GCDWebServer.h</a> for more information.</p>
+
+<h1>Advanced Example 1: Implementing HTTP Redirects</h1>
+
+<p>Here&rsquo;s an example handler that redirects &ldquo;/&rdquo; to &ldquo;/index.html&rdquo; using the convenience method on <code>GCDWebServerResponse</code> (it sets the HTTP status code and &ldquo;Location&rdquo; header automatically):</p>
+
+<pre><code>[self addHandlerForMethod:@"GET"
+                     path:@"/"
+             requestClass:[GCDWebServerRequest class]
+             processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
+
+  return [GCDWebServerResponse responseWithRedirect:[NSURL URLWithString:@"index.html" relativeToURL:request.URL]
+                                          permanent:NO];
+
+}];
+</code></pre>
+
+<h1>Advanced Example 2: Implementing Forms</h1>
+
+<p>To implement an HTTP form, you need a pair of handlers:
+* The GET handler does not expect any body in the HTTP request and therefore uses the <code>GCDWebServerRequest</code> class. The handler generates a response containing a simple HTML form.
+* The POST handler expects the form values to be in the body of the HTTP request and percent-encoded. Fortunately, GCDWebServer provides the request class <code>GCDWebServerURLEncodedFormRequest</code> which can automatically parse such bodies. The handler simply echoes back the value from the user submitted form.</p>
+
+<pre><code>[webServer addHandlerForMethod:@"GET"
+                          path:@"/"
+                  requestClass:[GCDWebServerRequest class]
+                  processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
+
+  NSString* html = @" \
+    &lt;html&gt;&lt;body&gt; \
+      &lt;form name=\"input\" action=\"/\" method=\"post\" enctype=\"application/x-www-form-urlencoded\"&gt; \
+      Value: &lt;input type=\"text\" name=\"value\"&gt; \
+      &lt;input type=\"submit\" value=\"Submit\"&gt; \
+      &lt;/form&gt; \
+    &lt;/body&gt;&lt;/html&gt; \
+  ";
+  return [GCDWebServerDataResponse responseWithHTML:html];
+
+}];
+
+[webServer addHandlerForMethod:@"POST"
+                          path:@"/"
+                  requestClass:[GCDWebServerURLEncodedFormRequest class]
+                  processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
+
+  NSString* value = [[(GCDWebServerURLEncodedFormRequest*)request arguments] objectForKey:@"value"];
+  NSString* html = [NSString stringWithFormat:@"&lt;html&gt;&lt;body&gt;&lt;p&gt;%@&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;", value];
+  return [GCDWebServerDataResponse responseWithHTML:html];
+
+}];
+</code></pre>
+
+<h1>Advanced Example 3: Serving a Dynamic Website</h1>
+
+<p>GCDWebServer provides an extension to the <code>GCDWebServerDataResponse</code> class that can return HTML content generated from a template and a set of variables (using the format <code>%variable%</code>). It is a very basic template system and is really intended as a starting point to building more advanced template systems by subclassing <code>GCDWebServerResponse</code>.</p>
+
+<p>Assuming you have a website directory in your app containing HTML template files along with the corresponding CSS, scripts and images, it&rsquo;s pretty easy to turn it into a dynamic website:</p>
+
+<pre><code>// Get the path to the website directory
+NSString* websitePath = [[NSBundle mainBundle] pathForResource:@"Website" ofType:nil];
+
+// Add a default handler to serve static files (i.e. anything other than HTML files)
+[self addGETHandlerForBasePath:@"/" directoryPath:websitePath indexFilename:nil cacheAge:3600 allowRangeRequests:YES];
+
+// Add an override handler for all requests to "*.html" URLs to do the special HTML templatization
+[self addHandlerForMethod:@"GET"
+                pathRegex:@"/.*\.html"
+             requestClass:[GCDWebServerRequest class]
+             processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
+
+    NSDictionary* variables = [NSDictionary dictionaryWithObjectsAndKeys:@"value", @"variable", nil];
+    return [GCDWebServerDataResponse responseWithHTMLTemplate:[websitePath stringByAppendingPathComponent:request.path]
+                                                    variables:variables];
+
+}];
+
+// Add an override handler to redirect "/" URL to "/index.html"
+[self addHandlerForMethod:@"GET"
+                     path:@"/"
+             requestClass:[GCDWebServerRequest class]
+             processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
+
+    return [GCDWebServerResponse responseWithRedirect:[NSURL URLWithString:@"index.html" relativeToURL:request.URL]
+                                            permanent:NO];
+
+];
+</code></pre>
+
+<h1>Final Example: File Downloads and Uploads From iOS App</h1>
+
+<p>GCDWebServer was originally written for the <a href="http://itunes.apple.com/us/app/comicflow/id409290355?mt=8">ComicFlow</a> comic reader app for iPad. It allow users to connect to their iPad with their web browser over WiFi and then upload, download and organize comic files inside the app.</p>
+
+<p>ComicFlow is <a href="https://github.com/swisspol/ComicFlow">entirely open-source</a> and you can see how it uses GCDWebServer in the <a href="https://github.com/swisspol/ComicFlow/blob/master/Classes/WebServer.h">WebServer.h</a> and <a href="https://github.com/swisspol/ComicFlow/blob/master/Classes/WebServer.m">WebServer.m</a> files.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-06T15:33:58+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:33 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/06/ios-restkit/" title="Previous Post: iOS - RestKit">&laquo; iOS - RestKit</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/06/bblock-introduction/" title="Next Post: BBlock Introduction">BBlock Introduction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

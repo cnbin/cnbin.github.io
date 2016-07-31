@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Redis 数据类型(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、Redis strings 如上例所示，可以 SET 和 GET 命令来创建和检索 strings。注意,set 命令将取代现有的任何已经存在的 key。SET 命令还有一个提供附加参数的选项,我们能够让 SET命令只有在没有相同 key 的情况下成功，反之亦然，可以让 SET 命令在有相同 &hellip;">
+  <meta name="keywords" content="redis">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/03/redis-shu-ju-lei-xing/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Redis 数据类型(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-03T14:41:10+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:41 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>一、Redis strings</h2>
+
+<p>如上例所示，可以 SET 和 GET 命令来创建和检索 strings。注意,set 命令将取代现有的任何已经存在的 key。SET 命令还有一个提供附加参数的选项,我们能够让 SET命令只有在没有相同 key 的情况下成功，反之亦然，可以让 SET 命令在有相同 key 值得情况下成功。
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etgatrikvgj208i01v74e.jpg" alt="img" /></p>
+
+<p>即使 string 是 Redis 的基本类型，也可以对其进行一些有趣的操作，例如加法器：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etgatrrb9uj208603qt99.jpg" alt="img" /></p>
+
+<p>INCR 命令让 the value 成为一个整数，运行一次 INCR 便 <code>+1</code>。INCRBY 命令便是一个加法运算。类似的命令如减法运算为： <code>DECR and DECRBY</code>。</p>
+
+<p>Redis 可以运用 <code>MSET and MGET</code> 命令完成一次性的完成多个 <code>key-value</code> 的对应关系，使用 <code>MGET</code> 命令，Redis 返回一个 <code>value</code> 数组。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etgawz2cplj207t02uwep.jpg" alt="img" /></p>
+
+<h2>二、Redis Lists</h2>
+
+<p>Redis 列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素导列表的头部（左边）或者尾部（右边） <code>LPUSH</code> 命令插入一个新的元素导头部, 而 <code>RPUSH</code> 插入一个新元素导尾部.当一个这两个操作在一个空的 <code>Key</code> 上被执行的时候一个新的列表被创建。相似的，如果一个列表操作清空一个列表那么对应的 <code>key</code> 将被从 <code>key</code> 空间删除。这是非常方便的语义，因为他们被调用使用一个空列表完全就像他们被调用时使用一个不存在的键值（可以）做为参数。</p>
+
+<p>PUSH 一类的命令的返回值为 <code>list</code> 的长度。一些类表操作和结果的例子：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etgb2tq9k9j208b053gmf.jpg" alt="img" /></p>
+
+<p>注意：<code>LRANGE</code> 利用了两个检索值，0 表示 <code>list</code> 的开头第一个，<code>-1</code> 表示 <code>list</code> 的倒数第一个，即最后一个。<code>-2</code> 则便是 <code>list</code> 的倒数第二个，以此类推。</p>
+
+<p>这些命令都是可变的命令，也就是说你可以一次加入多个元素放入 <code>list</code>。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etgb5ix8daj20bt05ndgg.jpg" alt="img" /></p>
+
+<p>在 Redis 的命令操作中，还有一类重要的操作：<code>POP</code> ，取出 list 元素。和 <code>PUSH</code> 操作类似，POP 命令可以选择不同的方向取出元素.POP 命令返回值为取出的元素。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etgb8kulk1j209n066dgs.jpg" alt="img" /></p>
+
+<h2>三、Redis Hashes</h2>
+
+<p>Redis Hashes 是字符串字段和字符串值之间的映射,因此他们是展现对象的完美数据类型。 (例如:一个有名，姓，年龄等等属性的用户):一个带有一些字段的 hash 仅仅需要一块很小的空间存储,因此你可以存储数以百万计的对象在一个小的 Redis 实例中。 哈希主要用来表现对象，他们有能力存储很多对象，因此你可以将哈希用于许多其他的任务。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etgbe3hiulj20eq067gmt.jpg" alt="img" /></p>
+
+<p>HMSET 命令设置一个多域的 <code>hash</code> 表，<code>HGET</code> 命令获取指定的单域，<code>HGETALL</code> 命令获取指定 <code>key</code> 的所有信息。<code>HMGET</code> 类似于 <code>HGET</code>，只是返回一个 <code>value</code> 数组。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etgbg737avj20dl01xaab.jpg" alt="img" /></p>
+
+<p>同样可以根据需要对 hash 表的表项进行单独的操作，例如 HINCRBY， （原本birthyear 为1991，见上一图）</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etgbg737avj20dl01xaab.jpg" alt="img" /></p>
+
+<h2>四、Redis 无序集合</h2>
+
+<p>Redis 集合（Set）是一个无序的字符串集合. 你可以以O(1)的时间复杂度 (无论集合中有多少元素时间复杂度都是常量)完成添加，删除，以及测试元素是否存在。 Redis 集合拥有令人满意的不允许包含相同成员的属性。多次添加相同的元素，最终在集合里只会有一个元素。 实际上说这些就是意味着在添加元素的时候无须检测元素是否存在。 一个Redis集合的非常有趣的事情是他支持一些服务端的命令从现有的集合出发去进行集合运算，因此你可以在非常短的时间内进行合并（unions）, 求交集（intersections）,找出不同的元素（differences of sets）。</p>
+
+<p><code>SADD</code> 命令产生一个无序集合，返回集合的元素个数。<code>SMEMBER</code> 用于查看集合。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etgbm00271j209702waaa.jpg" alt="img" /></p>
+
+<p><code>SISMEMBER</code> 用于查看集合是否存在，匹配项包括集合名和元素个数。匹配成功返回1，匹配失败返回0.</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etgboa55g9j209b02xdga.jpg" alt="img" /></p>
+
+<h2>五、Redis有序集合</h2>
+
+<p>Redis 有序集合与普通集合非常相似，是一个没有重复元素的字符串集合。不同之处是有序集合的没有成员都关联了一个评分，这个评分被用来按照从最低分到最高分的方式排序集合中的成员。集合的成员是唯一的，但是评分可以是重复了。 使用有序集合你可以以非常快的速度（O(log(N))）添加，删除和更新元素。因为元素是有序的, 所以你也可以很快的根据评分（score）或者次序（position）来获取一个范围的元素。访问有序集合的中间元素也是非常快的,因此你能够使用有序集合作为一个没有重复成员的智能列表。在有序集合中，你可以很快捷的访问一切你需要的东西：有序的元素，快速的存在性测试，快速访问集合的中间元素！ 简而言之使用有序集合你可以做完成许多对性能有极端要求的任务，而那些任务使用其他类型的数据库真的是很难完成的。</p>
+
+<p><code>ZADD</code> 与 <code>SADD</code> 类似，但是在元素之前多了一个参数，这个参数便是用于排序的。形成一个有序的集合。</p>
+
+<p>查看集合: <code>ZRANGE</code> 是查看正序的集合，<code>ZREVRANGE</code> 是查看反序的集合。0表示集合第一个元素，-1 表示集合的倒数第一个元素。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etgbro65svj20b308ggno.jpg" alt="img" /></p>
+
+<p>使用 <code>WITHSCORES</code> 参数返回记录值。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etgbxcv7ndj20b1049wf0.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-03T14:41:10+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:41 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/php/'>php</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/03/ios-handing-interruptions-while-playing-audio/" title="Previous Post: iOS - Handing Interruptions While Playing Audio">&laquo; iOS - Handing Interruptions While Playing Audio</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/03/ruby-dai-ma-kuai-he-yun-suan-fu/" title="Next Post: Ruby 代码块和运算符(原创)">Ruby 代码块和运算符(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

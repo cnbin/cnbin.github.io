@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS Label 详解 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="UILable是iPhone界面最基本的控件，主要用来显示文本信息。 常用属性和方法有： 1、创建 CGRect rect = CGRectMake(100, 200, 50, 50);
+UILabel *label = [[UILabel alloc] initWithFrame:rect &hellip;">
+  <meta name="keywords" content="label">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/15/ios-label-xiang-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS Label 详解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-15T09:51:57+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:51 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>UILable是iPhone界面最基本的控件，主要用来显示文本信息。</p>
+
+<p>常用属性和方法有：</p>
+
+<h3>1、创建</h3>
+
+<pre><code>CGRect rect = CGRectMake(100, 200, 50, 50);
+UILabel *label = [[UILabel alloc] initWithFrame:rect];
+</code></pre>
+
+<h3>2、text //设置和读取文本内容,默认为nil</h3>
+
+<pre><code>label.text = @”文本信息”; //设置内容
+NSLog(@”%@”, label.text); //读取内容
+</code></pre>
+
+<h3>3、textColor //设置文字颜色，默认为黑色</h3>
+
+<pre><code>lable.textColor = [UIColor redColor];
+</code></pre>
+
+<h3>4、font //设置字体大小，默认17</h3>
+
+<pre><code>label.font = [UIFont systemFontOfSize:20]; //⼀一般方法
+label.font = [UIFont boldSystemFontOfSize:20]; //加粗方法
+label.font = [UIFont fontWithName:@"Arial" size:16]; //指定
+字体的方法
+//还有⼀一种从外部导入字体的方法。
+</code></pre>
+
+<h3>5、textAlignment //设置标签文本对齐方式。</h3>
+
+<pre><code>label.textAlignment = NSTextAlignmentCenter; //还有
+NSTextAlignmentLeft、 NSTextAlignmentRight.
+</code></pre>
+
+<h3>6、numberOfLines //标签最多显示行数,如果为0则表示多行。</h3>
+
+<pre><code>label.numberOfLines = 2;
+</code></pre>
+
+<h3>7、enabled //只是决定了Label的绘制方式，将它设置</h3>
+
+<p>为NO将会使文本变暗，表示它没有激活，这时向它设置颜色值是无效的。</p>
+
+<pre><code>label.enable = NO;
+</code></pre>
+
+<h3>8、highlighted //是否高亮显示</h3>
+
+<pre><code>label.highlighted = YES;
+label.highlightedTextColor = [UIColor orangeColor]; //高亮
+</code></pre>
+
+<p>显示时的文本颜色</p>
+
+<h3>9、ShadowColor //设置阴影颜色</h3>
+
+<pre><code>[label setShadowColor:[UIColor blackColor]];
+</code></pre>
+
+<h3>10、ShadowOffset //设置阴影偏移量</h3>
+
+<pre><code>[label setShadowOffset:CGSizeMake(-1, -1)];
+</code></pre>
+
+<h3>11、baselineAdjustment //如果adjustsFontSizeToFitWidth属性设</h3>
+
+<pre><code>置为YES，这个属性就来控制文本基线的行为。
+label.baselineAdjustment = UIBaselineAdjustmentNone;
+UIBaselineAdjustmentAlignBaselines = 0,默认，文本最上端与中线对齐。
+UIBaselineAdjustmentAlignCenters,  文本中线与label中线对齐。
+UIBaselineAdjustmentNone, 文本最低端与label中线对齐。
+</code></pre>
+
+<h3>12、Autoshrink //是否自动收缩</h3>
+
+<pre><code>Fixed Font Size 默认,如果Label宽度小于文字长度时时,文字大小不自动缩放
+minimumScaleFactor 设置最小收缩比例，如果Label宽度小于文字长度时，文字
+进行收缩，收缩超过比例后，停止收缩。
+minimumFontSize 设置最小收缩字号，如果Label宽度小于文字长度时，文字字号
+减小，低于设定字号后，不再减小。//6.0以后不再使用了。
+label.minimumScaleFactor = 0.5;
+</code></pre>
+
+<h3>13、adjustsLetterSpacingToFitWidth //改变字母之间的间距来适应Label大小</h3>
+
+<pre><code>myLabel.adjustsLetterSpacingToFitWidth = NO;
+</code></pre>
+
+<h3>14、 lineBreakMode //设置文字过长时的显示格式</h3>
+
+<pre><code>label.lineBreakMode = NSLineBreakByCharWrapping;以字符为显示单位显
+示，后面部分省略不显示。
+label.lineBreakMode = NSLineBreakByClipping;剪切与文本宽度相同的内
+容长度，后半部分被删除。
+label.lineBreakMode = NSLineBreakByTruncatingHead;前面部分文字
+以……方式省略，显示尾部文字内容。
+label.lineBreakMode = NSLineBreakByTruncatingMiddle;中间的内容
+以……方式省略，显示头尾的文字内容。
+label.lineBreakMode = NSLineBreakByTruncatingTail;结尾部分的内容
+以……方式省略，显示头的文字内容。
+label.lineBreakMode = NSLineBreakByWordWrapping;以单词为显示单位显
+示，后面部分省略不显示。
+</code></pre>
+
+<h3>15、 adjustsFontSizeToFitWidth //设置字体大小适应label宽度</h3>
+
+<pre><code>label.adjustsFontSizeToFitWidth = YES;
+</code></pre>
+
+<h3>16、attributedText：设置标签属性文本。</h3>
+
+<pre><code>NSString *text = @"first";
+NSMutableAttributedString *textLabelStr =
+[[NSMutableAttributedString alloc]
+initWithString:text];
+[textLabelStr
+setAttributes:@{NSForegroundColorAttributeName :
+[UIColor lightGrayColor], NSFontAttributeName :
+[UIFont systemFontOfSize:17]} range:NSMakeRange(11,
+10)];
+label.attributedText = textLabelStr;
+</code></pre>
+
+<h3>17、竖排文字显示每个文字加一个换行符，这是最方便和简单的实现方式。</h3>
+
+<pre><code>label.text = @"请\n竖\n直\n方\n向\n排\n列";
+label.numberOfLines = [label.text length];
+</code></pre>
+
+<h3>18、计算UIlabel 随字体多行后的高度</h3>
+
+<pre><code>CGRect bounds = CGRectMake(0, 0, 200, 300);
+heightLabel = [myLabel textRectForBounds:bounds
+limitedToNumberOfLines:20]; //计算20行后的Label的Frame
+NSLog(@"%f",heightLabel.size.height);
+</code></pre>
+
+<h3>19、UILabel根据字数多少自动实现适应高度</h3>
+
+<pre><code>UILabel *msgLabel = [[UILabel alloc]
+initWithFrame:CGRectMake(15, 45, 0, 0)];
+msgLabel.backgroundColor = [UIColor lightTextColor];
+[msgLabel setNumberOfLines:0];
+msgLabel.lineBreakMode = UILineBreakModeWordWrap;
+msgLabel.font = [UIFont fontWithName:@"Arial" size:12];
+CGSize size = CGSizeMake(290, 1000);
+msgLabel.text = @"获取到的deviceToken，我们可以通过webservice服务提
+交给.net应用程序，这里我简单处理，直接打印出来，拷贝到.net应用环境中使
+用。";
+CGSize msgSie = [msgLabel.text sizeWithFont:fonts
+constrainedToSize:size];
+[msgLabel setFrame:CGRectMake(15, 45, 290, msgSie.height)];
+</code></pre>
+
+<h3>20、渐变字体Label</h3>
+
+<pre><code>UIColor *titleColor = [UIColor colorWithPatternImage:[UIImage
+imageNamed:@"btn.png"]];
+NSString *title = @"Setting";
+UILabel *titleLabel = [[UILabel alloc]
+initWithFrame:CGRectMake(0, 0, 80, 44)];
+titleLabel.textColor = titleColor;
+titleLabel.text = title;
+titleLabel.font = [UIFont boldSystemFontOfSize:20];
+titleLabel.backgroundColor = [UIColor clearColor];
+[self.view addSubview:titleLabel];
+[titleLabel release];
+</code></pre>
+
+<h3>21、Label添加边框</h3>
+
+<pre><code>titleLabel.layer.borderColor = [[UIColor grayColor] CGColor];
+titleLabel.layer.borderWidth = 2;
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-15T09:51:57+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:51 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/14/h-dot-264-jian-jie/" title="Previous Post: H.264 简介">&laquo; H.264 简介</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/15/nsdictionary-shi-yong-xiao-jie/" title="Next Post: NSDictionary 使用小结">NSDictionary 使用小结 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

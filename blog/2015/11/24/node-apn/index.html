@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Node-apn - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="node-apn A Node.js module for interfacing with the Apple Push Notification service. Features Fast
+Maintains a connection to the server to maximise &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/24/node-apn/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Node-apn</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-24T10:05:19+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:05 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>node-apn</h1>
+
+<blockquote><p>A Node.js module for interfacing with the Apple Push Notification service.</p></blockquote>
+
+<h2>Features</h2>
+
+<ul>
+<li>Fast</li>
+<li>Maintains a connection to the server to maximise notification batching and throughput.</li>
+<li>Enhanced binary interface support, with error handling</li>
+<li>Automatically sends unsent notifications if an error occurs</li>
+<li>Feedback service support</li>
+<li>Complies with all best practises laid out by Apple</li>
+</ul>
+
+
+<h2>Installation</h2>
+
+<p>Via <a href="https://npmjs.org">npm</a>:</p>
+
+<pre><code>$ npm install apn
+</code></pre>
+
+<p>As a submodule of your project (you will also need to install <a href="https://github.com/kriskowal/q">q</a>)</p>
+
+<pre><code>$ git submodule add http://github.com/argon/node-apn.git apn
+$ git submodule update --init
+</code></pre>
+
+<h2>Quick Start</h2>
+
+<p>This is intended as a brief introduction, please refer to the documentation in <code>doc/</code> for more details.</p>
+
+<h3>Load in the module</h3>
+
+<pre><code>var apn = require('apn');
+</code></pre>
+
+<h3>Connecting</h3>
+
+<p>Create a new connection to the APN gateway server, passing a dictionary of options to the constructor. If you name your certificate and key files appropriately (<code>cert.pem</code> and <code>key.pem</code>) then the defaults should be suitable to get you up and running.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">apnConnection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">apn</span><span class="p">.</span><span class="nx">Connection</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By default, if the environment variable <code>NODE_ENV=production</code> is set, the module will connect to the production gateway. Otherwise it will connect to the sandbox. This along with many other settings can be overriden with the options object.</p>
+
+<p>For more information about configuration options consult the <a href="doc/connection.markdown">documentation</a>.</p>
+
+<p>Help with preparing the key and certificate files for connection can be found in the <a href="https://github.com/argon/node-apn/wiki/Preparing-Certificates" title="Preparing Certificates">wiki</a></p>
+
+<h3>Sending a notification</h3>
+
+<p>To send a notification first create a <code>Device</code> object. Pass it the device token as either a hexadecimal string, or alternatively as a <code>Buffer</code> object containing the token in binary form.</p>
+
+<pre><code>var myDevice = new apn.Device(token);
+</code></pre>
+
+<p>Next, create a notification object, set the relevant parameters (See the <a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1" title="Local and Push Notification Programming Guide: Apple Push Notification Service">payload documentation</a> for more details.) and use the <code>pushNotification</code> method on the connection to send it.</p>
+
+<pre><code>var note = new apn.Notification();
+
+note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+note.badge = 3;
+note.sound = "ping.aiff";
+note.alert = "\uD83D\uDCE7 \u2709 You have a new message";
+note.payload = {'messageFrom': 'Caroline'};
+
+apnConnection.pushNotification(note, myDevice);
+</code></pre>
+
+<p>The above options will compile the following dictionary to send to the device:</p>
+
+<pre><code>{"messageFrom":"Caroline","aps":{"badge":3,"sound":"ping.aiff","alert":"\uD83D\uDCE7 \u2709 You have a new message"}}
+</code></pre>
+
+<p>You should only create one <code>Connection</code> for each certificate/key pair you have, you do not need to create a new one for each notification. If you are only sending notifications to one app then there is no need for more than one <code>Connection</code>, if throughput is a problem then look at the <code>maxConnections</code> property.</p>
+
+<h3>Setting up the feedback service</h3>
+
+<p>Apple recommends checking the feedback service periodically for a list of devices for which there were failed delivery attempts.</p>
+
+<p>Using the <code>Feedback</code> object it is possible to periodically query the server for the list. Many of the options are similar to that of <code>Connection</code>, including the authentication configuration. It is recomended that you share the same configuration object between Connection and Feedback instances to ensure they stay in sync.</p>
+
+<p>Attach a listener to the <code>feedback</code> event to receive the output as two arguments, the <code>time</code> returned by the server (epoch time) and a <code>Buffer</code> object containing the device token - this event will be emitted for each device separately. Alternatively you can enable the <code>batchFeedback</code> option and the <code>feedback</code> event will provide an array of objects containing <code>time</code> and <code>device</code> properties.</p>
+
+<pre><code>var options = {
+    "batchFeedback": true,
+    "interval": 300
+};
+
+var feedback = new apn.Feedback(options);
+feedback.on("feedback", function(devices) {
+    devices.forEach(function(item) {
+        // Do something with item.device and item.time;
+    });
+});
+</code></pre>
+
+<p>By specifying a time interval (in seconds) <code>Feedback</code> will periodically query the service without further intervention.</p>
+
+<p>More information about the feedback service can be found in the <a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/CommunicatingWIthAPS.html#//apple_ref/doc/uid/TP40008194-CH101-SW3" title="The Feedback Service">feedback service documentation</a>.</p>
+
+<h2>Debugging</h2>
+
+<p>If you experience difficulties sending notifications or using the feedback service you can enable debug messages within the library by running your application with <code>DEBUG=apn</code> or <code>DEBUG=apnfb</code> set as an environment variable.</p>
+
+<p>You are encouraged to read the extremely informative <a href="http://developer.apple.com/library/ios/#technotes/tn2265/_index.html" title="Troubleshooting Push Notifications">Troubleshooting Push Notifications</a> Tech Note in the first instance, in case your query is answered there.</p>
+
+<h2>Support</h2>
+
+<p>If you have any questions or difficulties working with the module, the <a href="https://groups.google.com/group/node-apn" title="node-apn Google Group">node-apn Google group</a> should be your first port of call.</p>
+
+<p>Please include as much detail as possible - especially debug logs, if the problem is reproducible sample code is also extremely helpful. GitHub Issues should only be created for verified problems and enhancements, this will allow them to be tracked more easily.</p>
+
+<h2>Resources</h2>
+
+<ul>
+<li><a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1" title="Local and Push Notification Programming Guide: Apple Push Notification Service">Local and Push Notification Programming Guide: Apple Push Notification Service</a></li>
+<li><a href="http://developer.apple.com/library/ios/#technotes/tn2265/_index.html" title="Troubleshooting Push Notifications">Apple Technical Note: Troubleshooting Push Notifications</a></li>
+<li><a href="https://github.com/argon/node-apn/wiki/Projects,-Applications,-and-Companies-Using-Node-apn" title="List of Projects, Applications and Companies Using Node-apn">List of Projects, Applications and Companies Using Node-apn</a></li>
+</ul>
+
+
+<h2>Credits</h2>
+
+<p>Written and maintained by <a href="http://andrewnaylor.co.uk">Andrew Naylor</a>.</p>
+
+<p>Thanks to: <a href="http://bobrik.name">Ian Babrou</a>, <a href="https://github.com/dgthistle">dgthistle</a>, <a href="https://github.com/keithnlarsen">Keith Larsen</a>, <a href="https://github.com/mypark">Mike P</a>, <a href="https://github.com/neoziro">Greg Bergé</a>, <a href="https://github.com/AsadR">Asad ur Rehman</a>, <a href="https://github.com/nsabovic">Nebojsa Sabovic</a>, <a href="https://github.com/gimenete">Alberto Gimeno</a>, <a href="https://github.com/rwtombaugh">Randall Tombaugh</a>, <a href="https://github.com/thegreatmichael">Michael Stewart</a>, <a href="https://github.com/mgcrea">Olivier Louvignes</a>, <a href="https://github.com/porsager">porsager</a>, <a href="https://github.com/chockenberry">Craig Hockenberry</a></p>
+
+<h2>License</h2>
+
+<p>Released under the MIT License</p>
+
+<p>Copyright &copy; 2013 Andrew Naylor</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &ldquo;Software&rdquo;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED &ldquo;AS IS&rdquo;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-24T10:05:19+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:05 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/24/apnsphp/" title="Previous Post: ApnsPHP">&laquo; ApnsPHP</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/24/c-number-net-hou-tai-yuan-cheng-tui-song-ios-ke-hu-duan/" title="Next Post: C# NET 后台远程推送 iOS 客户端(原创)">C# NET 后台远程推送 iOS 客户端(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

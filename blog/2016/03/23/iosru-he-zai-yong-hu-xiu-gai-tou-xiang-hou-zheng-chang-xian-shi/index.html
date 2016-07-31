@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS如何在用户修改头像后正常显示 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="前言 使用SDWebImage的时候，从服务器请求回来的头像URL没有变化，但是用户已经修改过头像，由于缓存的原因，不能显示出最新修改的用户的头像。在不去掉缓存的条件下，如何显示出最新的头像，给出策略。 淘宝、京东如何处理的 想到这样一个问题，自然会首先想想像淘宝、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/23/iosru-he-zai-yong-hu-xiu-gai-tou-xiang-hou-zheng-chang-xian-shi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS如何在用户修改头像后正常显示</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-23T14:30:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>2:30 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>前言</h3>
+
+<p>使用SDWebImage的时候，从服务器请求回来的头像URL没有变化，但是用户已经修改过头像，由于缓存的原因，不能显示出最新修改的用户的头像。在不去掉缓存的条件下，如何显示出最新的头像，给出策略。</p>
+
+<h3>淘宝、京东如何处理的</h3>
+
+<p>想到这样一个问题，自然会首先想想像淘宝、京东等电商App中会有大量的图片。比如，一个商品有很多的图片，其中，商家很可能在营业过程中突然修改商品的某个图片，但是所生成的图片的URL是固定链接，只是图片的内容被替换了而已。</p>
+
+<p>那么问题来了，App端如何知晓哪个图片的内容发生了变化呢？如果不能确定图片内容发生变化，那么自然会直接读取缓存中的图片来显示。服务端是如何通知客户端的呢？</p>
+
+<p>大家怎么想？求在评论中提供方案。</p>
+
+<h3>方案一</h3>
+
+<p>笔者所能想到的方案：</p>
+
+<p>笔者针对这个问题，第一想到的就是通过图片的摘要验证。服务端在接口中返回用户信息时，连同图片的摘要（md5）值也下发到客户端，然后每次App登录时，服务端都将最新的用户信息返回来，客户端将本地所缓存的用户头像取出，也生成摘要（md5）五，与服务端所返回来的md5值比较，若相同表示没有头像没有修改过；若不相同，表示头像已经修改过。</p>
+
+<p>缺点：只要重新登录或者App在后台自动登录后，才能更新。也就是说，如果用户没有退出登录，或者没有过期而不会自动登录，头像也没有更新得了。</p>
+
+<h3>方案二</h3>
+
+<p>在微博上收集到大家的方案。给URL添加一个参数version，当图片修改之后，URL的version发生变化，那么就会重新下载图片来缓存。</p>
+
+<p>缺点：与方案一类似，要求重新请求数据才能得到最新的URL。</p>
+
+<h3>方案三</h3>
+
+<p>在修改图片时，要求不能使用相同的名字，这样链接路径是一样的，但是因为名字不同而找不到。此时，就会重新获取图片而不是缓存的。可以在文件名中带上前缀进行上传，譬如<code>avatar-3/v1.jpg</code>，更新后改为<code>avatar-3/v2.jpg</code>。</p>
+
+<h3>方案四</h3>
+
+<p>客户端在请求头加上If-Modified-Since字段，表明请求此时间后最新的文件资源，服务端也会在响应头返回这个last-modified字段表示上次修改时间。</p>
+
+<p>来源于新浪微博用户：<a href="http://weibo.com/u/3002082365?from=feed&amp;loc=at&amp;nick=%E6%88%91%E7%9A%84%E5%8F%8C%E5%88%83%E5%89%91%E8%9C%80%E5%B1%B1%E7%AC%AC%E4%B8%80&amp;is_hot=1">@我的双刃剑蜀山第一</a></p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.henishuo.com/ios-image-change-reload-cache/">http://www.henishuo.com/ios-image-change-reload-cache/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-23T14:30:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>2:30 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/23/si-xiang-bi-ji-62/" title="Previous Post: 思想笔记-62">&laquo; 思想笔记-62</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/23/iostu-pian-ya-suo-chu-li/" title="Next Post: iOS图片压缩处理">iOS图片压缩处理 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

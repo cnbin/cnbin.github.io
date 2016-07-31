@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JSON 序列化和反序列化—JavaScriptSerializer实现 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="JavaScriptSerializer 类由异步通信层内部使用，用于序列化和反序列化在浏览器和 Web 服务器之间传递的数据。您无法访问序列化程序的此实例。但是，此类公开了公共 API。因此，当您希望在托管代码中使用 JavaScript 对象符号 (JSON) 时可以使用此类。 &hellip;">
+  <meta name="keywords" content="json,javascriptserializer">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/25/json-xu-lie-hua-he-fan-xu-lie-hua-javascriptserializershi-xian/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JSON 序列化和反序列化—JavaScriptSerializer实现</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-25T14:28:58+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:28 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>JavaScriptSerializer 类由异步通信层内部使用，用于序列化和反序列化在浏览器和 Web 服务器之间传递的数据。您无法访问序列化程序的此实例。但是，此类公开了公共 API。因此，当您希望在托管代码中使用 JavaScript 对象符号 (JSON) 时可以使用此类。</p>
+
+<p>若要序列化对象，请使用 Serialize 方法。若要反序列化 JSON 字符串，请使用 Deserialize 或 DeserializeObject 方法。若要序列化和反序列化 JavaScriptSerializer 本身不支持的类型，请使用 JavaScriptConverter 类来实现自定义转换器。然后，使用 RegisterConverters 方法注册转换器。</p>
+
+<p>将 JSON 字符串反序列化为托管类型时，采用相同的映射。但是，反序列化可能是非对称的，并非所有可序列化的托管类型都可以从 JSON 反序列化得到。</p>
+
+<p>通过JavaScriptSerializer来实现。它的名字空间为：System.Web.Script.Serialization</p>
+
+<p>如果要使用它，还须添加 System.Web.Extensions 库文件引用</p>
+
+<p>参考实体类：Customer</p>
+
+<pre><code>public class Customer
+
+{
+
+   public int Unid { get; set; }
+
+   public string CustomerName { get; set; }
+
+}
+</code></pre>
+
+<p>类 JavaScriptSerializer 描述：为启用 AFAX 的应用程序提供序列化和反序列化功能。</p>
+
+<h3>（一） 序列化</h3>
+
+<p>方法：public string Serialize(Object obj)，用于将对象转换为 JSON 字符串</p>
+
+<pre><code>public string ScriptSerialize(Customer customer)
+
+{
+        JavaScriptSerializer js = new JavaScriptSerializer();
+
+        return js.Serialize(customer);
+}
+</code></pre>
+
+<p>测试：</p>
+
+<pre><code>Customer cc = new Customer { Unid = 1, CustomerName = "John" };
+
+string strJson = ScriptSerialize(cc);
+
+Console.WriteLine(strJson);
+</code></pre>
+
+<h3>（二）反序列化</h3>
+
+<pre><code>public Customer ScriptDeserialize(string strJson)
+
+        {
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+
+            return js.Deserialize&lt;Customer&gt;(strJson);
+
+        }
+</code></pre>
+
+<p>通过<code>Deserialize&lt;T&gt;</code>方法来实现。</p>
+
+<p>测试：</p>
+
+<pre><code>Customer c1 = ScriptDeserialize(strJson);
+
+Console.WriteLine(c1.Unid + " " + c1.CustomerName);
+</code></pre>
+
+<h3>（三）方法泛型</h3>
+
+<pre><code>public string ScriptSerialize&lt;T&gt;(T t)
+
+  {
+
+      JavaScriptSerializer js = new JavaScriptSerializer();
+
+      return js.Serialize(t);
+
+  }
+
+
+
+  public T ScriptDeserialize&lt;T&gt;(string strJson)
+
+  {
+
+      JavaScriptSerializer js = new JavaScriptSerializer();
+
+      return js.Deserialize&lt;T&gt;(strJson);
+
+  }
+</code></pre>
+
+<p>测试：</p>
+
+<pre><code>Customer cc = new Customer { Unid = 1, CustomerName = "John" };
+
+string strJson = ScriptSerialize&lt;Customer&gt;(cc);
+
+Console.WriteLine(strJson);
+
+
+Customer c1 = ScriptDeserialize&lt;Customer&gt;(strJson);
+
+Console.WriteLine(c1.Unid + " " + c1.CustomerName);
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-25T14:28:58+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:28 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/25/net-var-guan-jian-zi/" title="Previous Post: NET var 关键字">&laquo; NET var 关键字</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/25/c-number-ji-ge-jing-chang-yong-dao-de-zi-fu-chuan-jie-qu/" title="Next Post: C#几个经常用到的字符串截取">C#几个经常用到的字符串截取 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

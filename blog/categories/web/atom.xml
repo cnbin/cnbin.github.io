@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Web | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/web/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Webstorm 10 for Mac Osx 注册机]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/23/webstorm-10-for-mac-osx-zhu-ce-ji/"/>
+    <updated>2016-06-23T16:51:21+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/23/webstorm-10-for-mac-osx-zhu-ce-ji</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>果断搜索注册机，搜到的结果不少，20%是版本太旧，80%需要vip才能下载。</p>
+
+<p>目前最新的是10+版本，勉强可以下载的都是8+版本，不太符合心思，而其他号称9+版本带注册机的，或者10+版本带序列号的，vip才能下载，既然不想买正版，却给盗版充值，哪有这样的道理。</p>
+
+<p>经过实验，发现8+版本的注册机(keygen)是可以用在10+版本上的！</p>
+
+<h3>keygen使用方法</h3>
+
+<pre><code>运行mac终端(命令行)，切换到keygen所在目录。
+输入命令：chmod 755 keygen，修改权限。
+输入命令：./keygen，启动注册机，输入名字，即可生成序列号。
+</code></pre>
+
+<p>webstorm激活效果图</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f559bphxroj20dm0cgmyu.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[友盟全域指数]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/22/you-meng-quan-yu-zhi-shu/"/>
+    <updated>2016-06-22T08:55:18+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/22/you-meng-quan-yu-zhi-shu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://www.umindex.com/">http://www.umindex.com/</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Google Chrome 网上应用商店site]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/14/google-chrome-wang-shang-ying-yong-shang-dian-site/"/>
+    <updated>2016-06-14T16:52:09+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/14/google-chrome-wang-shang-ying-yong-shang-dian-site</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="https://chrome.google.com/webstore/category/apps?hl=zh-CN&amp;_feature=chromeapp">https://chrome.google.com/webstore/category/apps?hl=zh-CN&amp;_feature=chromeapp</a></h3>
+
+<h3><a href="https://www.google.com/chrome/webstore/">https://www.google.com/chrome/webstore/</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[draw.io]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/11/draw-dot-io/"/>
+    <updated>2016-06-11T08:39:06+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/11/draw-dot-io</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="https://www.draw.io/">https://www.draw.io/</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Can I Use]]></title>
+    <link href="http://cnbin.github.io/blog/2016/05/20/can-i-use/"/>
+    <updated>2016-05-20T15:25:30+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/05/20/can-i-use</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://caniuse.com/">http://caniuse.com/</a></h3>
+]]></content>
+  </entry>
+  
+</feed>

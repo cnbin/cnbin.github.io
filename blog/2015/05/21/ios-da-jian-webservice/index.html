@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 搭建 Webservice(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="iOS搭建webservice">
+  <meta name="keywords" content="webservice,soap,xml">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/21/ios-da-jian-webservice/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 搭建 Webservice(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-21T14:01:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>2:01 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>之前公司项目需要做个登陆验证功能，今天总结下在 Webservice 这一块用到的一些知识，包括 HTTP 协议，SOAP 协议，XML 解析。从实际开发中掌握如何使用 Webservice。<!--More--></p>
+
+<h2>首先搞清楚，Webservice 是什么？</h2>
+
+<p>其实，就我自己的理解，很简单，Webservice 就是个 API 接口，在服务端写好 API 之后，交给 iOS 客户端来接收数据，信息的处理是交给服务端来解决的。当然，可能是我目前的理解程度不高，只知道这么粗俗的理解 Webservice。下面引出一段官方定义的 Webservice。</p>
+
+<blockquote><p>Webservice是一个平台独立的，低耦合的，自包含的、基于可编程的 web 的应用程序，可使用开放的 XML（标准通用标记语言下的一个子集）标准来描述、发布、发现、协调和配置这些应用程序，用于开发分布式的互操作的应用程序。</p></blockquote>
+
+<h2>HTTP 协议 和 SOAP 协议</h2>
+
+<h3>HTTP 协议的 get 方法和 post 方法</h3>
+
+<p>数据的传递，要符合一定的传输协议。http 协议是属于应用层协议，可以用 get 方法或者是 post 方法来访问 web 端。get 方法和 post 方法的区别在于，get 方法的参数暴露在 URL 中，post 方法则是封装起来。下面给出项目中用到的 get 和 post 访问 Webservice 的代码清单：</p>
+
+<p>get 方法：</p>
+
+<pre><code>-(void)startRequest
+{
+     NSString *strURL = [[NSString alloc] initWithFormat:@"http://www.rjt0663.com/RjtSchool/WebService/User_Login.asmx/login?number=%@&amp;psw=%@",phonenumText.text,pswText.text];
+    NSURL *url = [NSURL URLWithString:[strURL URLEncodedString]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if (connection) {
+
+    }
+}
+</code></pre>
+
+<p>post 方法：</p>
+
+<pre><code>-(void)startRequest
+{
+
+    NSString *strURL = [[NSString alloc] initWithFormat:@"http://www.rjt0663.com/RjtSchool/WebService/User_Login.asmx/login"];
+    NSURL *url = [NSURL URLWithString:[strURL URLEncodedString]];
+    NSString *post = [NSString stringWithFormat:@"number=%@&amp;psw=%@",phonenumText.text,pswText.text];
+    NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:postData];
+
+    NSURLConnection *connection = [[NSURLConnection alloc]
+                                   initWithRequest:request delegate:self];
+    if (connection) {
+
+    }
+ }
+</code></pre>
+
+<p>从上面可以清楚的看到，get 方法和 post 方法在访问时候的区别之处。</p>
+
+<h3>SOAP 协议</h3>
+
+<p>什么是 SOAP 协议？这个我真的以前都没听过。长这么大只知道 HTTP 是可以用来上网，SOAP 在上网查找相关资料后，后来使用后才知道它其实跟 HTTP 作用也是一样，都是一种传输协议，没文化真是可怕。</p>
+
+<blockquote><p>官方定义：Soap (Simple Object Access Protocol) 简单对象访问协议是交换数据的一种协议规范，是一种轻量的、简单的、基于XML（标准通用标记语言下的一个子集）的协议，它被设计成在 WEB 上交换结构化的和固化的信息。</p></blockquote>
+
+<p>在这里，还要了解下 webService 三要素，即 <code>SOAP，WSDL(WebServicesDescriptionLanguage)、UDDI(UniversalDescriptionDiscovery andIntegration)</code>
+soap 用来描述传递信息的格式， WSDL 用来描述如何访问具体的接口， uddi 用来管理，分发，查询 webService 。</p>
+
+<p>SOAP消息格式：</p>
+
+<pre><code>&lt;SOAP-ENV:Envelope
+　各种属性&gt;
+&lt;!--百度百科示例--&gt;
+　&lt;SOAP:HEADER&gt;
+　&lt;/SOAP:HEADER&gt;
+　&lt;SOAP:Body&gt;
+　&lt;/SOAP:Body&gt;
+&lt;/SOAP-ENV:Envelope&gt;
+主要在web服务中运用。
+</code></pre>
+
+<p>下面给出项目中用到的 SOAP 的代码清单：</p>
+
+<pre><code>-(void)startRequest
+    {
+NSString *strURL = [[NSString alloc] initWithFormat:@"http://www.rjt0663.com/RjtSchool/WebService/User_Login.asmx"];
+    NSURL *url = [NSURL URLWithString:[strURL URLEncodedString]];
+
+    NSString * envelopeText = [NSString stringWithFormat:@"&lt;?xml version=\"1.0\" encoding=\"utf-8\"?&gt;"
+    "&lt;soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"&gt;"
+    "&lt;soap:Body&gt;"
+    "&lt;getStuList xmlns=\"http://www.rjt0663.com/\"&gt;"
+    "&lt;id&gt;%@&lt;/id&gt;"
+    "&lt;/getStuList&gt;"
+    "&lt;/soap:Body&gt;"
+    "&lt;/soap:Envelope&gt;",saveLoginText.text];
+
+    NSData *envelope = [envelopeText dataUsingEncoding:NSUTF8StringEncoding];
+
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:envelope];
+    [request setValue:@"text/xml; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%d", [envelope length]] forHTTPHeaderField:@"Content-Length"];
+
+    NSURLConnection *connection = [[NSURLConnection alloc]
+                                   initWithRequest:request delegate:self];
+
+    if (connection) {
+
+    }
+}
+</code></pre>
+
+<p>这里 web 服务是用 C# 写的。</p>
+
+<h2>XML 解析</h2>
+
+<blockquote><p>XML:可扩展标记语言，标准通用标记语言的子集，是一种用于标记电子文件使其具有结构性的标记语言。</p></blockquote>
+
+<p>我最早接触 XML 是在2013年，那时候是学习 JAVA 的时候了解到的，后来发现 XML 很有用，不仅在 iOS 中用到，我后来学习 Android 开发的时候也发现，  Android 界面其实是用 XML 来布局的。可见 XML 在实际生活中，一直在展现它的魅力。好了，废话不多说了，回到主题。</p>
+
+<p>从 web 端接收到数据之后，格式为 NSData ，即二进制格式，我们需要经过 XML 解析，得到相应的数据信息。iOS 本身是自带 XML 的，直接添加委托协议 <code>&lt;NSXMLParserDelegate&gt;</code>，
+实现需要的委托方法。这里根据实际项目需要，添加属性</p>
+
+<pre><code>@property (strong ,nonatomic) NSString * currentTagName; // 当前标签的名字 ,currentTagName 用于存储正在解析的元素名
+@property (strong,nonatomic) NSMutableDictionary * dict; // 用来存储解析的字典型数据
+</code></pre>
+
+<p>然后在委托方法里，解析数据：</p>
+
+<pre><code>- (void)parserDidStartDocument:(NSXMLParser *)parser {
+    //     NSLog(@"开始解析文档");
+}
+
+- (void)parserDidEndDocument:(NSXMLParser *)parser{
+    //      NSLog(@"结束解析文档");
+}
+
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
+
+    //把elementName 赋值给 成员变量 currentTagName
+    _currentTagName  = elementName ;
+}
+
+-(void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string{
+    string  = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([string isEqualToString:@""]) {
+        return;
+    }
+
+if ([_currentTagName isEqualToString:@"ID"]) {
+    [_dict setObject:string forKey:@"ID"];
+}
+if([_currentTagName isEqualToString:@"CreateDate"])
+{
+    [_dict setObject:string forKey:@"CreateDate"];
+}
+if ([_currentTagName isEqualToString:@"IsAvailable"]) {
+    [_dict setObject:string forKey:@"IsAvailable"];
+}
+if([_currentTagName isEqualToString:@"StudentName"])
+{
+    [_dict setObject:string forKey:@"StudentName"];
+}
+if ([_currentTagName isEqualToString:@"Sex"]) {
+    [_dict setObject:string forKey:@"Sex"];
+}
+if([_currentTagName isEqualToString:@"ParentsID"])
+{
+    [_dict setObject:string forKey:@"ParentsID"];
+}
+}
+</code></pre>
+
+<h2>小结</h2>
+
+<p>Webservice 在 APP 开发中是几乎都得用到的，很少 APP 应用是不需要 Web 服务的。关于 Webservice 感兴趣的朋友，可以用 C# 在 Visual studio 上面搭建个简单的 Webservice 的 HelloWorld 实例，这样对整个 Webservice 会有更深刻的一个理解。Webservice 功能很强大，学习 Webservice，对分布式系统也有帮助。未来要学习的东西还很多，趁年轻，折腾吧，且学且总结，且行且珍惜！</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-21T14:01:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>2:01 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/21/storyboard-shi-yong-weak-propert-ysheng-ming-outlet/" title="Previous Post: storyboard 使用 weak property 声明 Outlet">&laquo; storyboard 使用 weak property 声明 Outlet</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/21/iosyue-yu-kai-fa-theos-jie-shao/" title="Next Post: iOS越狱开发-TheOS 介绍">iOS越狱开发-TheOS 介绍 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

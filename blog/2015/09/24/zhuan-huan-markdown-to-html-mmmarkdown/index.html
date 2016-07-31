@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>转换 Markdown to HTML - MMMarkdown - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="MMMarkdown is an Objective-C framework for converting Markdown to HTML. It is compatible with OS X 10.6+ and iOS 8.0+. Unlike other Markdown &hellip;">
+  <meta name="keywords" content="markdown,html">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/24/zhuan-huan-markdown-to-html-mmmarkdown/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">转换 Markdown to HTML - MMMarkdown</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-24T08:55:14+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:55 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>MMMarkdown is an Objective-C framework for converting <a href="http://daringfireball.net/projects/markdown/">Markdown</a> to HTML. It is compatible with OS X 10.6+ and iOS 8.0+.</p>
+
+<p>Unlike other Markdown libraries, MMMarkdown implements an actual parser. It is not a port of the original Perl implementation and does not use regular expressions to transform the input into HTML. MMMarkdown tries to be efficient and minimize memory usage.</p>
+
+<h2>API</h2>
+
+<p>Using MMMarkdown is simple. The main API is a single class method:</p>
+
+<pre><code>#import &lt;MMMarkdown/MMMarkdown.h&gt;
+
+NSError  *error;
+NSString *markdown   = @"# Example\nWhat a library!";
+NSString *htmlString = [MMMarkdown HTMLStringWithMarkdown:markdown error:&amp;error];
+// Returns @"&lt;h1&gt;Example&lt;/h1&gt;\n&lt;p&gt;What a library!&lt;/p&gt;"
+</code></pre>
+
+<p>The markdown string that is passed in must be non-nil.</p>
+
+<p>MMMarkdown also supports a number of Markdown extensions:</p>
+
+<pre><code>#import &lt;MMMarkdown/MMMarkdown.h&gt;
+
+NSString *markdown   = @"~~Mistaken~~";
+NSString *htmlString = [MMMarkdown HTMLStringWithMarkdown:markdown extensions:MMMarkdownExtensionsGitHubFlavored error:NULL];
+// Returns @"&lt;p&gt;&lt;del&gt;Mistaken&lt;/del&gt;&lt;/p&gt;"
+</code></pre>
+
+<h2>Setup</h2>
+
+<p>Adding MMMarkdown to your Mac or iOS project is easy.</p>
+
+<p>If you’d like to use <a href="https://github.com/Carthage/Carthage">Carthage</a>, add the following line to your <code>Cartfile</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>github "mdiep/MMMarkdown"</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>If you&rsquo;re building for iOS</h3>
+
+<p>1.Create a <code>Cartfile</code> that lists the frameworks you’d like to use in your project.</p>
+
+<p>2.Run <code>carthage update</code>. This will fetch dependencies into a Carthage/Checkouts folder, then build each one.</p>
+
+<p>3.On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, drag and drop each framework you want to use from the Carthage/Build folder on disk.</p>
+
+<p>4.On your application targets’ “Build Phases” settings tab, click the <code>“+”</code> icon and choose “New Run Script Phase”. Create a Run Script with the following contents:</p>
+
+<pre><code>/usr/local/bin/carthage copy-frameworks
+</code></pre>
+
+<p>and add the paths to the frameworks you want to use under “Input Files”, e.g.:</p>
+
+<pre><code>$(SRCROOT)/Carthage/Build/iOS/Box.framework
+$(SRCROOT)/Carthage/Build/iOS/Result.framework
+$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewdehu65p4j20m909pabo.jpg" alt="img" /></p>
+
+<p>Otherwise, you can:</p>
+
+<ol>
+<li><p>Add MMMarkdown as a git submodule. (<code>git submodule add https://github.com/mdiep/MMMarkdown &lt;path&gt;</code>)</p></li>
+<li><p>Add <code>MMMarkdown.xcodeproj</code> to your project or workspace</p></li>
+<li><p>Add <code>MMMarkdown.framework</code> to the ”Link Binary with Libraries" section of your project&rsquo;s “Build Phases”.</p></li>
+<li><p>Add <code>MMMarkdown.framework</code> to a ”Copy Files” build phase that copies it to the <code>Frameworks</code> destination.</p></li>
+</ol>
+
+
+<h2>License</h2>
+
+<p>MMMarkdown is available under the <a href="http://opensource.org/licenses/mit-license.php">MIT License</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-24T08:55:14+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:55 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/22/cyu-yan-jie-gou-ti-cun-chu-yu-kong-jian-fen-pei/" title="Previous Post: C语言 - 结构体存储与空间分配">&laquo; C语言 - 结构体存储与空间分配</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/24/guan-yu-nsbundle-mainbundle-pathforresource-at-name-oftype-at-type-zhao-bu-dao-zhi-ding-wen-jian-de-jie-jue-ban-fa/" title="Next Post: 关于[[NSBundle mainBundle] pathForResource:@name ofType:@type]找不到指定文件的解决办法">关于[[NSBundle mainBundle] pathForResource:@name ofType:@type]找不到指定文件的解决办法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

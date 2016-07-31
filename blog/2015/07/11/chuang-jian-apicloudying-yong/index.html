@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>创建APICloud应用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、准备工作 下载并安装 APICloud IDE 开发环境，IDE 当前支持 Windows 系统。 二、创建应用 APICloud 提供了两种应用创建方式，方便开发者在云端和 IDE 中创建应用。 云端创建应用： 1) 注册并登录 APICloud 系统：http://www. &hellip;">
+  <meta name="keywords" content="web">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/11/chuang-jian-apicloudying-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">创建APICloud应用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-11T09:27:20+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:27 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>一、准备工作</h2>
+
+<p><a href="http://apicloud.com/dev">下载</a>并安装 APICloud IDE 开发环境，IDE 当前支持 Windows 系统。</p>
+
+<h2>二、创建应用</h2>
+
+<p>APICloud 提供了两种应用创建方式，方便开发者在云端和 IDE 中创建应用。</p>
+
+<h3>云端创建应用：</h3>
+
+<p>1) 注册并登录 APICloud 系统：<a href="http://www.apicloud.com/console">http://www.apicloud.com/console</a> 点击左上角“创建应用”， 如图：选择“Native”，填写“名称”及“说明”，应用创建完成。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etw99cns8ij20z50gxgo0.jpg" alt="img" /></p>
+
+<p>应用概览页 <a href="http://www.apicloud.com/appoverview">http://www.apicloud.com/appoverview</a> 可以看到应用相关信息，留意一下应用 ID，IDE 会用到。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etw99dhl57j20qo06xt99.jpg" alt="img" /></p>
+
+<p>2) 用以上注册的 APICloud 账号登录 IDE</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etw9cgymtdj20h308zjrv.jpg" alt="img" /></p>
+
+<p>3) 登录后，左侧选择“云端资源库”，根据 APICloud 创建的应用 ID 选择 SVN 项目</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etw9fc43adj209f0e6abr.jpg" alt="img" /></p>
+
+<p>4) 选择项目，右键“检出为”，点击“完成”，应用创建完成。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etw9ji76coj20ee0dmjt1.jpg" alt="img" /></p>
+
+<h3>IDE中创建应用：</h3>
+
+<p>1) 顶部菜单选择 “文件” → “新建” → “创建 APICloud 项目”。</p>
+
+<p>2) 填写“应用名称”，“应用说明”，点击完成，即完成创建。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etw9mzj4qdj20kc0jo0ub.jpg" alt="img" /></p>
+
+<h2>三、应用包结构</h2>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etw9pvag04j208r07k3z3.jpg" alt="img" /></p>
+
+<p>“config.xml”和 “index.html” 必须包含，其它均为可选。“config.xml”是配置文件，“index.html”是启动页面，“icon”为图标文件目录，“launch”为启动图片目录（更多介绍详见<a href="http://docs.apicloud.com/APICloud/%E6%8A%80%E6%9C%AF%E4%B8%93%E9%A2%98/widget-package-structure-manual">Widget包结构说明</a>文档）。</p>
+
+<h2>四、Config.xml 配置文件</h2>
+
+<pre><code> &lt;widget id="A12345678901"  version="0.0.1"&gt;
+    &lt;name&gt;API Example&lt;/name&gt;
+    &lt;description&gt;
+        API Example App.
+    &lt;/description&gt;
+    &lt;author email="developer@apicloud.com" href="http://www.apicloud.com"&gt;
+        APICloud.SIR
+    &lt;/author&gt;
+    &lt;content src="index.html" /&gt;
+    &lt;access origin="*" /&gt;
+    &lt;preference name="windowBackground" value="#FFF" /&gt;
+    &lt;permission name="call" /&gt;
+    &lt;feature name="weiXin"&gt;
+        &lt;param name="urlScheme" value="wx7779c7c063a9d4d9" /&gt;
+    &lt;/feature&gt;
+&lt;/widget&gt;
+</code></pre>
+
+<ul>
+<li>“id”: 必填，应用ID，由云服务器自动分配。它是该应用的唯一标识。</li>
+<li>“version”：必填，应用的版本号。</li>
+<li>“name”：必填，应用名称。</li>
+<li>“description”：可选，应用简单描述信息。</li>
+<li>“content”：必填，应用运行的起始页。</li>
+<li>“permission”：必填，权限配置。 （详细介绍见<a href="http://docs.apicloud.com/APICloud/%E6%8A%80%E6%9C%AF%E4%B8%93%E9%A2%98/app-config-manual">应用配置指南</a>文档）</li>
+</ul>
+
+
+<h2>五、前端开发框架</h2>
+
+<p>我们提供了核心的 api.css 和 api.js 前端框架，可与第三方前端框架混用，也可不用我们的框架；api.css 处理不同平台浏览器的默认样式，api.js 提供最基础的 JavaScript 方法，所有方法在 window.$api 对象下。</p>
+
+<p>（详细文档见<a href="http://docs.apicloud.com/APICloud/%E6%8A%80%E6%9C%AF%E4%B8%93%E9%A2%98/framework-dev-guide">Framework开发指南</a>文档）</p>
+
+<h2>六、端API调用</h2>
+
+<ol>
+<li>核心模块在 window.api 对象下，默认提供该模块，不需要单独引用。</li>
+<li>扩展模块在相应的模块对象下（例如：文件系统模块在 fs 对象下），需要 require 引入（var fs = api.require(&lsquo;fs&rsquo;)）。API核心模块已经覆盖一般应用的绝大部分功能。</li>
+<li>模块中所有方法均遵循 api.functionName(params, callback)格式，params 为 JSON 格式，callback 是 Function 类型，callback 返回两个参数，均为 JSON 格式：callback(ret, err)，ret 处理成功信息，err 处理错误信息。</li>
+<li>apiready 方法在所有核心 API 模块准备完毕时执行。
+（详细介绍见 api 文档）</li>
+</ol>
+
+
+<h2>七、真机同步调试</h2>
+
+<p>打开 IDE，用数据线连接移动设备，当前项目下，右键选择“一键真机同步测试”</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etw9z4u5ctj21hc0u0h07.jpg" alt="img" /></p>
+
+<p>等待同步完成，项目代码被拷贝到移动设备指定目录，移动设备上的 APP Loader 自动启动，即可实现真机同步调试。</p>
+
+<p>点击顶部的“启动日志”按钮，当真机调试的应用有 JavaScript 错误时，IDE 的控制台会有日志输出。</p>
+
+<h2>八、本地打包</h2>
+
+<p>选择应用项目，右键选择“生成快速测试包”，填写“应用名称”，选择“生成平台”，点击“打包”，即可生成测试安装包。（更多详尽功能参见IDE使用指南）</p>
+
+<h2>九、云端编译</h2>
+
+<p>登录 APICloud 系统</p>
+
+<ul>
+<li>端设置 <a href="http://www.apicloud.com/CADConfig">http://www.apicloud.com/CADConfig</a> 可以上传启动页面和应用图标</li>
+</ul>
+
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etwa2hazpkj21520nt77l.jpg" alt="img" /></p>
+
+<ul>
+<li>证书 <a href="http://www.apicloud.com/certificate">http://www.apicloud.com/certificate</a> 正式版需要上传相应平台的证书，测试版不需要</li>
+</ul>
+
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etwa6w0ew4j216x0g3tag.jpg" alt="img" /></p>
+
+<ul>
+<li>代码 <a href="http://www.apicloud.com/code">http://www.apicloud.com/code</a> 可以把应用代码上传至APICloud服务器</li>
+</ul>
+
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etwa6ynwn5j21690iyacp.jpg" alt="img" /></p>
+
+<ul>
+<li>模块 <a href="http://www.apicloud.com/module">http://www.apicloud.com/module</a> 选择应用需要的模块，添加进去</li>
+</ul>
+
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etwa6z6c0mj217w0fpmz7.jpg" alt="img" /></p>
+
+<ul>
+<li>云编译 <a href="http://www.apicloud.com/package">http://www.apicloud.com/package</a> 选择“云编译”菜单，选择相应平台（Android 或 iOS），选择编译类型（测试版或正式版），点击“云编译”按钮，耐心等待编译完成</li>
+</ul>
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etwa6ztoi0j20ym0nhgn0.jpg" alt="img" /></p>
+
+<ul>
+<li>下载安装 扫描二维码可以下载安装应用至移动设备</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-11T09:27:20+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:27 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/11/javascript-void/" title="Previous Post: Javascript void">&laquo; Javascript void</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/11/zhi-qing-chun-8/" title="Next Post: 致青春-8">致青春-8 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

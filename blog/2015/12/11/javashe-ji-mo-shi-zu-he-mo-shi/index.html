@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Java设计模式-组合模式 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="组合模式（Composite）属于结构性模式，它描述了对象间的组合关系。 对象间常常通过树结构来组织（包含）起来，以实现整体-部分的层次结构。整体上可以看做是一个组合对象。
+抛却各种复杂的术语，组合模式的特点是： 对象通过实现（继承）统一的接口（抽象类）， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/11/javashe-ji-mo-shi-zu-he-mo-shi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Java设计模式-组合模式</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-11T10:15:26+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:15 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>组合模式（Composite）属于结构性模式，它描述了对象间的组合关系。</p>
+
+<p>对象间常常通过树结构来组织（包含）起来，以实现整体-部分的层次结构。整体上可以看做是一个组合对象。
+抛却各种复杂的术语，组合模式的特点是：</p>
+
+<p>对象通过实现（继承）统一的接口（抽象类），调用者对单一对象和组合对象的操作具有一致性。</p>
+
+<p>组合模式很常见，Java的容器类（比如ArrayList）都实现了组合模式。</p>
+
+<p>我们平常操作最多的文件（夹）就是组合模式的最好例子。文件系统是树形层次结构，并且文件和文件夹提供给用户的一些操作是相同的，比如复制。于是，可以通过一个统一的接口将文件和文件夹统一起来，对用户提供一致的操作，屏蔽不同的复制实现过程。我们在复制文件夹的时候，操作系统实现了对文件夹内的所有文件和文件夹的复制，即实现了组合对象的整体复制，而不是一个空的文件夹；这和我们复制单个文件的体验是一致的。这便是组合模式的妙处。</p>
+
+<p>完整的模拟代码如下：</p>
+
+<pre><code>package com.csufox.Composite;  
+
+import java.util.ArrayList;  
+
+interface Node{  
+    public void copy(); //定义统一的接口：复制  
+}  
+
+class Folder implements Node{  
+    private String folderName;  
+    private ArrayList nodeList =new ArrayList(); //用于存储文件夹下的文件夹或文件的信息 
+
+    public Folder(String folderName){  
+        this.folderName = folderName;  
+    }  
+
+    public void add(Node node){ //增加文件或文件夹  
+        nodeList.add(node);  
+    }  
+
+    public void copy(){  //文件夹复制操作实现递归  
+        System.out.println("复制文件夹：" + folderName);  
+        for(int i=0;i
+            Node node = (Node)nodeList.get(i);  
+            node.copy();  
+        }  
+    }  
+}  
+
+class File implements Node{  
+    private String fileName;  
+
+    public File(String fileName){  
+        this.fileName = fileName;  
+    }  
+
+    public void copy(){  
+        System.out.println("复制文件：" + fileName);  
+    }  
+}  
+
+public class Composite{  
+    public static void main(String[] args){  
+        Folder document = new Folder("我的资料"); //我的资料文件夹  
+        File book = new File("Java编程思想.pdf");  //文档文件  
+        Folder music = new Folder("我的音乐");   //我的音乐文件夹  
+        File music1 = new File("你是我的眼.mp3");   //音乐文件1  
+        File music2 = new File("Without You.mp3");  //音乐文件2  
+        //确定树形结构关系  
+        document.add(book);  
+        document.add(music);  
+        music.add(music1);  
+        music.add(music2);  
+
+        document.copy(); //复制“我的资料”文件夹，递归地复制了其下所有文件夹和文件。 
+    }  
+} 
+</code></pre>
+
+<p>运行结果如下：</p>
+
+<pre><code>复制文件夹：我的资料  
+复制文件：Java编程思想.pdf  
+复制文件夹：我的音乐  
+复制文件：你是我的眼.mp3  
+复制文件：Without You.mp3 
+</code></pre>
+
+<p>由以上的代码和运行结果可知：</p>
+
+<p>通过实现组合模式，用户对文件夹的操作与对普通文件的操作并无差异。用户完全不用关心这是文件夹还是文件，也不用关心文件夹内部的具体结构，就可以完成相关操作。</p>
+
+<p>同样的道理，我们可以表达如下：</p>
+
+<p>通过实现组合模式，调用者对组合对象的操作与对单一对象的操作具有一致性。调用者不用关心这是组合对象还是文件，也不用关心组合对象内部的具体结构，就可以调用相关方法，实现功能。</p>
+
+<p>仔细分析copy()方法的代码，我们会发现，如果从面向过程的角度思考，组合模式通过递归原理实现了树结构（组合对象）的深度优先遍历。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-11T10:15:26+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:15 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/11/umlguan-xi-fan-hua/" title="Previous Post: UML关系">&laquo; UML关系</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/11/javashe-ji-mo-shi-zu-he-mo-shi-shi-li/" title="Next Post: Java设计模式-组合模式实例">Java设计模式-组合模式实例 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

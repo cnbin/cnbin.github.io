@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>流式传输的两大主流种类及流式传输特点 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="流式传输定义很广泛，现在主要指通过网络传送媒体（如视频、音频）的技术总称。其特定含义为通过Internet 将影视节目传送到PC机。实现流式传输有两种方法：实时流式传输（Realtime streaming）和顺序流式传输（progressive streaming）。（百度百科） &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/20/liu-shi-chuan-shu-de-liang-da-zhu-liu-chong-lei-ji-liu-shi-chuan-shu-te-dian/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">流式传输的两大主流种类及流式传输特点</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-20T16:00:52+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:00 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>流式传输定义很广泛，现在主要指通过网络传送媒体（如视频、音频）的技术总称。其特定含义为通过Internet 将影视节目传送到PC机。实现流式传输有两种方法：实时流式传输（Realtime streaming）和顺序流式传输（progressive streaming）。（百度百科）</p>
+
+<p>在网络上传输音/视频（英文缩写A/V）等多媒体信息目前主要有下载和流式传输两种方案。A/V文件一般都较大，所以需要的存储容量也较大；同时由于网络带宽的限制，下载常常要花数分钟甚至数小时，所以这种处理方法延迟也很大。流式传输时，声音、影像或动画等时基媒体由音视频服务器向用户计算机的连续、实时传送，用户不必等到整个文件全部下载完毕，而只需经过几秒或十数秒的启动延时即可进行观看。当声音等时基媒体在客户机上播放时，文件的剩余部分将在后台从服务器内继续下载。流式不仅使启动延时成十倍、百倍地缩短，而且不需要太大的缓存容量。流式传输避免了用户必须等待整个文件全部从Internet上下载才能观看的缺点。</p>
+
+<p>1.流式传输的种类</p>
+
+<p>网络传输音频、视频等多媒体信息有下载和流式传输两种方案，下载方案由于A/V文件较大，所需存储容量也较大，且网络带宽的限制导致下载费时久，且延迟亦较大；而流式传输方案则避免了用户需等待整个文件全部下载后才能播放的缺点。流式传输技术又分两种，一种是顺序流式传输，另一种是实时流式传输。</p>
+
+<p>①顺序流式传输(Progressive Streaming)</p>
+
+<p>顺序流式传输是顺序下载，媒体在下载文件的同时，用户可以观看在线节目。在给定时刻，用户只能观看已下载的那部分，而不能跳到还未下载的部分。顺序流式传输不像实时流式传输那样，可以在传输期间根据用户连接的速度进行调整。由于标准的HTTP服务器可发送这种形式的文件，也不需要其他特殊协议，因而它经常被称作HTTP流式传输。由于该文件在播放前观看的部分是无损下载的，最终播放质量较好，因而特别适合质量较高、数据量较小、通过Modem发布的短片段，如片头、片尾、广告等。但用户在观看前必须经历数秒的延迟，传输速度较慢时尤为明显。对通过调制解调器发布的短片段，顺序流式传输显得很实用，它允许用比调制解调器更高的数据速率创建视频片段。尽管有延迟，毕竟可发布较高质量的视频片段。顺序流式文件是放在标准HTTP或FTP服务器上，因而易于管理，基本上与防火墙无关。顺序流式传输不适合长片段和有随机访问要求的视频，如讲座、演说与演示，它也不支持现场广播。因此，严格地说来，它本质上是一种点播技术。</p>
+
+<p>②实时流式传输(Realtime Streaming)</p>
+
+<p>实时流式传输可保证媒体信号带宽与网络连接匹配，可实时观看节目。实时流与HTTP流式传输不同，它需要专用的流媒体服务器与传输协议。实时流式传输总是实时传送，因而特别适合现场事件，且支持随机访问，用户可对观看内容进行快进或后退以观看前面或后面的内容。理论上，实时流一经播放就不可停止，但实际上，可能发生周期暂停。实时流式传输必须匹配连接带宽，这意味着在以调制解调器速度连接时图像质量较差。而且，由于出错丢失的信息被忽略掉，网络拥挤或出现问题时，视频质量差，而没有顺序流式传输视频质量好。实时流式传输需要特定服务器，如QuickTime Streaming Server、RealServer与Windows Media Server。这些服务器允许你对媒体发送进行更多级别的控制，因而系统设置、管理比标准HTTP服务器更复杂。实时流式传输还需要特殊网络协议，如：RTSP(Realtime Streaming Protocol)或MMS(Microsoft Media Server)。这些协议在有防火墙时有时会出现问题，导致用户不能看到一些地点的实时内容。</p>
+
+<p>显然，在实际应用时，具体采用哪种传输方式可根据需要确定，且流式传输也支持在播放前完全下载到硬盘。一般情况下，流式传输模式会使用RTP/UDP、RTSP/TCP两种通信协议与A/V(Audio/Video)Server建立联系，将服务器的输出重定向到一个运行A/V Player程序所在客户机的目的地址。通常，流式传输系统一般都要配置一套专用的服务器和播放器。</p>
+
+<p>2.流式传输的特点</p>
+
+<p>与单纯的下载方式相比，这种对多媒体文件边下载边播放的流式传输方式具有以下的特点：</p>
+
+<p>①大幅度地缩短启动延时</p>
+
+<p>流式传输大幅度地缩短启动延时，因为用户不用等待所有内容下载到硬盘上才开始浏览，无论是上班时间还是晚上，速度都相当快。一般来说，一个45分钟的影片片段，在一分钟以内就显示在客户端上，而且在播放过程中，一般都不会出现断续的情况。此外，全屏播放对播放速度几乎无影响，但快进、快倒时，需要时间等待。</p>
+
+<p>②大大降低对系统缓存容量的需求</p>
+
+<p>由于Internet是以包传输为基础进行断续的异步传输，其数据被分解为许多包进行传输。动态变化的网络使各个包可能选择不同的路由，故到达用户计算机的时间延迟也就不同。因此，在客户端需要缓存系统来弥补延迟和抖动的影响和保证数据包传输顺序的正确，从而使媒体数据能连续输出，且不会因网络暂时拥堵而使播放出现停顿。虽然，流式传输仍需要缓存，但由于不需要把所有的动画、视音频内容都下载到缓存中，因而对缓存的要求大大降低。</p>
+
+<p>由于流媒体技术使用了数据缓冲技术，因而可保持流媒体的不间断，并保证文件传输的可靠性。</p>
+
+<p>③有特定的实时传输协议实现流式传输</p>
+
+<p>由前面叙述所知，流媒体目前有三种主流格式，并需要相应的特定的实时传输协议。一般，采用RTSP等实时传输协议，更加适合动画、视音频在网上的流式实时传输。</p>
+
+<p>此外，采用流媒体技术不会占用本地的硬盘空间等。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/hguisu/article/details/7418087">http://blog.csdn.net/hguisu/article/details/7418087</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-20T16:00:52+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:00 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/20/huo-qu-ye-mian-de-suo-you-kong-jian/" title="Previous Post: 获取页面得所有控件">&laquo; 获取页面得所有控件</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/20/http-qing-qiu-,-xiang-ying-,-huan-cun/" title="Next Post: HTTP-请求、响应、缓存">HTTP-请求、响应、缓存 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>REMenu - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Dropdown menu inspired by Vine. Requirements Xcode 5 or higher
+Apple LLVM compiler
+iOS 6.0 or higher
+ARC Demo Build and run the REMenuExample &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/21/remenu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">REMenu</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-21T17:21:35+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>5:21 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Dropdown menu inspired by Vine.</p>
+
+<p><img src="https://github.com/romaonthego/REMenu/raw/master/Screenshot.png" alt="REMenu Screenshot" width="400" height="568" />
+<img src="https://github.com/romaonthego/REMenu/raw/master/Demo.gif" alt="REMenu Screenshot" width="320" height="568" /></p>
+
+<h2>Requirements</h2>
+
+<ul>
+<li>Xcode 5 or higher</li>
+<li>Apple LLVM compiler</li>
+<li>iOS 6.0 or higher</li>
+<li>ARC</li>
+</ul>
+
+
+<h2>Demo</h2>
+
+<p>Build and run the <code>REMenuExample</code> project in Xcode to see <code>REMenu</code> in action.</p>
+
+<h2>Installation</h2>
+
+<h3>CocoaPods</h3>
+
+<p>The recommended approach for installating <code>REMenu</code> is via the <a href="http://cocoapods.org/">CocoaPods</a> package manager, as it provides flexible dependency management and dead simple installation.
+For best results, it is recommended that you install via CocoaPods >= <strong>0.28.0</strong> using Git >= <strong>1.8.0</strong> installed via Homebrew.</p>
+
+<p>Install CocoaPods if not already available:</p>
+
+<pre><code>$ [sudo] gem install cocoapods
+$ pod setup
+</code></pre>
+
+<p>Change to the directory of your Xcode project:</p>
+
+<pre><code>$ cd /path/to/MyProject
+$ touch Podfile
+$ edit Podfile
+</code></pre>
+
+<p>Edit your Podfile and add REMenu:</p>
+
+<pre><code>platform :ios, '6.0'
+pod 'REMenu', '~&gt; 1.10'
+</code></pre>
+
+<p>Install into your Xcode project:</p>
+
+<pre><code>$ pod install
+</code></pre>
+
+<p>Open your project in Xcode from the .xcworkspace file (not the usual project file)</p>
+
+<pre><code>$ open MyProject.xcworkspace
+</code></pre>
+
+<p>Please note that if your installation fails, it may be because you are installing with a version of Git lower than CocoaPods is expecting. Please ensure that you are running Git >= <strong>1.8.0</strong> by executing <code>git --version</code>. You can get a full picture of the installation details by executing <code>pod install --verbose</code>.</p>
+
+<h3>Manual Install</h3>
+
+<p>All you need to do is drop <code>REMenu</code> files into your project, and add <code>#include "REMenu.h"</code> to the top of classes that will use it.</p>
+
+<h2>Example Usage</h2>
+
+<pre><code>REMenuItem *homeItem = [[REMenuItem alloc] initWithTitle:@"Home"
+                                                  subtitle:@"Return to Home Screen"
+                                                     image:[UIImage imageNamed:@"Icon_Home"]
+                                          highlightedImage:nil
+                                                    action:^(REMenuItem *item) {
+                                                        NSLog(@"Item: %@", item);
+                                                    }];
+
+REMenuItem *exploreItem = [[REMenuItem alloc] initWithTitle:@"Explore"
+                                                   subtitle:@"Explore 47 additional options"
+                                                      image:[UIImage imageNamed:@"Icon_Explore"]
+                                           highlightedImage:nil
+                                                     action:^(REMenuItem *item) {
+                                                         NSLog(@"Item: %@", item);
+                                                     }];
+
+REMenuItem *activityItem = [[REMenuItem alloc] initWithTitle:@"Activity"
+                                                    subtitle:@"Perform 3 additional activities"
+                                                       image:[UIImage imageNamed:@"Icon_Activity"]
+                                            highlightedImage:nil
+                                                      action:^(REMenuItem *item) {
+                                                          NSLog(@"Item: %@", item);
+                                                      }];
+
+REMenuItem *profileItem = [[REMenuItem alloc] initWithTitle:@"Profile"
+                                                      image:[UIImage imageNamed:@"Icon_Profile"]
+                                           highlightedImage:nil
+                                                     action:^(REMenuItem *item) {
+                                                         NSLog(@"Item: %@", item);
+                                                     }];
+
+self.menu = [[REMenu alloc] initWithItems:@[homeItem, exploreItem, activityItem, profileItem]];
+[self.menu showFromNavigationController:self.navigationController];
+</code></pre>
+
+<p>You can also present <code>REMenu</code> from a custom view, there are 2 specific tasks for that:</p>
+
+<pre><code>- (void)showFromRect:(CGRect)rect inView:(UIView *)view;
+- (void)showInView:(UIView *)view;
+</code></pre>
+
+<p>Since version 1.3 you are able to assign custom view to your items, as show below:</p>
+
+<pre><code>UIView *customView = [[UIView alloc] init];
+customView.backgroundColor = [UIColor blueColor];
+customView.alpha = 0.4;
+REMenuItem *customViewItem = [[REMenuItem alloc] initWithCustomView:customView action:^(REMenuItem *item) {
+    NSLog(@"Tap on customView");
+}];
+</code></pre>
+
+<h2>Customization</h2>
+
+<p>You can customize the following properties of <code>REMenu</code>:</p>
+
+<pre><code>@property (assign, readwrite, nonatomic) CGFloat cornerRadius;
+@property (strong, readwrite, nonatomic) UIColor *shadowColor;
+@property (assign, readwrite, nonatomic) CGSize shadowOffset;
+@property (assign, readwrite, nonatomic) CGFloat shadowOpacity;
+@property (assign, readwrite, nonatomic) CGFloat shadowRadius;
+@property (assign, readwrite, nonatomic) CGFloat itemHeight;
+@property (strong, readwrite, nonatomic) UIColor *backgroundColor;
+@property (strong, readwrite, nonatomic) UIColor *separatorColor;
+@property (assign, readwrite, nonatomic) CGFloat separatorHeight;
+@property (strong, readwrite, nonatomic) UIFont *font;
+@property (strong, readwrite, nonatomic) UIColor *textColor;
+@property (strong, readwrite, nonatomic) UIColor *textShadowColor;
+@property (assign, readwrite, nonatomic) CGSize imageOffset;
+@property (assign, readwrite, nonatomic) CGSize textOffset;
+@property (assign, readwrite, nonatomic) CGSize textShadowOffset;
+@property (strong, readwrite, nonatomic) UIColor *highlightedBackgroundColor;
+@property (strong, readwrite, nonatomic) UIColor *highlightedSeparatorColor;
+@property (strong, readwrite, nonatomic) UIColor *highlightedTextColor;
+@property (strong, readwrite, nonatomic) UIColor *highlightedTextShadowColor;
+@property (assign, readwrite, nonatomic) CGSize highlightedTextShadowOffset;
+@property (assign, readwrite, nonatomic) CGFloat borderWidth;
+@property (strong, readwrite, nonatomic) UIColor *borderColor;
+@property (assign, readwrite, nonatomic) NSTextAlignment textAlignment;
+@property (strong, readwrite, nonatomic) UIFont *subtitleFont;
+@property (strong, readwrite, nonatomic) UIColor *subtitleTextColor;
+@property (strong, readwrite, nonatomic) UIColor *subtitleTextShadowColor;
+@property (assign, readwrite, nonatomic) CGSize subtitleTextOffset;
+@property (assign, readwrite, nonatomic) CGSize subtitleTextShadowOffset;
+@property (strong, readwrite, nonatomic) UIColor *subtitleHighlightedTextColor;
+@property (strong, readwrite, nonatomic) UIColor *subtitleHighlightedTextShadowColor;
+@property (assign, readwrite, nonatomic) CGSize subtitleHighlightedTextShadowOffset;
+@property (assign, readwrite, nonatomic) NSTextAlignment subtitleTextAlignment;
+@property (assign, readwrite, nonatomic) NSTimeInterval animationDuration;
+@property (assign, readwrite, nonatomic) NSTimeInterval bounceAnimationDuration;
+@property (assign, readwrite, nonatomic) REMenuImageAlignment imageAlignment;
+@property (assign, readwrite, nonatomic) BOOL appearsBehindNavigationBar;
+@property (assign, readwrite, nonatomic) BOOL bounce;
+@property (assign, readwrite, nonatomic) BOOL liveBlur; // Available only in iOS 7
+@property (strong, readwrite, nonatomic) UIColor *liveBlurTintColor; // Available only in iOS 7
+@property (assign, readwrite, nonatomic) REMenuLiveBackgroundStyle liveBlurBackgroundStyle; // Available only in iOS 7
+@property (copy, readwrite, nonatomic) void (^badgeLabelConfigurationBlock)(UILabel *badgeLabel, REMenuItem *item);
+</code></pre>
+
+<h2>Contact</h2>
+
+<p>Roman Efimov</p>
+
+<ul>
+<li><a href="https://github.com/romaonthego">https://github.com/romaonthego</a></li>
+<li><a href="https://twitter.com/romaonthego">https://twitter.com/romaonthego</a></li>
+<li><a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x72;&#111;&#109;&#101;&#x66;&#x69;&#109;&#111;&#x76;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#x6f;&#109;">&#x72;&#x6f;&#109;&#x65;&#102;&#105;&#109;&#x6f;&#x76;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;</a></li>
+</ul>
+
+
+<h2>License</h2>
+
+<p>REMenu is available under the MIT license.</p>
+
+<p>Copyright © 2013 Roman Efimov.</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &ldquo;Software&rdquo;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED &ldquo;AS IS&rdquo;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-21T17:21:35+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>5:21 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/21/ru-he-rang-viewzhi-xiang-ying-%5B%3F%5D-ge-an-niu/" title="Previous Post: 如何让view只响应一个按钮">&laquo; 如何让view只响应一个按钮</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/21/ios-uipasteboard-slash-uimenucontroller/" title="Next Post: iOS—UIPasteboard/UIMenuController">iOS—UIPasteboard/UIMenuController &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

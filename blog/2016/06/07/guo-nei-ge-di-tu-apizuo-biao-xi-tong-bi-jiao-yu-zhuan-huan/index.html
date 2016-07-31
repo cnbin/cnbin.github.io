@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>国内各地图API坐标系统比较与转换 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、各个坐标系的概况 众所周知地球是一个不规则椭圆体，GIS中的坐标系定义由基准面和地图投影两组参数确定，而基准面的定义则由特定椭球体及其对应的转换参数确定。 基准面是利用特定椭球体对特定地区地球表面的逼近，因此每个国家或地区均有各自的基准面。基准面是在椭球体基础上建立的， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/07/guo-nei-ge-di-tu-apizuo-biao-xi-tong-bi-jiao-yu-zhuan-huan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">国内各地图API坐标系统比较与转换</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-07T11:40:35+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:40 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>一、各个坐标系的概况</h3>
+
+<p>众所周知地球是一个不规则椭圆体，GIS中的坐标系定义由基准面和地图投影两组参数确定，而基准面的定义则由特定椭球体及其对应的转换参数确定。 基准面是利用特定椭球体对特定地区地球表面的逼近，因此每个国家或地区均有各自的基准面。基准面是在椭球体基础上建立的，椭球体可以对应多个基准面，而基准面只能对应一个椭球体。意思就是无论是谷歌地图、搜搜地图还是高德地图、百度地图区别只是针对不同的大地地理坐标系标准制作的经纬度，不存在准不准的问题，大家都是准的只是参照物或者说是标准不一样。谷歌地图采用的是WGS84地理坐标系（中国范围除外），谷歌中国地图和搜搜中国地图采用的是GCJ02地理坐标系，百度采用的是BD09坐标系，而设备一般包含GPS芯片或者北斗芯片获取的经纬度为WGS84地理坐标系，为什么不统一用WGS84地理坐标系这就是国家地理测绘总局对于出版地图的要求，出版地图必须符合GCJ02坐标系标准了，也就是国家规定不能直接使用WGS84地理坐标系。所以定位大家感觉不准确很多又叫出版地图为火星地图其实只是坐标系不一样而已。这就是为什么设备采集的经纬度在地图上显示的时候经常有很大的偏差，远远超出民用GPS 10米偏移量的技术规范。</p>
+
+<p>以上参考自：haotsp.com</p>
+
+<p>总结：</p>
+
+<ul>
+<li>WGS84坐标系：即地球坐标系，国际上通用的坐标系。</li>
+<li>GCJ02坐标系：即火星坐标系，WGS84坐标系经加密后的坐标系。</li>
+<li>BD09坐标系：即百度坐标系，GCJ02坐标系经加密后的坐标系。</li>
+<li>搜狗坐标系、图吧坐标系等，估计也是在GCJ02基础上加密而成的。</li>
+</ul>
+
+
+<h3>二、各个地图API采用的坐标系</h3>
+
+<ul>
+<li>API   坐标系</li>
+<li>百度地图API   百度坐标</li>
+<li>腾讯搜搜地图API 火星坐标</li>
+<li>搜狐搜狗地图API 搜狗坐标*</li>
+<li>阿里云地图API    火星坐标</li>
+<li>图吧MapBar地图API 图吧坐标</li>
+<li>高德MapABC地图API 火星坐标</li>
+<li>灵图51ditu地图API 火星坐标</li>
+</ul>
+
+
+<p>注1：百度地图使用百度坐标，支持从地球坐标和火星坐标导入成百度坐标，但无法导出。并且批量坐标转换一次只能转换20个(待验证)。</p>
+
+<p>注2：搜狗地图支持直接显示地球坐标，支持地球坐标、火星坐标、百度坐标导入成搜狗坐标，同样，搜狗坐标也无法导出。</p>
+
+<p>个人认为：采用自家坐标体系，而不采用国内通用的火星坐标体系，实在是自寻短处。当然，百度是因为做的足够大、足够好，所以很霸道，也为以后一统天下而不让别人瓜分之而做准备吧。搜狗虽然用自家坐标体系，但能将地球坐标直接导入，此举也属唯一。而图吧地图不知道学什么加密方式，以前用地球坐标用的好好的，现在用图吧自己的坐标，难道是因为给百度做过所以也来了这么一招？或者沿用百度？不得而知。</p>
+
+<p>本文的目的在于：做地图开发的时候，不希望被一家地图API迁就，所以采用火星坐标是正确的选择，希望本文能够对选择使用谁家API的开发者提供一点帮助吧。就我个人而言，我绝不会使用非火星坐标系统的地图API，虽然百度地图API很好很强大确实很吸引我。</p>
+
+<p>以上参考自：<a href="http://rovertang.com/labs/map-compare/">http://rovertang.com/labs/map-compare/</a></p>
+
+<h3>三、各个坐标系的相互转换</h3>
+
+<h4>地球坐标系 (WGS-84) 到火星坐标系 (GCJ-02) 的转换算法</h4>
+
+<p>WGS-84 到 GCJ-02 的转换（即 GPS 加偏）算法</p>
+
+<pre><code>using System;  
+
+namespace Navi  
+{  
+    class EvilTransform  
+    {  
+        const double pi = 3.14159265358979324;  
+
+        //   
+        // Krasovsky 1940   
+        //   
+        // a = 6378245.0, 1/f = 298.3   
+        // b = a * (1 - f)   
+        // ee = (a^2 - b^2) / a^2;   
+        const double a = 6378245.0;  
+        const double ee = 0.00669342162296594323;  
+
+        //   
+        // World Geodetic System ==&gt; Mars Geodetic System   
+        public static void transform(double wgLat, double wgLon, out double mgLat, out double mgLon)  
+        {  
+            if (outOfChina(wgLat, wgLon))  
+            {  
+                mgLat = wgLat;  
+                mgLon = wgLon;  
+                return;  
+            }  
+            double dLat = transformLat(wgLon - 105.0, wgLat - 35.0);  
+            double dLon = transformLon(wgLon - 105.0, wgLat - 35.0);  
+            double radLat = wgLat / 180.0 * pi;  
+            double magic = Math.Sin(radLat);  
+            magic = 1 - ee * magic * magic;  
+            double sqrtMagic = Math.Sqrt(magic);  
+            dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * pi);  
+            dLon = (dLon * 180.0) / (a / sqrtMagic * Math.Cos(radLat) * pi);  
+            mgLat = wgLat + dLat;  
+            mgLon = wgLon + dLon;  
+        }  
+
+        static bool outOfChina(double lat, double lon)  
+        {  
+            if (lon &lt; 72.004 || lon &gt; 137.8347)  
+                return true;  
+            if (lat &lt; 0.8293 || lat &gt; 55.8271)  
+                return true;  
+            return false;  
+        }  
+
+        static double transformLat(double x, double y)  
+        {  
+            double ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.Sqrt(Math.Abs(x));  
+            ret += (20.0 * Math.Sin(6.0 * x * pi) + 20.0 * Math.Sin(2.0 * x * pi)) * 2.0 / 3.0;  
+            ret += (20.0 * Math.Sin(y * pi) + 40.0 * Math.Sin(y / 3.0 * pi)) * 2.0 / 3.0;  
+            ret += (160.0 * Math.Sin(y / 12.0 * pi) + 320 * Math.Sin(y * pi / 30.0)) * 2.0 / 3.0;  
+            return ret;  
+        }  
+
+        static double transformLon(double x, double y)  
+        {  
+            double ret = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.Sqrt(Math.Abs(x));  
+            ret += (20.0 * Math.Sin(6.0 * x * pi) + 20.0 * Math.Sin(2.0 * x * pi)) * 2.0 / 3.0;  
+            ret += (20.0 * Math.Sin(x * pi) + 40.0 * Math.Sin(x / 3.0 * pi)) * 2.0 / 3.0;  
+            ret += (150.0 * Math.Sin(x / 12.0 * pi) + 300.0 * Math.Sin(x / 30.0 * pi)) * 2.0 / 3.0;  
+            return ret;  
+        }  
+    }  
+}  
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/liyunxin0534/article/details/16802463">http://blog.csdn.net/liyunxin0534/article/details/16802463</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-07T11:40:35+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:40 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/07/ioskai-fa-zhong-de-huo-xing-zuo-biao-xi-ji-ge-chong-zuo-biao-xi-zhuan-huan-suan-fa/" title="Previous Post: iOS开发中的火星坐标系及各种坐标系转换算法">&laquo; iOS开发中的火星坐标系及各种坐标系转换算法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/07/string-dot-isnullorempty-fang-fa/" title="Next Post: String.IsNullOrEmpty 方法">String.IsNullOrEmpty 方法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

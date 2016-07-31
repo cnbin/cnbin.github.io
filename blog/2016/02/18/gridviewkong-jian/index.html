@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>GridView控件 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="GridView控件是.net里的一个显示数据控件，该控件制作很人性化，基本上不用编写代码就可以完成数据绑定、分页、排序、编辑、删除、选定行等操作。 主要属性： Sort：根据指定的排序表达式和方向对 GridView 控件进行排序。 编程的方法绑定数据，并实现分页 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/18/gridviewkong-jian/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">GridView控件</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-18T16:38:52+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:38 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>GridView控件是.net里的一个显示数据控件，该控件制作很人性化，基本上不用编写代码就可以完成数据绑定、分页、排序、编辑、删除、选定行等操作。</p>
+
+<p>主要属性：</p>
+
+<p>Sort：根据指定的排序表达式和方向对 GridView 控件进行排序。</p>
+
+<p>编程的方法绑定数据，并实现分页</p>
+
+<p>页面源代码中添加一个GridView控件(GridView1)，并AllowPaging=&ldquo;True"，设置PageIndexChanging事件。</p>
+
+<p>cs代码：</p>
+
+<pre><code>protected void bind() 
+    { 
+        //此处为GridView1绑定数据库 
+        SqlConnection myConn = GetConnection(); 
+        myConn.Open(); 
+        string sqlStr = "select * from test"; 
+        SqlDataAdapter myDa = new SqlDataAdapter(sqlStr, myConn); 
+        DataSet myDs = new DataSet(); 
+        myDa.Fill(myDs); 
+        GridView1.DataSource = myDs; 
+        GridView1.DataBind(); 
+    } 
+protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e) 
+    { 
+        GridView1.PageIndex = e.NewPageIndex; 
+        this.bind(); 
+    }
+</code></pre>
+
+<p>编程方法实现排序</p>
+
+<p>页面源代码中添加一个GridView控件(GridView1)，并设置GridView1的Sorting事件。</p>
+
+<p>cs代码：</p>
+
+<pre><code>protected void Page_Load(object sender, EventArgs e) 
+    { 
+        if (!IsPostBack) 
+        { 
+            //设置信息字典，排序字段和排序方法 
+            ViewState["SortOrder"] = "ID"; 
+            ViewState["OrderDire"] = "ASC"; 
+            this.bind(); 
+        } 
+    } 
+public SqlConnection GetConnection() 
+    { 
+        //读取web.config中的连接字符串，创建SqlConnection连接 
+        string myStr = ConfigurationManager.AppSettings["ConnectionString"].ToString(); 
+        SqlConnection myConn = new SqlConnection(myStr); 
+        return myConn; 
+    } 
+    protected void bind() 
+    { 
+        //此处为GridView1绑定数据库 
+        SqlConnection myConn = GetConnection(); 
+        myConn.Open(); 
+        string sqlStr = "select * from test"; 
+        SqlDataAdapter myDa = new SqlDataAdapter(sqlStr, myConn); 
+        DataSet myDs = new DataSet(); 
+        myDa.Fill(myDs);
+
+        //设置排序所用的字段和排序方法 
+        string sort = (string)ViewState["SortOrder"] + " " + (string)ViewState["OrderDire"]; 
+        GridView1.Sort = sort; 
+        GridView1.DataSource = myDs; 
+        GridView1.DataBind(); 
+    } 
+protected void GridView1_Sorting(object sender, GridViewSortEventArgs e) 
+    {
+
+        //获取排序的字段 
+        string sPage = e.SortExpression;
+
+        //如果目前排序方式与设置一致，则逆序 
+        if (ViewState["SortOrder"].ToString() == sPage) 
+        { 
+            if (ViewState["OrderDire"].ToString() == "Desc") 
+            { 
+                ViewState["OrderDire"] = "ASC"; 
+            } 
+            else 
+            { 
+                ViewState["OrderDire"] = "Desc"; 
+            } 
+        } 
+        else 
+        { 
+            ViewState["SortOrder"] = e.SortExpression; 
+        } 
+        this.bind(); 
+    }
+</code></pre>
+
+<p>选择GridView控件的行，在另一个GridView控件中显示相关数据</p>
+
+<p>页面源代码中添加两个GridView控件(GridView1，GridView2)，并设置GridView1的SelectedIndexChanging事件。GridView1已经绑定了一个数据表，当点击GridView1一行时，在GridView2中显示相关的另一张表中的数据。</p>
+
+<p>cs代码：</p>
+
+<pre><code>protected void GridView1_SelectedIndexChanging(object sender, GridViewSelectEventArgs e) 
+    { 
+        //提交编辑时，先取得要编辑行的主键值 
+        int ID = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Value.ToString()); 
+        string sqlStr = "delete from test where ID=" + ID; 
+        SqlConnection con = new SqlConnection(); 
+        //读取web.config中的连接字符串，创建SqlConnection连接 
+        con.ConnectionString = ConfigurationManager.AppSettings["ConnectionString"].ToString(); 
+        SqlDataAdapter myDa = new SqlDataAdapter(sqlStr, myConn); 
+        DataSet myDs = new DataSet(); 
+        myDa.Fill(myDs); 
+        //将数据表绑定到GridView2 
+        this.GridView2.DataSource = myDs; 
+        GridView2.DataBind(); 
+    }
+</code></pre>
+
+<p> 编程实现全选和全不选功能</p>
+
+<p>页面源代码中添加两个GridView控件(GridView1),一个CheckBox控件(CheckBox1)，设置CheckBox控件的AutoPostBack=&ldquo;True&rdquo; ，为GridView1添加一个TemplateField列，并在编辑模版中为该列添加一个CheckBox 控件：</p>
+
+<pre><code>&lt;asp:TemplateField&gt;&lt;ItemTemplate&gt;&lt;asp:CheckBox ID="Check" runat="server" /&gt;&lt;/ItemTemplate&gt;&lt;/asp:TemplateField&gt;。设置CheckBox的CheckedChanged事件。 
+</code></pre>
+
+<p>cs代码：</p>
+
+<pre><code>public SqlConnection GetConnection() 
+   { 
+       //读取web.config中的连接字符串，创建SqlConnection连接 
+       string myStr = ConfigurationManager.AppSettings["ConnectionString"].ToString(); 
+       SqlConnection myConn = new SqlConnection(myStr); 
+       return myConn; 
+   } 
+   protected void bind() 
+   { 
+       //此处为GridView1绑定数据库 
+       SqlConnection myConn = GetConnection(); 
+       myConn.Open(); 
+       string sqlStr = "select * from test"; 
+       SqlDataAdapter myDa = new SqlDataAdapter(sqlStr, myConn); 
+       DataSet myDs = new DataSet(); 
+       myDa.Fill(myDs); 
+       GridView1.DataSource = myDs; 
+       GridView1.DataBind(); 
+       //释放并关闭连接 
+       myDa.Dispose(); 
+       myDs.Dispose(); 
+       myConn.Close(); 
+   } 
+protected void CheckBox1_CheckedChanged(object sender, EventArgs e) 
+    { 
+        for (int i = 0; i &lt; GridView1.Rows.Count; i++) 
+        { 
+            CheckBox chk = (CheckBox)GridView1.Rows[i].FindControl("Check"); 
+            if (CheckBox1.Checked == true) 
+            { 
+                //全选 
+                CheckBox1.Checked = true; 
+            } 
+            else 
+            { 
+                //反选 
+                CheckBox1.Checked = false; 
+            } 
+        } 
+    }
+</code></pre>
+
+<p>鼠标移动到任意行时，该行自动变成指定颜色，双击打开新页</p>
+
+<p>cs代码：</p>
+
+<pre><code>protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        { 
+            //鼠标移动到任意行时，该行自动变成指定颜色
+            e.Row.Attributes.Add("onmouseover", "this.style.backgroundColor='#BEC9F6';this.style.color='buttontext';");
+            e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor='';this.style.color='';");
+            //双击打开新页
+            e.Row.Attributes.Add("onblclick", "window.open('FileInfo.aspx?id="+e.Row.Cells[0].Text+"')");
+        }
+    }
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-18T16:38:52+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:38 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/18/c-number-,webrequestlei-he-httpwebrequestlei-de-qu-bie-%3F/" title="Previous Post: C#，WebRequest类和HttpWebRequest类的区别？">&laquo; C#，WebRequest类和HttpWebRequest类的区别？</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/18/request-dot-urlreferrer/" title="Next Post: Request.UrlReferrer">Request.UrlReferrer &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

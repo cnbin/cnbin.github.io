@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS-GCD使用技巧 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="GCD(Grand Central Dispatch)是 Apple 开发的一个多核编程的解决方法。 dispatch queue 分成以下三种： 运行在主线程的Main queue，通过dispatch_get_main_queue获取。
+并行队列global dispatch queue， &hellip;">
+  <meta name="keywords" content="GCD">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/26/ios-gcdshi-yong-ji-qiao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS-GCD使用技巧</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-26T13:52:31+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:52 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>GCD(Grand Central Dispatch)是 Apple 开发的一个多核编程的解决方法。</h2>
+
+<p>dispatch queue 分成以下三种：</p>
+
+<ol>
+<li><p>运行在主线程的<code>Main queue</code>，通过<code>dispatch_get_main_queue</code>获取。</p></li>
+<li><p>并行队列<code>global dispatch queue</code>，通过<code>dispatch_get_global_queu</code>e获取，由系统创建三个不同优先级的<code>dispatch queue</code>。并行队列的执行顺序与其加入队列的顺序相同。</p></li>
+<li><p>串行队列<code>serial queues</code>一般用于按顺序同步访问，可创建任意数量的串行队列，各个串行队列之间是并发的。
+当想要任务按照某一个特定的顺序执行时，串行队列是很有用的。串行队列在同一个时间只执行一个任务。我们可以使用串行队列代替锁去保护共享的数据。和锁不同，一个串行队列可以保证任务在一个可预知的顺序下执行。<code>serial queues</code>通过<code>dispatch_queue_create</code>创建，可以使用函数<code>dispatch_retain</code>和<code>dispatch_release</code>去增加或者减少引用计数。</p></li>
+</ol>
+
+
+<h2>GCD 用法</h2>
+
+<pre><code> //  后台执行：
+ dispatch_async(dispatch_get_global_queue(0, 0), ^{
+      // something
+ });
+
+ // 主线程执行：
+ dispatch_async(dispatch_get_main_queue(), ^{
+      // something
+ });
+
+ // 一次性执行：
+ static dispatch_once_t onceToken;
+ dispatch_once(&amp;onceToken, ^{
+     // code to be executed once
+ });
+
+ // 延迟2秒执行：
+ double delayInSeconds = 2.0;
+ dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+ dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+     // code to be executed on the main queue after delay
+ });
+
+ // 自定义dispatch_queue_t
+ dispatch_queue_t urls_queue = dispatch_queue_create("blog.devtang.com", DISPATCH_QUEUE_SERIAL);
+ dispatch_async(urls_queue, ^{  
+　 　// your code 
+ });
+ dispatch_release(urls_queue);
+
+ // 合并汇总结果
+ dispatch_group_t group = dispatch_group_create();
+ dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+      // 并行执行的线程一
+ });
+ dispatch_group_async(group, dispatch_get_global_queue(0,0), ^{
+      // 并行执行的线程二
+ });
+ dispatch_group_notify(group, dispatch_get_global_queue(0,0), ^{
+      // 汇总结果
+ });
+</code></pre>
+
+<p>GCD 的另一个用处是可以让程序在后台较长久的运行。在没有使用 <code>GCD</code> 时，当 app 被按 home 键退出后，app 仅有最多5秒钟的时候做一些保存或清理资源的工作。但是在使用 GCD 后，app 最多有 10 分钟的时间在后台长久运行。这个时间可以用来做清理本地缓存，发送统计数据等工作。例子如下：</p>
+
+<pre><code> // AppDelegate.h文件
+@property (assign, nonatomic) UIBackgroundTaskIdentifier backgroundUpdateTask;
+
+// AppDelegate.m文件
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [self beingBackgroundUpdateTask];
+    // 在这里加上你需要长久运行的代码
+    [self endBackgroundUpdateTask];
+}
+
+- (void)beingBackgroundUpdateTask
+{
+    self.backgroundUpdateTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [self endBackgroundUpdateTask];
+    }];
+}
+
+- (void)endBackgroundUpdateTask
+{
+    [[UIApplication sharedApplication] endBackgroundTask: self.backgroundUpdateTask];
+    self.backgroundUpdateTask = UIBackgroundTaskInvalid;
+}
+</code></pre>
+
+<h2>GCD 注意问题</h2>
+
+<h3>1.dispatch_once_t必须是全局或static变量</h3>
+
+<p>非全局或非 static 的 <code>dispatch_once_t</code>变量在使用时会导致非常不好排查的 bug，正确的如下：</p>
+
+<pre><code>//静态变量，保证只有一份实例，才能确保只执行一次
+static dispatch_once_t onceToken;
+dispatch_once(&amp;onceToken, ^{
+   //单例代码 
+});
+</code></pre>
+
+<p>保证<code>dispatch_once_t</code>只有一份实例。</p>
+
+<h3>2.dispatch_queue_create的第二个参数</h3>
+
+<p>dispatch_queue_create，创建队列用的，它的参数只有两个，原型如下：</p>
+
+<pre><code>dispatch_queue_t dispatch_queue_create ( const char *label, dispatch_queue_attr_t attr );
+</code></pre>
+
+<p>通常都是这么创建串行队列的：</p>
+
+<pre><code>dispatch_queue_t queue = dispatch_queue_create("com.example.MyQueue", NULL);
+</code></pre>
+
+<p>第二个参数传的是“NULL”。 但是<code>dispatch_queue_attr_t</code>类型是有已经定义好的常量的，所以为了更加的清晰、严谨，最好如下创建队列：</p>
+
+<pre><code>/串行队列
+dispatch_queue_t queue = dispatch_queue_create("com.example.MyQueue", DISPATCH_QUEUE_SERIAL);
+//并行队列
+dispatch_queue_t queue = dispatch_queue_create("com.example.MyQueue", DISPATCH_QUEUE_CONCURRENT);
+</code></pre>
+
+<h3>3.dispatch_after是延迟提交，不是延迟运行</h3>
+
+<p>如下例子：</p>
+
+<pre><code>//创建串行队列
+dispatch_queue_t queue = dispatch_queue_create("me.tutuge.test.gcd", DISPATCH_QUEUE_CONCURRENT);
+//立即打印一条信息        
+NSLog(@"Begin add block...");        
+//提交一个block
+dispatch_async(queue, ^{
+    //Sleep 10秒
+    [NSThread sleepForTimeInterval:10];
+    NSLog(@"First block done...");
+});        
+//5 秒以后提交block
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), queue, ^{
+    NSLog(@"After...");
+});
+</code></pre>
+
+<p>运行如下：</p>
+
+<pre><code>2015-05-26 20:57:27.122 GCDTest[45633:1812016] Begin add block...
+2015-05-26 20:57:37.127 GCDTest[45633:1812041] First block done...
+2015-05-36 20:57:37.127 GCDTest[45633:1812041] After...
+</code></pre>
+
+<p>结果验证，<code>dispatch_after</code>只是延时提交<code>block</code>，并不是延时后立即执行。</p>
+
+<h3>4.正确创建dispatch_time_t</h3>
+
+<p>dispatch_time 函数，其原型如下：</p>
+
+<pre><code>dispatch_time_t dispatch_time ( dispatch_time_t when, int64_t delta );
+</code></pre>
+
+<p>第一个参数一般是<code>DISPATCH_TIME_NOW</code>，表示从现在开始。</p>
+
+<p>第二个参数指的是真正的延时的具体时间。</p>
+
+<p>这里要特别注意的是，<code>delta</code>参数是“纳秒！”，就是说，延时1秒的话，<code>delta</code> 应该是“1000000000” 系统提供了常量，如下：</p>
+
+<pre><code>#define NSEC_PER_SEC 1000000000ull
+#define USEC_PER_SEC 1000000ull
+#define NSEC_PER_USEC 1000ull
+</code></pre>
+
+<p>关键词解释：</p>
+
+<ul>
+<li>NSEC：纳秒。</li>
+<li>USEC：微妙。</li>
+<li>SEC：秒</li>
+<li>PER：每</li>
+</ul>
+
+
+<p>所以：</p>
+
+<p>1.NSEC_PER_SEC，每秒有多少纳秒。</p>
+
+<p>2.USEC_PER_SEC，每秒有多少毫秒。（注意是指在纳秒的基础上）</p>
+
+<p>3.NSEC_PER_USEC，每毫秒有多少纳秒。</p>
+
+<p>所以，延时1秒可以写成如下几种：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">NSEC_PER_SEC</span><span class="p">);</span>
+</span><span class='line'><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="mi">1000</span> <span class="o">*</span> <span class="n">USEC_PER_SEC</span><span class="p">);</span>
+</span><span class='line'><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="n">USEC_PER_SEC</span> <span class="o">*</span> <span class="n">NSEC_PER_USEC</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后一个<code>USEC_PER_SEC * NSEC_PER_USEC</code>，翻译过来就是“每秒的毫秒数乘以每毫秒的纳秒数”，也就是“每秒的纳秒数”，所以，延时500毫秒之类的。</p>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://www.cocoachina.com/ios/20150505/11751.html">http://www.cocoachina.com/ios/20150505/11751.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-26T13:52:31+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:52 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/26/xcodecha-jian/" title="Previous Post: Xcode插件">&laquo; Xcode插件</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/26/objective-c-kai-fa-bian-ma-gui-fan/" title="Next Post: Objective-C 开发编码规范">Objective-C 开发编码规范 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

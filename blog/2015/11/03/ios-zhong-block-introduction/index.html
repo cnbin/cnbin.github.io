@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 中 Block Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、概述 Block是C级别的语法和运行时特性。Block比较类似C函数，但是Block比之C函数，其灵活性体现在栈内存、堆内存的引用，我们甚至可以将一个Block作为参数传给其他的函数或者Block。 二、热身 先看一个比较简单的Block例子： int multiplier = 7; int &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/03/ios-zhong-block-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 中 Block Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-03T11:33:48+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:33 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>一、概述</h2>
+
+<p>Block是C级别的语法和运行时特性。Block比较类似C函数，但是Block比之C函数，其灵活性体现在栈内存、堆内存的引用，我们甚至可以将一个Block作为参数传给其他的函数或者Block。</p>
+
+<h2>二、热身</h2>
+
+<p>先看一个比较简单的Block例子：</p>
+
+<pre><code>int multiplier = 7; 
+int (^myBlock)(int) = ^(int num) { 
+    return num * multiplier; 
+}; 
+</code></pre>
+
+<p>在这个例子中，myBlock是一个Block变量，它接受一个int类型的参数，返回一个int类型的值。是不是很像C函数？</p>
+
+<p>来，让我们typedef一下</p>
+
+<pre><code>typedef void (^BoolBlock)(BOOL);//一个只接受一个BOOL参数，没有返回值的block 
+typedef int (^IntBlock)(void);//一个没有参数，返回int的block 
+typedef BoolBlock (^HugeBlock)(IntBlock);//看看，这个HugeBlock的参数和返回值都是block 
+</code></pre>
+
+<h2>三、更详细的例子</h2>
+
+<p>注意：上面的typedef都还有效~</p>
+
+<p>主动调用一下：</p>
+
+<pre><code>- (void)someMethod 
+{ 
+    BoolBlock ablock = ^(BOOL bValue) { 
+        NSLog(@"Bool block!"); 
+    }; 
+    ablock(); 
+} 
+</code></pre>
+
+<p>作为参数返回：</p>
+
+<pre><code>typedef void (^BoolBlock)(BOOL); 
+- (BoolBlock)foo() 
+{ 
+    BoolBlock ablock = ^(BOOL bValue) { 
+        NSLog(@"Bool block!"); 
+    }; 
+    return [[ablock copy] autorelease];//一定要copy，将其复制到堆上，更详细的原理，将在后续章节讲解 
+} 
+</code></pre>
+
+<p>类的一个成员：</p>
+
+<pre><code>@interface OBJ1 : NSObject 
+@property (nonatomic, copy)BoolBlock block;//理由同上啊，同学们 
+@end 
+
+OBJ1 *obj1 = ... 
+obj1.block = ^(BOOL bValue) { 
+        NSLog(@"Bool block!"); 
+    }; 
+</code></pre>
+
+<p>其他函数的参数：</p>
+
+<pre><code>- (void)foo(BoolBlock block) 
+{ 
+    if (block) { 
+        block(); 
+    } 
+} 
+</code></pre>
+
+<p>甚至其他block的参数：</p>
+
+<pre><code>BoolBlock bBlock = ^(BOOL bV){if(Bv){/*do some thing*/}}; 
+HugeBlock hBlock = ^(BoolBlock bB) {bB();}; 
+
+hBolck(bBlock); 
+</code></pre>
+
+<p>啊，全局变量！：</p>
+
+<pre><code>static int(^maxIntBlock)(int, int) = ^(int a, int b){return a&gt;b?a:b;}; 
+int main() 
+{ 
+    printf("%d\n", maxIntBlock(2,10));   
+    return 0; 
+} 
+</code></pre>
+
+<p>好了，你知道block大概能怎么用了。</p>
+
+<h2>四，特殊的标记，__block</h2>
+
+<p>如果要在block内修改block外声明的栈变量，那么一定要对该变量加__block标记：</p>
+
+<pre><code>int main() 
+{ 
+    __block int i = 1024; 
+    BoolBlock bBlock = ^(BOOL bV) { 
+        if (bV) { 
+            i++;//如果没有__block标记，是无法通过编译的。 
+        } 
+    }; 
+} 
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-03T11:33:48+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:33 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/03/ios-gao-fang-cheng-mi-introduction/" title="Previous Post: iOS 高仿城觅 Introduction">&laquo; iOS 高仿城觅 Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/03/avcapturedevice-de-ji-ge-shu-xing/" title="Next Post: AVCaptureDevice 的几个属性">AVCaptureDevice 的几个属性 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

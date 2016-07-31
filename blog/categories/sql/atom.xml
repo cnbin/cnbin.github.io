@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Sql | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/sql/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[数据库的类型对应在c#中的类型]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/11/shu-ju-ku-de-lei-xing-dui-ying-zai-c-number-zhong-de-lei-xing/"/>
+    <updated>2016-06-11T08:39:56+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/11/shu-ju-ku-de-lei-xing-dui-ying-zai-c-number-zhong-de-lei-xing</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4r3k6p8zgj205f0ddwfm.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sql备份与还原]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/08/sqlbei-fen-yu-huan-yuan/"/>
+    <updated>2016-06-08T11:34:59+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/08/sqlbei-fen-yu-huan-yuan</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4nnv09byyj20e60ekgpi.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f4nnv13um3j20k30eggqm.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4nnv451ztj20nz0jb0vh.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4nnvavyw4j20o50jmq5z.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4nnvi1xsyj20j60c3tar.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4nnvijj1wj20i20bt0tv.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4nnvj06fqj20nr0j8q6r.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f4nnvpjz28j20nt0ji79f.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4nnvr58hwj20lc0ghjuu.jpg" alt="img" /></p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://jingyan.baidu.com/album/8cdccae966ce5f315413cd37.html?picindex=1">http://jingyan.baidu.com/album/8cdccae966ce5f315413cd37.html?picindex=1</a></li>
+<li><a href="http://blog.csdn.net/dba_huangzj/article/details/8309503">http://blog.csdn.net/dba_huangzj/article/details/8309503</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Sql数据库基本信息]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/07/sqlshu-ju-ku-ji-ben-xin-xi/"/>
+    <updated>2016-06-07T16:03:16+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/07/sqlshu-ju-ku-ji-ben-xin-xi</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4mpyj9ej4j20eg09qq54.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4mq0erkq5j20f509ttai.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4mq2rkxopj20ev095gny.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4mq9jcfzyj20qm0gidml.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4mqbjj3irj20qu0amdj3.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4mqj6d9qjj20q90fudn0.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4mqybho3rj20s10g8dmj.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f4mqybmr9aj20i10e3mz8.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f4mqych351j20r60gatbp.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4mrkcl4mhj20qw0gk794.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4mrkd4jf1j20l60fqtc7.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f4mrzsexsnj20r70fywja.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f4mrzg3y64j20rc09d76k.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f4ms47952xj20fw0ap0uf.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4ms53hn3oj20qo0etn1d.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[不允许保存更改，阻止保存要求重新创建表的更改]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/06/bu-yun-xu-bao-cun-geng-gai-,zu-zhi-bao-cun-yao-qiu-zhong-xin-chuang-jian-biao-de-geng-gai/"/>
+    <updated>2016-06-06T11:25:03+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/06/bu-yun-xu-bao-cun-geng-gai-,zu-zhi-bao-cun-yao-qiu-zhong-xin-chuang-jian-biao-de-geng-gai</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://jingyan.baidu.com/article/ab69b270d63c572ca7189fae.html">http://jingyan.baidu.com/article/ab69b270d63c572ca7189fae.html</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在sql数据库里的，查询分析器里，写语句的左侧没有显示行号，要怎么显示出行号？]]></title>
+    <link href="http://cnbin.github.io/blog/2016/05/27/zai-sqlshu-ju-ku-li-de-,cha-xun-fen-xi-qi-li-,xie-yu-ju-de-zuo-ce-mei-you-xian-shi-xing-hao-,yao-zen-yao-xian-shi-chu-xing-hao-%3F/"/>
+    <updated>2016-05-27T17:32:20+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/05/27/zai-sqlshu-ju-ku-li-de-,cha-xun-fen-xi-qi-li-,xie-yu-ju-de-zuo-ce-mei-you-xian-shi-xing-hao-,yao-zen-yao-xian-shi-chu-xing-hao-?</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<pre><code>工具-&gt;选项-&gt;文本编辑器-&gt;所有语言-&gt;常规-&gt;显示-&gt;行号
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

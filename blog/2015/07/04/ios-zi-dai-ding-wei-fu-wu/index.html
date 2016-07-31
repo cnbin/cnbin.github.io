@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 自带定位服务(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="定位服务 iOS 7 提供了4种不同的途径进行定位,具体如下所示。 Wi-Fi。通过 Wi-Fi 路由器的地理位置信息查询,比较省电。iPhone、iPod touch 和 iPad 都可以采用这种方式定位。
+蜂窝式移动电话基站。通过移动运用商基站定位。只有 iPhone、3G 版本的 iPod &hellip;">
+  <meta name="keywords" content="ios">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/04/ios-zi-dai-ding-wei-fu-wu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 自带定位服务(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-04T10:44:08+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:44 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>定位服务</h2>
+
+<p>iOS 7 提供了4种不同的途径进行定位,具体如下所示。</p>
+
+<ul>
+<li>Wi-Fi。通过 Wi-Fi 路由器的地理位置信息查询,比较省电。iPhone、iPod touch 和 iPad 都可以采用这种方式定位。</li>
+<li>蜂窝式移动电话基站。通过移动运用商基站定位。只有 iPhone、3G 版本的 iPod touch和iPad可以采用这种方式定位。</li>
+<li>GPS 卫星。通过 GPS 卫星位置定位,这种方式最为准确,但是耗电量大,不能遮挡。iPhone、iPod touch 和 iPad 都可以采用这种方式定位。</li>
+<li>iBeacon 微定位。iOS 7支持iBeacon技术,iBeacon 技术是苹果公司研发的,它使用低功耗蓝牙技术,通过多个 iBeacon 基站可以创建一个信号区域(地理围栏),当设备进入该区域时,相应的应用程序便会提示用户进入了这个地理围栏。</li>
+</ul>
+
+
+<p>在对定位服务编程时,iOS 不像 Android 系统可以指定采用哪种途径进行定位。iOS 的 API 把底层这些细节屏蔽掉了,开发人员和用户并不知道现在设备是采用哪种方式进行定位的(微定位除外),iOS 系统会根据设备的情况 和周围的环境采用一套最佳的解决方案。</p>
+
+<p>也就是说,如果能够接收 GPS 信息,那么设备优先采用 GPS 定位,否则采用Wi-Fi 或蜂窝基站定位。在 Wi-Fi 和蜂窝基站之间,优先使用 Wi-Fi,如果无法连接 Wi-Fi 才使用蜂窝基站定位。</p>
+
+<h3>定位服务编程</h3>
+
+<p>在 iOS 7 中,定位服务有比较大的变化,主要使用 <code>Core Location</code> 框架,定位时主要使用 CLLocationManager、 CLLocationManagerDelegate 和 CLLocation 这3个类,下面简要介绍一下它们。</p>
+
+<ul>
+<li>CLLocationManager。用于定位服务管理类,它能够给我们提供位置信息和高度信息,也可以监控设备 进入或离开某个区域,还可以获得设备的运行方向等。</li>
+<li>CLLocationManagerDelegate。它是 CLLocationManager 类的委托协议。</li>
+<li>CLLocation。该类封装了位置和高度信息。</li>
+</ul>
+
+
+<p>在定位服务的应用中,第一次请求位置信息时,系统会提示用户是否允许开启定位服务。如图所示,用户所在的位置是比较私 密的信息,应用获取这些信息时,用户是有知情权和否定权的。如果应用在用户不知情的情况下获得其位置信息,这在某些国家是违法的。
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etqjwvmu85j20fj073gm7.jpg" alt="img" /></p>
+
+<p>如果用户“不允许”,定位服务就无法获得位置信息了。如果想改变这些设置,可以在系统“设置”应用中 开启或关闭,如图所示。</p>
+
+<p>如图所示,我们可以关闭所有的定位服务,此时只需关闭最上面的“定位服务”开关控件就可以了。 当然,也可以关闭或开启下面的具体应用。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etqjzket92j20hd0oegnh.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etqjz8sfe1j20h10o4wgk.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etqjz950q1j20he0pxdj7.jpg" alt="img" /></p>
+
+<p>在应用启动进入界面时,会获得位置信息,并显示在对应的文本框中。如果设备位置发生变化,也会重新获取位置信息,并更新对应的文本框。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etqk2geww6j20hf0d63z9.jpg" alt="img" /></p>
+
+<p>首先,为工程引入 <code>Core Location</code> 框架,具体步骤是选择工程中的 <code>TARGETS→WhereAmI→Build Phases→Link Binary With Libraries</code>,选择右下角的 <code>+</code> 按钮,打开“选择要添加的框架和库”对话框,如图所示。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etqk5pko06j20n50amdhm.jpg" alt="img" /></p>
+
+<p>ViewController.h 中的代码如下:</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etqk8q5gahj20ne0a7whv.jpg" alt="img" /></p>
+
+<p>在上述代码中,我们首先引入了 <code>CoreLocation/CoreLocation.h</code> 和 <code>CoreLocation/CLLocationManagerDelegate.h</code> 这两个头文件,然后在定义<code>ViewController</code> 时声明了 <code>CLLocationManagerDelegate</code> 协议。此外,我们还定义了 <code>CLLocationManager *locationManager</code> 属性。
+在 ViewController.m 中,viewDidLoad 方法的代码如下:</p>
+
+<pre><code>- (void)viewDidLoad
+{
+[super viewDidLoad];
+//初始化定位服务管理对象
+_locationManager = [[CLLocationManager alloc] init];
+_locationManager.delegate = self;
+_locationManager.desiredAccuracy = kCLLocationAccuracyBest; (1)
+_locationManager.distanceFilter = 1000.0f; (2)
+}
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etqkoep1qzj20kw05vjtc.jpg" alt="img" /></p>
+
+<p>在上述代码中,我们主要对 <code>CLLocationManager</code> 的成员变量 <code>_locationManager</code> 进行了初始化。首先,使用 <code>[[CLLocationManager alloc] init]</code> 语句实例化 <code>CLLocationManager</code> 对象,然后使用 <code>_locationManager. delegate = self</code> 语句设置定位服务委托为 self。</p>
+
+<p>第(1)行代码设置 <code>desiredAccuracy</code> 属性,它是一个非常重要 的属性,其取值有6个常量,具体如下所示。</p>
+
+<ul>
+<li>kCLLocationAccuracyNearestTenMeters。精确到10米。</li>
+<li>kCLLocationAccuracyHundredMeters。精确到100米。</li>
+<li>kCLLocationAccuracyKilometer。精确到1000米。</li>
+<li>kCLLocationAccuracyThreeKilometers。精确到3000米。</li>
+<li>kCLLocationAccuracyBest。设备使用电池供电时最高的精度。</li>
+<li>kCLLocationAccuracyBestForNavigation。导航情况下最高的精度,一般有外接电源时才能使用。</li>
+</ul>
+
+
+<p>精度越高,请求获得位置信息的时间就越短,这就意味着设备越耗电,因此一个应用应该选择适合它的精度。
+如果你的应用是一个车载导航应用, <code>kCLLocationAccuracyBestForNavigation</code> 是比较好的选择,你可以使用汽车上的电瓶为设备供电。
+如果你的应用是为徒步旅行者提供的导航应用, <code>kCLLocationAccuracyHundredMeters</code> 是一个不错的选择。</p>
+
+<p>第(2)行代码设置 <code>distanceFilter</code> 属性,它是距离过滤器,定义了设备移动后获得位置信息的最小距离,单位是米,本例设置为1000米。
+初始化 CLLocationManager 类后,需要使用 <code>startUpdatingLocation</code> 方法开始定位服务,该方法定义在 <code>ViewController.m</code> 的 <code>viewWillAppear:</code> 方法中。viewWillAppear:方法的代码如下:</p>
+
+<pre><code>- (void)viewWillAppear:(BOOL)animated
+{
+[super viewWillAppear:animated]; //开始定位
+[_locationManager startUpdatingLocation];
+}
+</code></pre>
+
+<p>调用 <code>startUpdatingLocation</code> 方法时,就会开启定位服务。根据设定的条件,它不断请求回调新的位置信息。因此,开启这个方法一定要慎重,在视图控制器的声明周期方法 <code>viewWillAppear:</code> 中使用这个方法是最合适的。与开启服务对应的方法是 <code>stopUpdatingLocation</code> 方法,它是在视图控制器的 <code>viewWillDisappear:</code> 方 法中调用的。<code>viewWillDisappear:</code> 方法的代码如下:</p>
+
+<pre><code>- (void)viewWillDisappear:(BOOL)animated
+{
+[super viewWillDisappear:animated]; //停止定位
+[_locationManager stopUpdatingLocation];
+}
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etqkpetv78j20ho07rwga.jpg" alt="img" /></p>
+
+<p>这个方法在视图消失(应用退到后台)时调用,能够保证最及时地关闭定位服务。在iOS 6中,请求有所变化, 定位服务应用退入台后,可以延迟更新位置信息,这可以通过 <code>allowDeferredLocationUpdatesUntil- Traveled:timeout:</code> 方法实现。要关闭延迟更新,可以使用 <code>disallowDeferredLocationUpdates</code> 方法实现。
+此外,在iOS 6中,新增了 <code>pausesLocationUpdatesAutomatically</code> 属性,它能设定自动暂停位置更新,而把 定位服务的开启和暂停管理权交给系统,这样会更加合理和简单。</p>
+
+<p>一旦定位服务开启,并设置好 <code>CLLocationManager</code> 委托属性 delegate 后,当用户设备移动到达过滤距离时, 就会回调委托方法。与定位服务有关的方法有如下两个。</p>
+
+<ul>
+<li>locationManager:didUpdateLocations:。定位成功。这是iOS 6中新增的方法,替代了之前的 <code>locationManager:didUpdateToLocation:fromLocation:</code> 方法。</li>
+<li>locationManager:didFailWithError:。定位失败。</li>
+</ul>
+
+
+<p>实现 CLLocationManager 委托的代码如下:</p>
+
+<pre><code>#pragma mark Core Location委托方法用于实现位置的更新
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:
+        (NSArray *)locations
+{
+CLLocation * currLocation = [locations lastObject]; (1)
+_txtLat.text = [NSString stringWithFormat:@"%3.5f",currLocation.coordinate.latitude]; (2)
+_txtLng.text = [NSString stringWithFormat:@"%3.5f",currLocation.coordinate.longitude]; (3)
+_txtAlt.text = [NSString stringWithFormat:@"%3.5f",currLocation.altitude]; (4)
+}
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+    {
+        NSLog(@"error: %@",error);
+}
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etqkqddi5tj20mk086wht.jpg" alt="img" /></p>
+
+<p>在 <code>locationManager:didUpdateLocations:</code> 方法中,参数 <code>locations</code> 是位置变化的集合,它按照时间变化的顺序存放。如果想获得当前设备的位置,可以使用
+第(1)行中的 <code>[locations lastObject]</code> 语句获得集合中的最后一个元素,它就是设备的当前位置了。从集合中返回的对象类型是 CLLocation,CLLocation 封装了位置、高度等信息。在上面的代码中,我们使用了它的两个属性 <code>altitude</code> 和 <code>coordinate</code> ,其中前者是高度值,后者是封装经度和纬度的结构体<code>CLLocationCoordinate2D</code>。<code>CLLocationCoordinate2D</code> 的定义如下:</p>
+
+<pre><code>typedef struct {
+CLLocationDegrees latitude; //纬度 CLLocationDegrees longitude; //经度
+} CLLocationCoordinate2D; 
+</code></pre>
+
+<p>其中 <code>latitude</code> 为纬度信息,<code>longitude</code> 为经度信息,它们都是 <code>CLLocationDegrees</code> 类型。<code>CLLocationDegrees</code> 是使用 <code>typedef</code> 定义的 <code>double</code> 类型。</p>
+
+<p>第(2)行代码中的 <code>currLocation.coordinate.latitude</code> 表达式用于获得设备当前的纬度,</p>
+
+<p>第(3)行代码中的 <code>currLocation.coordinate.longitude</code> 表达式用于获得设备当前的经度,</p>
+
+<p>第(4)行代码中的 <code>currLocation. altitude</code> 表达式用于获得高度。</p>
+
+<h3>关于定位服务的测试</h3>
+
+<p>一般情况下,定位服务应用的测试和运行有两个选择:模拟器和设备。原则上,我们先通过模拟器,然后再 使用设备测试。由于定位服务的特点,使用设备测试时我们需要到现场进行测试,所以有的时候有一定的局限性。 因此,使用模拟器测试有的时候是不可替代的。</p>
+
+<p>在 Xcode 早期版本中,模拟器是不能模拟位置信息的变化的,请求获取位置信息只是固定苹果公司总部地址。 而现在的 Xcode 版本预先设置了几个地址,我们可以模拟改变位置。如果想让模拟器一开始运行的时候就能够获 得模拟数据,可以在启动参数中设置。首先,在 Xcode 工具的左上角编辑应用的 <code>Scheme</code>,如图所示。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etql5fvwbjj208o03q3yw.jpg" alt="img" /></p>
+
+<p>选择 <code>Edit Scheme</code> 菜单后,弹出如图所示的对话框,从中选择 <code>Run WhereAmI.app→Options</code>,在 <code>Core Location</code>项目中选中<code>Allow Location Simulation</code>复选框,然后在下面的 <code>Default Location</code> 下拉框中选择你感兴趣的城市。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etql8ii2joj20j90edn02.jpg" alt="img" /></p>
+
+<p>这样应用启动时,就会模拟定位到你选择的城市了。如果列表中没有我们需要的地点,可以使用最下面的 <code>Add GPX File to Project</code> 菜单项为工程添加一个 <code>GPX1</code> 文件。下面是 GPX 文件的内容:</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8" standalone="no" ?&gt;
+&lt;gpx xmlns="http://www.topografix.com/GPX/1/1"
+    creator="MyGeoPosition.com" version="1.1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.topografix.com/GPX/1/1
+        http://www.topografix.com/GPX/1/1/gpx.xsd"&gt;
+    &lt;wpt lat="40.002240" lon="116.323328"&gt; 
+&lt;name&gt;中国北京 东城区北京站东街北京 邮政编码: 100005&lt;/name&gt; &lt;src&gt;MyGeoPosition.com&lt;/src&gt; &lt;link&gt;http://mygeoposition.com&lt;/link&gt;
+        &lt;/wpt&gt;
+    &lt;/gpx&gt;
+</code></pre>
+
+<p><code>&lt;wpt&gt;</code> 标签中的 <code>lat</code>属性设置纬度,<code>lon</code> 属性设置经度。自己手写这个文件还是比较麻烦的,一般使用 <a href="http://www.mygeoposition.com">http://www.mygeoposition.com</a> 网站提供的 <code>GPX</code>工具工具生成。这个网站免费提供地理信息编码和反编码、生成 KML 和 GPX 文件等服务。</p>
+
+<p>GPX(GPS eXchange Format,GPS交换格式)是一个 XML 格式,是为应用软件设计的通用 GPS 数据格式。</p>
+
+<p>得到 GPX 文件后,可以通过如图所示的 <code>Add GPX File to Project</code> 菜单项将它添加到 Xcode 工程中,此时在菜单中就会出现 <code>GPX</code> 文件了。如果我添加的文件名是 <code>test.gpx</code> ,则在菜单中出现 test 菜单项,选择 test 即可使用这个模拟坐标数据了。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etqlhurwhgj20v80ebtek.jpg" alt="img" /></p>
+
+<p>如果在应用启动参数中没有设置初始的模拟位置数据,我们还可以在运行之后设置。在调试工具栏中选择模 拟定位按钮,即可选择模拟位置,如图所示。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etqljgibs0j20ad05c3yv.jpg" alt="img" /></p>
+
+<p>Xcode 中的模拟器还提供了连续位置变化测试能力。如果想开发导航应用,这个功能对我们有很大的帮助。 此外,模拟器有几个固定的模式,可以发出连续变化的位置数据。打开模拟菜单的“调试”→“位置”,可以发 现共有7个菜单项,</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etqlltx1mpj20s00bhafm.jpg" alt="img" /></p>
+
+<p>其中后面3个都能发出连续的位置变化数据,它们的起始点从苹果公司总部开始,按照一个固定的线路运动,这三者的区别是 <code>City Bicycle Ride</code> 是最慢的,<code>City Run</code> 要快一些,<code>Freeway Drive</code> 最快。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-04T10:44:08+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:44 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/04/bai-du-mp3-jie-kou/" title="Previous Post: 百度 mp3 接口">&laquo; 百度 mp3 接口</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/04/objective-c-uiactivityindicatorview/" title="Next Post: Objective-c UIActivityIndicatorView">Objective-c UIActivityIndicatorView &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

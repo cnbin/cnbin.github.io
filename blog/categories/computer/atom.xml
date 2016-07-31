@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Computer | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/computer/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[软件调用层次]]></title>
+    <link href="http://cnbin.github.io/blog/2016/03/23/ruan-jian-diao-yong-ceng-ci/"/>
+    <updated>2016-03-23T09:33:59+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/03/23/ruan-jian-diao-yong-ceng-ci</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>我们把整个计算机调用结构分为四层：</p>
+
+<p>最上层是应用层。不管是浏览器、游戏，还是我们使用的各种开发工具，如Xcode，VS，汇编器自身等，都属于这一范畴。</p>
+
+<p>第二层是操作系统的运行库。我们在程序里调用系统API，比如文件读写，就是调用了第二层提供的相应服务。这种调用通过操作系统的API完成，它沟通了应用层和操作系统的运行库。这也就是为什么不管是在Mac还是Windows上编程，我们都可以调用printf()或fread()等函数。因为不同的操作系统的运行库提供了不同底层的实现，但对应用层提供的API总是一样的。</p>
+
+<p>第三层是操作系统内核。操作系统的运行库通过系统调用(System Call)调用系统内核提供的函数。比如fread属于API，它在Linux下会调用read()这个系统调用，而在Windows下会调用ReadFile()这个系统调用。应用程序可以直接调用系统调用，但是这样一来，我们需要考虑各个操作系统下系统调用的不同，而且系统调用由于更加底层，实现起来也就更加困难。最关键的是，系统调用是通过中断来完成的，涉及到堆栈的保存与恢复，频繁的系统调用会影响性能。</p>
+
+<p>第四层是硬件层。程序无法直接访问这一层，只有操作系统的内核，通过硬件厂商提供的接口才能访问。
+这四层之间的关系如下图所示：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f26jnvxucxj20hs0lc762.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[从源码到程序]]></title>
+    <link href="http://cnbin.github.io/blog/2016/03/23/cong-yuan-ma-dao-cheng-xu/"/>
+    <updated>2016-03-23T09:33:14+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/03/23/cong-yuan-ma-dao-cheng-xu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>预编译：负责这一步工作的叫“预编译器”。它主要负责处理所有的<code>#define</code>宏定义；所有的预编译指令，比如<code>#if、#endif</code>等。接下来会递归处理<code>#include</code>指令，用被包含的文件替换这个预编译指令。<code>.c</code>文件经过预编译，变为<code>.i</code>文件。</p>
+
+<p>编译：这一步由编译器负责，主要又由词法分析、语法分析、语义分析、优化和生成汇编代码五个部分：</p>
+
+<p>词法分析：识别源代码中的各种括号、数字、标点等。比如有(但没有)，这一步就能发现错误
+语法分析：这一步会生成语法树，比如<code>2+4</code>就是一颗根节点为+，左右叶子节点分别为2和4的语法树。如果你只是写2+，在这一步就会报错。
+语义分析：这一步主要考虑类型声明、匹配和转换。比如你写<code>2 * "3"</code>在这一步就会报错
+中间语言生成：这一步会生成平台无关的三地址码，比如<code>2 + 3</code>会写成<code>t1 = 2 + 3</code>，同时也会把这样在编译期就可以确定的表达式进行优化
+目标代码生成：编译器根据三地址码生成依赖于目标机器的目标机器代码，也就是汇编语言。</p>
+
+<p><code>.i</code>文件经过编译，得到汇编文件，后缀是<code>.s</code></p>
+
+<p>汇编：这一步由汇编器负责，将汇编语言转换成机器可以执行的语言(完全由0和1组成).汇编文件经过汇编，变成目标文件，后缀为<code>.o</code>。</p>
+
+<p>链接：这一步是这本书的重点。之前的几个步骤，都是以<code>.c</code>文件为基本单位，一个<code>.c</code>源代码文件最终被汇编，生成目标文件。这一步就是处理如何把多个目标文件链接起来。</p>
+
+<p>考虑一个<code>.c</code>文件中，用到了另一个<code>.c</code>文件中的变量或函数。在编译这个文件时，我们无法在编译期确定这个变量或函数的地址。只有在把所有目标文件链接起来以后，才能确定。链接器主要负责地址重分配、符号名称绑定和重定位。</p>
+
+<p>从源代码到程序的运行要做的远远不止编译，很多时候我们说“把程序编译一下”，是不准确的。不过编译确实是整个流程中最复杂的部分。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Win7 Sp1是什么意思啊？]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/26/win7-sp1shi-shi-yao-yi-si-a-%3F/"/>
+    <updated>2016-02-26T15:05:34+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/26/win7-sp1shi-shi-yao-yi-si-a-?</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>SP1 是一个微软出品的补丁包功能的包的集合，相当于一次系统大的升级包。</p>
+
+<p>win7 SP1 有2个意思</p>
+
+<ol>
+<li>就是指SP1安装包程序，下载安装在未升级过的win7上面</li>
+<li>也有就是指打过 SP1 升级的 WIN7 系统</li>
+</ol>
+
+
+<p>win7 现在最新的 是 SP1</p>
+
+<p>winxp 最新的是 SP3</p>
+
+<p>SPn 安装包是系统重要的升级，有必要安装。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[显存容量]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/26/xian-cun-rong-liang/"/>
+    <updated>2016-02-26T14:11:11+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/26/xian-cun-rong-liang</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>显存容量是显卡上显存的容量数，这是选择显卡的关键参数之一。显存容量决定着显存临时存储数据的多少，显卡显存容量有128MB、256MB、512MB、1024MB几种，64MB和128MB显存的显卡现在已较为少见，主流的是2GB、4GB、6GB的产品。现如今最新版已经能达到32GB的显存容量（FirePro S9170）。</p>
+
+<h3>应用</h3>
+
+<h4>大小选择</h4>
+
+<p>目前工作站显卡所用的显存容量一般都在2GB以上。</p>
+
+<p>对于选择多大的显存容量合适，这取决于多种因素，比如应用的环境和硬件的相互制约关系，但通常来讲可以参考下面公式：</p>
+
+<pre><code>显存容量=显示分辨率×颜色位数/8bit。
+</code></pre>
+
+<h4>分辨率</h4>
+
+<p>比如现在显示分辨率基本都是1024x768，颜色位数为32bit，那么需要的显存容量=1024x768x32bit/8bit=3145728 byte，可是这针对是2D显卡（普通平面），如果是3D加速卡，那么需要的显存容量为1024x768x32bitx3/8bit=9437184byte=9.216MB，这是最低需求，而且还必须增加一定的容量作为纹理显示内存，否则当显示资源被完全占用时，计算机只有占用主内存作为纹理内存，这样的二次调用会导致显示性能下降，因此作为真正的3D加速卡显存容量一定大于9.216MB。目前工作站显卡显存都在64MB以上。比如2D绘图应用，即使在1600x1200的情况下，它也最多是1600x1200x32bit/8bit=7680000byte=7.5MB，如果是三维绘图比如3D Studio Max，那么容量需求是7.5x3=22.5MB，不过这是最低需求，因此32MB容量的显存是应付这类2D绘图或者娱乐的视频播放、普通三维设计。对于工作站而言，由于运行更大的软件，更大的运算，所以显存至少应该在64M以上。</p>
+
+<h4>速度选择</h4>
+
+<p>另外还需要补充一点的就是显存的速度。</p>
+
+<p>早期的SDRAM显存速度很慢，后来出现的DDR显存逐渐成为主流。</p>
+
+<p>在DDR两倍速度于SD显存的时候，面向高端显卡的DDR2显存横空出世，使得显存频率得以高于600MHz。</p>
+
+<p>现在的显存用于低端的是DDR或者是DDR2，面向中高端的上DDR3，到06年，ATi的R580系列显卡使用的显存速度达到了1.8GHz！</p>
+
+<p>显存速度也是显卡非常重要的一个参数。比如NV的GeForce6600。05年的6600标准版的显存是DDR，速度标准为500，而后来推出的DDR2版的6600，在显示核心（GPU）没有任何改变的情况下，显存变为800Mhz，性能却提高了40%！所以显存的速度也是非常重要的！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[推土机架构]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/26/tui-tu-ji-jia-gou/"/>
+    <updated>2016-02-26T14:08:49+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/26/tui-tu-ji-jia-gou</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>推土机（Bulldozer）是AMD全新微处理器架构。“推土机”将采用32nm SOI工艺，采用了“模块化（Module）”的设计，每个“模块”包含两个处理器核心。</p>
+
+<h3>简介</h3>
+
+<p>每个BulldozerModule将会集成2M L2缓存， 8MB的L3缓存，核心面积为30.9平方毫米。推土机架构采用了全新的控制结构和运算单元，其性能体现在整数运算、浮点运算方面。推土机架构的时钟发生器、电源管理器、L1缓存等……均是开发重点。AMD计划在2011年推出基于该架构代号为Interlagos服务器级处理器和代号为Zambezi桌面处理器，其中 Zambezi桌面处理器将是针对中高端市场推出的产品，采用新的Socket AM3 r2接口插槽。新处理器将支持新的内存控制器，将可带来更高的内存带宽表现，支持动态频率提升技术（turbo core）等。</p>
+]]></content>
+  </entry>
+  
+</feed>

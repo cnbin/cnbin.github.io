@@ -1,0 +1,1094 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mac 搭建 Ruby on Rails 博客系统(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="What&rsquo;s rails? Rails 是使用 Ruby 语言编写的网页程序开发框架，目的是为开发者提供常用组件，简化网页程序的开发。只需编写较少的代码，就能实现其他编程语言或框架难以企及的功能。经验丰富的 Rails 程序员会发现，Rails 让程序开发变得更有乐趣。 1.安装 &hellip;">
+  <meta name="keywords" content="Ruby,rails">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/27/mac-da-jian-ruby-on-rails-bo-ke-xi-tong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mac 搭建 Ruby on Rails 博客系统(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-27T16:24:05+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:24 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<blockquote><p><strong>What&rsquo;s rails?</strong></p></blockquote>
+
+<p>Rails 是使用 Ruby 语言编写的网页程序开发框架，目的是为开发者提供常用组件，简化网页程序的开发。只需编写较少的代码，就能实现其他编程语言或框架难以企及的功能。经验丰富的 Rails 程序员会发现，Rails 让程序开发变得更有乐趣。</p>
+
+<h2>1.安装 Rails</h2>
+
+<p>执行命令，确认是否已经安装 <code>Ruby</code> 和 <code>Sqlite3</code>。Mac 默认安装了 Ruby，很多类 <code>Unix</code> 系统都自带了版本尚新的 <code>SQLite3</code>。</p>
+
+<pre><code>$ ruby -v
+ruby 2.0.0p481 (2014-05-08 revision 45883) [universal.x86_64-darwin14]
+
+$ sqlite3 --version
+3.8.5 2014-08-15 22:37:57 c8ade949d4a2eb3bba4702a4a0e17b405e9b6ace
+</code></pre>
+
+<p>然后执行命令安装 rails ：</p>
+
+<pre><code>$ sudo gem install rails
+</code></pre>
+
+<p>检查所有软件是否都正确安装了，可以执行下面的命令：</p>
+
+<pre><code>rails --version
+</code></pre>
+
+<p>如果显示的结果类似“Rails 4.2.1”，那么就可以继续往下读了。</p>
+
+<h2>1.1新建 Blog</h2>
+
+<p>执行命令：</p>
+
+<pre><code>$rails new blog
+</code></pre>
+
+<p>这个命令会在文件夹 <code>blog</code> 中新建一个 <code>Rails</code> 程序，然后执行 <code>bundle install</code> 命令安装 <code>Gemfile</code> 中列出的 <code>gem</code>。
+注意的是把 <code>Gemfile</code> 里面的第一行改成 <code>http://ruby.taobao.org</code>。</p>
+
+<p>生成 blog 程序后，进入该文件夹：</p>
+
+<pre><code>$ cd blog
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esiwnhcybjj20hn0j779q.jpg" alt="img" /></p>
+
+<h2>1.2启动服务器</h2>
+
+<p>在 blog 文件夹中执行下面的命令：</p>
+
+<pre><code>$ rails server
+</code></pre>
+
+<p>会看到</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esiwwh7nopj20fj03qq4m.jpg" alt="img" /></p>
+
+<p>上述命令会启动 <code>WEBrick</code>，这是 <code>Ruby</code> 内置的服务器。要查看程序，请打开一个浏览器窗口，访问 <a href="http://localhost:3000">http://localhost:3000</a>。应该会看到默认的 Rails 信息页面：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esiwhszovgj20k70dw0w3.jpg" alt="img" /></p>
+
+<p>来到这里，整个搭建流程就基本成功搭建完成了。停止服务器，请在命令行中按 <code>Ctrl+C</code> 键。</p>
+
+<h2>2.显示“Hello, Rails!”</h2>
+
+<p>要在 <code>Rails</code> 中显示 <code>“Hello, Rails!”</code> ，需要新建一个控制器和视图。</p>
+
+<p>控制器用来接受向程序发起的请求。路由决定哪个控制器会接受到这个请求。一般情况下，每个控制器都有多个路由，对应不同的动作。动作用来提供视图中需要的数据。</p>
+
+<p>视图的作用是，以人类能看懂的格式显示数据。有一点要特别注意，数据是在控制器中获取的，而不是在视图中。视图只是把数据显示出来。默认情况下，视图使用 <code>eRuby</code>（嵌入式 <code>Ruby</code>）语言编写，经由 <code>Rails</code> 解析后，再发送给用户。</p>
+
+<p>控制器可用控制器生成器创建，你要告诉生成器，我想要个名为 <code>“welcome”</code> 的控制器和一个名为 <code>“index”</code> 的动作，如下所示：</p>
+
+<pre><code>$ rails generate controller welcome index
+</code></pre>
+
+<p>运行上述命令后，Rails 会生成很多文件，以及一个路由。
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esiwwhj996j20du080q58.jpg" alt="img" /></p>
+
+<p>在这些文件中，最重要的当然是控制器，位于 <code>app/controllers/welcome_controller.rb</code>，以及视图，位于 <code>app/views/welcome/index.html.erb</code>。</p>
+
+<p>使用文本编辑器打开 <code>app/views/welcome/index.html.erb</code> 文件，删除全部内容，写入下面这行代码：</p>
+
+<pre><code>&lt;h1&gt;Hello, Rails!&lt;/h1&gt;
+</code></pre>
+
+<h2>2.1设置首页</h2>
+
+<p>在编辑器中打开 <code>config/routes.rb</code> 文件。</p>
+
+<p>这是程序的路由文件，使用特殊的 <code>DSL</code>（ <code>domain-specific language</code>，领域专属语言）编写，告知 <code>Rails</code> 请求应该发往哪个控制器和动作。文件中有很多注释，举例说明如何定义路由。其中有一行说明了如何指定控制器和动作设置网站的根路由。找到以 <code>root</code> 开头的代码行，去掉注释，变成这样：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esiwwhz7p2j20ho05o0ub.jpg" alt="img" /></p>
+
+<p><code>root 'welcome#index'</code> 告知 <code>Rails</code>，访问程序的根路径时，交给 <code>welcome</code>控制器中的 <code>index</code> 动作处理。<code>get 'welcome/index'</code> 告知 <code>Rails</code>，访问 <code>http://localhost:3000/welcome/index</code> 时，交给 <code>welcome</code> 控制器中的 <code>index</code>动作处理。<code>get 'welcome/index'</code> 是运行 <code>rails generate controller welcome index</code> 时生成的。</p>
+
+<p>打开服务器后，就能看到：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esiwwi8oymj20860353yk.jpg" alt="img" /></p>
+
+<h2>3开始使用</h2>
+
+<h3>3.1 添加资源</h3>
+
+<p><code>Rails</code> 提供了一个 <code>resources</code> 方法，可以声明一个符合 <code>REST</code> 架构的资源。创建文章资源后，<code>config/routes.rb</code> 文件的内容如下：</p>
+
+<pre><code>Rails.application.routes.draw do
+
+  resources :articles
+
+  root 'welcome#index'
+end
+</code></pre>
+
+<p>执行 <code>rake routes</code> 任务，会看到定义了所有标准的 <code>REST</code> 动作。输出结果中各列的意义稍后会说明，现在只要留意 <code>article</code> 的单复数形式，这在 <code>Rails</code>     中有特殊的含义。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esjocxt1anj20eg079whe.jpg" alt="img" /></p>
+
+<p>程序中要有个页面用来新建文章。一个比较好的选择是 <code>/articles/new</code>。这个路由前面已经定义了，可以访问。打开 <code>http://localhost:3000/articles/new</code> ，会看到如下的路由错误：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esjocxtk7yj20bx05emy1.jpg" alt="img" /></p>
+
+<p>产生这个错误的原因是，没有定义用来处理该请求的控制器。解决这个问题的方法很简单：创建名为 <code>ArticlesController</code> 的控制器。执行下面的命令即可：</p>
+
+<pre><code>$ rails g controller articles
+</code></pre>
+
+<p>如下图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esjoh1je3sj20c406i0uf.jpg" alt="img" /></p>
+
+<p>现在刷新 <code>http://localhost:3000/articles/new</code>，会看到一个新错误：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esjojk34auj20gd02iwey.jpg" alt="img" /></p>
+
+<p>手动创建动作只需在控制器中定义一个新方法。打开 <code>app/controllers/articles_controller.rb</code> 文件，在 <code>ArticlesController</code> 类中，定义 <code>new</code>方法，如下所示：</p>
+
+<pre><code>class ArticlesController &lt; ApplicationController
+  def new
+  end
+end
+</code></pre>
+
+<p>在 <code>ArticlesController</code> 中定义 <code>new</code> 方法后，再刷新 <code>http://localhost:3000/articles/new</code>，看到的还是个错误：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esjoriu4ysj215h03eabs.jpg" alt="img" /></p>
+
+<p>错误信息解释：</p>
+
+<p>第一部分说明找不到哪个模板，这里，丢失的是 <code>articles/new</code> 模板。<code>Rails</code> 首先会寻找这个模板，如果找不到，再找名为 <code>application/new</code> 的模板。之所以这么找，是因为 <code>ArticlesController</code> 继承自 <code>ApplicationController</code>。</p>
+
+<p>后面一部分是个 <code>Hash</code>。<code>:locale</code> 表示要找哪国语言模板，默认是英语<code>（"en"）</code>。<code>:format</code> 表示响应使用的模板格式，默认为 <code>:html</code>，所以 <code>Rails</code> 要寻找一个 <code>HTML</code> 模板。<code>:handlers</code> 表示用来处理模板的程序，<code>HTML</code> 模板一般使用 <code>:erb</code>，<code>XML</code> 模板使用 <code>:builder</code>，<code>:coffee</code> 用来把 <code>CoffeeScript</code> 转换成 <code>JavaScript</code>。</p>
+
+<p>让这个程序正常运行，最简单的一种模板是 <code>app/views/articles/new.html.erb</code>。新建文件 <code>app/views/articles/new.html.erb</code>，写入如下代码：</p>
+
+<pre><code>&lt;h1&gt;New Article&lt;/h1&gt;
+</code></pre>
+
+<h2>3.1创建表单</h2>
+
+<p>要在模板中编写表单，可以使用“表单构造器”。<code>Rails</code> 中常用的表单构造器是 <code>form_for</code>。在 <code>app/views/articles/new.html.erb</code> 文件中加入以下代码：</p>
+
+<pre><code>&lt;%= form_for :article do |f| %&gt;
+  &lt;p&gt;
+    &lt;%= f.label :title %&gt;&lt;br&gt;
+    &lt;%= f.text_field :title %&gt;
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    &lt;%= f.label :text %&gt;&lt;br&gt;
+    &lt;%= f.text_area :text %&gt;
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    &lt;%= f.submit %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>显示结果如下：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esjp1ryx3gj20ay07i3yu.jpg" alt="img" /></p>
+
+<p>但是这个表单还有个问题。如果查看这个页面的源码，会发现表单 <code>action</code> 属性的值是 <code>/articles/new</code>。这就是问题所在，因为其指向的地址就是现在这个页面，而这个页面是用来显示新建文章表单的。</p>
+
+<p>要想转到其他地址，就要使用其他的地址。这个问题可使用 <code>form_for</code> 方法的 <code>:url</code> 选项解决。在 <code>Rails</code> 中，用来处理新建资源表单提交数据的动作是 <code>create</code>，所以表单应该转向这个动作。</p>
+
+<p>修改 <code>app/views/articles/new.html.erb</code> 文件中的 <code>form_for</code>，改成这样：</p>
+
+<pre><code>&lt;%= form_for :article, url: articles_path do |f| %&gt;
+</code></pre>
+
+<h2>3.2创建文章</h2>
+
+<p>在 <code>ArticlesController</code> 类中定义 <code>create</code> 方法。在 <code>app/controllers/articles_controller.rb</code> 文件中 <code>new</code> 方法后面添加以下代码：</p>
+
+<pre><code>class ArticlesController &lt; ApplicationController
+  def new
+  end
+
+  def create
+  render plain: params[:article].inspect
+  end
+end
+</code></pre>
+
+<p><code>render</code> 方法接受一个简单的 <code>Hash</code> 为参数，这个 <code>Hash</code> 的键是 <code>plain</code>，对应的值为 <code>params[:article].inspect</code>。<code>params</code> 方法表示通过表单提交的参数，返回 <code>ActiveSupport::HashWithIndifferentAccess</code> 对象，可以使用字符串或者 <code>Symbol</code> 获取键对应的值。</p>
+
+<h2>3.3创建 Article 模型</h2>
+
+<p>在 Rails 中，模型的名字使用单数，对应的数据表名使用复数。</p>
+
+<p>创建模型，执行命令：</p>
+
+<pre><code>$ rails generate model Article title:string text:text
+</code></pre>
+
+<p>如下图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esjps64xadj20et038t9q.jpg" alt="img" /></p>
+
+<p>这个命令告知 Rails，我们要创建 Article 模型，以及一个字符串属性 title 和文本属性 text。这两个属性会自动添加到 articles 数据表中，映射到 Article 模型。执行这个命令后，Rails 会生成一堆文件。现在我们只关注 <code>app/models/article.rb</code> 和  <code>db/migrate/20150528013459_create_articles.rb</code>（你得到的文件名可能有点不一样）这两个文件。后者用来创建数据库结构。</p>
+
+<h2>3.4运动迁移</h2>
+
+<p>执行命令：</p>
+
+<pre><code>$ rake db:migrate
+</code></pre>
+
+<p>Rails 会执行迁移操作，告诉你创建了 articles 表。
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esjpwu608yj20fn02taav.jpg" alt="img" /></p>
+
+<h2>3.5在控制器中保存数据</h2>
+
+<p>打开 <code>app/controllers/articles_controller.rb</code>文件，把 <code>create</code> 动作修改成这样：</p>
+
+<pre><code>def create
+  @article = Article.new(params[:article])
+
+  @article.save
+  redirect_to @article
+end
+</code></pre>
+
+<p>在 Rails 中，每个模型可以使用各自的属性初始化，自动映射到数据库字段上。<code>create</code> 动作中的第一行就是这个目的（还记得吗，<code>params[:article]</code> 就是我们要获取的属性）。<code>@article.save</code> 的作用是把模型保存到数据库中。保存完后转向 <code>show</code> 动作。稍后再编写 <code>show</code> 动作。</p>
+
+<p>再次访问 <a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>，填写表单提交后，出现下面错误：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esjq2r7wkoj20rp088gnf.jpg" alt="img" /></p>
+
+<p>Rails 提供了很多安全防范措施保证程序的安全，你所看到的错误就是因为违反了其中一个措施。这个防范措施叫做<code>“健壮参数”</code>，我们要明确地告知 Rails 哪些参数可在控制器中使用。这里，我们想使用 title 和 text 参数。请把 create 动作修成成：</p>
+
+<pre><code>def create
+  @article = Article.new(article_params)
+
+  @article.save
+  redirect_to @article
+end
+
+private
+  def article_params
+    params.require(:article).permit(:title, :text)
+  end
+</code></pre>
+
+<h2>3.6显示文章</h2>
+
+<p>在 <code>rake routes</code> 的输出中看到，<code>show</code> 动作的路由是：</p>
+
+<pre><code>article GET    /articles/:id(.:format)      articles#show
+</code></pre>
+
+<p><code>:id</code> 的意思是，路由期望接收一个名为 <code>id</code> 的参数，在这个例子中，就是文章的 <code>ID</code>。 <br/>
+在 <code>app/controllers/articles_controller.rb</code> 文件中添加 <code>show</code> 动作，以及相应的视图文件。</p>
+
+<pre><code>def show
+  @article = Article.find(params[:id])
+end
+</code></pre>
+
+<p>注意的是，我们调用 <code>Article.find</code> 方法查找想查看的文章，传入的参数 <code>params[:id]</code> 会从请求中获取 <code>:id</code> 参数。我们还把文章对象存储在一个实例变量中（以 <code>@</code> 开头的变量），只有这样，变量才能在视图中使用。</p>
+
+<p>然后，新建 <code>app/views/articles/show.html.erb</code> 文件，写入下面的代码：</p>
+
+<pre><code>&lt;p&gt;
+  &lt;strong&gt;Title:&lt;/strong&gt;
+  &lt;%= @article.title %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;strong&gt;Text:&lt;/strong&gt;
+  &lt;%= @article.text %&gt;
+&lt;/p&gt;
+</code></pre>
+
+<h2>3.7列出所有文章</h2>
+
+<p>列出所有文章，对应的路由是：</p>
+
+<pre><code>articles GET    /articles(.:format)          articles#index
+</code></pre>
+
+<p>在 <code>app/controllers/articles_controller.rb</code> 文件中，为<code>ArticlesController</code> 控制器添加 <code>index</code> 动作：</p>
+
+<pre><code>def index
+  @articles = Article.all
+end
+</code></pre>
+
+<p>然后编写这个动作的视图，保存为 <code>app/views/articles/index.html.erb</code>。</p>
+
+<h2>3.8添加链接</h2>
+
+<p>打开 <code>app/views/welcome/index.html.erb</code> 文件，改成这样：</p>
+
+<pre><code>&lt;h1&gt;Hello, Rails!&lt;/h1&gt;
+&lt;%= link_to 'My Blog', controller: 'articles' %&gt;
+</code></pre>
+
+<p><code>link_to</code> 是 <code>Rails</code> 内置的视图帮助方法之一，根据提供的文本和地址创建超链接。这上面这段代码中，地址是文章列表页面。</p>
+
+<p>接下来添加到其他页面的链接。先在 <code>app/views/articles/index.html.erb</code> 中添加 <code>“New Article”</code> 链接，放在 <code>&lt;table&gt;</code>标签之前：</p>
+
+<pre><code>&lt;%= link_to 'New article', new_article_path %&gt;
+</code></pre>
+
+<p>点击这个链接后，会转向新建文章的表单页面。</p>
+
+<p>然后在 <code>app/views/articles/new.html.erb</code> 中添加一个链接，位于表单下面，返回到 <code>index</code> 动作：</p>
+
+<pre><code>&lt;%= form_for :article do |f| %&gt;
+  ...
+&lt;% end %&gt;
+
+&lt;%= link_to 'Back', articles_path %&gt;
+</code></pre>
+
+<p>最后，在 <code>app/views/articles/show.html.erb</code> 模板中添加一个链接，返回 <code>index</code> 动作，这样用户查看某篇文章后就可以返回文章列表页面了：</p>
+
+<pre><code>&lt;p&gt;
+  &lt;strong&gt;Title:&lt;/strong&gt;
+  &lt;%= @article.title %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;strong&gt;Text:&lt;/strong&gt;
+  &lt;%= @article.text %&gt;
+&lt;/p&gt;
+
+&lt;%= link_to 'Back', articles_path %&gt;
+</code></pre>
+
+<p>如下图显示：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esjsrtlff2j20ar08gt9a.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esjsrtyaq4j208i02pt8u.jpg" alt="img" /></p>
+
+<h2>3.9更新文章</h2>
+
+<p>首先，要在 <code>ArticlesController</code> 中添加 <code>edit</code> 动作：</p>
+
+<pre><code>def edit
+  @article = Article.find(params[:id])
+end
+</code></pre>
+
+<p>视图中要添加一个类似新建文章的表单。新建 <code>app/views/articles/edit.html.erb</code> 文件，写入下面的代码：</p>
+
+<pre><code>&lt;h1&gt;Editing article&lt;/h1&gt;
+
+&lt;%= form_for :article, url: article_path(@article), method: :patch do |f| %&gt;
+  &lt;% if @article.errors.any? %&gt;
+  &lt;div id="error_explanation"&gt;
+    &lt;h2&gt;&lt;%= pluralize(@article.errors.count, "error") %&gt; prohibited
+      this article from being saved:&lt;/h2&gt;
+    &lt;ul&gt;
+    &lt;% @article.errors.full_messages.each do |msg| %&gt;
+      &lt;li&gt;&lt;%= msg %&gt;&lt;/li&gt;
+    &lt;% end %&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;% end %&gt;
+  &lt;p&gt;
+    &lt;%= f.label :title %&gt;&lt;br&gt;
+    &lt;%= f.text_field :title %&gt;
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    &lt;%= f.label :text %&gt;&lt;br&gt;
+    &lt;%= f.text_area :text %&gt;
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    &lt;%= f.submit %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+
+&lt;%= link_to 'Back', articles_path %&gt;
+</code></pre>
+
+<p>method: <code>:patch</code> 选项告诉 <code>Rails</code>，提交这个表单时使用 <code>PATCH</code> 方法发送请求。根据 <code>REST</code> 架构，更新资源时要使用 <code>HTTP PATCH</code>方法。</p>
+
+<p>form_for 的第一个参数可以是对象，例如 <code>@article</code>，把对象中的字段填入表单。如果传入一个和实例变量（@article）同名的 Symbol<code>(:article)</code>，效果也是一样。</p>
+
+<p>然后，要在 <code>app/controllers/articles_controller.rb</code> 中添加 <code>update</code> 动作：</p>
+
+<pre><code>def update
+  @article = Article.find(params[:id])
+
+  if @article.update(article_params)
+    redirect_to @article
+  else
+    render 'edit'
+  end
+end
+
+private
+  def article_params
+    params.require(:article).permit(:title, :text)
+  end
+</code></pre>
+
+<p>新定义的 <code>update</code> 方法用来处理对现有文章的更新操作，接收一个 <code>Hash</code>，包含想要修改的属性。和之前一样，如果更新文章出错了，要再次显示表单。</p>
+
+<p>最后，我们想在文章列表页面，在每篇文章后面都加上一个链接，指向 <code>edit</code> 动作。打开 <code>app/views/articles/index.html.erb</code> 文件，在 <code>Show</code> 链接后面添加<code>Edit</code> 链接：</p>
+
+<pre><code>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+    &lt;th&gt;Text&lt;/th&gt;
+    &lt;th colspan="2"&gt;&lt;/th&gt;
+  &lt;/tr&gt;
+
+&lt;% @articles.each do |article| %&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;%= article.title %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= article.text %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to 'Show', article_path(article) %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to 'Edit', edit_article_path(article) %&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;% end %&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>还要在 <code>app/views/articles/show.html.erb</code> 模板的底部加上 <code>Edit</code> 链接：</p>
+
+<pre><code>...
+
+&lt;%= link_to 'Back', articles_path %&gt;
+&lt;%= link_to 'Edit', edit_article_path(@article) %&gt;
+</code></pre>
+
+<h2>3.10删除文章</h2>
+
+<p>从数据库中删除文章。按照 REST 架构的约定，删除文章的路由是：</p>
+
+<pre><code>DELETE /articles/:id(.:format)      articles#destroy
+</code></pre>
+
+<p>删除资源使用 <code>DELETE</code> 方法，路由会把请求发往 <code>app/controllers/articles_controller.rb</code> 中的 <code>destroy</code> 动作。<code>destroy</code> 动作现在还不存在，下面来添加：</p>
+
+<pre><code>def destroy
+  @article = Article.find(params[:id])
+  @article.destroy
+
+  redirect_to articles_path
+end
+</code></pre>
+
+<p>最后，在 <code>index</code> 动作的模板 <code>(app/views/articles/index.html.erb)</code>中加上 <code>Destroy</code> 链接：</p>
+
+<pre><code>&lt;h1&gt;Listing Articles&lt;/h1&gt;
+&lt;%= link_to 'New article', new_article_path %&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Title&lt;/th&gt;
+    &lt;th&gt;Text&lt;/th&gt;
+    &lt;th colspan="3"&gt;&lt;/th&gt;
+  &lt;/tr&gt;
+
+&lt;% @articles.each do |article| %&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;%= article.title %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= article.text %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to 'Show', article_path(article) %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to 'Edit', edit_article_path(article) %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to 'Destroy', article_path(article),
+                    method: :delete, data: { confirm: 'Are you sure?' } %&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;% end %&gt;
+&lt;/table&gt;
+</code></pre>
+
+<p>如下图显示：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esjsrudhfhj20vl06rta4.jpg" alt="img" /></p>
+
+<h2>3.11添加数据验证</h2>
+
+<p>打开 <code>app/models/article.rb</code> 文件，修改成：</p>
+
+<pre><code>class Article &lt; ActiveRecord::Base
+  validates :title, presence: true,
+                    length: { minimum: 5 }
+end
+</code></pre>
+
+<p>添加的这段代码可以确保每篇文章都有一个标题，而且至少有五个字符。
+添加数据验证后，如果把不满足验证条件的文章传递给 <code>@article.save</code>，会返回 <code>false</code>。打开 <code>app/controllers/articles_controller.rb</code> 文件，会发现，我们还没在 <code>create</code> 动作中检查 <code>@article.save</code> 的返回结果。如果保存失败，应该再次显示表单。为了实现这种功能，请打开 <code>app/controllers/articles_controller.rb</code> 文件，把 <code>new</code> 和 <code>create</code> 动作改成：</p>
+
+<p>打开 <code>app/controllers/articles_controller.rb</code> 文件，把 <code>new</code> 和 <code>create</code> 动作改成：</p>
+
+<pre><code>def new
+  @article = Article.new
+end
+
+def create
+  @article = Article.new(article_params)
+
+  if @article.save
+    redirect_to @article
+  else
+    render 'new'
+  end
+end
+
+private
+  def article_params
+    params.require(:article).permit(:title, :text)
+  end
+</code></pre>
+
+<p>在 <code>app/views/articles/new.html.erb</code>文件中检测错误消息：</p>
+
+<pre><code>&lt;%= form_for :article, url: articles_path do |f| %&gt;
+  &lt;% if @article.errors.any? %&gt;
+  &lt;div id="error_explanation"&gt;
+    &lt;h2&gt;&lt;%= pluralize(@article.errors.count, "error") %&gt; prohibited
+      this article from being saved:&lt;/h2&gt;
+    &lt;ul&gt;
+    &lt;% @article.errors.full_messages.each do |msg| %&gt;
+      &lt;li&gt;&lt;%= msg %&gt;&lt;/li&gt;
+    &lt;% end %&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;% end %&gt;
+  &lt;p&gt;
+    &lt;%= f.label :title %&gt;&lt;br&gt;
+    &lt;%= f.text_field :title %&gt;
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    &lt;%= f.label :text %&gt;&lt;br&gt;
+    &lt;%= f.text_area :text %&gt;
+  &lt;/p&gt;
+
+  &lt;p&gt;
+    &lt;%= f.submit %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+
+&lt;%= link_to 'Back', articles_path %&gt;
+</code></pre>
+
+<p>再次访问 <a href="http://localhost:3000/articles/new">http://localhost:3000/articles/new</a>，尝试发布一篇没有标题的文章，会看到一个很有用的错误提示。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esjszcqk6fj20gt0b3dh8.jpg" alt="img" /></p>
+
+<h2>4添加评论模型</h2>
+
+<h3>4.1生成模型</h3>
+
+<p>在终端执行下面的命令：</p>
+
+<pre><code>$ rails generate model Comment commenter:string body:text article:references
+</code></pre>
+
+<p>如下图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esjtf5l6uxj20fn03omyb.jpg" alt="img" /></p>
+
+<p>然后运行迁移，执行命令：</p>
+
+<pre><code>$ rake db:migrate
+</code></pre>
+
+<p>Rails 相当智能，只会执行还没有运行的迁移，在命令行中会看到以下输出：
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esjtiytuw4j20fn02ot9g.jpg" alt="img" /></p>
+
+<h3>4.2模型关联</h3>
+
+<p>使用 <code>Active Record</code> 关联可以轻易的建立两个模型之间的关系。评论和文章之间的关联是这样的：</p>
+
+<ul>
+<li>评论属于一篇文章</li>
+<li>一篇文章有多个评论</li>
+</ul>
+
+
+<p>我们要编辑 <code>app/models/article.rb</code> 文件，加入这层关系的另一端：</p>
+
+<pre><code>class Article &lt; ActiveRecord::Base
+  has_many :comments
+  validates :title, presence: true,
+                    length: { minimum: 5 }
+end
+</code></pre>
+
+<h3>4.3添加评论的路由</h3>
+
+<p>打开 <code>config/routes.rb</code> 文件，按照下面的方式修改：</p>
+
+<pre><code>resources :articles do
+  resources :comments
+end
+</code></pre>
+
+<h3>4.4生成控制器</h3>
+
+<pre><code>$ rails generate controller Comments
+</code></pre>
+
+<p>这个命令生成六个文件和一个空文件夹：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esjtuo4tqrj20f509bgni.jpg" alt="img" /></p>
+
+<p>评论发布后，会转向文章显示页面，查看自己的评论是否显示出来了。所以，<code>CommentsController</code> 中要定义新建评论的和删除垃圾评论的方法。</p>
+
+<p>首先，修改显示文章的模板 <code>(app/views/articles/show.html.erb)</code>，允许读者发布评论：</p>
+
+<pre><code>&lt;p&gt;
+  &lt;strong&gt;Title:&lt;/strong&gt;
+  &lt;%= @article.title %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;strong&gt;Text:&lt;/strong&gt;
+  &lt;%= @article.text %&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;Add a comment:&lt;/h2&gt;
+&lt;%= form_for([@article, @article.comments.build]) do |f| %&gt;
+  &lt;p&gt;
+    &lt;%= f.label :commenter %&gt;&lt;br&gt;
+    &lt;%= f.text_field :commenter %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.label :body %&gt;&lt;br&gt;
+    &lt;%= f.text_area :body %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.submit %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+
+&lt;%= link_to 'Back', articles_path %&gt;
+| &lt;%= link_to 'Edit', edit_article_path(@article) %&gt;
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esjuf6ikspj206d09ht9f.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esjuf6rutcj20620begmi.jpg" alt="img" /></p>
+
+<h2>5重构</h2>
+
+<h3>5.1渲染局部视图中的集合</h3>
+
+<p>看一下 <code>app/views/articles/show.html.erb</code> 模板，内容太多。下面使用局部视图重构。</p>
+
+<p>新建 <code>app/views/comments/_comment.html.erb</code> 文件，写入下面的代码：</p>
+
+<pre><code>&lt;p&gt;
+  &lt;strong&gt;Commenter:&lt;/strong&gt;
+  &lt;%= comment.commenter %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;strong&gt;Comment:&lt;/strong&gt;
+  &lt;%= comment.body %&gt;
+&lt;/p&gt;
+</code></pre>
+
+<p>然后把 <code>app/views/articles/show.html.erb</code> 修改成：</p>
+
+<pre><code>&lt;p&gt;
+  &lt;strong&gt;Title:&lt;/strong&gt;
+  &lt;%= @article.title %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;strong&gt;Text:&lt;/strong&gt;
+  &lt;%= @article.text %&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;Comments&lt;/h2&gt;
+&lt;%= render @article.comments %&gt;
+
+&lt;h2&gt;Add a comment:&lt;/h2&gt;
+&lt;%= form_for([@article, @article.comments.build]) do |f| %&gt;
+  &lt;p&gt;
+    &lt;%= f.label :commenter %&gt;&lt;br&gt;
+    &lt;%= f.text_field :commenter %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.label :body %&gt;&lt;br&gt;
+    &lt;%= f.text_area :body %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.submit %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+
+&lt;%= link_to 'Edit Article', edit_article_path(@article) %&gt; |
+&lt;%= link_to 'Back to Articles', articles_path %&gt;
+</code></pre>
+
+<p>这个视图会使用局部视图 <code>app/views/comments/_comment.html.erb</code> 渲染 <code>@article.comments</code> 集合中的每个评论。<code>render</code> 方法会遍历 <code>@article.comments</code> 集合，把每个评论赋值给一个和局部视图同名的本地变量，在这个例子中本地变量是 <code>comment</code>，这个本地变量可以在局部视图中使用。</p>
+
+<h3>5.2渲染局部视图中的表单</h3>
+
+<p>新建 <code>app/views/comments/_form.html.erb</code> 文件，写入：</p>
+
+<pre><code>&lt;%= form_for([@article, @article.comments.build]) do |f| %&gt;
+  &lt;p&gt;
+    &lt;%= f.label :commenter %&gt;&lt;br&gt;
+    &lt;%= f.text_field :commenter %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.label :body %&gt;&lt;br&gt;
+    &lt;%= f.text_area :body %&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    &lt;%= f.submit %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>然后把 <code>app/views/articles/show.html.erb</code> 改成：</p>
+
+<pre><code>&lt;p&gt;
+  &lt;strong&gt;Title:&lt;/strong&gt;
+  &lt;%= @article.title %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;strong&gt;Text:&lt;/strong&gt;
+  &lt;%= @article.text %&gt;
+&lt;/p&gt;
+
+&lt;h2&gt;Comments&lt;/h2&gt;
+&lt;%= render @article.comments %&gt;
+
+&lt;h2&gt;Add a comment:&lt;/h2&gt;
+&lt;%= render "comments/form" %&gt;
+
+&lt;%= link_to 'Edit Article', edit_article_path(@article) %&gt; |
+&lt;%= link_to 'Back to Articles', articles_path %&gt;
+</code></pre>
+
+<p>第二个 <code>render</code> 方法的参数就是要渲染的局部视图，即 <code>comments/form</code>。<code>Rails</code> 很智能，能解析其中的斜线，知道要渲染 <code>app/views/comments</code> 文件夹中的 <code>_form.html.erb</code> 模板。</p>
+
+<p><code>@article</code> 变量在所有局部视图中都可使用，因为它是实例变量。</p>
+
+<h3>5.3删除评论</h3>
+
+<p>博客还有一个重要的功能是删除垃圾评论。为了实现这个功能，要在视图中添加一个连接，并在 <code>CommentsController</code> 中定义 <code>destroy</code> 动作。</p>
+
+<p>先在 <code>app/views/comments/_comment.html.erb</code> 局部视图中加入删除评论的链接：</p>
+
+<pre><code>&lt;p&gt;
+  &lt;strong&gt;Commenter:&lt;/strong&gt;
+  &lt;%= comment.commenter %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;strong&gt;Comment:&lt;/strong&gt;
+  &lt;%= comment.body %&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+  &lt;%= link_to 'Destroy Comment', [comment.article, comment],
+               method: :delete,
+               data: { confirm: 'Are you sure?' } %&gt;
+&lt;/p&gt;
+</code></pre>
+
+<p>点击 <code>Destroy Comment</code> 链接后，会向 <code>CommentsController</code> 控制器发起 <code>DELETE /articles/:article_id/comments/:id</code> 请求。我们可以从这个请求中找到要删除的评论。下面在控制器中加入 <code>destroy</code> 动作 <code>（app/controllers/comments_controller.rb）</code>：</p>
+
+<pre><code>class CommentsController &lt; ApplicationController
+  def create
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.create(comment_params)
+    redirect_to article_path(@article)
+  end
+
+  def destroy
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.find(params[:id])
+    @comment.destroy
+    redirect_to article_path(@article)
+  end
+
+  private
+    def comment_params
+      params.require(:comment).permit(:commenter, :body)
+    end
+end
+</code></pre>
+
+<p><code>destroy</code> 动作先查找当前文章，然后在 <code>@article.comments</code> 集合中找到对应的评论，将其从数据库中删掉，最后转向显示文章的页面。</p>
+
+<h3>5.4删除关联对象</h3>
+
+<p>如果删除一篇文章，也要删除文章中的评论，不然这些评论会占用数据库空间。在 <code>Rails</code> 中可以在关联中指定 <code>dependent</code> 选项达到这一目的。把 <code>Article</code>模型<code>(app/models/article.rb)</code>修改成：</p>
+
+<pre><code>class Article &lt; ActiveRecord::Base
+  has_many :comments, dependent: :destroy
+  validates :title, presence: true,
+                    length: { minimum: 5 }
+end
+</code></pre>
+
+<h2>6安全认证</h2>
+
+<p><code>Rails</code> 提供了一种简单的 <code>HTTP</code> 身份认证机制可以避免出现这种情况。</p>
+
+<p>在 <code>ArticlesController</code> 中，我们要用一种方法禁止未通过认证的用户访问其中几个动作。我们需要的是 <code>http_basic_authenticate_with</code>方法，通过这个方法的认证后才能访问所请求的动作。</p>
+
+<p>要使用这个身份认证机制，需要在 <code>ArticlesController</code> 控制器的顶部调用 <code>http_basic_authenticate_with</code> 方法。除了 <code>index</code> 和 <code>show</code> 动作，访问其他动作都要通过认证，所以在 <code>app/controllers/articles_controller.rb</code> 中，要这么做：</p>
+
+<pre><code>class ArticlesController &lt; ApplicationController
+
+  http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
+
+  def index
+    @articles = Article.all
+  end
+
+  # snipped for brevity
+</code></pre>
+
+<p>同时，我们还希望只有通过认证的用户才能删除评论。修改 <code>CommentsController</code> 控制器<code>（app/controllers/comments_controller.rb）</code>：</p>
+
+<pre><code> class CommentsController &lt; ApplicationController
+
+  http_basic_authenticate_with name: "dhh", password: "secret", only: :destroy
+
+  def create
+    @article = Article.find(params[:article_id])
+    ...
+  end
+
+  # snipped for brevity   
+</code></pre>
+
+<p>现在，如果想新建文章，会看到一个 HTTP 基本认证对话框。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esjxpc30vgj20ri06oq52.jpg" alt="img" /></p>
+
+<h2>总结</h2>
+
+<p>通过利用 Ruby on Rails 搭建一个简单的博客系统，学习到 Ruby 这门语言该怎么用，对 Rails 也有了一个深刻的实际理解。加油，继续努力！</p>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://guides.ruby-china.org/getting_started.html">http://guides.ruby-china.org/getting_started.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-27T16:24:05+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:24 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/27/mac-an-zhuang-sinatrakuang-jia/" title="Previous Post: Mac 安装 sinatra 框架">&laquo; Mac 安装 sinatra 框架</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/28/nodejs-jian-li-wei-bo-wang-zhan/" title="Next Post: Mac 搭建 Nodejs-Express ">Mac 搭建 Nodejs-Express  &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

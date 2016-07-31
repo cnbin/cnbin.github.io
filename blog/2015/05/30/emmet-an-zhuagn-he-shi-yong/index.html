@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Emmet 安装和使用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Emmet 项目的前身是前端开发人员熟知的 Zen Coding，一种提供快速编写 HTML/CSS 代码的方法。和一般的编辑器中使用的“代码片段”概念不同，Emmet 使用动态的类似 CSS 表达式的语法来生成代码，这意味着你不需要自己去编辑并创建固定的代码片段，大大的提高了代码编写效率。 &hellip;">
+  <meta name="keywords" content="Sublime Text2,Emmet">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/30/emmet-an-zhuagn-he-shi-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Emmet 安装和使用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-30T09:36:33+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:36 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Emmet 项目的前身是前端开发人员熟知的 Zen Coding，一种提供快速编写 HTML/CSS 代码的方法。和一般的编辑器中使用的“代码片段”概念不同，Emmet 使用动态的类似 CSS 表达式的语法来生成代码，这意味着你不需要自己去编辑并创建固定的代码片段，大大的提高了代码编写效率。<!--More--></p>
+
+<h2>Emmet安装方法</h2>
+
+<p><a href="https://packagecontrol.io/installation#st2">点击这里</a>下载，根据 Sublime Text 版本下载相应的 python 安装语句。我用的是 Sublime Text2，Mac 开发环境。</p>
+
+<p>1.打开 Sublime Text2，找到<code>View -&gt; Show Console</code>，输入：</p>
+
+<pre><code>import urllib2,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); os.makedirs( ipp ) if not os.path.exists(ipp) else None; urllib2.install_opener( urllib2.build_opener( urllib2.ProxyHandler()) ); by = urllib2.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); open( os.path.join( ipp, pf), 'wb' ).write(by) if dh == h else None; print('Error validating download (got %s instead of %s), please try manual install' % (dh, h) if dh != h else 'Please restart Sublime Text to finish installation')
+</code></pre>
+
+<p>然后重启 Sublime Text2 。</p>
+
+<p>2.点击 <code>Sublime Text2 -&gt; Preferences -&gt; Package Control</code>，输入 <code>Install Package</code>，找到 <code>Emment</code>。双击 <code>Emmet</code> 进行安装，然后再次重启 Sublime Text 2。</p>
+
+<h2>Emmet使用</h2>
+
+<h3>快速编写 HTML 代码</h3>
+
+<h4>1.初始化</h4>
+
+<p>HTML 文档需要包含一些固定的标签，比如 <html>、<head>、<body> 等，现在你只需要1秒钟就可以输入这些标签。比如输入 “!” 或 “html:5”，然后按 Tab 键：</p>
+
+<ul>
+<li>html:5 或!：用于HTML5文档类型</li>
+<li>html:xt：用于XHTML过渡文档类型</li>
+<li>html:4s：用于HTML4严格文档类型</li>
+</ul>
+
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esm1i5op58g20dw05u75c.gif" alt="img" /></p>
+
+<h4>2.轻松添加类、id、文本和属性</h4>
+
+<p>连续输入元素名称和 ID，Emmet 会自动为你补全，比如输入 p#foo：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esm1kmfgjgg20dw028wek.gif" alt="img" /></p>
+
+<p>连续输入类和 id，比如 p.bar#foo，会自动生成：</p>
+
+<pre><code>&lt;p class="bar" id="foo"&gt;&lt;/p&gt;
+</code></pre>
+
+<p>定义 HTML 元素的内容和属性。你可以通过输入 h1{foo} 和 a[href=#] ，就可以自动生成如下代码：</p>
+
+<pre><code>&lt;h1&gt;foo&lt;/h1&gt;  
+&lt;a href="#"&gt;&lt;/a&gt; 
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esm1kmwpoyg20dw028q33.gif" alt="img" /></p>
+
+<h4>3.嵌套</h4>
+
+<p>只需要1行代码就可以实现标签的嵌套。</p>
+
+<ul>
+<li><code>&gt;</code> ： 子元素符号，表示嵌套的元素</li>
+<li><code>+</code> ： 同级标签符号</li>
+<li><code>^</code> ： 可以使该符号前的标签提升一行</li>
+</ul>
+
+
+<p>效果如下图所示：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esm1pf6sceg20dw028dga.gif" alt="img" /></p>
+
+<h4>4.分组</h4>
+
+<p>你可以通过嵌套和括号来快速生成一些代码块，比如输入 (.foo>h1)+(.bar>h2) ，会自动生成如下代码：</p>
+
+<pre><code>&lt;div class="foo"&gt;  
+  &lt;h1&gt;&lt;/h1&gt;  
+&lt;/div&gt;  
+&lt;div class="bar"&gt;  
+  &lt;h2&gt;&lt;/h2&gt;  
+&lt;/div&gt;  
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esm1qr71wgg20dw046t96.gif" alt="img" /></p>
+
+<h4>5.隐式标签</h4>
+
+<p>声明一个带类的标签，只需输入 <code>div.item</code>，就会生成 <code>&lt;div class="item"&gt;&lt;/div&gt;</code> 。</p>
+
+<p>在过去版本中，可以省略掉 <code>div</code>，即输入 <code>.item</code> 即可生成 <code>&lt;div class="item"&gt;&lt;/div&gt;</code> 。现在如果只输入 <code>.item</code>，则 <code>Emmet</code> 会根据父标签进行判定。比如在 <code>&lt;ul&gt;</code> 中输入 <code>.item</code> ，就会生成 <code>&lt;li class="item"&gt;&lt;/li&gt;</code>。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esm1twnznjg20dw0280t5.gif" alt="img" /></p>
+
+<p>下面是所有的隐式标签名称：</p>
+
+<ul>
+<li>li：用于 ul 和 ol 中</li>
+<li>tr：用于 table、tbody、thead 和 tfoot 中</li>
+<li>td：用于 tr 中</li>
+<li>option：用于 select 和 optgroup 中</li>
+</ul>
+
+
+<h4>6.定义多个元素</h4>
+
+<p>要定义多个元素，可以使用 <code>*</code> 符号。比如，<code>ul&gt;li*3</code> 可以生成如下代码：</p>
+
+<pre><code>&lt;ul&gt;  
+  &lt;li&gt;&lt;/li&gt;  
+  &lt;li&gt;&lt;/li&gt;  
+  &lt;li&gt;&lt;/li&gt;  
+&lt;/ul&gt;  
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esm1w3qejxg20dw032mxe.gif" alt="img" /></p>
+
+<h4>7.定义多个带属性的元素</h4>
+
+<p>如果输入 ul>li.item$*3，将会生成如下代码：</p>
+
+<pre><code>&lt;ul&gt;  
+  &lt;li class="item1"&gt;&lt;/li&gt;  
+  &lt;li class="item2"&gt;&lt;/li&gt;  
+  &lt;li class="item3"&gt;&lt;/li&gt;  
+&lt;/ul&gt;  
+</code></pre>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esm1xmwnhfg20dw032t98.gif" alt="img" /></p>
+
+<h3>CSS缩写</h3>
+
+<h4>1.值</h4>
+
+<p>比如要定义元素的宽度，只需输入 w100 ，即可生成</p>
+
+<pre><code>width: 100px;  
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esm1zratvhg20dw028wf7.gif" alt="img" /></p>
+
+<p>除了 px，也可以生成其他单位，比如输入 h10p+m5e，结果如下：</p>
+
+<pre><code>height: 10%;  
+margin: 5em;  
+</code></pre>
+
+<p>单位别名列表：</p>
+
+<ul>
+<li>p 表示%</li>
+<li>e 表示 em</li>
+<li>x 表示 ex</li>
+</ul>
+
+
+<h4>2.附加属性</h4>
+
+<p>可能你之前已经了解了一些缩写，比如 @f，可以生成：</p>
+
+<pre><code>@font-face {  
+  font-family:;  
+  src:url();  
+}  
+</code></pre>
+
+<p>一些其他的属性，比如 background-image、border-radius、font、@font-face,text-outline、text-shadow 等额外的选项，可以通过 “+” 符号来生成，比如输入 @f+，将生成：</p>
+
+<pre><code>@font-face {  
+  font-family: 'FontName';  
+  src: url('FileName.eot');  
+  src: url('FileName.eot?#iefix') format('embedded-opentype'),  
+     url('FileName.woff') format('woff'),  
+     url('FileName.ttf') format('truetype'),  
+     url('FileName.svg#FontName') format('svg');  
+  font-style: normal;  
+  font-weight: normal;  
+}  
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esm22z440ng20dw05umz2.gif" alt="img" /></p>
+
+<h4>3.模糊匹配</h4>
+
+<p>如果有些缩写你拿不准，Emmet 会根据你的输入内容匹配最接近的语法，比如输入 ov:h、ov-h、ovh 和 oh ，生成的代码是相同的：</p>
+
+<pre><code>overflow: hidden;  
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esm24f2h1mg20dw028wfw.gif" alt="img" /></p>
+
+<h4>4.供应商前缀</h4>
+
+<p>如果输入非 W3C 标准的 CSS 属性，Emmet 会自动加上供应商前缀，比如输入 trs，则会生成：</p>
+
+<pre><code>-webkit-transform: ;  
+-moz-transform: ;  
+-ms-transform: ;  
+-o-transform: ;  
+transform: ;  
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esm26qonozg20dw0460vj.gif" alt="img" /></p>
+
+<p>也可以在任意属性前加上 “-” 符号，也可以为该属性加上前缀。比如输入 -super-foo：</p>
+
+<pre><code>-webkit-super-foo: ;  
+-moz-super-foo: ;  
+-ms-super-foo: ;  
+-o-super-foo: ;  
+super-foo: ;
+</code></pre>
+
+<p>如果不希望加上所有前缀，可以使用缩写来指定，比如 -wm-trf 表示只加上 -webkit 和 -moz 前缀：</p>
+
+<pre><code>-webkit-transform: ;  
+-moz-transform: ;  
+transform: ;    
+</code></pre>
+
+<p>前缀缩写如下：</p>
+
+<ul>
+<li>w 表示 -webkit-</li>
+<li>m 表示 -moz-</li>
+<li>s 表示 -ms-</li>
+<li>o 表示 -o-</li>
+</ul>
+
+
+<h4>5.渐变</h4>
+
+<p>输入 lg(left, #fff 50%, #000)，会生成如下代码：</p>
+
+<pre><code>background-image: -webkit-gradient(linear, 0 0, 100% 0, color-stop(0.5, #fff), to(#000));  
+background-image: -webkit-linear-gradient(left, #fff 50%, #000);  
+background-image: -moz-linear-gradient(left, #fff 50%, #000);  
+background-image: -o-linear-gradient(left, #fff 50%, #000);  
+background-image: linear-gradient(left, #fff 50%, #000);  
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esm2iogjqmg20dw046q5a.gif" alt="img" /></p>
+
+<h2>参考</h2>
+
+<ul>
+<li>github 网址： <a href="https://github.com/sergeche/emmet-sublime">https://github.com/sergeche/emmet-sublime</a></li>
+<li>操作指南 ：<a href="http://www.iteye.com/news/27580">http://www.iteye.com/news/27580</a></li>
+<li><a href="http://m.csdn.net/article/2013-01-02/2813378-Web-Tool">http://m.csdn.net/article/2013-01-02/2813378-Web-Tool</a></li>
+<li><a href="http://www.php100.com/html/it/focus/2014/1128/7935.html">http://www.php100.com/html/it/focus/2014/1128/7935.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-30T09:36:33+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:36 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/30/gao-xiao-de-ios-he-os-kai-fa-gong-ju/" title="Previous Post: 高效的 iOS 和 OS 开发工具">&laquo; 高效的 iOS 和 OS 开发工具</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/30/sublime-text-kuai-jie-jian-he-cha-jian/" title="Next Post: Sublime Text 快捷键和插件">Sublime Text 快捷键和插件 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

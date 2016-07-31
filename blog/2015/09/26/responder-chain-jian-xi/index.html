@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Responder Chain 简析 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一.responder对象 在iOS系统中，能够响应并处理事件的对象称之为responder object, UIResponder是所有responder对象的基类，在UIResponder类中定义了处理各种事件，包括触摸事件(Touch Event)、运动事件(Motion Event) &hellip;">
+  <meta name="keywords" content="responder,chain">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/26/responder-chain-jian-xi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Responder Chain 简析</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-26T14:31:31+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:31 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>一.responder对象</h3>
+
+<p>在iOS系统中，能够响应并处理事件的对象称之为responder object, UIResponder是所有responder对象的基类，在UIResponder类中定义了处理各种事件，包括触摸事件(Touch Event)、运动事件(Motion Event)和远程控制事件(Remote-Control Events)的编程接口，其中处理触摸事件(Touch Event)的编程接口如下:</p>
+
+<pre><code>– touchesBegan:withEvent:
+– touchesMoved:withEvent:
+– touchesEnded:withEvent:
+– touchesCancelled:withEvent:
+</code></pre>
+
+<p>这四个方法分别处理触摸开始事件，触摸移动事件，触摸终止事件，以及触摸跟踪取消事件。</p>
+
+<p>UIApplication, UIViewController,UIView和所有继承自UIView的UIKit类(包括UIWindow,继承自UIView)都直接或间接的继承自UIResponder,所以它们的实例都是responder object对象,都实现了上述4个方法。UIResponder中的默认实现是什么都不做，但UIKit中UIResponder的直接子类(UIView,UIViewController…)的默认实现是将事件沿着responder chain继续向上传递到下一个responder,即nextResponder。所以在定制UIView子类的上述事件处理方法时，如果需要将事件传递给next responder,可以直接调用super的对应事件处理方法，super的对应方法将事件传递给next responder,即使用</p>
+
+<pre><code>[super touchesBegan:touches withEvent:event];
+</code></pre>
+
+<p>不建议直接向nextResponder发送消息，这样可能会漏掉父类对这一事件的其他处理。</p>
+
+<pre><code>[self.nextResponder  touchesBegan:touches withEvent:event];
+</code></pre>
+
+<p>另外,在定制UIView子类的事件处理方法时，如果其中一个方法没有调用super的对应方法，则其他方法也需要重写,不使用super的方法，否则事件处理流程会很混乱。</p>
+
+<p>注:UIKit框架的类层次结构图见:UIKit Framework Reference</p>
+
+<h3>二.responder chain</h3>
+
+<p>上文提到了responder chain,responder chain是一系列连接的responder对象，通过responder对象可以将处理事件的责任传递给下一个，更高级的对象,即当前responder对象的nextResponder。
+iOS中responder chain的结构为:</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewfufeom0kj206y07d74h.jpg" alt="img" /></p>
+
+<ul>
+<li>UIView的nextResponder属性，如果有管理此view的UIViewController对象，则为此UIViewController对象；否则nextResponder即为其superview。</li>
+<li>UIViewController的nextResponder属性为其管理view的superview.</li>
+<li>UIWindow的nextResponder属性为UIApplication对象。</li>
+<li>UIApplication的nextResponder属性为nil。</li>
+</ul>
+
+
+<p>iOS系统在处理事件时，通过UIApplication对象和每个UIWindow对象的sendEvent:方法将事件分发给具体处理此事件的responder对象(对于触摸事件为hit-test view,其他事件为first responder),当具体处理此事件的responder不处理此事件时,可以通过responder chain交给上一级处理。</p>
+
+<p>如果hit-test view或first responder不处理此事件，则将事件传递给其nextResponder处理，若有UIViewController对象则传递给UIViewController，传递给其superView。
+如果view的viewController也不处理事件，则viewController将事件传递给其管理view的superView。
+视图层级结构的顶级为UIWindow对象，如果window仍不处理此事件，传递给UIApplication.
+若UIApplication对象不处理此事件，则事件被丢弃。</p>
+
+<h3>三.巧妙利用nextResponder</h3>
+
+<p>通过UIViewController的view属性可以访问到其管理的view对象,及此view的所有subviews。但是根据一个view对象,没有直接的方法可以得到管理它的viewController,但我们使用responder chain可以间接的得到，代码如下:</p>
+
+<pre><code>@implementation UIView (ParentController)
+-(UIViewController*)parentController{
+    UIResponder *responder = [self nextResponder];
+    while (responder) {
+    if ([responder isKindOfClass:[UIViewController class]]) {
+        return (UIViewController*)responder;
+    }
+    responder = [responder nextResponder];
+    }
+    return nil;
+}
+@end
+</code></pre>
+
+<h3>参考:</h3>
+
+<ul>
+<li><p><a href="http://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/EventsiPhoneOS/EventsiPhoneOS.html#//apple_ref/doc/uid/TP40009541-CH2-SW5">Event Handling Guide for iOS – Responder Objects and the Responder Chain</a></p></li>
+<li><p><a href="http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIResponder_Class/Reference/Reference.html">UIResponder Class Reference</a></p></li>
+<li><a href="http://iphonedevelopment.blogspot.com/2008/10/bit-about-responder-chain.html">A Bit About the Responder Chain</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-26T14:31:31+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:31 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/26/guan-lian-objc-setassociatedobject,-objc-getassociatedobject,-objc-removeassociatedobjects)/" title="Previous Post: 关联(objc_setAssociatedObject、objc_getAssociatedObject、objc_removeAssociatedObjects）">&laquo; 关联(objc_setAssociatedObject、objc_getAssociatedObject、objc_removeAssociatedObjects）</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/26/hui-bao-bian-yi-qi-jing-gao-de-xcode-6-dot-3xin-te-xing-:nullability-annotations/" title="Next Post: 会报编译器警告的Xcode 6.3新特性：Nullability Annotations">会报编译器警告的Xcode 6.3新特性：Nullability Annotations &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

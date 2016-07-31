@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 中 UITextView 遇到的问题总结 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="前言 由于iOS中的UITextField不支持文本换行，所以在有换行需求时，我们只好用UITextView。 以下是在使用UITextView时很容易遇到的一些问题。 问题一：UITextView显示边框 UITextView默认是没有边框颜色的，没有直接的属性来设置边框颜色。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/13/ios-zhong-uitextview-yu-dao-de-wen-ti-zong-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 中 UITextView 遇到的问题总结</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-13T16:16:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:16 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>前言</h2>
+
+<p>由于iOS中的UITextField不支持文本换行，所以在有换行需求时，我们只好用UITextView。</p>
+
+<p>以下是在使用UITextView时很容易遇到的一些问题。</p>
+
+<h3>问题一：UITextView显示边框</h3>
+
+<p>UITextView默认是没有边框颜色的，没有直接的属性来设置边框颜色。</p>
+
+<p>可以使用layer属性来解决，代码如下：</p>
+
+<pre><code>//设置边框宽度  
+self.textView.layer.borderWidth = 1.0;  
+//设置边框颜色  
+self.textView.layer.borderColor = [UIColor grayColor].CGColor;  
+//设置圆角  
+self.textView.layer.cornerRadius = 5.0;  
+</code></pre>
+
+<h3>问题二：UITextView居中了，怎么居上？</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewzkyx0vlkj20d90h4758.jpg" alt="img" /></p>
+
+<p>实际上，UITextView的文本默认就是居上显示的，出现上面的情况很多都是因为在iOS7下使用了navigationController让scrollView自动适应屏幕造成的。（UITextView继承自UIScrollView）。</p>
+
+<p>所以解决方案如以下代码：</p>
+
+<pre><code>if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {  
+    self.automaticallyAdjustsScrollViewInsets = NO;  
+}  
+</code></pre>
+
+<h3>问题三：UITextView添加placeholder灰色提示文字</h3>
+
+<p>UITextView没有UITextField的placeholder属性来提示输入框信息，也没有其他属性或接口来设置。</p>
+
+<p>有人在UITextView上覆盖个UILabel来显示placeholder信息，也是一种解决思路。</p>
+
+<p>但是从写程序的角度来说，用继承UITextView来解决问题似乎更加合理些。</p>
+
+<p>新建UIPlaceholderTextView类继承自UITextView。</p>
+
+<h3>代码如下：</h3>
+
+<h4>UIPlaceholderTextView.h文件</h4>
+
+<pre><code>@interface UIPlaceholderTextView : UITextView  
+
+@property(nonatomic, strong) NSString *placeholder;  //灰色提示文字  
+
+@end  
+</code></pre>
+
+<h4>UIPlaceholderTextView.m文件</h4>
+
+<pre><code>#import "UIPlaceholderTextView.h"  
+
+@implementation UIPlaceholderTextView  
+
+- (id)initWithFrame:(CGRect)frame {  
+    if ((self = [super initWithFrame:frame])) {  
+        [self awakeFromNib];  
+    }  
+    return self;  
+}  
+
+
+- (void)awakeFromNib {  
+    [self addObserver];  
+}  
+
+#pragma mark 注册通知  
+- (void)addObserver {  
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidBeginEditing:) name:UITextViewTextDidBeginEditingNotification object:self];  
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidEndEditing:) name:UITextViewTextDidEndEditingNotification object:self];  
+}  
+
+#pragma mark 移除通知  
+- (void)dealloc {  
+    [[NSNotificationCenter defaultCenter] removeObserver:self];  
+}  
+
+#pragma mark 开始编辑  
+- (void)textDidBeginEditing:(NSNotification *)notification {  
+    if ([super.text isEqualToString:_placeholder]) {  
+        super.text = @"";  
+        [super setTextColor:[UIColor blackColor]];  
+    }  
+}  
+
+#pragma mark 结束编辑  
+- (void)textDidEndEditing:(NSNotification *)notification {  
+    if (super.text.length == 0) {  
+        super.text = _placeholder;  
+         //如果文本框内是原本的提示文字，则显示灰色字体  
+        [super setTextColor:[UIColor lightGrayColor]];  
+    }  
+}  
+
+#pragma mark 重写setPlaceholder方法  
+- (void)setPlaceholder:(NSString *)aPlaceholder {  
+    _placeholder = aPlaceholder;  
+    [self textDidEndEditing:nil];  
+}  
+
+#pragma mark 重写getText方法  
+- (NSString *)text {  
+    NSString *text = [super text];  
+    if ([text isEqualToString:_placeholder]) {  
+        return @"";  
+    }  
+    return text;  
+}  
+
+
+@end  
+</code></pre>
+
+<p>在使用UIPlaceholderTextView的控制器的viewDidLoad方法里添加如下代码</p>
+
+<pre><code>self.placeHolderTextView.placeholder=@"这一刻你想说什么......";  
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewzkyxcc78j207y0bvaa4.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-13T16:16:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:16 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/13/ios-jie-xi-cheng-yu-da-quan-api-de-json-shu-ju/" title="Previous Post: iOS 解析成语大全 API 的 JSON 数据(原创)">&laquo; iOS 解析成语大全 API 的 JSON 数据(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/13/dkcirclebutton/" title="Next Post: DKCircleButton">DKCircleButton &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

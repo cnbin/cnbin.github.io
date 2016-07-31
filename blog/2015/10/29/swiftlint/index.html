@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SwiftLint - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="An experimental tool to enforce Swift style and conventions, loosely based on
+GitHub&rsquo;s Swift Style Guide. SwiftLint hooks into Clang and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/29/swiftlint/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SwiftLint</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-29T08:53:07+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:53 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>An experimental tool to enforce Swift style and conventions, loosely based on
+<a href="https://github.com/github/swift-style-guide">GitHub&rsquo;s Swift Style Guide</a>.</p>
+
+<p>SwiftLint hooks into <a href="http://clang.llvm.org">Clang</a> and
+<a href="http://www.jpsim.com/uncovering-sourcekit">SourceKit</a> to use the
+<a href="http://clang.llvm.org/docs/IntroductionToTheClangAST.html">AST</a> representation
+of your source files for more accurate results.</p>
+
+<p><img src="https://travis-ci.org/realm/SwiftLint.svg?branch=master" alt="Test Status" /></p>
+
+<h2>Installation</h2>
+
+<p>Using <a href="http://brew.sh/">Homebrew</a></p>
+
+<pre><code>brew install swiftlint
+</code></pre>
+
+<p>You can also install SwiftLint by downloading <code>SwiftLint.pkg</code> from the
+<a href="https://github.com/realm/SwiftLint/releases/latest">latest GitHub release</a> and
+running it.</p>
+
+<p>You can also build from source by cloning this project and running
+<code>git submodule update --init --recursive; make install</code> (Xcode 7 Beta 6 required).</p>
+
+<h2>Usage</h2>
+
+<h3>Xcode</h3>
+
+<p>Integrate SwiftLint into an Xcode scheme to get warnings and errors displayed
+in the IDE. Just add a new &ldquo;Run Script Phase&rdquo; with <code>/usr/local/bin/swiftlint</code>
+as its contents.
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1exhq1o26jlj20rr03jweu.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1exhq1oejf4j216c068q6c.jpg" alt="img" /></p>
+
+<h3>Atom</h3>
+
+<p>To integrate SwiftLint with <a href="https://atom.io/">Atom</a> install the
+<a href="https://atom.io/packages/linter-swiftlint"><code>linter-swiftlint</code></a> package from
+APM.</p>
+
+<h3>Command Line</h3>
+
+<pre><code>$ swiftlint help
+Available commands:
+
+   help      Display general or command-specific help
+   lint      Print lint warnings and errors for the Swift files in the current directory (default command)
+   rules     Display the list of rules and their identifiers
+   version   Display the current version of SwiftLint
+</code></pre>
+
+<p>Run <code>swiftlint</code> in the directory containing the Swift files to lint. Directories
+will be searched recursively.</p>
+
+<h2>Rules</h2>
+
+<p>There are only a small number of rules currently implemented, but we hope the
+Swift community (that&rsquo;s you!) will contribute more over time. Pull requests are
+encouraged.</p>
+
+<p>The rules that <em>are</em> currently implemented are mostly there as a starting point
+and are subject to change.</p>
+
+<p>See the <a href="Source/SwiftLintFramework/Rules">Source/SwiftLintFramework/Rules</a>
+directory to see the currently implemented rules.</p>
+
+<h3>Disable a rule in code</h3>
+
+<p>Rules can be disabled with a comment inside a source file with the following format:</p>
+
+<p><code>/// swiftlint:disable &lt;rule&gt;</code></p>
+
+<p>The rule will be disabled until the end of the file or until the linter sees a matching enable comment:</p>
+
+<p><code>/// swiftlint:enable &lt;rule&gt;</code></p>
+
+<p>For example:</p>
+
+<pre><code>/// swiftlint:disable colon
+let noWarning :String = "" // No warning about colons immediately after variable names!
+/// swiftlint:enable colon
+let yesWarning :String = "" // Warning generated about colons immediately after variable names
+</code></pre>
+
+<p>Run <code>swiftlint rules</code> to print a list of all available rules and their identifiers.</p>
+
+<h3>Configuration</h3>
+
+<p>Configure SwiftLint by adding a <code>.swiftlint.yml</code> file from the directory you&rsquo;ll
+run SwiftLint from. The following parameters can be configured:</p>
+
+<pre><code>disabled_rules: # rule identifiers to exclude from running
+  - colon
+  - control_statement
+  - file_length
+  - force_cast
+  - function_body_length
+  - leading_whitespace
+  - line_length
+  - nesting
+  - operator_whitespace
+  - return_arrow_whitespace
+  - todo
+  - trailing_newline
+  - trailing_whitespace
+  - type_body_length
+  - type_name
+  - variable_name
+included: # paths to include during linting. `--path` is ignored if present. takes precendence over `excluded`.
+  - Source
+excluded: # paths to ignore during linting. overridden by `included`.
+  - Carthage
+  - Pods
+</code></pre>
+
+<h2>License</h2>
+
+<p>MIT licensed.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-29T08:53:07+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:53 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/29/oc-yu-swift-hun-bian/" title="Previous Post: OC 与 Swift 混编">&laquo; OC 与 Swift 混编</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/29/xcode-install/" title="Next Post: Xcode - install">Xcode - install &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

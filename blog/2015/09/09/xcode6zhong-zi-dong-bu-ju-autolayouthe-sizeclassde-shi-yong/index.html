@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Xcode6 中自动布局 Autolayout 和 Sizeclass 的使用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、关于自动布局（Autolayout） 在Xcode中，自动布局看似是一个很复杂的系统，在真正使用它之前，我也是这么认为的，不过事实并非如此。 （via 门西的博客） 我们知道，一款iOS应用，其主要UI组件是由一个个相对独立的可视单元构成，这些可视单元有的主要负责向用户输出有用的信息， &hellip;">
+  <meta name="keywords" content="xcode,autolayout,sizeclass">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/09/xcode6zhong-zi-dong-bu-ju-autolayouthe-sizeclassde-shi-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Xcode6 中自动布局 Autolayout 和 Sizeclass 的使用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-09T14:45:20+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:45 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>一、关于自动布局（Autolayout）</h3>
+
+<p>在Xcode中，自动布局看似是一个很复杂的系统，在真正使用它之前，我也是这么认为的，不过事实并非如此。</p>
+
+<p>（via <a href="http://blog.csdn.net/lihuiqwertyuiop/article/details/39271887">门西的博客</a>）</p>
+
+<p>我们知道，一款iOS应用，其主要UI组件是由一个个相对独立的可视单元构成，这些可视单元有的主要负责向用户输出有用的信息，有些则负责信息的输入（交互），交互的过程中往往还伴随有动画的效果，已达到整个信息传递的连贯性以及用户体验的细腻感。可视单元，在实际开发中主要是view、button等，那么这些可视单元的关系由两个基本的关系构成：兄弟关系和父子关系，整个视图单元就是一个树形结构：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1evv1nja6jmj20gv081weo.jpg" alt="img" /></p>
+
+<p>对于任何一个UI组件，确定了它的（相对于父view）位置、大小也就确定了它在整个UI视图中的展示效果。</p>
+
+<p>Autolayout（以及iOS8中新增的sizeclass）是为了解决这些UI可视单元或者元素是怎样布局、排列的问题。在过去只有iPhone4的时候，我们可以在代码里将没一个可视单元的位置写死，这样是没问题的，但随着iPhone5、6的发布，屏幕尺寸有了越来越多中可能，未来不排除更多尺寸的iPhone发布出来，这就要求我们的APP的UI元素具有在屏幕尺寸不同的设备上具有一定动态的可调性，已实现较好的UI展示效果。从目前苹果提供的技术来看，有下、中、上三种实现方法：</p>
+
+<p>下策是，代码中判断当前设备的尺寸，对UI元素进行手工的调整，其缺点是显而易见的：代码复杂、容易出错、且维护难度大、灵活性极差；</p>
+
+<p>中策是，通过设置可视单元（UIView UIButton&hellip;）的autoresizing属性，预设当该view所在的环境（父view）发生变化时它的尺寸和位置应该如何调整，该方法可以在Xcode的interface builder中（storyboard 或者 xib）设置完成，但其只能针对父子关系进行有限的调整，比如左边距是否固定，尺寸是否可变等，而对于兄弟关系的调整则无法实现，对于UI比较固定的APP这种调节方式也算基本满足需求；</p>
+
+<p>上策就是结合使用autolayout和sizeclass对UI可视单元的父子关系、兄弟关系进行全方位的调整，而且调节精度更高：不仅能确定一个view的位置尺寸的变化依据是什么，还能对这些依据加以不同的优先级，先满足什么条件，再满足什么条件，对于重要的位置尺寸可以优先保证，这样整个APP就具有极强的动态可调性，满足不同设备、不同应用场景下的需求。</p>
+
+<p>在目前苹果手机苹果尺寸多达四种的情况下，显然新的APP必须要采用上策来解决视图组件的布局问题。</p>
+
+<p>Autolayout的作用非常明确：帮我们确定在不同设备、不同（父view）环境下，同一个可视单元所应具有合适的位置和尺寸，因此，当一个UIView上所施加的约束能够唯一确定它的frame（x, y, width, height）的时候我们的自动布局的使用才是正确的。而新手通常犯的两类错误就是约束不足（约束太少）和约束冲突两种（约束太多）。如果你给出的约束只能够确定这个view的大小，或者位置或者位置中的某一个项（比如x）的时候，就会出现约束不足的情况，在xib或者storyboard中，会以黄色的警告出现在左侧提示框内；如果你给出的约束推导出了两个甚至多个互相矛盾的位置尺寸结果的时候，就产生了布局错误，在编译的时候直接就build不过。</p>
+
+<h3>二、关于iOS8新增的sizeclass属性</h3>
+
+<p>在iOS8中，新增了Size Classes特性，它是对当前所有iOS设备尺寸的一个抽象，也是该抽象了，想想现在多少种iOS尺寸的设备吧：iPhone4-5-6-6plus、iPad、iPad mini、iWatch，如何还是按照以前那针对种特定设备来编写不同的布局的话，一定是很糟糕的一件事情。</p>
+
+<p>现在有了sizeclass，事情就好办多了：你不是设备多吗，那我们就只把屏幕的宽和高分别分成三种情况：（Compact, Regular, Any），也即紧凑、正常和任意。这样宽和高三三一整合，一共9中情况。如下图所示，针对每一种情况，如果需要的话，我们可以单独在storyboard或xib中设置UIView的自动布局约束，甚至某一个button是否显示都是能轻松实现。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1evv1njm9npj20lt0btgmc.jpg" alt="img" /></p>
+
+<p>关于size class的详细解析，参考苹果文档和wwdc2014视:点击打开链接 (What&rsquo;s New in Interface Builder)。</p>
+
+<h3>三、storyboard中autolayout和size class的无敌配合</h3>
+
+<p>对Xcode的interface builder比较熟悉的童鞋应该对UIButton的超强定制性映像深刻：通过选择button的不同状态（normal、height、disabled&hellip;），我们可以单独设置每一种状态，button的background image、image、text color等属性，见下图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1evv1nk0l02j208i08w3zi.jpg" alt="img" /></p>
+
+<p>而Xcode6中对自动布局的重大变更有异曲同工之妙：开发者可以根据实际需要，针对size class的九种组合中的某一种或几种分别进行自动布局的设置，这样，当APP运行于不同屏幕、不同旋转方向的时候，就可以根据当前环境的size class情况使用我们预先设置好的布局信息，从而达到APP UI的极大灵活性。</p>
+
+<p>和设置UIButton的不同状态的不同属性类似，我们首先选择一种size class，然后针对该种size class进行自动布局。下面我们以一个简单的布局场景为例进行说明：</p>
+
+<p>假设，我们想实现下面这个效果：横屏和竖屏头像和label都能正常的现实，且在“比较恰当”的位置：显然横屏的时候，高度处于压缩的状态，（height: compact），我们需要先对正常的布局之外，还要添加一种（wAny, hCompact）size class的布局：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1evv1nkjvf3j20wo0mh403.jpg" alt="img" /></p>
+
+<p>首先，我们对默认的sizeclass进行布局，确定头像和label的位置和尺寸：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1evv1nl95jkj20nn0hltc1.jpg" alt="img" /></p>
+
+<p>设置完（wAny hAny）之后，点击wAny hAny文字（上图底部），选择（wAny hCompact）：注意点击后弹出一个九宫格浮框，拖动鼠标即可选择响应的size class，注意在右下角（红色方框表示），还可以选择是否install，如果取消勾选，则这个头像在当前size class下就不会被加载（自然也就不显示出来）。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1evv1nlqhl5j20zi0i9n3c.jpg" alt="img" /></p>
+
+<p>在新的size class下我们开始添加新的布局，注意，这里并没有覆盖上一种size class我们定义好了得布局，知识针对当前的size class添加新的、独立的布局信息，狡兔三窟，Xcode6这下子一口气给了我们九个窟窿，爽！</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1evv1nmo083j20q80icwis.jpg" alt="img" /></p>
+
+<p>布局完毕，运行起来，即可达到我们想要的效果！</p>
+
+<p>Awesome, isn&rsquo;t it ?</p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://www.cocoachina.com/ios/20141020/9978.html">http://www.cocoachina.com/ios/20141020/9978.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-09T14:45:20+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:45 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/09/iphone-ping-mu-gua-pei-,li-shi-ji-xian-zhuang/" title="Previous Post: iPhone 屏幕适配，历史及现状">&laquo; iPhone 屏幕适配，历史及现状</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/09/xcode-frame-rectangle-he-alignment-rectangle-de-qu-bie/" title="Next Post: Xcode Frame Rectangle 和 Alignment Rectangle 的区别">Xcode Frame Rectangle 和 Alignment Rectangle 的区别 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>XMPP 和 Jabber 需要实现的协议 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="XMPP : The Extensible Messaging and Presence Protocol 中文全称:可扩展通讯和表示协议 简介:可扩展通讯和表示协议 (XMPP) 可用于服务类实时通讯、表示和需求响应服务中的XML数据元流式传输。XMPP以Jabber协议为基础， &hellip;">
+  <meta name="keywords" content="xmpp,jabber">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/08/xmpp-he-jabber-xu-yao-shi-xian-de-xie-yi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">XMPP 和 Jabber 需要实现的协议</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-08T10:17:54+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:17 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>XMPP : The Extensible Messaging and Presence Protocol 中文全称:可扩展通讯和表示协议 简介:可扩展通讯和表示协议 (XMPP) 可用于服务类实时通讯、表示和需求响应服务中的XML数据元流式传输。XMPP以Jabber协议为基础，而Jabber是即时通讯中常用的开放式协议。</p>
+
+<h3>基本的jabber客户端必须实现以下标准协议（XEP-0211）</h3>
+
+<pre><code>1、RFC3920 Core http://tools.ietf.org/html/rfc3920
+2、RFC3921 Instant Messaging and Presence http://tools.ietf.org/html/rfc3921
+3、XEP-030 Service Discovery http://www.xmpp.org/extensions/xep-0030.html
+4、XEP-0115 Entity Capabilities http://www.xmpp.org/extensions/xep-0115.html
+</code></pre>
+
+<h3>基本的jabber服务器必须实现以下标准协议(XEP-0212)</h3>
+
+<pre><code>1、RFC3920 Core http://tools.ietf.org/html/rfc3920
+2、RFC3921 Instant Messaging and Presence http://tools.ietf.org/html/rfc3921
+3、XEP-030 Service Discovery http://www.xmpp.org/extensions/xep-0030.html
+</code></pre>
+
+<h3>XMPP需要实现的协议</h3>
+
+<pre><code>一、注册
+XEP-0077 In-Band Registration http://www.xmpp.org/extensions/xep-0077.html
+二、登录
+XEP-0020 Software Version http://www.xmpp.org/extensions/xep-0092.html
+三、好友列表
+XEP-0083 Nested Roster Groups http://www.xmpp.org/extensions/xep-0083.html
+1、获取好友列表
+2、存储好友列表
+XEP-0049 Private XML Storage http://www.xmpp.org/extensions/xep-0049.html
+3、备注好友信息
+XEP-0145 Annotations http://www.xmpp.org/extensions/xep-0145.html
+4、存储书签
+XEP-0048 Bookmark Storage http://www.xmpp.org/extensions/xep-0048.html
+5、好友头像
+XEP-0008 IQ-Based Avatars http://www.xmpp.org/extensions/xep-0008.html
+XEP-0084 User Avatar http://www.xmpp.org/extensions/xep-0084.html
+XEP-0054 vcard-temp http://www.xmpp.org/extensions/xep-0054.html
+四、用户状态
+RFC-3921 Subscription States http://www.ietf.org/rfc/rfc3921.txt
+五、文本消息
+1、在线消息
+2、离线消息
+XEP-0013 Flexible Offline Message Retrieval http://www.xmpp.org/extensions/xep-0013.html
+XEP-0160 Best Practices for Handling Offline Messages http://www.xmpp.org/extensions/xep-0160.html
+XEP-0203 Delayed Delivery http://www.xmpp.org/extensions/xep-0203.html
+3、聊天状态通知
+XEP-0085 Chat State Notifications http://www.xmpp.org/extensions/xep-0085.html
+六、群组聊天
+1、XEP-0045 Multi-User Chat http://www.xmpp.org/extensions/xep-0045.html
+七、文件传输
+1、XEP-0095 Stream Initiation http://www.xmpp.org/extensions/xep-0095.html
+2、XEP-0096 File Transfer http://www.xmpp.org/extensions/xep-0096.html
+3、XEP-0065 SOCKS5 Bytestreams http://www.xmpp.org/extensions/xep-0065.html
+4、XEP-0215 STUN Server Discovery for Jingle http://www.xmpp.org/extensions/xep-0215.html
+5、RFC-3489 STUN http://tools.ietf.org/html/rfc3489
+
+八、音视频会议
+1、XEP-0166 Jingle http://www.xmpp.org/extensions/xep-0166.html#negotiation
+2、XEP-0167 Jingle Audio via RTP http://www.xmpp.org/extensions/xep-0167.html
+3、XEP-0176 Jingle ICE Transport http://www.xmpp.org/extensions/xep-0176.html
+4、XEP-0180 Jingle Video via RTP http://www.xmpp.org/extensions/xep-0180.html#negotiation
+5、XEP-0215 STUN Server Discovery for Jingle http://www.xmpp.org/extensions/xep-0215.html
+6、RFC-3489 STUN http://tools.ietf.org/html/rfc3489
+
+九、用户查询
+XEP-0055 Jabber Search http://www.xmpp.org/extensions/xep-0055.html
+
+十、用户保活 (peakflys增加)
+XEP-0199 Ping http://xmpp.org/extensions/xep-0199.html
+
+整体：
+一、协议数据交互
+XEP-0004 Data Forms http://www.xmpp.org/extensions/xep-0004.html
+二、jabber-RPC
+XEP-0009 Jabber-RPC http://www.xmpp.org/extensions/xep-0009.html
+三、功能协商
+XEP-0020 Feature Negotiation http://www.xmpp.org/extensions/xep-0020.html
+四、服务发现
+XEP-0030 Service Discovery http://www.xmpp.org/extensions/xep-0030.html
+五、会话建立
+XEP-0116 Encrypted Session Negotiation http://www.xmpp.org/extensions/xep-0116.html
+XEP-0155 Stanza Session Negotiation http://www.xmpp.org/extensions/xep-0155.html
+XEP-0201 Best Practices for Message Threads http://www.xmpp.org/extensions/xep-0201.html
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-08T10:17:54+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:17 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/08/google-toolbox-for-mac-http-fetcher/" title="Previous Post: Google Toolbox for Mac - HTTP Fetcher">&laquo; Google Toolbox for Mac - HTTP Fetcher</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/08/coredata-zhong-cun-ren-yi-lei-xing-de-shu-ju/" title="Next Post: CoreData 中存任意类型的数据">CoreData 中存任意类型的数据 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

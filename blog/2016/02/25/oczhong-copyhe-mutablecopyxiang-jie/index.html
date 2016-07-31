@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OC中copy和mutableCopy详解 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在OC中，最为重要的一点就是内存管理。而在内存管理时，有时会遇到copy出来的对象，是否需要释放内存的情况。所以，本文将讲解下copy与mutableCopy的用法和区别。 正文： 1. 首先需要关闭ARC模式。 2. 以下所有内容都将以NSString作为例子进行讲解。 3. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/25/oczhong-copyhe-mutablecopyxiang-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">OC中copy和mutableCopy详解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-25T10:37:10+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:37 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>在OC中，最为重要的一点就是内存管理。而在内存管理时，有时会遇到copy出来的对象，是否需要释放内存的情况。所以，本文将讲解下copy与mutableCopy的用法和区别。</p>
+
+<h3>正文：</h3>
+
+<h4>1. 首先需要关闭ARC模式。</h4>
+
+<h4>2. 以下所有内容都将以NSString作为例子进行讲解。</h4>
+
+<h4>3. copy复制出来的对象都是不可变对象。</h4>
+
+<pre><code>//对于不可变字符串，copy类似与retain（浅copy）
+NSString *string1 = [[NSString alloc] initWithFormat:@"字符串1"];
+NSString *newString1 = [string1 copy];
+NSLog(@"%ld", [string1 retainCount]); //2
+</code></pre>
+
+<p>不可变字符串（字典、集等），copy操作相当于retain（指针拷贝）。</p>
+
+<p>这种copy方式，不会分配内存，只是让newString1持有了string1的内存。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f1bdruh4e8j206c06rq30.jpg" alt="img" /></p>
+
+<pre><code>//对于可变字符串，copy会重新开辟空间（深copy）
+NSMutableString *string2 = [[NSMutableString alloc] initWithFormat:@"字符串2"];
+NSMutableString *newString2 = [string2 copy];
+NSLog(@"%ld", [string2 retainCount]); //1
+</code></pre>
+
+<p>可变字符串（字典、集等），copy操作相当于alloc并且赋值（内存拷贝）。这种copy方式，会重新分配内存。</p>
+
+<p>所以对newString2操作（修改、release等）并不会影响到string2，因为他们没有在操作同一块内存。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859ejw1f1bdsjl1chj20bu07oq3d.jpg" alt="img" /></p>
+
+<p>因为copy出来的都是不可变对象，所以这里的newString2，即使是NSMutableString类型，但不能调用可变对象的方法，因为newString2已经是不可变对象了。
+如果强制调用，程序崩溃，并报错：‘Attempt to mutate immutable object with deleteCharactersInRange:…’试图修改一个不可变的对象</p>
+
+<h4>4. mutableCopy复制出来的对象都是可变对象，并且对于NSString和NSMutableString都是内存拷贝（深copy）。</h4>
+
+<pre><code>//对于不可变和可变对象，都是内容复制（深copy）
+NSString *string3 = [[NSString alloc] initWithFormat:@"字符串3"];
+NSString *newString3 = [string3 mutableCopy];
+NSLog(@"%ld", [string3 retainCount]); //1
+</code></pre>
+
+<p>虽然使用了NSString去接收了mutableCopy出来的string3，但是newString3依然是一个可变字符串，可以调用可变字符串的方法，但是会报警告，因为子类调用了父类的方法。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f1bf1sbjnlj20cg07ggly.jpg" alt="img" /></p>
+
+<pre><code>NSMutableString *string4 = [[NSMutableString alloc] initWithFormat:@"字符串4"];
+NSMutableString *newString4 = [string4 mutableCopy];
+NSLog(@"%ld", [string4 retainCount]); //1
+</code></pre>
+
+<p>对于可变字符串，mutableCopy依然是可变。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f1bf1stfubj20d307e0t4.jpg" alt="img" /></p>
+
+<p>总结：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f1bf1taz7kj20eh04j3yp.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-25T10:37:10+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:37 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/25/si-xiang-bi-ji-7/" title="Previous Post: 思想笔记-7">&laquo; 思想笔记-7</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/25/github-androidkai-yuan-xiang-mu/" title="Next Post: github-android开源项目">github-android开源项目 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

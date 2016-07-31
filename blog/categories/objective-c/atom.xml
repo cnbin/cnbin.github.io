@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Objective-c | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[NSArray的二分查找]]></title>
+    <link href="http://cnbin.github.io/blog/2016/03/17/nsarrayde-er-fen-cha-zhao/"/>
+    <updated>2016-03-17T15:46:21+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/03/17/nsarrayde-er-fen-cha-zhao</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>二分查找(也叫折半查找)，是至今应用比较多的一种搜索算法。速度快，比较次数少，在Objective-C中的NSArray至少有两种方法可以进行二分查找：</p>
+
+<ul>
+<li>indexOfObject:inSortedRange:options:usingComparator:</li>
+<li>CFArrayBSearchValues</li>
+</ul>
+
+
+<h3>NSArray的二分查找方法</h3>
+
+<pre><code>NSArray *sortedArray = ... // must be sorted数组里面的元素必须是排完序的
+id searchObject = ...
+NSRange searchRange = NSMakeRange(0, [sortedArray count]);
+NSUInteger findIndex = [sortedArray indexOfObject:searchObject 
+                                    inSortedRange:searchRange
+                                          options:NSBinarySearchingFirstEqual
+                                  usingComparator:^(id obj1, id obj2)
+                                  {
+                                      return [obj1 compare:obj2];
+                                  }];
+</code></pre>
+
+<h3>实例</h3>
+
+<pre><code>#import "ViewController.h"
+
+@interface ViewController ()
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+    NSArray *sortedArray = @[@1,@2,@3,@4,@36,@35,@46,@49]; // must be sorted
+    id searchObject = @4;
+    NSRange searchRange = NSMakeRange(0, [sortedArray count]);
+    NSUInteger findIndex = [sortedArray indexOfObject:searchObject
+                                        inSortedRange:searchRange
+                                              options:NSBinarySearchingFirstEqual
+                                      usingComparator:^(id obj1, id obj2)
+                            {
+                                return [obj1 compare:obj2];
+                            }];
+
+    NSLog(@"findIndex is %d",findIndex);
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+@end
+</code></pre>
+
+<h4>输出</h4>
+
+<pre><code>2016-03-17 15:45:00.417 SortedNSArrayDemo[58667:2052310] findIndex is 3
+</code></pre>
+
+<h3>CFArray的二分查找方法</h3>
+
+<pre><code>NSMutableArray *sortedArray = [NSMutableArray arrayWithObjects: @"Alice", @"Beth", @"Carol",@"Ellen",nil];
+
+//Where is "Beth"?
+unsigned index = (unsigned)CFArrayBSearchValues((CFArrayRef)sortedArray,
+                                                CFRangeMake(0, CFArrayGetCount((CFArrayRef)sortedArray)),
+                                                (CFStringRef)@"Beth",
+                                                (CFComparatorFunction)CFStringCompare,
+                                                NULL);
+
+if (index &lt; [sortedArray count] &amp;&amp; [@"Beth" isEqualToString:sortedArray[index]])
+                                    {
+                                        NSLog(@"Beth was found at index %u", index);
+                                    } else {
+                                        NSLog(@"Beth was not found (index is beyond the bounds of sortedArray)");
+                                    }
+
+                                    //Where should we insert "Debra"?
+                                    unsigned insertIndex = (unsigned)CFArrayBSearchValues((CFArrayRef)sortedArray,
+                                                                                          CFRangeMake(0, CFArrayGetCount((CFArrayRef)sortedArray)),
+                                                                                          (CFStringRef)@"Debra",
+                                                                                          (CFComparatorFunction)CFStringCompare,
+                                                                                          NULL);
+                                    [sortedArray insertObject:@"Debra" atIndex:insertIndex];
+                                    NSLog(@"%@",sortedArray);
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.isaced.com/post-241.html">http://www.isaced.com/post-241.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[获取数组的大小]]></title>
+    <link href="http://cnbin.github.io/blog/2016/03/16/huo-qu-shu-zu-de-da-xiao/"/>
+    <updated>2016-03-16T08:52:32+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/03/16/huo-qu-shu-zu-de-da-xiao</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<pre><code>//获取数组元素中的个数  
+NSUInteger count = [array1 count];//返回的是一个无符号数值  
+</code></pre>
+
+<p>NSUInteger是无符号的int类型</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[数组的快速遍历]]></title>
+    <link href="http://cnbin.github.io/blog/2016/03/16/shu-zu-de-kuai-su-bian-li/"/>
+    <updated>2016-03-16T08:49:12+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/03/16/shu-zu-de-kuai-su-bian-li</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<pre><code>//快速遍历  
+for(NSString *s in array1){  
+    NSLog(@"%@",s);  
+}  
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/jiangwei0910410003/article/details/41809719">http://blog.csdn.net/jiangwei0910410003/article/details/41809719</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Int 和number相互转换]]></title>
+    <link href="http://cnbin.github.io/blog/2016/03/16/int-he-numberxiang-hu-zhuan-huan/"/>
+    <updated>2016-03-16T08:29:17+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/03/16/int-he-numberxiang-hu-zhuan-huan</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<pre><code>int myInt；
+NSNumber *myNumber = [NSNumber numberWithInt:myInt];
+int myInt = [myNumber intValue];；
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NSNumber的大小比较]]></title>
+    <link href="http://cnbin.github.io/blog/2016/03/16/nsnumberde-da-xiao-bi-jiao/"/>
+    <updated>2016-03-16T08:25:23+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/03/16/nsnumberde-da-xiao-bi-jiao</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>今天遇到一个问题，写了类似下面这个判断</p>
+
+<pre><code>if(someNsnumber == [NSNumber numberWithInt:100]){
+    //someCode
+}
+</code></pre>
+
+<p>一直无法成立这个片段，但是在控制台断点输出someNsnumber却得到100.所以自己就很奇怪，明明相等但是无法让判断成立，而且编译器并没有显示警告或者错误。</p>
+
+<p>之后发现NSNumber是有一个compare的函数：</p>
+
+<pre><code>- (NSComparisonResult)compare:(NSNumber *)otherNumber;
+</code></pre>
+
+<p>返回NSComparisonResult，是一个枚举：</p>
+
+<pre><code>typedef NS_ENUM(NSInteger, NSComparisonResult) 
+{
+    NSOrderedAscending = -1L,   //升序 (左 &lt; 右)
+    NSOrderedSame,              //相等（左 = 又）
+    NSOrderedDescending         //降序（左 &gt; 右)
+};
+</code></pre>
+
+<p>从字面意思就可以看出，是比较升序、降序或者相等的，与我们一般的比较大小不同，是要通过遵循一定的左右顺序来排序，间接获得大小。
+修改之后，可以用以下方式比较NSNumber大小：</p>
+
+<pre><code>if ([numberA compare:numberB] == NSOrderedAscending) {  
+ NSLog(@"numberA小");  
+} else {  
+ NSLog(@"numberA大");  
+}  
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

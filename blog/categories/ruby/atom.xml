@@ -1,0 +1,728 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Rvm设置ruby版本和返回到系统默认版本]]></title>
+    <link href="http://cnbin.github.io/blog/2015/11/30/rvmshe-zhi-rubyban-ben-he-fan-hui-dao-xi-tong-mo-ren-ban-ben/"/>
+    <updated>2015-11-30T19:13:23+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/11/30/rvmshe-zhi-rubyban-ben-he-fan-hui-dao-xi-tong-mo-ren-ban-ben</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>设置回系统默认版本：</p>
+
+<pre><code>rvm use system
+</code></pre>
+
+<p>设置某个版本（前提是这个版本已经安装）：</p>
+
+<pre><code>rvm 2.2.1 --default
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://rvm.io/rvm/install">https://rvm.io/rvm/install</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rvm 用于ruby版本的管理]]></title>
+    <link href="http://cnbin.github.io/blog/2015/11/30/rvm-yong-yu-rubyban-ben-de-guan-li/"/>
+    <updated>2015-11-30T19:12:27+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/11/30/rvm-yong-yu-rubyban-ben-de-guan-li</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h4>列出已知的ruby版本</h4>
+
+<pre><code>rvm list known
+</code></pre>
+
+<h4>安装一个ruby版本</h4>
+
+<pre><code>rvm install 1.9.3
+</code></pre>
+
+<p>这里安装了最新的1.9.3, rvm list known列表里面的都可以拿来安装。</p>
+
+<p>使用一个ruby版本</p>
+
+<pre><code>rvm use 1.9.3
+</code></pre>
+
+<p>如果想设置为默认版本，可以这样</p>
+
+<pre><code>rvm use 1.9.3 --default 
+</code></pre>
+
+<p>查询已经安装的ruby</p>
+
+<pre><code>rvm list
+</code></pre>
+
+<p>卸载一个已安装版本</p>
+
+<pre><code>rvm remove 1.9.2
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://my.oschina.net/junfrost/blog/143487">http://my.oschina.net/junfrost/blog/143487</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[jekyll-Now]]></title>
+    <link href="http://cnbin.github.io/blog/2015/10/27/jekyll-now/"/>
+    <updated>2015-10-27T10:27:17+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/10/27/jekyll-now</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><strong>Jekyll</strong> is a static site generator that&rsquo;s perfect for GitHub hosted blogs (<a href="https://github.com/jekyll/jekyll">Jekyll Repository</a>)</p>
+
+<p><strong>Jekyll Now</strong> makes it easier to create your Jekyll blog, by eliminating a lot of the up front setup.</p>
+
+<ul>
+<li>You don&rsquo;t need to touch the command line</li>
+<li>You don&rsquo;t need to install/configure ruby, rvm/rbenv, ruby gems :relaxed:</li>
+<li>You don&rsquo;t need to install runtime dependancies like markdown processors, Pygments, etc</li>
+<li>If you&rsquo;re on Windows, this will make setting up Jekyll a lot easier</li>
+<li>It&rsquo;s easy to try out, you can just delete your forked repository if you don&rsquo;t like it</li>
+</ul>
+
+
+<p>In a few minutes you&rsquo;ll be set up with a minimal, responsive blog like the one below giving you more time to spend on writing epic blog posts!</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1exhsrl68s9j20vu0uiwhx.jpg" alt="img" /></p>
+
+<h2>Quick Start</h2>
+
+<h3>Step 1) Fork Jekyll Now to your User Repository</h3>
+
+<p>Fork this repo, then rename the repository to yourgithubusername.github.io.</p>
+
+<p>Your Jekyll blog will often be viewable immediately at <a href="http://yourgithubusername.github.io">http://yourgithubusername.github.io</a> (if it&rsquo;s not, you can often force it to build by completing step 2)</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1exhsrlpi8lg20rm0f8hbt.gif" alt="img" /></p>
+
+<h3>Step 2) Customize and view your site</h3>
+
+<p>Enter your site name, description, avatar and many other options by editing the _config.yml file. You can easily turn on Google Analytics tracking, Disqus commenting and social icons here too.</p>
+
+<p>Making a change to _config.yml (or any file in your repository) will force GitHub Pages to rebuild your site with jekyll. Your rebuilt site will be viewable a few seconds later at <a href="http://yourgithubusername.github.io">http://yourgithubusername.github.io</a> - if not, give it ten minutes as GitHub suggests and it&rsquo;ll appear soon</p>
+
+<blockquote><p>There are 3 different ways that you can make changes to your blog&rsquo;s files:</p>
+
+<ol>
+<li>Edit files within your new username.github.io repository in the browser at GitHub.com (shown below).</li>
+<li>Use a third party GitHub content editor, like <a href="http://prose.io">Prose by Development Seed</a>. It&rsquo;s optimized for use with Jekyll making markdown editing, writing drafts, and uploading images really easy.</li>
+<li>Clone down your repository and make updates locally, then push them to your GitHub repository.</li>
+</ol>
+</blockquote>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1exhsta4nj0j20lf0bg76o.jpg" alt="img" /></p>
+
+<h3>Step 3) Publish your first blog post</h3>
+
+<p>Edit <code>/_posts/2014-3-3-Hello-World.md</code> to publish your first blog post. This <a href="http://www.jekyllnow.com/Markdown-Style-Guide/">Markdown Cheatsheet</a> might come in handy.</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1exhstal0i1j20lh08xdi8.jpg" alt="img" /></p>
+
+<blockquote><p>You can add additional posts in the browser on GitHub.com too! Just hit the + icon in <code>/_posts/</code> to create new content. Just make sure to include the <a href="http://jekyllrb.com/docs/frontmatter/">front-matter</a> block at the top of each new blog post and make sure the post&rsquo;s filename is in this format: year-month-day-title.md</p></blockquote>
+
+<h2>Local Development</h2>
+
+<ol>
+<li>Install Jekyll and plug-ins in one fell swoop. <code>gem install github-pages</code> This mirrors the plug-ins used by GitHub Pages on your local machine including Jekyll, Sass, etc.</li>
+<li>Clone down your fork <code>git clone git@github.com:yourusername/yourusername.github.io.git</code></li>
+<li>Serve the site and watch for markup/sass changes <code>jekyll serve</code></li>
+<li>View your website at <a href="http://0.0.0.0:4000">http://0.0.0.0:4000</a></li>
+<li>Commit any changes and push everything to the master branch of your GitHub user repository. GitHub Pages will then rebuild and serve your website.</li>
+</ol>
+
+
+<h2>Moar!</h2>
+
+<p>I&rsquo;ve created a more detailed walkthrough, <a href="http://www.smashingmagazine.com/2014/08/01/build-blog-jekyll-github-pages/"><strong>Build A Blog With Jekyll And GitHub Pages</strong></a> over at the Smashing Magazine website. Check it out if you&rsquo;d like a more detailed walkthrough and some background on Jekyll. :metal:</p>
+
+<p>It covers:</p>
+
+<ul>
+<li>A more detailed walkthrough of setting up your Jekyll blog</li>
+<li>Common issues that you might encounter while using Jekyll</li>
+<li>Importing from Wordpress, using your own domain name, and blogging in your favorite editor</li>
+<li>Theming in Jekyll, with Liquid templating examples</li>
+<li>A quick look at Jekyll 2.0’s new features, including Sass/Coffeescript support and Collections</li>
+</ul>
+
+
+<h2>Jekyll Now Features</h2>
+
+<p>✓ Command-line free <em>fork-first workflow</em>, using GitHub.com to create, customize and post to your blog<br/>
+✓ Fully responsive and mobile optimized base theme (<strong><a href="http://jekyllnow.com">Theme Demo</a></strong>)<br/>
+✓ Sass/Coffeescript support using Jekyll 2.0<br/>
+✓ Free hosting on your GitHub Pages user site<br/>
+✓ Markdown blogging<br/>
+✓ Syntax highlighting<br/>
+✓ Disqus commenting<br/>
+✓ Google Analytics integration<br/>
+✓ SVG social icons for your footer<br/>
+✓ 3 http requests, including your avatar</p>
+
+<p>✘ No installing dependancies<br/>
+✘ No need to set up local development<br/>
+✘ No configuring plugins<br/>
+✘ No need to spend time on theming<br/>
+✘ More time to code other things &hellip; wait ✓!</p>
+
+<h2>Questions?</h2>
+
+<p><a href="https://github.com/barryclark/jekyll-now/issues/new">Open an Issue</a> and let&rsquo;s chat!</p>
+
+<h2>Other forkable themes</h2>
+
+<p>You can use the <a href="https://github.com/barryclark/jekyll-now#quick-start">Quick Start</a> workflow with other themes that are set up to be forked too! Here are some of my favorites:</p>
+
+<ul>
+<li><a href="https://github.com/poole/hyde">Hyde</a> by MDO</li>
+<li><a href="https://github.com/poole/lanyon">Lanyon</a> by MDO</li>
+<li><a href="https://github.com/mojombo/mojombo.github.io">mojombo.github.io</a> by Tom Preston-Werner</li>
+<li><a href="https://github.com/holman/left">Left</a> by Zach Holman</li>
+<li><a href="https://github.com/mmistakes/minimal-mistakes">Minimal Mistakes</a> by Michael Rose</li>
+<li><a href="https://github.com/mmistakes/skinny-bones-jekyll">Skinny Bones</a> by Michael Rose</li>
+</ul>
+
+
+<h2>Credits</h2>
+
+<ul>
+<li><a href="https://github.com/jekyll/jekyll">Jekyll</a> - Thanks to its creators, contributors and maintainers.</li>
+<li><a href="https://github.com/neilorangepeel/Free-Social-Icons">SVG icons</a> - Thanks, Neil Orange Peel. They&rsquo;re beautiful.</li>
+<li><a href="https://gist.github.com/edwardhotchkiss/2005058">Solarized Light Pygments</a> - Thanks, Edward.</li>
+<li><a href="http://joelglovier.com/writing/">Joel Glovier</a> - Great Jekyll articles. I used Joel&rsquo;s feed.xml in this repository.</li>
+<li><a href="https://github.com/dfurnes">David Furnes</a>, <a href="https://github.com/jonuy">Jon Uy</a>, <a href="https://github.com/lkpttn">Luke Patton</a> - Thanks for the design/code reviews.</li>
+<li><a href="https://github.com/bkiers">Bart Kiers</a>, <a href="https://github.com/vermluh">Florian Simon</a>, <a href="https://github.com/henryaj">Henry Stanley</a>, <a href="https://github.com/hunjaelee">Hun Jae Lee</a>, <a href="https://github.com/javiercejudo">Javier Cejudo</a>, <a href="https://github.com/etelej">Peter Etelej</a>, <a href="https://github.com/jaminscript">Ben Abbott</a>, <a href="https://github.com/rnicholus">Ray Nicholus</a>, <a href="https://github.com/eringrand">Erin Grand</a>, <a href="https://github.com/LeoColomb">Léo Colombaro</a>, <a href="https://github.com/daattali">Dean Attali</a>, <a href="https://github.com/cjerrington">Clayton Errington</a>, <a href="https://github.com/coltonfitzgerald">Colton Fitzgerald</a>, <a href="https://github.com/sunnankar">Trace Mayer</a> - Thanks for your <a href="https://github.com/barryclark/jekyll-now/commits/master">fantastic contributions</a> to the project!</li>
+</ul>
+
+
+<h2>Contributing</h2>
+
+<p>Issues and Pull Requests are greatly appreciated. If you&rsquo;ve never contributed to an open source project before I&rsquo;m more than happy to walk you through how to create a pull request.</p>
+
+<p>You can start by <a href="https://github.com/barryclark/jekyll-now/issues/new">opening an issue</a> describing the problem that you&rsquo;re looking to resolve and we&rsquo;ll go from there.</p>
+
+<p>I want to keep Jekyll Now as minimal as possible. Every line of code should be one that&rsquo;s useful to 90% of the people using it. Please bear that in mind when submitting feature requests. If it&rsquo;s not something that most people will use, it probably won&rsquo;t get merged. :guardsman:</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby 代码块和运算符(原创)]]></title>
+    <link href="http://cnbin.github.io/blog/2015/07/03/ruby-dai-ma-kuai-he-yun-suan-fu/"/>
+    <updated>2015-07-03T15:31:30+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/07/03/ruby-dai-ma-kuai-he-yun-suan-fu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h2>代码块</h2>
+
+<h3>1.什么是块？</h3>
+
+<p>块由大量的代码组成；</p>
+
+<p>代码包含在大括号或者 <code>do…end</code> 内；</p>
+
+<p>块只能跟在方法调用之后，例如您的块名称为 <code>block\_te</code>，那么必须要 <code>block\_te</code> 函数来调用块。</p>
+
+<p>定义：</p>
+
+<pre><code>block_name{
+statements
+}
+</code></pre>
+
+<h3>2.yield语句</h3>
+
+<p>Tips：在方法内部，<code>yield</code> 的作用是占位，当方法执行到 yield 时实际执行的是代码块中的内容； <code>|X|</code> 是在代码块中使用的，用于接收 <code>yield</code> 传递的参数，且参数传给 <code>X</code>。</p>
+
+<p>范例：</p>
+
+<pre><code>#!/usr/bin/ruby        #文件名为yield_NO.rb
+
+def test
+   puts "You are in the method"
+   yield                #执行代码块
+   puts "You are again back to the method"
+   yield                #执行代码块
+end
+test {puts "You are in the block"}
+</code></pre>
+
+<p>运行：</p>
+
+<pre><code>$ruby yield_NO.rb
+</code></pre>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etiorid16gj208w01x74i.jpg" alt="img" /></p>
+
+<pre><code>#!/usr/bin/ruby        #文件名为yield_YES.rb
+
+def test
+   yield 5            #执行代码块
+   puts "You are in the method test"
+   yield 100            #执行代码块
+end
+test {|i| puts "You are in the block #{i}"}
+</code></pre>
+
+<p>运行：</p>
+
+<pre><code> $ruby yield_YES.rb
+</code></pre>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etiotpgtmbj209z01wt8x.jpg" alt="img" /></p>
+
+<h3>3. BEGIN 和 END 块</h3>
+
+<p>BEGIN 和 END 块分别定义程序被加载就执行的代码块和程序结束时执行的代码块。</p>
+
+<p>范例：
+    #!/usr/bin/ruby        #文件名为be_and_in.rb</p>
+
+<pre><code>BEGIN { 
+  #BEGIN 代码块
+  puts "BEGIN code block."
+}
+
+END { 
+  #END 代码块
+  puts "END code block."
+}
+puts "MAIN code."
+</code></pre>
+
+<p>运行：</p>
+
+<pre><code>$ ruby be_and_in.rb
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etioxkstphj208a01z0st.jpg" alt="img" /></p>
+
+<h2>三、运算符</h2>
+
+<h3>1.与其他语言的运算符关系</h3>
+
+<p>在 Ruby 中很多的运算符跟其他语言都是相同的，（比如基本的 <code>+、-、*、/</code> 算术运算 ，以及位运算和逻辑运算等）但是还是有一部分是不一样的，下面将对 Ruby 的部分运算符进行操作实验。</p>
+
+<h3>2.比较运算符</h3>
+
+<p><code>.eql?</code>：如果原参数与接收到的参数具有相同的类型和值，则返回 <code>true</code>。</p>
+
+<p>范例：</p>
+
+<pre><code>2.eql?(2.0) 返回 false
+</code></pre>
+
+<p><code>equal?</code>：如果原参数与接收到的参数具有相同的对象 <code>id</code>，则返回 true。</p>
+
+<h3>3.并行赋值</h3>
+
+<p>范例：</p>
+
+<pre><code>a,b,c=10,20,30
+</code></pre>
+
+<p>等价于：</p>
+
+<pre><code>a=10 b=20 c=30
+</code></pre>
+
+<h3>4.变量交换</h3>
+
+<pre><code>a,b=b,a
+</code></pre>
+
+<p>交换了 a 和 b 的值，也可以多个变量同时交换</p>
+
+<h3>5.三元运算符</h3>
+
+<p>三元运算符 -?:</p>
+
+<p>范例：</p>
+
+<pre><code>a&gt;b?c=b:c=a
+#如果a大于b则将b的值赋给c，否则将a的值赋给c
+</code></pre>
+
+<h3>6.范围运算符</h3>
+
+<p>在 Ruby 中有两个范围运算符，分别是 <code>..</code>和 <code>…</code></p>
+
+<p><code>..</code> ：表示创建一个从开始点到结束点的范围（包含结束点）</p>
+
+<p><code>…</code> ：表示创建一个从开始点到结束点的范围（不包含结束点）</p>
+
+<p>范例：</p>
+
+<pre><code>1..10
+#创建从1到10的范围
+
+1…10
+#创建从1到9的范围
+</code></pre>
+
+<h3>7.defined?运算符</h3>
+
+<p><code>defined?</code> 运算符是以调用相关方法的形式来判断传递的参数是否已经定义，如果表达式未定义则返回 nil，如果已定义则会返回参数描述。</p>
+
+<p>范例：</p>
+
+<pre><code>#!/usr/bin/ruby        #文件名为defined.rb
+a=100
+puts “a is defined?”,defined? a
+puts “test is defined?”,defined? test
+</code></pre>
+
+<p>运行：
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etioxkstphj208a01z0st.jpg" alt="img" /></p>
+
+<h3>8.点运算符和双冒号运算符</h3>
+
+<p>在 Ruby 中类和方法都可以被当做常量来使用 <code>::</code> 运算符： 可以使用一个模块名称和双冒号来引用一个常量； 双冒号运算符允许在类或模块内定义常量、实例方法和类方法，可以从类或模块外的任何地方进行访问。</p>
+
+<p>范例：</p>
+
+<pre><code>#!/usr/bin/ruby                #文件名为const_te.rb
+CONST = ' out there'            #定义常量
+class Inside_one
+   CONST = proc {' in there'}     
+   def where_is_my_CONST
+      ::CONST + ' inside one'    #引用常量
+   end
+end
+class Inside_two
+   CONST = ' inside two'
+   def where_is_my_CONST
+      CONST
+   end
+end
+puts Inside_one.new.where_is_my_CONST
+puts Inside_two.new.where_is_my_CONST
+puts Object::CONST + Inside_two::CONST
+puts Inside_two::CONST + CONST
+puts Inside_one::CONST
+puts Inside_one::CONST.call + Inside_two::CONST
+</code></pre>
+
+<p>若未使用前缀表达式，则默认使用主 Object 类。 Proc 是对块及其 context(局部变量的作用域以及栈框架)进行对象化处理之后得到的过程对象。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etipbkcwrnj20b9039gm6.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ruby -循环与判断]]></title>
+    <link href="http://cnbin.github.io/blog/2015/07/01/ruby-xun-huan-yu-pan-duan/"/>
+    <updated>2015-07-01T15:57:35+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/07/01/ruby-xun-huan-yu-pan-duan</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h2>循环</h2>
+
+<h3>1. while 循环与 until 循环</h3>
+
+<p>语法1：</p>
+
+<pre><code>while conditional [do]
+   code
+end
+</code></pre>
+
+<p>当 conditional 为真时执行 code</p>
+
+<p>语法2：</p>
+
+<pre><code>code while condition
+</code></pre>
+
+<p>或者</p>
+
+<pre><code>begin
+    code    
+end while conditional
+</code></pre>
+
+<p>当 conditional 为真时，执行 code。</p>
+
+<p>可以与 C 语言的 <code>do…while</code> 语句进行对比</p>
+
+<pre><code>#!/usr/bin/ruby        #文件名为while.rb
+
+$i = 0
+$num = 3
+puts "begin while"
+while $i &lt; $num  do
+   puts("Inside the loop(while) i = #$i" )
+   $i +=1
+end
+puts "end while"
+$i=0
+puts "begin do while"
+begin
+   puts("Inside the loop(do while) i = #$i" )
+   $i +=1
+end while $i &lt; $num
+puts "end do while"
+</code></pre>
+
+<p>运行：</p>
+
+<pre><code>$ ruby while.rb
+</code></pre>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etipkkqanuj2092056jsc.jpg" alt="img" /></p>
+
+<h3>2. until 循环</h3>
+
+<p>语法1：</p>
+
+<pre><code>until conditional [do]
+   code
+end
+</code></pre>
+
+<p>语法2：</p>
+
+<pre><code>code until conditional
+</code></pre>
+
+<p>或者：</p>
+
+<pre><code>begin
+   code
+end until conditional
+</code></pre>
+
+<h3>3. for、break 和 next 语句</h3>
+
+<p>for 范例1：</p>
+
+<pre><code>#!/usr/bin/ruby
+
+for i in 0..5        #新建范围
+   puts "Value of local variable is #{i}"
+end
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etipoik69dj207y03a3z5.jpg" alt="img" /></p>
+
+<p>for 范例2：</p>
+
+<pre><code>#!/usr/bin/ruby
+
+(0..5).each do |i|
+   puts "Value of local variable is #{i}"
+end
+</code></pre>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etipqfk2ogj208d03bwey.jpg" alt="img" /></p>
+
+<p>break 范例：</p>
+
+<pre><code>#!/usr/bin/ruby
+
+for i in 0..5
+   if i &gt; 2 then
+      break        #退出循环
+   end
+   puts "Value of local variable is #{i}"
+end
+</code></pre>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etips826hqj208e01w0t1.jpg" alt="img" /></p>
+
+<p>next 范例：</p>
+
+<pre><code>#!/usr/bin/ruby
+
+for i in 0..5
+   if i &lt; 2 then
+      next        #跳转到下一次循环
+   end
+   puts "Value of local variable is #{i}"
+end
+</code></pre>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etipufa0v2j207n02ddg7.jpg" alt="img" /></p>
+
+<h3>4. redo 和 retry 语句</h3>
+
+<p>redo 范例：</p>
+
+<pre><code>#!/usr/bin/ruby        #文件名为redo.rb
+
+for i in 0..5
+   if i &lt; 2 then
+      puts "Value of local variable is #{i}"
+      redo        #重新开始最内部循环的该次迭代，不检查循环条件
+   end
+end
+</code></pre>
+
+<p>运行结果将无限循环：</p>
+
+<pre><code>$ ruby redo.rb
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etipwrk4uqj206n0begoj.jpg" alt="img" /></p>
+
+<p>如果 retry 出现在 begin 表达式的 rescue 子句中，则从 begin 主体的开头重新开始执行。</p>
+
+<p>语法：</p>
+
+<pre><code>begin
+   do_something         #抛出的异常
+rescue
+   #处理错误
+   retry                 #重新从 begin 开始
+end
+</code></pre>
+
+<p>如果 retry 出现在迭代内、块内或者 for 表达式的主体内，则重新开始迭代调用。迭代的参数会重新评估。</p>
+
+<p>范例：</p>
+
+<pre><code>#!/usr/bin/ruby     #文件名为retry.rb
+
+n = 0
+begin
+  puts 'Trying to do something'
+  raise 'oops'        #抛出一个消息为"oops"的RuntimeError
+rescue =&gt; ex        #捕捉异常，并将异常保存至ex变量
+  puts ex            #打印异常消息
+  n += 1
+  retry if n &lt; 3
+end
+puts "Ok, I give up"
+</code></pre>
+
+<p>运行：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etiq0cozx7j209d03p0t2.jpg" alt="img" /></p>
+
+<h2>判断</h2>
+
+<h3>1. if 语句</h3>
+
+<p>if 范例1：</p>
+
+<pre><code>#!/usr/bin/ruby        #文件名为if1.rb
+
+x=1
+if x &gt; 2
+   puts "x is greater than 2"    #句1
+elsif x &lt;= 2 and x!=0
+   puts "x is 1"            #句2
+else
+   puts "I can't guess the number"    #句3
+end
+</code></pre>
+
+<p>如果 x>2 则执行句1，否则如果 x&lt;=2 并且 x!=0 则执行句2，其他情况执行句3。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etiq3h83dkj2072014a9x.jpg" alt="img" /></p>
+
+<p>if 范例2：</p>
+
+<pre><code>#!/usr/bin/ruby        #文件名为if2.rb
+
+$debug=1
+print "debug\n" if $debug    #如果“if $debug”为真，则执行print “debug\n”
+</code></pre>
+
+<p>运行：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etiq5ski9dj208v00ydfp.jpg" alt="img" /></p>
+
+<h3>2. unless 语句</h3>
+
+<p>unless 范例1：</p>
+
+<pre><code>#!/usr/bin/ruby        #文件名为unless.rb
+
+x=1
+unless x&gt;2
+   puts "x is less than 2"    #句1
+ else
+  puts "x is greater than 2"    #句2
+end
+#如果x&gt;2为假则执行句1，否则执行句2
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etiq8ryxvkj207x00zmx2.jpg" alt="img" /></p>
+
+<p>与 if 语句相似，下面看范例2。</p>
+
+<p>unless 范例2：</p>
+
+<pre><code>#!/usr/bin/ruby        #文件名为unless2.rb
+
+$var = 1                #不能写为ture
+print "1 -- Value is set\n" if $var        #复习if语句，并与unless语句对比
+print "2 -- Value is set\n" unless $var    #如果 $var为假，则执行print "2 -- Value is set\n"
+
+$var = false            #不能写成0
+print "3 -- Value is set\n" unless $var
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etiqbp8ux5j209p01e74b.jpg" alt="img" /></p>
+
+<h3>3. case 语句</h3>
+
+<p>范例：</p>
+
+<pre><code>#!/usr/bin/ruby        #文件名为case.rb
+
+$age = 56
+case $age                #比较指定的age
+when 0 .. 2            #与0,1,2三个数字进行比较
+    puts "baby"        #若匹配，则执行此句
+when 3 .. 6
+    puts "little child"
+when 7 .. 12
+    puts "child"
+when 13 .. 18
+    puts "youth"
+else                    #若以上均不匹配
+    puts "adult"        #则执行此句
+end                    #不要忘了case…end
+</code></pre>
+
+<p>运行：</p>
+
+<pre><code>$ ruby case.rb
+adult
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

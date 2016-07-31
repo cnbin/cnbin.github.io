@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Unix 系统上的文本操作简介 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="简介 UNIX 的基本哲学之一就是创建只做一件事并将这一件事做好的程序（或进程）。这一哲学要求认真考虑接口以及结合这些更小（有望更简单）流程的方法，以产生有用的 结果。文本数据通常是在这些接口之间流动。多年以来，越来越高级的文本处理工具和语言已经开发出来。从语言上来讲，早期专门处理文本的语言有 &hellip;">
+  <meta name="keywords" content="cat,unix">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/17/unix-xi-tong-shang-de-wen-ben-cao-zuo-jian-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Unix 系统上的文本操作简介</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-17T18:25:11+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:25 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>简介</h3>
+
+<p>UNIX 的基本哲学之一就是创建只做一件事并将这一件事做好的程序（或进程）。这一哲学要求认真考虑接口以及结合这些更小（有望更简单）流程的方法，以产生有用的 结果。文本数据通常是在这些接口之间流动。多年以来，越来越高级的文本处理工具和语言已经开发出来。从语言上来讲，早期专门处理文本的语言有 perl，后来又出现了 python 和 ruby。虽然这些语言以及其他语言都是非常强大的文本处理器，但这些工具并不是一直可行的，在生产环境下尤其如此。本文将介绍一些基本的 UNIX 文本处理命令，这些命令既可单独使用也可结合使用，可用来解决需要更新的语言才能解决的问题。对许多人来说，与长篇大论的解释相比，实例能够提供更多的信 息。请注意，由于有多种可用的 UNIX 和 UNIX 类系统，因此不同实现之间的命令标志、程序行为和输出结果会略有不同。</p>
+
+<h3>使用 cat</h3>
+
+<p><code>cat</code> 命令是最基本的命令之一。这个命令用来创建、追加、显示以及合并文本文件。</p>
+
+<p>我们可以使用 <code>cat</code> 命令创建文件，方法是：使用 ‘>’ 将标准输入 (<code>stdin</code>) 重定向到文件。使用 ‘>’ 操作符会缩短指定输出文件的内容。在此之后输入的文本会重定向到 ‘>’ 操作符右侧指定的文件。control-d 表示文件结束，将控制权返回给 shell。</p>
+
+<h4>使用 cat 创建文件的示例</h4>
+
+<pre><code>$ cat &gt; demo.txt
+helloworld
+believe your self
+&lt;ctrl-d&gt;
+$
+</code></pre>
+
+<p>使用 ‘>>’ 操作符将标准输入追加到现有文件。</p>
+
+<h4>使用 cat 追加文件的示例</h4>
+
+<pre><code>$ cat &gt;&gt; demo.list
+good
+&lt;ctrl-d&gt;
+</code></pre>
+
+<p>使用 <code>cat</code> 命令不加标志，可查看 demo.list 文件的内容。请注意文件的内容如何包含来自重定向的输入以及追加操作符的示例。</p>
+
+<h4>使用无标志 cat 的示例</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; cat demo.txt
+helloworld
+believe your self
+good
+</code></pre>
+
+<p>可以使用 <code>cat</code> 命令对文件行进行编号</p>
+
+<h4>使用 cat 计算行的示例：</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; cat -n demo.txt
+ 1  helloworld
+ 2  believe your self
+ 3  good
+</code></pre>
+
+<h3>使用 nl</h3>
+
+<p><code>nl</code> 过滤器会从 <code>stdin</code> 或指定文件读取行。输出则会写入 <code>stdout</code> 并重定向到文件，或传到另一个进程中。<code>nl</code> 的行为是由不同命令行选项控制的。</p>
+
+<p>在默认情况下，<code>nl</code> 会计算行数，与 <code>cat -n</code> 的功能类似。</p>
+
+<h4>nl 默认用法示例：</h4>
+
+<pre><code> ➜ /Users/apple/Desktop git:(master) ✗&gt; nl demo.txt
+ 1  helloworld
+ 2  believe your self
+ 3  good     
+</code></pre>
+
+<h3>使用 wc</h3>
+
+<p><code>wc</code> (wordcount) 命令计算指定文件或来自 <code>stdin</code> 的行数、单词数（由空格分隔）和字符数。</p>
+
+<h4>wc 用法示例</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; wc demo.txt
+       3       5      34 demo.txt
+➜ /Users/apple/Desktop git:(master) ✗&gt; wc -l demo.txt
+       3 demo.txt
+➜ /Users/apple/Desktop git:(master) ✗&gt; wc -w demo.txt
+       5 demo.txt
+➜ /Users/apple/Desktop git:(master) ✗&gt; wc -c demo.txt
+      34 demo.txt
+</code></pre>
+
+<h3>使用 grep</h3>
+
+<p><code>grep</code> 命令在指定文件或 <code>stdin</code> 中搜索与给定表达式相匹配的模式。<code>grep</code> 的输出由多个选项标志控制。</p>
+
+<p>为了演示，这里新创建了一个文件，与 demo.txt 配合使用。</p>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; cat demo2.txt
+good
+well
+done     
+Good
+</code></pre>
+
+<h4>grep 基本用法示例</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; grep good demo.txt demo2.txt
+demo.txt:good
+demo2.txt:good
+</code></pre>
+
+<p><code>grep</code> 拥有相当可观的选项标志。下面的示例将演示其中几个选项的用法。</p>
+
+<p>要显示文件名（处理多个文件的情况下）以及发现模式匹配的行数，在本用例中使用的模式是计算每个文件中出现单词 ‘apple’ 的行数。</p>
+
+<h4>grep 示例：计算文件中匹配数</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; grep -c good demo.txt demo2.txt
+demo.txt:1
+demo2.txt:1
+</code></pre>
+
+<p>在搜索多个文件时，可以使用 -h 选项取消在输出中显示文件名。</p>
+
+<h4>grep 示例：取消在输出中显示文件名</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; grep -h good demo.txt demo2.txt
+good
+good
+</code></pre>
+
+<p>在很多情况下，需要进行不区分大小写的搜索。<code>grep</code> 命令的 <code>-i</code> 选项可以在搜索时忽略大小写。</p>
+
+<h4>grep 示例：不区分大小写</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; grep -i good demo.txt demo2.txt
+demo.txt:good
+demo2.txt:good
+demo2.txt:Good
+</code></pre>
+
+<p>有些时候，只需要输出文件名，不需要输出模式匹配的行。<code>grep</code> 提供 <code>-l</code> 选项，用于只输出包含匹配模式行的文件名。</p>
+
+<h4>grep 示例：只输出文件名</h4>
+
+<pre><code> ➜ /Users/apple/Desktop git:(master) ✗&gt; grep -l good demo.txt demo2.txt 
+demo.txt
+demo2.txt
+</code></pre>
+
+<p>行号可以显示在输出中。使用 -n 选项来包含行号。</p>
+
+<h4>grep 示例：包含行号</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; grep -n good demo.txt demo2.txt
+demo.txt:3:good
+demo2.txt:1:good
+</code></pre>
+
+<h4>grep 示例：输出不匹配行</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; grep -v helloworld demo2.txt
+good
+well
+done
+Good
+</code></pre>
+
+<p>有时，需要的模式是一个单词，两边被空格或其他字符（例如连字符或括号）包围。<code>grep</code> 的多数版本都提供了 -w 选项，能方便地编写此类模式的搜索。</p>
+
+<h4>grep 示例：单词匹配</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; grep -w good demo.txt demo2.txt
+demo.txt:good
+demo2.txt:good
+</code></pre>
+
+<h3>流、管道、重定向、tee 和 here docs</h3>
+
+<p>在 UNIX 中，一个终端默认包含三个流，一个输入流，两个基于输出的流。输入流称为 <code>stdin</code>，通常映射到键盘（也可使用其他输入设备，或从其他进程中传入）。标准输出流称为 <code>stdout</code>，并通常输出到终端上，输出也可供其他进程使用（就像 <code>stdin</code> 一样）。另一个输出流 <code>stderr</code> 主要用作状态报告，通常输出到终端，如 <code>stdout</code>。这三个流都有各自的文件描述符，每一个流都可以从其他流中传入或重定向，即使是它们全都连接到终端。每个流的文件描述符分别是：</p>
+
+<ul>
+<li>stdin = 0</li>
+<li>stdout = 1</li>
+<li>stderr = 2</li>
+</ul>
+
+
+<p>这三个流可以传送或重定向到文件或其他进程。这个构造通常称为 “构建一个管道”。例如，程序员可能想将 <code>stdout</code> 流和 <code>stderr</code> 流合并，然后在终端上显示它们，再将结果保存到文件中以便检查版本问题。使用 <code>2&gt;&amp;1</code>，<code>stderr</code> 流以及文件描述符 <code>2</code> 会被重定向到 <code>&amp;1</code>（指向 <code>stdout</code> 流）。这样就能有效地将 <code>stderr</code> 合并到 <code>stdout</code>。使用 <code>|</code> 符号表示管道。管道连接左侧进程 (<code>make</code>) 的 <code>stdout</code> 和右侧进程 (<code>tee</code>) 的 <code>stdin</code>。<code>tee</code> 命令会复制（合并）将数据发送到终端以及文件的 <code>stdout</code> 流，在本示例中，称为 <code>build.log</code>。</p>
+
+<h4>合并和拆分标准流的示例</h4>
+
+<pre><code>$ make –f build_example.mk 2&gt;&amp;1 | tee build.log
+</code></pre>
+
+<p>另一个重定向示例，使用 cat 命令和一些流重定向制作文本文件副本。</p>
+
+<h4>使用重定向制作备份文件的示例</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; cat &lt; demo.txt &gt; demo.txt.bak
+</code></pre>
+
+<p>前面使用 <code>nl</code> 命令为在 <code>stdout</code> 中显示的文件加行号。管道可用于将 <code>stdout</code> 流（来自 cat demo.txt）发送到另外一个进程，在本用例中，是 <code>nl</code> 命令。</p>
+
+<h4>简单管道传送到 nl 的示例</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; cat demo.txt | nl
+ 1  helloworld
+ 2  believe your self
+ 3  good
+</code></pre>
+
+<p>先前显示的另一个示例是针对模式执行不区分大小写的搜索。这也可以使用重定向来实现（在这本用例中为来自 <code>stdin</code> 或使用管道，与上述简单管道示例相似）。</p>
+
+<h4>grep 示例：通过 stdin 重定向和管道</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; grep -i good &lt; demo2.txt
+good
+Good
+➜ /Users/apple/Desktop git:(master) ✗&gt; cat demo2.txt | grep -i good
+good
+Good
+</code></pre>
+
+<p>在某些情况下，要将文本块重定向到某个命令或文件中作为脚本的一部分。实现此操作的机制是使用 ‘here document’（或 ‘here-doc’）。要将 here-doc 嵌入到脚本，需要使用 <code>‘&lt;&lt;’</code> 操作符重定向下列文本，直到到达文件结束分隔符为止。在 <code>&lt;&lt;</code> 操作符后指定分隔符。</p>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; cat &lt;&lt; EOF
+heredoc&gt; oranges
+heredoc&gt; mangos
+heredoc&gt; pinapples
+heredoc&gt; EOF
+oranges
+mangos
+pinapples
+</code></pre>
+
+<p>可将此输出重定向到文件，在本示例中，分隔符 ‘EOF’ 改为 ‘!’。</p>
+
+<h4>示例：将基本 here-doc 重定向到文件</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; cat &lt;&lt; ! &gt; demo3.txt
+heredoc&gt; oranges
+heredoc&gt; mangeos
+heredoc&gt; piapples
+heredoc&gt; !
+➜ /Users/apple/Desktop git:(master) ✗&gt; cat demo3.txt
+oranges
+mangeos
+piapples
+</code></pre>
+
+<h3>使用 head 和 tail</h3>
+
+<p><code>head</code> 和 <code>tail</code> 命令用来查看文件的顶部 (head) 或底部 (tail)。要显示文件顶部两行和底部两行，请分别使用这两个命令加 -n 选项标志。相同地，-c 选项显示文件中的前几个或最后几个字符</p>
+
+<h4>示例：head 和 tail 命令的基本用法</h4>
+
+<pre><code>➜ /Users/apple/Desktop git:(master) ✗&gt; head -n2 demo2.txt
+good
+well
+➜ /Users/apple/Desktop git:(master) ✗&gt; tail -n2 demo2.txt
+done
+Good%
+➜ /Users/apple/Desktop git:(master) ✗&gt; head -c12 demo2.txt
+good
+well
+do%       
+➜ /Users/apple/Desktop git:(master) ✗&gt; tail -c12 demo2.txt
+ll
+done
+Good%
+</code></pre>
+
+<p><code>tail</code> 命令的常见用途就是观察日志文件或者正在运行的进程输出，查看其中是否有问题，或者关注进程何时结束。-f (<code>tail –f</code>) 选项使 tail 持续观察流，即使是到达文件结束标记也继续观察，并在流包含更多数据时，持续显示输出。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.open-open.com/lib/view/open1337058743307.html">http://www.open-open.com/lib/view/open1337058743307.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-17T18:25:11+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:25 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/17/9ge-zhong-liang-ji-de-yun-ji-suan-paas-ping-tai/" title="Previous Post: 9个重量级的云计算(PaaS)平台">&laquo; 9个重量级的云计算(PaaS)平台</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/18/3gp-H264-aac/" title="Next Post: 3gp,H.264 和 aac">3gp,H.264 和 aac &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

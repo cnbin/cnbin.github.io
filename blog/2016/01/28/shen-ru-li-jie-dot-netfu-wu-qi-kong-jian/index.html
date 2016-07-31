@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>深入理解.net服务器控件 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="控件生命周期 1.初始化（对应Oninit方法） 这里页面通过ProcessRequest方法来递归遍历它的子控件（即页面中的空间，其实页面也算控件）。使子控件依次调用它们的Oninit方法。我们这里可以重写控件的OnInit方法，来扩展控件功能或增加初始化内容。在本阶段还要打开视图状态跟踪功能 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/01/28/shen-ru-li-jie-dot-netfu-wu-qi-kong-jian/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">深入理解.net服务器控件</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-28T14:24:58+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:24 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>控件生命周期</h2>
+
+<h3>1.初始化（对应Oninit方法）</h3>
+
+<p>这里页面通过ProcessRequest方法来递归遍历它的子控件（即页面中的空间，其实页面也算控件）。使子控件依次调用它们的Oninit方法。我们这里可以重写控件的OnInit方法，来扩展控件功能或增加初始化内容。在本阶段还要打开视图状态跟踪功能，调用TrackviewState方法，这样存储在viewState对象里面的值在页面回发时才能正确灰复到控件属性中。</p>
+
+<h3>2.加载视图状态（对应LoadViewState方法）</h3>
+
+<p>本阶段仅在页面回发时才执行，加载视图状态到控件。在第一次访问页面时我们还没有获得存储到视图状态的状态数据。</p>
+
+<h3>3.加载回传数据（对应LoadPostData方法）</h3>
+
+<p>在页面回发时执行。LoadPostData实现IPostBackDataHandler（实现控件数据回传必须要继承该接口）的一个方法，该方法参数NameValueCollection类型的对象装载了客户端提交的数据。另外该方法还会比较控件的旧值和新值返回一个bool类型值，以决定是否执行RaisePostDatachangedEvent方法。</p>
+
+<p>客户修改窗体数据进行提交后，接收到的投递的数据是以 “&amp;”符号隔开的一些键值串，页面处理器将投递的数据集合名称与页面控件的ID一一匹配，根据匹配ID检索对应的服务器控件有没有实现IPostBackDataHandler接口，如果实现了就调用控件的LoadPostData方法，给控件刷新其值。</p>
+
+<h3>4.装载（对应OnLoad方法）</h3>
+
+<p>页面装载时调用Page_Load()事件，在依次调用各个控件OnLoad方法.</p>
+
+<h3>5.数据回传事件通知（对应RaisePostDataChangeEvent方法）</h3>
+
+<p>在页面回发时执行。该方法也实现了IPostBackDataHandler接口。当bool值为true代表数据更改了，就执行该方法。</p>
+
+<h3>6.触发回发事件（对应RaisePostBackEvent方法）</h3>
+
+<p>在页面回发时执行。主要是处理引起回发的客户端事件，成功捕获回发的客户端事件进行服务器端的相应处理。也实现了IPostBackDataHandler接口。可以通过本法的参数来判断是哪个控件触发的回发事件，进而执行不同的事件处理逻辑。</p>
+
+<h3>7.预呈现（对应OnPreRender方法）</h3>
+
+<p>主要完成呈现（Render方法）之前所需要的一些处理。如注册JavaScript脚本和隐藏域控件等。</p>
+
+<h3>8.保存视图状态（对应SaveViewState方法）</h3>
+
+<p>该方法是把页面控件视图信息进行存储。第一次请求该页面就会执行该操作。</p>
+
+<h3>9.呈现（对应Render方法）</h3>
+
+<p>主要将控件标记和字符文本输出到服务器控件输出流中。</p>
+
+<h3>10.卸载（对应OnUnload方法）</h3>
+
+<p>对控件资源清除工作。</p>
+
+<p>可以通过构造一个简单的服务器控件来熟悉它的生命周期</p>
+
+<p>先创建一个控件库（新建项目选择ASP.NET服务器控件）和一个网站，再在类库中添加一个类（添加新建项选择ASP.NET 服务器控件）。在讲下列代码复制到类库中去。在生成该类库并在网站中引用该类库，再在该在网站上新建一个aspx文件，在页面工具箱中直接将控件拖到页面上即可。</p>
+
+<pre><code> 1 using System;
+ 2  using System.Collections.Generic;
+ 3  using System.ComponentModel;
+ 4 using System.Linq;
+ 5 using System.Text;
+ 6 using System.Web;
+ 7 using System.Web.UI;
+ 8 using System.Web.UI.WebControls;
+ 9 using System.Collections.Specialized;
+10 
+11 namespace ControlLibrary
+12 {
+13     [DefaultProperty("Text")]
+14     [ToolboxData("&lt;{0}:ControlLifecycle runat=server&gt;&lt;/{0}:ControlLifecycle&gt;")]
+15     public class ControlLifecycle : WebControl,IPostBackDataHandler,IPostBackEventHandler
+16     {
+17         protected override void OnInit(EventArgs e)
+18         {
+19             //输出
+20             OutPut("1.OnInit");
+21             base.OnInit(e);
+22             //注册
+23             this.Page.RegisterRequiresPostBack(this);
+24         }
+25 
+26         protected override void LoadViewState(object savedState)
+27         {
+28             OutPut("2.LoadViewState");
+29             base.LoadViewState(savedState);
+30 
+31         }
+32 
+33         public virtual bool LoadPostData(string postDataKey, NameValueCollection postCollection)
+34         {
+35 
+36             OutPut("3.LoadPostData");
+37             return true;
+38         }
+39 
+40         protected override void OnLoad(EventArgs e)
+41         {
+42             OutPut("4.OnLoad");
+43             base.OnLoad(e);
+44         }
+45 
+46         public virtual void RaisePostDataChangedEvent()
+47         {
+48             OutPut("5. RaisePostDataChangedEvent");
+49         }
+50 
+51         public virtual void RaisePostBackEvent(string eventArgument)
+52         {
+53             OutPut("6. RaisePostBackEvent");
+54         }
+55 
+56         private void OutPut(string strText)
+57         {
+58             if (this.DesignMode == false)
+59             {
+60                 HttpContext.Current.Response.Write(strText + "&lt;br&gt;");
+61             }
+62         }
+63 
+64         protected override void OnPreRender(EventArgs e)
+65         {
+66             OutPut("7. OnPreRender");
+67             base.OnPreRender(e);
+68         }
+69 
+70         protected override object SaveViewState()
+71         {
+72             OutPut("8. SaveViewState");
+73             base.SaveViewState();
+74             return new Pair();
+75         }
+76 
+77         protected override void Render(HtmlTextWriter writer)
+78         {
+79             writer.Write("&lt;INPUT type=button name=\"{0}\" value=\"Click Me!\" style='position:absolute; left: 20; top: 280px' onclick=\"{1}\"&gt;", this.UniqueID, Page.ClientScript.GetPostBackEventReference(this, ""));
+80             OutPut("9. Render");
+81             base.Render(writer);
+82         }
+83    
+84     }
+85 }
+86 
+</code></pre>
+
+<p>其实上面过程就算是我们开发了一个控件。了解它，最好的办法是尝试去开发它。</p>
+
+<p>开发一个控件首先要选好它要继承的基类</p>
+
+<h3>选择基类</h3>
+
+<p>Control</p>
+
+<p>控件开发基类，所有控件都直接或间接继承该类。提供了各类控件通用的属性和方法。</p>
+
+<p>WebControl</p>
+
+<p>webcontrol继承了control所有的属性，还增加了布局，可访问性，外观样式等特性。</p>
+
+<p>CompositeControl</p>
+
+<p>如果把现有控件聚合起来创建一个组合控件时，可以继承此类。该类默认实现了INamingContainer接口。</p>
+
+<h3>控件呈现顺序</h3>
+
+<p>上面介绍到了控件Render阶段主要是将控件标记和字符文本输出到服务器控件流当中。这里可以直接写HTML标记（上面例子就是的）也可以调用每个控件都有的RenderControl方法到输出流。在WebControl中，介绍以下5个函数</p>
+
+<p>RenderControl(HtmlTextWriter writer)</p>
+
+<p>Render(HtmlTextWriter writer)</p>
+
+<p>RenderBeginTag(HtmlTextWriter writer)</p>
+
+<p>RenderContents(HtmlTextWriter writer)</p>
+
+<p>RenderEndTag(HtmlTextWirter writer)</p>
+
+<p>在RenderControl 会内部调用Render,在Render会内部调用RenderBeginTag,RenderContents,RenderEndTag。</p>
+
+<p>其中RenderBeginTag,RenderEndTag可以重写，默认值为<code>&lt;span&gt;&lt;/span&gt;</code>。它们是用来定义控件起始和结束的标记。</p>
+
+<p>RenderContents看英文的意思就明白了。（待续。。。）</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.cnblogs.com/couhujia/archive/2010/03/23/1692586.html">http://www.cnblogs.com/couhujia/archive/2010/03/23/1692586.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-28T14:24:58+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:24 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/28/asp-dot-netye-mian-jie-mi-zhi-ye-mian-sheng-ming-zhou-qi/" title="Previous Post: ASP.NET页面揭秘之页面生命周期">&laquo; ASP.NET页面揭秘之页面生命周期</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/28/web-dot-configpei-zhi-wen-jian-zhi-shi/" title="Next Post: web.config配置文件知识">web.config配置文件知识 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>XMPPFramework 常见用法 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1登录和好友上下线 1.1XMPP中常用对象们 XMPPStream：xmpp基础服务类
+XMPPRoster：好友列表类
+XMPPRosterCoreDataStorage：好友列表（用户账号）在core data中的操作类
+XMPPvCardCoreDataStorage：好友名片（昵称， &hellip;">
+  <meta name="keywords" content="xmppframework">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/20/xmppframework-chang-jian-yong-fa/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">XMPPFramework 常见用法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-20T10:33:52+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:33 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>1登录和好友上下线</h2>
+
+<h3>1.1XMPP中常用对象们</h3>
+
+<ul>
+<li>XMPPStream：xmpp基础服务类</li>
+<li>XMPPRoster：好友列表类</li>
+<li>XMPPRosterCoreDataStorage：好友列表（用户账号）在core data中的操作类</li>
+<li>XMPPvCardCoreDataStorage：好友名片（昵称，签名，性别，年龄等信息）在core data中的操作类</li>
+<li>XMPPvCardTemp：好友名片实体类，从数据库里取出来的都是它</li>
+<li>XMPPvCardAvatarModule：好友头像</li>
+<li>XMPPReconnect：如果失去连接,自动重连</li>
+<li>XMPPRoom：提供多用户聊天支持</li>
+<li>XMPPPubSub：发布订阅</li>
+</ul>
+
+
+<h3>1.2登录操作，也就是连接xmpp服务器</h3>
+
+<pre><code>- (void)connect {
+    if (self.xmppStream == nil) {
+        self.xmppStream = [[XMPPStream alloc] init];
+        [self.xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    }
+    if (![self.xmppStream isConnected]) {
+        NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
+        XMPPJID *jid = [XMPPJID jidWithUser:username domain:@"lizhen" resource:@"Ework"];
+        [self.xmppStream setMyJID:jid];
+        [self.xmppStream setHostName:@"10.4.125.113"];
+        NSError *error = nil;
+        if (![self.xmppStream connect:&amp;error]) {
+            NSLog(@"Connect Error: %@", [[error userInfo] description]);
+        }
+    }
+}
+</code></pre>
+
+<p>connect成功之后会依次调用XMPPStreamDelegate的方法，</p>
+
+<p>首先调用</p>
+
+<pre><code>- (void)xmppStream:(XMPPStream *)sender socketDidConnect:(GCDAsyncSocket *)socket
+</code></pre>
+
+<p>然后</p>
+
+<pre><code>- (void)xmppStreamDidConnect:(XMPPStream *)sender
+</code></pre>
+
+<p>在该方法下面需要使用xmppStream 的authenticateWithPassword方法进行密码验证，成功的话会响应delegate的方法，就是下面这个</p>
+
+<pre><code>- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender
+</code></pre>
+
+<h3>1.3上线</h3>
+
+<p>实现 - (void)xmppStreamDidAuthenticate:(XMPPStream *)sender 委托方法</p>
+
+<pre><code>- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
+    XMPPPresence *presence = [XMPPPresence presenceWithType:@"available"];
+    [self.xmppStream sendElement:presence];
+}
+</code></pre>
+
+<h3>1.4退出并断开连接</h3>
+
+<pre><code>    - (void)disconnect {
+    XMPPPresence *presence = [XMPPPresence presenceWithType:@"unavailable"];
+    [self.xmppStream sendElement:presence];
+
+    [self.xmppStream disconnect];
+}
+</code></pre>
+
+<h3>1.5好友状态</h3>
+
+<p>获取好友状态，通过实现</p>
+
+<pre><code>- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
+</code></pre>
+
+<p>方法</p>
+
+<p>当接收到 <code>&lt;presence /&gt;</code> 标签的内容时，XMPPFramework 框架回调该方法</p>
+
+<p>一个 <code>&lt;presence /&gt;</code> 标签的格式一般如下：</p>
+
+<pre><code>&lt;presence from=""&gt;
+　　&lt;show&gt;这里是显示的内容&lt;show /&gt;
+　　&lt;status&gt;这里是显示的状态&lt;status /&gt;
+&lt;presence /&gt;
+</code></pre>
+
+<p>presence 的状态：</p>
+
+<p>available 上线</p>
+
+<p>away 离开</p>
+
+<p>do not disturb 忙碌</p>
+
+<p>unavailable 下线</p>
+
+<pre><code>- (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
+    NSString *presenceType = [presence type];
+    NSString *presenceFromUser = [[presence from] user];
+    if (![presenceFromUser isEqualToString:[[sender myJID] user]]) {
+        if ([presenceType isEqualToString:@"available"]) {
+            //
+        } else if ([presenceType isEqualToString:@"unavailable"]) {
+            //
+        }
+    }
+}
+</code></pre>
+
+<h2>2接收消息和发送消息</h2>
+
+<h3>2.1接收消息</h3>
+
+<p>通过实现</p>
+
+<pre><code>- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message;
+</code></pre>
+
+<p>方法</p>
+
+<p>当接收到 <code>&lt;message /&gt;</code> 标签的内容时，XMPPFramework 框架回调该方法</p>
+
+<p>根据 XMPP 协议，消息体的内容存储在标签 <code>&lt;body /&gt;</code> 内</p>
+
+<pre><code>- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message {
+    NSString *messageBody = [[message elementForName:@"body"] stringValue];
+}
+</code></pre>
+
+<h3>2.2发送消息</h3>
+
+<p>发送消息，我们需要根据 XMPP 协议，将数据放到 <code>&lt;message /&gt;</code> 标签内，例如：</p>
+
+<pre><code>&lt;message type="chat" to="xiaoming@example.com"&gt;
+　　&lt;body&gt;Hello World!&lt;body /&gt;
+&lt;message /&gt;
+
+- (void)sendMessage:(NSString *) message toUser:(NSString *) user {
+    NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
+    [body setStringValue:message];
+    NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
+    [message addAttributeWithName:@"type" stringValue:@"chat"];
+    NSString *to = [NSString stringWithFormat:@"%@@example.com", user];
+    [message addAttributeWithName:@"to" stringValue:to];
+    [message addChild:body];
+    [self.xmppStream sendElement:message];
+}
+</code></pre>
+
+<h2>3获取好友信息和删除好友</h2>
+
+<h3>3.1好友列表和好友名片</h3>
+
+<pre><code>[_xmppRoster fetchRoster];//获取好友列表
+//获取到一个好友节点
+- (void)xmppRoster:(XMPPRoster *)sender didRecieveRosterItem:(NSXMLElement *)item
+//获取完好友列表
+- (void)xmppRosterDidEndPopulating:(XMPPRoster *)sender
+//到服务器上请求联系人名片信息
+- (void)fetchvCardTempForJID:(XMPPJID *)jid;
+//请求联系人的名片，如果数据库有就不请求，没有就发送名片请求
+- (void)fetchvCardTempForJID:(XMPPJID *)jid ignoreStorage:(BOOL)ignoreStorage;
+//获取联系人的名片，如果数据库有就返回，没有返回空，并到服务器上抓取
+- (XMPPvCardTemp *)vCardTempForJID:(XMPPJID *)jid shouldFetch:(BOOL)shouldFetch;
+//更新自己的名片信息
+- (void)updateMyvCardTemp:(XMPPvCardTemp *)vCardTemp;
+//获取到一盒联系人的名片信息的回调
+- (void)xmppvCardTempModule:(XMPPvCardTempModule *)vCardTempModule 
+        didReceivevCardTemp:(XMPPvCardTemp *)vCardTemp 
+                     forJID:(XMPPJID *)jid
+</code></pre>
+
+<h3>3.2添加好友</h3>
+
+<pre><code>//name为用户账号
+- (void)XMPPAddFriendSubscribe:(NSString *)name
+{
+    //XMPPHOST 就是服务器名，  主机名
+    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,XMPPHOST]];
+    //[presence addAttributeWithName:@"subscription" stringValue:@"好友"];
+    [xmppRoster subscribePresenceToUser:jid];
+
+}
+</code></pre>
+
+<h3>3.3收到添加好友的请求</h3>
+
+<pre><code>- (void)xmppRoster:(XMPPRoster *)sender didReceivePresenceSubscriptionRequest:(XMPPPresence *)presence
+{
+    //取得好友状态
+    NSString *presenceType = [NSString stringWithFormat:@"%@", [presence type]]; //online/offline
+    //请求的用户
+    NSString *presenceFromUser =[NSString stringWithFormat:@"%@", [[presence from] user]];
+    NSLog(@"presenceType:%@",presenceType);
+
+    NSLog(@"presence2:%@  sender2:%@",presence,sender);
+
+    XMPPJID *jid = [XMPPJID jidWithString:presenceFromUser];
+    //接收添加好友请求
+    [xmppRoster acceptPresenceSubscriptionRequestFrom:jid andAddToRoster:YES];
+
+}
+</code></pre>
+
+<h3>3.4删除好友</h3>
+
+<pre><code>//删除好友，name为好友账号
+
+- (void)removeBuddy:(NSString *)name  
+{  
+    XMPPJID *jid = [XMPPJID jidWithString:[NSString stringWithFormat:@"%@@%@",name,XMPPHOST]];  
+
+    [self xmppRoster] removeUser:jid];  
+}
+</code></pre>
+
+<h2>4聊天室</h2>
+
+<pre><code>//初始化聊天室
+
+XMPPJID *roomJID = [XMPPJID jidWithString:ROOM_JID];
+
+xmppRoom = [[XMPPRoom alloc] initWithRoomStorage:self jid:roomJID];
+
+[xmppRoom activate:xmppStream];
+[xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()]
+
+//创建聊天室成功
+
+- (void)xmppRoomDidCreate:(XMPPRoom *)sender
+{
+    DDLogInfo(@"%@: %@", THIS_FILE, THIS_METHOD);
+}
+
+
+//加入聊天室，使用昵称
+[xmppRoom joinRoomUsingNickname:@"quack" history:nil];
+//获取聊天室信息
+
+- (void)xmppRoomDidJoin:(XMPPRoom *)sender
+{
+    [xmppRoom fetchConfigurationForm];
+    [xmppRoom fetchBanList];
+    [xmppRoom fetchMembersList];
+    [xmppRoom fetchModeratorsList];
+}
+</code></pre>
+
+<p>如果房间存在，会调用委托</p>
+
+<pre><code>    // 收到禁止名单列表
+    - (void)xmppRoom:(XMPPRoom *)sender didFetchBanList:(NSArray *)items;
+    // 收到好友名单列表
+    - (void)xmppRoom:(XMPPRoom *)sender didFetchMembersList:(NSArray *)items;
+    // 收到主持人名单列表
+    - (void)xmppRoom:(XMPPRoom *)sender didFetchModeratorsList:(NSArray *)items;
+</code></pre>
+
+<p>房间不存在，调用委托</p>
+
+<pre><code>    - (void)xmppRoom:(XMPPRoom *)sender didNotFetchBanList:(XMPPIQ *)iqError;
+    - (void)xmppRoom:(XMPPRoom *)sender didNotFetchMembersList:(XMPPIQ *)iqError;
+    - (void)xmppRoom:(XMPPRoom *)sender didNotFetchModeratorsList:(XMPPIQ *)iqError;
+</code></pre>
+
+<p>离开房间</p>
+
+<pre><code>[xmppRoom deactivate:xmppStream];
+</code></pre>
+
+<p>XMPPRoomDelegate 的其他代理方法</p>
+
+<pre><code>//离开聊天室
+- (void)xmppRoomDidLeave:(XMPPRoom *)sender
+{
+    DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+}
+//新人加入群聊
+
+- (void)xmppRoom:(XMPPRoom *)sender occupantDidJoin:(XMPPJID *)occupantJID
+{
+    DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+}
+//有人退出群聊
+
+- (void)xmppRoom:(XMPPRoom *)sender occupantDidLeave:(XMPPJID *)occupantJID
+{
+    DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+}
+//有人在群里发言
+
+- (void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID
+{
+    DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
+}
+</code></pre>
+
+<h2>5消息回执</h2>
+
+<p>这个是 XEP－0184 协议的内容</p>
+
+<p>协议内容：</p>
+
+<p>发送消息时附加回执请求</p>
+
+<pre><code>&lt;message
+from='northumberland@shakespeare.lit/westminster'
+id='richard2-4.1.247'
+to='kingrichard@royalty.england.lit/throne'&gt;
+&lt;body&gt;My lord, dispatch; read o'er these articles.&lt;/body&gt;
+&lt;request xmlns='urn:xmpp:receipts'/&gt;
+&lt;/message&gt;
+</code></pre>
+
+<p>代码实现</p>
+
+<pre><code>  NSString *siID = [XMPPStream generateUUID];
+//发送消息
+XMPPMessage *message = [XMPPMessage messageWithType:@"chat" to:jid elementID:siID];
+NSXMLElement *receipt = [NSXMLElement elementWithName:@"request" xmlns:@"urn:xmpp:receipts"];
+[message addChild:receipt];
+[message addBody:@"测试"];
+[self.xmppStream sendElement:message];
+</code></pre>
+
+<p>收到回执请求的消息，发送回执</p>
+
+<pre><code>&lt;message
+    from='kingrichard@royalty.england.lit/throne'
+    id='bi29sg183b4v'
+    to='northumberland@shakespeare.lit/westminster'&gt;
+    &lt;received xmlns='urn:xmpp:receipts' id='richard2-4.1.247'/&gt;
+    &lt;/message&gt;
+</code></pre>
+
+<p>代码实现</p>
+
+<pre><code>- (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
+{
+    //回执判断
+    NSXMLElement *request = [message elementForName:@"request"];
+    if (request)
+    {
+        if ([request.xmlns isEqualToString:@"urn:xmpp:receipts"])//消息回执
+        {
+            //组装消息回执
+            XMPPMessage *msg = [XMPPMessage messageWithType:[message attributeStringValueForName:@"type"] to:message.from elementID:[message attributeStringValueForName:@"id"]];
+            NSXMLElement *recieved = [NSXMLElement elementWithName:@"received" xmlns:@"urn:xmpp:receipts"];
+            [msg addChild:recieved];
+
+            //发送回执
+            [self.xmppStream sendElement:msg];
+        }
+    }else
+    {
+        NSXMLElement *received = [message elementForName:@"received"];
+        if (received)
+        {
+            if ([received.xmlns isEqualToString:@"urn:xmpp:receipts"])//消息回执
+            {
+                //发送成功
+                NSLog(@"message send success!");
+            }  
+        }  
+    }  
+
+    //消息处理  
+    //...  
+}
+</code></pre>
+
+<h2>6添加AutoPing</h2>
+
+<p>为了监听服务器是否有效，增加心跳监听。用XEP-0199协议，在XMPPFrameWork框架下，封装了 XMPPAutoPing 和 XMPPPing两个类都可以使用，因为XMPPAutoPing已经组合进了XMPPPing类，所以XMPPAutoPing使用起来更方便。</p>
+
+<pre><code>//初始化并启动ping
+-(void)autoPingProxyServer:(NSString*)strProxyServer
+{
+    _xmppAutoPing = [[XMPPAutoPingalloc] init];
+    [_xmppAutoPingactivate:_xmppStream];
+    [_xmppAutoPingaddDelegate:self delegateQueue:dispatch_get_main_queue()];
+    _xmppAutoPing.respondsToQueries = YES;
+    _xmppAutoPing.pingInterval=2;//ping 间隔时间
+
+    if (nil != strProxyServer)
+    {
+       _xmppAutoPing.targetJID = [XMPPJID jidWithString: strProxyServer];//设置ping目标服务器，如果为nil,则监听socketstream当前连接上的那个服务器
+    }
+}
+
+//卸载监听
+ [_xmppAutoPing deactivate];
+ [_xmppAutoPing removeDelegate:self];
+  _xmppAutoPing = nil;
+//ping XMPPAutoPingDelegate的委托方法:
+- (void)xmppAutoPingDidSendPing:(XMPPAutoPing *)sender
+{
+    NSLog(@"- (void)xmppAutoPingDidSendPing:(XMPPAutoPing *)sender");
+}
+- (void)xmppAutoPingDidReceivePong:(XMPPAutoPing *)sender
+{
+    NSLog(@"- (void)xmppAutoPingDidReceivePong:(XMPPAutoPing *)sender");
+}
+
+- (void)xmppAutoPingDidTimeout:(XMPPAutoPing *)sender
+{
+    NSLog(@"- (void)xmppAutoPingDidTimeout:(XMPPAutoPing *)sender");
+}
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://my.oschina.net/u/1378445/blog/355853">http://my.oschina.net/u/1378445/blog/355853</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-20T10:33:52+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:33 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/20/speex/" title="Previous Post: Speex">&laquo; Speex</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/20/jabber-slash-xmppxie-yi-yu-jia-gou/" title="Next Post: Jabber/XMPP 协议与架构">Jabber/XMPP 协议与架构 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

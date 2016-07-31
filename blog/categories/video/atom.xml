@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Video | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/video/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 开发视频教程(原创)]]></title>
+    <link href="http://cnbin.github.io/blog/2015/09/25/ios-kai-fa-shi-pin-jiao-cheng/"/>
+    <updated>2015-09-25T17:01:35+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/09/25/ios-kai-fa-shi-pin-jiao-cheng</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h1>本文收集自己在学习和开发 iOS 项目中的一些 demo 和 product 演示，播放地址是优酷视频。</h1>
+
+<h2><a href="http://v.youku.com/v_show/id_XMTM4MjY0NDczNg==.html">悦跑圈 app</a></h2>
+
+<h2><a href="http://v.youku.com/v_show/id_XMTM2NzQ4Mzg1Ng==.html">停车猫 app</a></h2>
+
+<h2><a href="http://v.youku.com/v_show/id_XMTM1Nzk0MjgzMg==.html">华讯网络 app</a></h2>
+
+<h2><a href="http://v.youku.com/v_show/id_XMTM3MzE1MzQxMg==.html">香蕉冷笑话 app</a></h2>
+
+<h2><a href="http://v.youku.com/v_show/id_XMTM0NDQzMzQ5Ng==.html">iOS 学习手册 app</a></h2>
+
+<h2><a href="http://v.youku.com/v_show/id_XMTM1Nzg0NzI2OA==.html">DIY 书法大师 app</a></h2>
+
+<h2><a href="http://v.youku.com/v_show/id_XMTM0NDYwODI0OA==.html">基于 XMPPFramework 框架的 iOS 聊天客户端教程</a></h2>
+]]></content>
+  </entry>
+  
+</feed>

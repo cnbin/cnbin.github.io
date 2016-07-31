@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 程序性能优化 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="iOS程序性能优化 1.计算代码运行时间,要注意模拟器和真机的差异。 最简单的工具就是 NSDate，但精度不是太好。 NSDate* tmpStartData = [[NSDate date] retain];
+//You code here...
+double deltaTime = [[ &hellip;">
+  <meta name="keywords" content="ios">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/19/ioscheng-xu-xing-neng-you-hua/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 程序性能优化</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-19T09:29:17+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:29 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>iOS程序性能优化</h2>
+
+<h3>1.计算代码运行时间,要注意模拟器和真机的差异。</h3>
+
+<p>最简单的工具就是 NSDate，但精度不是太好。</p>
+
+<pre><code>NSDate* tmpStartData = [[NSDate date] retain];
+//You code here...
+double deltaTime = [[NSDate date] timeIntervalSinceDate:tmpStartData];
+NSLog(@"&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;cost time = %f", deltaTime);
+</code></pre>
+
+<p>或者将运行代码放到如下方法的 block 参数中，然后返回所运行的时间：</p>
+
+<pre><code>#import &lt;mach/mach_time.h&gt;  // for mach_absolute_time() and friends  
+
+CGFloat BNRTimeBlock (void (^block)(void)) {  
+    mach_timebase_info_data_t info;  
+    if (mach_timebase_info(&amp;info) != KERN_SUCCESS) return -1.0;  
+
+    uint64_t start = mach_absolute_time ();  
+    block ();  
+    uint64_t end = mach_absolute_time ();  
+    uint64_t elapsed = end - start;  
+
+    uint64_t nanos = elapsed * info.numer / info.denom;  
+    return (CGFloat)nanos / NSEC_PER_SEC;  
+} 
+</code></pre>
+
+<h3>2.善用性能分析工具。</h3>
+
+<p>XCode 自带了很多强大的分析工具，包括静态 Analyze 工具，以及运行时 Profile 工具。</p>
+
+<h3>3.关于图片</h3>
+
+<p>优先使用<code>[UIImage imageNamed:@""]；</code></p>
+
+<p>与<code>[[UIImage alloc] initWithContentsOfFile:]</code> 和 <code>[UIImage alloc [initWithData:]]</code> 相比，<code>[UIImage imageNamed:]</code>有着更好的效率，这是因为 iOS 会自带 cache 通过 <code>[UIImage imageNamed:]</code> 载入的图像，但该方法有一个缺点，那就是只能载入应用程序 bundle 中的图像，像网络下载的图像就无能无力了。我习惯的做法是自定义一个 ImageCache 类，自己来 cache 图像。</p>
+
+<p>尽量不要使用全屏大小的背景图片；使用 gradient 图片来取代硬编码的 gradient；gradient 图片应当尽可能窄，然后将之拉伸运用到实际场合中去。</p>
+
+<h3>4.对于结构复杂的 View，使用 drawRect 自绘而不是从 nib 中载入。</h3>
+
+<h3>5.对于 TableView，重用 cell；减少 cell 初始化的工作量，延迟装载；定制复杂 cell 时，使用 drawRect 自绘；Cache 尽可能多的东西，包括 cell 高度；尽可能让 cell 不透明；避免使用图像特性，比如 gradients。</h3>
+
+<h3>6.在线程中使用 autoreleasepool。</h3>
+
+<h3>7.将一些不太重要的任务放在 idle 时运行。</h3>
+
+<pre><code>- (void)idleNotificationMethod {
+    // do something here
+}
+
+- (void)registerForIdleNotification 
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+        selector:@selector(idleNotificationMethod)
+        name:@"IdleNotification"
+        object:nil];
+    NSNotification *notification = [NSNotification
+        notificationWithName:@"IdleNotification" object:nil];
+    [[NSNotificationQueue defaultQueue] enqueueNotification:notification
+    　　postingStyle:NSPostWhenIdle];
+} 
+</code></pre>
+
+<h3>8.不要在 viewWillAppear 中做费时的操作。</h3>
+
+<p>viewWillAppear: 在 view 显示之前被调用，出于效率考虑，在这个方法中不要处理复杂费时的事情；只应该在这个方法设置 view 的显示属性之类的简单事情，比如背景色，字体等。要不然，用户会明显感觉到 view 显示迟钝。</p>
+
+<h3>9.使用多线程来延迟加载资源。</h3>
+
+<p>比如常见的 TableViewCell 中的网络图像显示，先使用一个默认图像，然后开启线程下载网络图像，当图像下载完成之后，再替换默认图像。</p>
+
+<h3>10.关于后台任务</h3>
+
+<p>系统进入 background 之后，一般只有10分钟的运行时间，因此有很多值得注意的事项：</p>
+
+<pre><code>1.尽量减少内存的使用。当内存不足时，iOS将kill那些消耗内存最多的 App。
+
+2.放所有的共享资源，比如 Calendar 与 Address book。当应用程序进入后台时，如果它还在使用或没有释放共享资源，iOS会立即kill掉该应用程序。
+
+3.正确处理App生命周期事件。当进入后台时，应该保持应用程序数据，以便回到前台时能够恢复。当进入 inactive 状态时，应该暂停当前的业务流。iOS运行App在后台运行的时间有限，因此后台代码不应该执行非常耗时的任务，可能的话就使用多线程。当进入后台时，iOS会保存当前App的一个快照，以便之后在合适的时候（装载view和数据时）呈现给用户以提高用户体验，因此在进入后台时，应该避免在屏幕上呈现用户信息，以免泄露用户个人资料。
+
+4.不要更新UI或者执行大量消耗CPU或电池的代码。进入后台之后，不应该执行不必要的任务，不要执行 OpenGL ES 调用，应取消 Bonjour 相关的服务，正确处理网络链接失败，避免更新 UI，清除所有的警告或其他弹出对话框。
+
+5.保证后台代码的执行工作正常，注意处理异常。
+
+6.在后台时正确响应系统变化。 
+如：
+设备旋转消息UIDeviceOrientationDidChangeNotification ，
+重要的时间变化（新的一天开始或时区变化） UIApplicationSignificantTimeChangeNotification ，
+电池变化UIDeviceBatteryLevelDidChangeNotification 和 UIDeviceBatteryStateDidChangeNotification，
+用户默认设置变化NSUserDefaultsDidChangeNotification，
+本地化语言变化NSCurrentLocaleDidChangeNotification 等。
+</code></pre>
+
+<h3>11.如果关键代码使用 C/C++/asm 效率更高就使用 C/C++/asm。</h3>
+
+<h3>12.如果一个方法在一个循环次数非常多的循环中使用，在进入循环前使用 methodForSelector 获取该方法 IMP，然后在循环体中直接使用该 IMP。</h3>
+
+<h3>13.关于内存释放</h3>
+
+<p>在 didReceiveMemoryWarning 中释放内存，比如cache 的图像，view 等，并记得调用 [supper didReceiveMemoryWarning]。清理函数 didReceiveMemoryWarning, viewDidUnload 和 dealloc 都是在方法结尾处调用 supper 的方法。</p>
+
+<h3>14.提高 APP 加载速度</h3>
+
+<p>避免使用静态初始化，包括静态c++对象，加载时会运行的代码，如+(void) load{} ，会造成在Main函数之前运行额外的代码。</p>
+
+<h3>15.利用 cache 空间换时间。</h3>
+
+<p>cache 是一种常见的空间换时间的提供性能的收到，可以用在相当多的场合。
+尽量 cache 那些可重复利用的对象，比如 table cell，date/number formatters，正则表达式，sqlite语句等。</p>
+
+<h3>16.关于数据库</h3>
+
+<p>缓存经常用到的 sqlite 语句；优化数据库查询语句，用sqlite3_trace和sqlite3_profile来查找性能差的语句；如果可能的话，缓存查询结果缓。 在使用 sqlite_prepare会将SQL查询编译成字节码，要使用bind，重用那些已经prepared的语句。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/kesalin/article/details/8762032">http://blog.csdn.net/kesalin/article/details/8762032</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-19T09:29:17+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:29 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/18/nsuserdefaults-yong-fa/" title="Previous Post: NSUserDefaults 用法">&laquo; NSUserDefaults 用法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/19/bonjour/" title="Next Post: Bonjour">Bonjour &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

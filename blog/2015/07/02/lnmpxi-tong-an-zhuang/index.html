@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>LNMP系统安装(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="N(Nginx 安装) 安装方式 （1）直接 apt-get 安装 sudo apt-get install nginx 完成安装后的测试 所有的配置文件都在 /etc/init.d/nginx 这个目录下，所以相关操作都可以在这个文件夹启动命令 sudo /etc/init.d/nginx &hellip;">
+  <meta name="keywords" content="linux,nginx">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/02/lnmpxi-tong-an-zhuang/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">LNMP系统安装(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-02T14:38:24+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:38 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>N(Nginx 安装)</h2>
+
+<h3>安装方式</h3>
+
+<p>（1）直接 apt-get 安装</p>
+
+<pre><code>sudo apt-get install nginx
+</code></pre>
+
+<p>完成安装后的测试</p>
+
+<p>所有的配置文件都在 <code>/etc/init.d/nginx</code> 这个目录下，所以相关操作都可以在这个文件夹启动命令</p>
+
+<pre><code>sudo /etc/init.d/nginx start
+</code></pre>
+
+<p>或者</p>
+
+<pre><code>sudo service nginx start
+</code></pre>
+
+<p>启动完毕后，打开浏览器，访问 <a href="http://localhost">http://localhost</a> 一定要刷新以确认
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etl5fkfl4xj20kx092di6.jpg" alt="img" /></p>
+
+<p>停止命令:</p>
+
+<pre><code>sudo /etc/init.d/nginx stop
+</code></pre>
+
+<p>或者</p>
+
+<pre><code>sudo service nginx stop
+</code></pre>
+
+<p>重启命令:</p>
+
+<pre><code>sudo /etc/init.d/nginx restart
+</code></pre>
+
+<p>或者</p>
+
+<pre><code>sudo service nginx restart
+</code></pre>
+
+<h3>nginx 安装后的初级配置</h3>
+
+<pre><code>sudo vim /etc/nginx/sites-available/default
+</code></pre>
+
+<p>PHP 重要配置 <code>location ~ .php$ {}</code> ，所以要让 <code>php</code> 与 <code>nginx</code> 一起工作，就得在这个配置文件中放出这个模块。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etl5l076qpj20j505ngn3.jpg" alt="img" /></p>
+
+<p>紧接着测试配置文件</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etl5o1zf51j20iv01j0tg.jpg" alt="img" /></p>
+
+<p>测试成功以后记得重载配置文件</p>
+
+<pre><code>sudo service nginx reload
+</code></pre>
+
+<p>使配置文件生效</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etl5q5kr4zj20k0012weu.jpg" alt="img" /></p>
+
+<h2>M(Mysql 安装)</h2>
+
+<p>在 LNMP 中的作用或角色：Mysql 是一个小型关系型数据库管理系统 mysql 的安装分为服务端与客户端 服务端安装</p>
+
+<pre><code>sudo apt-get install mysql-server mysql-client
+</code></pre>
+
+<p>然后你会看见输入密码的界面，你只需接下来输入管理员密码就行。由于实验楼环境中已经装有 Mysql。安装部分就省略掉。需要使用 <code>sudo service mysql start</code> 启动 <code>mysql</code>，<code>mysql</code> 用户为 <code>root</code>，密码为空。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etl5snduxxj20jz0cdaca.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etl5tlzgfwj20jn0c2ab7.jpg" alt="img" /></p>
+
+<p>修改 mysql 的配置文件</p>
+
+<pre><code>sudo vim /etc/mysql/my.cnf
+</code></pre>
+
+<p>将 bind-address = 127.0.0.1 注释掉，就可以远程连接数据库了</p>
+
+<h2>P(php5 安装)</h2>
+
+<p>在 LNMP 中的作用或角色：nginx 本身不能处理 PHP，它只是个 web 服务器，当接收到请求后，如果是 php 请求，则发给 php 解释器处理，并把结果返回给客户端 <code>.php-fpm</code> 是一个守护进程（FastCGI 进程管理器）用于替换 PHP FastCGI 的大部分附加功能，对于高负载网站是非常有用的。</p>
+
+<pre><code>sudo apt-get install php5-fpm
+</code></pre>
+
+<p>安装好以后连同上面的 nginx 一同测试 现在创建一个探针文件保存在 <code>/usr/share/nginx/html</code> 目录下(这个目录就是刚刚 nginx 配置文件中 root 目录)，以便测试。</p>
+
+<pre><code>sudo vim /usr/share/nginx/html/phpinfo.php
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etl60808rgj20jg05d0sw.jpg" alt="img" /></p>
+
+<p>接下来使用命令启动 php5-fpm 服务：</p>
+
+<pre><code>sudo service php5-fpm start
+</code></pre>
+
+<p>然后访问 <a href="http://localhost/phpinfo.php">http://localhost/phpinfo.php</a> （记得刷新）
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etl5yyjktyj20lz0dmn1v.jpg" alt="img" /></p>
+
+<h3>回头再修改各个模块配置文件，达到能互相支持的目的</h3>
+
+<p>首先： （1）要想让 php5 支持 Mysql，还需要安装一系列的配套模块。 在刚才打开的网页中，这是没有装模块的界面,搜索可以看出，里面没有任何 mysql 的启动信息</p>
+
+<p>你需要安装 php5-mysql 模块</p>
+
+<pre><code>sudo apt-get install php5-mysql
+</code></pre>
+
+<p>安装好以后 紧接着你需要需要重启 php</p>
+
+<pre><code>sudo service php5-fpm restart
+</code></pre>
+
+<p>这是装好以后的表现</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etl65v12ugj20l80dnjw1.jpg" alt="img" /></p>
+
+<p>(2).如果你想让 php 使用 tcp 链接</p>
+
+<p>那就只需要将刚才的 nginx 的 default（所在目录/etc/nginx/sites-available/）配置中的端口改回来，然后再将 php 的配置文件 <code>www.cof</code>（所在目录<code>/etc/php5/fpm/pool.d/</code>）端口也改为与 nginx 的 default 端口中相同就行。
+（如图修改）</p>
+
+<p>这是 nginx 的 default</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etl6dv65ghj20k1053wfv.jpg" alt="img" /></p>
+
+<p>这是 php5 的 www.conf</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etl6itdrlij20jx02j74w.jpg" alt="img" /></p>
+
+<p>修改以后记得使用下面命令测试配置文件，必须要 ok 才能重载生效哦</p>
+
+<pre><code>sudo service nginx start
+sudo service php5-fpm start
+</code></pre>
+
+<p>命令重载配置文件使之生效</p>
+
+<pre><code>sudo service nginx reload
+sudo service php5-fpm reload
+</code></pre>
+
+<p>接下来重启 nginx 和 php 就好了</p>
+
+<pre><code>sudo service nginx restart
+sudo service php5-fpm restart
+</code></pre>
+
+<p>好了以后直接刷新刚才的页面 <a href="http://localhost/phpinfo.php">http://localhost/phpinfo.php</a> （记得刷新）就完成了</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-02T14:38:24+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:38 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/02/nsarray/" title="Previous Post: NSArray">&laquo; NSArray</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/03/uml/" title="Next Post: UML">UML &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

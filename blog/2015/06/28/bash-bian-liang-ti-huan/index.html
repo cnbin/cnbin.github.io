@@ -1,0 +1,519 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bash - 变量替换 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、变量替换 1.概念 变量的名字就是变量保存值的地方。引用变量的值就叫做变量替换。 如果 variable 是一个变量的名字，那么 $variable 就是引用这变量的值，即这变量所包含的数据。 $variable 事实上只是 ${variable} 的简写形式。在某些上下文中 $ &hellip;">
+  <meta name="keywords" content="bash">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/28/bash-bian-liang-ti-huan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Bash - 变量替换</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-28T19:31:08+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:31 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>一、变量替换</h2>
+
+<h3>1.概念</h3>
+
+<p>变量的名字就是变量保存值的地方。引用变量的值就叫做变量替换。</p>
+
+<p>如果 variable 是一个变量的名字，那么 <code>$variable</code> 就是引用这变量的值，即这变量所包含的数据。</p>
+
+<p><code>$variable</code> 事实上只是 <code>${variable}</code> 的简写形式。在某些上下文中 <code>$variable</code> 可能会引起错误，这时候你就需要用 <code>${variable}</code> 了。</p>
+
+<h3>2.举例</h3>
+
+<pre><code>    $ vim test.sh
+</code></pre>
+
+<p>输入代码（中文皆为注释，不用输入）：</p>
+
+<pre><code>#!/bin/bash
+
+# 变量赋值和替换
+
+a=375
+hello=$a
+
+#-------------------------------------------------------------------------
+# 强烈注意, 在赋值的的时候, 等号前后一定不要有空格.
+# 如果出现空格会怎么样?
+
+#  "VARIABLE =value"
+#                   ^
+#% 脚本将尝试运行一个"VARIABLE"的命令, 带着一个"=value"参数.
+
+#  "VARIABLE= value"
+#                      ^
+#% 脚本将尝试运行一个"value"的命令, 
+#+ 并且带着一个被赋值成""的环境变量"VARIABLE". 
+#-------------------------------------------------------------------------
+
+echo hello    # 没有变量引用, 只是个hello字符串.
+
+echo $hello
+echo ${hello}
+
+echo "$hello"
+echo "${hello}"
+
+echo
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etole9ulbpj20b905g3yx.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etole9cpyij209d02baa4.jpg" alt="img" /></p>
+
+<pre><code>hello="A B  C     D"
+echo $hello   # A B C D
+echo "$hello" # A B  C     D
+# 引用一个变量将保留其中的空白, 当然如果是变量替换就不会保留了.
+# 在bash中，当变量中有空格、tab之类的字符时候，
+# 如果需要打印这些字符，需要用双引号进行引用 "$hello".
+
+echo
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etoli1c8g9j20bw032dfz.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etoli1th76j209s01g3yh.jpg" alt="img" /></p>
+
+<pre><code>echo '$hello'  # $hello
+#     ^           ^
+# 全引用（单引号）的作用将会导致"$"被解释为单独的字符, 而不是变量前缀. 
+# 使用单引号引用变量时候，变量的值不会被引用，只是简单的保持原始字符串.
+
+# 注意这两种引用所产生的不同的效果.
+
+hello=    # 设置为空值.
+echo "\$hello (null value) = $hello"
+#  注意设置一个变量为null, 与unset这个变量, 并不是一回事
+#+ 虽然最终的结果相同(具体见下边).
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etollhhkqpj20co01ymxa.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etolljf89kj20bx00vglm.jpg" alt="img" /></p>
+
+<pre><code># --------------------------------------------------------------
+
+#  可以在同一行上设置多个变量, 
+#+ 但是必须以空白进行分隔.
+#  慎用, 这么做会降低可读性, 并且不可移植.
+
+var1=21  var2=22  var3=$V3
+echo
+echo "var1=$var1   var2=$var2   var3=$var3"
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etolqh3lkzj20dn03kjrq.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etolqgt22aj209r01cmx6.jpg" alt="img" /></p>
+
+<pre><code># --------------------------------------------------------------
+
+echo; echo
+
+numbers="one two three"
+#                      ^    ^
+other_numbers="1 2 3"
+#                           ^ ^
+#  如果在变量中存在空白，那么就必须加上引号
+#  other_numbers=1 2 3                  # 将给出一个错误消息. 
+echo "numbers = $numbers"
+echo "other_numbers = $other_numbers"   # other_numbers = 1 2 3
+#  不过也可以采用将空白转义的方法.
+mixed_bag=2\ ---\ Whatever
+#                     ^    ^ 在转义符后边的空格(\).
+
+echo "$mixed_bag"         # 2 --- Whatever
+
+echo; echo
+
+echo "uninitialized_variable = $uninitialized_variable"
+# Uninitialized变量为null(就是没有值). 
+uninitialized_variable=   #  声明, 但是没有初始化这个变量, 
+                         #+ 其实和前边设置为空值的作用是一样的. 
+echo "uninitialized_variable = $uninitialized_variable"
+                         # 还是一个空值.
+
+uninitialized_variable=23       # 赋值.
+unset uninitialized_variable    # Unset这个变量.
+echo "uninitialized_variable = $uninitialized_variable" # 还是一个空值.
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etolwuxy6mj20et0ai76a.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etolvytjxpj20bm0483z2.jpg" alt="img" /></p>
+
+<h2>二、变量赋值</h2>
+
+<h3>1.说明</h3>
+
+<p>赋值操作前后都不能有空白。</p>
+
+<p>因为 <code>=</code> 和 <code>-eq</code> 都可以用做条件测试操作，所以不要与这里的赋值操作相混淆。</p>
+
+<p>注意： <code>=</code> 既可以用做条件测试操作，也可以用于赋值操作，这需要视具体的上下文而定。bash中 <code>==</code> 也可作为条件判断。</p>
+
+<h3>2.举例</h3>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码（中文皆为注释，不用输入）：</p>
+
+<pre><code>#!/bin/bash
+
+a=23              # 简单的赋值
+echo $a
+b=$a
+echo $b
+
+# 现在让我们来点小变化(命令替换).
+
+a=`echo Hello!`   # 把'echo'命令的结果传给变量'a'
+echo $a
+
+a=`ls -l`         # 把'ls -l'的结果赋值给'a'
+echo $a           # 然而, 如果没有引号的话将会删除ls结果中多余的tab和换行符.
+echo
+echo "$a"         # 如果加上引号的话, 那么就会保留ls结果中的空白符.               
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etom1f4a7dj20c8076dgd.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etom1etfxpj20gs0bsn1r.jpg" alt="img" /></p>
+
+<h2>三、变量不区分类型</h2>
+
+<h3>1.说明</h3>
+
+<p>与大多数编译型语言不同，Bash 并不区分变量的"类型"。本质上，Bash 变量都是字符串。但是依赖于具体的上下文，Bash 也允许比较操作和整数操作。其中的关键因素就是，为变量赋的值是否只有数字。</p>
+
+<h3>2.举例</h3>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码（中文皆为注释，不用输入）：</p>
+
+<pre><code>#!/bin/bash
+
+a=2334                   # 整型.
+let "a += 1"
+echo "a = $a"           # a = 2335
+echo                     # 还是整型.
+
+
+
+b=${a/23/BB}             # 将"23"替换成"BB".
+                        # 这将把变量b从整型变为字符串.
+echo "b = $b"            # b = BB35
+declare -i b             # 即使使用declare命令也不会对此有任何帮助，低版本bash下可能没有此命令
+echo "b = $b"            # b = BB35
+# declare的命令是用于设置变量的属性，个别版本的bash可能没有此命令
+
+let "b += 1"             # BB35 + 1 =
+echo "b = $b"            # b = 1
+echo
+
+c=BB34
+echo "c = $c"            # c = BB34
+d=${c/BB/23}             # 将"BB"替换成"23".
+                        # 这使得变量$d变为一个整形.
+echo "d = $d"            # d = 2334
+let "d += 1"             # 2334 + 1 =
+echo "d = $d"            # d = 2335
+echo
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etom9e5pl0j20aw0c8wfk.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etom6muvi7j20ci051mxf.jpg" alt="img" /></p>
+
+<pre><code># null变量会如何呢?
+e=""
+echo "e = $e"            # e =
+let "e += 1"             # 算术操作允许一个null变量?
+echo "e = $e"            # e = 1
+echo                     # null变量将被转换成一个整型变量.
+
+# 如果没有声明变量会怎样?
+echo "f = $f"            # f =
+let "f += 1"             # 算术操作能通过么?
+echo "f = $f"            # f = 1
+echo                     # 未声明的变量将转换成一个整型变量.
+
+# 所以说Bash中的变量都是不区分类型的.
+
+exit 0
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etomeg20w7j20bl05lweu.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etomefkv1bj209y039jrg.jpg" alt="img" /></p>
+
+<h2>四、特殊变量</h2>
+
+<h3>1.局部变量</h3>
+
+<p>这种变量只有在代码块或者函数中才可见。</p>
+
+<h3>2.环境变量</h3>
+
+<p>这种变量将影响用户接口和 shell 的行为。</p>
+
+<p>在通常情况下，每个进程都有自己的“环境”，这个环境是由一组变量组成的，这些变量中存有进程可能需要引用的信息。在这种情况下，shell 与一个一般的进程没什么区别。</p>
+
+<h3>3.位置参数</h3>
+
+<p>从命令行传递到脚本的参数：<code>$0，$1，$2，$3...</code></p>
+
+<p><code>$0</code> 就是脚本文件自身的名字，<code>$1</code> 是第一个参数，<code>$2</code> 是第二个参数，<code>$3</code> 是第三个参数，然后是第四个。<code>$9</code> 之后的位置参数就必须用大括号括起来了，比如，<code>${10}，${11}，${12}</code>。</p>
+
+<p>两个比较特殊的变量 <code>$*</code> 和 <code>$@</code> 表示所有的位置参数。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-28T19:31:08+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:31 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/28/bash--zhong-de-te-shu-fu-hao-2/" title="Previous Post: Bash 中的特殊符号-2">&laquo; Bash 中的特殊符号-2</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/28/bash-tui-chu-yu-tui-chu-zhuang-tai-ma/" title="Next Post: Bash - 退出与退出状态码">Bash - 退出与退出状态码 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>存储管理notes - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1 根据题意，页面变换表中状态位等于0和1分别表示页面不在内存或在内存，所以0、2和4号页面在内存。当访问的页面3不在内在时，系统应该首先淘汰未被访问的页面，因为根据程序的局部性原理，最近未被访问的页面下次被访问的概率更小；如果页面最近都被访问过，应该先淘汰未修改过的页面。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/14/cun-chu-guan-li-notes/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">存储管理notes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-14T10:15:32+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:15 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>1</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyvuyrst62j20wr0fpq9a.jpg" alt="img" /></p>
+
+<pre><code>根据题意，页面变换表中状态位等于0和1分别表示页面不在内存或在内存，所以0、2和4号页面在内存。当访问的页面3不在内在时，系统应该首先淘汰未被访问的页面，因为根据程序的局部性原理，最近未被访问的页面下次被访问的概率更小；如果页面最近都被访问过，应该先淘汰未修改过的页面。因为未修改过的页面内存与辅存一致，故淘汰时无需写回辅存，使系统页面置换代价小。经上述分析，0、2和4号页面都是最近被访问过的，但2和4号页面都被修改过而0号页面未修改过，故应该淘汰0号页面。试题（25）的正确选项为A。根据题意，页面大小为4KB，逻辑地址为十六进制2C25H其页号为2，页内地址为C25H，查页表后可知页帧号（物理块号）为4，该地址经过变换后，其物理地址应为页帧号4拼上页内地址C25H，即十六进制4C25H。
+</code></pre>
+
+<h3>2</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyxszqr0evj20m209z76n.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyxszuqrb5j20m30exgoz.jpg" alt="img" /></p>
+
+<h3>3</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez0245ziy6j20r00c7goq.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez0246wb59j20ox0a2mxq.jpg" alt="img" /></p>
+
+<pre><code>8192 = 2^3 * 2^10 = 2^13
+8192/32 = 2^13 /2^5 = 2^8 = 256
+</code></pre>
+
+<h3>4</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez05o9oklzj20qa09nacg.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez05oann7uj20py0jxqa0.jpg" alt="img" /></p>
+
+<h3>5</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez05ypn8uej20pk0dzjuj.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez05ysf6vej20qi0mon2r.jpg" alt="img" /></p>
+
+<h3>6</h3>
+
+<pre><code>在地址映射过程中，若在页面中发现所要访问的页面不在内存中，则产生缺页中断。当发生缺页中断时，操作系统必须在内存中选择一个页面将其移除内存，以便为即将调入的页面让出空间。而用来选择淘汰哪一页的规则叫做页面置换算法。
+
+最佳置换算法（OPT）：所选择的被淘汰页面将是以后永不使用的，或者是最长时间内不被访问的页面，这样可以保证获得最低的缺页率。
+
+先进先出算法（FIFO）：优先淘汰最早进入的页面，也就是在内存中停留时间最长的页面。
+
+最近最久未使用算法（LRU）：选择最近最长时间未被访问过的页面进行淘汰。
+
+最少使用（LFU）置换算法、工作集算法、NRU算法等
+</code></pre>
+
+<h3>6.1</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyx8ahy15dj20ng0gewi9.jpg" alt="img" /></p>
+
+<pre><code>解析：系统为每个作业分配三个页面的主存控件，其中一个存放程序，另外两个存放的是：二位数组A[128，,128]共128行，128列，所以每行都有128个整型变量。因为矩阵A按行序排列，又因为一个页面可以存放128个整数变量，所以一个页面存放矩阵A中的一行，两个页面存放矩阵A中的两行。其用最近最少使用页面淘汰算法（淘汰最久未被访问的页面，如1、2行先进入页面，当第三行进入页面的时候，第一行相对于第二行就是最久未被访问的页面，所以淘汰第一行，第三行进入主存）如下分析
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez0fgoyzrrj20iw05mq3y.jpg" alt="img" /></p>
+
+<pre><code>  由以上分析可知，最后留在内存中的是矩阵A的最后两行，因为是一行一行的进入的，而且内存中允许两个页面存在，再有前5行进入主存的规律分析，所以是最后两行127行和128行。
+</code></pre>
+
+<h3>7</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyzcgy9u7tj20ka0mbn2b.jpg" alt="img" /></p>
+
+<pre><code>解析：如题，系统存在6个页面，1~2存放指令，3~6将来要用来存放A的源地址和B的目标地址，当执行指令的时候，系统会去访问A的源地址和B的目标地址，因为AB本身没有存在主存中，所以每次访问的页面不在主存中，就会发生一次缺页中断。即访问AB时，3~6的页面都会发生缺页中断，即发生4次缺页中断。
+
+整个程序中有6个页面，若发生3次中断，应该就是进入主存3~5页面时发生了中断，那时程序里有3~5页面再内存里，即3个页面。
+</code></pre>
+
+<h3>8</h3>
+
+<pre><code>设文件索引节中有8个地址项，每个地址项大小为4字节，其中5个地址项为直接地址索引，2个地址项是一级间接地址索引，1个地址项是二级间接地址索引，磁盘索引块和磁盘数据块大小均为1KB。若要访问文件的逻辑块号分别为5和518，则系统分别采用______；而且可表示的单个文件最大长度是_____KB。
+
+　　解析：
+
+ 　　(1)磁盘索引块和磁盘数据块的块长1024字节，索引块号长8*4=32字节，所以一个索引可以存放1024/32=32个盘块号．
+
+　　直接索引可寻址的文件的最大长度1个块（1*1K=5/8KB）因为磁盘索引块的块长1024字节（1个块）
+
+　　一级索引可寻址的文件的最大长度32个块（32*1024B=32KB）
+
+　　二级索引可寻址的文件的最大长度N=32*32=1024个盘块（1024*1024B=1MB=1024KB）
+
+　　题中是求第5个块和518个块，分别是一级间接地址索引（1&lt;5&lt;32+1）和二级间接地索引(32+1&lt;518&lt;1024+32+1)
+
+　　(2)1024/4=256 
+
+　　　  1024/32=32个块
+
+　　　　5个直接地址对应的文件大小5*1=5KB
+
+　　　　2个一级间接地址对应文件大小2*256*1=512KB
+
+　　　　1个二级间接地址对应文件大小1*256*256*1=65536KB
+
+　　　　单个文件的最大长度为：5+512+65536=66053KB
+</code></pre>
+
+<h3>9</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez18afc4qcj20sv0iijvp.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez18afm0ggj20t30abq7v.jpg" alt="img" /></p>
+
+<h3>10</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez1mivpctuj20nr0aoq56.jpg" alt="img" /></p>
+
+<h3>11</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez6z5dfi7aj20k30hm0xj.jpg" alt="img" /></p>
+
+<h3>12</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezaijuichbj20kz0cowgs.jpg" alt="img" /></p>
+
+<h3>13</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezhg1ciuiwj20nc077dhy.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezhg1ggczxj20kn0eiaeu.jpg" alt="img" /></p>
+
+<h3>14</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezhg1amudxj20ha0g1jvl.jpg" alt="img" /></p>
+
+<h3>15</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezoniwaskpj20o8068abf.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezonixcno1j20h302v3z0.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-14T10:15:32+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:15 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/14/luo-ji-biao-da-shi-notes/" title="Previous Post: 逻辑表达式notes(原创)">&laquo; 逻辑表达式notes(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/14/bian-yi-yuan-li-zheng-gui-shi-he-you-xian-zi-dong-ji/" title="Next Post: 编译原理-正规式和有限自动机">编译原理-正规式和有限自动机 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

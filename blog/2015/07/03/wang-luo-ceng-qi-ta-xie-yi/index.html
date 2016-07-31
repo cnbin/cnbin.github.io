@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>网络层其他协议 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="网络层其它协议 一、ARP(Address Resolution Protocol)地址解析协议 功能 当主机通过数据链路发送数据的时候， IP 数据报会先被封装为一个数据帧 ，而 MAC 地址会被添加到数据帧的报头 (链路层介绍时已讲过）。 ARP 便是在这个过程中通过目标主机的 IP 地址， &hellip;">
+  <meta name="keywords" content="arp">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/03/wang-luo-ceng-qi-ta-xie-yi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">网络层其他协议</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-03T09:04:03+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:04 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>网络层其它协议</h2>
+
+<h2>一、ARP(Address Resolution Protocol)地址解析协议</h2>
+
+<h3>功能</h3>
+
+<p>当主机通过数据链路发送数据的时候， IP 数据报会先被封装为一个数据帧 ，而 MAC 地址会被添加到数据帧的报头 (链路层介绍时已讲过）。 ARP 便是在这个过程中通过目标主机的 IP 地址，查询目标主机的 MAC 地址。</p>
+
+<h3>原理</h3>
+
+<p>在你的电脑和路由器中都有一个 <code>ARP</code> 缓存表 ，其中保存的是近期(20 分钟)与自己有过通信的主机的 IP 地址与 MAC 地址的对应关系。</p>
+
+<h3>ARP 缓存表使用过程：</h3>
+
+<ul>
+<li>当主机要发送一个 IP 数据报的时候，会首先查询一下自己的 ARP 缓存表；</li>
+<li>如果在 ARP 缓存表中找到对应的 MAC 地址，则将 IP 数据报封装为数据帧，把 MAC 地址放在帧首部，发送数据帧；</li>
+<li>如果查询的 <code>IP－MAC</code> 值对不存在，那么主机就向网络中广播发送一个 ARP 请求数据帧，ARP 请求中包含待查询 IP 地址；</li>
+<li>网络内所有收到 ARP 请求的主机查询自己的 IP 地址，如果发现自己符合条件，就回复一个 ARP 应答数据帧，其中包含自己的 MAC 地址；</li>
+<li>收到 ARP 应答后，主机将其 IP - MAC 对应信息存入自己的 ARP 缓存，然后再据此封装 IP 数据报，再发送数据帧。</li>
+<li>你可以通过命令 <code>arp -a</code> 查看 ARP 缓存表(表项记录 20 分钟超时)，这里还有其它 ARP 命令可以对缓存表做查看、修改：</li>
+</ul>
+
+
+<p>你可以通过命令 <code>arp -a</code> 查看 ARP 缓存表(表项记录 20 分钟超时)，这里还有其它 ARP 命令可以对缓存表做查看、修改：
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etgkv22zfqj20j9083409.jpg" alt="img" /></p>
+
+<h3>ARP 代理</h3>
+
+<p>如果 ARP 请求是从一个网络上的主机发往另一个网络上的主机，那么连接这两个网络的路由器就可以回答该 ARP 请求，这个过程称作 代理 ARP（Proxy ARP）。</p>
+
+<p>当连接这两个网络的路由器收到该 ARP 请求时，它会发现自己有通向目的主机的路径，随后它会将自己(路由器)的 MAC 地址回复给源主机。源主机会认为路由器的 MAC 地址就是目的主机的 MAC 地址，而对于随后发来的数据帧，路由器会转发到它后面真实 MAC 地址的目的主机。</p>
+
+<p>两个物理网络之间的路由器可以使这两个网络彼此透明化，在这种情况下，只要路由器设置成一个 ARP 代理，以响应一个网络到另一个网络主机的 ARP 请求，两个物理网络就可以使用相同的网络号。</p>
+
+<h3>ARP 欺骗</h3>
+
+<p>从 ARP 代理的原理可以看出来：<code>IP - MAC</code> 的对应信息很容易被伪造！黑客可以伪造 ARP 应答数据帧而欺骗 ARP 请求者，从而达到截获数据的目的。</p>
+
+<h2>二、RARP(Reverse Address Resolution Protocol)逆向地址解析协议</h2>
+
+<p>听名字就知道，RARP 与 ARP 是相反的关系，用于将 MAC 地址转换为 IP 地址。对应于 ARP，RARP 请求以广播方式传送，而 RARP 应答一般是单播传送的。</p>
+
+<p>某些设备，比如无盘机在启动时可能不知道自己的 IP 地址，它们可以将自己的 MAC 地址使用 RARP 请求广播出去，RARP 服务器就会响应并回复无盘机的 IP 地址。</p>
+
+<p>RARP 在目前的应用中已极少被使用，不再赘述了。</p>
+
+<h2>三、ICMP(Internet Control Message Protocol)控制报文协议</h2>
+
+<p>通信过程中的发生各种问题时，ICMP 将问题反馈，通过这些信息，管理者可以对所发生的问题作出诊断，然后采取适当的措施去解决它。</p>
+
+<p>ICMP 报文由 8 位错误类型、8 位条件代码和 16 位校验和组成，被封装在一个 IP 数据报中：
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etgkwaqs3xj20mh0madni.jpg" alt="img" /></p>
+
+<h2>四、ping 程序和 traceroute 程序</h2>
+
+<p>ping 程序和 traceroute 程序是两个常见的基于 ICMP 协议的工具。</p>
+
+<p>ping</p>
+
+<p>ping 程序是对两台主机之间连通性进行测试的基本工具，它只是利用 ICMP 回显请求和回显应答报文，而不用经过传输层（TCP/UDP）。</p>
+
+<p>ping 程序通过在 ICMP 报文数据中存放发送请求的时间值来计算往返时间，当应答返回时，用当前时间减去存放在 ICMP 报文中的时间值，即是往返时间。</p>
+
+<p>ping 程序使用方法为 <code>ping IP</code> 地址 ，ping 命令还可以加上参数，实现更多的功能：</p>
+
+<ul>
+<li>-n 只输出数值。</li>
+<li>-q 不显示任何传送封包的信息，只显示最后的结果。</li>
+<li>-r 忽略普通的 Routing Table，直接将数据包送到远端主机上。通常是查看本机的网络接口是否有问题。</li>
+<li>-R 记录路由过程。</li>
+<li>-v 详细显示指令的执行过程。</li>
+<li>-c 数目：在发送指定数目的包后停止。</li>
+<li>-i 秒数：设定间隔几秒送一个网络封包给一台机器，预设值是一秒送一次。</li>
+<li>-t 存活数值：设置存活数值 TTL 的大小。</li>
+</ul>
+
+
+<h3>traceroute</h3>
+
+<p>traceroute 程序是用来侦测主机到目的主机之间所经路由情况的重要工具。刚才 ping 程序中讲过，带 <code>-R</code> 参数的 ping 命令也可以记录路由过程，但是，因为 IP 数据报头的长度限制(最多能保存 9 个 IP 地址)，ping 不能完全的记录下所经过的路由器，traceroute 正好就填补了这个缺憾。</p>
+
+<p>使用以下命令安装：</p>
+
+<pre><code>sudo apt-get install traceroute
+</code></pre>
+
+<p>raceroute 程序的工作原理很简单：</p>
+
+<ul>
+<li>它发送一份 TTL 为 1 的 IP 数据报给目的主机，经过第一个路由器时，TTL 值被减为 0，则第一个路由器丢弃该数据报，并返回一份超时 ICMP 报文，于此得到了路径中第一个路由器的地址；</li>
+<li>然后再发送一份 TTL 值为 2 的数据报，便可得到第二个路由器的地址；</li>
+</ul>
+
+
+<p>以此类推，一直到到达目的主机为止，这样便记录下了路径上所有的路由 IP。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-03T09:04:03+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:04 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/03/tcp-slash-ip-xie-yi/" title="Previous Post: TCP/IP 协议">&laquo; TCP/IP 协议</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/03/udp-xie-yi/" title="Next Post: UDP 协议">UDP 协议 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

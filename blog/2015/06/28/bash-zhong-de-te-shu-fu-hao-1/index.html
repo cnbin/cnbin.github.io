@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bash 中的特殊符号-1 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、# 符号 1.# 注释 行首以 # 开头(除 #! 之外)的是注释。#! 是用于指定当前脚本的解释器，我们这里为 bash，且应该指明完整路径，所以为 /bin/bash 当然，在 echo 中转义的 # 是不能作为注释的： $ vim test.sh 输入如下代码，并保存。（中文为注释， &hellip;">
+  <meta name="keywords" content="bash">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/28/bash-zhong-de-te-shu-fu-hao-1/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Bash 中的特殊符号-1</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-28T18:39:03+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:39 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>一、# 符号</h2>
+
+<h3>1.# 注释</h3>
+
+<p>行首以 <code>#</code> 开头(除 <code>#!</code> 之外)的是注释。<code>#!</code> 是用于指定当前脚本的解释器，我们这里为 <code>bash</code>，且应该指明完整路径，所以为 <code>/bin/bash</code></p>
+
+<p>当然，在 <code>echo</code> 中转义的 <code>#</code> 是不能作为注释的：</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入如下代码，并保存。（中文为注释，无需要输入）</p>
+
+<pre><code> #!/bin/bash
+
+ echo "The # here dose not begin a comment."
+ echo 'The # here dose not begin a comment.'
+ echo The \# here dose not begin a comment.
+ echo The # 这里开始一个注释
+
+ echo ${PATH#*:}         # 参数替换，不是一个注释
+ echo $(( 2#101011 ))   # 数制转换（使用二进制表示），不是一个注释
+</code></pre>
+
+<p>执行脚本，查看输出</p>
+
+<pre><code>$ bash test.sh
+</code></pre>
+
+<p>解释说明</p>
+
+<p>上面的脚本说明了如何使用 echo 打印出一段字符串和变量内容，这里采用了几种不同的方式，希望你可以理解这几种不同方式的异同</p>
+
+<h2>二、分号（;）</h2>
+
+<h3>1.命令分隔符</h3>
+
+<p>使用分号 <code>（;）</code> 可以在同一行上写两个或两个以上的命令。</p>
+
+<pre><code>$ vim test2.sh
+</code></pre>
+
+<p>输入如下代码，并保存。</p>
+
+<pre><code> #!/bin/bash
+ echo hello; echo there
+ filename=ttt.sh
+ if [ -r "$filename" ]; then    # 注意: "if"和"then"需要分隔
+     echo "File $filename exists."; cp $filename $filename.bak
+ else
+     echo "File $filename not found."; touch $filename
+ fi; echo "File test complete."
+</code></pre>
+
+<p>执行脚本</p>
+
+<pre><code>$ bash test2.sh
+</code></pre>
+
+<p>查看结果</p>
+
+<pre><code>$ ls
+</code></pre>
+
+<p>解释说明</p>
+
+<p>上面脚本使用了一个 if 件分支判断一个文件是否存在，如果文件存在打印相关信息并将该文件备份；如果不存在打印相关信息并创建一个新的文件。最后将输出"测试完成"。</p>
+
+<h3>2.终止 case 选项（双分号）</h3>
+
+<p>使用双分号 <code>（;;）</code> 可以终止 case 选项。</p>
+
+<pre><code>$ vim test3.sh
+</code></pre>
+
+<p>输入如下代码，并保存。</p>
+
+<pre><code> #!/bin/bash
+
+ varname=b
+
+ case "$varname" in
+     [a-z]) echo "abc";;
+     [0-9]) echo "123";;
+ esac
+</code></pre>
+
+<p>执行脚本，查看输出</p>
+
+<pre><code>$ bash test3.sh
+abc
+</code></pre>
+
+<p>解释说明</p>
+
+<p>上面脚本使用 <code>case</code> 语句，首先创建了一个变量初始化为b,然后使用 <code>case</code> 语句判断该变量的范围，并打印相关信息。</p>
+
+<h2>三、点号（.）</h2>
+
+<h3>1.等价于 source 命令</h3>
+
+<p>bash 中的 source 命令用于在当前 bash 环境下读取并执行 FileName.sh 中的命令。</p>
+
+<pre><code>$ source test.sh
+Hello World
+$ . test.sh
+Hello World
+</code></pre>
+
+<h2>四、引号</h2>
+
+<h3>1.双引号（")</h3>
+
+<p>&ldquo;STRING&rdquo; 将会阻止（解释）STRING中大部分特殊的字符。</p>
+
+<h3>2.单引号（'）</h3>
+
+<p>&lsquo;STRING&rsquo; 将会阻止 STRING 中所有特殊字符的解释，这是一种比使用"更强烈的形式。</p>
+
+<h2>五、斜线和反斜线</h2>
+
+<h3>1.斜线（/）</h3>
+
+<p>文件名路径分隔符。分隔文件名不同的部分（如/home/bozo/projects/Makefile）。也可以用来作为除法算术操作符。</p>
+
+<h3>2.反斜线（\）</h3>
+
+<p>一种对单字符的引用机制。<code>\X</code> 将会“转义”字符 <code>X</code>。这等价于 <code>"X"</code>，也等价于 <code>'X'</code>。<code>\</code> 通常用来转义双引号 <code>（"）</code> 和单引号 <code>（'）</code>，这样双引号和单引号就不会被解释成特殊含义了。</p>
+
+<h2>六、反引号（`）</h2>
+
+<h2>1.命令替换</h2>
+
+<p>command 结构可以将命令的输出赋值到一个变量中去。在后边的后置引用(backquotes)或后置标记(backticks)中也会讲解。</p>
+
+<p>反引号中的命令会优先执行，如：</p>
+
+<pre><code>$ cp `mkdir back` test.sh back
+$ ls
+</code></pre>
+
+<p>先创建了 back 目录，然后复制 test.sh 到 back 目录</p>
+
+<h2>七、冒号（:）</h2>
+
+<h3>1.空命令</h3>
+
+<p>等价于 <code>“NOP”</code>（no op，一个什么也不干的命令）。也可以被认为与 shell 的内建命令 <code>true</code> 作用相同。<code>“:”</code> 命令是一个 <code>bash</code> 的内建命令，它的退出码（exit status）是（0）。</p>
+
+<p>如：</p>
+
+<pre><code> #!/bin/bash
+
+ while :
+ do
+     echo "endless loop"
+ done
+等价于
+
+ #!/bin/bash
+
+ while true
+ do
+     echo "endless loop"
+ done
+</code></pre>
+
+<p>可以在 if/then 中作占位符：</p>
+
+<pre><code> #!/bin/bash
+
+ condition=5
+
+ if condition&gt;0
+ then :   # 什么都不做，退出分支
+ else
+     echo "$condition"
+ fi
+</code></pre>
+
+<h2>2.变量扩展/子串替换</h2>
+
+<p>在与 <code>&gt;</code> 重定向操作符结合使用时，将会把一个文件清空，但是并不会修改这个文件的权限。如果之前这个文件并不存在，那么就创建这个文件。</p>
+
+<pre><code> $ : &gt; test.sh   # 文件“test.sh”现在被清空了
+ # 与 cat /dev/null &gt; test.sh 的作用相同
+ # 然而,这并不会产生一个新的进程, 因为“:”是一个内建命令
+</code></pre>
+
+<p>在与 <code>&gt;&gt;</code> 重定向操作符结合使用时，将不会对预先存在的目标文件 <code>(: &gt;&gt; target_file)</code> 产生任何影响。如果这个文件之前并不存在，那么就创建它。</p>
+
+<p>也可能用来作为注释行，但不推荐这么做。使用 <code>#</code> 来注释的话，将关闭剩余行的错误检查，所以可以在注释行中写任何东西。然而，使用 <code>:</code> 的话将不会这样。如：</p>
+
+<pre><code>$ : This is a comment that generates an error, ( if [ $x -eq 3] )
+</code></pre>
+
+<p><code>":"</code> 还用来在 /etc/passwd 和 $PATH 变量中做分隔符，如：</p>
+
+<pre><code>$ echo $PATH
+/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:/sbin:/usr/sbin:/usr/games
+$
+</code></pre>
+
+<h2>八、问号（?）</h2>
+
+<h3>1.测试操作符</h3>
+
+<p>在一个双括号结构中，<code>?</code> 就是C语言的三元操作符，如：</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入如下代码，并保存：</p>
+
+<pre><code> #!/bin/bash
+
+ a=10
+ (( t=a&lt;50?8:9 ))
+ echo $t
+</code></pre>
+
+<p>运行测试</p>
+
+<pre><code>$ bash test.sh
+8
+</code></pre>
+
+<h2>九、美元符号（$）</h2>
+
+<h3>1.变量替换</h3>
+
+<pre><code>$ vim test.sh
+#!/bin/bash
+
+var1=5
+var2=23skidoo
+
+echo $var1     # 5
+echo $var2     # 23skidoo
+</code></pre>
+
+<p>运行测试</p>
+
+<pre><code>$ bash test.sh
+</code></pre>
+
+<h3>2.命令替换（同反引号）</h3>
+
+<pre><code>$ cd $(echo Documents)
+$ pwd
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-28T18:39:03+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:39 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/28/shell-bash/" title="Previous Post: Shell - Bash">&laquo; Shell - Bash</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/28/bash--zhong-de-te-shu-fu-hao-2/" title="Next Post: Bash 中的特殊符号-2">Bash 中的特殊符号-2 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

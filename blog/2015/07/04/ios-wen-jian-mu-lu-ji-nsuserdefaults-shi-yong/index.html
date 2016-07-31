@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 文件目录及 NSUserDefaults 使用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="IOS 文件目录 iphone 沙箱模型的有四个文件夹，分别是什么，永久数据存储一般放在什么位置，得到模拟器的路径的简单方式是什么. documents，tmp，app，Library。 手动保存的文件在 documents 文件里,Nsuserdefaults 保存的文件在 Library/ &hellip;">
+  <meta name="keywords" content="ios,nuuserdefaults">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/04/ios-wen-jian-mu-lu-ji-nsuserdefaults-shi-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 文件目录及 NSUserDefaults 使用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-04T11:46:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:46 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>IOS 文件目录</h2>
+
+<p>iphone 沙箱模型的有四个文件夹，分别是什么，永久数据存储一般放在什么位置，得到模拟器的路径的简单方式是什么.</p>
+
+<p>documents，tmp，app，Library。</p>
+
+<p>手动保存的文件在 documents 文件里,Nsuserdefaults 保存的文件在 <code>Library/Preferences</code> 目录文件夹里;</p>
+
+<ul>
+<li><p>Documents 目录：您应该将所有的应用程序数据文件写入到这个目录下。这个目录用于存储用户数据或其它应该定期备份的信息。</p></li>
+<li><p>AppName.app 目录：这是应用程序的程序包目录，包含应用程序的本身。由于应用程序必须经过签名，所以您在运行时不能对这个目录中的内容进行修改，否则可能会使应用程序无法启动。</p></li>
+<li><p>Library 目录：这个目录下有两个子目录：Caches 和 Preferences</p></li>
+<li><p>Library/Preferences 目录：包含应用程序的偏好设置文件。您不应该直接创建偏好设置文件，而是应该使用 NSUserDefaults 类来取得和设置应用程序的偏好</p></li>
+<li><p>Library/Caches 目录：用于存放应用程序专用的支持文件，保存应用程序再次启动过程中需要的信息。</p></li>
+<li><p>tmp 目录：这个目录用于存放临时文件，保存应用程序再次启动过程中不需要的信息。</p></li>
+</ul>
+
+
+<h2>获取这些目录路径的方法：</h2>
+
+<h3>获取家目录路径的函数：</h3>
+
+<pre><code>NSString *homeDir = NSHomeDirectory();
+</code></pre>
+
+<h3>获取 Documents 目录路径的方法：  </h3>
+
+<pre><code>NSArray *paths = NSSearchPathForDirectoriesInDomains
+(NSDocumentDirectory, NSUserDomainMask, YES);  
+NSString *docDir = [paths objectAtIndex:0];  
+</code></pre>
+
+<h3>获取Caches目录路径的方法：  </h3>
+
+<pre><code>NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);  
+NSString *cachesDir = [paths objectAtIndex:0];  
+</code></pre>
+
+<h3>获取 tmp 目录路径的方法：  </h3>
+
+<pre><code>NSString *tmpDir = NSTemporaryDirectory();  
+</code></pre>
+
+<h3>获取应用程序程序包中资源文件路径的方法：  </h3>
+
+<p>例如获取程序包中一个图片资源（apple.png）路径的方法：  </p>
+
+<pre><code>NSString *imagePath = [[NSBundle mainBundle] pathForResource:@”apple” ofType:@”png”];  
+UIImage *appleImage = [[UIImage alloc] initWithContentsOfFile:imagePath];  
+代码中的mainBundle类方法用于返回一个代表应用程序包的对象。  
+
+NSFileManager* fm=[NSFileManager defaultManager];  
+if(![fm fileExistsAtPath:[self dataFilePath]]){  
+//下面是对该文件进行制定路径的保存  
+[fm createDirectoryAtPath:[self dataFilePath] withIntermediateDirectories:YES attributes:nil error:nil];  
+//取得一个目录下得所有文件名  
+NSArray *files = [fm subpathsAtPath: [self dataFilePath] ];  
+//读取某个文件  
+NSData *data = [fm contentsAtPath:[self dataFilePath]];  
+//或者  
+NSData *data = [NSData dataWithContentOfPath:[self dataFilePath]];  
+</code></pre>
+
+<h2>NSUserDefaults</h2>
+
+<p>NSUserDefaults 适合存储轻量级的本地数据，比如要保存一个登陆界面的数据，用户名、密码之类的，个人觉得使用 NSUserDefaults 是首选。下次再登陆的时候就可以直接从 NSUserDefaults 里面读取上次登陆的信息咯。</p>
+
+<p>因为如果使用自己建立的 plist 文件什么的，还得自己显示创建文件，读取文件，很麻烦，而是用 NSUserDefaults 则不用管这些东西，就像读字符串一样，直接读取就可以了。</p>
+
+<p>NSUserDefaults 支持的数据格式有：NSNumber（Integer、Float、Double），NSString，NSDate，NSArray，NSDictionary，BOOL 类型。
+NSUserDefaults 很方便，读取也很容易。</p>
+
+<pre><code>//保存数据到 NSUserDefaults  
+-(void)saveNSUserDefaults  
+{  
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];  
+    [userDefaults setObject:@"123" forKey:@"num"];      
+    [userDefaults synchronize];      
+}  
+//从 NSUserDefaults 中读取数据  
+-(void)readNSUserDefaults  
+{  
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];  
+    //读取整型int类型的数据  
+    NSString *num = [userDefaultes integerForKey:@"num"];  
+}  
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-04T11:46:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:46 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/04/xcode-build-search-pahts-she-zhi/" title="Previous Post: Xcode Build search Pahts 设置">&laquo; Xcode Build search Pahts 设置</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/04/instancetype-yu-id-qu-bie/" title="Next Post: instancetype 与 id 区别">instancetype 与 id 区别 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

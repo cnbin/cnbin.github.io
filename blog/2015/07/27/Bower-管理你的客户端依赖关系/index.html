@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bower - 管理你的客户端依赖关系 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="安装Bower 一旦你已经安装了上面所说的所有必要文件，键入以下命令安装 Bower： $ npm install -g bower 这行命令是 Bower 的全局安装，-g 操作表示全局。 开始使用Bower 安装完 bower 之后就可以使用所有的 bower 命令了。可以键入 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/27/Bower-%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Bower - 管理你的客户端依赖关系</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-27T09:33:12+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:33 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>安装Bower</h2>
+
+<p>一旦你已经安装了上面所说的所有必要文件，键入以下命令安装 Bower：</p>
+
+<pre><code>$ npm install -g bower
+</code></pre>
+
+<p>这行命令是 Bower 的全局安装，<code>-g</code> 操作表示全局。</p>
+
+<h2>开始使用Bower</h2>
+
+<p>安装完 bower 之后就可以使用所有的 bower 命令了。可以键入 <code>help</code>命令来查看 bower 可以完成那些操作，如下：</p>
+
+<pre><code>$ bower help
+Usage:
+
+    bower &lt;command&gt; [&lt;args&gt;] [&lt;options&gt;]
+
+Commands:
+
+    cache                   Manage bower cache
+    help                    Display help information about Bower
+    home                    Opens a package homepage into your favorite browser
+    info                    Info of a particular package
+    init                    Interactively create a bower.json file
+    install                 Install a package locally
+    link                    Symlink a package folder
+    list                    List local packages
+    lookup                  Look up a package URL by name
+    prune                   Removes local extraneous packages
+    register                Register a package
+    search                  Search for a package by name
+    update                  Update a local package
+    uninstall               Remove a local package
+
+Options:
+
+    -f, --force             Makes various commands more forceful
+    -j, --json              Output consumable JSON
+    -l, --log-level         What level of logs to report
+    -o, --offline           Do not hit the network
+    -q, --quiet             Only output important information
+    -s, --silent            Do not output anything, besides errors
+    -V, --verbose           Makes output more verbose
+    --allow-root            Allows running commands as root
+</code></pre>
+
+<h2>包的安装</h2>
+
+<p>Bower 是一个软件包管理器，所以你可以在应用程序中用它来安装新的软件包。举例来看一下来如何使用 Bower 安装 JQuery，在你想要安装该包的地方创建一个新的文件夹，键入如下命令：</p>
+
+<pre><code>$ bower install jquery
+</code></pre>
+
+<p>上述命令完成以后，你会在你刚才创建的目录下看到一个 <code>bower_components</code> 的文件夹，其中目录如下：</p>
+
+<pre><code>$ tree bower_components/
+bower_components/
+└── jquery
+    ├── README.md
+    ├── bower.json
+    ├── component.json
+    ├── composer.json
+    ├── jquery-migrate.js
+    ├── jquery-migrate.min.js
+    ├── jquery.js
+    ├── jquery.min.js
+    ├── jquery.min.map
+    └── package.json
+
+1 directory, 10 files
+</code></pre>
+
+<h2>包的使用</h2>
+
+<p>现在就可以在应用程序中使用 jQuery 包了，在 jQuery 里创建一个简单的 html5 文件：</p>
+
+<pre><code>&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Learning Bower&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;button&gt;Animate Me!!&lt;/button&gt;
+&lt;div style="background:red;height:100px;width:100px;position:absolute;"&gt;
+&lt;/div&gt;
+
+&lt;script type="text/javascript" src="bower_components/jquery/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+
+    $(document).ready(function(){
+        $("button").click(function(){
+            $("div").animate({left:'250px'});
+        });
+    });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>正如你所看到的，你刚刚引用 <code>jquery.min.js</code> 文件，现阶段完成。</p>
+
+<h2>所有包的列表</h2>
+
+<p>如果你想找出所有安装在应用程序中的包，可以使用list命令：</p>
+
+<pre><code>$ bower list
+bower check-new     Checking for new versions of the project dependencies..
+blog /Users/shekhargulati/day1/blog
+└── jquery#2.0.3 extraneous
+</code></pre>
+
+<h2>包的搜索</h2>
+
+<p>假如你想在你的应用程序中使用 twitter 的 bootstrap 框架，但你不确定包的名字，这时你可以使用 <code>search</code> 命令：</p>
+
+<pre><code>$ bower search bootstrap
+Search results:
+
+bootstrap git://github.com/twbs/bootstrap.git
+angular-bootstrap git://github.com/angular-ui/bootstrap-bower.git
+sass-bootstrap git://github.com/jlong/sass-twitter-bootstrap.git
+</code></pre>
+
+<h2>包的信息</h2>
+
+<p>如果你想看到关于特定的包的信息，可以使用 <code>info</code> 命令来查看该包的所有信息：</p>
+
+<pre><code>$ bower info bootstrap
+bower bootstrap#*           not-cached git://github.com/twbs/bootstrap.git#*
+bower bootstrap#*              resolve git://github.com/twbs/bootstrap.git#*
+bower bootstrap#*             download https://github.com/twbs/bootstrap/archive/v3.0.0.tar.gz
+bower bootstrap#*              extract archive.tar.gz
+bower bootstrap#*             resolved git://github.com/twbs/bootstrap.git#3.0.0
+
+{
+  name: 'bootstrap',
+  version: '3.0.0',
+  main: [
+    './dist/js/bootstrap.js',
+    './dist/css/bootstrap.css'
+  ],
+  ignore: [
+    '**/.*'
+  ],
+  dependencies: {
+    jquery: '&gt;= 1.9.0'
+  },
+  homepage: 'https://github.com/twbs/bootstrap'
+}
+
+Available versions:
+  - 3.0.0
+  - 3.0.0-rc1
+  - 3.0.0-rc.2
+  - 2.3.2
+ .....
+</code></pre>
+
+<p>如果你想得到单个包的信息，也可以使用 <code>info</code> 命令：</p>
+
+<pre><code>$ bower info bootstrap#3.0.0
+bower bootstrap#3.0.0           cached git://github.com/twbs/bootstrap.git#3.0.0
+bower bootstrap#3.0.0         validate 3.0.0 against git://github.com/twbs/bootstrap.git#3.0.0
+
+{
+  name: 'bootstrap',
+  version: '3.0.0',
+  main: [
+    './dist/js/bootstrap.js',
+    './dist/css/bootstrap.css'
+  ],
+  ignore: [
+    '**/.*'
+  ],
+  dependencies: {
+    jquery: '&gt;= 1.9.0'
+  },
+  homepage: 'https://github.com/twbs/bootstrap'
+}
+</code></pre>
+
+<h2>包的卸载</h2>
+
+<p>卸载包可以使用 <code>uninstall</code> 命令：</p>
+
+<pre><code>$ bower uninstall jquery
+</code></pre>
+
+<h2>bower.json文件的使用</h2>
+
+<p>bower.json 文件的使用可以让包的安装更容易，你可以在应用程序的根目录下创建一个名为 “bower.json” 的文件，并定义它的依赖关系。使用 <code>bower init</code> 命令来创建 bower.json 文件：</p>
+
+<pre><code>$ bower init
+[?] name: blog
+[?] version: 0.0.1
+[?] description:
+[?] main file:
+[?] keywords:
+[?] authors: Shekhar Gulati &lt;shekhargulati84@gmail.com&gt;
+[?] license: MIT
+[?] homepage:
+[?] set currently installed components as dependencies? Yes
+[?] add commonly ignored files to ignore list? Yes
+[?] would you like to mark this package as private which prevents it from being accidentally published to the registry? No
+
+{
+  name: 'blog',
+  version: '0.0.1',
+  authors: [
+    'Shekhar Gulati &lt;shekhargulati84@gmail.com&gt;'
+  ],
+  license: 'MIT',
+  ignore: [
+    '**/.*',
+    'node_modules',
+    'bower_components',
+    'test',
+    'tests'
+  ],
+  dependencies: {
+    jquery: '~2.0.3'
+  }
+}
+
+[?] Looks good? Yes
+</code></pre>
+
+<p>可以查看该文件：</p>
+
+<pre><code>{
+  "name": "blog",
+  "version": "0.0.1",
+  "authors": [
+    "Shekhar Gulati &lt;shekhargulati84@gmail.com&gt;"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3"
+  }
+}
+</code></pre>
+
+<p>注意看，它已经加入了 jQuery 依赖关系。</p>
+
+<p>现在假设也想用 twitter bootstrap，我们可以用下面的命令安装 twitter bootstrap 并更新 bower.json 文件：</p>
+
+<pre><code>$ bower install bootstrap --save
+</code></pre>
+
+<p>它会自动安装最新版本的 bootstrap 并更新 bower.json 文件：</p>
+
+<pre><code>{
+  "name": "blog",
+  "version": "0.0.1",
+  "authors": [
+    "Shekhar Gulati &lt;shekhargulati84@gmail.com&gt;"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "bootstrap": "~3.0.0"
+  }
+}
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-27T09:33:12+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:33 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/27/hexo-tianjia-swiftype-zhan-nei-sou-shuo/" title="Previous Post: hexo 添加 Swiftype 站内搜索">&laquo; hexo 添加 Swiftype 站内搜索</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/27/CALayer-%E7%9A%84%E8%A7%86%E8%A7%89%E6%95%88%E6%9E%9C/" title="Next Post: CALayer 的视觉效果">CALayer 的视觉效果 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Onboard Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Usage Adding the following to your Podfile and running pod install should do the trick: pod 'Onboard' If you don&rsquo;t want to use CocoaPods, you &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/05/onboard-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Onboard Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-05T16:55:39+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:55 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>Usage</h1>
+
+<p>Adding the following to your <code>Podfile</code> and running <code>pod install</code> should do the trick:</p>
+
+<pre><code>pod 'Onboard'
+</code></pre>
+
+<p><em>If you don&rsquo;t want to use CocoaPods</em>, you can grab the files located in the <em>Source</em> folder and pull them into your project manually.</p>
+
+<p>Each onboarding experience is comprised of two primary components - the background and the content pages. The background includes the static background image/video, the page control, and the skip button. The content pages are made up of four pieces, an image/icon, title, body, and action button.</p>
+
+<p>Create individual pages by creating instances of <code>OnboardingContentViewController</code>. Provide a title, body, image, text for an action button, and within the action block handle whatever you want to do when the users press the button. If you don&rsquo;t want a button, you can leave both the button text and action handler nil.</p>
+
+<h4>Objective-C</h4>
+
+<pre><code>OnboardingContentViewController *firstPage = [OnboardingContentViewController contentWithTitle:@"Page Title" body:@"Page body goes here." image:[UIImage imageNamed:@"icon"] buttonText:@"Text For Button" action:^{
+    // do something here when users press the button, like ask for location services permissions, register for push notifications, connect to social media, or finish the onboarding process
+}];
+</code></pre>
+
+<h4>Swift</h4>
+
+<pre><code>let firstPage = OnboardingContentViewController(title: "Page Title", body: "Page body goes here.", image: UIImage(named: "icon"), buttonText: "Text For Button") { () -&gt; Void in
+    // do something here when users press the button, like ask for location services permissions, register for push notifications, connect to social media, or finish the onboarding process
+    }
+</code></pre>
+
+<p>Then create the <code>OnboardingViewController</code> by providing either a background image or a URL to a local video file in your project, and an array of content view controllers you just created. You can then present the view modally and get the onboarding process started!</p>
+
+<h4>Objective-C</h4>
+
+<pre><code>// Image
+OnboardingViewController *onboardingVC = [OnboardingViewController onboardWithBackgroundImage:[UIImage imageNamed:@"background"] contents:@[firstPage, secondPage, thirdPage]];
+
+// Video
+NSBundle *bundle = [NSBundle mainBundle];
+NSString *moviePath = [bundle pathForResource:@"yourVid" ofType:@"mp4"];
+NSURL *movieURL = [NSURL fileURLWithPath:moviePath];
+
+OnboardingViewController *onboardingVC = [OnboardingViewController onboardWithBackgroundVideoURL:movieURL contents:@[firstPage, secondPage, thirdPage]];
+</code></pre>
+
+<h4>Swift</h4>
+
+<pre><code>// Image
+let onboardingVC = OnboardingViewController(backgroundImage: UIImage(named: "background"), contents: [firstPage, secondPage, thirdPage])
+
+// Video
+let bundle = NSBundle.mainBundle()
+let moviePath = bundle.pathForResource("yourVid", ofType: "mp4")
+let movieURL = NSURL(fileURLWithPath: moviePath!)
+
+let onboardingVC = OnboardingViewController(backgroundVideoURL: movieUrl, contents: [firstPage, secondPage, thirdPage])
+</code></pre>
+
+<p>With only a few lines of code you have a beautiful, end-to-end onboarding process that will get your users excited to use your awesome application.</p>
+
+<h1>Customization</h1>
+
+<p>The content pages can be customized by setting the provided padding, font, and size properties on either the pages individually (if you want something different on each) or on the OnboardingViewController itself, which will pass those properties to all of the content view controllers.</p>
+
+<pre><code>OnboardingViewController *onboardingVC = [OnboardingViewController onboardWithBackgroundImage contents:yourContentsArray];
+onboardingVC.fontName = @"Helvetica-Light";
+onboardingVC.titleFontSize = 28;
+onboardingVC.bodyFontSize = 22;
+onboardingVC.topPadding = 20;
+onboardingVC.underIconPadding = 10;
+onboardingVC.underTitlePadding = 15;
+onboardingVC.bottomPadding = 20;
+</code></pre>
+
+<h1>Blurring, Masking, and Fading</h1>
+
+<p>By default, the image you use for the background will have a mask applied over it, darkening it a bit. This is to add a little bit of contrast so the text can more easily be seen. This can easily be disabled if your image is already edited or looks fine as-is:</p>
+
+<pre><code>onboardingVC.shouldMaskBackground = NO; // defaults to YES
+</code></pre>
+
+<p>We can also apply a blur to your background image:</p>
+
+<pre><code>onboardingVC.shouldBlurBackground = YES; // defaults to NO
+</code></pre>
+
+<p>Apply a fade effect to the icons, text, and buttons, while transitioning between pages. Contents fade out as you scroll away, and the contents for the next page fade in as they scroll in.</p>
+
+<pre><code>onboardingVC.shouldFadeTransitions = YES; // defaults to NO
+</code></pre>
+
+<p>You can tweak these settings in a few different combinations to get your desired effect:</p>
+
+<h1>Auto-Navigation</h1>
+
+<p>If you want to automatically move users to the next page in the onboarding process when they press the action button simply set the <code>movesToNextViewController</code> property to <code>YES</code> on any <code>OnboardingContentViewController</code> that isn’t the last view controller in the onboarding process. Coupled with this, you can disable the ability to swipe between contents by setting the <code>swipingEnabled</code> property on the <code>OnboardingViewController</code> to <code>NO</code>. This allows you to have greater control over the onboarding process if you desire. Finally, if your design lends itself to not having a page control, or if it is only one page, you can set the <code>hidePageControl</code> property to <code>YES</code> and the page control dots will not appear.</p>
+
+<pre><code>contentVC.movesToNextViewController = YES;
+onboardingVC.swipingEnabled = NO;
+onboardingVC.hidePageControl = YES;
+</code></pre>
+
+<h1>Skipping</h1>
+
+<p>If you want to allow users to skip the onboarding process, enable skipping on the onboarding view controller and set a block to be executed when the skip button is pressed.</p>
+
+<pre><code>onboardingVC.allowSkipping = YES;
+onboardingVC.skipHandler = ^{
+    // Dismiss, fade out, etc...
+};
+</code></pre>
+
+<h1>Blocks</h1>
+
+<p>There may be cases in which you want to do <em>something</em> when the content pages are about to appear, and when they did appear. In this case, you can set the viewWillAppearBlock and viewDidAppearBlock properties on any or all of the content pages to handle whatever you’d like.</p>
+
+<pre><code>contentVC.viewWillAppearBlock = ^{
+    // do something when the view will appear here…
+}
+
+contentVC.viewDidAppearBlock = ^{
+    // do something when the view appears here…
+}
+</code></pre>
+
+<h1>Notes</h1>
+
+<p>I&rsquo;m not currently supporting landscape at the moment, so I would recommend either using this in an application that only supports portrait, or wrapping it in a subclassed UINavigationController that only supports portrait.</p>
+
+<h1>Community</h1>
+
+<p>Questions, comments, issues, and pull requests welcomed!!</p>
+
+<h1>License</h1>
+
+<p>This project is made available under the MIT license. See LICENSE.txt for details.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-05T16:55:39+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:55 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/05/mrc-slash-arctong-yong-de-weakifyhe-strongify/" title="Previous Post: MRC/ARC通用的weakify和strongify">&laquo; MRC/ARC通用的weakify和strongify</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/05/uitableview-shang-de-yan-gao-tiao-shi-ge-tableheaderview/" title="Next Post: UITableView 上的广告条是个 tableHeaderView(原创)">UITableView 上的广告条是个 tableHeaderView(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

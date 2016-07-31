@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Realm - Jazzy - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="jazzy is a command-line utility that generates documentation for Swift or Objective-C About Both Swift and Objective-C projects are supported. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/25/realm-jazzy/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Realm - Jazzy</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-25T15:23:39+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:23 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="https://ga-beacon.appspot.com/UA-50247013-2/jazzy/README?pixel" alt="analytics" /></p>
+
+<p><img src="https://travis-ci.org/realm/jazzy.svg?branch=master" alt="Test Status" /></p>
+
+<p><em>jazzy is a command-line utility that generates documentation for Swift or Objective-C</em></p>
+
+<h2>About</h2>
+
+<p>Both Swift and Objective-C projects are supported.</p>
+
+<p><em>Objective-C support was recently added, so please report any issues you find.</em></p>
+
+<p>Instead of parsing your source files, <code>jazzy</code> hooks into <a href="http://clang.llvm.org" title="Clang">Clang</a> and
+<a href="http://www.jpsim.com/uncovering-sourcekit" title="Uncovering SourceKit">SourceKit</a> to use the <a href="http://clang.llvm.org/docs/IntroductionToTheClangAST.html" title="Introduction To The Clang AST">AST</a> representation of your code and
+its comments for more accurate results. The output matches the look and feel
+of Apple’s official reference documentation, post WWDC 2014.</p>
+
+<p><img src="screenshot.jpg" alt="Screenshot" /></p>
+
+<h2>Requirements</h2>
+
+<ul>
+<li>A version of <a href="https://developer.apple.com/xcode" title="Xcode">Xcode</a> (6.x or 7.x) capable of building the project
+you wish to document. It must be installed in a location indexed by Spotlight.</li>
+</ul>
+
+
+<h2>Installation</h2>
+
+<pre><code>[sudo] gem install jazzy
+</code></pre>
+
+<h2>Usage</h2>
+
+<p>Run <code>jazzy</code> from your command line. Run <code>jazzy -h</code> for a list of additional options.</p>
+
+<p>You can set options for your project’s documentation in a configuration file,
+<code>.jazzy.yaml</code> by default. For a detailed explanation and an exhaustive list of
+all available options, run <code>jazzy --help config</code>.</p>
+
+<h3>Supported keywords</h3>
+
+<p>Swift header documentation is written in markdown and supports a number of special keywords.
+For a complete list and examples, see Erica Sadun&rsquo;s post on <a href="http://ericasadun.com/2015/06/14/swift-header-documentation-in-xcode-7/"><em>Swift header documentation in Xcode 7</em></a>.</p>
+
+<p>For Objective-C documentation the same keywords are supported, but note that the format
+is slightly different. In Swift you would write <code>- returns:</code>, but in Objective-C you write <code>@return</code>. See Apple&rsquo;s <a href="https://developer.apple.com/library/mac/documentation/DeveloperTools/Conceptual/HeaderDoc/tags/tags.html"><em>HeaderDoc User Guide</em></a> for more details. <strong>Note: <code>jazzy</code> currently does not support <em>all</em> Objective-C keywords listed in this document.</strong></p>
+
+<h3>Swift</h3>
+
+<p>Swift documentation is generated by default.</p>
+
+<h5>Example</h5>
+
+<p>This is how Realm Swift docs are generated:</p>
+
+<pre><code>jazzy \
+  --clean \
+  --author Realm \
+  --author_url https://realm.io \
+  --github_url https://github.com/realm/realm-cocoa \
+  --github-file-prefix https://github.com/realm/realm-cocoa/tree/v0.96.2 \
+  --module-version 0.96.2 \
+  --xcodebuild-arguments -scheme,RealmSwift \
+  --module RealmSwift \
+  --root-url https://realm.io/docs/swift/0.96.2/api/ \
+  --output docs/swift_output \
+  --template-directory docs/templates
+</code></pre>
+
+<h3>Objective-C</h3>
+
+<p>To generate documentation for Objective-C headers,
+you must pass the following parameters to jazzy:
+* <code>--objc</code>
+* <code>--umbrella-header ...</code>
+* <code>-framework-root ...</code></p>
+
+<h5>Example</h5>
+
+<p>This is how Realm Objective-C docs are generated:</p>
+
+<pre><code>jazzy \
+  --objc \
+  --clean \
+  --author Realm \
+  --author_url https://realm.io \
+  --github_url https://github.com/realm/realm-cocoa \
+  --github-file-prefix https://github.com/realm/realm-cocoa/tree/v0.96.2 \
+  --module-version 0.96.2 \
+  --umbrella-header Realm/Realm.h \
+  --framework-root . \
+  --module Realm \
+  --root-url https://realm.io/docs/objc/0.96.2/api/ \
+  --output docs/objc_output \
+  --template-directory docs/templates
+</code></pre>
+
+<p>This is how the AFNetworking docs are generated:</p>
+
+<pre><code>jazzy \
+  --objc \
+  --author AFNetworking \
+  --author_url http://afnetworking.com \
+  --github_url https://github.com/AFNetworking/AFNetworking \
+  --github-file-prefix https://github.com/AFNetworking/AFNetworking/tree/2.6.2 \
+  --module-version 2.6.2 \
+  --umbrella-header AFNetworking/AFNetworking.h \
+  --framework-root . \
+  --module AFNetworking
+</code></pre>
+
+<h2>Troubleshooting</h2>
+
+<h4>Swift</h4>
+
+<p><strong>Only extensions are listed in the documentation?</strong></p>
+
+<p>By default, <code>jazzy</code> only documents public declarations. To generate documentation
+for declarations with a lower accessibility level (<code>internal</code> or <code>private</code>), please
+set the <code>--min-acl</code> flag to <code>internal</code> or <code>private</code>.</p>
+
+<h2>Development</h2>
+
+<p>Please review jazzy&rsquo;s <a href="https://github.com/realm/jazzy/blob/master/CONTRIBUTING.md">contributing guidelines</a> when submitting pull requests.</p>
+
+<p>jazzy is composed of two parts:</p>
+
+<ol>
+<li>The parser, <a href="https://github.com/jpsim/SourceKitten" title="SourceKitten">SourceKitten</a> (written in Swift)</li>
+<li>The site generator (written in ruby)</li>
+</ol>
+
+
+<p>To build and run jazzy from source:</p>
+
+<ol>
+<li>Install <a href="http://rubygems.org/gems/bundler">bundler</a>.</li>
+<li>Run <code>bundle install</code> from the root of this repo.</li>
+<li>Run jazzy from source by running <code>bin/jazzy</code>.</li>
+</ol>
+
+
+<p>Instructions to build SourceKitten from source can be found at
+<a href="https://github.com/jpsim/SourceKitten" title="SourceKitten">SourceKitten&rsquo;s GitHub repository</a>.</p>
+
+<h2>Design Goals</h2>
+
+<ul>
+<li>Generate source code docs matching Apple&rsquo;s official reference documentation</li>
+<li>Support for standard Objective-C and Swift documentation comment syntax</li>
+<li>Leverage modern HTML templating (<a href="http://mustache.github.io" title="Mustache">Mustache</a>)</li>
+<li>Leverage the power and accuracy of the <a href="http://clang.llvm.org/docs/IntroductionToTheClangAST.html" title="Introduction To The Clang AST">Clang AST</a> and <a href="http://www.jpsim.com/uncovering-sourcekit" title="Uncovering SourceKit">SourceKit</a></li>
+<li>Support for Dash docsets</li>
+<li>Support Swift and Objective-C (<em>mixed projects are a work in progress</em>)</li>
+</ul>
+
+
+<h2>License</h2>
+
+<p>This project is released under the <a href="https://github.com/realm/jazzy/blob/master/LICENSE">MIT license</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-25T15:23:39+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:23 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/25/xalign-shi-yong/" title="Previous Post: XAlign 使用">&laquo; XAlign 使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/26/how-do-i-declare-a-block-in-objective-c/" title="Next Post: How Do I Declare A Block in Objective-C?">How Do I Declare A Block in Objective-C? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ASP.NET Session问题 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在一个网站中，当访问一个处理比较耗时的页面（A页面），页面请求还没有返回时，此时再点击访问该网站的其他页面（B页面）会出现B页面很久都没有响应和返回，直到A页面输出返回数据时才开始处理B页面的请求，造成请求排队处理，A页面阻塞了B页面的请求处理。开始我一直怀疑是不是浏览器单线程的缘故， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/20/asp-dot-net-sessionwen-ti/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ASP.NET Session问题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-20T16:06:28+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:06 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>在一个网站中，当访问一个处理比较耗时的页面（A页面），页面请求还没有返回时，此时再点击访问该网站的其他页面（B页面）会出现B页面很久都没有响应和返回，直到A页面输出返回数据时才开始处理B页面的请求，造成请求排队处理，A页面阻塞了B页面的请求处理。开始我一直怀疑是不是浏览器单线程的缘故，在网上搜索了资料，IE6/7，FF都是多线程浏览器（IE6好像是2个线程），用IE6、IE7、FF都试过了，结果一样，这就奇怪了，明明都是多线程，怎么会阻塞呢？在网上搜索了好几次相关的问题，还是没查出个所以然，但网站造成的客户体验确实很差，每当访问到那个耗时的A页面时，再想访问其他页面根本查看不了。“怎么系统那么慢”，晕，没办法，我也不懂怎么处理（不负责任的态度啊，呵呵）。</p>
+
+<p>在一次的无意中我发现竟然在A页面Loading（页面上加的提示）的时候，可以访问某个页面，真是惊喜，再试试几次，可以，确实可以，是不是页面代码阻塞了？于是查这两个页面的代码，其实这两个页面的代码就十几行，没什么问题呢。经过多次尝试和比对，才发现这两个页都是无需登陆验证的页面，之前出现阻塞的页面都是需登陆验证后才可访问的页面，怎样制作网站？而系统的验证信息是存储在Session中，通过Session判断验证的。这时想到应该是Session的问题，但还是不知如何处理，再去网上搜索，互联网上的信息真是应有尽有，终于搜索到问题所在：</p>
+
+<p>问：为了可以顺序访问Session的状态值，Session是否提供了锁定机制？
+　　</p>
+
+<p>答：Session实现了Reader/Writer的锁机制：</p>
+
+<p>当页面对Session具有可写功能（即页面有<code>&lt;%@ Page EnableSessionState="True" %&gt;</code>标记），此时直到请求完成该页面的Session持有一个写锁定。如何制作网页？当页面对Session具有只读功能（即页面有<code>&lt;%@ Page EnableSessionState="ReadOnly" %&gt;</code>标记），此时知道请求完成该页面的Session持有一个读锁定。读锁定将阻塞一个写锁定；读锁定不会阻塞读锁定；写锁定将阻塞所有的读写锁定。这就是为什么两个框架中的同一个页面都去写同一个Session时，其中一个要等待另一个（稍快的那个）完成后，才开始写。
+“写锁定将阻塞所有的读写锁定”，也就是说页面在EnableSessionState=&ldquo;True"的情况下没返回输出时，一直持着Session写操作，其他页面对Session的读操作必须等待，而asp.net的aspx页面默认是EnableSessionState="True"，每个页面从请求开始至返回一直持着Session写操作，需验证页面必须读取Session值判断，这就是为什么需验证的页面请求被阻塞的原因。只要耗时页面（A页面）没有Session的写操作，也就不会阻塞其他页面的请求，于是修改A页面的EnableSessionState="ReadOnly"，例如：</p>
+
+<pre><code>&lt;%@ Page Language="C#" AutoEventWireup="true" CodeFile="TBS_Monitor_List.aspx.cs" EnableSessionState="ReadOnly"  Inherits="TBS_Monitor_List" %&gt; ，问题解决。
+</code></pre>
+
+<p>你的站点有被客户投诉很慢吗？是不是查了很多遍还是没有完全解决？是不是数据库没有发现异常，CPU也没有异常，内存占用量没有异常，GC计数没有异常，硬盘IO也没有异常，带宽没有异常，线路没有异常，没有丢包，但就是被投诉？而且还是阵发性的，有某个用户投诉慢的时候，你访问却很快，本地又复现不出来？今天你访问了博客园真是太幸运了，也许这里就有你想要的一个答案——假如你的站点动态处理了图片或者其他原本不会动态处理的非网页资源的话。没想到吧，这是Session惹的祸！</p>
+
+<p>我们公司某个站点访问量一直很大，几年前就已经发现客户经常投诉说很慢，而这个问题我们一直都在排查和解决。从线路问题，到数据库连接泄露，到数据库死锁、索引，以及程序的优化问题，我们都查找过，并且解决过。然而，这个问题总还是存在。比如说，在IIS日志中，就会经常看到time-taken大于10秒钟的访问。而最近我们的KPI要求解决这个问题，不得已，再次踏上这趟艰难的排查之旅。</p>
+
+<p>之所以说艰难，是因为这个现象在本地几乎无法复现，一个是这个现象是阵发性的，第二个是本地访问量或者数据量不够大。我们也尝试过在本地加载线上服务器的数据库，然后拿服务器的IIS的Log文件重播，结果确实是偶尔发现IIS日志中的time-taken也会比较长，但是本地服务器性能不如线上服务器的，比如说IO就差很远，于是总说不清楚到底是什么问题。而线上服务器也不方便用做Dump的形式查找：第一是因为线上一做Dump，站点就会在几分钟内失去响应，这样我们客服的电话就会被打爆；另一个原因还是阵发性的问题，我们不可能一直盯着性能看，然后在发生问题的瞬间做Dump。再说了，看性能也看不出来，因为那些响应时间很长的访问，其前后附近的响应都特别的快。不可避免的，我们只能够在代码里面塞入一些调试和日志的代码，以期望能够得到一些有用的信息。</p>
+
+<p>最开始的时候，我们认为最可能的原因是数据库阻塞，比如正好某一个访问锁住某个数据库对象（比如一张表或者某几行），如果这个时候访问特定的页面，可能就会比较慢。于是在数据库层塞入了一堆代码，这些代码会在数据库连接数量多，或者某个数据库连接时间特别长的时候，将所有数据库连接的当前访问语句、连接持续总时间，以及这些连接当前的堆栈情况都输出到文件中。与此同时，我们还打开Sql profiler对这个数据库进行监视，将持续时间超过1秒钟的都记录下来。然而跑了一天之后，却发现什么都没有被记录下来，但IIS日志中仍然在这段时间内出现许多10秒以上的访问。这个时候，我们就意识到，可能方向错了。</p>
+
+<p>接着，我们就开始塞另外一段代码：一个IHttpModule。这个模块就只是截获每一个页面访问的完整生命周期中的所有事件，比如BeginRequest、PreAuthenticateRequest等。同时在BeginRequest开始的时候设置一个定时器，每隔一秒钟就会出发一个事件，来记录本次访问过程中，本模块收集到的所有线程中当前的堆栈情况。最后，在EndRequest的时候，如果访问时间超过5秒，就将之前截获的所有信息输出到文件中。这一下子问题就变得非常的清晰了，比如说，下面这种输出（片断）就是非常典型的一个情况：</p>
+
+<pre><code>#Steps:
+#Fields: date time threadId stepName
+#---------------------------------------------------
+2009-07-09 16:48:01.752 0024 BeginRequest
+2009-07-09 16:48:01.752 0024 AuthenticateRequest
+2009-07-09 16:48:01.752 0024 PostAuthenticateRequest
+2009-07-09 16:48:01.752 0024 AuthorizeRequest
+2009-07-09 16:48:01.752 0024 PostAuthorizeRequest
+2009-07-09 16:48:01.752 0024 ResolveRequestCache
+2009-07-09 16:48:01.752 0024 PostResolveRequestCache
+2009-07-09 16:48:01.752 0024 PostMapRequestHandler
+2009-07-09 16:48:06.284 0007 AcquireRequestState
+2009-07-09 16:48:06.284 0007 PostAcquireRequestState
+2009-07-09 16:48:06.284 0007 PreRequestHandlerExecute
+2009-07-09 16:48:06.284 0007 EndRequest
+#---------------------------------------------------
+#End of steps.
+</code></pre>
+
+<p>也就是说，在PostMapRequestHandler之后，AcquireRequestState之前，有一大段的等待时间。而这个报告后面的堆栈情况，则显得很奇怪：线程7从第一次截快照的时候开始，一直到结束都是空白的！甚至在其他的一些报告中甚至会发现这个线程已经被分派处理其他页面的工作了（堆栈中的调用很明显指出是另一个aspx页面的代码）。结果一Google“PostMapRequestHandler”和“AcquireRequestState”这两个关键字，就找到了国外另一个有类似遭遇的受害者：</p>
+
+<p><a href="http://forums.iis.net/t/1147300.aspx">http://forums.iis.net/t/1147300.aspx</a></p>
+
+<p>这个楼主是一个aspx页面里面有好几个iframe，并且每一个iframe里面都是访问同一个Web应用下的Aspx页面。现象就是iframe内的页面会一个个蹦出来，尤其是这些页面都比较慢的时候。和我这里截获到的情况一样，也是PostMapRequestHandler事件到AcquireRequestState之间有很长的空白时间。顺藤摸瓜，又找到了这么一个帖子：</p>
+
+<p><a href="http://www.microsoft.com/communities/newsgroups/en-us/default.aspx?dg=microsoft.public.dotnet.framework.aspnet&amp;mid=7f56033f-caac-47c2-bd9c-95512aa14b47">http://www.microsoft.com/communities/newsgroups/en-us/default.aspx?dg=microsoft.public.dotnet.framework.aspnet&amp;mid=7f56033f-caac-47c2-bd9c-95512aa14b47</a></p>
+
+<p>原来，在AcquireRequestState之前，需要等待上一个同SessionId的页面处理完毕之后，才会继续处理当前页面。其根本原因是：同一个SessionId下面的Session对象不应该被同时写入，否则就会全乱套了，原理和多线程竞争是一样的。因此在设计上，同一个SessionId的页面（或者IHttpHandler）就会顺序执行。</p>
+
+<p>好了，到这里真相又一次大白了！（指不定还有别的问题，还会有下一次大白的时候）在我们的系统中，由于特殊的原因，对图片的输出我们会通过Asp.Net来处理，比如说加上一些合适的缓存标记，甚至会动态生成图片输出（令人惊讶的是，这个动态输出的总时间消耗甚至不到100毫秒，所以不要说动态生成是一种不好的实施方式）。但是，由于没有经过特殊处理，Asp.Net底层认为这些访问时需要对Session进行写操作的，于是就在AcquireRequestState之前挂起，等待上一次同SessionId访问结束。可想而知，图片多了就会导致排队，甚至排很长的队。如果在排队结束之前访问下一个页面，正好系统又没有丢掉之前的队列，则这次访问就会变得比较漫长了。那么怎么做呢？ 在一次顺藤摸瓜，找到了确切的说法：</p>
+
+<p><a href="http://msdn.microsoft.com/en-us/library/ms178581.aspx">http://msdn.microsoft.com/en-us/library/ms178581.aspx</a></p>
+
+<p>注意下面的这段话：</p>
+
+<pre><code>Concurrent Requests and Session State
+Access to ASP.NET session state is exclusive per session, which means that if two different users make concurrent requests, access to each separate session is granted concurrently. However, if two concurrent requests are made for the same session (by using the same SessionID value), the first request gets exclusive access to the session information. The second request executes only after the first request is finished. (The second session can also get access if the exclusive lock on the information is freed because the first request exceeds the lock time-out.) If theEnableSessionState value in the @ Page directive is set to ReadOnly, a request for the read-only session information does not result in an exclusive lock on the session data. However, read-only requests for session data might still have to wait for a lock set by a read-write request for session data to clear.
+</code></pre>
+
+<p>也就是说，对于页面，我们可以简单的在Aspx上的<code>&lt;% @Page %&gt;</code>内设置<code>EnableSessionState=”false”</code>，或者<code>EnableSessionState=”ReadOnly”</code>，就可以减轻这种问题的症状。前一种设置将会禁止对Session的访问，而后一种设置则只能允许只读访问（你不能够对Session进行写操作）。正好，我们刚才提到的IHttpHandler中，对图片进行处理的部分，是不需要对Session进行写操作的，但是却需要读取Session（根据状态不同，而需要获取一些特殊信息），因此可以采取上述的措施来解决问题。</p>
+
+<p>上述参考文献中，并没有说明如何对不是Page的IHttpHandler如何设置，这里我特别说明一下。对于自定义的一个实现了IHttpHandler接口的类，只要同时实现IReadOnlySessionState，即可达到EnableSessionState=&ldquo;ReadOnly"的效果。同时，如果没有实现IRequiresSessionState，则等价于EnableSessionState=”false”的效果。</p>
+
+<p>注意：本文所说的，不是说你在代码里面有没有用到Session，Asp.Net不会扫描你的代码看看有没有访问Session，或者在你第一次访问Session的时候才会加锁。Asp.Net是在AcquireRequestState事件之前就首先申请这个锁——只要你的页面没有设置EnableSessionState=”false”或EnableSessionState=”ReadOnly”，或者你的IHttpHandler实现了IRequiresSessionState却没有实现IReadOnlySessionState接口就会这样。回复中有很多同学说“只要我不用Session不就行了吗？”或者“我从来不用Session”，这么想完全是错误的，只能说你没有理解这背后的机制，甚至可能连Asp.net生命周期都不太清楚。Asp.Net之所以在你的页面代码开始执行之前就锁定，是要保证整个环境的完整性，避免部分执行的情况。当然，也正如上面的一些引用中所提到的，你可以自己写一个SessionProvider而不做任何的锁工作，但这样做肯定有不确定性的风险，到时候只能你自己承担，并且更难复现和调试。</p>
+
+<p>后记：</p>
+
+<p>可能有不少人都知道Session是什么，也有很多人知道Asp.net的生命周期都包含哪些，比如一搜索"PostMapRequestHandler AcquireRequestState"，就会出来很多中文的页面介绍HttpApplication类都有哪些事件，以及生命周期等等。而说到Session会造成特殊情况下站点性能问题的，似乎中文界我这还真是第一篇。当然了，这个问题可能比较偏，因为一般大家都只会处理Aspx页面而不会处理图片，甚至用Aspx页面来动态输出图片的机会都比较少，英文的似乎也只有文中提到的唯一一个同志提出来了。</p>
+
+<p>不过，有一个很常见的场景会受这个问题的影响，那就是“验证码”。如果验证码生成速度很慢，同时客户端浏览器选择长连接而服务器也接受长连接，则可能会影响在输出验证码完毕之前访问下一个页面的速度。反过来，我们也经常可以体验到，验证码出来的速度总是特别慢，总是“蹦”出来的，尤其是当前页面特别复杂的时候，似乎页面没有加载完就总不会出现验证码。估计我说的问题就是原因之一。</p>
+
+<p>不过验证码的问题还不是特别好解决，因为为了避免信息泄露的问题，验证码的答案通常是存在在Session里面的，而通常的设计也是一访问验证码图片，就会将验证码答案写到Session里面。所以，很不幸，文中提到的那个解决办法是行不通的，至少不是能够直接行得通的。这个问题有没有救药？有，当然有了。怎么救？哈，那就有劳你自己开动脑筋了，我这里算是点到即止了。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-20T16:06:28+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:06 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/20/asp-dot-net-yi-bu-jia-zai/" title="Previous Post: asp.net 异步加载">&laquo; asp.net 异步加载</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/20/asp-dot-net26ge-chang-yong-xing-neng-you-hua-fang-fa/" title="Next Post: ASP.NET26个常用性能优化方法">ASP.NET26个常用性能优化方法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

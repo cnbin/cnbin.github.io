@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>矩阵连乘-动态规划-详解 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="动态规划法 以矩阵链ABCD为例
+按照矩阵链长度递增计算最优值
+矩阵链长度为1时，分别计算出矩阵链A、B、C、D的最优值
+矩阵链长度为2时，分别计算出矩阵链AB、BC、CD的最优值
+矩阵链长度为3时，分别计算出矩阵链ABC、BCD的最优值
+矩阵链长度为4时，计算出矩阵链ABCD的最优值 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/19/ju-zhen-lian-cheng-dong-tai-gui-hua-xiang-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">矩阵连乘-动态规划-详解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-19T11:04:11+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:04 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>动态规划法</h3>
+
+<ul>
+<li>以矩阵链ABCD为例</li>
+<li>按照矩阵链长度递增计算最优值</li>
+<li>矩阵链长度为1时，分别计算出矩阵链A、B、C、D的最优值</li>
+<li>矩阵链长度为2时，分别计算出矩阵链AB、BC、CD的最优值</li>
+<li>矩阵链长度为3时，分别计算出矩阵链ABC、BCD的最优值</li>
+<li>矩阵链长度为4时，计算出矩阵链ABCD的最优值</li>
+</ul>
+
+
+<p>给定n个矩阵｛A1,A2,…,An｝，其中Ai与Ai+1是可乘的，i=1，2…，n-1。如何确定计算矩阵连乘积的计算次序，使得依此次序计算矩阵连乘积需要的数乘次数最少。</p>
+
+<p>解答:我们按照动态规划的几个步骤来分析：</p>
+
+<h3>(1)找出最优解的性质，刻画其特征结构</h3>
+
+<p>对于矩阵连乘问题，最优解就是找到一种计算顺序，使得计算次数最少。</p>
+
+<p>令m[i][j]表示第i个矩阵至第j个矩阵这段的最优解。</p>
+
+<p>将矩阵连乘积 简记为A[i:j] ，这里i&lt;=j.假设这个最优解在第k处断开，i&lt;=k&lt;j，则A[i:j]是最优的，那么A[i,k]和A[k+1:j]也是相应矩阵连乘的最优解。可以用反证法证明之。 这就是最优子结构，也是用动态规划法解题的重要特征之一。</p>
+
+<h3>(2)建立递归关系</h3>
+
+<p>设计算A[i:j]，1≤i≤j≤n，所需要的最少数乘次数m[i,j]，则原问题的最优值为m[1,n] 。</p>
+
+<pre><code>当i=j时，A[i,j]=Ai, m[i,j]=0;(表示只有一个矩阵,如A1,没有和其他矩阵相乘,故乘的次数为0)
+
+当i&lt;j时，m[i,j]=min{m[i,k]+m[k+1,j] +pi-1*pk*pj} ,其中 i&lt;=k&lt;j
+</code></pre>
+
+<p>(相当于对i~j这段,把它分成2段,看哪种分法乘的次数最少,如A1,A2,A3,A4,则有3种分法:{A1}{A2A3A4 }、{A1A2}{A3A4 }、{A1A2A3}{A4 },其中{}表示其内部是最优解,如{A1A2A3}表示是A1A2A3的最优解),</p>
+
+<p>也即：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez4sitc2iej20e703274c.jpg" alt="img" /></p>
+
+<h3>(3)计算最优值</h3>
+
+<p>对于1≤i≤j≤n不同的有序对(i,j) 对于不同的子问题，因此不同子问题的个数最多只有o(n*n).但是若采用递归求解的话，许多子问题将被重复求解，所以子问题被重复求解，这也是适合用动态规划法解题的主要特征之一。</p>
+
+<p>用动态规划算法解此问题，可依据其递归式以自底向上的方式进行计算。在计算过程中，保存已解决的子问题答案。每个子问题只计算一次，而在后面需要时只要简单查一下，从而避免大量的重复计算，最终得到多项式时间的算法。</p>
+
+<p>下面给出动态规划求解最优值的代码：</p>
+
+<pre><code>void MatrixChain(int *p,int n,int **m,int **s)
+
+{    //m是最优值,s是最优值的断开点的索引,n为题目所给的矩阵的个数(下面例子中)
+
+//矩阵段长度为1,则m[][]中对角线的值为0,表示只有一个矩阵,没有相乘的.
+
+for(int i = 1;i&lt;=n;i++) m[i][i] = 0;           //本题中n=6             
+
+for(int r = 2;r&lt;=n;r++){//对角线循环，r表示矩阵的长度(2,3…逐渐变长)  
+
+   for(int i = 1;i&lt;=n-r+1;i++){  //行循环
+
+//从第i个矩阵Ai开始,长度为r,则矩阵段为(Ai~Aj)
+
+int j = r+i-1;//列的控制，当前矩阵段(Ai~Aj)的起始为Ai,尾为Aj
+
+//求(Ai~Aj)中最小的,其实k应该从i开始，但先记录第一个值，k从i+1开始，这样也可以。
+
+//例如对(A2~A4),则i=2,j=4,下面一行的m[2][4]=m[3][4]+p[1]*p[2]*p[4],即A2(A3A4)
+
+     m[i][j] = m[i+1][j] + p[i-1]*p[i]*p[j];
+
+     s[i][j] = i;//记录断开点的索引
+
+//循环求出(Ai~Aj)中的最小数乘次数
+
+     for(int k = i+1 ; k&lt;j;k++){
+
+//将矩阵段(Ai~Aj)分成左右2部分(左m[i][k],右m[k+1][j]), //再加上左右2部分最后相乘的次数(p[i-1] *p[k]*p[j])
+
+       int t = m[i][k] + m[k+1][j] + p[i-1] *p[k]*p[j];                  
+
+       if(t&lt;m[i][j])
+
+       {  m[i][j] = t;  
+          s[i][j] = k;  //保存最小的,即最优的结果
+
+}//if
+
+     }//k
+
+    }//i
+
+}//r
+
+}//MatrixChain
+</code></pre>
+
+<p>上面代码中后面的k也相当于是从i到j-1递增的,只是单独把第一个(k=i)提了出来.</p>
+
+<p>对于 p={30 35  155  10  20  25}:</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez4sitzumtj20hm052jso.jpg" alt="img" /></p>
+
+<p>计算顺序为：</p>
+
+<p> <img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez4siwaipjj20ja0k3gpe.jpg" alt="img" /></p>
+
+<p>对上例,共6个矩阵(A1~A6),n=6,当r=3时,r循环里面的是3个矩阵的最优解,i从1->4,即求的是</p>
+
+<p>(A1A2A3),(A2A3A4),(A3A4A5),(A4A5A6)这4个矩阵段(长度为3)的最优解.当i=2时(A2A3A4)的最优解为{A2(A3A4) ,(A2A3)A4}的较小值。</p>
+
+<ul>
+<li><p>矩阵连乘计算次序问题的最优解包含着其子问题的最优解。这种性质称为最优子结构性质。</p></li>
+<li><p>在分析问题的最优子结构性质时，所用的方法具有普遍性：首先假设由问题的最优解导出的子问题的解不是最优的，然后再设法说明在这个假设下可构造出比原问题最优解更好的解，从而导致矛盾。</p></li>
+<li><p>利用问题的最优子结构性质，以自底向上的方式递归地从子问题的最优解逐步构造出整个问题的最优解。最优子结构是问题能用动态规划算法求解的前提。</p></li>
+<li><p>递归算法求解问题时，每次产生的子问题并不总是新问题，有些子问题被反复计算多次。这种性质称为子问题的重叠性质。</p></li>
+<li><p>动态规划算法，对每一个子问题只解一次，而后将其解保存在一个表格中，当再次需要解此子问题时，只是简单地用常数时间查看一下结果。</p></li>
+<li><p>通常不同的子问题个数随问题的大小呈多项式增长。因此用动态规划算法只需要多项式时间，从而获得较高的解题效率。</p></li>
+</ul>
+
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/code_pang/article/details/8743601">http://blog.csdn.net/code_pang/article/details/8743601</a></li>
+<li><a href="http://blog.csdn.net/tmljs1988/article/details/6925631">http://blog.csdn.net/tmljs1988/article/details/6925631</a></li>
+<li><a href="http://blog.jobbole.com/87012/">http://blog.jobbole.com/87012/</a></li>
+<li><a href="http://www.acmerblog.com/dp8-matrix-chain-multiplication-5086.html">http://www.acmerblog.com/dp8-matrix-chain-multiplication-5086.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-19T11:04:11+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:04 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/18/lian-biao-ji-ben-cao-zuo-an-li/" title="Previous Post: 链表基本操作案例">&laquo; 链表基本操作案例</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/20/shu-ju-ku-an-li-fen-xi/" title="Next Post: 数据库案例分析">数据库案例分析 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

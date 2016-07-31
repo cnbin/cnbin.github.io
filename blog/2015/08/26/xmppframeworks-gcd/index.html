@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>XMPPFrameworks GCD - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Introduction Version 3 of XMPPFramework brings massive parallelism, and big performance improvements. This article outlines the architecture of the &hellip;">
+  <meta name="keywords" content="xmppframework,gcd">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/26/xmppframeworks-gcd/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">XMPPFrameworks GCD</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-26T11:24:14+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:24 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>Introduction</h2>
+
+<p>Version 3 of XMPPFramework brings massive parallelism, and big performance improvements. This article outlines the architecture of the threading within the framework, how to harness it, as well as what to watch out for.</p>
+
+<h2>Grand Central Dispatch</h2>
+
+<p>Writing multi-threaded code has historically been difficult and fraught with problems. Apple&rsquo;s Grand Central Dispatch technology changes much of this. And GCD is where the XMPPFramework gets its parallelism and power.</p>
+
+<p>If you&rsquo;re already an expert on GCD you can skip this section. Otherwise, read on for a quick overview.</p>
+
+<p>One of the problems with traditional multi-threading has to do with a few simple questions:</p>
+
+<ul>
+<li>&ldquo;How many threads do I create?&rdquo;</li>
+<li>&ldquo;How many threads is too many?&rdquo;</li>
+<li>&ldquo;What is the performance impact of creating too many threads?&rdquo;</li>
+</ul>
+
+
+<p>It all comes down to the fact that creating a thread is an expensive operation. It&rsquo;s rather slow, plus it requires a significant amount of overhead. On top of this, if you create too many threads then your process wastes a lot of CPU cycles switching back and forth between threads. And the costs of these thread-context switches starts to eat away at your performance.</p>
+
+<p>To make matters worse, there are no simple answers for how many threads to create. First of all, even if you knew how processor cores are available, that doesn&rsquo;t mean the OS is going to give your process all those cores. The correct answer may come down to system load, and only the OS knows about this.</p>
+
+<p>GCD solves these questions with a simple abstraction:</p>
+
+<blockquote><p>Don&rsquo;t worry about threads. Instead use dispatch queues. These are super lightweight, and you can create tons of them. The GCD library will automatically manage a thread pool of the proper size, and will execute your dispatch queues on threads from this pool.</p></blockquote>
+
+<p>So a dispatch_queue is NOT a thread. It is an abstraction designed to make you stop thinking in terms of threads. If you&rsquo;re anything like me, this will be a difficult habit to break. So let&rsquo;s look at an example:</p>
+
+<pre><code>// Creating a dispatch queue is a lightweight operation.
+// Creating a thread = 512 KB
+// Creating a queue = 256 Bytes !
+// 
+// We're going to create a serial queue.
+dispatch_queue_t myQ = dispatch_queue_create("my q name", NULL);
+
+// Placing a work item in a GCD queue is a lightweight operation.
+// In fact, it requires only 15 instructions.
+// By comparison, setting up a thread, and assigning work to it
+// can require hundreds of instructions
+// and take more than 50 times longer.
+
+dispatch_async(myQ, task1);
+dispatch_async(myQ, task2);
+dispatch_async(myQ, task3);
+</code></pre>
+
+<p>So do task1 - task3 all operate on the same thread? No, stop thinking a queue is a thread. Here are some examples of what might happen:</p>
+
+<ul>
+<li>task1 -> Thread D</li>
+<li>task2 -> Thread G</li>
+<li>task3 -> Thread B</li>
+</ul>
+
+
+<p>Or perhaps:</p>
+
+<ul>
+<li>task1 -> Thread Z</li>
+<li>task2 -> Thread H</li>
+<li>task3 -> Thread Z</li>
+</ul>
+
+
+<p>The point is, it doesn&rsquo;t matter. We created a serial queue, so the tasks get executed one after the other. And task2 won&rsquo;t start until task1 is complete.</p>
+
+<h2>Parallelism via Queues</h2>
+
+<p>The XMPPFramework accomplishes its parallelism by allowing all modules and delegates to run in their own queue. Let&rsquo;s take a deeper look at this within the code.</p>
+
+<p>Whenever you add a delegate, you also specify the dispatch_queue you would like your delegate methods to be invoked on.</p>
+
+<pre><code>[xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
+</code></pre>
+
+<p>The above code specifies that the delegate methods are to be invoked on the main thread. However, it would be trivial to parallelize your xmpp handling code by simply creating your own queue, and specifying that queue.</p>
+
+<pre><code>dispatch_queue_t xmppHandlingQ = dispatch_queue_create("XMPP Handling", NULL);
+
+// Look mom! No more blocking the UI thread!
+// Now I do all my expensive processing somewhere else!
+[xmppStream addDelegate:self delegateQueue:xmppHandlingQ];
+</code></pre>
+
+<p>When the xmppStream goes to invoke your delegateMethod, it will essentially do this:</p>
+
+<pre><code>dispatch_async(delegateQueueYouProvided, ^{ @autoreleasepool {
+
+    [delegate xmppStreamDidConnect:self];
+}});
+</code></pre>
+
+<p>Avoiding deadlock is simple - delegates are <strong>always</strong> invoked asynchronously.</p>
+
+<h2>Thread Safety</h2>
+
+<p>If you&rsquo;ve invoked:</p>
+
+<pre><code>[xmppStream addDelegate:self delegateQueue:...];
+</code></pre>
+
+<p>then don&rsquo;t forget to do this somewhere (maybe in dealloc, or even before):</p>
+
+<pre><code>[xmppStream removeDelegate:self];
+</code></pre>
+
+<p>The same applies for any xmpp module that you may add a delegate to.</p>
+
+<h2>Memory Management</h2>
+
+<p>XML is basically a tree structure. You deal with nodes that have a parent and children. Further, the XML API&rsquo;s are designed to allow you to traverse up and down the tree. Thus, the underlying XML tree (as a whole) may not get released if you retain child nodes.</p>
+
+<p>See the <a href="https://github.com/robbiehanson/KissXML/wiki/MemoryManagementThreadSafety">detailed discussion</a> on the KissXML page.</p>
+
+<p>(Each XMPPIQ, XMPPMessage, and XMPPPresence element are their own individual trees. Rather than retain the child nodes of such elements, one should prefer to create copies.)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-26T11:24:14+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:24 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/26/segmentfault-app-introduction/" title="Previous Post: SegmentFault APP Introduction">&laquo; SegmentFault APP Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/26/dispatch-barrier-async/" title="Next Post: dispatch_barrier_async">dispatch_barrier_async &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

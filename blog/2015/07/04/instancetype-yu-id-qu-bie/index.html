@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Instancetype 与 Id 区别 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、什么是instancetype instancetype 是 clang 3.5 开始，clang 提供的一个关键字，表示某个方法返回的未知类型的Objective-C 对象。我们都知道未知类型的的对象可以用id关键字表示，那为什么还会再有一个instancetype 呢？ 二、关联返回类型 &hellip;">
+  <meta name="keywords" content="instancetype,id">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/04/instancetype-yu-id-qu-bie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Instancetype 与 Id 区别</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-04T11:48:54+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:48 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>一、什么是instancetype</h2>
+
+<p>instancetype 是 clang 3.5 开始，clang 提供的一个关键字，表示某个方法返回的未知类型的Objective-C 对象。我们都知道未知类型的的对象可以用id关键字表示，那为什么还会再有一个instancetype 呢？</p>
+
+<h2>二、关联返回类型（related result types）</h2>
+
+<p>根据 Cocoa 的命名规则，满足下述规则的方法：</p>
+
+<p>1、类方法中，以 alloc 或 new 开头</p>
+
+<p>2、实例方法中，以 autorelease，init，retain 或 self 开头</p>
+
+<p>会返回一个方法所在类类型的对象，这些方法就被称为是关联返回类型的方法。换句话说，这些方法的返回结果以方法所在的类为类型，说的有点绕口，请看下面的例子：</p>
+
+<pre><code>@interface NSObject  
++ (id)alloc;  
+- (id)init;  
+@end  
+@interface NSArray : NSObject  
+@end  
+</code></pre>
+
+<p>当我们使用如下方式初始化 NSArray 时：</p>
+
+<pre><code>NSArray *array = [[NSArray alloc] init];  
+</code></pre>
+
+<p>按照 Cocoa 的命名规则，语句 <code>[NSArray alloc]</code> 的类型就是 <code>NSArray</code>因为 <code>alloc</code> 的返回类型属于关联返回类型。同样，<code>[[NSArray alloc]init]</code> 的返回结果也是 <code>NSArray</code>。</p>
+
+<h2>三、instancetype 作用</h2>
+
+<h3>1、作用</h3>
+
+<p>如果一个不是关联返回类型的方法，如下：</p>
+
+<pre><code>@interface NSArray  
++ (id)constructAnArray;  
+@end  
+</code></pre>
+
+<p>当我们使用如下方式初始化 NSArray 时：</p>
+
+<pre><code>[NSArray constructAnArray];  
+</code></pre>
+
+<p>根据 Cocoa 的方法命名规范，得到的返回类型就和方法声明的返回类型一样，是 id。</p>
+
+<p>但是如果使用 instancetype 作为返回类型，如下：</p>
+
+<pre><code>@interface NSArray  
++ (instancetype)constructAnArray;  
+@end  
+</code></pre>
+
+<p>当使用相同方式初始化 NSArray 时：</p>
+
+<pre><code>[NSArray constructAnArray]; 
+</code></pre>
+
+<p> 
+得到的返回类型和方法所在类的类型相同，是 NSArray!</p>
+
+<p>总结一下，instancetype 的作用，就是使那些非关联返回类型的方法返回所在类的类型！</p>
+
+<h3>2、好处</h3>
+
+<p>能够确定对象的类型，能够帮助编译器更好的为我们定位代码书写问题，比如：</p>
+
+<pre><code>[[[NSArray alloc] init] mediaPlaybackAllowsAirPlay]; //  "No visible @interface for `NSArray` declares the selector `mediaPlaybackAllowsAirPlay`"  
+[[NSArray array] mediaPlaybackAllowsAirPlay]; // (No error)  
+</code></pre>
+
+<p>上例中第一行代码，由于 <code>[[NSArray alloc]init]</code> 的结果是 NSArray，这样编译器就能够根据返回的数据类型检测出 NSArray 是否实现 <code>mediaPlaybackAllowsAirPlay</code> 方法。有利于开发者在编译阶段发现错误。</p>
+
+<p>第二行代码，由于 array 不属于关联返回类型方法，<code>[NSArray array]</code> 返回的是 <code>id</code> 类型，编译器不知道 id 类型的对象是否实现了 <code>mediaPlaybackAllowsAirPlay</code> 方法，也就不能够替开发者及时发现错误。</p>
+
+<h2>四、instancetype 和 id 的异同</h2>
+
+<p>1、相同点</p>
+
+<p>都可以作为方法的返回类型</p>
+
+<p>2、不同点</p>
+
+<p>1.instancetype 可以返回和方法所在类相同类型的对象，id只能返回未知类型的对象；
+2.instancetype 只能作为返回值，不能像 id 那样作为参数，比如下面的写法：</p>
+
+<pre><code>//err,expected a type  
+- (void)setValue:(instancetype)value  
+{  
+    //do something  
+}  
+</code></pre>
+
+<p>就是错的，应该写成：</p>
+
+<pre><code>- (void)setValue:(id)value  
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-04T11:48:54+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:48 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/04/ios-wen-jian-mu-lu-ji-nsuserdefaults-shi-yong/" title="Previous Post: iOS 文件目录及 NSUserDefaults 使用">&laquo; iOS 文件目录及 NSUserDefaults 使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/04/objective-c-bundlejian-jie/" title="Next Post: Objective-c Bundle简介">Objective-c Bundle简介 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

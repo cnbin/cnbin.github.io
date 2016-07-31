@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mac 下的 Top 和 Htop 指令 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="htop 来源于 top，top 是 Unix/linux 下功能强大的性能检测工具之一，用于实时检测并统计进程的属性和状态，基于 ncurses 库，可上显示文字界面。但是 top 已经非常陈旧，不支持鼠标点击操作，不支持查看进程的各个子线程的信息（对于我来说，这个非常重要， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/19/mac-xia-de-top-he-htop-zhi-ling/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mac 下的 Top 和 Htop 指令</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-19T14:43:33+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:43 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>htop 来源于 top，top 是 Unix/linux 下功能强大的性能检测工具之一，用于实时检测并统计进程的属性和状态，基于 ncurses 库，可上显示文字界面。但是 top 已经非常陈旧，不支持鼠标点击操作，不支持查看进程的各个子线程的信息（对于我来说，这个非常重要，有助于分析代码的效率并优化），不支持 color 显示，易用性较差。htop 是在终端下观察系统资源分布的一个小工具， 功能与 top 类似， 但 top 是全一色的，htop 是彩色的，效果比较好。</p>
+
+<h3>安装 htop</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1et734onuk0j20fk052go1.jpg" alt="img" /></p>
+
+<h3>top 指令效果图</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1et734p7hagj20fj0bstfa.jpg" alt="img" /></p>
+
+<h3>htop 指令效果图</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1et734pqaa3j20fr0brdkm.jpg" alt="img" /></p>
+
+<h3>各项从上至下分别说明如下：</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1et73akrhiaj20fl03at96.jpg" alt="img" /></p>
+
+<p>左边部分从上至下，分别为，cpu、内存、交换分区的使用情况，右边部分为：Tasks 为进程总数，当前运行的进程数、Load average 为系统1分钟，5分钟，10分钟的平均负载情况、Uptime 为系统运行的时间。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1et73dv80k8j20fs00wmxe.jpg" alt="img" /></p>
+
+<p>以上各项分别为：</p>
+
+<ul>
+<li>PID：进行的标识号</li>
+<li>USER：运行此进程的用户</li>
+<li>PRI：进程的优先级</li>
+<li>NI：进程的优先级别值，默认的为0，可以进行调整</li>
+<li>VIRT：进程占用的虚拟内存值</li>
+<li>RES：进程占用的物理内存值</li>
+<li>SHR：进程占用的共享内存值</li>
+<li>S：进程的运行状况，R 表示正在运行、S 表示休眠，等待唤醒、Z 表示僵死状态</li>
+<li>CPU%：该进程占用的CPU使用率</li>
+<li>MEM%：该进程占用的物理内存和总内存的百分比</li>
+<li>TIME+：该进程启动后占用的总的CPU时间</li>
+<li>COMMAND：进程启动的启动命令名称</li>
+</ul>
+
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et73fv3ubxj20fs01jdgi.jpg" alt="img" /></p>
+
+<h4>F1：显示帮助信息</h4>
+
+<p>Mac 下按 <code>fn+F1</code>，进入 F1 界面，如下图所示：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1et73h886vlj20fi0bcq77.jpg" alt="img" /></p>
+
+<pre><code>Shortcut Key    Function Key    Description
+h, ?                F1          查看htop使用说明
+
+S                   F2          htop 设定
+
+/                   F3          搜索进程
+
+\                   F4          增量进程过滤器
+
+t                   F5          显示树形结构
+
+&lt;, &gt;                F6          选择排序方式
+
+[                   F7          可减少nice值可以提高对应进程的优先级
+
+]                   F8          可增加nice值，降低对应进程的优先级
+
+k                   F9          可对进程传递信号
+
+q                   F10         结束htop
+
+u                               只显示一个给定的用户的过程
+
+U                               取消标记所有的进程
+
+H                               显示或隐藏用户线程
+
+K                               显示或隐藏内核线程
+
+F                               跟踪进程
+
+P                               按CPU 使用排序
+
+M                               按内存使用排序
+
+T                               按Time+ 使用排序
+
+l                               显示进程打开的文件
+
+I                               倒转排序顺序
+
+s                               选择某进程，按 s: 用 strace 追踪进程的系统调用
+</code></pre>
+
+<h4>F2 Htop 设定</h4>
+
+<p>鼠标点击 Setup 或者按下 <code>fn+F2</code> 之后进入 htop 设定的页面，
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1et73r896w8j20fo0bnacd.jpg" alt="img" /></p>
+
+<p>Setup 选项下的：</p>
+
+<h5>1.Meters</h5>
+
+<p>设定顶端的 显示信息，分为左右两侧，Left column 表示左侧的显示的信息，Right column 表示右侧显示的信息，如果要新加选项，可以选择Available meters添加，F5 新增到上方左侧，F6 新增到上方右侧。Left column 和 Right column 下面的选项，可以选定信息的显示方式，有LED、Bar(进度条)、Text(文本模式)，可以根据个人喜好进行设置</p>
+
+<h5>2. Display options</h5>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et73tvafmxj20fm058abn.jpg" alt="img" /></p>
+
+<p>选择要显示的内容，按空格 x 表示显示，选择完后，按 F10 保存</p>
+
+<h5>3.Colors</h5>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1et73x9h6kkj20fn03tt9a.jpg" alt="img" />
+设定界面以什么颜色来显示，个人认为用处不大，各人喜好不同，假如我们选择 Black on White后显示效果如下
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et73vmu6i7j20fk03gt95.jpg" alt="img" /></p>
+
+<h5>4.Colums</h5>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1et73zb3cstj20fk085dhe.jpg" alt="img" /></p>
+
+<p>作用是增加或取消要显示的各项内容，选择后 F7(向上移动)、F8(向下移动)、F9(取消显示、F10(保存更改))此处增加了 PPID、PGRP，根据各人需求，显示那些信息。</p>
+
+<h4>F3 搜索进程</h4>
+
+<p>在界面下按 <code>fn+F3</code> 或直接输入 <code>/</code> 就可以直接进入搜索模式，是按照进程名进行搜索的。例如</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1et743k0wx7j20hq02baba.jpg" alt="img" /></p>
+
+<h4>F4 Invert Sort Order</h4>
+
+<p>相当于模糊查找，不区分大小写，下方输入要搜索的内容后，则界面只显示搜索到的内容，更加方便查看</p>
+
+<h4>F5 以树形方式显示</h4>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et74ip6dfwj20kz08278l.jpg" alt="img" /></p>
+
+<h4>F6 排序方式</h4>
+
+<p>让您选择以什么方式进行排序,在Sort by下选择您要以什么来排序
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1et74ksf8nvj20kw083n1c.jpg" alt="img" /></p>
+
+<h4>F7,F8 调整进程 nice 值</h4>
+
+<p>F7 表示减小 nice 值(增大优先级),F8 增大 nice 值(减小优先级)，选择某一进程，按 F7 或 F8 来增大或减小 nice 值，nice 值范围为 -20-19 。</p>
+
+<h4>F9 杀死进程</h4>
+
+<p>选择某一进程按 F9 即可杀死此进程，很方便</p>
+
+<h4>F10 退出 htop</h4>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-19T14:43:33+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:43 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/19/gnu-parallel/" title="Previous Post: GNU Parallel">&laquo; GNU Parallel</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/19/git-core-dot-autocrlf-pei-zhi-shuo-ming/" title="Next Post: git core.autocrlf 配置说明">git core.autocrlf 配置说明 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

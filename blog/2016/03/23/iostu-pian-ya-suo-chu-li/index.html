@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS图片压缩处理 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="首先，我们必须明确图片的压缩其实是两个概念： “压” 是指文件体积变小，但是像素数不变，长宽尺寸不变，那么质量可能下降。
+“缩” 是指文件的尺寸变小，也就是像素数减少，而长宽尺寸变小，文件体积同样会减小。 图片“压”处理 对于“压”的功能， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/23/iostu-pian-ya-suo-chu-li/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS图片压缩处理</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-23T14:35:32+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>2:35 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>首先，我们必须明确图片的压缩其实是两个概念：</p>
+
+<ul>
+<li>“压” 是指文件体积变小，但是像素数不变，长宽尺寸不变，那么质量可能下降。</li>
+<li>“缩” 是指文件的尺寸变小，也就是像素数减少，而长宽尺寸变小，文件体积同样会减小。</li>
+</ul>
+
+
+<p>图片“压”处理</p>
+
+<p>对于“压”的功能，我们可以使用UIImageJPEGRepresentation或UIImagePNGRepresentation方法实现，如：</p>
+
+<pre><code>NSData *imgData = UIImageJPEGRepresentation(image, 0.5);
+</code></pre>
+
+<p>第一个参数是图片对象，第二个参数是压的系数，其值范围为0~1。</p>
+
+<pre><code>UIImageJPEGRepresentation方法的官方注释是：return image as JPEG. May return nil if image has no CGImageRef or invalid bitmap format. compression is 0(most)..1(least)
+</code></pre>
+
+<h3>关于PNG和JPEG格式压缩</h3>
+
+<ul>
+<li>UIImageJPEGRepresentation函数需要两个参数:图片的引用和压缩系数而UIImagePNGRepresentation只需要图片引用作为参数.</li>
+<li>UIImagePNGRepresentation(UIImage *image)要比UIImageJPEGRepresentation(UIImage* image, 1.0)返回的图片数据量大很多.</li>
+</ul>
+
+
+<p>同样的一张照片, 使用UIImagePNGRepresentation(image)返回的数据量大小为199K,而 UIImageJPEGRepresentation(image, 1.0)返回的数据量大小只为140K,比前者少了59K.</p>
+
+<p>如果对图片的清晰度要求不是极高,建议使用UIImageJPEGRepresentation，可以大幅度降低图片数据量.比如,刚才拍摄的图片,通过调用
+UIImageJPEGRepresentation(image, 1.0)读取数据时,返回的数据大小为140K,但更改压缩系数为0.5再读取数据时,返回的数据大小只有11K,大大压缩了图片的数据量,而且清晰度并没有相差多少,图片的质量并没有明显的降低。因此，在读取图片数据内容时，建议优先使用UIImageJPEGRepresentation,并可根据自己的实际使用场景,设置压缩系数,进一步降低图片数据量大小。</p>
+
+<p>提示：压缩系数不宜太低，通常是<strong>0.3~0.7</strong>，过小则可能会出现黑边等。</p>
+
+<p>我们看一下笔者使用UIImageJPEGRepresentation的数据表：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f26sf27lcaj20mc0kqzsm.jpg" alt="img" /></p>
+
+<p>笔者统计了iphone设备上的全屏图和原始图在压缩前和压缩后的大小，我们需要根据图片压缩后在PC上的清晰度来决定最终选择哪个压缩系数。</p>
+
+<p>图片“缩”处理</p>
+
+<p>通过<code>[sourceImage drawInRect:CGRectMake(0, 0, targetWidth, targetHeight)]</code>可以进行图片“缩”的功能。如下是笔者对图片尺寸缩的api：</p>
+
+<pre><code>/*!
+ *  @author 黄仪标, 15-12-01 16:12:01
+ *
+ *  压缩图片至目标尺寸
+ *
+ *  @param sourceImage 源图片
+ *  @param targetWidth 图片最终尺寸的宽
+ *
+ *  @return 返回按照源图片的宽、高比例压缩至目标宽、高的图片
+ */
+- (UIImage *)compressImage:(UIImage *)sourceImage toTargetWidth:(CGFloat)targetWidth {
+  CGSize imageSize = sourceImage.size;
+
+  CGFloat width = imageSize.width;
+  CGFloat height = imageSize.height;
+
+  CGFloat targetHeight = (targetWidth / width) * height;
+
+  UIGraphicsBeginImageContext(CGSizeMake(targetWidth, targetHeight));
+  [sourceImage drawInRect:CGRectMake(0, 0, targetWidth, targetHeight)];
+
+  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+
+  return newImage;
+}
+</code></pre>
+
+<p>我们对图片只“压”而不缩，有时候是达不到我们的需求的。因此，适当地对图片“缩”一“缩“尺寸，就可以满足我们的需求。</p>
+
+<blockquote><p>提示：我们获取到的全屏图的宽高不是指设备的宽高，通常会比设置的宽要大，高度可能相等。我们可以拍全景图，那么宽就很大了。</p></blockquote>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.henishuo.com/ios-image-compressed/">http://www.henishuo.com/ios-image-compressed/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-23T14:35:32+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>2:35 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/23/iosru-he-zai-yong-hu-xiu-gai-tou-xiang-hou-zheng-chang-xian-shi/" title="Previous Post: iOS如何在用户修改头像后正常显示">&laquo; iOS如何在用户修改头像后正常显示</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/23/si-xiang-bi-ji-63/" title="Next Post: 思想笔记-63">思想笔记-63 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

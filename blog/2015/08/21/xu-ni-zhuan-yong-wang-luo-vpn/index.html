@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>虚拟专用网络VPN - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="虚拟专用网络的功能是：在公用网络上建立专用网络，进行加密通讯。在企业网络中有广泛应用。VPN网关通过对数据包的加密和数据包目标地址的转换实现远程访问。VPN有多种分类方式，主要是按协议进行分类。VPN可通过服务器、硬件、软件等多种方式实现。 VPN基本功能 VPN属于远程访问技术， &hellip;">
+  <meta name="keywords" content="vpn,web">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/21/xu-ni-zhuan-yong-wang-luo-vpn/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">虚拟专用网络VPN</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-21T09:24:42+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:24 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>虚拟专用网络的功能是：在公用网络上建立专用网络，进行加密通讯。在企业网络中有广泛应用。VPN网关通过对数据包的加密和数据包目标地址的转换实现远程访问。VPN有多种分类方式，主要是按协议进行分类。VPN可通过服务器、硬件、软件等多种方式实现。</p>
+
+<h3>VPN基本功能</h3>
+
+<p>VPN属于远程访问技术，简单地说就是利用公用网络架设专用网络。例如某公司员工出差到外地，他想访问企业内网的服务器资源，这种访问就属于远程访问。</p>
+
+<p>在传统的企业网络配置中，要进行远程访问，传统的方法是租用DDN（数字数据网）专线或帧中继，这样的通讯方案必然导致高昂的网络通讯和维护费用。对于移动用户（移动办公人员）与远端个人用户而言，一般会通过拨号线路（Internet）进入企业的局域网，但这样必然带来安全上的隐患。</p>
+
+<p>让外地员工访问到内网资源，利用VPN的解决方法就是在内网中架设一台VPN服务器。外地员工在当地连上互联网后，通过互联网连接VPN服务器，然后通过VPN服务器进入企业内网。为了保证数据安全，VPN服务器和客户机之间的通讯数据都进行了加密处理。有了数据加密，就可以认为数据是在一条专用的数据链路上进行安全传输，就如同专门架设了一个专用网络一样，但实际上VPN使用的是互联网上的公用链路，因此VPN称为虚拟专用网络，其实质上就是利用加密技术在公网上封装出一个数据通讯隧道。有了VPN技术，用户无论是在外地出差还是在家中办公，只要能上互联网就能利用VPN访问内网资源，这就是VPN在企业中应用得如此广泛的原因。</p>
+
+<h3>工作原理</h3>
+
+<p>通常情况下，VPN网关采取双网卡结构，外网卡使用公网IP接入Internet。</p>
+
+<p>网络一(假定为公网internet)的终端A访问网络二(假定为公司内网)的终端B，其发出的访问数据包的目标地址为终端B的内部IP地址。</p>
+
+<p>网络二的VPN网关在接收到终端A发出的访问数据包时对其目标地址进行检查，如果目标地址属于网络二的地址，则将该数据包进行封装，封装的方式根据所采用的VPN技术不同而不同，同时VPN网关会构造一个新VPN数据包，并将封装后的原数据包作为VPN数据包的负载，VPN数据包的目标地址为网络二的VPN网关的外部地址。</p>
+
+<p>网络二的VPN网关将VPN数据包发送到Internet，由于VPN数据包的目标地址是网络一的VPN网关的外部地址，所以该数据包将被Internet中的路由正确地发送到网络二的VPN网关。</p>
+
+<p>网络二的VPN网关对接收到的数据包进行检查，如果发现该数据包是从网络一的VPN网关发出的，即可判定该数据包为VPN数据包，并对该数据包进行解包处理。解包的过程主要是先将VPN数据包的包头剥离，再将数据包反向处理还原成原始的数据包。</p>
+
+<p>网络二的VPN网关将还原后的原始数据包发送至目标终端B，由于原始数据包的目标地址是终端B的IP，所以该数据包能够被正确地发送到终端B。在终端B看来，它收到的数据包就和从终端A直接发过来的一样。
+从终端B返回终端A的数据包处理过程和上述过程一样，这样两个网络内的终端就可以相互通讯了。</p>
+
+<p>通过上述说明可以发现，在VPN网关对数据包进行处理时，有两个参数对于VPN通讯十分重要：原始数据包的目标地址（VPN目标地址）和远程VPN网关地址。根据VPN目标地址，VPN网关能够判断对哪些数据包进行VPN处理，对于不需要处理的数据包通常情况下可直接转发到上级路由；远程VPN网关地址则指定了处理后的VPN数据包发送的目标地址，即VPN隧道的另一端VPN网关地址。由于网络通讯是双向的，在进行VPN通讯时，隧道两端的VPN网关都必须知道VPN目标地址和与此对应的远端VPN网关地址。</p>
+
+<h3>分类标准</h3>
+
+<p>根据不同的划分标准，VPN可以按几个标准进行分类划分：</p>
+
+<h4>1、按VPN的协议分类：</h4>
+
+<p>VPN的隧道协议主要有三种，PPTP、L2TP和IPSec，其中PPTP和L2TP协议工作在OSI模型的第二层，又称为二层隧道协议；IPSec是第三层隧道协议。</p>
+
+<h4>2、按VPN的应用分类：</h4>
+
+<ol>
+<li>Access VPN（远程接入VPN）：客户端到网关，使用公网作为骨干网在设备之间传输VPN数据流量；</li>
+<li>Intranet VPN（内联网VPN）：网关到网关，通过公司的网络架构连接来自同公司的资源；</li>
+<li>Extranet VPN（外联网VPN）：与合作伙伴企业网构成Extranet，将一个公司与另一个公司的资源进行连接。</li>
+</ol>
+
+
+<h4>3、按所用的设备类型进行分类：</h4>
+
+<p>网络设备提供商针对不同客户的需求，开发出不同的VPN网络设备，主要为交换机、路由器和防火墙：</p>
+
+<ol>
+<li>路由器式VPN：路由器式VPN部署较容易，只要在路由器上添加VPN服务即可；</li>
+<li>交换机式VPN：主要应用于连接用户较少的VPN网络；</li>
+<li>防火墙式VPN：防火墙式VPN是最常见的一种VPN的实现方式，许多厂商都提供这种配置类型</li>
+</ol>
+
+
+<h4>4．按照实现原理划分：</h4>
+
+<ol>
+<li>重叠VPN：此VPN需要用户自己建立端节点之间的VPN链路，主要包括：GRE、L2TP、IPSec等众多技术。</li>
+<li>对等VPN：由网络运营商在主干网上完成VPN通道的建立，主要包括MPLS、VPN技术。</li>
+</ol>
+
+
+<h3>实现方式</h3>
+
+<p>VPN的实现有很多种方法，常用的有以下四种：</p>
+
+<ol>
+<li>VPN服务器：在大型局域网中，可以通过在网络中心搭建VPN服务器的方法实现VPN。</li>
+<li>软件VPN：可以通过专用的软件实现VPN。</li>
+<li>硬件VPN：可以通过专用的硬件实现VPN。</li>
+<li>集成VPN：某些硬件设备，如路由器、防火墙等，都含有VPN功能，但是一般拥有VPN功能的硬件设备通常都比没有这一功能的要贵。</li>
+</ol>
+
+
+<h2>常用VPN技术</h2>
+
+<ol>
+<li><p>MPLS VPN是一种基于MPLS技术的IP VPN，是在网络路由和交换设备上应用MPLS（Multiprotocol Label Switching，多协议标记交换）技术，简化核心路由器的路由选择方式，利用结合传统路由技术的标记交换实现的IP虚拟专用网络（IP VPN）。MPLS优势在于将二层交换和三层路由技术结合起来，在解决VPN、服务分类和流量工程这些IP网络的重大问题时具有很优异的表现。因此，MPLS VPN在解决企业互连、提供各种新业务方面也越来越被运营商看好，成为在IP网络运营商提供增值业务的重要手段。MPLS VPN又可分为二层MPLS VPN（即MPLS L2 VPN）和三层MPLS VPN（即MPLS L3 VPN）。</p></li>
+<li><p>SSL VPN是以HTTPS（Secure HTTP，安全的HTTP，即支持SSL的HTTP协议）为基础的VPN技术，工作在传输层和应用层之间。SSL VPN充分利用了SSL协议提供的基于证书的身份认证、数据加密和消息完整性验证机制，可以为应用层之间的通信建立安全连接。SSL VPN广泛应用于基于Web的远程安全接入，为用户远程访问公司内部网络提供了安全保证。</p></li>
+<li><p>IPSec VPN是基于IPSec协议的VPN技术，由IPSec协议提供隧道安全保障。IPSec是一种由IETF设计的端到端的确保基于IP通讯的数据安全性的机制。它为Internet上传输的数据提供了高质量的、可互操作的、基于密码学的安全保证。</p></li>
+</ol>
+
+
+<h3>各个系统下VPN的登陆配置</h3>
+
+<h4>Windows XP</h4>
+
+<ul>
+<li>建立一个新连接；</li>
+<li>选择“连接到我工作的地方的网络”；</li>
+<li>选择“虚拟专用网络连接”；</li>
+<li>设定连接名称（例如：VPN）；</li>
+<li>输入主机名称或公网IP地址；</li>
+<li>完成新增连接，勾选“将这个连接的快捷方式加到我的桌面”（以便日后连接）；</li>
+<li>输入账号，密码，即可连接。</li>
+</ul>
+
+
+<h4>Windows 7</h4>
+
+<ul>
+<li>在画面右下角，点选网络连接，然后选择“打开网络共享中心”；</li>
+<li>在弹出的对话窗口中，选择“设置新的连接或网络”；</li>
+<li>选择“连接到工作区”，然后选择“使用我的Internet连接（VPN），通过Internet使用虚拟专用网络（VPN）来连接”，然后单击“我将稍后设置Internet连接”；</li>
+<li>在“Internet 地址”里，填上VPN提供的IP地址。填好IP后，其它东西都不用管它，直接点击下一步。目标名称填写“VPN连接”；</li>
+<li>填VPN的用户名和密码，先不要填，点“创建”；</li>
+<li>到这里就完成的连接设置导向。点击“关闭”。；</li>
+<li>回到桌面右键点击“网络”->“属性”，再点击一下左边的“更改适配器设置”；</li>
+<li>找到刚才建好的“VPN连接”并双击打开；</li>
+<li>填写提供的VPN用户名和密码，“域”可以不用填写。然后点击属性->安全；</li>
+<li>在“数据加密”这一项选中“可选加密（没有加密也可以连接）”选好后点击“确定”。VPN类型自动，使用这些协议选择CHAP，MS-CHAP v2；</li>
+<li>整个Windows7 VPN过程都设置完成了。点击“连接”就可以了。</li>
+</ul>
+
+
+<h4>Ubuntu</h4>
+
+<ul>
+<li>画面右上角最右端图标单击，选择“系统设置”</li>
+<li>选择“网络”，选择添加网络，接口VPN，创建。</li>
+</ul>
+
+
+<h4>Android</h4>
+
+<ul>
+<li>打开手机主菜单，选择“设置”；</li>
+<li>选择“无线和网络”；</li>
+<li>选择“虚拟专用网设置”；</li>
+<li>选择“添加虚拟专用网”；</li>
+<li>选择PPTP方式；</li>
+<li>输入虚拟专用网名称（如VPN）；</li>
+<li>填写服务器域名，点击“确定”。然后按menu键，保存设置；</li>
+<li>点击打开刚刚建好的连接，填写用户名和密码，点击“连接”。</li>
+</ul>
+
+
+<h4>iOS</h4>
+
+<ul>
+<li>点击桌面上的“设置”图标进入设置；</li>
+<li>点击“通用”进入通用设置；</li>
+<li>点击“网络”，进入网络设置；</li>
+<li>点击“VPN”进入设置；</li>
+<li>点击“添加VPN配置”；</li>
+<li>在协议类型上选择“PPTP”，在“描述”栏中填入“VPN”，在服务器栏中填入服务器域名，在账户和密码栏中填入用户名和密码，其他设置保持不变，然后点击“存储”。；</li>
+<li>点击“VPN”开关，就会开启连接，连接成功后，右上角会出现小图标。</li>
+</ul>
+
+
+<h4>OS X</h4>
+
+<ul>
+<li>从任务栏菜单打开系统设置，选择“网络”；</li>
+<li>在新对话框中选择“添加”，然后从下拉菜单选择“VPN”；</li>
+<li>从VPN类型下拉菜单中选择PPTP。填写服务名称，点击“创建”按钮；</li>
+<li>在配置下拉菜单中选择“增加配置”；</li>
+<li>填写服务器地址，用户名；</li>
+<li>点击“认证配置”按钮，在弹出的对话框中选择“密码”单选框，并输入密码；</li>
+<li>回到主设置框，点击“应用”保存设置即可。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-21T09:24:42+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:24 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/21/ios-8shi-yong-touch-idjin-xing-shen-fen-ren-zheng/" title="Previous Post: iOS 8使用Touch ID进行身份认证">&laquo; iOS 8使用Touch ID进行身份认证</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/21/ios-nsurlrequest-nsmutableurlrequest-shu-ju-qing-qiu/" title="Next Post: iOS NSURLRequest NSMutableURLRequest 数据请求">iOS NSURLRequest NSMutableURLRequest 数据请求 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android利用SparseArray替换使用HashMap - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="package cc.testsparsearray; import java.util.HashMap; import java.util.Iterator; import java.util.Set; import android.os.Bundle; import android.util &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/20/androidli-yong-sparsearrayti-huan-shi-yong-hashmap/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android利用SparseArray替换使用HashMap</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T08:30:50+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:30 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<pre><code>package cc.testsparsearray;  
+
+import java.util.HashMap;  
+import java.util.Iterator;  
+import java.util.Set;  
+import android.os.Bundle;  
+import android.util.SparseArray;  
+import android.app.Activity;  
+/** 
+ * Demo描述: 
+ * SparseArray使用示例 
+ * 利用SparseArray替换使用HashMap&lt;Integer,E&gt; 
+ * 类似的还有SparseIntArray,SparseBooleanArray,LongSparseArray  
+ *  
+ * 参考资料: 
+ * 1 http://liuzhichao.com/p/832.html 
+ * 2 http://blog.csdn.net/xyz_fly/article/details/7931943 
+ * 3 http://my.eoe.cn/appadventure/archive/2824.html 
+ *   Thank you very much 
+ */ 
+public class MainActivity extends Activity {  
+
+    @Override 
+    protected void onCreate(Bundle savedInstanceState) {  
+        super.onCreate(savedInstanceState);  
+        setContentView(R.layout.main);  
+        init();  
+    }  
+    private void init(){  
+
+        SparseArray sparseArray=new SparseArray&lt;String&gt;();  
+
+        //增加的两种方式  
+        sparseArray.append(0, "This is 0");  
+        sparseArray.append(1, "This is 1");  
+        sparseArray.append(2, "This is 2");  
+
+        sparseArray.put(3, "This is 3");  
+        sparseArray.put(4, "This is 4");  
+
+        //遍历  
+        for (int i = 0; i &lt; sparseArray.size(); i++) {  
+            System.out.println("遍历得到位置"+i+"的值为:"+sparseArray.get(i));  
+        }  
+
+        //查找某个位置的键  
+        int key =sparseArray.keyAt(1);  
+        System.out.println("查找位置1处的键 key="+key);  
+
+        //查找某个位置的值  
+        String value=(String) sparseArray.valueAt(1);  
+        System.out.println("查找位置1处的值 value="+value);  
+
+        //修改的两种方式  
+        sparseArray.put(0, "This is new 0");  
+        sparseArray.put(1, "This is new 1");  
+        sparseArray.setValueAt(2, "This is new 2");  
+        sparseArray.setValueAt(3, "This is new 3");  
+        for (int i = 0; i &lt; sparseArray.size(); i++) {  
+            System.out.println("修改后遍历得到位置"+i+"的值为:"+sparseArray.get(i));  
+        }  
+
+        //删除  
+        sparseArray.delete(0);  
+        System.out.println("删除操作后sparseArray大小 size="+sparseArray.size());  
+        //注意:  
+        //在执行删除后sparseArray的size()减小了1  
+        //为了遍历完,应该将循环条件修改为i &lt; sparseArray.size()+1  
+        //HashMap也有类似的情况.参见分割线以下的例子  
+        //如果关于SparseArray的遍历有什么好的方法或者建议,多谢  
+        for (int i = 0; i &lt; sparseArray.size()+1; i++) {  
+            System.out.println("删除后遍历得到位置"+i+"的值为:"+sparseArray.get(i));  
+        }  
+
+
+
+
+
+
+
+        System.out.println("//////////////这是分割线////////////////");  
+
+
+
+
+
+        HashMap&lt;Integer, String&gt; hashMap=new HashMap&lt;Integer, String&gt;();  
+        hashMap.put(0, "000");  
+        hashMap.put(1, "111");  
+        hashMap.put(2, "222");  
+        hashMap.put(3, "333");  
+        hashMap.put(4, "444");  
+        for (int i = 0; i &lt; hashMap.size(); i++) {  
+            System.out.println("HashMap遍历得到位置"+i+"的值为:"+hashMap.get(i));  
+        }  
+
+        hashMap.remove(Integer.valueOf(0));  
+        System.out.println("删除操作后hashMap大小 size="+hashMap.size());  
+        //注意:  
+        //在执行删除后hashMap的size()减小了1  
+        //为了遍历完,应该将循环条件修改为i &lt; hashMap.size()+1  
+        for (int i = 0; i &lt; hashMap.size()+1; i++) {  
+            System.out.println("HashMap遍历得到位置"+i+"的值为:"+hashMap.get(i));  
+        }  
+
+
+
+        //但是这样做是意义不大的,我们常用的是利用keySet来遍历,如下:  
+        Set&lt;Integer&gt; set = hashMap.keySet();  
+        for (Iterator&lt;Integer&gt; iter = set.iterator(); iter.hasNext();) {  
+            Integer keyTemp = iter.next();  
+            String valueTemp = hashMap.get(keyTemp);  
+            System.out.println("利用keySet遍历:"+keyTemp + "的值是" + valueTemp);  
+        }  
+
+    }  
+}  
+</code></pre>
+
+<p>main.xml如下:</p>
+
+<pre><code>&lt;RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:tools="http://schemas.android.com/tools" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    tools:context=".MainActivity" &gt;  
+
+    &lt;TextView 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="SparseArray使用示例" 
+        android:layout_centerInParent="true" /&gt;  
+
+&lt;/RelativeLayout&gt;  
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T08:30:50+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:30 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/18/android-okhttp-post/" title="Previous Post: Android_okhttp_Post">&laquo; Android_okhttp_Post</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/20/arraylist-he-linkedlistge-zi-de-te-dian-shi-shi-yao-%3F/" title="Next Post: ArrayList 和LinkedList各自的特点是什么？">ArrayList 和LinkedList各自的特点是什么？ &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

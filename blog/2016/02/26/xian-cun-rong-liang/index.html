@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>显存容量 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="显存容量是显卡上显存的容量数，这是选择显卡的关键参数之一。显存容量决定着显存临时存储数据的多少，显卡显存容量有128MB、256MB、512MB、1024MB几种，64MB和128MB显存的显卡现在已较为少见，主流的是2GB、4GB、6GB的产品。现如今最新版已经能达到32GB的显存容量（ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/26/xian-cun-rong-liang/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">显存容量</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-26T14:11:11+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:11 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>显存容量是显卡上显存的容量数，这是选择显卡的关键参数之一。显存容量决定着显存临时存储数据的多少，显卡显存容量有128MB、256MB、512MB、1024MB几种，64MB和128MB显存的显卡现在已较为少见，主流的是2GB、4GB、6GB的产品。现如今最新版已经能达到32GB的显存容量（FirePro S9170）。</p>
+
+<h3>应用</h3>
+
+<h4>大小选择</h4>
+
+<p>目前工作站显卡所用的显存容量一般都在2GB以上。</p>
+
+<p>对于选择多大的显存容量合适，这取决于多种因素，比如应用的环境和硬件的相互制约关系，但通常来讲可以参考下面公式：</p>
+
+<pre><code>显存容量=显示分辨率×颜色位数/8bit。
+</code></pre>
+
+<h4>分辨率</h4>
+
+<p>比如现在显示分辨率基本都是1024x768，颜色位数为32bit，那么需要的显存容量=1024x768x32bit/8bit=3145728 byte，可是这针对是2D显卡（普通平面），如果是3D加速卡，那么需要的显存容量为1024x768x32bitx3/8bit=9437184byte=9.216MB，这是最低需求，而且还必须增加一定的容量作为纹理显示内存，否则当显示资源被完全占用时，计算机只有占用主内存作为纹理内存，这样的二次调用会导致显示性能下降，因此作为真正的3D加速卡显存容量一定大于9.216MB。目前工作站显卡显存都在64MB以上。比如2D绘图应用，即使在1600x1200的情况下，它也最多是1600x1200x32bit/8bit=7680000byte=7.5MB，如果是三维绘图比如3D Studio Max，那么容量需求是7.5x3=22.5MB，不过这是最低需求，因此32MB容量的显存是应付这类2D绘图或者娱乐的视频播放、普通三维设计。对于工作站而言，由于运行更大的软件，更大的运算，所以显存至少应该在64M以上。</p>
+
+<h4>速度选择</h4>
+
+<p>另外还需要补充一点的就是显存的速度。</p>
+
+<p>早期的SDRAM显存速度很慢，后来出现的DDR显存逐渐成为主流。</p>
+
+<p>在DDR两倍速度于SD显存的时候，面向高端显卡的DDR2显存横空出世，使得显存频率得以高于600MHz。</p>
+
+<p>现在的显存用于低端的是DDR或者是DDR2，面向中高端的上DDR3，到06年，ATi的R580系列显卡使用的显存速度达到了1.8GHz！</p>
+
+<p>显存速度也是显卡非常重要的一个参数。比如NV的GeForce6600。05年的6600标准版的显存是DDR，速度标准为500，而后来推出的DDR2版的6600，在显示核心（GPU）没有任何改变的情况下，显存变为800Mhz，性能却提高了40%！所以显存的速度也是非常重要的！</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-26T14:11:11+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:11 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/26/tui-tu-ji-jia-gou/" title="Previous Post: 推土机架构">&laquo; 推土机架构</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/26/win7-sp1shi-shi-yao-yi-si-a-%3F/" title="Next Post: win7 sp1是什么意思啊？">win7 sp1是什么意思啊？ &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

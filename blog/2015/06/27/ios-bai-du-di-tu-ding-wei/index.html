@@ -1,0 +1,482 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS - 百度地图定位(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="申请密钥 百度地图 iOS SDK 开发密钥的申请地址为：http://lbsyun.baidu.com/apiconsole/key 申请步骤如下： 第一步：打开 API 控制台，点击创建应用，开始申请开发密钥，如下图： 第二步：填写应用名称、应用类型注意选择“iOS SDK”、正确填写安全码 &hellip;">
+  <meta name="keywords" content="ios">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/27/ios-bai-du-di-tu-ding-wei/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS - 百度地图定位(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-27T10:26:36+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:26 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>申请密钥</h2>
+
+<p>百度地图 iOS SDK 开发密钥的申请地址为：<a href="http://lbsyun.baidu.com/apiconsole/key">http://lbsyun.baidu.com/apiconsole/key</a></p>
+
+<p>申请步骤如下：</p>
+
+<h3>第一步：打开 API 控制台，点击创建应用，开始申请开发密钥，如下图：</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etg5c9s8dnj20vm0cc41j.jpg" alt="img" /></p>
+
+<h3>第二步：填写应用名称、应用类型注意选择“iOS SDK”、正确填写安全码，点击确认，系统将会自动帮您生成相应的开发密钥：</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etg5f6fzrej20n30egjts.jpg" alt="img" /></p>
+
+<h3>第三步：控制台列表中的“访问应用（ak）”就是您在开发过程中需要用到的开发密钥，请妥善保管。</h3>
+
+<h4>安全码简介</h4>
+
+<p>在申请开发密钥的时候，需要填写对应工程的安全码。这里的安全码指的是该应用的 <code>Bundle Identifier</code>，获取方式如下： Xcode 切换到 <code>General</code> 标签查看 <code>Bundle Identifier</code></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etg5jpepozj20mu06i0tn.jpg" alt="img" /></p>
+
+<h2>配置开发环境</h2>
+
+<h3>配置.framework形式开发包</h3>
+
+<h4>第一步:引入 <code>BaiduMapAPI.framework</code></h4>
+
+<p>百度地图 SDK 提供了模拟器和真机两种环境所使用的 <code>framework</code> ，分别存放在 <code>libs/Release-iphonesimulator</code> 和 <code>libs/Release-iphoneos</code> 文件夹下，开发者可根据需要使用真机或模拟器的包。到相关下载这里下载。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etg4qndiq6j20rx0eg77d.jpg" alt="img" /></p>
+
+<p>解压后可以看到有三个文件夹。BaiduMap_IOSSDK_v2.8.0_Docs，BaiduMap_IOSSDK_v2.8.0_Lib，BaiduMap_IOSSDK_v2.8.0_Sample。
+其中 BaiduMap_IOSSDK_v2.8.0_Lib 包含模拟机和真机的 framework 。
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etg4uo1q9rj20su06m40p.jpg" alt="img" /></p>
+
+<p>将所需的 <code>BaiduMapAPI.framework</code> 拷贝到工程所在文件夹下。</p>
+
+<p>在 <code>TARGETS-&gt;Build Phases-&gt; Link Binary With Libaries</code> 中点击 <code>+</code> 按钮，在弹出的窗口中点击 <code>Add Other</code> 按钮，选择 <code>BaiduMapAPI.framework</code> 文件添加到工程中。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etg50k6nydj20o80dzq50.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etg52ht6kej20b30ck407.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etg52j1xs2j20ln0avadx.jpg" alt="img" /></p>
+
+<h4>第二步:引入所需的系统库</h4>
+
+<p>百度地图 SDK 中提供了定位功能和动画效果，v2.0.0 版本开始使用 <code>OpenGL</code> 渲染，因此您需要在您的 Xcode 工程中引入</p>
+
+<ul>
+<li>CoreLocation.framework</li>
+<li>QuartzCore.framework</li>
+<li>OpenGLES.framework</li>
+<li>SystemConfiguration.framework</li>
+<li>CoreGraphics.framework</li>
+<li>Security.framework</li>
+</ul>
+
+
+<p>添加方式：在 Xcode 的 <code>Project -&gt; Active Target -&gt;Build Phases -&gt;Link Binary With Libraries</code>，添加这几个 framework 即可。
+如图所示：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etg5o6k1ycj20ig06o75p.jpg" alt="img" /></p>
+
+<h4>第三步:环境配置</h4>
+
+<p>在 <code>TARGETS-&gt;Build Settings-&gt;Other Linker Flags</code> 中添加 <code>-ObjC</code>。按 <code>Enter</code> 确定。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etg5s2a1wgj20o90cqjt7.jpg" alt="img" /></p>
+
+<h4>第四步:引入mapapi.bundle资源文件</h4>
+
+<p>如果使用了基础地图功能，需要添加该资源，否则地图不能正常显示
+<code>mapapi.bundle</code> 中存储了定位、默认大头针标注 <code>View</code> 及路线关键点的资源图片，还存储了矢量地图绘制必需的资源文件。如果您不需要使用内置的图片显示功能，则可以删除 <code>bundle</code> 文件中的 <code>image</code> 文件夹。您也可以根据具体需求任意替换或删除该 <code>bundle</code> 中 <code>image</code> 文件夹的图片文件。</p>
+
+<p>方法：选中工程名，在右键菜单中选择 <code>Add Files to “工程名”…</code> ，从 <code>BaiduMapAPI.framework||Resources</code> 文件中选择 <code>mapapi.bundle</code> 文件，并勾选 <code>Copy items if needed</code> 复选框，单击 <code>Add</code> 按钮，将资源文件添加到工程中。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etg5wa722yj208i0c40ud.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etg6788ykoj20lk0edaed.jpg" alt="img" /></p>
+
+<h4>第五步:引入头文件</h4>
+
+<p>在使用 SDK 的类引入头文件：</p>
+
+<pre><code>#import &lt;BaiduMapAPI/BMapKit.h&gt;//引入所有的头文件
+
+#import &lt;BaiduMapAPI/BMKMapView.h&gt;//只引入所需的单个头文件
+</code></pre>
+
+<h4>第六步:添加 Bundle Display name</h4>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etg6obnmb3j20mz08uq5p.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etg6ozz09rj20od02gglz.jpg" alt="img" /></p>
+
+<h2>Hello BaiduMap</h2>
+
+<h3>初始化 BMKMapManager</h3>
+
+<p>在您的 <code>AppDelegate.h</code> 文件中添加 <code>BMKMapManager</code> 的定义</p>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+#import &lt;BaiduMapAPI/BMapKit.h&gt;//引入所有的头文件
+
+@interface AppDelegate : UIResponder &lt;UIApplicationDelegate,BMKGeneralDelegate&gt;
+{
+    UINavigationController *navigationController;
+    BMKMapManager* _mapManager;
+}
+
+@property (strong, nonatomic) UIWindow *window;
+
+@end
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etg753os1hj20oc075mzb.jpg" alt="img" /></p>
+
+<p>在您的 <code>AppDelegate.m</code> 文件中添加对 <code>BMKMapManager</code> 的初始化，并填入您申请的授权 <code>Key</code> ，示例如下</p>
+
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+
+     // 要使用百度地图，请先启动BaiduMapManager
+
+    _mapManager = [[BMKMapManager alloc]init];
+
+    // 如果要关注网络及授权验证事件，请设定 generalDelegate参数
+    BOOL ret = [_mapManager start:@"DSEGs6DvbZIB7PX8eWsDo3zO"  generalDelegate:nil];
+    if (!ret) {
+        NSLog(@"manager start failed!");
+    }
+    // Add the navigation controller's view to the window and display.
+    [self.window addSubview:navigationController.view];
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etg77icgztj20t80altd2.jpg" alt="img" /></p>
+
+<h3>创建 BMKMapView</h3>
+
+<p>在您的 <code>ViewController.h</code> 文件中添加 <code>BMKMapViewDelegate</code></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etg7qaocv7j20kf058gmy.jpg" alt="img" /></p>
+
+<p>在您的 <code>ViewController.m</code> 文件中添加 <code>BMKMapView</code> 的创建代码，示例如下</p>
+
+<pre><code>- (void)viewDidLoad {  
+    [super viewDidLoad];  
+    mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 480)]; 
+    self.view = mapView;      
+}
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etg7c5ogd2j20nv0ai76w.jpg" alt="img" /></p>
+
+<p>自2.0.0起，BMKMapView 新增 <code>viewWillAppear</code>、<code>viewWillDisappear</code> 方法来控制 <code>BMKMapView</code> 的生命周期，并且在一个时刻只能有一个 <code>BMKMapView</code> 接受回调消息，因此在使用 <code>BMKMapView</code> 的 <code>viewController</code> 中需要在 <code>viewWillAppear</code>、<code>viewWillDisappear</code> 方法中调用 <code>BMKMapView</code> 的对应的方法，并处理 <code>delegate</code>，代码如下：</p>
+
+<pre><code>-(void)viewWillAppear:(BOOL)animated
+{
+    [mapView viewWillAppear];
+    mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [mapView viewWillDisappear];
+    mapView.delegate = nil; // 不用时，置nil
+}
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etg7up8kagj20np05s0ud.jpg" alt="img" /></p>
+
+<p>编译，运行，效果如下图所示：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etg7xr6psfj20gv0lujys.jpg" alt="img" /></p>
+
+<h2>定位功能</h2>
+
+<h3>简介</h3>
+
+<p>由于系统原因，iOS 不允许使用第三方定位，因此地图 SDK 中的定位方法，本质上是对原生定位的二次封装。通过封装，开发者可更便捷的使用。此外，地图 SDK 中还提供了相应的定位图层（支持定位三态效果），帮助开发者显示当前位置信息。</p>
+
+<p>注：自 iOS8 起，系统定位功能进行了升级，SDK 为了实现最新的适配，自 v2.5.0 起也做了相应的修改，开发者在使用定位功能之前，需要在 <code>info.plist</code> 里添加（以下二选一，两个都添加默认使用 <code>NSLocationWhenInUseUsageDescription</code> ）：</p>
+
+<ul>
+<li>NSLocationWhenInUseUsageDescription ，允许在前台使用时获取 GPS 的描述</li>
+<li>NSLocationAlwaysUsageDescription ，允许永久使用 GPS 的描述</li>
+</ul>
+
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etg8y81le3j20oo070dht.jpg" alt="img" /></p>
+
+<h3>获取位置信息</h3>
+
+<p>定位功能可以和地图功能分离使用，单独的定位功能使用方式如下：</p>
+
+<pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+
+    mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, 320, 480)];
+    self.view = mapView;
+
+    //初始化BMKLocationService
+    _locService = [[BMKLocationService alloc]init];
+    _locService.delegate = self;
+    //启动LocationService
+    [_locService startUserLocationService];
+}
+
+//实现相关delegate 处理位置信息更新
+//处理方向变更信息
+- (void)didUpdateUserHeading:(BMKUserLocation *)userLocation
+{
+    NSLog(@"heading is %@",userLocation.heading);
+}
+
+//处理位置坐标更新
+- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+{
+    NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+}
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etg92cr4lqj21270h1agk.jpg" alt="img" /></p>
+
+<h3>中心点更换</h3>
+
+<p>在模拟器中，中心点位置默认是北京。在此处可以根据具体的城市改变经纬度。</p>
+
+<h4>模拟器不可以实时定位，只能设定一个死位置。</h4>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etgf57k1ngj20po075dig.jpg" alt="img" /></p>
+
+<p>如改成揭阳：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etgfbum7alj20wh097n1q.jpg" alt="img" /></p>
+
+<h3>更新MapStatus</h3>
+
+<h4>由于demo的默认中心点是北京，所以实际使用时需要更换中心点，添加红色方框中的两个语句</h4>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etmb3qpza3j20ne0a6q6j.jpg" alt="img" /></p>
+
+<h4>效果如下：</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etmb3ouvq5j20hh0qin3m.jpg" alt="img" /></p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://developer.baidu.com/map/index.php?title=iossdk/guide/location">百度地图开发指南</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-27T10:26:36+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:26 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/27/objective-c-zhong-import-he-at-class-de-qu-bie/" title="Previous Post: Objective-c 中 #import 和 @class 的区别">&laquo; Objective-c 中 #import 和 @class 的区别</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/27/ios-zhong-de-qian-kao-bei-he-shen-kao-bei/" title="Next Post: iOS 中的浅拷贝和深拷贝">iOS 中的浅拷贝和深拷贝 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

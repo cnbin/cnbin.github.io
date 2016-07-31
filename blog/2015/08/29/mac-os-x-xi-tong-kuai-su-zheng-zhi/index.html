@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mac OS X 系统快速整治 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="　　《基本法二十条》 　　家有家规，国有国法 。澳门有澳门特区基本法，香港也有香港特区基本法。如果苹果用户也有自己的基本法，还怕系统作乱吗？按照我们的基本法，迅速排查系统故障，遇到那些紊乱的系统，不能正常启动，常出怪异现象，我们要立即依法查办。即使最后系统实在无可救药，要将它判处死刑， &hellip;">
+  <meta name="keywords" content="mac">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/29/mac-os-x-xi-tong-kuai-su-zheng-zhi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mac OS X 系统快速整治</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-29T08:58:03+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:58 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>　　《基本法二十条》</p>
+
+<p>　　家有家规，国有国法 。澳门有澳门特区基本法，香港也有香港特区基本法。如果苹果用户也有自己的基本法，还怕系统作乱吗？按照我们的基本法，迅速排查系统故障，遇到那些紊乱的系统，不能正常启动，常出怪异现象，我们要立即依法查办。即使最后系统实在无可救药，要将它判处死刑，也得依照基本法，才不致造成系统的冤假错案，滥杀无辜。反之如果动辄将不守规矩的系统乱判死刑，不仅浪费金钱，也浪费您宝贵的时间。下面的基本法二十条，虽未经人大讨论通过，却是苹果用户多年来的经验总结，依此法管治，始能让系统归顺，则天下太平矣：</p>
+
+<p>　　紧急施救基本法十条</p>
+
+<p>　　第一条 重新启动系统</p>
+
+<p>　　如果机子在重新启动后故障现象排除，整治系统的工作就完成了。这是因为，有些怪异现象，比如轻微的磁盘档案系统出错，重启后系统自检，通过磁盘日志模式可以自动纠正。有些是因为Pageout的问题导致系统缓慢，出现五彩轮盘，重新启动系统将内存释放，都可以在重启后修复。</p>
+
+<p>　　有些程序在运行中冻结，这时用"强制退出"(Force Quit)，而不是强制重启系统比较安全。遇到系统冻结比较严重，无法执行"强制退出"时，可以执行"重新启动"或"强制关机"。"强制退出"、"重新启动"和"强制关机"是解决系统无反应故障最简单的不二法门，执行方法及快捷方式如下：</p>
+
+<p>　　1. 强制退出（Option-Command-Escape）</p>
+
+<p>　　2. 重新启动（Control-Command-Power）</p>
+
+<p>　　3. 强制关机（按住电源键保持 10 秒）</p>
+
+<p>　　第二条 检查和修复〔档案系统〕</p>
+
+<p>　　用系统光盘启动机子，以磁盘工具来检查并修复磁盘目录的错误。如果碰巧您手头上没有系统光盘，那么启动时按下Command+S，启动到单用户模式用fsck工具来修复。如果检查修复的结果显示"档案系统已被修复"，则应该再做一次修理，直到结果显示"磁盘看来没有问题"。</p>
+
+<p>　　如果检查修复的结果显示为"磁盘工具不能修复这些错误"，这样用户就需要使用DiskWarrior或TechTool Pro等第三方商业软件才能修复。但如果没有这些软件在手，您就只好重装系统了。</p>
+
+<p>　　第三条 检查磁盘并让它腾出更多可用空间</p>
+
+<p>　　当您电脑的物理内存行将用尽的时候，系统需要将一些"交换文件"(swap files)写入磁盘的交换空间(虚拟内存区)中 (实际上系统并不会将内存用尽，总会留有余地，而宁愿启用虚拟空间)，这样如果磁盘的空间不足，将导致系统出现紊乱。这时您必须检查一下启动磁盘上的可用空间，确保具有原磁盘总空间的10%，或者说，您至少需要在系统刚启动后就有3GB以上的可用空间 。按照斧爷的建议，更加安全的自由空间是5GB，所以用户应该让磁盘的可用空间达到5GB以上。如果磁盘的自由空间不足，您可以将一些不太重要的，或者暂时不用的档案备份后从磁盘中删除，以腾出更多的磁盘空间。</p>
+
+<p>　　第四条 修复磁盘权限</p>
+
+<p>　　启动磁盘工具程序的"急救"功能(First Aid)来修复权限，这是每个用户都常常要用到的，非常简单的系统维护方法。修复磁盘权限的同时，您还可以继续做其他的作业而不必停止电脑的工作，因为这样并不会影响修复权限的结果。修复了磁盘权限之后，可以看看故障是否已经排除了。</p>
+
+<p>　　过去我常常在论坛上提到的〔系统/程序更新三部曲〕，就是在做系统或程序的更新之前，要先做①修复磁盘权限、②（用系统光盘启动）修复磁盘档案系统，③更新后再次做修复权限这样的三个步骤。这是非常实用的、避免更新后出现系统或程序故障的最基本的维护方法。许多用户在更新的时候没有做这样的维护，结果系统或程序更新后出了问题，以后就大呼"不要贸然升级系统，不要做‘白老鼠'&ldquo;的论调，这是"一朝被蛇咬，十年怕草绳"。其实只要做过"三部曲"的，是绝不会因为更新而出错的。</p>
+
+<p>　　第五条 创建一个新的用户账号，看看新用户是否仍然有问题</p>
+
+<p>　　如果创建一个新的用户账户并从新账户登陆到系统，怪异现象消失了，那么您的旧用户账户就是故障的所在了。有问题的档案会在旧用户目录下的Library/Preferences里，如果您能找出并删除预置文件夹里的问题档案，就可以解决问题。但如果您不能确切知道哪些是问题档案，那么将旧用户的档案逐一转移到新用户的目录下，也许能发现问题是出在哪个档案来解决。但如果你无法发现问题之所在，那么即使您打包重新安装系统，问题将依然存在，这样只有执行一次清洁的安装系统，才能排除这些故障了。</p>
+
+<p>　　第六条 清除系统和用户缓存</p>
+
+<p>　　利用OnyX、Cocktail、Xupport或者Tiger/Leopard Cache Cleaner等第三方软件对所有缓存档案进行深度清除，重启系统之后看看故障是否已经排除。</p>
+
+<p>　　第七条 如果您电脑上安装了 &ldquo;程序增强器&rdquo;(Application Enhancer)，将它关闭</p>
+
+<p>　　如果您安装了Unsanity的Xounds、WindowShape X、MightyMouse等等程序，在资源库中就会安装 Application Enhancer控制面板，也就是APE。这东西虽好，但它是以非标准的方式破解系统。您可以将APE暂时关闭，如果发现是APE导致了系统冲突，最好用Unsanity的APE安装器上的卸载程序将它完全卸载则比较安全。将APE更新到最新的版本，也许会解决导致系统冲突的问题。</p>
+
+<p>　　第八条 启动到"安全启动"模式(Safe Boot)</p>
+
+<p>　　启动机子的时候按下Shift键，直到屏幕上出现"Safe Boot"的字样，系统就进入"安全启动"模式。在安全模式下如果故障现象消失，那么故障可以确定是由那些扩展功能或启动项目引起的。引起故障的这些项目是在用户和本地目录的资源库里，将这些档案逐一移到桌面上，可以帮助判断和查出问题档案，将它删除或重新安装。也有一些第三方程序，被自动隐藏安装在系统目录下的资源库。如果要到系统的资源库里查找问题档案可要小心了，因为误删除系统目录的档案，可能导致系统不能启动的更严重问题。所以需要动这些档案的刀子，还是先咨询专家的意见，确定哪些档案不能动。</p>
+
+<p>　　在Tiger系统的最高版本或者Leopard系统以后，苹果公司增强了"安全启动"模式的功能，而不仅仅是关闭扩展。在设定为"日志式"的磁盘，"安全启动"模式将自动对磁盘进行检验，发现错误将立即作出修正，不是异常严重的磁盘错误将被修复。因此，用户如果遇到系统启动时出现灰屏而无法继续启动时，应立即重新启动并按Shift键进入"安全启动"模式。</p>
+
+<p>　　但是对于特别严重的磁盘错误，在"安全启动"模式下如果在出现灰屏和苹果图标后又转为自动关闭电脑，遇到这种情况不要慌张，用户可以立即改用系统安装光盘启动电脑，并且用磁盘工具进行修复。</p>
+
+<p>　　第九条 重置固件(Reset Firmware)</p>
+
+<p>　　在PowerPC的机器上，按着Command+Option+O+F组合键启动系统，电脑就进入固件程序的界面，在提示符后面输入"reset-nvram",按回车；输入"reset-all"，按回车。执行指令将使系统重新启动，这时固件设置已经恢复到机器出厂时的参数，这样将删除了原来的参数，解决一些因为参数出错导致的系统故障。</p>
+
+<p>　　在新世代的Intel基础的机器上按Option-Command-P-R的组合键，听到2声"哔"后释放，可重置NVRAM，达到重置固件的目的。</p>
+
+<p>　　第十条 拔下除鼠标之外的所有USB、火线槽的外接装置</p>
+
+<p>　　拔除每一件装置后都重启系统一次，如果这样能消除故障，说明您的外置装置、有故障的电缆或者电脑上有故障的外接端口导致了冲突。试试找出故障的所在，特别要留意有问题的USB集线器。</p>
+
+<p>　　严重故障整治基本法十条</p>
+
+<p>　　第十一条 运行最新的系统复合更新(Combo Updater)</p>
+
+<p>　　到苹果的下载网站去下载最新的系统更新。同一个版本的系统更新分别会有两种不同的更新档案：一种是只能从上一个版本的系统上更新的；而"复合更新"(Combo)则可以从任意一个同系列的旧系统版本上更新。即使您原来的系统已经是最新的版本了，再次执行一次Combo的更新，看看是否能够排除原来系统的故障。</p>
+
+<p>　　第十二条 运行随机的苹果硬件检测光盘（AHT）检测硬件问题</p>
+
+<p>　　按下C或D键（PPC机器按C或Option，Intel机器按D）从苹果的随机〔硬件检测光盘〕启动机子，运行后看看是否能采集到与硬件故障有关信息。如果发现机子主板或其他硬件的故障，就要将机子送到苹果或者其他专门的电脑维修中心去检修。</p>
+
+<p>　　随机的苹果硬件检测光盘，只针对原机器及同类机型使用，不可用在不同种类的机器上。在一些原预装了Tiger系统的机器，苹果硬件检测光盘也被安装在硬盘内，如果硬盘被擦除并安装了Leopard系统，原来的苹果硬件检测光盘数据将丢失。如果你手头上有零售版的Leopard系统安装DVD光盘，可以插入这张光盘，按D键启动到AHT对机器硬件进行检测。</p>
+
+<p>　　第十三条 检查硬盘是否存在坏区</p>
+
+<p>　　如果要用苹果的方式检查和修复磁盘坏区，唯一的方法就是用系统光盘启动机子 ，用磁盘工具将磁盘重新格式化。这样做必将破坏您磁盘上的数据，所以您需要先将数据备份，格式化后再重装系统和恢复数据。还要留意一下硬盘的S.M.A.R.T.状态，如果磁盘验证失败，说明磁盘已经"寿终正寝"了，必须更换新的磁盘。</p>
+
+<p>　　用一些第三方开发商的商业软件来检查修复硬盘坏区，就不必将磁盘格式化和重装系统，不过数据备份还是必要的，以免因为修复磁盘造成数据丢失。这样的第三方软件有TechTool Pro，DiskWarrior和Norton SystemWorks(Norton Utilities)。它们都附有系统启动的急救光盘，可以用以启动机子，将需要修理的磁盘卸载后修理。值得特别留意的是，这些软件所附急救光盘内的系统版本，Jaguar或Panther系统只可用于较旧机型的启动，并不适用于出厂时已经预装了Tiger及以后系统的机型。</p>
+
+<p>　　第十四条 拔下第三方内存条</p>
+
+<p>　　看看拔下内存后故障是否能排除了，必要时更换适用的内存条。</p>
+
+<p>　　第十五条 拔下第三方PCI卡</p>
+
+<p>　　如果这样能排除故障，将每张PCI卡一一拔下，直到找出有问题的卡，必要时将问题卡更换。同时到制造商的网站上看看是否有更新的驱动程序，下载回来更新。</p>
+
+<p>　　第十六条 重置PMU (电源管理单元)、SMU(系统管理单元)或者SMC(系统管理控制器)</p>
+
+<p>　　PMU是苹果电脑的电源管理控制芯片及其电路，重置PMU的方式在不同的电脑机型中有不同的方法。您可以到苹果网站关于重置PMU的网页上看看，针对您的机型，用特定的方法重置，看看故障是否能排除，特别是重置PMU可以解决您系统电源启动时无反应的问题。到了新世代，苹果电脑弃PMU而用SMU或SMC，虽然名字和硬件架构有了变化，但对电脑的电源进行管理的功能是不变的，重置SMU或SMC也可以纠正一些电源管理上的错误。下列苹果支持文件的链接分别针对不同时期机型的重置方法，便于各位查阅：</p>
+
+<p>　　从PowerBook 100到PowerBook 5300等早期本本重置PMU的网页(虽然它们都不能装X系统，不过挂在这里便于查阅重置的方法)</p>
+
+<p>　　重置 PowerBook 和 iBook 的"电源管理单元"(PMU)(中文)</p>
+
+<p>　　Mac mini重置PMU的网页</p>
+
+<p>　　台灯iMac重置PMU的网页</p>
+
+<p>　　MacBook/MacBook Pro/MacBook Air重置SMC的网页(中文)</p>
+
+<p>　　iMac G5重置SMU的网页</p>
+
+<p>　　重置PowerMac(G5、G4、G3)上的Cuda/PMU的网页</p>
+
+<p>　　重置PowerMac G4 (AGP/Gigabit Ethernet)主板上的PMU的网页</p>
+
+<p>　　2004/2005年后期G5桌面机重置SMU的网页</p>
+
+<p>　　基于 Intel 的 iMac、Mac mini：如何重置"系统管理控制器"(中文)</p>
+
+<p>　　Mac Pro: 如何重置"系统管理控制器"（SMC）(中文)</p>
+
+<p>　　第十七条 归档文件和重装系统</p>
+
+<p>　　归档文件安装能将用户和网络设置的新档案替代您电脑新安装的系统档案夹。方法是用系统安装光盘启动，以"正常"的安装模式运行，当安装的进程到达"选择安装磁盘"的界面，选择"归档的安装"和点击"重装"的按钮，然后开始正常的安装进程。这样做虽然不能确定是否能完全修复系统的错误，但却能让您省下时间而不必将数据抄回磁盘、不必重设用户预置、不必重装软件程序等。</p>
+
+<p>　　第十八条 擦除磁盘、重装系统</p>
+
+<p>　　做到这一步确实非常另人讨厌，所以在本基本法里已经是最后的招数。如果不想给系统匆忙判处死刑，对系统要做最后的挽救，所以您需要最后备份好数据，建议您先看看苹果网站的指导文章, 教您如何备份和恢复数据：</p>
+
+<p>　　Mac OS X: 如何备份和恢复您的文件(中文的)</p>
+
+<p>　　如何备份和恢复重要的 Mac OS X 10.4 文件(中文的)</p>
+
+<p>　　如何备份和恢复您在iTunes里的曲目(英文的)</p>
+
+<p>　　Mac OS X 10.5系统帮助：备份电脑(中文的)(可惜本文还未完成，只预留了目录，想阅读全部内容还需要耐心等待。不过借助强大的时光机器Time Machine，备份的工作已经相当的简化了)</p>
+
+<p>　　有些磁盘因为长期反复重装系统或安装/删除档案，磁盘的磁道扇区内存有大量的数据残片，致使系统容易出现一些奇难杂症，无论您如何重装或升级，系统总是不能正常运行。此时应将磁盘进行低格初始化和将磁道的数据清零，这样处理后再安装的系统会比较健康。不过清零后的磁盘可能即使送到磁盘数据急救中心都无法救回数据了，所以是需要注意的。</p>
+
+<p>　　第十九条 将电脑送回苹果服务中心</p>
+
+<p>　　呜呼，无可救药的机子，押解回服务中心！希望中心的工作人员高抬贵手，能归"在保"的归"在保"，否则也少算点，"小弟还等着省下的钱开饭啊！"恐怕，这就是所有苹果用户最想要向服务中心说的话了？</p>
+
+<p>　　第二十条 额外条例 (有些内容属高级用户的阅读范围)</p>
+
+<p>　　1) 如果安装了"诺顿"产品的请将它卸载！</p>
+
+<p>　　诺顿的程序集，包括AntiVirus，如果被安装在磁盘上，将严重损害Mac OS X系统的健康，若是从Norton的光盘或者安装在古典系统OS 9.x并从那儿启动和运行，则会安全得多。所以，如果您在OS X的磁盘里安装了Norton的程序，将他们卸载了是绝对明智的。何况，Norton的AntiVirus反病毒程序在X系统上是完全没用的。根据Norton公司自己的病毒过滤协作公司美国Sophos最近(二00六年七月)发表的报告《Sophos Security Threat Management Report》上郑重声明："苹果的X系统目前为止，没有发现病毒。"</p>
+
+<p>　　2) 检查系统的出错日志报告</p>
+
+<p>　　检查系统日志，看看上面有没有相关的信息。您只要从苹果菜单上选"关于本机"，点按"更多信息&hellip;&hellip;&ldquo;按钮，在跳出来的系统概述的程序窗口上选System/Logs/error_logs，上面将列出所有关于每个程序发生错误的信息，仔细阅读，有助您排查故障。</p>
+
+<p>　　3) 将系统启动到指令模式</p>
+
+<p>　　启动时按下Command+V的组合键，屏幕将出现象Dos的指令语句的界面，这就是指令模式。这些文字里描述了系统出错的所有信息，有些错误信息是一些代码，从网络的Google搜索中可以查到这些代码的含义，到一些论坛也可能找到一些讨论一些解决错误的方法。实际上，许多论坛的讨论对解决这些难题确实非常有帮助。</p>
+
+<p>　　4) 拆开电脑在机箱内作业，安全最重要</p>
+
+<p>　　如果不想拆开电脑的时候损坏机子，请参考随机的手册，或者苹果支持网站的指南文件非常重要。先了解清楚后再动手，是上上之策，免遭机毁人亡的悲惨结局。</p>
+
+<p>　　本基本法是苹果虚拟世界的"制宪大法"，苹果友有权利和义务深入实施本大法。在苹果电脑实行"一国两制"的时候，我们应该实行以Mac系统为主导的机制，维护Mac系统的长期繁荣稳定，才能给"晕倒死"系统在苹果世界的生存提供"法律"的保障。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-29T08:58:03+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:58 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/29/zhi-qing-chun-15/" title="Previous Post: 致青春-15">&laquo; 致青春-15</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/29/osx-available-starting/" title="Next Post: __OSX_AVAILABLE_STARTING">__OSX_AVAILABLE_STARTING &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

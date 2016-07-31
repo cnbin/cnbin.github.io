@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MagicalRecord入门教程 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="MagicalRecord入门教程 Magical Record是什么 在Cocoa中存在一种技术叫Core Data，用来对数据进行持久化，类似于Java世界中的Hibernate。在新建Cocoa Application/iOS Application的向导中，有一个选项是要不要使用Core &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/21/magicalrecordru-men-jiao-cheng/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MagicalRecord入门教程</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-21T12:57:59+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:57 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>MagicalRecord入门教程</h1>
+
+<h2>Magical Record是什么</h2>
+
+<p>在Cocoa中存在一种技术叫Core Data，用来对数据进行持久化，类似于Java世界中的Hibernate。在新建Cocoa Application/iOS Application的向导中，有一个选项是要不要使用Core Data，当启用以后你会发现在AppDelegate.m中添加了大量与Core Data相关的代码，但是你对大部分代码不知所以然。</p>
+
+<p>Magical Record的出现在一定程度上缓解了这个问题，降低了Core Data的使用门槛。</p>
+
+<p>Magical Record借用了Ruby on Rails中的Active Record模式，使得你可以非常容易的添加、查找、删除数据。Google了一下，没有发现中文相关教程，遂把自己的试用过程记录下来，写成此篇文章。</p>
+
+<h2>安装</h2>
+
+<h3>新建一个项目，注意在向导中不要勾选Core Data。</h3>
+
+<p>下载Magical Record，并把MagicalRecord目录拖拽到工程中，记得勾选copy items into group folder。</p>
+
+<p>为项目添加CoreData FrameWork。(点击工程根节点，然后依次Targets > Build Phases > Link Binary With Libraries > + > CoreData.framework > Add)。
+添加Magical Record的头文件到*-Prefix.pch：</p>
+
+<pre><code>#import "CoreData+MagicalRecord.h"
+</code></pre>
+
+<h2>创建模型文件</h2>
+
+<p>下面创建一个名为Person的模型，有age、firstname、lastname三个字段。</p>
+
+<p>创建一个名为Model的模型文件。 (File > New File… > Core Data > Data Model)</p>
+
+<p>点击左下角的Add Entity，更改Entity的名字为Person。</p>
+
+<p>为Entity添加三个Attribute：age(Integer16)、firstname(string)、lastname(string)。</p>
+
+<p>点击<code>Editor &gt; Create NSManagedObject Subclass… &gt; Create</code>创建模型文件对应的类。</p>
+
+<h2>使用Magical Record</h2>
+
+<h3>初始化Magical Record</h3>
+
+<p>首先在AppDelegate.m中添加以下代码对Magical Record进行初始化：</p>
+
+<pre><code>- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+    [MagicalRecord setupCoreDataStackWithStoreNamed:@"MyDatabase.sqlite"];
+    // ...
+    return YES;
+}
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+    [MagicalRecord cleanUp];
+}
+</code></pre>
+
+<p>是否比Core Data默认的初始化简洁多了呢？</p>
+
+<h3>查询记录</h3>
+
+<p>使用Person的MR_findAll、MR_findAllSortedBy、MR_findByAttribute等方法可以查询Person：</p>
+
+<pre><code>//查找数据库中的所有Person。
+NSArray *persons = [Person MR_findAll];
+//查找所有的Person并按照first name排序。
+NSArray *personsSorted = [Person MR_findAllSortedBy:@"firstname" ascending:YES];
+//查找所有age属性为25的Person记录。
+NSArray *personsAgeEuqals25   = [Person MR_findByAttribute:@"age" withValue:[NSNumber numberWithInt:25]];
+//查找数据库中的第一条记录
+Person *person = [Person MR_findFirst];
+</code></pre>
+
+<h3>添加记录</h3>
+
+<p>使用Person的MR_createEntity方法可以方便的创建一个Person，需要使用[[NSManagedObjectContext MR_defaultContext] MR_save]来进行保存哦：</p>
+
+<pre><code>Person *person = [Person MR_createEntity];
+person.firstname = @"Frank";
+person.lastname = @"Zhang";
+person.age = @26;//此处使用了LLVM的新特性，XCode 4.4可用
+[[NSManagedObjectContext MR_defaultContext] MR_save];
+</code></pre>
+
+<h3>更新记录</h3>
+
+<p>直接对数据库中查找到的Person进行赋值，然后使用NSManagedObjectContext保存即可更新Person：</p>
+
+<pre><code>Person *person = ...;//此处略
+person.lastname = object;        
+[[NSManagedObjectContext MR_defaultContext] MR_save];
+</code></pre>
+
+<h3>删除记录</h3>
+
+<p>使用Person的MR_deleteEntity可以方便的删除Person，模式和添加更新一致：</p>
+
+<pre><code>Person *person = ...;//此处略
+[person MR_deleteEntity];
+[[NSManagedObjectContext MR_defaultContext] MR_save];
+</code></pre>
+
+<p>小技巧</p>
+
+<p>启动时MR_mergedObjectModelFromMainBundle方法报错</p>
+
+<p>Core Data的模型有版本的概念，有可能在你Magical Record第一次初始化完成以后，你又更改了模型文件，导致Core Data去合并模型报错。解决办法很简单，点击菜单中的Project->Clean即可。</p>
+
+<p>项目使用ARC后，编译Magical Record不通过</p>
+
+<p><code>点击项目 -&gt; Build Phases -&gt; Compile Sources</code>中, 双击报错的class文件, 编辑Compiler Flags加入 -fno-objc-arc。</p>
+
+<p>不想使用MR_前缀</p>
+
+<p>只需要<code>在*-Prefix.pch</code>文件中添加一句#define MR_SHORTHAND即可，注意这句要在<code>#import “CoreData+MagicalRecord.h”</code>之前。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-21T12:57:59+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:57 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/21/blog/" title="Previous Post: blog">&laquo; blog</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/21/zhi-jie-na-lai-yong-zui-huo-de-ioskai-yuan-xiang-mu/" title="Next Post: 直接拿来用-最火的iOS开源项目">直接拿来用-最火的iOS开源项目 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>在 OS X 10.11 中引入的 Rootless 是如何实现的？有什么优势与缺陷？ - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一句话总结，即使是root用户，将无法对以下路径有写和执行权限：
+/System/bin/sbin/usr (except /usr/local) 只有Apple自身签名的软件（含命令行工具）可以。————————详细说明：先简单介绍一下OS X的权限系统吧OS X 的内核XNU,一个由Mach &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/27/zai-os-x-10-dot-11-zhong-yin-ru-de-rootless-shi-ru-he-shi-xian-de-%3Fyou-shi-yao-you-shi-yu-que-xian-%3F/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">在 OS X 10.11 中引入的 Rootless 是如何实现的？有什么优势与缺陷？</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-27T14:27:27+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:27 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>一句话总结，即使是root用户，将无法对以下路径有写和执行权限：
+/System/bin/sbin/usr (except /usr/local)</p>
+
+<p>只有Apple自身签名的软件（含命令行工具）可以。————————详细说明：先简单介绍一下OS X的权限系统吧OS X 的内核XNU,一个由Mach，BSD，IOKit混合的内核，所以它的权限管理系统类似UNIX的BSD简单的小知识（用过Linux的可以跳过）</p>
+
+<p>1.一个用户(user)对于一个文件有三种状态，可读&reg;、可写(w)、可执行(x)，一个文件会有一个所属用户，所属用户组。还会有文件属主权限、同组用户权限、其他用户权限这三种标识符用来定义一个文件对一个用户的权限集合。</p>
+
+<p>2.为了达到多个用户的权限管理，每个用户会在一个或者多个用户组(group)中，一个用户组可以有多个用户</p>
+
+<p>3.root用户是一个特殊用户（超级用户），拥有对所有文件的rwx权限（可读可写可执行）</p>
+
+<p>4.UNIX系统是纯粹基于文件的，换言之你的网络读取，驱动程序，分区表什么的其实都会以文件的形式存在复杂的小知识OS X 内置会有staff wheel admin这三种常见的用户组，</p>
+
+<p>分别介绍一下</p>
+
+<p>1.staff : 所有创建用户都会属于这个用户组，提供最基本的对该用户目录<code>~/*(/User/*)</code>的rwx权限，其他的一般只有r或者rx权限。比如我建立一个用户叫做lizhuoli，那么我会在一个staff组里面，对/User/lizhuoli/*有rwx权限。</p>
+
+<p>2.admin :默认创建的所有用户也会属于这个admin用户组，在它里面的用户可以通过su或者sudo切换到root用户，只要执行以后输入这个用户的密码即可，而不需要知道root密码。</p>
+
+<p>3.wheel :唯一只拥有一个用户root，意思是root用户的专属用户组。</p>
+
+<p>小说明: 以前在OS X 10.11之前的版本，你一旦创建一个用户，那么你就自动属于staff和admin用户组，这样，你要执行一个高权限操作，比如安装一些.pkg文件，需要对/System、/Library、/usr等文件夹的写入权限（一般是安装那种高权限程序，比如JDK会默认安装在/Library/Java中），就会提示你输入当前用户的密码，这时候系统会自动切换到root用户执行，然后执行完切换回来（终端执行sudo xxx同理）举个例子:</p>
+
+<pre><code>lizhuolideMacBook:~ lizhuoli$ groups
+staff everyone localaccounts _appserverusr admin 
+...
+</code></pre>
+
+<p>这样就存在一个问题，一旦你的Mac的某一个用户密码被盗取，那么黑客就拥有了root账户的权限，甚至可以改动你的其他用户，这是有潜在风险的。而且更可怕有些恶意软件先引诱你打开允许任何来源，然后再弹窗让你授权以管理员权限，它就相当于一个root用户可以为所欲为了～比如偷偷的加几个进程监听你的所有网络链接呀，劫持键盘输入呀～各种…</p>
+
+<p>现在OS X 10.11 加入了Rootless，默认创建的用户还是属于admin用户组，也能切换到root用户，但是加以了限制，结果是一旦你执行su 或者 sudo切换到root用户你的这个root用户不再是真正的root用户(对所有文件有rwx)你的这个root用户不再是真正的root用户(对所有文件有rwx)你的这个root用户不再是真正的root用户(对所有文件有rwx)重要的话说三遍！</p>
+
+<pre><code>bash-3.2# whoami
+root
+touch /usr/test
+touch: test: Operation not permitted
+</code></pre>
+
+<p>现在你虽然用 whoami 看到自己明明是root用户了，但是不能有对/System /usr等文件夹的写入权限，甚至将一些原来的所属用户组为admin的文件夹的权限全部改为了wheel（比如对/usr/local，在10.11之前都是属于当前用户:admin用户组的，启用Rootless会变成root:wheel）。这样防止了黑客入侵，病毒修改，一些恶意软件的篡改文件权限的行为。当然，你也可以禁用Rootless，不过这就多了一份被恶意软件攻击的潜在威胁。建议此时打开Mac App Store 和被认可的开发者或者纯粹的Mac App Store限制。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.zhihu.com/question/31116473">http://www.zhihu.com/question/31116473</a></li>
+<li><a href="https://www.quora.com/Can-someone-elaborate-on-the-OS-X-10-11-feature-called-Rootless">https://www.quora.com/Can-someone-elaborate-on-the-OS-X-10-11-feature-called-Rootless</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-27T14:27:27+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:27 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/27/cannot-install-cocoa-pods-after-uninstalling/" title="Previous Post: Cannot install cocoa pods after uninstalling">&laquo; Cannot install cocoa pods after uninstalling</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/27/el-capitan-update-rails/" title="Next Post: El Capitan Update rails">El Capitan Update rails &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

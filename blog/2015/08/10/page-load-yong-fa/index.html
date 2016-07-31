@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Page_load 用法 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Page_Load,即页面载入要执行的事件; Page_Load的执行分为两种情况; Page_Load事件的执行是在第一次加载页面时发生(即为了响应客户的请求);
+Page_Load事件的执行是在把该页面回发到服务器时发生; ASP.NET处理重新页面的时候都要重新执行Page_Load; &hellip;">
+  <meta name="keywords" content="page,net">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/10/page-load-yong-fa/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Page_load 用法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T10:00:20+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Page_Load,即页面载入要执行的事件;</p>
+
+<p>Page_Load的执行分为两种情况;</p>
+
+<ol>
+<li>Page_Load事件的执行是在第一次加载页面时发生(即为了响应客户的请求);</li>
+<li>Page_Load事件的执行是在把该页面回发到服务器时发生;</li>
+</ol>
+
+
+<p>ASP.NET处理重新页面的时候都要重新执行Page_Load;</p>
+
+<p>即重建Page类,而Page_Load是重建页面第一个要执行的事件;</p>
+
+<p>所以无论何种情况都会执行Page_Load,这时就有必要判断一下服务器处理Page_Load事件时是在何种情况发生;</p>
+
+<p>而Page.IsPostBack正好解决了这个问题;</p>
+
+<p>当是第一种情况的时候(为了响应客户的请求)Page.IsPostBack返回false;</p>
+
+<p>当是第二种情况的时候(把该页面回发到服务器给服务器处理时)Page.IsPostBack返回True;</p>
+
+<p>所以正确应用好Page.IsPostBack能大大的提高应用程序的性能;</p>
+
+<h3>Page_Load事件</h3>
+
+<p>Page_Load事件是ASP .NET识别的许多事件中的一个。Page_Load事件在一个页面加载时被触发，而且ASP .NET将自动调用Page_Load子程序，并在内部运行这段代码：</p>
+
+<pre><code>&lt;scriptrunat="server"&gt;
+Sub Page_Load
+lbl1.Text="The date and time is " &amp; now()
+End Sub
+&lt;/script&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;form runat="server"&gt;
+&lt;h3&gt;&lt;asp:label id="lbl1" runat="server"/&gt;&lt;/h3&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>注意：Page_Load事件不包含对象引用或是事件参数！</p>
+
+<h3>Page.IsPostBack属性</h3>
+
+<p>Page_Load子程序在每次页面加载的时候都会运行。如果你只想在第一次加载此页面的时候执行Page_Load中的代码，你可以使用Page.IsPostBack属性。如果Page.IsPostBack属性为false，页面是第一次被加载，如果为true，则页面是被“投递”（post）回服务器的（例如从一个表单中的按钮点击）：</p>
+
+<pre><code>&lt;scriptrunat="server"&gt;
+Sub Page_Load
+if Not Page.IsPostBack then
+lbl1.Text="The date and time is " &amp; now()
+end if
+End Sub
+Sub submit(s As Object, e As EventArgs)
+lbl2.Text="Hello World!"
+End Sub
+&lt;/script&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;form runat="server"&gt;
+&lt;h3&gt;&lt;asp:label id="lbl1" runat="server"/&gt;&lt;/h3&gt;
+&lt;h3&gt;&lt;asp:label id="lbl2" runat="server"/&gt;&lt;/h3&gt;
+&lt;asp:button text="Submit"runat="server" /&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>上面的例子中，只会在第一次加载此页面的时候写出“The date and time is&hellip;.”的消息。当用户点击Submit按钮时，submit 子程序会对第二个label写出“Hello World!”，但是第一个label中的日期和时间则不会改变。</p>
+
+<p>每当点击ASP.NET的Web网页上的Button、LinkButton或ImageButton等控件时，表单就会被发送到服务器上。如果某些控件的AutoPostBack属性被设置为true，那么当该控件的状态被改变后，也会使表单会发送回服务器。（AutoPostBack属性，它只有两个bool值，true/false。如果这个属性被设置成false，那么点击后就不会立刻将变化传给服务器处理，也就不会有该控件的SelectedIndexChanged事件。）</p>
+
+<p>　　每次当表单被发送回服务器，就会被重新加载，启动Page_Load事件，执行Page_Load事件处理程序中的所有代码（注意，是每次都会执行！）。
+很显然把网页的初始化代码放在这里是最合适不过。我们经常会希望在每次加载网页时执行一些代码，如一些控件的数据绑定。</p>
+
+<p>　　当我们希望只有在网页第一次加载时执行另一些代码（基本上都是数据的默认绑定），甚至希望一些代码在除首次加载外的每次加载时执行。那么我们可以利用IsPostBack特性来完成这一功能。在网页第一次加载时，该属性的值是false。如果网页因回送而被重新加载，IsPostBack属性的值就会被设置为true。</p>
+
+<p>　　在ASP.NET应用程序中，如果需要在页面第一次显示时执行一些初始化操作，必须判断IsPostBack属性！</p>
+
+<p>　　在ASP.NET使用Page.IsPostback，那么就可以避免往返行程上的额外工作：如果处理服务器控件回发，通常需要在第一次请求页时执行代码，该代码不同于激发事件时用于往返行程的代码。如果检查Page.IsPostBack属性，则代码可按条件执行，具体取决于是否有对页的初始请求或对服务器控件事件的响应。这样做似乎很明显，但实际上可以忽略此项检查而不更改页的行为。该属性用的好坏，直接关系到你程序运行是否按照你最初的意愿，也关系到整个页面的效率。因为，如果每次都会给控件绑定数据，不管你是第一次访问，还是提交了数据以后，那么这个页面程序的效率可想而知。</p>
+
+<p>　　一个B/S结构的页面每一次提交，它都会重新从头到尾执行一次。而C/S结构的程序就不会这样,这是和C/S结构的程序最大的区别！其实，得不到控件的数据，都是因为这个原因。</p>
+
+<p>this.IsPostBack表示是不是回发动作.所谓的回发就是在页面加载以后,在本页有提交服务器的动作.this.IsPostBack == true 表示是回发.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T10:00:20+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/10/page-load-yu-page-init-qu-bie/" title="Previous Post: page_load 与 page_init 区别">&laquo; page_load 与 page_init 区别</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/10/server-dot-mappath-jie-shao/" title="Next Post: Server.MapPath 介绍">Server.MapPath 介绍 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

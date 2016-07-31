@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS越狱开发-TheOS 介绍 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="关于 iOS 越狱开发，一开始我也是犯糊涂了。本来用意是把软件代码打包成越狱包，我以为是整个软件开发成越狱的，后来倒是一脚跳进 iOS 越狱，下面分享下我结合网上资料，亲自动手实践下搭建 iOS 越狱开发平台。 TheOS 介绍 TheOS 被设计为一个在基于 Unix 平台 (Mac OS X、 &hellip;">
+  <meta name="keywords" content="iOS越狱, TheOS,iOSOpenDev">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/21/iosyue-yu-kai-fa-theos-jie-shao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS越狱开发-TheOS 介绍</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-21T15:41:55+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>3:41 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>关于 iOS 越狱开发，一开始我也是犯糊涂了。本来用意是把软件代码打包成越狱包，我以为是整个软件开发成越狱的，后来倒是一脚跳进 iOS 越狱，下面分享下我结合网上资料，亲自动手实践下搭建 iOS 越狱开发平台。<!--More--></p>
+
+<h2>TheOS 介绍</h2>
+
+<p>TheOS 被设计为一个在基于 Unix 平台 (Mac OS X、IOS…) 和大多数 的Linux 平台下开发 iOS 程序的集成开发环境。说是集成开发环境，其实就是给我们准备好了一些代码模板、预置一些基本的 Makefile 脚本，但我们还是要在
+ Terminal 中完成一些关键操作。</p>
+
+<h2>安装 MacPorts</h2>
+
+<p>MacPorts 是个软件包安装工具（类似 Ubuntu 下的apt-get），您也可以选择其他工具。使用类似的工具可以很方便的在 Mac OS X 平台安装一些常用软件。</p>
+
+<p>下载地址：<a href="http://www.macports.org">http://www.macports.org</a>。</p>
+
+<h2>安装 dpkg</h2>
+
+<h3>方法一：使用 MacPorts 安装 dpkg，命令如下：</h3>
+
+<pre><code>sudo port install dpkg
+</code></pre>
+
+<h3>方法二(推荐)：利用 Homebrew 安装 dpkg，执行命令：</h3>
+
+<pre><code>brew instatll dpkg
+</code></pre>
+
+<h2>安装 TheOS</h2>
+
+<p>因为TheOS必备的三个工具<code>(subversion/git、curl和perl)</code>在 Mac OS 下默认都已经存在，因此我们就不用费心去找这些东西了。接下来看步骤：</p>
+
+<p>打开<code>Terminal</code>，先设置一个环境变量(这个仅仅只是为了输入方便，不是必须的)，命令如下(其中的路径就是你准备安装TheOS的位置，如果你没有更好的选择那就按照例子中的来吧)：</p>
+
+<pre><code>export THEOS=/opt/theos
+</code></pre>
+
+<p>接着，我们从网上下载最新的TheOS版本：</p>
+
+<pre><code>git clone https://github.com/DHowett/theos $THEOS
+</code></pre>
+
+<p>按照上述命令，肯定绝大多数朋友会出现提示 <code>Permission denied</code>，这是因为 <code>/opt/theos</code> 这个路径需要管理员授权才有写权限。在命令名前田间 <code>sudo</code>即可，重新输入后如下：</p>
+
+<pre><code>sudo git clone http://svn.howett.net/svn/theos/trunk $THEOS
+</code></pre>
+
+<p>输入密码回车，等待自动下载完成即可。</p>
+
+<p>安装<code>ldid</code>(这是一个模拟签名的工具，需要单独下载)，命令如下(因权限问题，对 iphonedevwiki 上的命令做一些修改以达到目的)：</p>
+
+<pre><code>sudo curl -s http://dl.dropbox.com/u/3157793/ldid &gt; /tmp/ldid
+sudo cp /tmp/ldid $THEOS/bin/
+sudo chmod +x $THEOS/bin/ldid
+rm /tmp/ldid
+</code></pre>
+
+<p>TheOS 到这里就安装结束了，接下来，就可以开始 iOS 越狱开发之旅了。</p>
+
+<p>1.打开<code>Terminal</code>(如果用上个阶段没有关闭的 Terminal 请直接跳转到第3步)</p>
+
+<p>2.设置环境变量</p>
+
+<pre><code>export THEOS=/opt/theos
+</code></pre>
+
+<p>3.进入你打算放置项目的文件夹</p>
+
+<pre><code>cd ~/myprg
+</code></pre>
+
+<p>4.创建工程</p>
+
+<pre><code>$THEOS/bin/nic.pl
+</code></pre>
+
+<p>5.此时会看到命令行中的文本提示如下：</p>
+
+<pre><code>NIC 1.0 - New Instance Creator
+------------------------------
+  [1.] iphone/application
+  [2.] iphone/library
+  [3.] iphone/preference_bundle
+  [4.] iphone/tool
+  [5.] iphone/tweak
+</code></pre>
+
+<p>6.这里对这五种类型做个简单介绍，<code>application</code> 是创建普通应用程序的，<code>library</code> 是创建库文件，<code>preference_bundle</code> 是创建设置束，<code>tool</code>是开发那种没有界面的，就好像 <code>hello world</code>那种程序的，<code>tweak</code> 就是最精华的部分了，我们这里姑且翻译为外挂程序，关于tweak的开发介绍我打算再单独开一篇文章用来描述。接着，根据提示，分别输入模版类型、工程名、包名、作者名等参数回车，等待初始化完成即可进入工程文件夹，编辑源文件了。如下：</p>
+
+<pre><code>Choose a Template (required): 1
+Project Name (required): iPhoneDevWiki
+Package Name [com.yourcompany.iphonedevwiki]: net.howett.iphonedevwiki
+Authour/Maintainer Name [Dustin L. Howett]:
+Instantiating iphone/application in iphonedevwiki/...
+Done.
+</code></pre>
+
+<h2>iOSOpenDev</h2>
+
+<p>除了 TheOS 之外，还有另外一种方法，就是用 iOSOpenDev 界面化开进行 iOS 越狱开发。但是官网和很多网站下载不了安装包，我几乎大海捞针，后来才找到这个链接。<a href="http://pan.baidu.com/s/1kTvex0r">点击这里</a>，安装后出现下图：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esby2mnrvoj20jr0brwgq.jpg" alt="img" /></p>
+
+<p>则恭喜你，安装成功。至于如何进行越狱开发程序，就靠你自己了。</p>
+
+<h2>Resource Reference：</h2>
+
+<ul>
+<li><p><a href="http://iky1e.tumblr.com/post/9561218739/jailbroken-development-starter-pack">Jailbroken Development : Starter Pack</a></p></li>
+<li><p><a href="http://www.brandontreb.com/beginning-jailbroken-ios-development-getting-the-tools/">Beginning Jailbroken iOS Development – Getting The Tools</a></p></li>
+<li><p><a href="http://iphonedevwiki.net/index.php/Theos/Getting_Started">Theos/Getting Started</a></p></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-21T15:41:55+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>3:41 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/21/ios-da-jian-webservice/" title="Previous Post: iOS 搭建 Webservice(原创)">&laquo; iOS 搭建 Webservice(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/21/nsprocessinfo-huo-qu-jin-cheng-xin-xi/" title="Next Post: NSProcessInfo 获取进程信息">NSProcessInfo 获取进程信息 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

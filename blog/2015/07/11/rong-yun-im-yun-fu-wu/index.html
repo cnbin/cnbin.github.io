@@ -1,0 +1,378 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>融云 - IM 云服务 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="简介 融云是国内首家专业的即时通讯云服务提供商，专注为互联网、移动互联网开发者提供免费的即时通讯基础能力和云端服务。通过融云平台，开发者不必搭建服务端硬件环境，就可以将即时通讯、实时网络能力快速集成至应用中。 针对开发者所需的不同场景，融云平台提供了一系列产品、技术解决方案，包括：客户端 IM &hellip;">
+  <meta name="keywords" content="im">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/11/rong-yun-im-yun-fu-wu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">融云 - IM 云服务</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-11T13:53:04+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:53 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>简介</h2>
+
+<p>融云是国内首家专业的即时通讯云服务提供商，专注为互联网、移动互联网开发者提供免费的即时通讯基础能力和云端服务。通过融云平台，开发者不必搭建服务端硬件环境，就可以将即时通讯、实时网络能力快速集成至应用中。</p>
+
+<p>针对开发者所需的不同场景，融云平台提供了一系列产品、技术解决方案，包括：客户端 IM 组件，客户端 IM 基础库，Web SDK，服务端 REST API 等。利用这些解决方案，开发者可以直接在自己的应用中构建出即时通讯产品，也可以无限创意出自己的即时通讯场景。</p>
+
+<p>融云 SDK 包括两部分：IM 界面组件和 IM 通讯能力库。</p>
+
+<h3>IM 界面组件 - IMKit</h3>
+
+<p>IMKit 是融云 SDK 的核心特色之一。融云将即时通讯产品中最复杂的会话列表、聊天窗口、消息内容展现、会话设置等功能封装为组件，通过简短的代码，您就可以直接将以上界面集成到您的 App 产品中，省去大量的开发调试时间。融云同时支持业内最丰富的自定义界面组件功能，您可以针对自己界面需求自由设计开发。</p>
+
+<p>IMKit 的核心类在 Android 平台是 RongIM，在 iOS 平台是 RCIM，这两个类在今后的开发中和 IMKit 代表相同的意义。</p>
+
+<h3>IM 通讯能力库 - IMLib</h3>
+
+<p>IMLib 是不含界面的基础 IM 通讯能力库，封装了通信能力和会话、消息等对象。引用到 App 工程中后，需要开发者自己实现 UI 界面，相对较轻量，适用于对 UI 有较高订制需求的开发者。</p>
+
+<p>IMLib 的核心类在 Android 平台是 RongIMClient，在 iOS 平台是 RCIMClient，这两个类在今后的开发中和 IMLib 代表相同的意义。</p>
+
+<h2>架构介绍</h2>
+
+<p>融云提供的即时消息传输服务，不在 App 之外建立并行的用户体系，不需要同步用户账户，不影响 App 现有的系统架构与帐号体系，与现有业务体系能够实现完美融合。</p>
+
+<p>融云的架构设计上具有如下特点：</p>
+
+<ul>
+<li>无需改变现有 App 的架构，直接嵌入现有代码框架中；</li>
+<li>无需改变现有 App Server 的架构，独立部署一份用于用户授权的 Service 即可；</li>
+<li>专注于提供通讯能力，使用私有的二进制通信协议，消息轻量、有序、不丢消息；</li>
+<li>安全的身份认证和授权方式，无需担心 SDK 能力滥用（盗用身份的垃圾消息、垃圾群发）问题。</li>
+</ul>
+
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etwkrrt4wvj20go0dpabl.jpg" alt="img" /></p>
+
+<p>如图：</p>
+
+<p>蓝色为您的应用（App）和应用服务器（App Server），用户数据（User Data）和用户好友消息（Friend Relationship Data）保存在您的应用服务器上，融云不需要同步 App 的用户系统和好友关系；绿色为融云服务器（RongCloud Server）和融云 SDK，支持快速集成和平滑迁移。</p>
+
+<p>蓝色箭头表示您自己的业务数据经由您自己的应用服务器；绿色剪头表示消息需要经过融云服务器转发（IM 的离线、通知等逻辑决定了消息必须经由服务器进行一次转发）；橙色箭头表示您的应用服务器只需要和融云服务器进行身份授权，不需要您提交详细用户资料。</p>
+
+<h3>集成流程</h3>
+
+<p>融云的集成流程如下图所示，其中几个关键环节需要注意：</p>
+
+<ol>
+<li>App 服务端换取 Token 流程，可以参考 <a href="http://www.rongcloud.cn/docs/server.html#_%E8%8E%B7%E5%8F%96_Token_%E6%96%B9%E6%B3%95">Server 开发文档 - 获取 Token 方法</a></li>
+<li>客户端集成流程，可以参考 <a href="http://www.rongcloud.cn/docs/android.html">Android 开发指南</a> 或者 <a href="http://www.rongcloud.cn/docs/ios.html">iOS 开发指南</a></li>
+<li>UI 界面自定义，可以参考 <a href="http://www.rongcloud.cn/docs/android.html#_UI_%E8%87%AA%E5%AE%9A%E4%B9%89">Android 开发指南 - UI 自定义</a> 或者 <a href="http://www.rongcloud.cn/docs/ios.html#_UI_%E8%87%AA%E5%AE%9A%E4%B9%89">iOS 开发指南 - UI 自定义</a></li>
+</ol>
+
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etwku7vcdaj20bm0s8di2.jpg" alt="img" /></p>
+
+<h2>基础概念 - 业务篇</h2>
+
+<h3>单聊</h3>
+
+<p>指两个用户一对一进行聊天，会话关系由融云负责建立并保持，退出聊天界面或者离线后可以收到推送通知。</p>
+
+<h3>讨论组</h3>
+
+<p>指两个以上用户一起进行聊天，用户可以自行添加好友生成一个讨论组聊天，会话关系由融云负责建立并保持，退出聊天界面或者离线后可以收到推送通知。</p>
+
+<h3>群组聊天</h3>
+
+<p>指两个以上用户一起进行聊天，与讨论组不同的是，参与群组聊天的群成员 Id 集合由您的 App 提供并维系，融云只负责将消息传达给群聊中的所有用户，退出聊天界面或者离线后可以收到推送通知。支持最大至 3000 人的大型社群需求。</p>
+
+<h3>聊天室</h3>
+
+<p>不设用户上限的群体聊天行为，用户退出聊天界面即视为离开聊天室，不再会接收到任何通知和提醒。会话关系由融云负责建立并保持连接，通过 SDK 相关接口，可以让用户加入或者退出聊天室。</p>
+
+<h3>客服消息</h3>
+
+<p>用户与您的 App 后台客服进行消息通讯，支持单客服和多客服。</p>
+
+<h3>VoIP 音频通话</h3>
+
+<p>指通过 IP 网络，使两个用户建立一对一的音频通话。</p>
+
+<h3>会话列表</h3>
+
+<p>指各种会话依照顺序先后排列的界面，其中会话列表中的每一个列表项称之为一条会话。排列的先后顺序会依赖于置顶、最新会话、未读会话和时间等因素。</p>
+
+<h3>聊天界面</h3>
+
+<p>指聊天的具体界面，显示聊天的标题、成员头像、聊天内容、输入框等。</p>
+
+<h2>基础概念 - 开发篇</h2>
+
+<h3>App Key / Secret</h3>
+
+<p>App Key / Secret 相当于您的 App 在融云的账号和密码。是融云 SDK 连接服务器所必须的标识，每一个 App 对应一套 App Key / Secret。</p>
+
+<p>融云提供了两套环境，开发环境和生产环境，前者是方便您集成开发和测试的，后者是 App 上线之后真正运营的商业环境。两者间数据隔离，避免开发环境数据和线上生产环境数据互相冲突。针对开发者的生产环境和开发环境，我们提供两套 App Key / Secret。</p>
+
+<h3>Token</h3>
+
+<p>Token 即用户令牌，相当于您APP上当前用户连接融云的身份凭证。每个用户连接服务器都需要一个 Token，用户更换即需要更换 Token。每次初始化连接服务器时，都需要向服务器提交 Token。</p>
+
+<h3>会话及会话类型</h3>
+
+<p>会话 可以理解为当前用户同特定目标（一个用户，一个讨论组、一个群组或一个聊天室）的一组聊天消息的集合及属性。</p>
+
+<p>会话类型 是一个枚举，包括：单聊、讨论组聊天、群组聊天和聊天室聊天。</p>
+
+<p>会话的基本属性包括会话的发送者、接收者（可能是一个用户，也可能是一个讨论组、一个群组、一个聊天室）、聊天的消息集合、会话的设置信息等。</p>
+
+<p>请参考：</p>
+
+<p>OS 通讯能力库 API 文档</p>
+
+<ul>
+<li><a href="http://www.rongcloud.cn/docs/api/ios/imlib/Classes/RCConversation.html">RCConversation</a></li>
+<li><a href="http://www.rongcloud.cn/docs/api/ios/imlib/Classes/RCConversation.html">RCConversationType</a></li>
+</ul>
+
+
+<h3>消息、消息内容及消息类型</h3>
+
+<p>消息 可以理解为当前用户同特定目标的一条聊天内容，除了包括消息内容，还包括发送者、接收者、消息方向等属性。</p>
+
+<p>消息类型 包括：文本消息、语音消息、图片消息、位置消息等；我们后续还将持续跟随业界脚步，发布一系列消息类型。</p>
+
+<p>消息内容 是指不同消息类型对应的实体容器，一种消息类型对应一种消息内容实体。</p>
+
+<p>请参考：</p>
+
+<p>iOS 通讯能力库 API 文档</p>
+
+<ul>
+<li>消息实体 <a href="http://www.rongcloud.cn/docs/api/ios/imlib/Classes/RCMessage.html">RCMessage</a></li>
+<li>消息基类 <a href="http://www.rongcloud.cn/docs/api/ios/imlib/Classes/RCMessageContent.html">RCMessageContent</a></li>
+<li>文字消息 <a href="http://www.rongcloud.cn/docs/api/ios/imlib/Classes/RCTextMessage.html">RCTextMessage</a></li>
+<li>语音消息 <a href="http://www.rongcloud.cn/docs/api/ios/imlib/Classes/RCVoiceMessage.html">RCVoiceMessage</a></li>
+<li>图片消息 <a href="http://www.rongcloud.cn/docs/api/ios/imlib/Classes/RCImageMessage.html">RCImageMessage</a></li>
+<li>图文消息 <a href="http://www.rongcloud.cn/docs/api/ios/imlib/Classes/RCRichContentMessage.html">RCRichContentMessage</a></li>
+<li>位置消息 <a href="http://www.rongcloud.cn/docs/api/ios/imlib/Classes/RCLocationMessage.html">RCLocationMessage</a></li>
+</ul>
+
+
+<h2>demo 界面</h2>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etymbpb8rkj20k00zktah.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etymbotfd5j20k00zkacl.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etymbodk16j20k00zkwgd.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etymbnzf8ij20k00zkgme.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etymbnk4mqj20k00zkjs5.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-11T13:53:04+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:53 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/11/mockplus-yuan-xing-tu-she-ji-gong-ju-jian-jie/" title="Previous Post: Mockplus 原型图设计工具简介">&laquo; Mockplus 原型图设计工具简介</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/11/nodeppt-zhi-zuo-gao-da-shang-de-wang-ye-ban-ppt/" title="Next Post: nodePPT - just enjoy presentation">nodePPT - just enjoy presentation &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

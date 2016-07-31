@@ -1,0 +1,528 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android webservice读取外勤通登录接口Demo - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="目录结构 MainActivity package cc.webservice.huaxun.wqtloginwebservice; import android.os.Handler;
+import android.support.v7.app.AppCompatActivity; &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/14/android-webservicedu-qu-wai-qin-tong-deng-lu-jie-kou/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android webservice读取外勤通登录接口Demo</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-14T14:28:53+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:28 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f4urue7gtcj20b20kvdh5.jpg" alt="img" /></p>
+
+<h3>目录结构</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f4urues8nkj20b10o1796.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f4urufcsb5j20qf0fudmb.jpg" alt="img" /></p>
+
+<h3>MainActivity</h3>
+
+<pre><code>package cc.webservice.huaxun.wqtloginwebservice;
+
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.ListView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cc.webservice.huaxun.wqtloginwebservice.adapter.LoginAdapter;
+import cc.webservice.huaxun.wqtloginwebservice.model.LoginModel;
+import cc.webservice.huaxun.wqtloginwebservice.utils.HttpUtils;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ListView lvNews;
+    private LoginAdapter adapter;
+    private List&lt;LoginModel&gt; newsList;
+
+    public static  String GET_NEWS_URL = "http://192.168.1.90:10089/DWTong/Webservice/MobileService.asmx/Login?uname=admin&amp;pass=admin";
+
+    private Handler getNewsHandler = new Handler(){
+        public void handleMessage(android.os.Message msg) {
+            String jsonData = (String) msg.obj;
+            String substring =jsonData.substring(74,jsonData.length());
+            String resultString = substring.substring(0,substring.length()-9);
+
+            try {
+                JSONArray jsonArray = new JSONArray(resultString);
+
+                for (int i=0;i&lt;jsonArray.length();i++){
+
+                    JSONObject object = jsonArray.getJSONObject(i);
+
+                    String UserName = object.getString("UserName");
+                    String UserPwd = object.getString("UserPwd");
+                    String TrueName = object.getString("TrueName");
+                    String Serils = object.getString("Serils");
+                    String Department = object.getString("Department");
+                    String JiaoSe = object.getString("JiaoSe");
+                    String ActiveTime = object.getString("ActiveTime");
+                    String ZhiWei = object.getString("ZhiWei");
+                    String ZaiGang = object.getString("ZaiGang");
+                    newsList.add(new LoginModel(UserName,UserPwd,TrueName,Serils,Department,JiaoSe,ActiveTime,ZhiWei,ZaiGang));
+                    System.out.println(newsList);
+                }
+
+                adapter.notifyDataSetChanged();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        };
+    };
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+
+        lvNews = (ListView) findViewById(R.id.lvNews);
+        newsList = new ArrayList&lt;LoginModel&gt;();
+        adapter = new LoginAdapter(this, newsList);
+
+        lvNews.setAdapter(adapter);
+        HttpUtils.getNewsJSON(GET_NEWS_URL, getNewsHandler);
+    }
+}
+</code></pre>
+
+<h3>HttpUtils</h3>
+
+<pre><code>package cc.webservice.huaxun.wqtloginwebservice.utils;
+
+import android.os.Handler;
+import android.os.Message;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+/**
+ * Created by wuyongmin on 16/6/14.
+ */
+public class HttpUtils {
+
+    public static void getNewsJSON(final String url, final Handler handler){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection conn;
+                InputStream is;
+                try {
+                    conn = (HttpURLConnection) new URL(url).openConnection();
+                    conn.setRequestMethod("GET");
+                    is = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    String line = "";
+                    StringBuilder result = new StringBuilder();
+                    while ( (line = reader.readLine()) != null ){
+                        result.append(line);
+
+                    }
+                    Message msg = new Message();
+                    msg.obj = result.toString();
+                    handler.sendMessage(msg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+}
+</code></pre>
+
+<h3>Model</h3>
+
+<pre><code>package cc.webservice.huaxun.wqtloginwebservice.model;
+
+/**
+ * Created by wuyongmin on 16/6/14.
+ */
+public class LoginModel {
+
+    private String UserName;
+    private String UserPwd;
+    private String TrueName;
+    private String Serils;
+    private String Department;
+    private String JiaoSe;
+    private String ActiveTime;
+    private String ZaiGang;
+    private String ZhiWei;
+
+    public String getZhiWei() {
+        return ZhiWei;
+    }
+
+    public void setZhiWei(String zhiWei) {
+        ZhiWei = zhiWei;
+    }
+
+    public String getUserPwd() {
+        return UserPwd;
+    }
+
+    public void setUserPwd(String userPwd) {
+        UserPwd = userPwd;
+    }
+
+    public String getTrueName() {
+        return TrueName;
+    }
+
+    public void setTrueName(String trueName) {
+        TrueName = trueName;
+    }
+
+    public String getSerils() {
+        return Serils;
+    }
+
+    public void setSerils(String serils) {
+        Serils = serils;
+    }
+
+    public String getDepartment() {
+        return Department;
+    }
+
+    public void setDepartment(String department) {
+        Department = department;
+    }
+
+    public String getJiaoSe() {
+        return JiaoSe;
+    }
+
+    public void setJiaoSe(String jiaoSe) {
+        JiaoSe = jiaoSe;
+    }
+
+    public String getActiveTime() {
+        return ActiveTime;
+    }
+
+    public void setActiveTime(String activeTime) {
+        ActiveTime = activeTime;
+    }
+
+    public String getZaiGang() {
+        return ZaiGang;
+    }
+
+    public void setZaiGang(String zaiGang) {
+        ZaiGang = zaiGang;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public LoginModel(String userName, String userPwd,String trueName, String serils,String department, String jiaoSe,String activeTime, String zhiWei,String zaiGang){
+
+        setUserName(userName);
+        setUserPwd(userPwd);
+        setTrueName(trueName);
+        setSerils(serils);
+        setDepartment(department);
+        setJiaoSe(jiaoSe);
+        setActiveTime(activeTime);
+        setZhiWei(zhiWei);
+        setZaiGang(zaiGang);
+    }
+}
+</code></pre>
+
+<h3>LoginAdapter</h3>
+
+<pre><code>package cc.webservice.huaxun.wqtloginwebservice.adapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import java.util.List;
+
+import cc.webservice.huaxun.wqtloginwebservice.R;
+import cc.webservice.huaxun.wqtloginwebservice.model.LoginModel;
+
+/**
+ * Created by wuyongmin on 16/6/14.
+ */
+public class LoginAdapter extends BaseAdapter {
+
+    private Context context;
+    private List&lt;LoginModel&gt; newsList;
+
+    public LoginAdapter(Context context, List&lt;LoginModel&gt; newsList) {
+        this.context = context;
+        this.newsList = newsList;
+    }
+
+    @Override
+    public int getCount() {
+        return newsList.size();
+    }
+
+    @Override
+    public LoginModel getItem(int position) {
+        return newsList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.login_items, null);
+        }
+
+        TextView tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
+        TextView tvDesc = (TextView) convertView.findViewById(R.id.tvDesc);
+
+        LoginModel news = newsList.get(position);
+        tvTitle.setText(news.getUserName());
+        tvDesc.setText(news.getTrueName());
+        return convertView;
+    }
+}
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<p><a href="https://github.com/cnbin/androidDemo/tree/master/WQTLoginWebservice">https://github.com/cnbin/androidDemo/tree/master/WQTLoginWebservice</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-14T14:28:53+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:28 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/14/chrome-slash-firefoxliu-lan-qi-xia-chu-li-jsonde-cha-jian/" title="Previous Post: Chrome/FireFox浏览器下处理JSON的插件">&laquo; Chrome/FireFox浏览器下处理JSON的插件</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/14/android-studiozhong-ru-he-yin-yong-tu-pian-zi-yuan/" title="Next Post: Android Studio中如何引用图片资源">Android Studio中如何引用图片资源 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

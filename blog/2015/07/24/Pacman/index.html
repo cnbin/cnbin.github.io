@@ -1,0 +1,445 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Pacman - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Pacman is a flat and responsive design theme for Hexo. Demo || Alimon&rsquo;s Blog 中文说明请访问这里 Installation Install 1
+$ git clone https://github.com/A &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/24/Pacman/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Pacman</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T16:39:56+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:39 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Pacman is a flat and responsive design theme for <a href="http://hexo.io">Hexo</a>.</p>
+
+<p><a href="http://A-limon.github.io/pacman">Demo</a> || <a href="http://yangjian.me">Alimon&rsquo;s Blog</a></p>
+
+<p>中文说明请访问<a href="http://A-limon.github.io/pacman/hello/introducing-pacman-theme/">这里</a></p>
+
+<h2>Installation</h2>
+
+<h3>Install</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone https://github.com/A-limon/pacman.git themes/pacman</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Pacman requires Hexo 2.4.5 and above.</strong></p>
+
+<h3>Enable</h3>
+
+<p>Modify <code>theme</code> setting in blog folder<code>_config.yml</code> to <code>pacman</code>.</p>
+
+<h3>Update</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd themes/pacman
+</span><span class='line'>git pull</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>please backup your <code>_config.yml</code> file before update.</strong></p>
+
+<h2>Configuration</h2>
+
+<p>Modify settings in  <code>/themes/pacman/_config.yml</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>##### Menu
+</span><span class='line'>menu:
+</span><span class='line'>  Home: /
+</span><span class='line'>  Archives: /archives
+</span><span class='line'>## you can create `tags` and `categories` folders in `../source`.
+</span><span class='line'>## And create a `index.md` file in each of them.
+</span><span class='line'>## set `front-matter`as
+</span><span class='line'>## layout: tags (or categories)
+</span><span class='line'>## title: tags (or categories)
+</span><span class='line'>## ---
+</span><span class='line'>
+</span><span class='line'>#### Widgets
+</span><span class='line'>widgets: 
+</span><span class='line'>- category
+</span><span class='line'>- tag
+</span><span class='line'>- rss
+</span><span class='line'>## provide six widgets:category,tag,rss,archive,tagcloud,links.
+</span><span class='line'>## modify links in `/layout/_widget/links.ejs`.
+</span><span class='line'>
+</span><span class='line'>#### RSS
+</span><span class='line'>rss: ## RSS address.
+</span><span class='line'>
+</span><span class='line'>#### Image
+</span><span class='line'>imglogo:
+</span><span class='line'>  enable: true             ## display image logo true/false.
+</span><span class='line'>  src: img/logo.svg        ## `.svg` and `.png` are recommended,please put image into the theme folder `/pacman/source/img`.
+</span><span class='line'>favicon: img/favicon.ico   ## size:16px*16px,`.ico` is recommended,please put image into the theme folder `/pacman/source/img`.     
+</span><span class='line'>apple_icon: img/pacman.jpg ## size:64px*64px,please put image into the theme folder `/pacman/source/img`.
+</span><span class='line'>
+</span><span class='line'>#### Author Avatar Picture
+</span><span class='line'>author_img_enable: true ## display author avatar picture
+</span><span class='line'>dataURI: false
+</span><span class='line'>## if the picture's format is dataURI please set the value to true,otherwise set the value to false.
+</span><span class='line'>## convert an image into base 64 data URIs http://websemantics.co.uk/online_tools/image_to_data_uri_convertor/ .
+</span><span class='line'>author_img_data: ''
+</span><span class='line'>## paste the dataURI in ONE LINE and included it by ''.
+</span><span class='line'>author_img: img/author.jpg ## size:220px*220px.
+</span><span class='line'>## if the picture's format is `.png` or `.jpg`  instead of dataURI,you should set the `dataURI` value to false.
+</span><span class='line'>
+</span><span class='line'>#### Font
+</span><span class='line'>ShowCustomFont: true  
+</span><span class='line'>## you can change custom font in `variable.styl` and `font.styl` which in the theme folder `/pacman/source/css`.
+</span><span class='line'>
+</span><span class='line'>#### Toc
+</span><span class='line'>toc:
+</span><span class='line'>  article: true   ## show contents in article.
+</span><span class='line'>  aside: true     ## show contents in aside.
+</span><span class='line'>## you can set both of the value to true of neither of them.
+</span><span class='line'>## if you don't want display contents in a specified post,you can modify `front-matter` and add `toc: false`.
+</span><span class='line'>
+</span><span class='line'>#### Fancybox
+</span><span class='line'>fancybox: false 
+</span><span class='line'>## if you use gallery post or want use fancybox please set the value to true.
+</span><span class='line'>## if you want use fancybox in ANY post please copy the file `fancybox.js`.
+</span><span class='line'>## in theme folder `/pacman/scripts` to your hexo blog folder `../scritps`.
+</span><span class='line'>
+</span><span class='line'>#### Author information
+</span><span class='line'>author:
+</span><span class='line'>  google_plus:    ## eg:116338260303228776998 for https://plus.google.com/u/0/116338260303228776998
+</span><span class='line'>  intro_line1: "" ## eg: "Hello ,I'm Larry Page in Google."
+</span><span class='line'>  intro_line2: "" ## eg: "This is my blog,believe it or not."
+</span><span class='line'>  weibo:      ## e.g. 436062867 for http://weibo.com/436062867
+</span><span class='line'>  twitter:    ## e.g. yangjiansky for https://twitter.com/yangjiansky
+</span><span class='line'>  github:     ## e.g. A-limon for https://github.com/A-limon
+</span><span class='line'>  facebook:   ## e.g. yangjian for https://favebook.com/yangjian
+</span><span class='line'>  tsina:      ## e.g. 1664838973  Your weibo ID,It will be used in share button.
+</span><span class='line'>
+</span><span class='line'>#### Comment
+</span><span class='line'>duoshuo: 
+</span><span class='line'>  enable: false  ## duoshuo.com
+</span><span class='line'>  short_name:    ## duoshuo short name.
+</span><span class='line'>
+</span><span class='line'>#### Share button
+</span><span class='line'>jiathis:
+</span><span class='line'>  enable: false ## if you use jiathis as your share tool,the built-in share tool won't be display.
+</span><span class='line'>  id:    ## e.g. 1501277 your jiathis ID. 
+</span><span class='line'>  tsina: ## e.g. 1664838973 Your weibo id,It will be used in share button.
+</span><span class='line'>
+</span><span class='line'>#### Analytics
+</span><span class='line'>google_analytics:
+</span><span class='line'>  enable: false
+</span><span class='line'>  id:   ## e.g. UA-1766729-8 your google analytics ID.
+</span><span class='line'>  site: ## e.g. yangjian.me your google analytics site or set the value as auto.
+</span><span class='line'>## You MUST upgrade to Universal Analytics first!
+</span><span class='line'>## https://developers.google.com/analytics/devguides/collection/upgrade/?hl=zh_CN
+</span><span class='line'>
+</span><span class='line'>#### Custom Search
+</span><span class='line'>google_cse: 
+</span><span class='line'>  enable: false
+</span><span class='line'>  cx:  ## e.g. 000561263943549425496:mrzrm0gr4kg your Custom Search ID.
+</span><span class='line'>## https://www.google.com/cse/</span></code></pre></td></tr></table></div></figure>
+
+
+<p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/A-limon/pacman/trend.png" alt="Bitdeli Badge" /></a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T16:39:56+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:39 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/24/yun-yong-at-mediashi-xian-wang-ye-zi-gua-ying-zhong-de-ji-ge-guan-jian-fen-bian-lu/" title="Previous Post: 运用 media 实现网页自适应中的几个关键分辨率">&laquo; 运用 media 实现网页自适应中的几个关键分辨率</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/25/mkdocs/" title="Next Post: MkDocs(原创)">MkDocs(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

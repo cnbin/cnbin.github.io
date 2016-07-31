@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux 修改环境变量 PATH - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在 Linux 中，PATH 环境变量保存了一系列的目录用于用户在输入的时候搜索命令。PATH 变量的值由一系列的由分号分隔的绝对路径组成。每个用户都有特定的 PATH 环境变量（由系统级的 PATH 变量初始化）。 要检查用户的环境变量，用户模式下运行下面的命令： $ echo $PATH &hellip;">
+  <meta name="keywords" content="linux">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/22/linux-xiu-gai-huan-jing-bian-liang-path/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Linux 修改环境变量 PATH</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-22T08:22:47+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>8:22 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etck9tkmdzj20dw0af74i.jpg" alt="img" /></p>
+
+<p>在 Linux 中，PATH 环境变量保存了一系列的目录用于用户在输入的时候搜索命令。PATH 变量的值由一系列的由分号分隔的绝对路径组成。每个用户都有特定的 PATH 环境变量（由系统级的 PATH 变量初始化）。</p>
+
+<p>要检查用户的环境变量，用户模式下运行下面的命令：</p>
+
+<pre><code>$ echo $PATH
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etckernmszj20k101jwf0.jpg" alt="img" /></p>
+
+<p>或者运行：</p>
+
+<pre><code>$ env | grep PATH
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etckit5sqsj20k103wmz7.jpg" alt="img" /></p>
+
+<p>如果你的命令不存在于上面任何一个目录内，shell 就会抛出一个错误信息： <code>command not found</code>。</p>
+
+<p>如果你想要添加一个另外的目录（比如：<code>/usr/local/bin</code>）到你的 <code>PATH</code> 变量中，你可以用下面这些命令。</p>
+
+<h3>为特定用户修改 PATH 环境变量</h3>
+
+<p>如果你只想在当前的登录会话中临时地添加一个新的目录（比如：<code>/usr/local/bin</code> ）给用户的默认搜索路径，你只需要输入下面的命令。</p>
+
+<pre><code>$ PATH="$PATH:/usr/local/bin"
+</code></pre>
+
+<p>检查 PATH 是否已经更新：</p>
+
+<pre><code>echo $PATH
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etcklhwkalj20k401zq3u.jpg" alt="img" />  <br/>
+更新后的 PATH 会在当前的会话一直有效。然而，更改将在新的会话中失效。</p>
+
+<p>如果你想要永久更改 PATH 变量，用编辑器打开 <code>~/.bashrc</code> (或者 <code>~/.bash_profile</code>)，接着在最后添加下面这行。</p>
+
+<pre><code>export PATH="$PATH:/usr/local/bin"
+</code></pre>
+
+<p>接着运行下面这行永久激活更改：</p>
+
+<pre><code>$ source ~/.bashrc (或者 source ~/.bash_profile)
+</code></pre>
+
+<p>改变系统级的环境变量</p>
+
+<p>如果你想要永久添加 <code>/usr/local/bin</code> 到系统级的 <code>PATH</code> 变量中，像下面这样编辑 <code>/etc/profile</code>。</p>
+
+<pre><code>$ sudo vi /etc/profile
+export PATH="$PATH:/usr/local/bin"
+</code></pre>
+
+<p>你重新登录后，更新的环境变量就会生效了。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-22T08:22:47+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>8:22 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/21/objective-c-xie-yi-de-bi-xuan-yu-ke-xuan-fang-fa/" title="Previous Post: Objective-C 协议的必选与可选方法">&laquo; Objective-C 协议的必选与可选方法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/22/linux-pwd/" title="Next Post: Linux - pwd">Linux - pwd &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

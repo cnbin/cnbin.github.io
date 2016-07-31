@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SQLCipher - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="SQLCipher SQLCipher is an SQLite extension that provides transparent 256-bit AES encryption of
+database files. Pages are encrypted before being &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/04/sqlcipher/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SQLCipher</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-04T11:43:52+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:43 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>SQLCipher</h2>
+
+<p>SQLCipher is an SQLite extension that provides transparent 256-bit AES encryption of
+database files. Pages are encrypted before being written to disk and are decrypted
+when read back. Due to the small footprint and great performance it’s ideal for
+protecting embedded application databases and is well suited for mobile development.</p>
+
+<p>The official SQLCipher software site is <a href="http://sqlcipher.net">http://sqlcipher.net</a></p>
+
+<p>SQLCipher was initially developed by Stephen Lombardo at Zetetic LLC
+(<a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#115;&#106;&#x6c;&#111;&#109;&#98;&#x61;&#114;&#100;&#111;&#x40;&#x7a;&#101;&#x74;&#x65;&#x74;&#x69;&#x63;&#46;&#110;&#101;&#116;">&#x73;&#106;&#x6c;&#x6f;&#109;&#x62;&#97;&#x72;&#x64;&#x6f;&#x40;&#x7a;&#x65;&#x74;&#x65;&#x74;&#105;&#x63;&#x2e;&#x6e;&#101;&#x74;</a>) as the encrypted database layer for Strip,
+an iPhone data vault and password manager (<a href="http://getstrip.com">http://getstrip.com</a>).</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Fast performance with as little as 5-15% overhead for encryption on many operations</li>
+<li>100% of data in the database file is encrypted</li>
+<li>Good security practices (CBC mode, key derivation)</li>
+<li>Zero-configuration and application level cryptography</li>
+<li>Algorithms provided by the peer reviewed OpenSSL crypto library.</li>
+<li>Configurable crypto providers</li>
+</ul>
+
+
+<h2>Contributions</h2>
+
+<p>We welcome contributions, to contribute to SQLCipher, a <a href="https://www.zetetic.net/contributions/">contributor agreement</a> needs to be submitted.  All submissions should be based on the <code>prerelease</code> branch.</p>
+
+<h2>Compiling</h2>
+
+<p>Building SQLCipher is almost the same as compiling a regular version of
+SQLite with two small exceptions:</p>
+
+<ol>
+<li>You <em>must</em> define SQLITE_HAS_CODEC and SQLITE_TEMP_STORE=2 when building sqlcipher.</li>
+<li>You need to link against a OpenSSL&rsquo;s libcrypto</li>
+</ol>
+
+
+<p>Example Static linking (replace /opt/local/lib with the path to libcrypto.a). Note in this
+example, &ndash;enable-tempstore=yes is setting SQLITE_TEMP_STORE=2 for the build.</p>
+
+<pre><code>$ ./configure --enable-tempstore=yes CFLAGS="-DSQLITE_HAS_CODEC" \
+    LDFLAGS="/opt/local/lib/libcrypto.a"
+$ make
+</code></pre>
+
+<p>Example Dynamic linking</p>
+
+<pre><code>$ ./configure --enable-tempstore=yes CFLAGS="-DSQLITE_HAS_CODEC" \
+    LDFLAGS="-lcrypto"
+$ make
+</code></pre>
+
+<h2>Encrypting a database</h2>
+
+<p>To specify an encryption passphrase for the database via the SQL interface you
+use a pragma. The passphrase you enter is passed through PBKDF2 key derivation to
+obtain the encryption key for the database</p>
+
+<pre><code>PRAGMA key = 'passphrase';
+</code></pre>
+
+<p>Alternately, you can specify an exact byte sequence using a blob literal. If you
+use this method it is your responsibility to ensure that the data you provide a
+64 character hex string, which will be converted directly to 32 bytes (256 bits) of
+key data without key derivation.</p>
+
+<pre><code>PRAGMA key = "x'2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99'";
+</code></pre>
+
+<p>To encrypt a database programatically you can use the sqlite3_key function.
+The data provided in pKey is converted to an encryption key according to the
+same rules as PRAGMA key.</p>
+
+<pre><code>int sqlite3_key(sqlite3 *db, const void *pKey, int nKey);
+</code></pre>
+
+<p>PRAGMA key or sqlite3_key should be called as the first operation when a database is open.</p>
+
+<h2>Changing a database key</h2>
+
+<p>To change the encryption passphrase for an existing database you may use the rekey pragma
+after you&rsquo;ve supplied the correct database password;</p>
+
+<pre><code>PRAGMA key = 'passphrase'; -- start with the existing database passphrase
+PRAGMA rekey = 'new-passphrase'; -- rekey will reencrypt with the new passphrase
+</code></pre>
+
+<p>The hexrekey pragma may be used to rekey to a specific binary value</p>
+
+<pre><code>PRAGMA rekey = "x'2DD29CA851E7B56E4697B0E1F08507293D761A05CE4D1B628663F411A8086D99'";
+</code></pre>
+
+<p>This can be accomplished programtically by using sqlite3_rekey;</p>
+
+<pre><code>sqlite3_rekey(sqlite3 *db, const void *pKey, int nKey)
+</code></pre>
+
+<h2>Support</h2>
+
+<p>The primary avenue for support and discussions is the SQLCipher users mailing list:</p>
+
+<p><a href="http://groups.google.com/group/sqlcipher">http://groups.google.com/group/sqlcipher</a></p>
+
+<p>Issues or support questions on using SQLCipher should be entered into the
+GitHub Issue tracker:</p>
+
+<p><a href="https://github.com/sqlcipher/sqlcipher/issues">https://github.com/sqlcipher/sqlcipher/issues</a></p>
+
+<p>Please DO NOT post issues, support questions, or other problems to blog
+posts about SQLCipher as we do not monitor them frequently.</p>
+
+<p>If you are using SQLCipher in your own software please let us know at
+support@zetetic.net!</p>
+
+<h2>License</h2>
+
+<p>Copyright &copy; 2008, ZETETIC LLC
+All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the ZETETIC LLC nor the
+      names of its contributors may be used to endorse or promote products
+      derived from this software without specific prior written permission.</p>
+
+<p>THIS SOFTWARE IS PROVIDED BY ZETETIC LLC &lsquo;'AS IS&rsquo;&lsquo; AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL ZETETIC LLC BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+
+<h2>End SQLCipher</h2>
+
+<p>This directory contains source code to</p>
+
+<p>  SQLite: An Embeddable SQL Database Engine</p>
+
+<p>To compile the project, first create a directory in which to place
+the build products.  It is recommended, but not required, that the
+build directory be separate from the source directory.  Cd into the
+build directory and then from the build directory run the configure
+script found at the root of the source tree.  Then run &ldquo;make&rdquo;.</p>
+
+<p>For example:</p>
+
+<pre><code>tar xzf sqlite.tar.gz    ;#  Unpack the source tree into "sqlite"
+mkdir bld                ;#  Build will occur in a sibling directory
+cd bld                   ;#  Change to the build directory
+../sqlite/configure      ;#  Run the configure script
+make                     ;#  Run the makefile.
+make install             ;#  (Optional) Install the build products
+</code></pre>
+
+<p>The configure script uses autoconf 2.61 and libtool.  If the configure
+script does not work out for you, there is a generic makefile named
+&ldquo;Makefile.linux-gcc&rdquo; in the top directory of the source tree that you
+can copy and edit to suit your needs.  Comments on the generic makefile
+show what changes are needed.</p>
+
+<p>The linux binaries on the website are created using the generic makefile,
+not the configure script.  The windows binaries on the website are created
+using MinGW32 configured as a cross-compiler running under Linux.  For
+details, see the ./publish.sh script at the top-level of the source tree.
+The developers do not use teh configure script.</p>
+
+<p>SQLite does not require TCL to run, but a TCL installation is required
+by the makefiles.  SQLite contains a lot of generated code and TCL is
+used to do much of that code generation.  The makefile also requires
+AWK.</p>
+
+<p>Contacts:</p>
+
+<h1>  <a href="http://www.sqlite.org/">http://www.sqlite.org/</a></h1>
+
+<pre><code>mkdir bld
+cd bld
+nmake /f Makefile.msc TOP=..\sqlite
+nmake /f Makefile.msc sqlite3.c TOP=..\sqlite
+nmake /f Makefile.msc sqlite3.dll TOP=..\sqlite
+nmake /f Makefile.msc sqlite3.exe TOP=..\sqlite
+nmake /f Makefile.msc test TOP=..\sqlite
+</code></pre>
+
+<p>There are several build options that can be set via the NMAKE command
+line.  For example, to build for WinRT, simply add &ldquo;FOR_WINRT=1&rdquo; argument
+to the &ldquo;sqlite3.dll&rdquo; command line above.  When debugging into the SQLite
+code, adding the &ldquo;DEBUG=1&rdquo; argument to one of the above command lines is
+recommended.</p>
+
+<p>SQLite does not require <a href="http://www.tcl.tk/">Tcl</a> to run, but a Tcl installation
+is required by the makefiles (including those for MSVC).  SQLite contains
+a lot of generated code and Tcl is used to do much of that code generation.
+The makefiles also require AWK.</p>
+
+<h2>Source Code Tour</h2>
+
+<p>Most of the core source files are in the <strong>src/</strong> subdirectory.  But
+src/ also contains files used to build the &ldquo;testfixture&rdquo; test harness;
+those file all begin with &ldquo;test&rdquo;.  And src/ contains the &ldquo;shell.c&rdquo; file
+which is the main program for the &ldquo;sqlite3.exe&rdquo; command-line shell and
+the &ldquo;tclsqlite.c&rdquo; file which implements the bindings to SQLite from the
+Tcl programming language.  (Historical note:  SQLite began as a Tcl
+extension and only later escaped to the wild as an independent library.)</p>
+
+<p>Test scripts and programs are found in the <strong>test/</strong> subdirectory.
+There are other test suites for SQLite (see
+<a href="http://www.sqlite.org/testing.html">How SQLite Is Tested</a>)
+but those other test suites are
+in separate source repositories.</p>
+
+<p>The <strong>ext/</strong> subdirectory contains code for extensions.  The
+Full-text search engine is in <strong>ext/fts3</strong>.  The R-Tree engine is in
+<strong>ext/rtree</strong>.  The <strong>ext/misc</strong> subdirectory contains a number of
+smaller, single-file extensions, such as a REGEXP operator.</p>
+
+<p>The <strong>tool/</strong> subdirectory contains various scripts and programs used
+for building generated source code files or for testing or for generating
+accessory programs such as &ldquo;sqlite3_analyzer(.exe)&rdquo;.</p>
+
+<h3>Generated Source Code Files</h3>
+
+<p>Several of the C-language source files used by SQLite are generated from
+other sources rather than being typed in manually by a programmer.  This
+section will summarize those automatically-generated files.  To create all
+of the automatically-generated files, simply run &ldquo;make target&#95;source&rdquo;.
+The &ldquo;target&#95;source&rdquo; make target will create a subdirectory &ldquo;tsrc/&rdquo; and
+fill it with all the source files needed to build SQLite, both
+manually-edited files and automatically-generated files.</p>
+
+<p>The SQLite interface is defined by the <strong>sqlite3.h</strong> header file, which is
+generated from src/sqlite.h.in, ./manifest.uuid, and ./VERSION.  The
+<a href="http://www.tcl.tk">Tcl script</a> at tool/mksqlite3h.tcl does the conversion.
+The manifest.uuid file contains the SHA1 hash of the particular check-in
+and is used to generate the SQLITE_SOURCE_ID macro.  The VERSION file
+contains the current SQLite version number.  The sqlite3.h header is really
+just a copy of src/sqlite.h.in with the source-id and version number inserted
+at just the right spots. Note that comment text in the sqlite3.h file is
+used to generate much of the SQLite API documentation.  The Tcl scripts
+used to generate that documentation are in a separate source repository.</p>
+
+<p>The SQL language parser is <strong>parse.c</strong> which is generate from a grammar in
+the src/parse.y file.  The conversion of &ldquo;parse.y&rdquo; into &ldquo;parse.c&rdquo; is done
+by the <a href="./doc/lemon.html">lemon</a> LALR(1) parser generator.  The source code
+for lemon is at tool/lemon.c.  Lemon uses a
+template for generating its parser.  A generic template is in tool/lempar.c,
+but SQLite uses a slightly modified template found in src/lempar.c.</p>
+
+<p>Lemon also generates the <strong>parse.h</strong> header file, at the same time it
+generates parse.c. But the parse.h header file is
+modified further (to add additional symbols) using the ./addopcodes.awk
+AWK script.</p>
+
+<p>The <strong>opcodes.h</strong> header file contains macros that define the numbers
+corresponding to opcodes in the &ldquo;VDBE&rdquo; virtual machine.  The opcodes.h
+file is generated by the scanning the src/vdbe.c source file.  The
+AWK script at ./mkopcodeh.awk does this scan and generates opcodes.h.
+A second AWK script, ./mkopcodec.awk, then scans opcodes.h to generate
+the <strong>opcodes.c</strong> source file, which contains a reverse mapping from
+opcode-number to opcode-name that is used for EXPLAIN output.</p>
+
+<p>The <strong>keywordhash.h</strong> header file contains the definition of a hash table
+that maps SQL language keywords (ex: &ldquo;CREATE&rdquo;, &ldquo;SELECT&rdquo;, &ldquo;INDEX&rdquo;, etc.) into
+the numeric codes used by the parse.c parser.  The keywordhash.h file is
+generated by a C-language program at tool mkkeywordhash.c.</p>
+
+<h3>The Amalgamation</h3>
+
+<p>All of the individual C source code and header files (both manually-edited
+and automatically-generated) can be combined into a single big source file
+<strong>sqlite3.c</strong> called &ldquo;the amalgamation&rdquo;.  The amalgamation is the recommended
+way of using SQLite in a larger application.  Combining all individual
+source code files into a single big source code file allows the C compiler
+to perform more cross-procedure analysis and generate better code.  SQLite
+runs about 5% faster when compiled from the amalgamation versus when compiled
+from individual source files.</p>
+
+<p>The amalgamation is generated from the tool/mksqlite3c.tcl Tcl script.
+First, all of the individual source files must be gathered into the tsrc/
+subdirectory (using the equivalent of &ldquo;make target_source&rdquo;) then the
+tool/mksqlite3c.tcl script is run to copy them all together in just the
+right order while resolving internal &ldquo;#include&rdquo; references.</p>
+
+<p>The amalgamation source file is more than 100K lines long.  Some symbolic
+debuggers (most notably MSVC) are unable to deal with files longer than 64K
+lines.  To work around this, a separate Tcl script, tool/split-sqlite3c.tcl,
+can be run on the amalgamation to break it up into a single small C file
+called <strong>sqlite3-all.c</strong> that does #include on about five other files
+named <strong>sqlite3-1.c</strong>, <strong>sqlite3-2.c</strong>, &hellip;, <strong>sqlite3-5.c</strong>.  In this way,
+all of the source code is contained within a single translation unit so
+that the compiler can do extra cross-procedure optimization, but no
+individual source file exceeds 32K lines in length.</p>
+
+<h2>How It All Fits Together</h2>
+
+<p>SQLite is modular in design.
+See the <a href="http://www.sqlite.org/arch.html">architectural description</a>
+for details. Other documents that are useful in
+(helping to understand how SQLite works include the
+<a href="http://www.sqlite.org/fileformat2.html">file format</a> description,
+the <a href="http://www.sqlite.org/vdbe.html">virtual machine</a> that runs
+prepared statements, the description of
+<a href="http://www.sqlite.org/atomiccommit.html">how transactions work</a>, and
+the <a href="http://www.sqlite.org/optoverview.html">overview of the query planner</a>.</p>
+
+<p>Unfortunately, years of effort have gone into optimizating SQLite, both
+for small size and high performance.  And optimizations tend to result in
+complex code.  So there is a lot of complexity in the SQLite implementation.</p>
+
+<p>Key files:</p>
+
+<ul>
+<li><p> <strong>sqlite3.h</strong> - This file defines the public interface to the SQLite
+ library.  Readers will need to be familiar with this interface before
+ trying to understand how the library works internally.</p></li>
+<li><p> <strong>sqliteInt.h</strong> - this header file defines many of the data objects
+ used internally by SQLite.</p></li>
+<li><p> <strong>parse.y</strong> - This file describes the LALR(1) grammer that SQLite uses
+ to parse SQL statements, and the actions that are taken at each stop
+ in the parsing process.</p></li>
+<li><p> <strong>vdbe.c</strong> - This file implements the virtual machine that runs
+ prepared statements.  There are various helper files whose names
+ begin with &ldquo;vdbe&rdquo;.  The VDBE has access to the vdbeInt.h header file
+ which defines internal data objects.  The rest of SQLite interacts
+ with the VDBE through an interface defined by vdbe.h.</p></li>
+<li><p> <strong>where.c</strong> - This file analyzes the WHERE clause and generates
+ virtual machine code to run queries efficiently.  This file is
+ sometimes called the &ldquo;query optimizer&rdquo;.  It has its own private
+ header file, whereInt.h, that defines data objects used internally.</p></li>
+<li><p> <strong>btree.c</strong> - This file contains the implementation of the B-Tree
+ storage engine used by SQLite.</p></li>
+<li><p> <strong>pager.c</strong> - This file contains the &ldquo;pager&rdquo; implementation, the
+ module that implements transactions.</p></li>
+<li><p> <strong>os_unix.c</strong> and <strong>os_win.c</strong> - These two files implement the interface
+ between SQLite and the underlying operating system using the run-time
+ pluggable VFS interface.</p></li>
+</ul>
+
+
+<h2>Contacts</h2>
+
+<p>The main SQLite webpage is <a href="http://www.sqlite.org/">http://www.sqlite.org/</a>
+with geographically distributed backup servers at
+<a href="http://www2.sqlite.org">http://www2.sqlite.org/</a> and
+<a href="http://www3.sqlite.org">http://www3.sqlite.org/</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-04T11:43:52+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:43 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/04/cocoapods-podfile-dot-lock/" title="Previous Post: CocoaPods - Podfile.lock">&laquo; CocoaPods - Podfile.lock</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/04/tsmessages/" title="Next Post: TSMessages">TSMessages &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

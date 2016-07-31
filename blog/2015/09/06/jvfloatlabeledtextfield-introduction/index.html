@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JVFloatLabeledTextField Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="JVFloatLabeledTextField is the first implementation a UX pattern that has come to be known the &ldquo;Float Label Pattern&rdquo;. Due to space &hellip;">
+  <meta name="keywords" content="JVFloatLabeledTextField">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/06/jvfloatlabeledtextfield-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JVFloatLabeledTextField Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-06T16:02:38+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:02 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><code>JVFloatLabeledTextField</code> is the first implementation a UX pattern that has come to be known the <strong>&ldquo;Float Label Pattern&rdquo;</strong>.</p>
+
+<p>Due to space constraints on mobile devices, it is common to rely solely on placeholders as a means to label fields.
+This presents a UX problem, in that, once the user begins to fill out a form, no labels are present.</p>
+
+<p>This UI component library, which includes both a <code>UITextField</code> and <code>UITextView</code> subclass, aims to improve the user experience by having placeholders transition into floating labels that hover above the fields after they are populated with text.</p>
+
+<p>Credits for the concept to Matt D. Smith (<a href="http://www.twitter.com/mds">@mds</a>), and his <a href="http://dribbble.com/shots/1254439--GIF-Mobile-Form-Interaction?list=users">original design</a>:</p>
+
+<p>The component is officially supported for iOS 7 and greater.</p>
+
+<h1>Getting started via Cocoapods</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo gem install cocoapods</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create a <code>Podfile</code> in your project directory:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod init</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add the following to your <code>Podfile</code> project&rsquo;s target:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod 'JVFloatLabeledTextField'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then run cocoapods with <code>pod install</code>.</p>
+
+<p>Finally, include <code>JVFloatLabeledTextField.h</code> and <code>JVFloatLabeledTextView.h</code> in your project.</p>
+
+<h1>Getting started via Carthage</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew update
+</span><span class='line'>brew install carthage</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Create a <code>Cartfile</code> in your project directory that contains:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>github "jverdi/JVFloatLabeledTextField"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then run carthage with <code>carthage update</code> and add <code>JVFloatLabeledText.framework</code> to your project from the <code>Carthage/Build/iOS</code> directory.</p>
+
+<p>Finally, include <code>JVFloatLabeledText.h</code> in your project:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import &lt;JVFloatLabeledText/JVFloatLabeledText.h&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Additional References</h1>
+
+<p><a href="http://mattdsmith.com/float-label-pattern/">How the Float Label Pattern Started</a> - Matt D. Smith<br/>
+<a href="http://bradfrostweb.com/blog/post/float-label-pattern/">Float Label Pattern</a> - Brad Frost<br/>
+<a href="http://www.google.com/design/spec/components/text-fields.html#text-fields-floating-labels">Material Design - Floating Labels</a> - Google</p>
+
+<h1>Ports and Alternate Implementations</h1>
+
+<p><a href="https://github.com/wrapp/floatlabelededittext">Android</a> - Henrik Sandström<br/>
+<a href="https://github.com/weddingparty/AndroidFloatLabel">Android</a> - Kaushik Gopal<br/>
+<a href="https://github.com/KevinJ90825/FloatLabelPattern">Android</a> - Kevin Johnson<br/>
+<a href="https://github.com/gshackles/JVFloatSharp">Xamarin.iOS</a> - Greg Shackles<br/>
+<a href="https://github.com/Johan-dutoit/JVFloatSharp">Xamarin.Android</a> - Johan du Toit<br/>
+<a href="http://snook.ca/archives/html_and_css/floated-label-pattern-css">CSS</a> Jonathan Snook<br/>
+<a href="https://github.com/maman/JVFloat.js">JQuery / Zepto.js</a> - Achmad Mahardi<br/>
+<a href="https://github.com/m10l/FloatLabel.js">JQuery</a> - Mike Mitchell<br/>
+<a href="https://github.com/dmackerman/angular-better-placeholders">AngularJS</a> - Dave Ackerman<br/>
+<a href="https://github.com/fauxparse/bootstrap-floating-labels">Bootstrap plugin</a> - Matt Powell<br/>
+<a href="https://github.com/andytill/floaty-field">JavaFX</a> - Andy Till<br/>
+<a href="https://github.com/dirkfabisch/B68FloatingLabelTextField">Swift</a> - Dirk Fabisch<br/>
+<a href="https://github.com/FahimF/FloatLabelFields">Swift</a> - Fahim Farook<br/>
+<a href="https://github.com/kNeerajPro/CGFLoatingUIKit">Swift</a> - Neeraj Kumar<br/>
+<a href="https://github.com/varshylmobile/VMFloatLabel">Swift</a> - Jimmy Jose<br/>
+<a href="https://github.com/ArtSabintsev/UIFloatLabelTextField">ObjC</a> - Arthur Ariel Sabintsev<br/>
+<a href="https://github.com/iwasrobbed/RPFloatingPlaceholders">ObjC</a> - Rob Phillips<br/>
+<a href="http://forums.4d.fr/Post/EN/15995553/0/0/">4D</a> - Maurice Inzirillo<br/>
+<a href="https://github.com/TheSmiths-Widgets/ts.floatlabelfield">Appcelerator Titanium</a> - The Smiths</p>
+
+<p>Added a port? Let me know - <a href="http://www.twitter.com/jverdi">@jverdi</a></p>
+
+<h2>Reousrce Referecne</h2>
+
+<ul>
+<li><a href="https://dribbble.com/shots/1254439--GIF-Mobile-Form-Interaction?list=users">https://dribbble.com/shots/1254439--GIF-Mobile-Form-Interaction?list=users</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-06T16:02:38+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:02 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/06/bblock-introduction/" title="Previous Post: BBlock Introduction">&laquo; BBlock Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/06/tusafariactivity/" title="Next Post: TUSafariActivity">TUSafariActivity &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

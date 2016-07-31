@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NSDate 使用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="取当前时间的秒数 NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
+long long int date = (long long int)time;
+NSLog(@”date\n%d”, date); // &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/14/nsdate-shi-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">NSDate 使用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-14T11:42:23+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:42 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>取当前时间的秒数</h2>
+
+<pre><code>NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
+long long int date = (long long int)time;
+NSLog(@”date\n%d”, date); //1295322949
+//把秒数转化成yyyy-MM-dd hh:mm:ss格式
+NSDate *dd = [NSDate dateWithTimeIntervalSince1970:date];
+NSLog(@”d:%@”,dd); //2011-01-18 03:55:49 +0000
+//给一个时间秒数,取出对应的时间
+NSString *s = @”1295355600000″; //对应21:00
+NSDate *d = [NSDate dateWithTimeIntervalSince1970:[s doubleValue]/1000];
+NSLog(@”dddd:%@”,d); //2011-01-18 13:00:00 +0000
+NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+[formatter1 setDateFormat:@"HH:mm"];
+NSString *showtimeNew = [formatter1 stringFromDate:d];
+NSLog(@”showtimeNew:%@”,showtimeNew); //21:00 比d的时间 +8小时
+[formatter1 release];
+</code></pre>
+
+<h2>1. 创建或初始化可用以下方法</h2>
+
+<pre><code>用于创建NSDate实例的类方法有
++ (id)date;
+返回当前时间
++ (id)dateWithTimeIntervalSinceNow:(NSTimeInterval)secs;
+返回以当前时间为基准，然后过了secs秒的时间
++ (id)dateWithTimeIntervalSinceReferenceDate:(NSTimeInterval)secs;
+返回以2001/01/01 GMT为基准，然后过了secs秒的时间
++ (id)dateWithTimeIntervalSince1970:(NSTimeInterval)secs;
+返回以1970/01/01 GMT为基准，然后过了secs秒的时间
++ (id)distantFuture;
+返回很多年以后的未来的某一天。（比如你需要一个比现在(Now)晚(大)很长时间的时间值，则可以调用该方法。测试返回了4000/12/31 16:00:00）
++ (id)distantPast;
+返回很多年以前的某一天。（比如你需要一个比现在(Now)早(小)大很长时间的时间值，则可以调用该方法。测试返回了公元前0001/12/31 17:00:00）
+
+用于创建NSDate实例的实例方法有
+- (id)addTimeInterval:(NSTimeInterval)secs;
+返回以目前的实例中保存的时间为基准，然后过了secs秒的时间
+
+用于初始化NSDate实例的实例方法有
+- (id)init;
+初始化为当前时间。类似date方法
+初始化为以2001/01/01 GMT为基准，然后过了secs秒的时间。类似dateWithTimeIntervalSinceReferenceDate:方法
+- (id)initWithTimeInterval:(NSTimeInterval)secs sinceDate:(NSDate *)refDate;
+初始化为以refDate为基准，然后过了secs秒的时间
+- (id)initWithTimeIntervalSinceNow:(NSTimeInterval)secs;
+初始化为以当前时间为基准，然后过了secs秒的时间
+</code></pre>
+
+<h2>2. 日期之间比较可用以下方法</h2>
+
+<pre><code>- (BOOL)isEqualToDate:(NSDate *)otherDate;
+与otherDate比较，相同返回YES
+- (NSDate *)earlierDate:(NSDate *)anotherDate;
+与anotherDate比较，返回较早的那个日期
+- (NSDate *)laterDate:(NSDate *)anotherDate;
+与anotherDate比较，返回较晚的那个日期
+- (NSComparisonResult)compare:(NSDate *)other;
+</code></pre>
+
+<p>该方法用于排序时调用:
+. 当实例保存的日期值与anotherDate相同时返回NSOrderedSame
+. 当实例保存的日期值晚于anotherDate时返回NSOrderedDescending
+. 当实例保存的日期值早于anotherDate时返回NSOrderedAscending</p>
+
+<h2>3. 取回时间间隔可用以下方法</h2>
+
+<pre><code>- (NSTimeInterval)timeIntervalSinceDate:(NSDate *)refDate;
+以refDate为基准时间，返回实例保存的时间与refDate的时间间隔
+- (NSTimeInterval)timeIntervalSinceNow;
+以当前时间(Now)为基准时间，返回实例保存的时间与当前时间(Now)的时间间隔
+- (NSTimeInterval)timeIntervalSince1970;
+以1970/01/01 GMT为基准时间，返回实例保存的时间与1970/01/01 GMT的时间间隔
+- (NSTimeInterval)timeIntervalSinceReferenceDate;
+以2001/01/01 GMT为基准时间，返回实例保存的时间与2001/01/01 GMT的时间间隔
++ (NSTimeInterval)timeIntervalSinceReferenceDate;
+以2001/01/01 GMT为基准时间，返回当前时间(Now)与2001/01/01 GMT的时间间隔
+</code></pre>
+
+<h2>4. 将时间表示成字符串</h2>
+
+<pre><code>- (NSString *)description;
+以YYYY-MM-DD HH:MM:SS ±HHMM的格式表示时间。（其中 “±HHMM” 表示与GMT的存在多少小时多少分钟的时区差异。比如，若时区设置在北京，则 “±HHMM” 显示为 “+0800″）
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-14T11:42:23+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:42 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/14/ios-jie-xi-json-shu-ju/" title="Previous Post: iOS 解析 JSON 数据">&laquo; iOS 解析 JSON 数据</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/14/ios-fa-song-json-shu-ju-gei-fu-wu-qi/" title="Next Post: iOS 发送 JSON 数据给服务器">iOS 发送 JSON 数据给服务器 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

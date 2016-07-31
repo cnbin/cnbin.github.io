@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>数据库关系代数notes(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1 2 3 4 5 6 7 配置管理中的开发库、受控库、产品库都分别是干嘛的，之间有什么联系?
+一般情况，
+开发库是开发人员修改代码的地方。（开发人员可以随意修改）
+受控库是测试版本代码存放的地方。（需要开发组长提交测试申请修改）
+产品库是测试通过版本存放的地方。（需要测试报告来驱动修改） 8 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/14/shu-ju-ku-guan-xi-dai-shu-notes/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">数据库关系代数notes(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-14T13:45:19+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:45 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>1</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyw0ph9bc5j20h5077dh2.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyw1ngy8vbj20nb0cojtq.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyw1p2klhaj20lt0bimyu.jpg" alt="img" /></p>
+
+<h3>2</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eyxu53hig2j20mg0detbs.jpg" alt="img" /></p>
+
+<h3>3</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f0nd6h8ravj20jl056wfg.jpg" alt="img" /></p>
+
+<h3>4</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez01k9ydrsj20pf05udh8.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez01kap52lj20q40af41n.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyywcbkfbzj20jb0figoh.jpg" alt="img" /></p>
+
+<h3>5</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyyw9431quj20jp0k80wp.jpg" alt="img" /></p>
+
+<h3>6</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyvrt4tbwhj20hx03ht9z.jpg" alt="img" /></p>
+
+<h3>7</h3>
+
+<pre><code>配置管理中的开发库、受控库、产品库都分别是干嘛的，之间有什么联系?
+一般情况，
+开发库是开发人员修改代码的地方。（开发人员可以随意修改）
+受控库是测试版本代码存放的地方。（需要开发组长提交测试申请修改）
+产品库是测试通过版本存放的地方。（需要测试报告来驱动修改）
+</code></pre>
+
+<h3>8</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez06s5rkt5j20q908jq3r.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez06s6l2b2j20po0l7tdy.jpg" alt="img" /></p>
+
+<h3>9</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez1lwmcu74j20m90gpjwk.jpg" alt="img" /></p>
+
+<h3>10</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez6z5duscfj20m80drq6n.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez6z5eggofj20gs0kbdlu.jpg" alt="img" /></p>
+
+<h3>11</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez71zh1188j20pb0ceaem.jpg" alt="img" /></p>
+
+<h3>12</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez73g9xdy7j20i402tt96.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez73g912etj20ly07mq53.jpg" alt="img" /></p>
+
+<h3>13</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez73gc7p4oj20i50bc776.jpg" alt="img" /></p>
+
+<h3>14</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez73g9if2qj20h60igjvh.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez73gcpyj5j20iz0dwwi8.jpg" alt="img" /></p>
+
+<h3>15</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez73n3e4hej20k70dbwi8.jpg" alt="img" /></p>
+
+<h3>16</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez73n52azwj20mq0450ty.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez73n3wmxoj20h30lctd9.jpg" alt="img" /></p>
+
+<h3>17</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9diyckimj20ot06jabh.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9diyqjo5j20on088ac0.jpg" alt="img" /></p>
+
+<h3>17.1特殊化</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9afkqafcj20mo0j7451.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9afl701kj20k60fe0v3.jpg" alt="img" /></p>
+
+<h3>18自然连接</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9aox4biyj20kv06i3yx.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9aoxgy1uj20ly06m3zp.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9aoxtfd6j20ln0lkwi6.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9aoycjddj20m20coad1.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9aoyudxbj20lj0dj41r.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9aoz99zej20m10hmn1n.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9aswd296j20ml091gnl.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9ap0flbpj20jo08xmy6.jpg" alt="img" /></p>
+
+<h3>19</h3>
+
+<p>数据库中的日志文件有什么作用啊？
+日志的作用是记录所有对数据库数据的修改，主要是保护数据库以防止故障发生后，对数据库进行恢复</p>
+
+<h3>20</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9dvfo556j20mr0emwir.jpg" alt="img" /></p>
+
+<h3>21</h3>
+
+<p>数据库中弱实体是什么?</p>
+
+<p>依赖联系 ：在现实世界中，有些实体对一另一些实体有很强的依赖关系，即一个实体的存在必须以另一实体的存在为前提。前者就称为"弱实体"，如在人事管理系统中，职工子女的信息就是以职工的存在为前提的，子女实体是弱实体，子女与职工的联系是一种依赖联系。在ER图中用双线框表示弱实体。用箭头表示依赖联系。</p>
+
+<h3>22</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9rjycxjij20r80agwgr.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9rjz0qzsj20qf043t97.jpg" alt="img" /></p>
+
+<h3>23</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9ri7y5tgj20qg0msgrk.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9ri8b2hgj20o803ajro.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9ri98tflj20qy0ovahq.jpg" alt="img" /></p>
+
+<h3>24</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezhg1935esj20kj0ac41h.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezhg19p6s6j20lk07l0v0.jpg" alt="img" /></p>
+
+<h3>25</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezofbqa4i4j20jl04dgm9.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-14T13:45:19+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:45 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/14/mian-xiang-dui-xiang-notes/" title="Previous Post: 面向对象notes(原创)">&laquo; 面向对象notes(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/14/wang-luo-ji-shu-notes/" title="Next Post: 网络技术notes(原创)">网络技术notes(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>软考之下午题做题技巧 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="做题的时候，要从精神上藐视它，告诉自己这题会做；要从心里重视它，读题时认真、耐心…… 一、DFD（数据流图） 1.从最近几年考试的情况来看，这题主要考察几个知识点： 1.1 给出外部实体的名称 1.2 给出数据存储的名称 1.3 查找错误的数据流和丢失的数据流 1.4 数据字典部分的考察（ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/29/ruan-kao-zhi-xia-wu-ti-zuo-ti-ji-qiao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">软考之下午题做题技巧</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-29T10:26:36+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:26 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>  做题的时候，要从精神上藐视它，告诉自己这题会做；要从心里重视它，读题时认真、耐心……</p>
+
+<p>一、DFD（数据流图）</p>
+
+<p>1.从最近几年考试的情况来看，这题主要考察几个知识点：</p>
+
+<p>  1.1 给出外部实体的名称</p>
+
+<p>  1.2 给出数据存储的名称</p>
+
+<p>  1.3 查找错误的数据流和丢失的数据流</p>
+
+<p>  1.4 数据字典部分的考察（2012年下半年DFD最后一问的数据项其实就是考察的数据字典）</p>
+
+<p>  1.5 问答题，比如2008上DFD最后一问的：面向对象结构设计方法的基本思及其适用场合。</p>
+
+<p>2.做此题的技巧</p>
+
+<p>这题，一般会给出一大段文字，然后给出顶层数据流图和0层数据流图等。我一般读题的过程中，会把读到的名词（可能为外部实体的词）、某某文件之类（即数据存储）、数据流标出来，这样在做问题一、二的时候，数据流图与说明对照，快速、标准的解决知识点1.1和1.2.</p>
+
+<p>查找丢失数据流时，先要做的是顶层和0层图对照，保持父图和子图平衡，即父图中某加工的输入（输出）数据流的数据必须与子图的输入（输出）数据流中的数据在数量和名字上相同。在此基础上，读文字说明，一句句的注意从..到..的字眼，这样就能解决知识点1.3。</p>
+
+<p>数据字典的问题，要知道数据字典各个符号的定义。</p>
+
+<p>对于简答题这样的题目，就凭借项目经验来写吧，尽量多写点，总能达到点上。</p>
+
+<p>二、数据库分析与设计</p>
+
+<p>从历年考题来看，主要有两种形式：一种是文字说明+表格，一种是只有文字说明的。</p>
+
+<p>1.主要考察几个知识点</p>
+
+<p>1.1 补充联系及联系类型，完善实体联系图</p>
+
+<p>1.2 ER图向关系模型的转变</p>
+
+<p>1.3 加个功能再次补充实体联系图</p>
+
+<p>1.4 简答题</p>
+
+<p>2.做此题的技巧</p>
+
+<p>第一遍读题的时候，画出各实体，尽量找出实体间的对应关系。对于给表格的题，表格的标题及表格周围的文字都要认真看，比如时间有可能就是某一实体的属性。</p>
+
+<p>解决1.1的技巧及注意事项：注意审题，不要漏泄联系类型（1:1,1：m,m:n）,难点在于一个联系联系三个实体的。读题的时候注意这样的字眼，比如：某某老师对某某学生上某某课。</p>
+
+<p>解决1.2的技巧:先从说明中凭自己的感觉从文字说明及表格中找实体的属性，找完以后，再去看ER图，遵照ER图向关系模型转转换的原则。不要漏写、多些属性值，不要忘记标主键、外键。</p>
+
+<p>解决1.4的技巧：按照自己的经验来，考前先弄懂1-3范式具体的含义。</p>
+
+<p>三、面向对象分析与设计</p>
+
+<p>从近几年考察来看，常常给出一段说明，然后附加有用例图和类图，当然也有可能会考状态图。</p>
+
+<p>1.主要考察的知识点</p>
+
+<p>1.1 填写用例名称、依赖关系</p>
+
+<p>1.2 填写类名称</p>
+
+<p>1.3 补充多重度</p>
+
+<p>1.4 对应的状态</p>
+
+<p>1.5 用到的某某设计模式的内涵</p>
+
+<p>2.解决此类问题的技巧
+第一遍读题的过程中，注意各名词，该标的地方标出来。</p>
+
+<p>用例名称一般比较好写，还要注意一点就是：依赖关系。要明白扩展《extend》和包含《include》的用意及箭头方向。</p>
+
+<p>多重度问题跟数据库中的联系类型有点相似，但不要写错，这里多个的时候只能用*表示哦。注意文中给出的数字，可能帮助你解决多重度问题。</p>
+
+<p>状态图各状态的转换也算是比较好找的一类问题吧，主要考察的是细心。</p>
+
+<p>考察某设计模式的内涵的这类问题，要熟悉23个设计模式的含义了。设计模式很重要啊……</p>
+
+<p>四、算法题</p>
+
+<p>这类题对我来说难度不小，但也不能掉以轻心，有时候算法考的还是比较简单的，懵都能懵对几分，比如时间复杂度和空间复杂度。可以看看《大话设计模式》，这里面讲的挺明确的。但是算法不是一朝一夕就能提高的，考试之前把几种常见算法看懂就好了，比如各类排序算法、分治算法、动态规划算法、贪心算法、回溯算法……</p>
+
+<p>五、设计模式</p>
+
+<p>这个题算是比较简单的，我选择做java版的设计模式，这个题有点java基础，能看懂类图，即使不懂设计模式也能得分。高中时老师常教育我们这么一句话：简单全做对，稳坐中档题，舍弃全不会；主要表达的是考试要心态正，乱中求稳，不要第一题做的不好，后面的都做不好了。</p>
+
+<p>考试之前将HeadFirst好好瞅瞅，历年考题出的例子大多与HeadFirst上的例子极为相似。</p>
+
+<p>一定要知道的几点：比如 interface、extends、implements、abstract、super等关键字的写法，注意大小写；注意委托的用法……</p>
+
+<p>保持好心态，乱中求稳，稳中求胜！相信自己，应该没问题的！只能说该做的都做了，大不了重来，一定把它突破！</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-29T10:26:36+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:26 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/29/si-xiang-bi-ji-33/" title="Previous Post: 思想笔记-33">&laquo; 思想笔记-33</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/29/si-xiang-bi-ji-34/" title="Next Post: 思想笔记-34">思想笔记-34 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,511 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Django 快速搭建 Blog - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Django 自称是“最适合开发有限期的完美WEB框架”。 创建工程 创建 mysite 工程项目，执行命令： $ django-admin.py startproject mysite manage.py &mdash;&ndash; Django项目里面的工具，通过它可以调用django &hellip;">
+  <meta name="keywords" content="django">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/29/django-kuai-su-da-jian-blog/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Django 快速搭建 Blog</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-29T11:25:21+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<blockquote><p><strong>Django 自称是“最适合开发有限期的完美WEB框架”。</strong></p></blockquote>
+
+<h3>创建工程</h3>
+
+<p>创建 mysite 工程项目，执行命令：</p>
+
+<pre><code>$ django-admin.py startproject mysite
+</code></pre>
+
+<p>manage.py &mdash;&ndash; Django项目里面的工具，通过它可以调用django shell和数据库等。</p>
+
+<p>settings.py &mdash;- 包含了项目的默认设置，包括数据库信息，调试标志以及其他一些工作的变量。</p>
+
+<p>urls.py &mdash;&ndash; 负责把URL模式映射到应用程序。</p>
+
+<h3>创建blog应用</h3>
+
+<p>1.在 mysite 目录下创建 blog 应用：</p>
+
+<pre><code>$ python manage.py startapp blog
+</code></pre>
+
+<p>2.打开 blog 目录下的 <code>models.py</code> 文件，这是我们定义 blog 数据结构的地方。创建 <code>BlogsPost</code>类，继承 <code>django.db.models.Model</code> 父类，定义三个变量，<code>title</code> （博客标题），<code>body</code>（博客正文），<code>timestamp</code>（博客创建时间）</p>
+
+<pre><code>from django.db import models
+
+# Create your models here.
+class BlogsPost(models.Model):
+    title = models.CharField(max_length = 150)
+    body = models.TextField()
+    timestamp = models.DateTimeField()
+</code></pre>
+
+<h3>设置数据库</h3>
+
+<pre><code>$ python manage.py syncdb
+</code></pre>
+
+<p>结果如下：</p>
+
+<pre><code>AppledeiMac:mysite apple$ python manage.py syncdb
+Creating tables ...
+Creating table django_admin_log
+Creating table auth_permission
+Creating table auth_group_permissions
+Creating table auth_group
+Creating table auth_user_groups
+Creating table auth_user_user_permissions
+Creating table auth_user
+Creating table django_content_type
+Creating table django_session
+
+You just installed Django's auth system, which means you don't have any superusers defined.
+Would you like to create one now? (yes/no): yes
+Username (leave blank to use 'apple'):
+Email address: 845040571@qq.com
+Password:
+Password (again):
+Superuser created successfully.
+Installing custom SQL ...
+Installing indexes ...
+Installed 0 object(s) from 0 fixture(s)
+</code></pre>
+
+<h3>设置admin应用</h3>
+
+<p><code>admin</code> 是 <code>Django</code> 自带的一个后台管理系统。</p>
+
+<p>1.添加 <code>blog</code> 应用，打开 <code>mysite/mysite/settings.py</code> 文件，找到 <code>INSTALLED_APPS</code>，末尾添加 <code>‘blog’,</code>。</p>
+
+<pre><code># Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'blog',
+)
+</code></pre>
+
+<p>2.将我们创建数据添加到 <code>admin</code> 后台，再次打开 <code>mysite/blog/models.py</code> 文件进行修改：</p>
+
+<pre><code>from django.db import models
+from django.contrib import admin
+
+# Create your models here.
+class BlogsPost(models.Model):
+    title = models.CharField(max_length = 150)
+    body = models.TextField()
+    timestamp = models.DateTimeField()
+
+admin.site.register(BlogsPost)
+</code></pre>
+
+<p>3.再次初始化数据库</p>
+
+<pre><code>$ python manage.py syncdb
+</code></pre>
+
+<p>结果如下：</p>
+
+<pre><code>AppledeiMac:mysite apple$ python manage.py syncdb
+Creating tables ...
+Creating table blog_blogspost
+Installing custom SQL ...
+Installing indexes ...
+Installed 0 object(s) from 0 fixture(s)
+</code></pre>
+
+<p>4.启动服务</p>
+
+<pre><code>$ python manage.py runserver
+</code></pre>
+
+<p>5.访问 admin 后台</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eskyxlnj4hj20ql0bx757.jpg" alt="img" /></p>
+
+<p>输入用户、密码，用户名密码为第一次创建数据库时创建的。回想“设置数据库”时的设置。</p>
+
+<p>6.创建博客</p>
+
+<p>登陆成功选择 <code>add</code> 创建博客</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eskz04gc8rj20mb0aewgb.jpg" alt="img" /></p>
+
+<p>输入博客标题，正文、日期时间、点击 save 创建博客。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eskyxldq8uj217e0dm0vi.jpg" alt="img" /></p>
+
+<h3>设置admin 的BlogsPost界面</h3>
+
+<p>打开 <code>mysite/blog/models.py</code> 文件，做如下修改：</p>
+
+<pre><code>from django.db import models
+from django.contrib import admin
+
+# Create your models here.
+class BlogsPost(models.Model):
+    title = models.CharField(max_length = 150)
+    body = models.TextField()
+    timestamp = models.DateTimeField()
+
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ('title','timestamp')
+
+admin.site.register(BlogsPost,BlogPostAdmin)
+</code></pre>
+
+<p>创建 BlogPostAdmin 类，继承 admin.ModelAdmin 父类，以列表的形式显示 BlogPost 的标题和时间。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eskzcxofeyj20m4089dha.jpg" alt="img" /></p>
+
+<h3>创建模板</h3>
+
+<p>在 blog 项目下创建 templates 目录 <code>(mysite/blog/templates/)</code> ,在目录下创建模板文件
+<code>archive.html</code>，内容如下：</p>
+
+<pre><code>{% for post in posts %}
+    &lt;h2&gt;{{ post.title }}&lt;/h2&gt;
+    &lt;p&gt;{{ post.timestamp }}&lt;/p&gt;
+    &lt;p&gt;{{ post.body }}&lt;/p&gt;
+{% endfor%}
+</code></pre>
+
+<p>设置模板路径，打开 <code>mysite/mysite/settings.py</code> 文件，在文件底部添加模板路径：</p>
+
+<pre><code>#template
+TEMPLATE_DIRS=(
+    '/Users/apple/mysite/blog/templates'
+)
+</code></pre>
+
+<h3>创建视图函数</h3>
+
+<p>打开 <code>mysite/blog/views.py</code> 文件：</p>
+
+<pre><code>from django.shortcuts import render
+from django.template import loader,Context
+from django.http import HttpResponse
+from blog.models import BlogsPost
+
+# Create your views here.
+def archive(request):
+    posts = BlogsPost.objects.all()
+    t = loader.get_template("archive.html")
+    c = Context({'posts':posts})
+    return HttpResponse(t.render(c))
+</code></pre>
+
+<p>posts = BlogPost.objects.all() ：获取数据库里面所拥有 BlogPost 对象</p>
+
+<p>t = loader.get_template(&ldquo;archive.html&rdquo;)：加载模板</p>
+
+<p>c = Context({&lsquo;posts&rsquo;:posts})：模板的渲染的数据是有一个字典类的对象 Context 提供，这里的是一对键值对。</p>
+
+<h3>创建blog的URL模式</h3>
+
+<p>在 <code>mysite/urls.py</code> 文件里添加 <code>blog</code> 的 <code>url</code>：</p>
+
+<pre><code>urlpatterns = patterns('',
+    # Examples:
+    # url(r'^$', 'mysite.views.home', name='home'),
+
+    url(r'^blog/', include('blog.urls')),
+    url(r'^admin/', include(admin.site.urls)),
+)
+</code></pre>
+
+<p>在 <code>mysite/blog/</code> 目录下创建 <code>urls.py</code> 文件：</p>
+
+<pre><code>from django.conf.urls import *
+from blog.views import archive
+
+
+urlpatterns = patterns('',
+                      url(r'^$',archive),
+                      )
+</code></pre>
+
+<p>在<code>blog</code> 应用下面又创建 <code>urls.py</code>文件，是为了降低耦合度。这样 <code>mysite/urls.py</code> 文件针对的是每个项目的 <code>url</code>。</p>
+
+<p>再次启动服务</p>
+
+<pre><code>$ python manage.py runserver
+</code></pre>
+
+<p>访问 blog 应用</p>
+
+<pre><code>http://127.0.0.1:8000/blog/
+</code></pre>
+
+<p>页面如下：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esl0qr5jl2j206m06374f.jpg" alt="img" /></p>
+
+<h3>添加样式</h3>
+
+<p>创建基础模板，在 <code>mysite/blog/templates</code> 目录里创建 <code>base.html</code> 的模板：</p>
+
+<pre><code>&lt;html&gt;
+      &lt;style type="text/css"&gt;
+        body{color:#efd;background:#453;padding:0 5em;margin:0}
+        h1{padding:2em 1em;background:#675}
+        h2{color:#bf8;border-top:1px dotted #fff;margin-top:2em}
+        p{margin:1em 0}
+      &lt;/style&gt;
+
+      &lt;body&gt;
+        &lt;h1&gt;陈斌彬的技术博客&lt;/h1&gt;
+        &lt;h3&gt;Stay hungry,stay foolish&lt;/h3&gt;
+    {% block content %}
+        {% endblock %}
+      &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>修改 <code>archive.html</code> 模板，让它引用 <code>base.html</code> 模板和它的 <code>content</code> 块。</p>
+
+<pre><code>{% extends "base.html" %}
+  {% block content %}
+      {% for post in posts %}
+      &lt;h2&gt;{{  post.title }}&lt;/h2&gt;
+      &lt;p&gt;{{ post.timestamp | date:"1,F jS"}}&lt;/p&gt;
+      &lt;p&gt;{{ post.body }}&lt;/p&gt;
+      {% endfor %}
+  {% endblock %}
+</code></pre>
+
+<p>再次刷新博客页面：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl0uji9vvj20qi0bi75c.jpg" alt="img" /></p>
+
+<h2>总结</h2>
+
+<p>今天早上用 django 搭建 blog，用 python 语言做一个实际的应用，开阔自己的视野，增加自己的兴趣。</p>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://www.cnblogs.com/fnng/p/3737964.html">http://www.cnblogs.com/fnng/p/3737964.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-29T11:25:21+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:25 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/29/mac-da-jian-djangokai-fa-huan-jing/" title="Previous Post: Mac 搭建 Django 开发环境(原创)">&laquo; Mac 搭建 Django 开发环境(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/29/yong-yeoman-he-angularjs-gou-jian-todo-ying-yong/" title="Next Post: 用 Yeoman 和 AngularJS 构建 Todo 应用(原创)">用 Yeoman 和 AngularJS 构建 Todo 应用(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,980 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Php | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/php/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Laravel 安装指南]]></title>
+    <link href="http://cnbin.github.io/blog/2015/07/28/Laravel-%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/"/>
+    <updated>2015-07-28T09:11:58+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/07/28/Laravel-安装指南</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h2>安装 Composer</h2>
+
+<p>Laravel 框架使用 Composer 来管理其依赖性。所以，在你使用 Laravel 之前，你必须确认在你电脑上是否安装了 Composer。</p>
+
+<h2>安装 Laravel</h2>
+
+<h3>通过 Laravel 安装工具</h3>
+
+<p>首先，使用 Composer 下载 Laravel 安装包：</p>
+
+<pre><code>composer global require "laravel/installer=~1.1"
+</code></pre>
+
+<p>请确定把<code>~/.composer/vendor/bin</code> 路径放置于您的 <code>PATH</code> 里， 这样 <code>laravel</code> 执行文件就会存在你的系统。</p>
+
+<p>一旦安装完成后，就可以使用 <code>laravel new</code> 命令建立一份全新安装的 <code>Laravel</code> 应用，例如： <code>laravel new blog</code> 将会在当前目录下建立一个名为 <code>blog</code> 的目录， 此目录里面存放着全新安装的 Laravel 相关代码，此方法跟其他方法不一样的地方在于会提前安装好所有相关代码，不需要再通过 <code>composer install</code> 安装相关依赖，速度会快许多。</p>
+
+<pre><code>laravel new blog
+</code></pre>
+
+<h3>通过 Composer Create-Project</h3>
+
+<p>你一样可以通过 Composer 在命令行执行 <code>create-project</code> 来安装 Laravel：</p>
+
+<pre><code>composer create-project laravel/laravel --prefer-dist
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eui82tmfguj20fd0enq6j.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eui84afmhjj20fq03pq4g.jpg" alt="img" /></p>
+
+<h3>脚手架</h3>
+
+<p>Laravel 自带了用户注册和认证的脚手架。如果你想要移除这个脚手架，使用 <code>fresh</code> 命令即可：</p>
+
+<pre><code>php artisan fresh
+</code></pre>
+
+<h2>环境需求</h2>
+
+<p>Laravel 框架有一些系统上的需求：</p>
+
+<ul>
+<li>PHP 版本 >= 5.4</li>
+<li>Mcrypt PHP 扩展</li>
+<li>OpenSSL PHP 扩展</li>
+<li>Mbstring PHP 扩展</li>
+<li>Tokenizer PHP 扩展</li>
+</ul>
+
+
+<p>在 PHP 5.5 之后， 有些操作系统需要手动安装 PHP JSON 扩展包。如果你是使用 Ubuntu，可以通过 <code>apt-get install php5-json</code> 来进行安装。</p>
+
+<h3>配置</h3>
+
+<p>在你安装完 Laravel 后，首先需要做的事情是配置一个随机字串作为应用程序密钥。假设你是通过 comoser 安装 Laravel ，这个密钥会自动通过 <code>key:generate</code> 命令帮你配置完成。</p>
+
+<p>通常这个密钥应该有 32 字符长。这个密钥可以被配置在 <code>.env</code> 环境文件中。 如果这密钥没有被配置的话，你的用户 sessions 和其他的加密数据都是不安全的！</p>
+
+<p>Laravel 几乎不需配置就可以马上使用。你可以自由的开始开发！然而，你可以查看 <code>config/app.php</code> 文件和其他的文档。你可能希望根据你的应用程序而做更改，文件包含数个选项如 时区 和 语言环境。</p>
+
+<p>一旦 Laravel 安装完成，你应该同时<a href="http://www.golaravel.com/laravel/docs/5.0/configuration#environment-configuration">配置本地环境</a>。</p>
+
+<pre><code>注意： 你不应该在正式环境中将 app.debug 配置为 true。绝对！千万不要！
+</code></pre>
+
+<h3>权限</h3>
+
+<p>Laravel 框架有一个目录需要额外配置权限：storage 和 vendor 目录要让服务器有写入的权限。</p>
+
+<h2>优雅链接</h2>
+
+<h3>Apache</h3>
+
+<p>Laravel 框架通过 <code>public/.htaccess</code> 文件来让网址中不需要 <code>index.php</code>。如果你的网页服务器是使用 Apache 的话，请确认是否有开启 <code>mod_rewrite</code> 模块。</p>
+
+<p>假设 Laravel 附带的 <code>.htaccess</code> 文件在 Apache 无法生效的话，请尝试下面的方法：</p>
+
+<pre><code>Options +FollowSymLinks
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [L]
+</code></pre>
+
+<h3>Nginx</h3>
+
+<p>在 Nginx，在你的网站配置中增加下面的配置，可以使用「优雅链接」：</p>
+
+<pre><code>location / {
+    try_files $uri $uri/ /index.php?$query_string;
+}
+</code></pre>
+
+<p>当然，如果你使用 <a href="http://www.golaravel.com/laravel/docs/5.0/homestead">Homestead</a> 的话，优雅链接会自动的帮你配置完成。</p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://www.golaravel.com/laravel/docs/5.0/installation/">http://www.golaravel.com/laravel/docs/5.0/installation/</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Php 命名空间]]></title>
+    <link href="http://cnbin.github.io/blog/2015/07/08/php-ming-ming-kong-jian/"/>
+    <updated>2015-07-08T09:25:48+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/07/08/php-ming-ming-kong-jian</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>PHP 命名空间(namespace)是在 PHP 5.3 中加入的，如果你学过 C# 和 Java，那命名空间就不算什么新事物。 不过在PHP当中还是有着相当重要的意义。</p>
+
+<p>PHP 命名空间可以解决以下两类问题：</p>
+
+<ol>
+<li>用户编写的代码与 PHP 内部的类/函数/常量或第三方类/函数/常量之间的名字冲突。</li>
+<li>为很长的标识符名称(通常是为了缓解第一类问题而定义的)创建一个别名（或简短）的名称，提高源代码的可读性。</li>
+</ol>
+
+
+<h3>定义命名空间</h3>
+
+<p>默认情况下，所有常量、类和函数名都放在全局空间下，就和PHP支持命名空间之前一样。</p>
+
+<p>命名空间通过关键字 namespace 来声明。如果一个文件中包含命名空间，它必须在其它所有代码之前声明命名空间。语法格式如下；</p>
+
+<pre><code>&lt; ?php  
+// 定义代码在 'MyProject' 命名空间中  
+namespace MyProject;  
+
+// ... 代码 ...  
+你也可以在同一个文件中定义不同的命名空间代码，如：
+
+&lt; ?php  
+namespace MyProject1;  
+// MyProject1 命名空间中的PHP代码  
+
+namespace MyProject2;  
+// MyProject2 命名空间中的PHP代码    
+
+// 另一种语法
+namespace MyProject3 {  
+ // MyProject3 命名空间中的PHP代码    
+}  
+?&gt;  
+</code></pre>
+
+<p>在声明命名空间之前唯一合法的代码是用于定义源文件编码方式的 declare 语句。所有非 PHP 代码包括空白符都不能出现在命名空间的声明之前。</p>
+
+<pre><code>&lt;?php
+declare(encoding='UTF-8'); //定义多个命名空间和不包含在命名空间中的代码
+namespace MyProject {
+
+const CONNECT_OK = 1;
+class Connection { /* ... */ }
+function connect() { /* ... */  }
+}
+
+namespace { // 全局代码
+session_start();
+$a = MyProject\connect();
+echo MyProject\Connection::start();
+}
+?&gt;
+</code></pre>
+
+<p>以下代码会出现语法错误：</p>
+
+<pre><code>&lt;html&gt;
+&lt;?php
+namespace MyProject; // 命名空间前出现了“&lt;html&gt;” 会致命错误 -　命名空间必须是程序脚本的第一条语句
+?&gt;
+</code></pre>
+
+<h3>子命名空间</h3>
+
+<p>与目录和文件的关系很象，PHP 命名空间也允许指定层次化的命名空间的名称。因此，命名空间的名字可以使用分层次的方式定义：</p>
+
+<pre><code>&lt;?php
+namespace MyProject\Sub\Level;  //声明分层次的单个命名空间
+
+const CONNECT_OK = 1;
+class Connection { /* ... */ }
+function Connect() { /* ... */  }
+
+?&gt;
+</code></pre>
+
+<p>上面的例子创建了常量 MyProject\Sub\Level\CONNECT_OK，类 MyProject\Sub\Level\Connection 和函数 MyProject\Sub\Level\Connect。</p>
+
+<h3>命名空间使用</h3>
+
+<p>PHP 命名空间中的类名可以通过三种方式引用：</p>
+
+<ul>
+<li>非限定名称，或不包含前缀的类名称，例如 $a=new foo(); 或 foo::staticmethod();。如果当前命名空间是 currentnamespace，foo 将被解析为 currentnamespace\foo。如果使用 foo 的代码是全局的，不包含在任何命名空间中的代码，则 foo 会被解析为foo。 警告：如果命名空间中的函数或常量未定义，则该非限定的函数名称或常量名称会被解析为全局函数名称或常量名称。</li>
+<li>限定名称,或包含前缀的名称，例如 $a = new subnamespace\foo(); 或 subnamespace\foo::staticmethod();。如果当前的命名空间是 currentnamespace，则 foo 会被解析为 currentnamespace\subnamespace\foo。如果使用 foo 的代码是全局的，不包含在任何命名空间中的代码，foo 会被解析为subnamespace\foo。</li>
+<li>完全限定名称，或包含了全局前缀操作符的名称，例如， $a = new \currentnamespace\foo(); 或 \currentnamespace\foo::staticmethod();。在这种情况下，foo 总是被解析为代码中的文字名(literal name)currentnamespace\foo。</li>
+</ul>
+
+
+<p>下面是一个使用这三种方式的实例：</p>
+
+<p>file1.php 文件代码</p>
+
+<pre><code>&lt;?php
+namespace Foo\Bar\subnamespace; 
+
+const FOO = 1;
+function foo() {}
+class foo
+{
+    static function staticmethod() {}
+}
+?&gt;
+</code></pre>
+
+<p>file2.php 文件代码</p>
+
+<pre><code>&lt;?php
+namespace Foo\Bar;
+include 'file1.php';
+
+const FOO = 2;
+function foo() {}
+class foo
+{
+    static function staticmethod() {}
+}
+
+/* 非限定名称 */
+foo(); // 解析为 Foo\Bar\foo resolves to function Foo\Bar\foo
+foo::staticmethod(); // 解析为类 Foo\Bar\foo的静态方法staticmethod。resolves to class Foo\Bar\foo, method staticmethod
+echo FOO; // resolves to constant Foo\Bar\FOO
+
+/* 限定名称 */
+subnamespace\foo(); // 解析为函数 Foo\Bar\subnamespace\foo
+subnamespace\foo::staticmethod(); // 解析为类 Foo\Bar\subnamespace\foo,
+                                  // 以及类的方法 staticmethod
+echo subnamespace\FOO; // 解析为常量 Foo\Bar\subnamespace\FOO
+
+/* 完全限定名称 */
+\Foo\Bar\foo(); // 解析为函数 Foo\Bar\foo
+\Foo\Bar\foo::staticmethod(); // 解析为类 Foo\Bar\foo, 以及类的方法 staticmethod
+echo \Foo\Bar\FOO; // 解析为常量 Foo\Bar\FOO
+?&gt;
+</code></pre>
+
+<p>注意访问任意全局类、函数或常量，都可以使用完全限定名称，例如 \strlen() 或 \Exception 或 \INI_ALL。</p>
+
+<p>在命名空间内部访问全局类、函数和常量：</p>
+
+<pre><code>&lt;?php
+namespace Foo;
+
+function strlen() {}
+const INI_ALL = 3;
+class Exception {}
+
+$a = \strlen('hi'); // 调用全局函数strlen
+$b = \INI_ALL; // 访问全局常量 INI_ALL
+$c = new \Exception('error'); // 实例化全局类 Exception
+?&gt;
+</code></pre>
+
+<h3>命名空间和动态语言特征</h3>
+
+<p>PHP 命名空间的实现受到其语言自身的动态特征的影响。因此，如果要将下面的代码转换到命名空间中，动态访问元素。</p>
+
+<p>example1.php 文件代码：</p>
+
+<pre><code>&lt;?php
+class classname
+{
+    function __construct()
+    {
+        echo __METHOD__,"\n";
+    }
+}
+function funcname()
+{
+    echo __FUNCTION__,"\n";
+}
+const constname = "global";
+
+$a = 'classname';
+$obj = new $a; // prints classname::__construct
+$b = 'funcname';
+$b(); // prints funcname
+echo constant('constname'), "\n"; // prints global
+?&gt;
+</code></pre>
+
+<p>必须使用完全限定名称（包括命名空间前缀的类名称）。注意因为在动态的类名称、函数名称或常量名称中，限定名称和完全限定名称没有区别，因此其前导的反斜杠是不必要的。</p>
+
+<p>动态访问命名空间的元素</p>
+
+<pre><code>&lt;?php
+namespace namespacename;
+class classname
+{
+    function __construct()
+    {
+        echo __METHOD__,"\n";
+    }
+}
+function funcname()
+{
+    echo __FUNCTION__,"\n";
+}
+const constname = "namespaced";
+
+include 'example1.php';
+
+$a = 'classname';
+$obj = new $a; // prints classname::__construct
+$b = 'funcname';
+$b(); // prints funcname
+echo constant('constname'), "\n"; // prints global
+
+/* note that if using double quotes, "\\namespacename\\classname" must be used */
+$a = '\namespacename\classname';
+$obj = new $a; // prints namespacename\classname::__construct
+$a = 'namespacename\classname';
+$obj = new $a; // also prints namespacename\classname::__construct
+$b = 'namespacename\funcname';
+$b(); // prints namespacename\funcname
+$b = '\namespacename\funcname';
+$b(); // also prints namespacename\funcname
+echo constant('\namespacename\constname'), "\n"; // prints namespaced
+echo constant('namespacename\constname'), "\n"; // also prints namespaced
+?&gt;
+</code></pre>
+
+<h3>namespace关键字和<strong>NAMESPACE</strong>常量</h3>
+
+<p>PHP 支持两种抽象的访问当前命名空间内部元素的方法，<code>__NAMESPACE__</code> 魔术常量和 namespace 关键字。</p>
+
+<p>常量 <code>__NAMESPACE__</code> 的值是包含当前命名空间名称的字符串。在全局的，不包括在任何命名空间中的代码，它包含一个空的字符串。</p>
+
+<p><code>__NAMESPACE__</code> 示例, 在命名空间中的代码</p>
+
+<pre><code>&lt;?php
+namespace MyProject;
+
+echo '"', __NAMESPACE__, '"'; // 输出 "MyProject"
+?&gt;
+__NAMESPACE__ 示例，全局代码
+
+&lt;?php
+
+echo '"', __NAMESPACE__, '"'; // 输出 ""
+?&gt;
+</code></pre>
+
+<p>常量 <code>__NAMESPACE__</code> 在动态创建名称时很有用，例如：</p>
+
+<p>使用 <code>__NAMESPACE__</code> 动态创建名称</p>
+
+<pre><code>&lt;?php
+namespace MyProject;
+
+function get($classname)
+{
+    $a = __NAMESPACE__ . '\\' . $classname;
+    return new $a;
+}
+?&gt;
+</code></pre>
+
+<p>关键字 namespace 可用来显式访问当前命名空间或子命名空间中的元素。它等价于类中的 self 操作符。</p>
+
+<p>namespace 操作符，命名空间中的代码</p>
+
+<pre><code>&lt;?php
+namespace MyProject;
+
+use blah\blah as mine; // see "Using namespaces: importing/aliasing"
+
+blah\mine(); // calls function blah\blah\mine()
+namespace\blah\mine(); // calls function MyProject\blah\mine()
+
+namespace\func(); // calls function MyProject\func()
+namespace\sub\func(); // calls function MyProject\sub\func()
+namespace\cname::method(); // calls static method "method" of class MyProject\cname
+$a = new namespace\sub\cname(); // instantiates object of class MyProject\sub\cname
+$b = namespace\CONSTANT; // assigns value of constant MyProject\CONSTANT to $b
+?&gt;
+</code></pre>
+
+<p>namespace 操作符, 全局代码</p>
+
+<pre><code>&lt;?php
+
+namespace\func(); // calls function func()
+namespace\sub\func(); // calls function sub\func()
+namespace\cname::method(); // calls static method "method" of class cname
+$a = new namespace\sub\cname(); // instantiates object of class sub\cname
+$b = namespace\CONSTANT; // assigns value of constant CONSTANT to $b
+?&gt;
+</code></pre>
+
+<h3>使用命名空间：别名/导入</h3>
+
+<p>PHP 命名空间支持 有两种使用别名或导入方式：为类名称使用别名，或为命名空间名称使用别名。注意PHP不支持导入函数或常量。</p>
+
+<p>在PHP中，别名是通过操作符 use 来实现的. 下面是一个使用所有可能的三种导入方式的例子：</p>
+
+<p>1、使用use操作符导入/使用别名</p>
+
+<pre><code>&lt;?php
+namespace foo;
+use My\Full\Classname as Another;
+
+// 下面的例子与 use My\Full\NSname as NSname 相同
+use My\Full\NSname;
+
+// 导入一个全局类
+use \ArrayObject;
+
+$obj = new namespace\Another; // 实例化 foo\Another 对象
+$obj = new Another; // 实例化 My\Full\Classname　对象
+NSname\subns\func(); // 调用函数 My\Full\NSname\subns\func
+$a = new ArrayObject(array(1)); // 实例化 ArrayObject 对象
+// 如果不使用 "use \ArrayObject" ，则实例化一个 foo\ArrayObject 对象
+?&gt;
+</code></pre>
+
+<p>2、 一行中包含多个use语句</p>
+
+<pre><code>&lt;?php
+use My\Full\Classname as Another, My\Full\NSname;
+
+$obj = new Another; // 实例化 My\Full\Classname 对象
+NSname\subns\func(); // 调用函数 My\Full\NSname\subns\func
+?&gt;
+</code></pre>
+
+<p>导入操作是在编译执行的，但动态的类名称、函数名称或常量名称则不是。</p>
+
+<p>3、导入和动态名称</p>
+
+<pre><code>&lt;?php
+use My\Full\Classname as Another, My\Full\NSname;
+
+$obj = new Another; // 实例化一个 My\Full\Classname 对象
+$a = 'Another';
+$obj = new $a;      // 实际化一个 Another 对象
+?&gt;
+</code></pre>
+
+<p>另外，导入操作只影响非限定名称和限定名称。完全限定名称由于是确定的，故不受导入的影响。</p>
+
+<p>4、导入和完全限定名称</p>
+
+<pre><code>&lt;?php
+use My\Full\Classname as Another, My\Full\NSname;
+
+$obj = new Another; // instantiates object of class My\Full\Classname
+$obj = new \Another; // instantiates object of class Another
+$obj = new Another\thing; // instantiates object of class My\Full\Classname\thing
+$obj = new \Another\thing; // instantiates object of class Another\thing
+?&gt;
+</code></pre>
+
+<h3>使用命名空间：后备全局函数/常量</h3>
+
+<p>在一个命名空间中，当 PHP 遇到一个非限定的类、函数或常量名称时，它使用不同的优先策略来解析该名称。类名称总是解析到当前命名空间中的名称。因此在访问系统内部或不包含在命名空间中的类名称时，必须使用完全限定名称，例如：</p>
+
+<p>1、在命名空间中访问全局类</p>
+
+<pre><code>&lt;?php
+namespace A\B\C;
+class Exception extends \Exception {}
+
+$a = new Exception('hi'); // $a 是类 A\B\C\Exception 的一个对象
+$b = new \Exception('hi'); // $b 是类 Exception 的一个对象
+
+$c = new ArrayObject; // 致命错误, 找不到 A\B\C\ArrayObject 类
+?&gt;
+</code></pre>
+
+<p>对于函数和常量来说，如果当前命名空间中不存在该函数或常量，PHP 会退而使用全局空间中的函数或常量。</p>
+
+<p>2、 命名空间中后备的全局函数/常量</p>
+
+<pre><code>&lt;?php
+namespace A\B\C;
+
+const E_ERROR = 45;
+function strlen($str)
+{
+    return \strlen($str) - 1;
+}
+
+echo E_ERROR, "\n"; // 输出 "45"
+echo INI_ALL, "\n"; // 输出 "7" - 使用全局常量 INI_ALL
+
+echo strlen('hi'), "\n"; // 输出 "1"
+if (is_array('hi')) { // 输出 "is not array"
+    echo "is array\n";
+} else {
+    echo "is not array\n";
+}
+?&gt;
+</code></pre>
+
+<h3>全局空间</h3>
+
+<p>如果没有定义任何命名空间，所有的类与函数的定义都是在全局空间，与 PHP 引入命名空间概念前一样。在名称前加上前缀 \ 表示该名称是全局空间中的名称，即使该名称位于其它的命名空间中时也是如此。</p>
+
+<p>使用全局空间说明</p>
+
+<pre><code>&lt;?php
+namespace A\B\C;
+
+/* 这个函数是 A\B\C\fopen */
+function fopen() { 
+     /* ... */
+     $f = \fopen(...); // 调用全局的fopen函数
+     return $f;
+} 
+?&gt;
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Php 魔术变量]]></title>
+    <link href="http://cnbin.github.io/blog/2015/07/08/php-mo-zhu-bian-liang/"/>
+    <updated>2015-07-08T09:13:03+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/07/08/php-mo-zhu-bian-liang</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>PHP 向它运行的任何脚本提供了大量的预定义常量。</p>
+
+<p>不过很多常量都是由不同的扩展库定义的，只有在加载了这些扩展库时才会出现，或者动态加载后，或者在编译时已经包括进去了。</p>
+
+<p>有八个魔术常量它们的值随着它们在代码中的位置改变而改变。</p>
+
+<p>例如 <code>__LINE__</code> 的值就依赖于它在脚本中所处的行来决定。这些特殊的常量不区分大小写，如下：</p>
+
+<h3><code>__LINE__</code></h3>
+
+<p>文件中的当前行号。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+echo '这是第 “ '  . __LINE__ . ' ” 行';
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<p>这是第 “ 2 ” 行</p>
+
+<h3><code>__FILE__</code></h3>
+
+<p>文件的完整路径和文件名。如果用在被包含文件中，则返回被包含的文件名。</p>
+
+<p>自 PHP 4.0.2 起，<strong>FILE</strong> 总是包含一个绝对路径（如果是符号连接，则是解析后的绝对路径），而在此之前的版本有时会包含一个相对路径。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+echo '该文件位于 “ '  . __FILE__ . ' ” ';
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<p>该文件位于 “ E:\wamp\www\test\index.php ”</p>
+
+<h3><code>__DIR__</code></h3>
+
+<p>文件所在的目录。如果用在被包括文件中，则返回被包括的文件所在的目录。</p>
+
+<p>它等价于 dirname(<code>__FILE__</code>)。除非是根目录，否则目录中名不包括末尾的斜杠。（PHP 5.3.0中新增）</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+echo '该文件位于 “ '  . __DIR__ . ' ” ';
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<p>该文件位于 “ E:\wamp\www\test ”</p>
+
+<h3><code>__FUNCTION__</code></h3>
+
+<p>函数名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该函数被定义时的名字（区分大小写）。在 PHP 4 中该值总是小写字母的。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+function test() {
+    echo  '函数名为：' . __FUNCTION__ ;
+}
+test();
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<pre><code>函数名为：test
+</code></pre>
+
+<h3><code>__CLASS__</code></h3>
+
+<p>类的名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该类被定义时的名字（区分大小写）。</p>
+
+<p>在 PHP 4 中该值总是小写字母的。类名包括其被声明的作用区域（例如 Foo\Bar）。注意自 PHP 5.4 起 <code>__CLASS__</code> 对 trait 也起作用。当用在 trait 方法中时，<code>__CLASS__</code> 是调用 trait 方法的类的名字。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+&lt;?php
+class test {
+    function _print() {
+        echo '类名为：'  . __CLASS__ . "&lt;br&gt;";
+        echo  '函数名为：' . __FUNCTION__ ;
+    }
+}
+$t = new test();
+$t-&gt;_print();
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<pre><code>类名为：test
+函数名为：_print
+</code></pre>
+
+<h3><code>__TRAIT__</code></h3>
+
+<p>Trait 的名字（PHP 5.4.0 新加）。自 PHP 5.4.0 起，PHP 实现了代码复用的一个方法，称为 traits。</p>
+
+<p>Trait 名包括其被声明的作用区域（例如 Foo\Bar）。</p>
+
+<p>从基类继承的成员被插入的 SayWorld Trait 中的 MyHelloWorld 方法所覆盖。其行为 MyHelloWorld 类中定义的方法一致。优先顺序是当前类中的方法会覆盖 trait 方法，而 trait 方法又覆盖了基类中的方法。</p>
+
+<pre><code>&lt;?php
+class Base {
+    public function sayHello() {
+        echo 'Hello ';
+    }
+}
+
+trait SayWorld {
+    public function sayHello() {
+        parent::sayHello();
+        echo 'World!';
+    }
+}
+
+class MyHelloWorld extends Base {
+    use SayWorld;
+}
+
+$o = new MyHelloWorld();
+$o-&gt;sayHello();
+?&gt;
+</code></pre>
+
+<p>以上例程会输出：</p>
+
+<pre><code>Hello World!
+</code></pre>
+
+<h3><code>__METHOD__</code></h3>
+
+<p>类的方法名（PHP 5.0.0 新加）。返回该方法被定义时的名字（区分大小写）。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+function test() {
+    echo  '函数名为：' . __METHOD__ ;
+}
+test();
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<pre><code>函数名为：test
+</code></pre>
+
+<h3><code>__NAMESPACE__</code></h3>
+
+<p>当前命名空间的名称（区分大小写）。此常量是在编译时定义的（PHP 5.3.0 新增）。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+namespace MyProject;
+
+echo '命名空间为："', __NAMESPACE__, '"'; // 输出 "MyProject"
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<pre><code>命名空间为："MyProject"
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Php 函数]]></title>
+    <link href="http://cnbin.github.io/blog/2015/07/08/php-han-shu/"/>
+    <updated>2015-07-08T09:07:13+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/07/08/php-han-shu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3>创建 PHP 函数</h3>
+
+<p>函数是通过调用函数来执行的。</p>
+
+<p>语法</p>
+
+<pre><code>function functionName()
+{
+要执行的代码;
+}
+</code></pre>
+
+<p>PHP 函数准则：</p>
+
+<ul>
+<li>函数的名称应该提示出它的功能</li>
+<li>函数名称以字母或下划线开头（不能以数字开头）</li>
+</ul>
+
+
+<p>实例</p>
+
+<p>一个简单的函数，在其被调用时能输出我的名称：</p>
+
+<pre><code>&lt;html&gt;
+&lt;body&gt;
+
+&lt;?php
+function writeName()
+{
+echo "Kai Jim Refsnes";
+}
+
+echo "My name is ";
+writeName();
+?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>My name is Kai Jim Refsnes
+</code></pre>
+
+<h3>PHP 函数 - 添加参数</h3>
+
+<p>为了给函数添加更多的功能，我们可以添加参数。参数类似变量。</p>
+
+<p>参数就在函数名称后面有一个括号内指定。</p>
+
+<p>实例 1</p>
+
+<p>下面的实例将输出不同的名字，但姓是相同的：</p>
+
+<pre><code>&lt;html&gt;
+&lt;body&gt;
+
+&lt;?php
+function writeName($fname)
+{
+echo $fname . " Refsnes.&lt;br&gt;";
+}
+
+echo "My name is ";
+writeName("Kai Jim");
+echo "My sister's name is ";
+writeName("Hege");
+echo "My brother's name is ";
+writeName("Stale");
+?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>My name is Kai Jim Refsnes.
+My sister's name is Hege Refsnes.
+My brother's name is Stale Refsnes.
+</code></pre>
+
+<p>实例 2</p>
+
+<p>下面的函数有两个参数：</p>
+
+<pre><code>&lt;html&gt;
+&lt;body&gt;
+
+&lt;?php
+function writeName($fname,$punctuation)
+{
+echo $fname . " Refsnes" . $punctuation . "&lt;br&gt;";
+}
+
+echo "My name is ";
+writeName("Kai Jim",".");
+echo "My sister's name is ";
+writeName("Hege","!");
+echo "My brother's name is ";
+writeName("Ståle","?");
+?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>My name is Kai Jim Refsnes.
+My sister's name is Hege Refsnes!
+My brother's name is Ståle Refsnes?
+</code></pre>
+
+<h3>PHP 函数 - 返回值</h3>
+
+<p>如需让函数返回一个值，请使用 return 语句。</p>
+
+<p>实例</p>
+
+<pre><code>&lt;html&gt;
+&lt;body&gt;
+
+&lt;?php
+function add($x,$y)
+{
+$total=$x+$y;
+return $total;
+}
+
+echo "1 + 16 = " . add(1,16);
+?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>1 + 16 = 17
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Php 字符串]]></title>
+    <link href="http://cnbin.github.io/blog/2015/07/07/php-zi-fu-chuan/"/>
+    <updated>2015-07-07T10:19:15+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/07/07/php-zi-fu-chuan</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h2>PHP 中的字符串变量</h2>
+
+<p>字符串变量用于包含有字符的值。</p>
+
+<p>在创建字符串之后，我们就可以对它进行操作了。您可以直接在函数中使用字符串，或者把它存储在变量中。</p>
+
+<p>在下面的实例中，我们创建一个名为 txt 的字符串变量，并赋值为 &ldquo;Hello world!&rdquo; 。然后我们输出 txt 变量的值：</p>
+
+<p>实例</p>
+
+<pre><code>&lt;?php
+$txt="Hello world!";
+echo $txt;
+?&gt;
+</code></pre>
+
+<h2>PHP 并置运算符</h2>
+
+<p>在 PHP 中，只有一个字符串运算符。</p>
+
+<p>并置运算符 <code>(.)</code> 用于把两个字符串值连接起来。</p>
+
+<p>下面的实例演示了如何将两个字符串变量连接在一起：</p>
+
+<p>实例</p>
+
+<pre><code>&lt;?php
+$txt1="Hello world!";
+$txt2="What a nice day!";
+echo $txt1 . " " . $txt2;
+?&gt;
+</code></pre>
+
+<p>上面的代码将输出：Hello world! What a nice day!</p>
+
+<p>提示：在上面的代码中，我们已经使用了两次并置运算符。这是由于我们需要在两个字符串之间插入一个空格。</p>
+
+<h2>PHP strlen() 函数</h2>
+
+<p>有时知道字符串值的长度是很有用的。</p>
+
+<p>strlen() 函数返回字符串的长度（字符数）。</p>
+
+<p>下面的实例返回字符串 &ldquo;Hello world!&rdquo; 的长度：</p>
+
+<p>实例</p>
+
+<pre><code>&lt;?php
+echo strlen("Hello world!");
+?&gt;
+</code></pre>
+
+<p>上面的代码将输出：12</p>
+
+<p>提示：strlen() 常常用在循环和其他函数中，因为那时确定字符串何时结束是很重要的。（例如，在循环中，我们需要在字符串中的最后一个字符之后结束循环。）</p>
+
+<h2>PHP strpos() 函数</h2>
+
+<p>strpos() 函数用于在字符串内查找一个字符或一段指定的文本。</p>
+
+<p>如果在字符串中找到匹配，该函数会返回第一个匹配的字符位置。如果未找到匹配，则返回 FALSE。</p>
+
+<p>下面的实例在字符串 &ldquo;Hello world!&rdquo; 中查找文本 &ldquo;world"：</p>
+
+<p>实例</p>
+
+<pre><code>&lt;?php
+echo strpos("Hello world!","world");
+?&gt;
+</code></pre>
+
+<p>上面的代码将输出：6</p>
+
+<p>提示：在上面的实例中，字符串 &ldquo;world&rdquo; 的位置是 6。之所以是 6 而不是 7 的原因是，字符串中第一个字符的位置是 0，而不是 1。</p>
+]]></content>
+  </entry>
+  
+</feed>

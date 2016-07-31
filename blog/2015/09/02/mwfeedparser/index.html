@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MWFeedParser — an RSS and Atom Web Feed Parser for iOS - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="MWFeedParser is an Objective-C framework for downloading and parsing RSS (1. and 2.) and Atom web feeds. It is a very simple and clean &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/02/mwfeedparser/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MWFeedParser — an RSS and Atom Web Feed Parser for iOS</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-02T15:44:49+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>3:44 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>MWFeedParser is an Objective-C framework for downloading and parsing RSS (1.<em> and 2.</em>) and Atom web feeds. It is a very simple and clean implementation that reads the following information from a web feed:</p>
+
+<h4>Feed Information</h4>
+
+<ul>
+<li>Title</li>
+<li>Link</li>
+<li>Summary</li>
+</ul>
+
+
+<h4>Feed Items</h4>
+
+<ul>
+<li>Title</li>
+<li>Link</li>
+<li>Author name</li>
+<li>Date (the date the item was published)</li>
+<li>Updated date  (the date the item was updated, if available)</li>
+<li>Summary (brief description of item)</li>
+<li>Content (detailed item content, if available)</li>
+<li>Enclosures (i.e. podcasts, mp3, pdf, etc)</li>
+<li>Identifier (an item&rsquo;s guid/id)</li>
+</ul>
+
+
+<p>If you use MWFeedParser on your iPhone/iPad app then please do let me know, I&rsquo;d love to check it out :)</p>
+
+<p><strong><em>Important:</em></strong> This free software is provided under the MIT licence (X11 license) with the addition of the following condition:</p>
+
+<blockquote><p>This Software cannot be used to archive or collect data such as (but not
+limited to) that of events, news, experiences and activities, for the
+purpose of any concept relating to diary/journal keeping.</p></blockquote>
+
+<p>The full licence can be found at the end of this document.</p>
+
+<h2>Demo / Example App</h2>
+
+<p>There is an example iPhone application within the project which demonstrates how to use the parser to display the title of a feed, list all of the feed items, and display an item in more detail when tapped.</p>
+
+<h2>Setting up the parser</h2>
+
+<p>Create parser:</p>
+
+<pre><code>// Create feed parser and pass the URL of the feed
+NSURL *feedURL = [NSURL URLWithString:@"http://images.apple.com/main/rss/hotnews/hotnews.rss"];
+feedParser = [[MWFeedParser alloc] initWithFeedURL:feedURL];
+</code></pre>
+
+<p>Set delegate:</p>
+
+<pre><code>// Delegate must conform to `MWFeedParserDelegate`
+feedParser.delegate = self;
+</code></pre>
+
+<p>Set the parsing type. Options are <code>ParseTypeFull</code>, <code>ParseTypeInfoOnly</code>, <code>ParseTypeItemsOnly</code>. Info refers to the information about the feed, such as it&rsquo;s title and description. Items are the individual items or stories.</p>
+
+<pre><code>// Parse the feeds info (title, link) and all feed items
+feedParser.feedParseType = ParseTypeFull;
+</code></pre>
+
+<p>Set whether the parser should connect and download the feed data synchronously or asynchronously. Note, this only affects the download of the feed data, not the parsing operation itself.</p>
+
+<pre><code>// Connection type
+feedParser.connectionType = ConnectionTypeSynchronously;
+</code></pre>
+
+<p>Initiate parsing:</p>
+
+<pre><code>// Begin parsing
+[feedParser parse];
+</code></pre>
+
+<p>The parser will then download and parse the feed. If at any time you wish to stop the parsing, you can call:</p>
+
+<pre><code>// Stop feed download / parsing
+[feedParser stopParsing];
+</code></pre>
+
+<p>The <code>stopParsing</code> method will stop the downloading and parsing of the feed immediately.</p>
+
+<h2>Reading the feed data</h2>
+
+<p>Once parsing has been initiated, the delegate will receive the feed data as it is parsed.</p>
+
+<pre><code>- (void)feedParserDidStart:(MWFeedParser *)parser; // Called when data has downloaded and parsing has begun
+- (void)feedParser:(MWFeedParser *)parser didParseFeedInfo:(MWFeedInfo *)info; // Provides info about the feed
+- (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item; // Provides info about a feed item
+- (void)feedParserDidFinish:(MWFeedParser *)parser; // Parsing complete or stopped at any time by `stopParsing`
+- (void)feedParser:(MWFeedParser *)parser didFailWithError:(NSError *)error; // Parsing failed
+</code></pre>
+
+<p><code>MWFeedInfo</code> and <code>MWFeedItem</code> contains properties (title, link, summary, etc.) that will hold the parsed data. View <code>MWFeedInfo.h</code> and <code>MWFeedItem.h</code> for more information.</p>
+
+<p><strong><em>Important:</em></strong> There are some occasions where feeds do not contain some information, such as titles, links or summaries. Before using any data, you should check to see if that data exists:</p>
+
+<pre><code>NSString *title = item.title ? item.title : @"[No Title]";
+NSString *link = item.link ? item.link : @"[No Link]";
+NSString *summary = item.summary ? item.summary : @"[No Summary]";
+</code></pre>
+
+<p>The method <code>feedParserDidFinish:</code> will only be called when the feed has successfully parsed, or has been stopped by a call to <code>stopParsing</code>. To determine whether the parsing completed successfully, or was stopped, you can call <code>isStopped</code>.</p>
+
+<p>For a usage example, please see <code>RootViewController.m</code> in the demo project.</p>
+
+<h2>Available data</h2>
+
+<p>Here is a list of the available properties for feed info and item objects:</p>
+
+<h4>MWFeedInfo</h4>
+
+<ul>
+<li><code>info.title</code> (<code>NSString</code>)</li>
+<li><code>info.link</code> (<code>NSString</code>)</li>
+<li><code>info.summary</code> (<code>NSString</code>)</li>
+</ul>
+
+
+<h4>MWFeedItem</h4>
+
+<ul>
+<li><code>item.title</code> (<code>NSString</code>)</li>
+<li><code>item.link</code> (<code>NSString</code>)</li>
+<li><code>item.author</code> (<code>NSString</code>)</li>
+<li><code>item.date</code> (<code>NSDate</code>)</li>
+<li><code>item.updated</code> (<code>NSDate</code>)</li>
+<li><code>item.summary</code> (<code>NSString</code>)</li>
+<li><code>item.content</code> (<code>NSString</code>)</li>
+<li><code>item.enclosures</code> (<code>NSArray</code> of <code>NSDictionary</code> with keys <code>url</code>, <code>type</code> and <code>length</code>)</li>
+<li><code>item.identifier</code> (<code>NSString</code>)</li>
+</ul>
+
+
+<h2>Using the data</h2>
+
+<p>All properties of <code>MWFeedInfo</code> and <code>MWFeedItem</code> return the raw data as provided by the feed. This content may or may not include HTML and encoded entities. If the content does include HTML, you could display the data within a UIWebView, or you could use the provided <code>NSString</code> category (<code>NSString+HTML</code>) which will allow you to manipulate this HTML content. The methods available for your convenience are:</p>
+
+<pre><code>// Convert HTML to Plain Text
+//  - Strips HTML tags &amp; comments, removes extra whitespace and decodes HTML character entities.
+- (NSString *)stringByConvertingHTMLToPlainText;
+
+// Decode all HTML entities using GTM.
+- (NSString *)stringByDecodingHTMLEntities;
+
+// Encode all HTML entities using GTM.
+- (NSString *)stringByEncodingHTMLEntities;
+
+// Minimal unicode encoding will only cover characters from table
+// A.2.2 of http://www.w3.org/TR/xhtml1/dtds.html#a_dtd_Special_characters
+// which is what you want for a unicode encoded webpage.
+- (NSString *)stringByEncodingHTMLEntities:(BOOL)isUnicode;
+
+// Replace newlines with &lt;br /&gt; tags.
+- (NSString *)stringWithNewLinesAsBRs;
+
+// Remove newlines and white space from string.
+- (NSString *)stringByRemovingNewLinesAndWhitespace;
+
+// Wrap plain URLs in &lt;a href="..." class="linkified"&gt;...&lt;/a&gt;
+//  - Ignores URLs inside tags (any URL beginning with =")
+//  - HTTP &amp; HTTPS schemes only
+//  - Only works in iOS 4+ as we use NSRegularExpression (returns self if not supported so be careful with NSMutableStrings)
+//  - Expression: (?&lt;!=")\b((http|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;amp;:/~\+#]*[\w\-\@?^=%&amp;amp;/~\+#])?)
+//  - Adapted from http://regexlib.com/REDetails.aspx?regexp_id=96
+- (NSString *)stringByLinkifyingURLs;
+</code></pre>
+
+<p>An example of this would be:</p>
+
+<pre><code>// Display item summary which contains HTML as plain text
+NSString *plainSummary = [item.summary stringByConvertingHTMLToPlainText];
+</code></pre>
+
+<h2>Debugging problems</h2>
+
+<p>If for some reason the parser doesn&rsquo;t seem to be working, try enabling Debug Logging in <code>MWFeedParser.h</code>. This will log error messages to the console and help you diagnose the problem. Error codes and their descriptions can be found at the top of <code>MWFeedParser.h</code>.</p>
+
+<h2>Other information</h2>
+
+<p>MWFeedParser is not currently thread-safe.</p>
+
+<h2>Adding to your project</h2>
+
+<h3>Method 1: Use CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is great. If you are using CocoaPods (<a href="http://guides.cocoapods.org/using/using-cocoapods.html">and here&rsquo;s how to get started</a>), simply add <code>pod 'MWFeedParser'</code> to your podfile and run <code>pod install</code>. You&rsquo;re good to go! Here&rsquo;s an example podfile:</p>
+
+<pre><code>platform :ios, '7'
+    pod 'MWFeedParser'
+</code></pre>
+
+<p>If you are just interested in using the HTML and/or InternetDateTime categories in your app, you can just specify those in your podfile with <code>pod 'MWFeedParser/NSString+HTML'</code> or <code>pod 'MWFeedParser/NSDate+InternetDateTime'</code>.</p>
+
+<h3>Method 2: Including Source Directly Into Your Project</h3>
+
+<ol>
+<li>Open <code>MWFeedParser.xcodeproj</code>.</li>
+<li>Drag the <code>MWFeedParser</code> &amp; <code>Categories</code> groups into your project, ensuring you check <strong>Copy items into destination group&rsquo;s folder</strong>.</li>
+<li>Import <code>MWFeedParser.h</code> into your source as required.</li>
+</ol>
+
+
+<h2>Outstanding and suggested features</h2>
+
+<ul>
+<li>Demonstrate the previewing of formatted item summary/content (HTML with images, paragraphs, etc) within a <code>UIWebView</code> in demo app.</li>
+<li>Provide functionality to list available feeds when given the URL to a webpage with one or more web feeds associated with it.</li>
+<li>Support for the Media RSS extension (from Flickr, etc.)</li>
+<li>Support for the GeoRSS extension.</li>
+<li>Look into web feed icons.</li>
+<li>Look into supporting/detecting images in feed items.</li>
+</ul>
+
+
+<p>Feel free to get in touch and suggest/vote for other features.</p>
+
+<h2>Licence</h2>
+
+<p>Copyright &copy; 2010 Michael Waterfall</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &ldquo;Software&rdquo;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+
+<ol>
+<li><p>The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.</p></li>
+<li><p>This Software cannot be used to archive or collect data such as (but not
+limited to) that of events, news, experiences and activities, for the
+purpose of any concept relating to diary/journal keeping.</p></li>
+</ol>
+
+
+<p>THE SOFTWARE IS PROVIDED &ldquo;AS IS&rdquo;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-02T15:44:49+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>3:44 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/02/guan-yu-ui-user-interface-idiom-and-uidevice-dot-model/" title="Previous Post: 关于UI_USER_INTERFACE_IDIOM()">&laquo; 关于UI_USER_INTERFACE_IDIOM()</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/02/appirater-introduction/" title="Next Post: Appirater Introduction">Appirater Introduction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

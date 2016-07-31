@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Coding 快速搭建 WordPress - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Coding.net 这是一个国内新兴的代码托管平台，功能主要包括：代码托管、在线运行环境、监控代码质量，兼有一定的社交功能，在线运行环境支持 Java、Ruby、Node.js、PHP、Python、Go 等多种语言，每个账号可以创建 1000 个项目。
+Coding.net 与 Github &hellip;">
+  <meta name="keywords" content="coding,wordpress">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/17/codingnet-kuai-su-da-jian-wordpress/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Coding 快速搭建 WordPress</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-17T08:39:04+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:39 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et4hf0u1e4j20m80cwdgd.jpg" alt="img" /></p>
+
+<!--More-->
+
+
+<p><a href="https://coding.net/">Coding.net</a> 这是一个国内新兴的代码托管平台，功能主要包括：代码托管、在线运行环境、监控代码质量，兼有一定的社交功能，在线运行环境支持 Java、Ruby、Node.js、PHP、Python、Go 等多种语言，每个账号可以创建 1000 个项目。
+Coding.net 与 Github 不同的是，免费配额并不区分共有项目和私有项目。每个项目运行空间 512MB，git 提供代码空间 1GB，需要指出的是 coding.net 的初衷并非用来建站，而是一个协作开发平台。暂时不支持绑定域名，但可以使用 coding.net 提供的二级域名 <code>(*.coding.io)</code> 。</p>
+
+<h2>Coding.net 安装并运行 Wordpress 博客</h2>
+
+<h3>一、Coding.net 空间申请</h3>
+
+<h4>1、Coding.net 官网：</h4>
+
+<blockquote><p>官方网站：<a href="https://coding.net/">https://coding.net/</a></p></blockquote>
+
+<h4>2、点击右上角的注册按钮，输入邮箱、用户名、验证码。初次进入主界面会提示进入邮箱，点击激活连接。</h4>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1et4hl35qnzj21640i3qf3.jpg" alt="img" /></p>
+
+<h4>3、激活后设置密码，提交后跳转到控制面板，这是 Coding.net 的项目控制面板。</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1et4hmstpv4j216f0kv76n.jpg" alt="img" /></p>
+
+<h3>二、Coding.net 上传 Wordpress 源代码</h3>
+
+<h4>方法一：</h4>
+
+<p>直接将现有的项目 <strong>fork</strong> 一份，进入已经建好的 wordpress 项目：<a href="https://coding.net/u/cnbin/p/wordpress/git">https://coding.net/u/cnbin/p/wordpress/git</a></p>
+
+<p>点击右上角的 <strong>fork</strong> 。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1et4hq9488vj216a093dh8.jpg" alt="img" /></p>
+
+<p> 点 fork 之后，确定。这个过程实质是将其他人的项目做了一个副本，作为自己新项目的文件。优点是操作起来比较简单，缺点是没办法自定义源程序。</p>
+
+<h4>方法二：</h4>
+
+<p>通过 git 上传。安装 git（for windows） ，安装过程中不用修改任何配置，全部使用安装向导默认选项即可。 Mac 系统建议安装 Command Line Tools（工具集中含有git 1.8.5）；Linux系统一般自带 git。我自己用的是 iMac。</p>
+
+<p>点击创建新项目</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1et4hxb7guyj204v04xt8j.jpg" alt="img" /></p>
+
+<p>填写项目名称等内容，点击保存</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1et4hvs97wcj20ny0he751.jpg" alt="img" /></p>
+
+<p>下载 wordpress 源代码，中文官网：<a href="http://cn.wordpress.org/">http://cn.wordpress.org/</a>，解压压缩包，并进入 wordpress 目录。</p>
+
+<pre><code>git init
+git add .
+git commit -m "version 3.9"
+git remote add origin https://coding.net//&lt;项目名称&gt;.git
+git push origin master
+</code></pre>
+
+<h3>三、Coding.net 上部署程序</h3>
+
+<p>1.在控制面板中点击演示，出现以下界面；点击开始检测。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1et4i1ku3brj20ws0h80vn.jpg" alt="img" /></p>
+
+<p>2.勾选“我已阅读并知道以上注意事项”，点击开启功能后回跳转到演示平台的控制台。</p>
+
+<p>3.修改访问域名，点击确定。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1et4iff5jrwg20dw06ot8j.gif" alt="img" /></p>
+
+<p>4.切换到“服务管理”页面。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1et4iffhuqdg20dw06oq2t.gif" alt="img" /></p>
+
+<p>5.点击右上角的添加服务。</p>
+
+<p>6.选择 MySQL 服务并勾选绑定创建后的服务到此项目，然后点击确定。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1et4h8islawj20y80emdhc.jpg" alt="img" /></p>
+
+<p>7.点击连接信息，记下 MySQL 的数据库名(name),服务器名（hostname）,用户名(username),密码（password）。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1et4ilm8d2ej20o105i3zz.jpg" alt="img" /></p>
+
+<p>8.部署版本填写 master，点击一键部署。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et4h8jq6gxj20xj0cdabf.jpg" alt="img" /></p>
+
+<p>9.待部署完成后使用二级域名访问你的网站，点击创建配置文件。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et4h8k663qj20jr07475a.jpg" alt="img" /></p>
+
+<p>10.填写您的数据库名（name）、数据库主机(hostname)、用户名(username)、密码（password），点击进行安装 。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1et4h8kp6hfj20l90fvjty.jpg" alt="img" /></p>
+
+<p>11.最后，成功在 Coding.net 上安装了 Wordpress。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1et4h8mct7cj20xo0q678u.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1et4h8ml4arj20yg0eeta5.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et4h8mxdcwj20sm0ghgmm.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1et4inegl8aj20tq0jddlb.jpg" alt="img" /></p>
+
+<h4>转让和删除项目</h4>
+
+<p>点击进入你要删除的项目。</p>
+
+<p>点击“设置”</p>
+
+<p>点击 “高级设置”</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1et4jg9pgtsj20wo0iitbh.jpg" alt="img" /></p>
+
+<h3>四、Coding.net 空间使用小结</h3>
+
+<p>Coding.net 目前来看，与国外的同类代码托管平台相比，在速度上会有优势，再加上又是中文，操作起来可能会方便一些，但是 Coding.net 的稳定性和代码的安全性还需要进一步观察。</p>
+
+<h2>Reference resources</h2>
+
+<ul>
+<li><a href="https://coding.net/help/about_git/what_is_web_hook">Coding帮助中心</a></li>
+<li><a href="http://www.freehao123.com/coding-net/">免费资源部落</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-17T08:39:04+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:39 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/16/ruby-pow-gong-ju/" title="Previous Post: Ruby-Pow(原创)">&laquo; Ruby-Pow(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/17/just-for-better/" title="Next Post: Just for Better">Just for Better &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

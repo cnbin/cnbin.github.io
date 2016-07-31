@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tigase XMPP Server - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Tigase XMPP Server的特性。 1、Tigase HTTP API 实现XMPP和HTTP之间的桥梁，可通过REST调用实现对Tigase安装的管理和维护，可通过脚本API在运行时进行扩展。
+使用HTTP API组件，可以： 1）下载Tigase XMPP服务器运行时的统计， &hellip;">
+  <meta name="keywords" content="tigase">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/17/tigase-xmpp-server/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Tigase XMPP Server</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-17T09:43:04+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>Tigase XMPP Server的特性。</h2>
+
+<h3>1、Tigase HTTP API</h3>
+
+<p>实现XMPP和HTTP之间的桥梁，可通过REST调用实现对Tigase安装的管理和维护，可通过脚本API在运行时进行扩展。
+使用HTTP API组件，可以：</p>
+
+<pre><code>1）下载Tigase XMPP服务器运行时的统计，它包含了1000种不同的性能度量。可以做到轻松、快速的监控和早期预警等功能。
+2）通过REST API管理Tigase XMPP服务器，实现Tigase服务器与第三方维护、管理系统的集成。
+3）灵活的脚本框架，可以在运行时添加管理任务，可以在扩展管理和维护功能时无需重启服务。
+4）灵活的HTTP API框架，可以添加更多的服务并托管到XMPP引擎上。
+</code></pre>
+
+<h3>2、Tigase XMPP Server</h3>
+
+<p>全球大约有1亿的设备连接到Tigase服务器上，全球大约有1100台服务器部署运行着Tigase服务器。</p>
+
+<p>业界有很多优秀的开源XMPP服务器，比如eJabberd、Openfire、Jabberd2、Prosody，还有一些优秀的商业XMPP服务器，比如lsode、Jabber XCP等。在XMPP.ORG网站上可以看到完整的列表。</p>
+
+<p>Tigase XMPP服务器是相当独特的，它完全支持最新的规范（如RFC6120-XMPP CORE、RFC6121-XMPP IM和其它扩展）。</p>
+
+<pre><code>1）高度优化的。主二进制文件小于1MB，可运行于10MB内存的设备上。
+2）高度模块化。每个部件或组件都可以通过配置加载或替代。
+3）非常灵活。集成到系统中很方便，支持开箱即用的集群，无需寻找附加软件或扩展库。
+4）为低、中、高档服务器而设计。还在Amazon的EC2云上广泛测试过。
+5）良好的测试。有专门的工具来运行自动化测试，还可以手动运行兼容性测试，以及大量的负载测试。所有的测试结果都是公开的，所有测试使用的工具和配置细节都是公开的。
+6）支持脚本。支持Groovy、Python、Ruby、Scala等脚本语言编写扩展。
+7）易于监控。可以通过HTTP、SNMP、JMX、XMPP等方式监控服务器。
+8）支持SSL。Tigase从设计上就保证了安全，保护用户的隐私。API不允许从一用户访问另一用户的数据，在服务器端实现了强隔离。
+</code></pre>
+
+<h3>3、Tigase ACS</h3>
+
+<p>Tigase单个安装（One Installation）可以支撑1400万在线用户；单个安装美妙可以处理50万条消息；单个安装可以实现40台服务器集群。即Tigase ACS。</p>
+
+<p>Tigase ACS是Tigase XMPP服务器的商业级的集群实现。它专注于某些目标，如联系人列表超过10个，以及大规模XMPP系统工作在集群模式：</p>
+
+<pre><code>1）在安装时解决网络流量的问题
+2）允许扩展到上百万的在线用户或设备
+3）允许把负载分配到多种机器上
+4）实现系统的高可用，预防服务的中断
+5）支持超大群聊
+6）提供消息推送服务
+</code></pre>
+
+<p>使用ACS可以达到：</p>
+
+<pre><code>1）降低集群节点间的网络流量10倍以上
+2）减少CPU利用率至少5倍
+3）在高负载情况下也能提供可靠服务
+4）支持大量的连接
+在设计上可处理500万以上的在线用户。我们测试过产品状态，支持150万在线用户。
+5）支持多服务器
+设计上可以在50台以上服务器上有效工作。测试过10个集群节点，产品系统运行在40台机器的情况。
+6）部署极其简单
+</code></pre>
+
+<p>只需修改一点配置，数据库层不变。</p>
+
+<h3>4、Tigase发布订阅（PubSub）</h3>
+
+<ul>
+<li>Tigase支持完整的发布/订阅（PubSub）扩展规范。可以把消息推送到上百万的频道中，每个频道可以有上百万的订阅用户。集群模式下提供了近乎线性的可扩展性和负载分配。</li>
+<li><p>发布订阅扩展允许你创建频道供用户订阅，你可以把内容推送到频道并发布。然后全部内容或者只是更新的内容会被发送给所有的订阅者。这种基于角色的系统，与群聊类似，但订阅者不必在线，离线也能把消息推送给用户（只要用户一上线就能收到）。
+发布订阅功能可以做什么？</p>
+
+<p>  1）可以根据兴趣分组内容，如体育、科学、天气、新闻等，并把内容推送给感兴趣的人。
+  2）可以用于灾害预警，居民可以根据地理位置进行分组。
+  3）可以提供基于位置的服务。
+  4）业务流程可以使用此方式来发送警告。</p></li>
+</ul>
+
+
+<p>Tigase的发布订阅可以提供：</p>
+
+<pre><code>1）交付近乎实时的通知给订阅频道的用户
+2）基于角色的订阅系统，决定哪些用户只能接收/读取内容，哪些用户可以发布内容到频道，以及频道级管理员、全局管理员。
+3）自定义内容和通知元数据可以很好地匹配各种需求。
+4）灵活的基于用户的交付系统，可以决定是否只把通知交付给在线订阅的用户；是否把通知交付给所有订阅的用户；还可以指定通知的过期时间，以及其他很多选项。
+5）支持数百万的发布订阅频道交付通知给订阅者。
+6）发布订阅频道支持上百万的订阅者。
+</code></pre>
+
+<h3>5、消息归档(Message Archiving)</h3>
+
+<ul>
+<li>Tigase提供了对消息归档的完整支持（XEP-0136扩展），支持数据库分片（开箱即用），还能作为外部组建部署到多种服务器上。</li>
+<li>用户往往希望保存聊天记录以便以后检索，基本上目前大多数聊天客户端都在本地保存了聊天记录，但是，用户往往不止一个设备，用户希望聊天记录在每个设备上都能查到。那么这些聊天记录如何在各种设备的客户端之间进行同步呢？</li>
+<li>最佳的解决方法就是把聊天记录存储在服务器端，并运行用户的所有设备都能访问聊天历史记录。消息归档组件允许把用户的聊天历史记录存储到服务器的单个库中，并能按需搜索。Tigase服务器提供了对消息归档扩展的完整支持。对终端用户而言，他的工作完全透明，自动存储消息。</li>
+</ul>
+
+
+<p>消息归档提供了聊天文档的大量特征：</p>
+
+<pre><code>1）可以在任意时间打开/关闭聊天记录
+2）支持OTR（Off-The-Record，即聊后即焚）聊天
+3）自动把群聊分到不同线程以便逻辑区分不同的对话
+4）根据不同的条件，可以灵活地检索聊天历史记录
+5）管理员可强制查看所有用户的聊天记录，而不管用户的设置
+6）支持开箱即用的数据库分配，允许数据和负载进行分配
+</code></pre>
+
+<h3>6、JaXMPP库</h3>
+
+<ul>
+<li>提供Android移动设备、GWT Web客户端、独立的Java应用程序等库，完全支持XMPP/Jabber规范及其所有主要的扩展。</li>
+<li>JaXMPP代表Java XMPP，但它不仅是Java库，它还兼容GWT，因此可以用于开发Web客户端，它还兼容Android Java，因此可以用于开发带XMPP支持的Android移动应用，以及常规的Java应用程序。</li>
+<li>此客户端库的功能完整，而且代码开源并免费。</li>
+</ul>
+
+
+<p>JaXMPP库网站:</p>
+
+<p><a href="https://projects.tigase.org/projects/jaxmpp2">https://projects.tigase.org/projects/jaxmpp2</a></p>
+
+<p>JaXMPP库文档:</p>
+
+<p><a href="https://projects.tigase.org/projects/jaxmpp2/wiki">https://projects.tigase.org/projects/jaxmpp2/wiki</a></p>
+
+<h3>7、Web客户端</h3>
+
+<p>全功能的Web客户端，支持基本的聊天、MUC、发布/订阅和许多扩展管理接口，通过CORS，经BOSH或WebSocket连接到任意XMPP服务器实现跨站点支持。</p>
+
+<p>CORS：Cross-Origin Resource Sharing，跨域资源共享</p>
+
+<p>功能非常全，支持：</p>
+
+<pre><code>1）完整的XMPP规范
+2）Web优化（更快的重连和聊天状态恢复）
+3）消息归档支持（从服务器查看历史聊天记录）
+4）良好的MUC群聊协议（访问Web浏览器时可以群聊）
+5）发布订阅（直接从Web浏览器发布消息到发布订阅节点）
+</code></pre>
+
+<h3>8、Android Messenger</h3>
+
+<p>完全支持XMPP/Jabber的主要规范和大多数扩展，至此文档和照片的分享，好友的地理位置的分享。
+Android Messenger是一个全功能的XMPP客户端，而且还注意保护设备的电池电量，减少设备的流量。特征如下：</p>
+
+<pre><code>1）至此XMPP最新的RFC规范和大多数扩展
+2）面向移动的优化，减少电池使用率，降低流量
+3）可以同时连接到不同的XMPP服务器，不限制账户数量
+4）支持MUC群聊
+5）与好友分享地理定位
+6）文档和照片分享
+7）支持发布订阅功能
+</code></pre>
+
+<h3>9、Tigase Socks5 Proxy</h3>
+
+<ul>
+<li>实现通过NAT网络地址转换后的用户间的二进制数据和文件的传输，针对大文件和小文件传输做了优化，支持传说的quotas与计费系统的集成。</li>
+<li>及时消息和实时通信系统如今不仅是聊天、在线状态，还可以是语音、视频通话。人们分享他们的想法、经验、情感、照片、视频以及文件。尽管文档分享主要是企业和团体协作的主要功能，照片和视频分享才几乎是每个人都需要的。人们拍照、录制视频，并希望与朋友和家人即时分享。因此，当前的IM和RTC部署需要有效的文件共享系统。</li>
+<li>理想情况下，你希望人们直接互联并直传文件。但这不可能，因为如果用户位于NAT背后，或者用户希望与多人一起分享文件就做不到。对于后者，用户需要多次传输文件给朋友才能实现群体分享，消耗太大。</li>
+<li>使用公网的代理服务器可以轻松解决以上问题。它允许用户通过代理传输文件。在NAT背后的用户都可以连接到公网代理服务器，并通过它传输共享的文件给多个好友，每位好友可以从服务器下载分享的文件。</li>
+</ul>
+
+
+<p>Tigase Socks5 Proxy提供了很多独特的功能：</p>
+
+<pre><code>1）NAT背后的用户的二进制数据传输，可交换各种类型的文件
+2）超高吞吐率，可充分利用带宽，尤其是传输大文件时
+3）大量的并行传输，同时传输多个文件
+4）全局配额或为每位用户配额或为域配额，以限制传输和防止滥用
+5）易于与计费系统相集成，以便为用户提供更好的服务
+6）提供积分系统
+7）设置多种机器来分担负载
+8）虚拟域的支持，允许隔离用户和客户端到不同的计费组
+9）很好地与Tigase XMPP服务器集成，在集群模式下部署系统支持数百万在线用户
+</code></pre>
+
+<h3>10、Tigase CLI Management</h3>
+
+<p>提供对XMPP服务器的命令行访问，轻松完成管理任务。</p>
+
+<p>此功能很方便，它可以通过一个漂亮的图形界面来管理。但是，对于Tigase集群模式的安装，最好是采用命令行方式管理，尤其是执行那些通过定时器运行的自动化任务。Web控制台和独立应用都干不了这些任务，还是需要可靠的、灵活的命令行工具来完成这些任务。这就是Tigase命令行管理工具。它的特征如下：</p>
+
+<pre><code>1）完全支持XEP-0133规范的管理命令
+2）通过API编写脚本做扩展。尽管工具只是一个Java应用程序，但还是可以使用脚本语言（如Groovy、Python、Ruby等）扩展其功能和命令
+3）提供大量开箱即用的管理任务，满足常规的管理需求
+4）简单、易用，学习成本低
+</code></pre>
+
+<h3>11、Tigase MUC</h3>
+
+<p>支持基于角色的群聊，提供API和自定义扩展，可处理数百万的小型聊天室和有数千用户的大型聊天室。</p>
+
+<p>真正的社区需要人们的互动。这可以通过多种方式实现：电邮、Twitter、FaceBook、论坛、网站评论等。但是，这些都比不上实时通信，发送聊天消息，可以立即得到回应，与朋友在线聊天。多个人一起聊可以用群聊。</p>
+
+<p>Tigase的MUC组件可以提供：</p>
+
+<pre><code>1）实时群聊
+这意味着很多人可以在虚拟房间聊天，交流想法。
+2）基于角色的房间成员
+允许设定房间管理员、版主，分配发消息和允许监听/读取消息的权限。
+3）密码保护的聊天室
+创建私人群聊室，有密码的用户才能进入聊天室。
+4）受邀的聊天室
+受邀的用户才能进入聊天室。
+5）私人的、无形的聊天室或公共聊天室都可以按需求轻松创建
+6）聊天历史记录到数据库
+7）通过MUC集群模式支持数百万的群聊室，负载可以有效地分布到各服务器上，并提供了几乎无线的可扩展性
+8）MUC集群模式支持超大群聊天室，可容纳成千上万的用户，可以把单个聊天室分不到集群中的多台服务器上。
+所有提供的MUC功能都是开源软件，只有MUC集群模式是官方额外提供的商业级功能。
+</code></pre>
+
+<h3>12、Tigase Testsuite</h3>
+
+<ul>
+<li>针对基本的XMPP和大多数扩展，提供了数百个测试。</li>
+<li>Tigase测试包是一个强大的工具，可以运行Tigase服务器的功能和性能测试。它不限于Tigase，还可以测试支持XMPP协议的服务器。但是，此测试包是为Tigase设计的，是为了确保Tigase各模块功能正常。</li>
+<li>这里是测试结果： <a href="http://build.tigase.org/~tigase/">http://build.tigase.org/~tigase/</a></li>
+<li>实际上，Tigase的每日构建版都用此测试包做了测试，以保障代码质量。</li>
+<li>详见： <a href="http://build.tigase.org/nightlies/tests/">http://build.tigase.org/nightlies/tests/</a></li>
+</ul>
+
+
+<p>可以基于此测试包设计复杂的测试场景，此测试包最有趣的特点包括：</p>
+
+<pre><code>1）自定义的脚本语言，可使用很少的代码即可设计非常复杂的测试场景。
+2）无需添加简单的测试脚本（内容很全了），在大多数场景下只需指定发送到的服务器、预期的返回结果即可。
+3）产生HTML格式的测试报告：成功的测试标绿，失败的测试标红。
+4）对每个测试案例都有定时器，因此可以清楚知道服务器的响应时间，还可以用它比较各版本之间的性能差异。
+5）每个测试案例都有完整的协议交互的输出，可以定位和分析错误。
+6）所有的测试案例都是运行在网络并执行了服务器的方方面面，因此测试包是完整的测试，从网络层到上层组件都得到了测试。
+</code></pre>
+
+<h3>13、Tigase ALB</h3>
+
+<p>无限制的设备在线数，地理上发布的集群节点，减少97%网络流量。</p>
+
+<p>有几种解决方案，允许你把用户分配到集群节点，并分发到多个服务器上。这些解决方案包括：Round-robin轮询、专业级的硬件路由器（比如Cisco的）、软硬件防火墙、代理服务等。</p>
+
+<p>这些方案都是为用户随机分配机器，分布或许是比较平均的，但不是最佳的，如果你使用了Tigase ALB（Advanced Load Balancer），那么可以做到其它方案做不到的三件事：</p>
+
+<pre><code>1）为1亿或更多在线用户运行安装
+2）构建地理上分散的XMPP集群
+3）为有非常大的联系人列表的用户运行安装，联系人列表的人数平均有数千个
+</code></pre>
+
+<p>对Tigase ALB来说是可能的，因为它把用户分配到特定的集群节点或节点组。它会分析所有用户账户的社交网络，把用户分配到特定的机器上，以便减少网络流量。它采用了基于人工智能和遗传算法的高级技术来实现这一点。</p>
+
+<p>ALB很复杂，但他工作的很好。</p>
+
+<p>ALB是非入侵式的，它可以在后台不断地优化用户数据，并逐步提高系统的整体性能。ALB可以在任意时间打开和关闭，而不会影响XMPP的安装。ALB可以与Round-robin轮询或其它负载均衡方案一起工作。一旦你正确地安装并配置ALB到系统中，它会变为不可见，但你可以看到效果，系统的性能每天都在变得更好。</p>
+
+<h3>14、Tigase STUN</h3>
+
+<p>允许NAT背后的设备直连，减少服务和系统的负载，降低网络流量。</p>
+
+<p>Jabber、XMPP、IM（Instant Messaging）、IC（Instant Communication）服务最初是交换文本信息。消息文本、用户状态文本、联系人信息文本等，都是通过这样的系统进行交换的。</p>
+
+<p>现在，各种类型的文档、招聘、视频、数据库等，这些二进制数据也需要实时交换。XMPP服务器可以搞定这个，它可以作为二进制连接握手代理和实际的P2P连接的代理或中转代理。偶尔还可作为带内传输。这里有多种选择，通常首选萨送大的二进制数据块给直连的用户。这也是最高效和成本最低的方式。</p>
+
+<p>不幸的是，用户之间要实现直连是很困难的，这是因为NAT的原因，用户在NAT背后，所以用户的设备是不可见的，Internet不能直达。如果某个应用从NAT背后的设备连接互联网时，它是没有办法告知服务器它自己的公开/静态IP地址的，因此它也没法提供任何可选项给第三方如何建立P2P连接。这就需要一个中间服务器，STUN服务器可以搞定这个。它允许应用程序发现自己的公开IP地址，并与另一方协商最优的直连。</p>
+
+<p>此方案的优点：</p>
+
+<pre><code>1）位于NAT背后的两个设备可以建立P2P直连
+2）消除了网络消耗大的二进制传输，减少了服务器负载；
+3）通过减少了负载和网络流量，降低了运营成本
+4）如果需要媒体交换作为用户到XMPP服务的连接，那么它是一个理想的解决方案。它可以很好地与Tigase XMPP服务器相集成，可以部署到多台服务器上，无需复杂的配置。
+</code></pre>
+
+<h3>15、Tigase Monitor监控</h3>
+
+<p>更早的发现网络瓶颈。</p>
+
+<p>Tigase Monitor是一个独立的桌面应用程序，它可以连接到所有的Tigase服务器，并提供所有Tigase系统的状态概览。它可以展示有意义的图表，包括：CPU利用率、内存使用率、用户的分布、不同类型的流量……</p>
+
+<p>除此以外，它还提供了内部队列尺寸、潜在的评奖、平均处理时间的详细信息。</p>
+
+<p>Tigase Monitor是实时监控，系统有状况，会立即得到通知。</p>
+
+<p>Tigase Monitor特征包括：</p>
+
+<pre><code>1）Tigase测量的实时数据活动图
+2）单个应用监控的服务器数量无限制
+3）自定义的“第二”窗口：用于显示自定义的测量数据
+4）系统性能和瓶颈的详细信息
+5）自动产生屏幕截图，并周期性的存储到硬盘
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li>博客主页：<a href="http://blog.csdn.net/chszs">http://blog.csdn.net/chszs</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-17T09:43:04+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/17/ejabberd-chang-jian-pei-zhi-shuo-ming/" title="Previous Post: ejabberd 常见配置说明">&laquo; ejabberd 常见配置说明</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/17/webservice-du-qu-cardrecord-table/" title="Next Post:  iOS  实时接收更新 Webservice 数据 "> iOS  实时接收更新 Webservice 数据  &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

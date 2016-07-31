@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>WKWebView 的使用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="##WKWebView 的使用简介 WKWebView相对于UIWebView强大了很多，内存的消耗相对少了，所提供的接口也丰富了。 现在谈一谈WKWebView的基本使用 1. navigationDelegate - (void)webView:(WKWebView *)webView &hellip;">
+  <meta name="keywords" content="wkwebview">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/14/wkwebview-de-shi-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">WKWebView 的使用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-14T18:23:00+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:23 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p> ##WKWebView 的使用简介</p>
+
+<p>WKWebView相对于UIWebView强大了很多，内存的消耗相对少了，所提供的接口也丰富了。</p>
+
+<p>现在谈一谈WKWebView的基本使用</p>
+
+<h3>1. navigationDelegate</h3>
+
+<pre><code>- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation { // 类似UIWebView的 -webViewDidStartLoad:  
+    NSLog(@"didStartProvisionalNavigation");  
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;  
+}  
+
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {  
+    NSLog(@"didCommitNavigation");  
+}  
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation { // 类似 UIWebView 的 －webViewDidFinishLoad:  
+    NSLog(@"didFinishNavigation");  
+    [self resetControl];  
+    if (webView.title.length &gt; 0) {  
+        self.title = webView.title;  
+    }  
+
+}  
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {  
+    // 类似 UIWebView 的- webView:didFailLoadWithError:  
+
+    NSLog(@"didFailProvisionalNavigation");  
+
+}  
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {  
+
+    decisionHandler(WKNavigationResponsePolicyAllow);  
+}  
+
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {  
+    // 类似 UIWebView 的 -webView: shouldStartLoadWithRequest: navigationType:  
+
+    NSLog(@"4.%@",navigationAction.request);  
+
+
+    NSString *url = [navigationAction.request.URL.absoluteString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  
+
+
+
+    decisionHandler(WKNavigationActionPolicyAllow);  
+
+}  
+- (void)webView:(WKWebView *)webView didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {  
+
+}  
+</code></pre>
+
+<h3>2 UIDelegate</h3>
+
+<pre><code>- (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {  
+    // 接口的作用是打开新窗口委托  
+    [self createNewWebViewWithURL:webView.URL.absoluteString config:configuration];  
+
+    return currentSubView.webView;  
+}  
+
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)())completionHandler  
+{    // js 里面的alert实现，如果不实现，网页的alert函数无效  
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:message  
+                                                                             message:nil  
+                                                                      preferredStyle:UIAlertControllerStyleAlert];  
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定"  
+                                                        style:UIAlertActionStyleCancel  
+                                                      handler:^(UIAlertAction *action) {  
+                                                          completionHandler();  
+                                                      }]];  
+
+    [self presentViewController:alertController animated:YES completion:^{}];  
+
+}  
+
+
+- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL))completionHandler {  
+    //  js 里面的alert实现，如果不实现，网页的alert函数无效  ,   
+
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:message  
+                                                                             message:nil  
+                                                                      preferredStyle:UIAlertControllerStyleAlert];  
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定"  
+                                                        style:UIAlertActionStyleDefault  
+                                                      handler:^(UIAlertAction *action) {  
+                                                          completionHandler(YES);  
+                                                      }]];  
+    [alertController addAction:[UIAlertAction actionWithTitle:@"取消"  
+                                                        style:UIAlertActionStyleCancel  
+                                                      handler:^(UIAlertAction *action){  
+                                                          completionHandler(NO);  
+                                                      }]];  
+
+    [self presentViewController:alertController animated:YES completion:^{}];  
+
+}  
+
+- (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString *))completionHandler {  
+
+    completionHandler(@"Client Not handler");  
+
+}  
+</code></pre>
+
+<h3>3. WKWebView 执行脚本方法</h3>
+
+<pre><code>- (void)evaluateJavaScript:(NSString *)javaScriptString completionHandler:(void (^)(id, NSError *))completionHandler;  
+</code></pre>
+
+<p>completionHandler 拥有两个参数，一个是返回错误，一个可以返回执行脚本后的返回值</p>
+
+<h3>4. WKWebView 的Cookie问题</h3>
+
+<p>UIWebView 中会自动保存Cookie，如果登录了一次，下次再次进入的时候，会记住登录状态</p>
+
+<p>而在WKWebView中，并不会这样，WKWebView在初始化的时候有一个方法</p>
+
+<pre><code>- (instancetype)initWithFrame:(CGRect)frame configuration:(WKWebViewConfiguration *)configuration  
+通过这个方法，设置 configuration 让WKWebView知道登录状态，configuration 可以通过已有的Cookie进行设置，也可以通过保存上一次的configuration进行设置
+参考 stackoverflow上回答：http://stackoverflow.com/questions/26573137/can-i-set-the-cookies-to-be-used-by-a-wkwebview/26577303#26577303
+
+WKWebView * webView = /*set up your webView*/  
+NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://example.com/index.html"]];  
+[request addValue:@"TeskCookieKey1=TeskCookieValue1;TeskCookieKey2=TeskCookieValue2;" forHTTPHeaderField:@"Cookie"];  
+// use stringWithFormat: in the above line to inject your values programmatically  
+[webView loadRequest:request];  
+
+
+WKUserContentController* userContentController = WKUserContentController.new;  
+WKUserScript * cookieScript = [[WKUserScript alloc]   
+    initWithSource: @"document.cookie = 'TeskCookieKey1=TeskCookieValue1';document.cookie = 'TeskCookieKey2=TeskCookieValue2';"  
+    injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];  
+// again, use stringWithFormat: in the above line to inject your values programmatically  
+[userContentController addUserScript:cookieScript];  
+WKWebViewConfiguration* webViewConfig = WKWebViewConfiguration.new;  
+webViewConfig.userContentController = userContentController;  
+WKWebView * webView = [[WKWebView alloc] initWithFrame:CGRectMake(/*set your values*/) configuration:webViewConfig];  
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-14T18:23:00+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:23 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/14/ios8-wkwebview/" title="Previous Post: iOS8 WKWebView">&laquo; iOS8 WKWebView</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/14/wkwebview-shi-li/" title="Next Post: WKWebView 实例">WKWebView 实例 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

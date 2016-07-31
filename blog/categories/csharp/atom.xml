@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Csharp | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/csharp/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Csharp 隐式类型转换和显示类型转换]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/08/csharp-yin-shi-lei-xing-zhuan-huan-he-xian-shi-lei-xing-zhuan-huan/"/>
+    <updated>2016-06-08T16:27:49+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/08/csharp-yin-shi-lei-xing-zhuan-huan-he-xian-shi-lei-xing-zhuan-huan</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4nwa6v94jj20lr0a0dhq.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Csharp - Ref]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/07/csharp-ref/"/>
+    <updated>2016-06-07T11:27:57+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/07/csharp-ref</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>ref 关键字会导致参数通过引用传递，而不是通过值传递。 通过引用传递的效果是，对所调用方法中的参数进行的任何更改都反映在调用方法中。 例如，如果调用方传递本地变量表达式或数组元素访问表达式，所调用方法会将对象替换为 ref 参数引用的对象，然后调用方的本地变量或数组元素将开始引用新对象。</p>
+
+<p>System_CAPS_note注意</p>
+
+<p>不要混淆通过引用传递的概念与引用类型的概念。 这两种概念是不同的。 无论方法参数是值类型还是引用类型，均可由 ref 修改。 当通过引用传递时，不会对值类型装箱。</p>
+
+<p>若要使用 ref 参数，方法定义和调用方法均必须显式使用 ref 关键字，如下面的示例所示。</p>
+
+<pre><code>C#
+class RefExample
+{
+    static void Method(ref int i)
+    {
+        // Rest the mouse pointer over i to verify that it is an int.
+        // The following statement would cause a compiler error if i
+        // were boxed as an object.
+        i = i + 44;
+    }
+
+    static void Main()
+    {
+        int val = 1;
+        Method(ref val);
+        Console.WriteLine(val);
+
+        // Output: 45
+    }
+}
+</code></pre>
+
+<p>传递到 ref 形参的实参必须先经过初始化，然后才能传递。 这与 out 形参不同，在传递之前，不需要显式初始化该形参的实参。 有关详细信息，请参阅 out。
+类的成员不能具有仅在 ref 和 out 方面不同的签名。 如果类型的两个成员之间的唯一区别在于其中一个具有 ref 参数，而另一个具有 out 参数，则会发生编译错误。 例如，以下代码将不会编译。</p>
+
+<pre><code>C#
+class CS0663_Example
+{
+    // Compiler error CS0663: "Cannot define overloaded 
+    // methods that differ only on ref and out".
+    public void SampleMethod(out int i) { }
+    public void SampleMethod(ref int i) { }
+}
+</code></pre>
+
+<p>但是，当一个方法具有 ref 或 out 参数，另一个方法具有值参数时，则可以完成重载，如下面的示例所示。</p>
+
+<pre><code>C#
+class RefOverloadExample
+{
+    public void SampleMethod(int i) { }
+    public void SampleMethod(ref int i) { }
+}
+</code></pre>
+
+<p>在其他要求签名匹配的情况下（如隐藏或重写），ref 和 out 是签名的一部分，相互之间不匹配。</p>
+
+<p>属性不是变量。 它们是方法，不能传递到 ref 参数。</p>
+
+<p>有关如何传递数组的信息，请参阅使用 ref 和 out 传递数组（C# 编程指南）。</p>
+
+<p>你不能将 ref 和 out 关键字用于以下几种方法：</p>
+
+<p>异步方法，通过使用 async 修饰符定义。</p>
+
+<p>迭代器方法，包括 yield return 或 yield break 语句。</p>
+
+<p>示例</p>
+
+<p>前面的示例演示当通过引用传递值类型时会发生什么情况。 你还可以使用 ref 关键字传递引用类型。 通过引用传递引用类型可以使所调用方法将调用方法中的对象替换为引用参数所引用的对象。 对象的存储位置按引用参数的值传递到方法。 如果更改参数存储位置中的值（以指向新对象），你还可以将存储位置更改为调用方所引用的位置。 下面的示例将引用类型的实例作为 ref 参数传递。 有关如何通过值和引用传递引用类型的详细信息，请参阅传递引用类型参数（C# 编程指南）。</p>
+
+<pre><code>C#
+class RefExample2
+{
+    static void ChangeByReference(ref Product itemRef)
+    {
+        // The following line changes the address that is stored in  
+        // parameter itemRef. Because itemRef is a ref parameter, the
+        // address that is stored in variable item in Main also is changed.
+        itemRef = new Product("Stapler", 99999);
+
+        // You can change the value of one of the properties of
+        // itemRef. The change happens to item in Main as well.
+        itemRef.ItemID = 12345;
+    }
+
+    static void Main()
+    {
+        // Declare an instance of Product and display its initial values.
+        Product item = new Product("Fasteners", 54321);
+        System.Console.WriteLine("Original values in Main.  Name: {0}, ID: {1}\n",
+            item.ItemName, item.ItemID);
+
+        // Send item to ChangeByReference as a ref argument.
+        ChangeByReference(ref item);
+        System.Console.WriteLine("Back in Main.  Name: {0}, ID: {1}\n",
+            item.ItemName, item.ItemID);
+    }
+}
+
+class Product
+{
+    public Product(string name, int newID)
+    {
+        ItemName = name;
+        ItemID = newID;
+    }
+
+    public string ItemName { get; set; }
+    public int ItemID { get; set; }
+}
+
+// Output: 
+//Original values in Main.  Name: Fasteners, ID: 54321
+
+//Back in Main.  Name: Stapler, ID: 12345
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://msdn.microsoft.com/zh-cn/library/14akc2c7.aspx">https://msdn.microsoft.com/zh-cn/library/14akc2c7.aspx</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Csharp - Out]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/07/csharp-out/"/>
+    <updated>2016-06-07T11:21:09+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/07/csharp-out</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>你可以在两个上下文（每个都是指向详细信息的链接）中使用 out 上下文关键字作为参数修饰符，或在接口和委托中使用泛型类型参数声明。本主题讨论参数修饰符，但你可以参阅其他主题了解关于泛型类型参数声明的信息。</p>
+
+<p>out 关键字通过引用传递参数。这与 ref 关键字相似，只不过 ref 要求在传递之前初始化变量。若要使用 out 参数，方法定义和调用方法均必须显式使用 out 关键字。例如：</p>
+
+<pre><code>C#
+class OutExample
+{
+    static void Method(out int i)
+    {
+        i = 44;
+    }
+    static void Main()
+    {
+        int value;
+        Method(out value);
+        // value is now 44
+    }
+}
+</code></pre>
+
+<p>尽管作为 out 参数传递的变量无需在传递之前初始化，调用方法仍要求在方法返回之前赋值。</p>
+
+<p>尽管 ref 和 out 关键字会导致不同的运行时行为，它们并不被视为编译时方法签名的一部分。因此，如果唯一的不同是一个方法采用 ref 参数，而另一个方法采用 out 参数，则无法重载这两个方法。例如，以下代码将不会编译：</p>
+
+<pre><code>C#
+class CS0663_Example
+{
+    // Compiler error CS0663: "Cannot define overloaded 
+    // methods that differ only on ref and out".
+    public void SampleMethod(out int i) { }
+    public void SampleMethod(ref int i) { }
+}
+</code></pre>
+
+<p>但是，如果一个方法采用 ref 或 out 参数，而另一个方法采用其他参数，则可以完成重载，如：</p>
+
+<pre><code>C#
+class OutOverloadExample
+{
+    public void SampleMethod(int i) { }
+    public void SampleMethod(out int i) { i = 5; }
+}
+</code></pre>
+
+<p>属性不是变量，因此不能作为 out 参数传递。</p>
+
+<p>有关传递数组的信息，请参阅使用 ref 和 out 传递数组（C# 编程指南）。</p>
+
+<p>你不能将 ref 和 out 关键字用于以下几种方法：</p>
+
+<p>异步方法，通过使用 async 修饰符定义。</p>
+
+<p>迭代器方法，包括 yield return 或 yield break 语句。</p>
+
+<p>如果希望方法返回多个值，可以声明 out 方法。下面的示例使用 out 返回具有单个方法调用的三个变量。注意，第三个参数赋 null 值。这使得方法可以有选择地返回值。</p>
+
+<pre><code>C#
+class OutReturnExample
+{
+    static void Method(out int i, out string s1, out string s2)
+    {
+        i = 44;
+        s1 = "I've been returned";
+        s2 = null;
+    }
+    static void Main()
+    {
+        int value;
+        string str1, str2;
+        Method(out value, out str1, out str2);
+        // value is now 44
+        // str1 is now "I've been returned"
+        // str2 is (still) null;
+    }
+}
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://msdn.microsoft.com/zh-cn/library/t3c3bfhx.aspx">https://msdn.microsoft.com/zh-cn/library/t3c3bfhx.aspx</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LinqtoSql类的简单例子]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/07/linqtosqllei-de-jian-dan-li-zi/"/>
+    <updated>2016-06-07T08:41:03+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/07/linqtosqllei-de-jian-dan-li-zi</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>第一步：添加LinqtoSql类</p>
+
+<p>1、创建一个控制台应用程序项目，下载一个NrothWind 数据库放到解决方案里面。然后点击控制台项目右键选择添加，选择类</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4md66pvwgj20kr0frdkw.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4md67srhkj20g50fetas.jpg" alt="img" /></p>
+
+<p>2、此时，解决方案里的内容如下</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4md67qo5jj206x09vta3.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4md68etbpj20km0egmzh.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f4md68yglij209k0ddjrr.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f4md69oc1aj20po090n0t.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4md6999xfj20ek05faad.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4md6a63alj20tu0c477w.jpg" alt="img" /></p>
+
+<pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            DataClasses1DataContext ctx = new DataClasses1DataContext();
+            var q = from x in ctx.bb_tblAsset
+                    where x.BaseStation == "20"
+                    select new { x.SiteAlias, x.SiteX };
+
+            if (q.Count() != 0)
+            {
+                foreach (var item in q)
+                {
+                    Console.WriteLine(item);
+                }
+
+            }
+            Console.ReadKey();
+        }
+    }
+}
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.cnblogs.com/zouzf/archive/2012/02/28/2371740.html">http://www.cnblogs.com/zouzf/archive/2012/02/28/2371740.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Csharp中的string与stringbuilder有什么区别]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/06/c-number-zhong-de-stringyu-stringbuilderyou-shi-yao-qu-bie/"/>
+    <updated>2016-06-06T16:45:09+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/06/c-number-zhong-de-stringyu-stringbuilderyou-shi-yao-qu-bie</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>Stringbuilder类是直接用于字符串操作的类，打个比方把</p>
+
+<p>(1)string aa=&ldquo;123456&rdquo;;</p>
+
+<p>(2)aa+=&ldquo;789&rdquo;;</p>
+
+<p>(3)StringBuilder text=new StringBuilder(&ldquo;123456&rdquo;,12);</p>
+
+<p>(4)text.Append(&ldquo;789&rdquo;);</p>
+
+<p>如果你输出aa,和text 你会发现他们的输出内容是一样的。
+但是aa的操作过程实际上是：首先在内存中分配一个地址空间，空间大小是6。
+然后执行  aa+=&ldquo;789&rdquo;;的操作，该过程是连接字符串，“123456”和“789”并且在内存中重新分配地址。把aa 的内存地址指向 “123456789”的内存地址。</p>
+
+<p>也就是说在内存中实际上是有两个空间北分配，第一的内存空间，在后来是由C#的垃圾处理机制来自动处理掉，</p>
+
+<p>如果我们用3 4 句的程序来实现这个过程，那么他是没有再次分配内存空间的，
+他就是在text的内存空间里进行了操作。这里要说明下StringBuilder在生命变量的过程中是可以我们自己来分配他的大小的，如果实际的内容超出内存空间，
+他会自动翻倍。</p>
+
+<p>通过上面的例子，我们可以知道 StringBuilder的优越性是在：</p>
+
+<p>第一：他不需要每次都去分配内存空间。所以系统就没有必要去处理垃圾；</p>
+
+<p>第二：当我们需要多次的对一个字符串进行多次操作的时候，他的效率要远远高于string</p>
+]]></content>
+  </entry>
+  
+</feed>

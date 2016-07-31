@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Getting Started With PHP on Heroku - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Getting Started with PHP on Heroku Set up In this step you will install the Heroku Toolbelt. This provides you access to the Heroku Command Line &hellip;">
+  <meta name="keywords" content="php,heroku">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/17/getting-started-with-php-on-heroku/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Getting Started With PHP on Heroku</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-17T15:04:09+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:04 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et2gz061f6j20f405rmx4.jpg" alt="img" /></p>
+
+<!--More-->
+
+
+<h2>Getting Started with PHP on Heroku</h2>
+
+<h3>Set up</h3>
+
+<p>In this step you will install <strong>the Heroku Toolbelt</strong>. This provides you access to the Heroku Command Line utility, as well as git and Foreman, tools you’ll use in later steps.</p>
+
+<p>Once installed, you can use the heroku command from your command shell.</p>
+
+<p>Log in using the email address and password you used when creating your Heroku account:</p>
+
+<pre><code>➜ /Users/apple git:(master) ✗&gt; heroku login
+Enter your Heroku credentials.
+Email: 845040571@qq.com
+Password (typing will be hidden):
+Authentication successful.
+updating Heroku CLI...done. Updated to 3.37.7
+</code></pre>
+
+<p>Authenticating is required to allow both the heroku and git commands to operate.</p>
+
+<p>Note that if you’re behind a firewall that requires use of a proxy to connect with external HTTP/HTTPS services, you can set <a href="https://devcenter.heroku.com/articles/using-the-cli#using-an-http-proxy">the HTTP_PROXY or HTTPS_PROXY environment variables</a> in your local development environment before running the <code>heroku</code> command.</p>
+
+<h3>Prepare the app</h3>
+
+<p>In this step, you will prepare a simple application that can be deployed.</p>
+
+<p>Execute the following commands to clone the sample application:</p>
+
+<pre><code>$ git clone https://github.com/heroku/php-getting-started.git
+$ cd php-getting-started
+</code></pre>
+
+<p>You now have a functioning git repository that contains a simple application as well as a <code>composer.json</code> file. Make sure you’ve installed <a href="https://getcomposer.org/">Composer</a>. Heroku uses Composer for dependency management in PHP projects, and the <code>composer.json</code> file indicates to Heroku that your application is written in PHP.</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1et2gz4nr7pj208209wdh2.jpg" alt="img" /></p>
+
+<h4>Here is install composer:</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1et2f83y5fjj20fs03ojsi.jpg" alt="img" /></p>
+
+<p>在项目列表中，会有一个 <code>composer.phar</code> 文件，里面包含了所有逻辑代码行工具。你可以通过运行下面代码来确定是否安装成功。
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1et2g8kdk7dj20fp0ecdk9.jpg" alt="img" /></p>
+
+<pre><code>➜ /Users/apple git:(master) ✗&gt; sudo mv composer.phar /usr/bin/composer
+</code></pre>
+
+<p>把这个文件移到 bin 目录下，它允许你简化命令</p>
+
+<pre><code>➜ /Users/apple git:(master) ✗&gt; composer about
+Composer - Package Management for PHP
+Composer is a dependency manager tracking local dependencies of your projects and libraries.
+See https://getcomposer.org/ for more information.
+</code></pre>
+
+<h3>Deploy the app</h3>
+
+<p>In this step you will deploy the app to Heroku.</p>
+
+<p>Create an app on Heroku, which prepares Heroku to receive your source code:</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et2fe15j0ej20fp02edgm.jpg" alt="img" /></p>
+
+<p>When you create an app, a git remote (called <code>heroku</code>) is also created and associated with your local git repository.</p>
+
+<p>Heroku generates a random name (in this case <code>sharp-rain-871</code>) for your app, or you can pass a parameter to specify your own app name.</p>
+
+<p>Now deploy your code:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master)&gt; git push heroku master
+Counting objects: 103, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (51/51), done.
+Writing objects: 100% (103/103), 17.37 KiB | 0 bytes/s, done.
+Total 103 (delta 39), reused 103 (delta 39)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----&gt; PHP app detected
+remote: -----&gt; No runtime required in composer.json, defaulting to PHP 5.6.10.
+remote: -----&gt; Installing system packages...
+remote:        - PHP 5.6.10
+remote:        - Apache 2.4.10
+remote:        - Nginx 1.6.0
+remote: -----&gt; Installing PHP extensions...
+remote:        - zend-opcache (automatic; bundled)
+remote: -----&gt; Installing dependencies...
+remote:        Composer version 1.0.0-alpha10 2015-04-14 21:18:51
+remote:        Loading composer repositories with package information
+remote:        Installing dependencies from lock file
+remote:          - Installing psr/log (1.0.0)
+remote:            Downloading: 100%
+remote:
+remote:          - Installing monolog/monolog (1.11.0)
+remote:            Downloading: 100%
+remote:
+remote:          - Installing symfony/routing (v2.5.5)
+remote:            Downloading: 100%
+remote:
+remote:          - Installing symfony/http-foundation (v2.5.5)
+remote:            Downloading: 100%
+remote:
+remote:          - Installing symfony/event-dispatcher (v2.5.5)
+remote:            Downloading: 100%
+remote:
+remote:          - Installing symfony/debug (v2.5.5)
+remote:            Downloading: 100%
+remote:
+remote:          - Installing symfony/http-kernel (v2.5.5)
+remote:            Downloading: 100%
+remote:
+remote:          - Installing pimple/pimple (v1.1.1)
+remote:            Downloading: 100%
+remote:
+remote:          - Installing silex/silex (v1.2.2)
+remote:            Downloading: 100%
+remote:
+remote:        Generating optimized autoload files
+remote: -----&gt; Preparing runtime environment...
+remote: -----&gt; Discovering process types
+remote:        Procfile declares types -&gt; web
+remote:
+remote: -----&gt; Compressing... done, 73.1MB
+remote: -----&gt; Launching... done, v3
+remote:        https://hidden-reef-2185.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/hidden-reef-2185.git
+ * [new branch]      master -&gt; master
+</code></pre>
+
+<p>The application is now deployed. Ensure that at least one instance of the app is running:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master)&gt; heroku ps:scale web=1
+Scaling dynos... done, now running web at 1:1X.
+</code></pre>
+
+<p>Now visit the app at the URL generated by its app name. As a handy shortcut, you can open the website as follows:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master)&gt; heroku open
+Opening hidden-reef-2185... done
+</code></pre>
+
+<h3>View logs</h3>
+
+<p>Heroku treats logs as streams of time-ordered events aggregated from the output streams of all your app and Heroku components, providing a single channel for all of the events.</p>
+
+<p>View information about your running app using one of <a href="https://devcenter.heroku.com/articles/logging">the logging commands</a>, <code>heroku logs</code>:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master)&gt; heroku logs --tail
+2015-06-13T05:59:55.009940+00:00 heroku[api]: Enable Logplex by 845040571@qq.com
+2015-06-13T05:59:55.009940+00:00 heroku[api]: Release v2 created by 845040571@qq.com
+2015-06-13T06:03:19.439916+00:00 heroku[api]: Scale to web=1 by 845040571@qq.com
+2015-06-13T06:03:19.480753+00:00 heroku[api]: Deploy 03b1ebf by 845040571@qq.com
+2015-06-13T06:03:19.480753+00:00 heroku[api]: Release v3 created by 845040571@qq.com
+</code></pre>
+
+<p>Press <code>Control+C</code> to stop streaming the logs.</p>
+
+<h3>Define a Procfile</h3>
+
+<p>Use a Procfile, a text file in the root directory of your application, to explicitly declare what command should be executed to start your app.</p>
+
+<p>The <code>Procfile</code> in the example app you deployed looks like this:</p>
+
+<pre><code>web: vendor/bin/heroku-php-apache2 web/
+</code></pre>
+
+<p>This declares a single process type, <code>web</code>, and the command needed to run it. The name <code>web:</code> is important here. It declares that this process type will be attached to the <a href="https://devcenter.heroku.com/articles/http-routing">HTTP routing</a> stack of Heroku, and receive web traffic when deployed.</p>
+
+<p>Procfiles can contain additional process types. For example, you might declare one for a background worker process that processes items off of a queue.</p>
+
+<h3>Scale the app</h3>
+
+<p>Right now, your app is running on a single web <a href="https://devcenter.heroku.com/articles/dynos">dyno</a>. Think of a dyno as a lightweight container that runs the command specified in the <code>Procfile</code>.</p>
+
+<p>You can check how many dynos are running using the <code>ps</code> command:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master)&gt; heroku ps
+=== web (1X): `vendor/bin/heroku-php-apache2 web/`
+web.1: up 2015/06/13 14:03:32 (~ 13m ago)
+</code></pre>
+
+<p>Having only a single web dyno running will result in the dyno <a href="https://devcenter.heroku.com/articles/dynos#dyno-sleeping">going to sleep</a> after one hour of inactivity. This causes a delay of a few seconds for the first request upon waking. Subsequent requests will perform normally.</p>
+
+<p>To avoid this, you can scale to more than one web dyno. For example:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master)&gt; heroku ps:scale web=2
+</code></pre>
+
+<p>For abuse prevention, scaling the application may require account verification. If your account has not been verified, you will be directed to visit the <a href="https://dashboard.heroku.com/account/billing">verification site</a>.</p>
+
+<p>For each application, Heroku provides <a href="https://devcenter.heroku.com/articles/usage-and-billing#750-free-dyno-hours-per-app">750 free dyno-hours</a>. Running your app at 2 dynos would exceed this free, monthly allowance, so scale back:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master)&gt; heroku ps:scale web=1
+Scaling dynos... done, now running web at 1:1X.
+</code></pre>
+
+<h3>Declare app dependencie</h3>
+
+<p>Heroku recognizes an app as PHP by the existence of a <code>composer.json</code> file in the root directory.</p>
+
+<p>The demo app you deployed already has a <code>composer.json</code>, and it looks something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s">&quot;require&quot;</span> <span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s">&quot;silex/silex&quot;</span><span class="p">:</span> <span class="s">&quot;~1.1&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&quot;monolog/monolog&quot;</span><span class="p">:</span> <span class="s">&quot;~1.7&quot;</span>
+</span><span class='line'>  <span class="p">},</span>
+</span><span class='line'>  <span class="s">&quot;require-dev&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s">&quot;heroku/heroku-buildpack-php&quot;</span><span class="p">:</span> <span class="s">&quot;*&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The <code>composer.json</code> file specifies the dependencies that should be installed with your application. When an app is deployed, Heroku reads this file and installs the appropriate dependencies into the <code>vendor</code> directory.</p>
+
+<p>Your PHP app can then make use of the dependencies after a simple require:</p>
+
+<pre><code>require('../vendor/autoload.php');
+</code></pre>
+
+<p>Run the following command to install the dependencies, preparing your system for running the app locally:</p>
+
+<pre><code>➜ /Users/apple git:(master) ✗&gt; composer update
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+  - Installing psr/log (1.0.0)
+    Loading from cache
+...
+Writing lock file
+Generating autoload files
+</code></pre>
+
+<p>You should always check <code>composer.json</code> and <code>composer.lock</code> into your git repo. The vendor directory should be included in your <code>.gitignore</code> file.</p>
+
+<h3>Push local changes</h3>
+
+<p>In this step you’ll learn how to propagate a local change to the application through to Heroku. As an example, you’ll modify the application to add an additional dependency (the <a href="http://twig.sensiolabs.org/">Twig</a> template engine) and the code to use it.</p>
+
+<p>Modify <code>composer.json</code> to include a dependency for <code>twig</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'>  <span class="s">&quot;require&quot;</span> <span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s">&quot;silex/silex&quot;</span><span class="p">:</span> <span class="s">&quot;~1.1&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&quot;monolog/monolog&quot;</span><span class="p">:</span> <span class="s">&quot;~1.7&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s">&quot;twig/twig&quot;</span><span class="p">:</span> <span class="s">&quot;~1.0&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you’ve introduced a new dependency, ensure it’s fetched:</p>
+
+<pre><code> ➜ /Users/apple/php-getting-started git:(master) ✗&gt; composer update
+</code></pre>
+
+<p>Modify <code>index.php</code> so that it uses Twig to render a template. Do this by first adding some code to register a Twig service provider:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'> <span class="o">//</span> <span class="n">Register</span> <span class="n">the</span> <span class="n">Twig</span> <span class="n">templating</span> <span class="n">engine</span>
+</span><span class='line'><span class="err">$</span><span class="n">app</span><span class="o">-&gt;</span><span class="n">register</span><span class="p">(</span><span class="n">new</span> <span class="n">Silex</span>\<span class="n">Provider</span>\<span class="n">TwigServiceProvider</span><span class="p">(),</span> <span class="n">array</span><span class="p">(</span>
+</span><span class='line'>  <span class="s">&#39;twig.path&#39;</span> <span class="o">=&gt;</span> <span class="n">__DIR__</span><span class="o">.</span><span class="s">&#39;/../views&#39;</span><span class="p">,</span>
+</span><span class='line'><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then introduce a new route:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="err">$</span><span class="n">app</span><span class="o">-&gt;</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;/twig/{name}&#39;</span><span class="p">,</span> <span class="n">function</span> <span class="p">(</span><span class="err">$</span><span class="n">name</span><span class="p">)</span> <span class="n">use</span> <span class="p">(</span><span class="err">$</span><span class="n">app</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="err">$</span><span class="n">app</span><span class="p">[</span><span class="s">&#39;twig&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;index.twig&#39;</span><span class="p">,</span> <span class="n">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="err">$</span><span class="n">name</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">));</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When that route is visited, it will pass the name to the Twig renderer, together with the <code>index.twig</code> template.</p>
+
+<p>Now create a <code>views</code> subdirectory to store the templates:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master) ✗&gt; mkdir views
+➜ /Users/apple/php-getting-started git:(master) ✗&gt; cd views
+</code></pre>
+
+<p>If you get lost making these changes, take a look at the <a href="https://github.com/heroku/php-getting-started/tree/step-2">step-2</a> branch of the sample app.</p>
+
+<p>Now deploy. Almost every deploy to Heroku follows this same pattern.</p>
+
+<p>First, add the modified files to the local git repository. Start by changing back to the root directory of your app, and adding the new files to your local git repository:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master) ✗&gt; git add .
+</code></pre>
+
+<p>Now commit the changes to the repository:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master) ✗&gt; git commit -m "Demo"
+</code></pre>
+
+<p>Now deploy, just as you did previously:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master)&gt; git push heroku master
+</code></pre>
+
+<p>Finally, check that everything is working:</p>
+
+<pre><code>➜ /Users/apple/php-getting-started git:(master)&gt; heroku open
+</code></pre>
+
+<h2>Summary</h2>
+
+<ol>
+<li>heroku login</li>
+<li>git clone <a href="https://github.com/heroku/php-getting-started.git">https://github.com/heroku/php-getting-started.git</a></li>
+<li>cd php-getting-started</li>
+<li>heroku create</li>
+<li>git push heroku master</li>
+<li>heroku ps:scale web=1</li>
+<li>heroku open</li>
+<li>heroku logs &ndash;tail</li>
+<li>git add .</li>
+<li>git commit -m &ldquo;Demo&rdquo;</li>
+<li>git push heroku master</li>
+<li>heroku open</li>
+</ol>
+
+
+<h2>Link</h2>
+
+<ul>
+<li><a href="https://devcenter.heroku.com/articles/getting-started-with-php#introduction">PHP on Heroku</a></li>
+<li><a href="http://www.phpcomposer.com/">Composer中文网</a></li>
+<li><a href="https://getcomposer.org/doc/00-intro.md">Getting start composer</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-17T15:04:09+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:04 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/php/'>php</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/17/iaas,paas,saas/" title="Previous Post: Iaas，Paas，Saas">&laquo; Iaas，Paas，Saas</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/17/9ge-zhong-liang-ji-de-yun-ji-suan-paas-ping-tai/" title="Next Post: 9个重量级的云计算(PaaS)平台">9个重量级的云计算(PaaS)平台 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

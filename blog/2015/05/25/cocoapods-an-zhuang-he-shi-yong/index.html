@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CocoaPods 安装和使用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在 iOS 开发中通常会引入一些第三方依赖库，如 AFNetworking，JSONKit。。。如果我们手动配置这些依赖库，除了加入源码以外，还要手动添加一些系统的 Framework，CFNetwork。。。如果这些第三方库发生了更新，我们还需要手动去更新项目。这样很降低我们的开发效率。 &hellip;">
+  <meta name="keywords" content="cocoapods">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/25/cocoapods-an-zhuang-he-shi-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CocoaPods 安装和使用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-25T09:53:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>在 iOS 开发中通常会引入一些第三方依赖库，如 <code>AFNetworking</code>，<code>JSONKit</code>。。。如果我们手动配置这些依赖库，除了加入源码以外，还要手动添加一些系统的 <code>Framework</code>，<code>CFNetwork</code>。。。如果这些第三方库发生了更新，我们还需要手动去更新项目。这样很降低我们的开发效率。为了不<strong>重复造轮子</strong>，提高开发者工作效率，我们利用<code>CocoaPods</code>来解决这个问题，通过<code>CocoaPods</code>将第三方的依赖库统一管理起来，方便我们的使用。<!--More--></p>
+
+<h2>Cocoapods原理</h2>
+
+<ul>
+<li><p>Pods项目最终会编译成一个名为 <code>libPods.a</code> 的文件，主项目只需要依赖这个 <code>.a</code> 文件即可。</p></li>
+<li><p>对于资源文件，<code>CocoaPods</code> 提供了一个名为 <code>Pods-resources.sh</code>的 <code>bash</code>脚本，该脚本在每次项目编译的时候都会执行，将第三方库的各种资源文件复制到目标目录中。</p></li>
+<li><p><code>CocoaPods</code> 通过一个名为 <code>Pods.xcconfig</code> 的文件来在编译时设置所有的依赖和参数。</p></li>
+</ul>
+
+
+<h2>安装CocoaPods</h2>
+
+<p>本文开发环境为 <code>iMac OS X 10.10.3</code>，安装 <code>CocoaPods</code>之前，要先确保电脑本地是否有 <code>Ruby</code>环境，因为<code>CocoaPods</code>运行于 <code>Ruby</code>之上，默认情况下，Mac 是自带了 Ruby 环境的，可以通过命令行 <code>ruby -v</code>查看当前Ruby的版本。</p>
+
+<p>执行命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">AppledeiMac</span><span class="p">:</span><span class="o">~</span> <span class="n">apple</span><span class="err">$</span> <span class="n">ruby</span> <span class="o">-</span><span class="n">v</span>
+</span><span class='line'><span class="n">ruby</span> <span class="mf">2.0</span><span class="o">.</span><span class="mi">0</span><span class="n">p481</span> <span class="p">(</span><span class="mi">2014</span><span class="o">-</span><span class="mo">05</span><span class="o">-</span><span class="mi">08</span> <span class="n">revision</span> <span class="mi">45883</span><span class="p">)</span> <span class="p">[</span><span class="n">universal</span><span class="o">.</span><span class="n">x86_64</span><span class="o">-</span><span class="n">darwin14</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>接下来是安装 CocoaPods，今天我遇到了一个问题，下面详细说一下</p>
+
+<p>执行命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="err">$</span> <span class="n">sudo</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">cocoapods</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+然后出现下面问题：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">AppledeiMac</span><span class="p">:</span><span class="o">~</span> <span class="n">apple</span><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">cocoapods</span>
+</span><span class='line'><span class="n">ERROR</span><span class="p">:</span>  <span class="n">While</span> <span class="n">executing</span> <span class="n">gem</span> <span class="o">...</span> <span class="p">(</span><span class="n">OpenSSL</span><span class="p">::</span><span class="n">SSL</span><span class="p">::</span><span class="n">SSLError</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">hostname</span> <span class="s">&quot;rubygems-china.oss.aliyuncs.com&quot;</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">match</span> <span class="n">the</span> <span class="n">server</span> <span class="n">certificate</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>网上很多资料说把镜像源改成淘宝的，执行命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">sources</span> <span class="o">-</span><span class="n">a</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">ruby</span><span class="o">.</span><span class="n">taob</span><span class="o">.</span><span class="n">org</span><span class="o">/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后再次执行 <code>sudo gem install cocoapods</code> 后，问题仍然没有被解决。后来自己分析下 <code>ERROR</code>原因，原来现在的镜像源不是淘宝了，是用阿里云了。看来不与时俱进，out 了！</p>
+
+<p>执行命令；</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">sources</span> <span class="o">-</span><span class="n">a</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">rubygems</span><span class="o">-</span><span class="n">china</span><span class="o">.</span><span class="n">oss</span><span class="o">.</span><span class="n">aliyuncs</span><span class="o">.</span><span class="n">com</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再次执行命令：<code>sudo gem install cocoapods</code>，成功后的效果如下：</p>
+
+<pre><code>$ sudo gem install cocoapods
+Fetching: cocoapods-core-0.37.1.gem (100%)
+Successfully installed cocoapods-core-0.37.1
+Fetching: cocoapods-try-0.4.4.gem (100%)
+Successfully installed cocoapods-try-0.4.4
+Fetching: cocoapods-0.37.1.gem (100%)
+Successfully installed cocoapods-0.37.1
+Parsing documentation for cocoapods-core-0.37.1
+Installing ri documentation for cocoapods-core-0.37.1
+Parsing documentation for cocoapods-try-0.4.4
+Installing ri documentation for cocoapods-try-0.4.4
+Parsing documentation for cocoapods-0.37.1
+Installing ri documentation for cocoapods-0.37.1
+3 gems installed
+</code></pre>
+
+<h2>使用CocoaPods</h2>
+
+<p>首先，搜索需要的第三方库是否支持 CocoaPods ，执行命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="err">$</span> <span class="n">pod</span> <span class="n">search</span> <span class="n">Shimmer</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如下所示：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esga9dwqjtj20fs08udie.jpg" alt="img" /></p>
+
+<p>新建一个工程CocoaPods，在工程目录下新建一个名为 <code>Podfile</code> 文件。这里通过执行命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">vim</span> <span class="n">Podfile</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>进行编辑，按 <code>i</code> 进入插入模式，编辑后按 <code>ESC</code> 退出编辑模式，最后输入 <code>：wq</code> 保存后并退出文件。</p>
+
+<p>根据列出来的结果，编辑内容：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">platform</span> <span class="p">:</span><span class="n">ios</span><span class="p">,</span> <span class="s">&#39;8.1&#39;</span>
+</span><span class='line'><span class="n">pod</span> <span class="s">&#39;Shimmer&#39;</span><span class="p">,</span><span class="s">&#39;~&gt; 1.0.2&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此时工程下就会有一个 Podfile 文件，注意必须和 <code>.xcodeproj</code> 在同一个目录下。接下来就可以使用 CocoaPods 来安装并管理 <code>Shimmer</code> 库了，确保命令行当前路径是在 <code>CocoaPodsTest</code> 目录下，运行如下命令。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">pod</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>安装完成后会提示如下信息，并且我们的工程目录下会多出一个 <code>.xcworkspace</code> 结尾的文件。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esga9deon7j20lq04cmyf.jpg" alt="img" /></p>
+
+<p>这时候就可以在项目中使用 <code>Shimmer</code>库了。如果你发现 <code>import</code> 的时候没有提示 <code>FBShimmering/FBShimmeringView.h</code> 文件，可以在 <code>target-Build Settings</code> 下修改 <code>User Header Search Paths</code>项，新增 <code>${SRCROOT}</code> 并选择 <code>rcursive</code>，如下图。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esgak5keugj20sj0gxtdb.jpg" alt="img" /></p>
+
+<p>到此，新建工程并使用 CocoaPods 来管理依赖库的过程就完成了，如果是直接使用已有 CocoaPods 的项目，则需要首先运行一下 <code>pod update</code> 命令来更新项，然后照样通过 <code>.xcworkspace</code> 来打开工程。</p>
+
+<p>如果需要依赖多个第三方类库，只需要修改 <code>Podfile</code> 文件的配置，然后运行 <code>pod update</code> 命令即可，如果类库有更新，查看更新配置并执行 <code>pod update</code> 即可简单完成了，从此从手动更新繁重的体力劳动中解脱出来。</p>
+
+<h2>小结</h2>
+
+<p>Cocoapods 作用强大，是 iOS 开发中必须掌握的一个工具，在后面的工程中，熟练掌握 CocoaPods 。</p>
+
+<p>CocoaPods 使用流程：</p>
+
+<pre><code>$ sudo gem install cocoapods
+$ pod search 查找的库
+$ vim Podfile
+$ pod install
+$ pod update
+</code></pre>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://www.cocoachina.com/ios/20140107/7663.html">http://www.cocoachina.com/ios/20140107/7663.html</a></li>
+<li><a href="http://blog.cocoapods.org">http://blog.cocoapods.org</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-25T09:53:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/25/zai-xcode-zhong-chuang-jian-bundle/" title="Previous Post: 在 Xcode 中创建 bundle">&laquo; 在 Xcode 中创建 bundle</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/25/ios-kai-yuan-xiang-mu-shimmer/" title="Next Post: iOS 开源项目- Shimmer">iOS 开源项目- Shimmer &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

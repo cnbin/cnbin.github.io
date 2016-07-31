@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Wookmark - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Wookmark This is a plugin for laying out a dynamic grid of elements. See the documentation page for examples. The repository also includes many &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/24/Wookmark/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Wookmark</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T08:37:56+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:37 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><a href="https://waffle.io/gbks/wookmark-jquery"><img src="https://badge.waffle.io/gbks/wookmark-jquery.png?label=ready&amp;title=Ready" alt="Stories in Ready" /></a>
+<a href="https://gitter.im/germanysbestkeptsecret/Wookmark-jQuery?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/germanysbestkeptsecret/Wookmark-jQuery" /></a>
+<a href="http://wookmark.readthedocs.org/en/latest/"><img src="https://readthedocs.org/projects/wookmark/badge/" alt="Read the docs" /></a>
+<a href="https://travis-ci.org/germanysbestkeptsecret/Wookmark-jQuery"><img src="https://travis-ci.org/germanysbestkeptsecret/Wookmark-jQuery.svg" alt="Build Status" /></a></p>
+
+<h1>Wookmark</h1>
+
+<p>This is a plugin for laying out a dynamic grid of elements.</p>
+
+<p>See the <a href="http://www.wookmark.com/jquery-plugin">documentation page</a> for examples.</p>
+
+<p>The repository also includes many functional examples. All images used in the example are copyrighted
+by their respective owners and only included for showcasing plugin functionality.</p>
+
+<h1>How to make the examples work</h1>
+
+<p>First download or clone this repository.
+Because we use the <code>bower</code> package manager for <code>jQuery</code> and other libraries you currently have to
+to install <code>bower</code> <a href="http://bower.io">first</a>.
+After that you can run <code>bower install</code> and all necessary libraries for the examples will be installed.</p>
+
+<p>We will provide a special download in the future which contains all necessary packages.</p>
+
+<h1>Further documentation</h1>
+
+<p>We are currently creating a new and better documentation at <a href="http://wookmark.readthedocs.org/en/latest/">readthedocs</a>.
+Its automatically created by the sources in the <code>doc</code> directory.</p>
+
+<p>The documentation can be rendered locally by installing <code>sphinx</code> and <code>sphinx-autobuild</code> and running <code>sphinx-autobuild . _build</code> in the <code>doc</code> directory.</p>
+
+<h1>Upgrading to version 2.0</h1>
+
+<p>Since version 2.0 of Wookmark, the plugin doesn&rsquo;t depend on jQuery anymore.
+This allows you to use Wookmark without the overhead of the jQuery library.</p>
+
+<p>Because this meant a big change to the plugin, we also changed a lot in the code
+and tried to make it easier to use. The way you initialize the plugin is now different
+and a few options have changend. So if you upgrade you have to adapt your code.
+See the examples and this readme on how to do this.</p>
+
+<h2>Installation</h2>
+
+<h3>Install with bower</h3>
+
+<pre><code>bower install wookmark-jquery
+</code></pre>
+
+<h3>jQuery is optional and is used in some of the examples to simplify the code a bit</h3>
+
+<ul>
+<li><a href="http://www.jquery.com">jQuery</a> - 1.5.3 or better</li>
+</ul>
+
+
+<h3>Required files</h3>
+
+<p>Copy <code>wookmark.js</code> or the minified version <code>wookmark.min.js</code> to your javascript folder.
+There are some styles for <code>tiles-wrap</code> in <code>css/main.css</code> you might want to use.</p>
+
+<h2>Usage</h2>
+
+<p>The plugin can be intialized in different ways. <code>options</code> are optional.</p>
+
+<h3>Default without jQuery</h3>
+
+<pre><code>var wookmark = new Wookmark('#myElementContainer'[, options ]);
+</code></pre>
+
+<h3>jQuery call with default settings:</h3>
+
+<pre><code>$('#myElementContainer').wookmark(options);
+</code></pre>
+
+<p>Where <code>myElementContainer</code> is the class or id of the element or elements wrapping your tiles. A Wookmark instance will be created for each element.</p>
+
+<h3>Options</h3>
+
+<pre><code>{
+  align: 'center',
+  autoResize: false,
+  comparator: null,
+  container: $('body'),
+  direction: undefined,
+  ignoreInactiveItems: true,
+  itemWidth: 0,
+  fillEmptySpace: false,
+  flexibleWidth: 0,
+  offset: 2,
+  onLayoutChanged: undefined,
+  outerOffset: 0,
+  possibleFilters: [],
+  resizeDelay: 50,
+  verticalOffset: undefined
+}
+</code></pre>
+
+<p>See the <a href="http://www.wookmark.com/jquery-plugin">documentation page</a> for details on available options.</p>
+
+<h4>itemWidth and flexibleWidth</h4>
+
+<p>These values can be given as numbers which will be interpreted as pixels or you can use percentage strings like &lsquo;20%&rsquo;.
+You can also provide a function which should return either a number or a percentage string.
+When <code>flexibleWidth</code> is set and <code>itemWidth</code> is not 0 <code>itemWidth</code> used as minimum item width.
+As example using a <code>flexibleWidth</code> of 40% will result in two columns with 10% space to the sides of the container.</p>
+
+<h4>offset, outerOffset and verticalOffset</h4>
+
+<p><code>offset</code> is the horizontal and vertical space between two tiles.
+<code>outerOffset</code> is the space between the outer tiles and the parent container.
+<code>verticalOffset</code> is optional and can be set to achieve a vertical offset between two tiles which is different from <code>offset</code>.</p>
+
+<h4>fillEmptySpace</h4>
+
+<p>This creates placeholders at the bottom of each column to create an even layout. See <code>example-placeholder</code> on how to use it. These placeholders use the css class <code>wookmark-placeholder</code>. You can overwrite it in your own css to fit your needs.</p>
+
+<h4>ignoreInactiveItems</h4>
+
+<p>When set to <code>false</code> inactive items will still be shown when filtered. This can be used to fade out filtered items. See the example-filter/fade.html example.</p>
+
+<h4>comparator</h4>
+
+<p>You can use this option to provide a custom comparator function which the plugin will use to sort the tiles. See example-sort or example-stamp on how to use it.</p>
+
+<h3>Refresh trigger</h3>
+
+<p>Elements which are hidden have cannot be laid out until they are visible. If you use wookmark on a hidden tab layout will not be immediately performed. When the tab is made visible you can manually refresh Wookmark using a trigger on your container.</p>
+
+<pre><code>wookmark.layout(true);
+</code></pre>
+
+<p>or</p>
+
+<pre><code>$('#myElementContainer').trigger('refreshWookmark');
+</code></pre>
+
+<h3>Filter</h3>
+
+<p>You can filter all items of the handler when they have filters specified. See <code>example-filter</code> for details how to do this.
+The call to filter will also return the resulting list of items.</p>
+
+<pre><code>wookmark.filter([filters=[]][,mode='or'][,dryRun=false]);
+</code></pre>
+
+<p>If you just want to check if there would be a resulting list of items you can call filter with the <code>dryRun</code> option set to <code>true</code>.</p>
+
+<h2>Annotated code</h2>
+
+<p>See our <a href="doc/wookmark.html">docco</a>.</p>
+
+<h2>Included examples</h2>
+
+<p>Some of the examples need the jQuery or imagesLoaded plugins. Be sure to run bower install to have them working.</p>
+
+<h3>example</h3>
+
+<p>Is the preferred setup. In this scenario the width and height of all images is set in the HTML img attributes.
+The grid layout can be performed as soon as the document is rendered, BEFORE images are loaded.</p>
+
+<h3>example-load-images</h3>
+
+<p>In this example, the width and height of the images is not known. Via Paul Irish&rsquo;s imagesLoaded plugin (slightly
+modified by desandro). The grid layout is performed after all images are loaded and their dimensions can be
+retrieved. This approach is much slower. The imagesLoaded plugin can also be found on github right here:
+<a href="https://github.com/desandro/imagesloaded">https://github.com/desandro/imagesloaded</a></p>
+
+<h3>example-amd</h3>
+
+<p>This example shows how to load and initialize the plugin when using <code>require.js</code> or a different amd loading method.</p>
+
+<h3>example-api</h3>
+
+<p>This example shows how to load the tile data from a remote api and layout it.</p>
+
+<h3>example-endless-scroll</h3>
+
+<p>This example shows how to add new tiles at runtime and refresh the layout.</p>
+
+<h3>example-filter</h3>
+
+<p>This example shows to use the <code>filter</code> feature of the plugin to show just the tiles the user wants.</p>
+
+<h3>example-flexible</h3>
+
+<p>This example shows how to use the <code>flexibleWidth</code> option. This option allows your tiles to grow a certain amount, as long as there is room. When using percentage values for the width options you can create a fixed column count layout.</p>
+
+<h3>example-lightbox</h3>
+
+<p>This example shows you how to include a lightbox.</p>
+
+<h3>example-placeholder</h3>
+
+<p>This example shows you how to enable placeholders at the bottom of the tile layout to create an even footer.</p>
+
+<h3>example-sort</h3>
+
+<p>This example shows how the <code>sort</code> feature works. This option allows you to specify a sorting function which will rearrange your tiles.
+For example you can use it to sort your tiles containing products by price, popularity or name.</p>
+
+<h2>FAQ</h2>
+
+<h3>The tiles overlap after loading.</h3>
+
+<p>You should use the &lsquo;imagesloaded&rsquo; plugin. Most the examples in this package include the code how to use it.</p>
+
+<h3>The tiles overlap after their height is changed.</h3>
+
+<p>Use the &lsquo;finished&rsquo;-callback of your animation/effect to trigger &lsquo;refreshWookmark&rsquo; on the container element supplied to the plugin.</p>
+
+<h3>The placeholders at the end of each column have wrong heights or positions.</h3>
+
+<p>Set &lsquo;position: relative&rsquo; on your container element and check if there are other elements in the container before your tiles.</p>
+
+<h3>My question isn&rsquo;t answered here.</h3>
+
+<p>Send us some feedback or create an issue on github.</p>
+
+<h2>Mentioned or used by others</h2>
+
+<p>Beware: These links lead to sites which are not necessarily related to the authors of the Wookmark plugin so we don&rsquo;t have any control over their content.</p>
+
+<ul>
+<li><a href="http://bitconfig.com/woomark/bitconfig_woomark.html">Customize the plugin online with bitconfig</a></li>
+<li><a href="http://typo3.org/extensions/repository/view/yag_themepack_jquery">TYPO3 extension for YAG</a></li>
+<li><a href="https://drupal.org/project/views_wookmark">Drupal Wookmark plugin</a></li>
+<li><a href="http://theme-hunter.tumblr.com/post/31126746878/creating-tumblr-grid-layouts-with-wookmark">Tumblr template example</a></li>
+</ul>
+
+
+<p>Send a <a href="mailto:sebastian@helzle.net">message</a> if you want to be included with your site on this list!</p>
+
+<h2>Feedback</h2>
+
+<p>Please send code specific questions and feedback to <a href="mailto:sebastian@helzle.net">Sebastian</a> or contact him on <a href="http://twitter.com/sebobo">twitter</a>.</p>
+
+<p>If you have other questions and feedback which is for example related to Wookmark send a mail to <a href="mailto:chri@sto.ph">Christoph</a> or contact him on <a href="https://twitter.com/gbks">twitter</a>.</p>
+
+<h2>Contributing</h2>
+
+<p>Contribute!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-24T08:37:56+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:37 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/24/Octopress-%E8%BF%81%E7%A7%BB%E5%88%B0-Hexo/" title="Previous Post: Octopress 迁移到 Hexo">&laquo; Octopress 迁移到 Hexo</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/24/turn-js/" title="Next Post: turn.js">turn.js &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

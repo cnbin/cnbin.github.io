@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>UML用例建模解析（二） - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="(1) 关联关系 关联关系是指执行者与用例之间的关系，又称为通信关系，如果某个执行者可以对某个用例进行操作，它们之间就具有关联关系，如下图所示，“经理”有一个功能为“查看库存报表”，因此可以在执行者“经理”和用例“查看库存报表”之间建立一个关联关系，关联关系用实线表示。 (2) 泛化关系 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/27/umlyong-li-jian-mo-jie-xi-(er-)/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">UML用例建模解析（二）</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-27T11:31:46+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:31 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>(1) 关联关系</h3>
+
+<p>关联关系是指执行者与用例之间的关系，又称为通信关系，如果某个执行者可以对某个用例进行操作，它们之间就具有关联关系，如下图所示，“经理”有一个功能为“查看库存报表”，因此可以在执行者“经理”和用例“查看库存报表”之间建立一个关联关系，关联关系用实线表示。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f1dqkm38u2j2091026748.jpg" alt="img" /></p>
+
+<h3>(2) 泛化关系</h3>
+
+<p>执行者之间的关系只有一种，即泛化关系，用一个带有空心三角形的实线表示，如下图所示，在该图中，仓库管理员、系统管理员、经理都是员工的一种，因此员工拥有的功能这三者都拥有，如登录、修改个人信息等，为了减少用例的个数并且使系统更加符合面向对象设计规范，可以对执行者进行泛化，将各类执行者都具有相同的功能移至父执行者，而将每类执行者特有的功能保留在子执行者中。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f1dqkmkd2wj209q07ajrs.jpg" alt="img" /></p>
+
+<p>常见的用例之间的关系有两种，分别是包含关系和扩展关系，下面介绍这两种关系的含义以及在用例图中如何表示。</p>
+
+<h3>(3) 包含关系</h3>
+
+<p>如果多个用例都具有一部分相同的行为，可以将这部分相同的行为作为一个单独的用例抽取出来，与原来的用例形成一个包含关系。如仓库管理员在进行入库、出库等操作之前需要先登录，登录是入库、出库流程的基本组成部分，因此用例“入库”和“出库”包含用例“登录”。为了更加清晰地描述多个用例的相同行为，在用例图中提供了用例与用例之间的包含关系。</p>
+
+<p>在UML中，包含关系用依赖线（虚线）加一个&lt;<include>>表示，由原始用例指向包含用例，如下图所示：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f1dqkn8ap6j20c004xjrl.jpg" alt="img" /></p>
+
+<h3>(4) 扩展关系</h3>
+
+<p>扩展关系又称为延伸关系，如果一个用例在执行时可能会使用到另一个用例，或者使用一个新的用例对原有用例的行为进行扩展时可以使用扩展关系，如仓库管理员在入库时发现某种商品在系统中暂不存在，则可以增加新的商品信息；如果入库商品均已存在，则无需增加商品信息，此时用例“增加商品信息”可以作为用例“入库”的扩展用例。在需要扩展的用例（原始用例）中需指定一个扩展点（即需扩展的位置），在下一节编写用例文档中将学习如何设置扩展点。
+在UML中，包含关系用依赖线（虚线）加一个&lt;<extend>>表示，由扩展用例指向原始用例，如下图所示：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1dqknq10ij20b6023mx7.jpg" alt="img" /></p>
+
+<p>关于包含关系和扩展关系箭头的指向，可以记住两句口诀：包含进来，箭头向外；扩展出去，箭头向里。
+除了上述的包含关系和扩展关系外，用例之间还存在一种与执行者泛化类似的泛化关系，但不太常见，在这里不予以详细介绍。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/lovelion/article/details/6226375">http://blog.csdn.net/lovelion/article/details/6226375</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-27T11:31:46+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:31 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/27/umlyong-li-jian-mo-jie-xi-(%5B%3F%5D-)/" title="Previous Post: UML用例建模解析（一）">&laquo; UML用例建模解析（一）</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/27/umlyong-li-jian-mo-jie-xi-(san-)/" title="Next Post: UML用例建模解析（三）">UML用例建模解析（三） &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

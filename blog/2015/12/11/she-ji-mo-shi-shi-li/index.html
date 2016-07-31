@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>设计模式实例分析 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content=" 抽象工厂模式 装饰器模式 原型模式 组合模式 例子1 例子2 例子3 策略模式 例子1 例子2 例子3 桥接模式 例子1 例子2 观察者模式 应用命令模式 状态模式 责任链模式 访问者模式 ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/11/she-ji-mo-shi-shi-li/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">设计模式实例分析</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-11T08:46:10+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:46 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>抽象工厂模式</h2>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1937auemzj20ia0bkwgy.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859ejw1f1937bpln6j20fp0ly0w9.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f1937co1aij20h40mxgra.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f1937dfwgwj20hm0bydis.jpg" alt="img" /></p>
+
+<h2>装饰器模式</h2>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f17tvwapvsj20l508p41e.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859ejw1f17tvvoynuj20fr0lmdjs.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859ejw1f17tvv54wvj20gk0mbaf2.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f17tvxyv4sj20ga0mqjx7.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f17tvx4hsoj20hj0cj41k.jpg" alt="img" /></p>
+
+<h2>原型模式</h2>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f17tpxb8udj20hy0bndi8.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f17tpwhpstj20fb0lqn0i.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f17tsh0v4bj20h70mjq7w.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f17tpujcu2j20gk0dp77m.jpg" alt="img" /></p>
+
+<h2>组合模式</h2>
+
+<h3>例子1</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezn932rfysj20jf06s75q.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezn93626rmj20ho0g7q4d.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezn936h2p9j20j209g0tt.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezn936wb60j20hh0mztc9.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f0zzlw55gvj20hn0n279i.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezn937uwhpj20gk085wf9.jpg" alt="img" /></p>
+
+<h3>例子2</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezvabda2qnj20id02hgln.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezvabd79kpj20ic0or41u.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezvabdg12oj20il0ok428.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezvabek02ej20in0530tp.jpg" alt="img" /></p>
+
+<h3>例子3</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezvbea2pw4j20jr0da0v9.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezvbeaginfj20iy0llwgp.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezvbeaxhe2j20je04oq3f.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezvbebec9fj20it0d4q4m.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezvbebzixwj20jy0ctgni.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezvbeckbmjj20jc0o044t.jpg" alt="img" /></p>
+
+<h2>策略模式</h2>
+
+<h3>例子1</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyvj9r558wj20ie0lqjw1.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyvj9rk4asj20dd0mzadz.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyvj9rv6k7j209m06nq3u.jpg" alt="img" /></p>
+
+<h3>例子2</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyvpijkkmbj20r30ntgr0.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eyvpik16j3j20pf07yad2.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyvpikg59bj20pz0nmn04.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eyvpikuqf9j20mn08f0ta.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eyvpknfbhyj209r06faaq.jpg" alt="img" /></p>
+
+<h3>例子3</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezt1kizin8j20hw0no0z0.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezt1kjgh7mj20f90hstcd.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezt1kjuhkcj20gh036aa9.jpg" alt="img" /></p>
+
+<h2>桥接模式</h2>
+
+<h3>例子1</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f1a6spfnqej20hi0a80uw.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1a6sqhtdcj20h30ltn12.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1a6sres4gj20fv0ly42r.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f1a6sscvnvj20gr0k4wix.jpg" alt="img" /></p>
+
+<h3>例子2</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyvjh9bbomj20lb05575m.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyvjh9nghtj20lb09ngmu.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyvjha1ka1j20lp0jcmzc.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyvjhafpskj20l90dg75s.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyvjhb09ynj20lb0fs79k.jpg" alt="img" /></p>
+
+<h2>观察者模式</h2>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezbpgau3v5j20gq0m8jvp.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezbpg2wx2vj20h00m8td3.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezbpftbdpzj20g80kygqg.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezbpfqsjgmj20gs0a70uw.jpg" alt="img" /></p>
+
+<h2>应用命令模式</h2>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezvkfnhx6vj20n70cddhy.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezvkfnvafhj20nc0eq0vu.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezvkfohwimj20ng0g176i.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezvkfoxas7j20n30mcadl.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezvkfplvsvj20nj08dgo4.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezvkfq2md1j20n605ngmv.jpg" alt="img" /></p>
+
+<h2>状态模式</h2>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezn8gj1ftpj20ms0n478e.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezn8gjv7opj20i70outc2.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezn8grrb3lj20jw0nigrj.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezn8gtig2kj20ig01dq3a.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezn8gvzlcuj20i90iwwk6.jpg" alt="img" /></p>
+
+<h2>责任链模式</h2>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezvkyty900j20n50k2wi5.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezvkyuhsa0j20mi0lfjuk.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezvkyv5652j20m009jmyl.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezvkyvt755j20ng0mktet.jpg" alt="img" /></p>
+
+<h2>访问者模式</h2>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezwr6ydsipj20mk0msad6.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezwr6zdth5j20lc0j0dhs.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezwr703nbyj20lx0cy0u6.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezwr713f57j20ji054t8w.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-11T08:46:10+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:46 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/10/computer-word/" title="Previous Post: Computer word(原创)">&laquo; Computer word(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/11/javazhong-listji-he-de-bian-li-he-liang-chong-shi-xian-lei-de-bi-jiao-fen-xi/" title="Next Post:  java中List集合的遍历和两种实现类的比较分析"> java中List集合的遍历和两种实现类的比较分析 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

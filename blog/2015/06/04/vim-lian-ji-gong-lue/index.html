@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Vim 练级攻略 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Better, Stronger, Faster. 第一级：存活 i → Insert 模式，按 ESC 回到 Normal 模式.
+x → 删当前光标所在的一个字符。
+:wq → 存盘 + 退出 (:w 存盘, :q 退出) （注：:w 后可以跟文件名）
+dd → 删除当前行， &hellip;">
+  <meta name="keywords" content="vim">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/04/vim-lian-ji-gong-lue/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Vim 练级攻略</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-04T10:47:23+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:47 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Better, Stronger, Faster.</h2>
+
+<!--More-->
+
+
+<h3>第一级：存活</h3>
+
+<pre><code>i → Insert 模式，按 ESC 回到 Normal 模式.
+x → 删当前光标所在的一个字符。
+:wq → 存盘 + 退出 (:w 存盘, :q 退出)   （注：:w 后可以跟文件名）
+dd → 删除当前行，并把删除的行存到剪贴板里
+p → 粘贴剪贴板
+推荐:
+
+hjkl (强例推荐使用其移动光标，但不必需) →你也可以使用光标键 (←↓↑→). 注: j 就像下箭头。
+:help &lt;command&gt; → 显示相关命令的帮助。你也可以就输入 :help 而不跟命令。（注：退出帮助需要输入:q）
+</code></pre>
+
+<p>在 VIM 的 <strong>Normal</strong> 模式下，所有的键就是功能键。</p>
+
+<h3>第二级：感觉良好</h3>
+
+<h4>1.各种插入模式</h4>
+
+<pre><code>a → 在光标后插入
+o → 在当前行后插入一个新行
+O → 在当前行前插入一个新行
+cw → 替换从光标所在位置后到一个单词结尾的字符
+</code></pre>
+
+<h4>2.简单的移动光标</h4>
+
+<pre><code>0 → 数字零，到行头
+^ → 到本行第一个不是blank字符的位置（所谓blank字符就是空格，tab，换行，回车等）
+$ → 到本行行尾
+g_ → 到本行最后一个不是blank字符的位置。
+/pattern → 搜索 pattern 的字符串（注：如果搜索出多个匹配，可按n键到下一个）
+</code></pre>
+
+<h4>3.拷贝/粘贴 （注：p/P都可以，p是表示在当前位置之后，P表示在当前位置之前）</h4>
+
+<pre><code>P → 粘贴
+yy → 拷贝当前行当行于 ddP
+</code></pre>
+
+<h4>4.Undo/Redo</h4>
+
+<pre><code>u → undo
+&lt;Ctrl-r&gt; → redo
+</code></pre>
+
+<h4>5.打开/保存/退出/改变文件(Buffer)</h4>
+
+<pre><code>:e &lt;path/to/file&gt; → 打开一个文件
+:w → 存盘
+:saveas &lt;path/to/file&gt; → 另存为 &lt;path/to/file&gt;
+:x， ZZ 或 :wq → 保存并退出 (:x 表示仅在需要时保存，ZZ不需要输入冒号并回车)
+:q! → 退出不保存 :qa! 强行退出所有的正在编辑的文件，就算别的文件有更改。
+:bn 和 :bp → 你可以同时打开很多文件，使用这两个命令来切换下一个或上一个文件。（陈皓注：我喜欢使用:n到下一个文件）
+</code></pre>
+
+<h3>第三级：更好，更强，更快</h3>
+
+<h4>更好</h4>
+
+<p>下面，让我们看一下 <code>vim</code> 是怎么重复自己的：</p>
+
+<pre><code>. → (小数点) 可以重复上一次的命令
+N&lt;command&gt; → 重复某个命令N次
+</code></pre>
+
+<p>下面是一个示例，找开一个文件你可以试试下面的命令：</p>
+
+<pre><code>2dd → 删除2行
+3p → 粘贴文本3次
+100idesu [ESC] → 会写下 “desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu desu “
+. → 重复上一个命令—— 100 “desu “.
+3. → 重复 3 次 “desu” (注意：不是 300，你看，VIM多聪明啊).
+</code></pre>
+
+<h4>更强</h4>
+
+<p>你要让你的光标移动更有效率，你一定要了解下面的这些命令，千万别跳过。</p>
+
+<pre><code>NG → 到第 N 行 （陈皓注：注意命令中的G是大写的，另我一般使用 : N 到第N行，如 :137 到第137行）
+gg → 到第一行。（陈皓注：相当于1G，或 :1）
+G → 到最后一行。
+</code></pre>
+
+<p>按单词移动：</p>
+
+<pre><code>w → 到下一个单词的开头。
+e → 到下一个单词的结尾。
+&gt; 如果你认为单词是由默认方式，那么就用小写的e和w。默认上来说，一个单词由字母，数字和下划线组成（陈皓注：程序变量）
+
+&gt; 如果你认为单词是由blank字符分隔符，那么你需要使用大写的E和W。
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esprnquwn9j209x02b3ye.jpg" alt="img" /></p>
+
+<p>下面，让我来说说最强的光标移动：</p>
+
+<pre><code>% : 匹配括号移动，包括 (, {, [. （注：你需要把光标先移到括号上）
+* 和 #:  匹配光标当前所在的单词，移动光标到下一个（或上一个）匹配单词（*是下一个，#是上一个） 
+</code></pre>
+
+<h4>更快</h4>
+
+<p>你一定要记住光标的移动，因为很多命令都可以和这些移动光标的命令连动。很多命令都可以如下来干：</p>
+
+<p><code>&lt;start position&gt;&lt;command&gt;&lt;end position&gt;</code></p>
+
+<p>例如 <strong>0y$</strong> 命令意味着：</p>
+
+<pre><code>0 → 先到行头
+y → 从这里开始拷贝
+$ → 拷贝到本行最后一个字符
+</code></pre>
+
+<p>你可可以输入 <strong>ye</strong>，从当前位置拷贝到本单词的最后一个字符。</p>
+
+<p>你也可以输入 <strong>y2/foo</strong> 来拷贝2个 <strong>“foo”</strong> 之间的字符串。</p>
+
+<p>还有很多时间并不一定你就一定要按 <strong>y</strong> 才会拷贝，下面的命令也会被拷贝：</p>
+
+<pre><code>d (删除 )
+v (可视化的选择)
+gU (变大写)
+gu (变小写)
+等等
+</code></pre>
+
+<p>(注：可视化选择是一个很有意思的命令，你可以先按 <strong>v</strong>，然后移动光标，你就会看到文本被选择，然后，你可能 <strong>d</strong>，也可 <strong>y</strong>，也可以变大写等）</p>
+
+<h3>第四级 – Vim 超能力</h3>
+
+<p>现在，我们向你介绍的是 <code>VIM</code> 杀手级的功能。</p>
+
+<p>在当前行上移动光标: <strong>0 ^ $ f F t T ,</strong>;</p>
+
+<pre><code>0 → 到行头
+^ → 到本行的第一个非blank字符
+$ → 到行尾
+g_ → 到本行最后一个不是blank字符的位置。
+fa → 到下一个为a的字符处，你也可以fs到下一个为s的字符。
+t, → 到逗号前的第一个字符。逗号可以变成其它字符。
+3fa → 在当前行查找第三个出现的a。
+F 和 T → 和 f 和 t 一样，只不过是相反方向。
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esprpbc70fj20bb02cjr9.jpg" alt="img" /></p>
+
+<p>还有一个很有用的命令是 <strong>dt</strong> → 删除所有的内容，直到遇到双引号—— <strong>&ldquo;</strong>。</p>
+
+<h4>区域选择 <code>&lt;action&gt;a&lt;object&gt;</code> 或 <code>&lt;action&gt;i&lt;object&gt;</code></h4>
+
+<p>在 <strong>visual</strong> 模式下，这些命令很强大，其命令格式为</p>
+
+<p><code>&lt;action&gt;a&lt;object&gt;</code> 和 <code>&lt;action&gt;i&lt;object&gt;</code></p>
+
+<ul>
+<li><p>action 可以是任何的命令，如 <strong>d</strong> (删除), <strong>y</strong> (拷贝), <strong>v</strong> (可以视模式选择)。</p></li>
+<li><p>object 可能是： <strong>w</strong> 一个单词， <strong>W</strong> 一个以空格为分隔的单词， <strong>s</strong> 一个句字， <strong>p</strong> 一个段落。也可以是一个特别的字符：<strong>&ldquo;、 &lsquo;、 )、 }、 ]</strong>。</p></li>
+</ul>
+
+
+<p>假设你有一个字符串 <strong>(map (+) (&ldquo;foo&rdquo;))</strong>.而光标键在第一个 <strong>o</strong> 的位置。</p>
+
+<pre><code>vi" → 会选择 foo.
+va" → 会选择 "foo".
+vi) → 会选择 "foo".
+va) → 会选择("foo").
+v2i) → 会选择 map (+) ("foo")
+v2a) → 会选择 (map (+) ("foo"))
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esprxxakn0j206q03imx6.jpg" alt="img" /></p>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://coolshell.cn/articles/5426.html">http://coolshell.cn/articles/5426.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-04T10:47:23+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:47 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/04/mac-chang-yong-kuai-jie-jian/" title="Previous Post: Mac 常用快捷键">&laquo; Mac 常用快捷键</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/04/chrome-for-mac-jian-pan-kuai-jie-jian/" title="Next Post: Chrome for Mac 键盘快捷键">Chrome for Mac 键盘快捷键 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

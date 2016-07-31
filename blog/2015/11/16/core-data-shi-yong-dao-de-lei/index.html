@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Core Data 使用到的类 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="表格结构：NSEntityDescription 相当于数据库中的一个表，TA描述一种抽象数据类型 eg： //+insertNewObjectForEntityForName:inManagedObjectContext: 工厂方法，根据给定的 Entity 描述，生成相应的 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/16/core-data-shi-yong-dao-de-lei/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Core Data 使用到的类</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-16T13:51:09+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:51 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>表格结构：NSEntityDescription 相当于数据库中的一个表，TA描述一种抽象数据类型</p>
+
+<p>eg：</p>
+
+<pre><code>//+insertNewObjectForEntityForName:inManagedObjectContext: 工厂方法，根据给定的 Entity 描述，生成相应的 NSManagedObject 对象，并插入到 ManagedObjectContext 中  
+Student *student = [NSEntityDescription insertNewObjectForEntityForName:@"Student" inManagedObjectContext:managedObjectContext];  
+//通过上面的代码可以得到student这个表的实例，然后可以使用这个实例去为表中的属性赋值  
+student.name = @"like"; student.age = 12;  
+</code></pre>
+
+<p>应用程序的数据模型，数据库中所有表格和他们之间的联系：NSManagedObjectModel</p>
+
+<pre><code>//系统会读取model文件来声称NSManagedObjectModel对象，  
+</code></pre>
+
+<p>model ：对于class,model称之为 entity; 对于instant variable, model 称之为property</p>
+
+<p>model包含两种property: attributes 和 relationships. attribute为简单数据类型,如一个字符串,日期,数字</p>
+
+<pre><code>NSManagedObjectModel   * model    = [self managedObjectModel];//获取实例  
+NSDictionary           * entities = [model entitiesByName];//entitiesByName 得到所有的表的名字  
+NSEntityDescription    * entity   = [entities valueForKey:@"Student"];//从里面找出名为 Student 的表  
+</code></pre>
+
+<p>数据库存放方式：NSPersistentStoreCoordinator</p>
+
+<pre><code>//使用 Core Data document 类型的应用程序，通常会从磁盘上的数据文中中读取或存储数据，这写底层的读写就由 Persistent Store Coordinator 来处理。一般我们无需与它直接打交道来读写文件，Managed Object Context 在背后已经为我们调用 Persistent Store Coordinator 做了这部分工作  
+</code></pre>
+
+<p>数据库操作：NSManagedObjectContext 被管理的对象上下文（对数据直接操作）</p>
+
+<pre><code>//可以通过TA去访问底层的框架对象集合，这些对象集合统称为持久化堆栈（persistence stack）——它在应用程序和外部数据存储的对象之间提供访问通道  
+//Managed Object Context 的作用相当重要，对数据对象进行的操作都与它有关。当创建一个数据对象并插入 Managed Object Context 中，Managed Object Context 就开始跟踪这个数据对象的一切变动，并在合适的时候提供对 undo/redo 的支持，或调用 Persistent Store Coordinato 将变化保存到数据文件中去  
+
+//redo: 恢复已经提交的事务  undo: 回滚操作，支持读一致性，恢复失败的事务  
+
+//-executeFetchRequest: error:  执行 Fetch Request 并返回所有匹配的数据对象  
+NSFetchRequest * fetch = [[NSFetchRequest alloc] init];  
+NSArray * results = [context executeFetchRequest:fetch error:nil];  
+
+//获取NSManagedObjectContext的实例  
+//1.利用UIApplication代理获取  
+id delegate = [[UIApplication sharedApplication] delegate];  
+self.managedObjectContext = [delegate managedObjectContext];  
+//2.直接去创建实例  
+NSManagedObjectContext *context = [self managedObjectContext];//利用getter方法来获取  
+</code></pre>
+
+<p>查询语句：NSPetchRequest  相当于select语句</p>
+
+<pre><code>//Fetch Requests 相当于一个查询语句，你必须指定要查询的 Entity。我们通过 Fetch Requests 向 Managed Object Context 查询符合条件的数据对象，以 NSArray 形式返回查询结果，如果我们没有设置任何查询条件，则返回该 Entity 的所有数据对象。我们可以使用谓词来设置查询条件，通常会将常用的 Fetch Requests 保存到 dictionary 以重复利用  
+
+NSPredicate * predicate = [NSPredicate predicateWithFormat:@"xx &gt; %@", xx];//相当于select中的查询条件  
+
+NSSortDescriptor * sort = [[NSortDescriptor alloc] initWithKey:@"name"];//按照 name 来排序  
+NSArray * sortDescriptors = [NSArray arrayWithObject: sort];  
+
+//            -setEntity:   设置你要查询的数据对象的类型（Entity）就是NSEntityDescription对象  
+//            -setPredicate:    设置查询条件  
+//            -setFetchLimit:   设置最大查询对象数目  
+//            -setSortDescriptors:  设置查询结果的排序方法  
+//            -setAffectedStores:   设置可以在哪些数据存储中查询  
+</code></pre>
+
+<p>表格的记录：NSManagedObject    Core Data存储的每个对象都继承自NSManagedObject，我们可以得到TA的一个实例，用这个实例去为表中的属性赋值<br/>
+eg：</p>
+
+<pre><code>    NSManagedObject *managedObject  = [NSEntityDescription insertNewObjectForEntityForName:@"Student" inManagedObjectContext:managedObjectContext];  
+    managedObject.name = @"like";  managedObject.age = 12;  
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-16T13:51:09+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:51 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/16/tong-zhi-de-tong-bu-chu-li/" title="Previous Post: 通知的同步处理">&laquo; 通知的同步处理</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/16/coredata-fetchbatchsize-shi-yong-xiang-jie/" title="Next Post: CoreData FetchBatchSize 使用详解">CoreData FetchBatchSize 使用详解 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

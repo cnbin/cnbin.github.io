@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>AFNetworking - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="AFNetworking is a delightful networking library for iOS and Mac OS X. It&rsquo;s built on top of the Foundation URL Loading System, extending the &hellip;">
+  <meta name="keywords" content="afnetworking">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/15/afnetworking/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">AFNetworking</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-15T10:39:54+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:39 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p align="center" >
+  <img src="https://raw.github.com/AFNetworking/AFNetworking/assets/afnetworking-logo.png" alt="AFNetworking" title="AFNetworking">
+</p>
+
+
+<p><a href="https://travis-ci.org/AFNetworking/AFNetworking"><img src="https://travis-ci.org/AFNetworking/AFNetworking.svg" alt="Build Status" /></a></p>
+
+<p>AFNetworking is a delightful networking library for iOS and Mac OS X. It&rsquo;s built on top of the <a href="http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/URLLoadingSystem/URLLoadingSystem.html">Foundation URL Loading System</a>, extending the powerful high-level networking abstractions built into Cocoa. It has a modular architecture with well-designed, feature-rich APIs that are a joy to use.</p>
+
+<p>Perhaps the most important feature of all, however, is the amazing community of developers who use and contribute to AFNetworking every day. AFNetworking powers some of the most popular and critically-acclaimed apps on the iPhone, iPad, and Mac.</p>
+
+<p>Choose AFNetworking for your next project, or migrate over your existing projects—you&rsquo;ll be happy you did!</p>
+
+<h2>How To Get Started</h2>
+
+<ul>
+<li><a href="https://github.com/AFNetworking/AFNetworking/archive/master.zip">Download AFNetworking</a> and try out the included Mac and iPhone example apps</li>
+<li>Read the <a href="https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking">&ldquo;Getting Started&rdquo; guide</a>, <a href="https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-FAQ">FAQ</a>, or <a href="https://github.com/AFNetworking/AFNetworking/wiki">other articles on the Wiki</a></li>
+<li>Check out the <a href="http://cocoadocs.org/docsets/AFNetworking/">documentation</a> for a comprehensive look at all of the APIs available in AFNetworking</li>
+<li>Read the <a href="https://github.com/AFNetworking/AFNetworking/wiki/AFNetworking-2.0-Migration-Guide">AFNetworking 2.0 Migration Guide</a> for an overview of the architectural changes from 1.0.</li>
+</ul>
+
+
+<h2>Communication</h2>
+
+<ul>
+<li>If you <strong>need help</strong>, use <a href="http://stackoverflow.com/questions/tagged/afnetworking">Stack Overflow</a>. (Tag &lsquo;afnetworking&rsquo;)</li>
+<li>If you&rsquo;d like to <strong>ask a general question</strong>, use <a href="http://stackoverflow.com/questions/tagged/afnetworking">Stack Overflow</a>.</li>
+<li>If you <strong>found a bug</strong>, <em>and can provide steps to reliably reproduce it</em>, open an issue.</li>
+<li>If you <strong>have a feature request</strong>, open an issue.</li>
+<li>If you <strong>want to contribute</strong>, submit a pull request.</li>
+</ul>
+
+
+<h3>Installation with CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like AFNetworking in your projects. See the <a href="https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking">&ldquo;Getting Started&rdquo; guide for more information</a>.</p>
+
+<h4>Podfile</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">&#39;7.0&#39;</span>
+</span><span class='line'><span class="n">pod</span> <span class="s2">&quot;AFNetworking&quot;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 2.0&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Requirements</h2>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:center;"> AFNetworking Version </th>
+<th style="text-align:center;"> Minimum iOS Target  </th>
+<th style="text-align:center;"> Minimum OS X Target  </th>
+<th style="text-align:center;">                                   Notes                                   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">          2.x         </td>
+<td style="text-align:center;">            iOS 6            </td>
+<td style="text-align:center;">           OS X 10.8          </td>
+<td style="text-align:center;"> Xcode 5 is required. <code>NSURLSession</code> subspec requires iOS 7 or OS X 10.9. </td>
+</tr>
+<tr>
+<td style="text-align:center;">          <a href="https://github.com/AFNetworking/AFNetworking/tree/1.x">1.x</a>         </td>
+<td style="text-align:center;">            iOS 5            </td>
+<td style="text-align:center;">         Mac OS X 10.7        </td>
+<td style="text-align:center;">                                                                           </td>
+</tr>
+<tr>
+<td style="text-align:center;">        <a href="https://github.com/AFNetworking/AFNetworking/tree/0.10.x">0.10.x</a>        </td>
+<td style="text-align:center;">            iOS 4            </td>
+<td style="text-align:center;">         Mac OS X 10.6        </td>
+<td style="text-align:center;">                                                                           </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>(OS X projects must support <a href="https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtVersionsPlatforms.html">64-bit with modern Cocoa runtime</a>).</p>
+
+<blockquote><p>Programming in Swift? Try <a href="https://github.com/Alamofire/Alamofire">Alamofire</a> for a more conventional set of APIs.</p></blockquote>
+
+<h2>Architecture</h2>
+
+<h3>NSURLConnection</h3>
+
+<ul>
+<li><code>AFURLConnectionOperation</code></li>
+<li><code>AFHTTPRequestOperation</code></li>
+<li><code>AFHTTPRequestOperationManager</code></li>
+</ul>
+
+
+<h3>NSURLSession <em>(iOS 7 / Mac OS X 10.9)</em></h3>
+
+<ul>
+<li><code>AFURLSessionManager</code></li>
+<li><code>AFHTTPSessionManager</code></li>
+</ul>
+
+
+<h3>Serialization</h3>
+
+<ul>
+<li><code>&lt;AFURLRequestSerialization&gt;</code>
+
+<ul>
+<li><code>AFHTTPRequestSerializer</code></li>
+<li><code>AFJSONRequestSerializer</code></li>
+<li><code>AFPropertyListRequestSerializer</code></li>
+</ul>
+</li>
+<li><code>&lt;AFURLResponseSerialization&gt;</code>
+
+<ul>
+<li><code>AFHTTPResponseSerializer</code></li>
+<li><code>AFJSONResponseSerializer</code></li>
+<li><code>AFXMLParserResponseSerializer</code></li>
+<li><code>AFXMLDocumentResponseSerializer</code> <em>(Mac OS X)</em></li>
+<li><code>AFPropertyListResponseSerializer</code></li>
+<li><code>AFImageResponseSerializer</code></li>
+<li><code>AFCompoundResponseSerializer</code></li>
+</ul>
+</li>
+</ul>
+
+
+<h3>Additional Functionality</h3>
+
+<ul>
+<li><code>AFSecurityPolicy</code></li>
+<li><code>AFNetworkReachabilityManager</code></li>
+</ul>
+
+
+<h2>Usage</h2>
+
+<h3>HTTP Request Operation Manager</h3>
+
+<p><code>AFHTTPRequestOperationManager</code> encapsulates the common patterns of communicating with a web application over HTTP, including request creation, response serialization, network reachability monitoring, and security, as well as request operation management.</p>
+
+<h4><code>GET</code> Request</h4>
+
+<pre><code>AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+[manager GET:@"http://example.com/resources.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSLog(@"JSON: %@", responseObject);
+} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    NSLog(@"Error: %@", error);
+}];
+</code></pre>
+
+<h4><code>POST</code> URL-Form-Encoded Request</h4>
+
+<pre><code>AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+NSDictionary *parameters = @{@"foo": @"bar"};
+[manager POST:@"http://example.com/resources.json" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSLog(@"JSON: %@", responseObject);
+} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    NSLog(@"Error: %@", error);
+}];
+</code></pre>
+
+<h4><code>POST</code> Multi-Part Request</h4>
+
+<pre><code>AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+NSDictionary *parameters = @{@"foo": @"bar"};
+NSURL *filePath = [NSURL fileURLWithPath:@"file://path/to/image.png"];
+[manager POST:@"http://example.com/resources.json" parameters:parameters constructingBodyWithBlock:^(id&lt;AFMultipartFormData&gt; formData) {
+    [formData appendPartWithFileURL:filePath name:@"image" error:nil];
+} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSLog(@"Success: %@", responseObject);
+} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    NSLog(@"Error: %@", error);
+}];
+</code></pre>
+
+<hr />
+
+<h3>AFURLSessionManager</h3>
+
+<p><code>AFURLSessionManager</code> creates and manages an <code>NSURLSession</code> object based on a specified <code>NSURLSessionConfiguration</code> object, which conforms to <code>&lt;NSURLSessionTaskDelegate&gt;</code>, <code>&lt;NSURLSessionDataDelegate&gt;</code>, <code>&lt;NSURLSessionDownloadDelegate&gt;</code>, and <code>&lt;NSURLSessionDelegate&gt;</code>.</p>
+
+<h4>Creating a Download Task</h4>
+
+<pre><code>NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+
+NSURL *URL = [NSURL URLWithString:@"http://example.com/download.zip"];
+NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+
+NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+    NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    return [documentsDirectoryURL URLByAppendingPathComponent:[response suggestedFilename]];
+} completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+    NSLog(@"File downloaded to: %@", filePath);
+}];
+[downloadTask resume];
+</code></pre>
+
+<h4>Creating an Upload Task</h4>
+
+<pre><code>NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+
+NSURL *URL = [NSURL URLWithString:@"http://example.com/upload"];
+NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+
+NSURL *filePath = [NSURL fileURLWithPath:@"file://path/to/image.png"];
+NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithRequest:request fromFile:filePath progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    if (error) {
+        NSLog(@"Error: %@", error);
+    } else {
+        NSLog(@"Success: %@ %@", response, responseObject);
+    }
+}];
+[uploadTask resume];
+</code></pre>
+
+<h4>Creating an Upload Task for a Multi-Part Request, with Progress</h4>
+
+<pre><code>NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id&lt;AFMultipartFormData&gt; formData) {
+        [formData appendPartWithFileURL:[NSURL fileURLWithPath:@"file://path/to/image.jpg"] name:@"file" fileName:@"filename.jpg" mimeType:@"image/jpeg" error:nil];
+    } error:nil];
+
+AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+NSProgress *progress = nil;
+
+NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:&amp;progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    if (error) {
+        NSLog(@"Error: %@", error);
+    } else {
+        NSLog(@"%@ %@", response, responseObject);
+    }
+}];
+
+[uploadTask resume];
+</code></pre>
+
+<h4>Creating a Data Task</h4>
+
+<pre><code>NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+
+NSURL *URL = [NSURL URLWithString:@"http://example.com/upload"];
+NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+
+NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    if (error) {
+        NSLog(@"Error: %@", error);
+    } else {
+        NSLog(@"%@ %@", response, responseObject);
+    }
+}];
+[dataTask resume];
+</code></pre>
+
+<hr />
+
+<h3>Request Serialization</h3>
+
+<p>Request serializers create requests from URL strings, encoding parameters as either a query string or HTTP body.</p>
+
+<pre><code>NSString *URLString = @"http://example.com";
+NSDictionary *parameters = @{@"foo": @"bar", @"baz": @[@1, @2, @3]};
+</code></pre>
+
+<h4>Query String Parameter Encoding</h4>
+
+<pre><code>[[AFHTTPRequestSerializer serializer] requestWithMethod:@"GET" URLString:URLString parameters:parameters error:nil];
+
+
+GET http://example.com?foo=bar&amp;baz[]=1&amp;baz[]=2&amp;baz[]=3
+</code></pre>
+
+<h4>URL Form Parameter Encoding</h4>
+
+<pre><code>[[AFHTTPRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters];
+
+
+POST http://example.com/
+Content-Type: application/x-www-form-urlencoded
+
+foo=bar&amp;baz[]=1&amp;baz[]=2&amp;baz[]=3
+</code></pre>
+
+<h4>JSON Parameter Encoding</h4>
+
+<pre><code>[[AFJSONRequestSerializer serializer] requestWithMethod:@"POST" URLString:URLString parameters:parameters];
+
+
+POST http://example.com/
+Content-Type: application/json
+
+{"foo": "bar", "baz": [1,2,3]}
+</code></pre>
+
+<hr />
+
+<h3>Network Reachability Manager</h3>
+
+<p><code>AFNetworkReachabilityManager</code> monitors the reachability of domains, and addresses for both WWAN and WiFi network interfaces.</p>
+
+<ul>
+<li>Do not use Reachability to determine if the original request should be sent.
+
+<ul>
+<li>You should try to send it.</li>
+</ul>
+</li>
+<li>You can use Reachability to determine when a request should be automatically retried.
+
+<ul>
+<li>Although it may still fail, a Reachability notification that the connectivity is available is a good time to retry something.</li>
+</ul>
+</li>
+<li>Network reachability is a useful tool for determining why a request might have failed.
+
+<ul>
+<li>After a network request has failed, telling the user they&rsquo;re offline is better than giving them a more technical but accurate error, such as &ldquo;request timed out.&rdquo;</li>
+</ul>
+</li>
+</ul>
+
+
+<p>See also <a href="https://developer.apple.com/videos/wwdc/2012/#706">WWDC 2012 session 706, &ldquo;Networking Best Practices.&rdquo;</a>.</p>
+
+<h4>Shared Network Reachability</h4>
+
+<pre><code>[[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+    NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+}];
+
+[[AFNetworkReachabilityManager sharedManager] startMonitoring];
+</code></pre>
+
+<h4>HTTP Manager Reachability</h4>
+
+<pre><code>NSURL *baseURL = [NSURL URLWithString:@"http://example.com/"];
+AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
+
+NSOperationQueue *operationQueue = manager.operationQueue;
+[manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+    switch (status) {
+        case AFNetworkReachabilityStatusReachableViaWWAN:
+        case AFNetworkReachabilityStatusReachableViaWiFi:
+            [operationQueue setSuspended:NO];
+            break;
+        case AFNetworkReachabilityStatusNotReachable:
+        default:
+            [operationQueue setSuspended:YES];
+            break;
+    }
+}];
+
+[manager.reachabilityManager startMonitoring];
+</code></pre>
+
+<hr />
+
+<h3>Security Policy</h3>
+
+<p><code>AFSecurityPolicy</code> evaluates server trust against pinned X.509 certificates and public keys over secure connections.</p>
+
+<p>Adding pinned SSL certificates to your app helps prevent man-in-the-middle attacks and other vulnerabilities. Applications dealing with sensitive customer data or financial information are strongly encouraged to route all communication over an HTTPS connection with SSL pinning configured and enabled.</p>
+
+<h4>Allowing Invalid SSL Certificates</h4>
+
+<pre><code>AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+manager.securityPolicy.allowInvalidCertificates = YES; // not recommended for production
+</code></pre>
+
+<hr />
+
+<h3>AFHTTPRequestOperation</h3>
+
+<p><code>AFHTTPRequestOperation</code> is a subclass of <code>AFURLConnectionOperation</code> for requests using the HTTP or HTTPS protocols. It encapsulates the concept of acceptable status codes and content types, which determine the success or failure of a request.</p>
+
+<p>Although <code>AFHTTPRequestOperationManager</code> is usually the best way to go about making requests, <code>AFHTTPRequestOperation</code> can be used by itself.</p>
+
+<h4><code>GET</code> with <code>AFHTTPRequestOperation</code></h4>
+
+<pre><code>NSURL *URL = [NSURL URLWithString:@"http://example.com/resources/123.json"];
+NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+op.responseSerializer = [AFJSONResponseSerializer serializer];
+[op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSLog(@"JSON: %@", responseObject);
+} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    NSLog(@"Error: %@", error);
+}];
+[[NSOperationQueue mainQueue] addOperation:op];
+</code></pre>
+
+<h4>Batch of Operations</h4>
+
+<pre><code>NSMutableArray *mutableOperations = [NSMutableArray array];
+for (NSURL *fileURL in filesToUpload) {
+    NSURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"http://example.com/upload" parameters:nil constructingBodyWithBlock:^(id&lt;AFMultipartFormData&gt; formData) {
+        [formData appendPartWithFileURL:fileURL name:@"images[]" error:nil];
+    }];
+
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+
+    [mutableOperations addObject:operation];
+}
+
+NSArray *operations = [AFURLConnectionOperation batchOfRequestOperations:@[...] progressBlock:^(NSUInteger numberOfFinishedOperations, NSUInteger totalNumberOfOperations) {
+    NSLog(@"%lu of %lu complete", numberOfFinishedOperations, totalNumberOfOperations);
+} completionBlock:^(NSArray *operations) {
+    NSLog(@"All operations in batch complete");
+}];
+[[NSOperationQueue mainQueue] addOperations:operations waitUntilFinished:NO];
+</code></pre>
+
+<h2>Unit Tests</h2>
+
+<p>AFNetworking includes a suite of unit tests within the Tests subdirectory. In order to run the unit tests, you must install the testing dependencies via <a href="http://cocoapods.org/">CocoaPods</a>:</p>
+
+<pre><code>$ cd Tests
+$ pod install
+</code></pre>
+
+<p>Once testing dependencies are installed, you can execute the test suite via the &lsquo;iOS Tests&rsquo; and &lsquo;OS X Tests&rsquo; schemes within Xcode.</p>
+
+<h3>Running Tests from the Command Line</h3>
+
+<p>Tests can also be run from the command line or within a continuous integration environment. The <a href="https://github.com/mneorr/xcpretty"><code>xcpretty</code></a> utility needs to be installed before running the tests from the command line:</p>
+
+<pre><code>$ gem install xcpretty
+</code></pre>
+
+<p>Once <code>xcpretty</code> is installed, you can execute the suite via <code>rake test</code>.</p>
+
+<h2>Credits</h2>
+
+<p>AFNetworking is owned and maintained by the <a href="http://alamofire.org">Alamofire Software Foundation</a>.</p>
+
+<p>AFNetworking was originally created by <a href="https://github.com/sco/">Scott Raymond</a> and <a href="https://github.com/mattt/">Mattt Thompson</a> in the development of <a href="http://en.wikipedia.org/wiki/Gowalla">Gowalla for iPhone</a>.</p>
+
+<p>AFNetworking&rsquo;s logo was designed by <a href="http://www.alandefibaugh.com/">Alan Defibaugh</a>.</p>
+
+<p>And most of all, thanks to AFNetworking&rsquo;s <a href="https://github.com/AFNetworking/AFNetworking/contributors">growing list of contributors</a>.</p>
+
+<h3>Security Disclosure</h3>
+
+<p>If you believe you have identified a security vulnerability with AFNetworking, you should report it as soon as possible via email to <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x73;&#101;&#99;&#117;&#114;&#x69;&#x74;&#x79;&#x40;&#97;&#x6c;&#x61;&#x6d;&#x6f;&#x66;&#x69;&#114;&#x65;&#x2e;&#x6f;&#114;&#x67;&#x2e;">&#115;&#101;&#99;&#x75;&#114;&#x69;&#x74;&#x79;&#x40;&#x61;&#x6c;&#x61;&#109;&#x6f;&#x66;&#x69;&#114;&#x65;&#x2e;&#x6f;&#114;&#103;&#46;</a> Please do not post it to a public issue tracker.</p>
+
+<h2>License</h2>
+
+<p>AFNetworking is released under the MIT license. See LICENSE for details.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-15T10:39:54+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:39 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/15/serialization/" title="Previous Post: serialization">&laquo; serialization</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/15/shi-yong-afnetworking-xia-zai-wen-jian/" title="Next Post: 使用 AFNetworking 下载文件">使用 AFNetworking 下载文件 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

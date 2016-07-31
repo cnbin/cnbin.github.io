@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Csharp - Ref - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="ref 关键字会导致参数通过引用传递，而不是通过值传递。 通过引用传递的效果是，对所调用方法中的参数进行的任何更改都反映在调用方法中。 例如，如果调用方传递本地变量表达式或数组元素访问表达式，所调用方法会将对象替换为 ref 参数引用的对象，然后调用方的本地变量或数组元素将开始引用新对象。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/07/csharp-ref/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Csharp - Ref</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-07T11:27:57+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:27 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>ref 关键字会导致参数通过引用传递，而不是通过值传递。 通过引用传递的效果是，对所调用方法中的参数进行的任何更改都反映在调用方法中。 例如，如果调用方传递本地变量表达式或数组元素访问表达式，所调用方法会将对象替换为 ref 参数引用的对象，然后调用方的本地变量或数组元素将开始引用新对象。</p>
+
+<p>System_CAPS_note注意</p>
+
+<p>不要混淆通过引用传递的概念与引用类型的概念。 这两种概念是不同的。 无论方法参数是值类型还是引用类型，均可由 ref 修改。 当通过引用传递时，不会对值类型装箱。</p>
+
+<p>若要使用 ref 参数，方法定义和调用方法均必须显式使用 ref 关键字，如下面的示例所示。</p>
+
+<pre><code>C#
+class RefExample
+{
+    static void Method(ref int i)
+    {
+        // Rest the mouse pointer over i to verify that it is an int.
+        // The following statement would cause a compiler error if i
+        // were boxed as an object.
+        i = i + 44;
+    }
+
+    static void Main()
+    {
+        int val = 1;
+        Method(ref val);
+        Console.WriteLine(val);
+
+        // Output: 45
+    }
+}
+</code></pre>
+
+<p>传递到 ref 形参的实参必须先经过初始化，然后才能传递。 这与 out 形参不同，在传递之前，不需要显式初始化该形参的实参。 有关详细信息，请参阅 out。
+类的成员不能具有仅在 ref 和 out 方面不同的签名。 如果类型的两个成员之间的唯一区别在于其中一个具有 ref 参数，而另一个具有 out 参数，则会发生编译错误。 例如，以下代码将不会编译。</p>
+
+<pre><code>C#
+class CS0663_Example
+{
+    // Compiler error CS0663: "Cannot define overloaded 
+    // methods that differ only on ref and out".
+    public void SampleMethod(out int i) { }
+    public void SampleMethod(ref int i) { }
+}
+</code></pre>
+
+<p>但是，当一个方法具有 ref 或 out 参数，另一个方法具有值参数时，则可以完成重载，如下面的示例所示。</p>
+
+<pre><code>C#
+class RefOverloadExample
+{
+    public void SampleMethod(int i) { }
+    public void SampleMethod(ref int i) { }
+}
+</code></pre>
+
+<p>在其他要求签名匹配的情况下（如隐藏或重写），ref 和 out 是签名的一部分，相互之间不匹配。</p>
+
+<p>属性不是变量。 它们是方法，不能传递到 ref 参数。</p>
+
+<p>有关如何传递数组的信息，请参阅使用 ref 和 out 传递数组（C# 编程指南）。</p>
+
+<p>你不能将 ref 和 out 关键字用于以下几种方法：</p>
+
+<p>异步方法，通过使用 async 修饰符定义。</p>
+
+<p>迭代器方法，包括 yield return 或 yield break 语句。</p>
+
+<p>示例</p>
+
+<p>前面的示例演示当通过引用传递值类型时会发生什么情况。 你还可以使用 ref 关键字传递引用类型。 通过引用传递引用类型可以使所调用方法将调用方法中的对象替换为引用参数所引用的对象。 对象的存储位置按引用参数的值传递到方法。 如果更改参数存储位置中的值（以指向新对象），你还可以将存储位置更改为调用方所引用的位置。 下面的示例将引用类型的实例作为 ref 参数传递。 有关如何通过值和引用传递引用类型的详细信息，请参阅传递引用类型参数（C# 编程指南）。</p>
+
+<pre><code>C#
+class RefExample2
+{
+    static void ChangeByReference(ref Product itemRef)
+    {
+        // The following line changes the address that is stored in  
+        // parameter itemRef. Because itemRef is a ref parameter, the
+        // address that is stored in variable item in Main also is changed.
+        itemRef = new Product("Stapler", 99999);
+
+        // You can change the value of one of the properties of
+        // itemRef. The change happens to item in Main as well.
+        itemRef.ItemID = 12345;
+    }
+
+    static void Main()
+    {
+        // Declare an instance of Product and display its initial values.
+        Product item = new Product("Fasteners", 54321);
+        System.Console.WriteLine("Original values in Main.  Name: {0}, ID: {1}\n",
+            item.ItemName, item.ItemID);
+
+        // Send item to ChangeByReference as a ref argument.
+        ChangeByReference(ref item);
+        System.Console.WriteLine("Back in Main.  Name: {0}, ID: {1}\n",
+            item.ItemName, item.ItemID);
+    }
+}
+
+class Product
+{
+    public Product(string name, int newID)
+    {
+        ItemName = name;
+        ItemID = newID;
+    }
+
+    public string ItemName { get; set; }
+    public int ItemID { get; set; }
+}
+
+// Output: 
+//Original values in Main.  Name: Fasteners, ID: 54321
+
+//Back in Main.  Name: Stapler, ID: 12345
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://msdn.microsoft.com/zh-cn/library/14akc2c7.aspx">https://msdn.microsoft.com/zh-cn/library/14akc2c7.aspx</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-07T11:27:57+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:27 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/csharp/'>csharp</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/07/csharp-out/" title="Previous Post: csharp - out">&laquo; csharp - out</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/07/ioskai-fa-zhong-de-huo-xing-zuo-biao-xi-ji-ge-chong-zuo-biao-xi-zhuan-huan-suan-fa/" title="Next Post: iOS开发中的火星坐标系及各种坐标系转换算法">iOS开发中的火星坐标系及各种坐标系转换算法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

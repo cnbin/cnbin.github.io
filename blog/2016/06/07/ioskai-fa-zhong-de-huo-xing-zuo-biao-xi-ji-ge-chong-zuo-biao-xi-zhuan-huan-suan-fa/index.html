@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS开发中的火星坐标系及各种坐标系转换算法 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="其原理是这样的：保密局开发了一个系统，能将实际的坐标转换成虚拟的坐标。所有在中国销售的数字地图必须使用这个系统进行坐标转换之后方可上市。这是生产环节，这种电子地图被称为火星地图。在使用环节，GPS终端设备必须集成保密局提供的加密算法（集成工作由保密局完成）， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/07/ioskai-fa-zhong-de-huo-xing-zuo-biao-xi-ji-ge-chong-zuo-biao-xi-zhuan-huan-suan-fa/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS开发中的火星坐标系及各种坐标系转换算法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-07T11:36:25+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:36 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>其原理是这样的：保密局开发了一个系统，能将实际的坐标转换成虚拟的坐标。所有在中国销售的数字地图必须使用这个系统进行坐标转换之后方可上市。这是生产环节，这种电子地图被称为火星地图。在使用环节，GPS终端设备必须集成保密局提供的加密算法（集成工作由保密局完成），把从GPS卫星那里得到的坐标转换成虚拟坐标，然后再去火星地图上查找，这样就在火星坐标系上完成了地图的匹配。 所以大家所用的百度,高德等地图定位准是偏差几百米</p>
+
+<h3>名词总结：</h3>
+
+<ul>
+<li>地球坐标：指WGS84坐标系统</li>
+<li>火星坐标：指使用国家保密插件人为偏移后的坐标</li>
+<li>地球地图：指与地球坐标对应的客观真实的地图</li>
+<li>火星地图：指经过加密偏移后的，与火星坐标对应的地图</li>
+</ul>
+
+
+<p>坐标系转换算法</p>
+
+<h3>1.GCJ-02(火星坐标系)和BD-09转换</h3>
+
+<pre><code>// GCJ-02 坐标转换成 BD-09 坐标
++ (CLLocationCoordinate2D)MarsGS2BaiduGS:(CLLocationCoordinate2D)coordinate
+{
+    double x_pi = PI * 3000.0 / 180.0;
+    double x = coordinate.longitude, y = coordinate.latitude;
+    double z = sqrt(x * x + y * y) + 0.00002 * sin(y * x_pi);
+    double theta = atan2(y, x) + 0.000003 * cos(x * x_pi);
+    double bd_lon = z * cos(theta) + 0.0065;
+    double bd_lat = z * sin(theta) + 0.006;
+    return CLLocationCoordinate2DMake(bd_lat, bd_lon);
+}
+
+// BD-09 坐标转换成 GCJ-02 坐标
++ (CLLocationCoordinate2D)BaiduGS2MarsGS:(CLLocationCoordinate2D)coordinate
+{
+    double x_pi = PI * 3000.0 / 180.0;
+    double x = coordinate.longitude - 0.0065, y = coordinate.latitude - 0.006;
+    double z = sqrt(x * x + y * y) - 0.00002 * sin(y * x_pi);
+    double theta = atan2(y, x) - 0.000003 * cos(x * x_pi);
+    double gg_lon = z * cos(theta);
+    double gg_lat = z * sin(theta);
+    return CLLocationCoordinate2DMake(gg_lat, gg_lon);
+}
+</code></pre>
+
+<h3>2.WGS-84(地球坐标系)和BD-09(百度坐标)转换</h3>
+
+<pre><code>// WGS-84 坐标转换成 BD-09 坐标
++ (CLLocationCoordinate2D)WorldGS2BaiduGS:(CLLocationCoordinate2D)coordinate
+{
+    CLLocationCoordinate2D mars = [ALDGeocoder WorldGS2MarsGS:coordinate];
+    CLLocationCoordinate2D baidu = [ALDGeocoder MarsGS2BaiduGS:mars];
+    return baidu;
+}
+
+// BD-09 坐标转换成 WGS-84 坐标
++ (CLLocationCoordinate2D)BaiduGS2WorldGS:(CLLocationCoordinate2D)coordinate
+{
+    CLLocationCoordinate2D mars = [ALDGeocoder BaiduGS2MarsGS:coordinate];
+    CLLocationCoordinate2D world = [ALDGeocoder MarsGS2WorldGS:mars];
+    return world;
+}
+</code></pre>
+
+<h3>3.WGS-84和sogou坐标转换</h3>
+
+<pre><code>// WGS-84 坐标转换成 Sogou 坐标
++ (CLLocationCoordinate2D)WorldGS2SogouGS:(CLLocationCoordinate2D)coordinate
+{
+    const double ee = 0.082271854224939184;
+    double lon = coordinate.longitude;
+    double lat = coordinate.latitude;
+    double dlon = [ALDGeocoder rad:CLIP(lon, -360, 360)];
+    double dlat = [ALDGeocoder rad:CLIP(lat, -90, 90)];
+    dlon = 6378206.4 * dlon;
+    double sinphi = sin(dlat);
+    double temp1, temp2;
+    if((temp1 = 1.0 + sinphi) == 0.0){
+        dlat = -1000000000;
+    }else if((temp2 = 1.0 - sinphi) == 0.0){
+        dlat = 1000000000;
+    }else{
+        double esinphi = ee * sinphi;
+        dlat = 3189103.2000000002 * log((temp1 / temp2) * pow((1.0 - esinphi) / (1.0 + esinphi), ee));
+    }
+    return CLLocationCoordinate2DMake(dlat, dlon);
+}
+
+// Sogou 坐标转换成 WGS-84 坐标
++ (CLLocationCoordinate2D)SogouGS2WorldGS:(CLLocationCoordinate2D)coordinate
+{
+    const double ee = 1.5707963267948966;
+    const double aa = 0.0033938814110493522;
+    double lon = coordinate.longitude;
+    double lat = coordinate.latitude;
+    double dlon = lon / 6378206.4;
+    double temp = -lat / 6378206.4;
+    double chi;
+    if(temp &lt; -307){
+        chi = ee;
+    }else if(temp &gt; 308){
+        chi = -ee;
+    }else{
+        chi = ee - 2 * atan(exp(temp));
+    }
+    double chi2 = 2 * chi;
+    double coschi2 = cos(chi2);
+    double dlat = chi + sin(chi2) * (aa + coschi2 * (1.3437644537757259E-005 + coschi2 * (7.2964865099246009E-008 + coschi2 * 4.4551470401894685E-010)));
+double rlon = CLIP([ALDGeocoder deg:dlon], -360, 360);
+double rlat = CLIP([ALDGeocoder deg:dlat], -90, 90);
+return CLLocationCoordinate2DMake(rlat, rlon);
+}
+</code></pre>
+
+<h3>4火星坐标和地球坐标转换</h3>
+
+<pre><code>// World Geodetic System ==&gt; Mars Geodetic System
++ (CLLocationCoordinate2D)WorldGS2MarsGS:(CLLocationCoordinate2D)coordinate
+{
+    // a = 6378245.0, 1/f = 298.3
+    // b = a * (1 - f)
+    // ee = (a^2 - b^2) / a^2;
+    const double a = 6378245.0;
+    const double ee = 0.00669342162296594323;
+
+    if (outOfChina(coordinate.latitude, coordinate.longitude))
+    {
+        return coordinate;
+    }
+    double wgLat = coordinate.latitude;
+    double wgLon = coordinate.longitude;
+    double dLat = transformLat(wgLon - 105.0, wgLat - 35.0);
+    double dLon = transformLon(wgLon - 105.0, wgLat - 35.0);
+    double radLat = wgLat / 180.0 * PI;
+    double magic = sin(radLat);
+    magic = 1 - ee * magic * magic;
+    double sqrtMagic = sqrt(magic);
+    dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * PI);
+    dLon = (dLon * 180.0) / (a / sqrtMagic * cos(radLat) * PI);
+
+    return CLLocationCoordinate2DMake(wgLat + dLat, wgLon + dLon);
+}
+
+// Mars Geodetic System ==&gt; World Geodetic System
++ (CLLocationCoordinate2D)MarsGS2WorldGS:(CLLocationCoordinate2D)coordinate
+{
+    double gLat = coordinate.latitude;
+    double gLon = coordinate.longitude;
+    CLLocationCoordinate2D marsCoor = [ALDGeocoder WorldGS2MarsGS:coordinate];
+    double dLat = marsCoor.latitude - gLat;
+    double dLon = marsCoor.longitude - gLon;
+    return CLLocationCoordinate2DMake(gLat - dLat, gLon - dLon);
+}
+</code></pre>
+
+<h3>5WGS-84 和 墨卡托 坐标转换</h3>
+
+<pre><code>//WGS-84 坐标转换成 墨卡托 坐标
++ (CLLocationCoordinate2D)WorldGS2Mercator:(CLLocationCoordinate2D)coordinate
+{
+    double lon = coordinate.longitude*20037508.34/180;
+    double lat = log(tan((90+coordinate.latitude)*M_PI/360))/(M_PI/180);
+    lat = lat*20037508.34/180;
+    return CLLocationCoordinate2DMake(lat, lon);
+}
+
+//墨卡托 坐标转换成 WGS-84 坐标
++ (CLLocationCoordinate2D)Mercator2WorldGS:(CLLocationCoordinate2D)mercator
+{
+    double lon = mercator.longitude/20037508.34*180;
+    double lat = mercator.latitude/20037508.34*180;
+    lat = 180/M_PI*(2*atan(exp(lat*M_PI/180))-M_PI/2);
+    return CLLocationCoordinate2DMake(lat, lon);
+}
+</code></pre>
+
+<h3>开发时所面临的现状</h3>
+
+<h4>获取经纬度（GPS）</h4>
+
+<ul>
+<li><p>火星坐标</p>
+
+<ul>
+<li>MKMapView</li>
+</ul>
+</li>
+<li><p>地球坐标</p>
+
+<ul>
+<li>CLLocationManager</li>
+</ul>
+</li>
+</ul>
+
+
+<h4>显示经纬度（地图）</h4>
+
+<ul>
+<li><p>火星坐标</p>
+
+<ul>
+<li>iOS 地图</li>
+<li>Gogole地图</li>
+<li>搜搜、阿里云、高德地图</li>
+</ul>
+</li>
+<li><p>地球坐标</p>
+
+<ul>
+<li>Google 卫星地图（国外地图应该都是……）</li>
+</ul>
+</li>
+<li><p>百度坐标</p>
+
+<ul>
+<li>百度地图</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>推荐的解决方案：</h3>
+
+<ul>
+<li>既然是在国内，存储一律用火星坐标，这样在使用国内地图显示时最方便（用百度地图显示时可以一次转换取得）</li>
+<li>CLLocationManager 拿到的 CLLocation 转为火星坐标，MKMapView 不用处理</li>
+<li>使用地图 API 进行 地址解析/逆地址解析（Geocoding） 时注意相应使用相应地图商的坐标系</li>
+<li>部分地图商支持多个坐标系输入，如高德支持地球、火星坐标（这个一直有变动，具体只能参考厂商最新文档了</li>
+</ul>
+
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://my.oschina.net/u/2607703/blog/619183">http://my.oschina.net/u/2607703/blog/619183</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-07T11:36:25+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:36 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/07/csharp-ref/" title="Previous Post: csharp - ref">&laquo; csharp - ref</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/07/guo-nei-ge-di-tu-apizuo-biao-xi-tong-bi-jiao-yu-zhuan-huan/" title="Next Post:  国内各地图API坐标系统比较与转换"> 国内各地图API坐标系统比较与转换 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

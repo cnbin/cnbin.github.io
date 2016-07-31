@@ -1,0 +1,64 @@
+<hr />
+
+<p>layout: post
+title: &ldquo;iOS view 的 frame 和 bounds 之区别&rdquo;
+date: 2015-06-29 09:59:10 +0800
+comments: true
+keywords: ios</p>
+
+<h2>categories: ios</h2>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etkqbe9joqj20dw08e3z3.jpg" alt="img" /></p>
+
+<!--More-->
+
+
+<h2>一、首先列一下公认的资料:</h2>
+
+<p>先看到下面的代码你肯定就明白了一些：</p>
+
+<pre><code>-(CGRect)frame{
+    return CGRectMake(self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height);
+}
+-(CGRect)bounds{
+    return CGRectMake(0,0,self.frame.size.width,self.frame.size.height);
+}
+</code></pre>
+
+<p>很明显，bounds 的原点是(0,0)点（就是 view 本身的坐标系统，默认永远都是0，0点，除非认为 <code>setbounds</code>），而 frame 的原点却是任意的（相对于父视图中的坐标位置）。</p>
+
+<p>再来看张图就明白了，</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etkqcm58oij20dm0993z7.jpg" alt="img" /></p>
+
+<ul>
+<li>frame： 该 view 在父 view 坐标系统中的位置和大小。（参照点是，父亲的坐标系统）</li>
+<li>bounds：该 view 在本地坐标系统中的位置和大小。（参照点是，本地坐标系统，就相当于 ViewB 自己的坐标系统，以0,0点为起点）</li>
+<li>center：该 view 的中心点在父 view 坐标系统中的位置和大小。（参照电是，父亲的坐标系统）</li>
+</ul>
+
+
+<p>每个 view 都有一个本地坐标系统。这个坐标系统作用比较重要，比如触 摸的回调函数中的 UITouch 里面的 > 坐标值都是参照这个本地坐标系统的坐标。当然 bounds 这个属性也是参照这个本地坐标系统来的。其实本地 坐标系统的关键就是要知道的它的原点（0，0）在什么位置（这个位置又是相对于上层的 view 的本地坐标系统而言的，当然最上面的一层 view 就是 window 它的本地坐标系统原点就是屏幕的左上角了）。通过修改 view 的 bounds 属性可以修改本地坐标系统的原点位置。</p>
+
+<p>所以，bounds 影响到子 view 的位置和大小。</p>
+
+<h2>二、demo演示:</h2>
+
+<pre><code>UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(20, 20, 280, 250)];  
+[view1 setBounds:CGRectMake(-20, -20, 280, 250)];  
+view1.backgroundColor = [UIColor redColor];  
+[self.view addSubview:view1];//添加到self.view  
+NSLog(@"view1 frame:%@========view1 bounds:%@",NSStringFromCGRect(view1.frame),NSStringFromCGRect(view1.bounds));  
+
+UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];  
+view2.backgroundColor = [UIColor yellowColor];  
+[view1 addSubview:view2];//添加到view1上,[此时view1坐标系左上角起点为(-20,-20)]  
+NSLog(@"view2 frame:%@========view2 bounds:%@",NSStringFromCGRect(view2.frame),NSStringFromCGRect(view2.bounds));
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etkqfsfacbj20zu0a0jx6.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etkqsa6xdhj20l30l3n2e.jpg" alt="img" /></p>
+
+<p>(log输出日志表明，每个新的 view 默认的 bounds 其实都是（0,0）)
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etkq9t2km8j20mi02iwf7.jpg" alt="img" /></p>

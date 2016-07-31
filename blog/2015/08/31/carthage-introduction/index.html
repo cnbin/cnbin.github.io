@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Carthage Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Carthage Carthage is intended to be the simplest way to add frameworks to your Cocoa application. The basic workflow looks something like this: &hellip;">
+  <meta name="keywords" content="carthage">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/31/carthage-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Carthage Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-31T09:33:39+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:33 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>Carthage <a href="https://raw.githubusercontent.com/Carthage/Carthage/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" alt="GitHub license" /></a> <a href="https://github.com/Carthage/Carthage/releases"><img src="https://img.shields.io/github/release/carthage/carthage.svg" alt="GitHub release" /></a></h1>
+
+<p>Carthage is intended to be the simplest way to add frameworks to your Cocoa application.</p>
+
+<p>The basic <a href="#adding-frameworks-to-an-application">workflow</a> looks something like this:</p>
+
+<ol>
+<li>Create a [Cartfile][] that lists the frameworks you’d like to use in your project.</li>
+<li><a href="#adding-frameworks-to-an-application">Run Carthage</a>, which fetches and builds each framework you’ve listed.</li>
+<li>Drag the built <code>.framework</code> binaries into your application’s Xcode project.</li>
+</ol>
+
+
+<p>Carthage builds your dependencies and provides you with binary frameworks, but you retain full control over your project structure and setup. Carthage does not automatically modify your project files or your build settings.</p>
+
+<h2>Differences between Carthage and CocoaPods</h2>
+
+<p><a href="http://cocoapods.org/">CocoaPods</a> is a long-standing dependency manager for Cocoa. So why was Carthage created?</p>
+
+<p>Firstly, CocoaPods (by default) automatically creates and updates an Xcode workspace for your application and all dependencies. Carthage builds framework binaries using <code>xcodebuild</code>, but leaves the responsibility of integrating them up to the user. CocoaPods’ approach is easier to use, while Carthage’s is flexible and unintrusive.</p>
+
+<p>The goal of CocoaPods is listed in its <a href="https://github.com/CocoaPods/CocoaPods/blob/1703a3464674baecf54bd7e766f4b37ed8fc43f7/README.md">README</a> as follows:</p>
+
+<blockquote><p>… to improve discoverability of, and engagement in, third party open-source libraries, by creating a more centralized ecosystem.</p></blockquote>
+
+<p>By contrast, Carthage has been created as a <em>decentralized</em> dependency manager. There is no central list of projects, which reduces maintenance work and avoids any central point of failure. However, project discovery is more difficult—users must resort to GitHub’s <a href="https://github.com/trending?l=swift">Trending</a> pages or similar.</p>
+
+<p>CocoaPods projects must also have what’s known as a <a href="http://guides.cocoapods.org/syntax/podspec.html">podspec</a> file, which includes metadata about the project and specifies how it should be built. Carthage uses <code>xcodebuild</code> to build dependencies, instead of integrating them into a single workspace, it doesn’t have a similar specification file but your dependencies must include their own Xcode project that describes how to build their products.</p>
+
+<p>Ultimately, we created Carthage because we wanted the simplest tool possible—a dependency manager that gets the job done without taking over the responsibility of Xcode, and without creating extra work for framework authors. CocoaPods offers many amazing features that Carthage will never have, at the expense of additional complexity.</p>
+
+<h2>Installing Carthage</h2>
+
+<p>To install the <code>carthage</code> tool on your system, please download and run the <code>Carthage.pkg</code> file for the latest  <a href="https://github.com/Carthage/Carthage/releases">release</a>, then follow the on-screen instructions.</p>
+
+<p>Alternately, you can use <a href="http://brew.sh">Homebrew</a> and install the <code>carthage</code> tool on your system simply by running <code>brew update</code> and <code>brew install carthage</code>.</p>
+
+<p>If you’d like to run the latest development version (which may be highly unstable or incompatible), simply clone the <code>master</code> branch of the repository, then run <code>make install</code>.</p>
+
+<h2>Adding frameworks to an application</h2>
+
+<p>Once you have Carthage <a href="#installing-carthage">installed</a>, you can begin adding frameworks to your project. Note that Carthage only supports dynamic frameworks, which are <strong>only available on iOS 8 or later</strong> (or any version of OS X).</p>
+
+<h3>Getting started</h3>
+
+<h5>If you&rsquo;re building for OS X</h5>
+
+<ol>
+<li>Create a [Cartfile][] that lists the frameworks you’d like to use in your project.</li>
+<li>Run <code>carthage update</code>. This will fetch dependencies into a [Carthage/Checkouts][] folder, then build each one.</li>
+<li>On your application targets’ “General” settings tab, in the “Embedded Binaries” section, drag and drop each framework you want to use from the [Carthage/Build][] folder on disk.</li>
+</ol>
+
+
+<h5>If you&rsquo;re building for iOS</h5>
+
+<ol>
+<li>Create a [Cartfile][] that lists the frameworks you’d like to use in your project.</li>
+<li>Run <code>carthage update</code>. This will fetch dependencies into a [Carthage/Checkouts][] folder, then build each one.</li>
+<li>On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, drag and drop each framework you want to use from the [Carthage/Build][] folder on disk.</li>
+<li>On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script with the following contents:</li>
+</ol>
+
+
+<p>  /usr/local/bin/carthage copy-frameworks</p>
+
+<p>  and add the paths to the frameworks you want to use under “Input Files”, e.g.:</p>
+
+<p>  $(SRCROOT)/Carthage/Build/iOS/Box.framework
+  $(SRCROOT)/Carthage/Build/iOS/Result.framework
+  $(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework</p>
+
+<p>  This script works around an <a href="http://www.openradar.me/radar?id=6409498411401216">App Store submission bug</a> triggered by universal binaries.</p>
+
+<h5>Copying debug symbols for debugging and crash reporting</h5>
+
+<ol>
+<li>On your application target’s “Build Phases” settings tab, click the “+” icon and choose “New Copy Files Phase”.</li>
+<li>Click the “Destination” drop-down menu and select “Products Directory”.</li>
+<li>For each framework you’re using, drag and drop its corresponding dSYM file.</li>
+</ol>
+
+
+<p>With the debug information copied into the built products directory, Xcode will be able to symbolicate the stack trace whenever you stop at a breakpoint. This will also enable you to step through third-party code in the debugger.</p>
+
+<p>When archiving your application for submission to the App Store or TestFlight, Xcode will also copy these files into the dSYMs subdirectory of your application’s <code>.xcarchive</code> bundle.</p>
+
+<h5>For both platforms</h5>
+
+<p>Along the way, Carthage will have created some [build artifacts][Artifacts]. The most important of these is the [Cartfile.resolved][] file, which lists the versions that were actually built for each framework. <strong>Make sure to commit your [Cartfile.resolved][]</strong>, because anyone else using the project will need that file to build the same framework versions.</p>
+
+<p>After you’ve finished the above steps and pushed your changes, other users of the project only need to fetch the repository and run <code>carthage bootstrap</code> to get started with the frameworks you’ve added.</p>
+
+<h3>Adding frameworks to unit tests or a framework</h3>
+
+<p>Using Carthage for the dependencies of any arbitrary target is fairly similar to <a href="#adding-frameworks-to-an-application">using Carthage for an application</a>. The main difference lies in how the frameworks are actually set up and linked in Xcode.</p>
+
+<p>Because non-application targets are missing the “Embedded Binaries” section in their build settings, you must instead drag the [built frameworks][Carthage/Build] to the “Link Binaries With Libraries” build phase.</p>
+
+<p>In rare cases, you may want to also copy each dependency into the build product (e.g., to embed dependencies within the outer framework, or make sure dependencies are present in a test bundle). To do this, create a new “Copy Files” build phase with the “Frameworks” destination, then add the framework reference there as well.</p>
+
+<h3>Upgrading frameworks</h3>
+
+<p>If you’ve modified your [Cartfile][], or you want to update to the newest versions of each framework (subject to the requirements you’ve specified), simply run the <code>carthage update</code> command again.</p>
+
+<h3>Nested dependencies</h3>
+
+<p>If the framework you want to add to your project has dependencies explicitly listed in a [Cartfile][], Carthage will automatically retrieve them for you. You will then have to <strong>drag them yourself into your project</strong> from the [Carthage/Build] folder.</p>
+
+<h3>Using submodules for dependencies</h3>
+
+<p>By default, Carthage will directly [check out][Carthage/Checkouts] dependencies’ source files into your project folder, leaving you to commit or ignore them as you choose. If you’d like to have dependencies available as Git submodules instead (perhaps so you can commit and push changes within them), you can run <code>carthage update</code> or <code>carthage checkout</code> with the <code>--use-submodules</code> flag.</p>
+
+<p>When run this way, Carthage will write to your repository’s <code>.gitmodules</code> and <code>.git/config</code> files, and automatically update the submodules when the dependencies’ versions change.</p>
+
+<h3>Automatically rebuilding dependencies</h3>
+
+<p>If you want to work on your dependencies during development, and want them to be automatically rebuilt when you build your parent project, you can add a Run Script build phase that invokes Carthage like so:</p>
+
+<pre><code>/usr/local/bin/carthage build --platform "$PLATFORM_NAME" "$SRCROOT"
+</code></pre>
+
+<p>Note that you should be <a href="#using-submodules-for-dependencies">using submodules</a> before doing this, because plain checkouts [should not be modified][Carthage/Checkouts] directly.</p>
+
+<h2>Supporting Carthage for your framework</h2>
+
+<p><strong>Carthage only officially supports dynamic frameworks</strong>. Dynamic frameworks can be used on any version of OS X, but only on <strong>iOS 8 or later</strong>.</p>
+
+<p>Because Carthage has no centralized package list, and no project specification format, <strong>most frameworks should build automatically</strong>.</p>
+
+<p>The specific requirements of any framework project are listed below.</p>
+
+<h3>Share your Xcode schemes</h3>
+
+<p>Carthage will only build Xcode schemes that are shared from your <code>.xcodeproj</code>. You can see if all of your intended schemes build successfully by running <code>carthage build --no-skip-current</code>, then checking the [Carthage/Build][] folder.</p>
+
+<p>If an important scheme is not built when you run that command, open Xcode and make sure that the <a href="https://developer.apple.com/library/ios/recipes/xcode_help-scheme_editor/Articles/SchemeShare.html">scheme is marked as “Shared,”</a> so Carthage can discover it.</p>
+
+<h3>Resolve build failures</h3>
+
+<p>If you encounter build failures in <code>carthage build --no-skip-current</code>, try running <code>xcodebuild -scheme SCHEME -workspace WORKSPACE build</code> or <code>xcodebuild -scheme SCHEME -project PROJECT build</code> (with the actual values) and see if the same failure occurs there. This should hopefully yield enough information to resolve the problem.</p>
+
+<p>If you have multiple versions of the Apple developer tools installed (an Xcode beta, for example), use <code>xcode-select</code> to change which version Carthage uses.</p>
+
+<p>If you’re still not able to build your framework with Carthage, please <a href="https://github.com/Carthage/Carthage/issues/new">open an issue</a> and we’d be happy to help!</p>
+
+<h3>Tag stable releases</h3>
+
+<p>Carthage determines which versions of your framework are available by searching through the tags published on the repository, and trying to interpret each tag name as a <a href="http://semver.org/">semantic version</a>. For example, in the tag <code>v1.2</code>, the semantic version is 1.2.0.</p>
+
+<p>Tags without any version number, or with any characters following the version number (e.g., <code>1.2-alpha-1</code>) are currently unsupported, and will be ignored.</p>
+
+<h3>Archive prebuilt frameworks into one zip file</h3>
+
+<p>Carthage can automatically use prebuilt frameworks, instead of building from scratch, if they are attached to a <a href="https://help.github.com/articles/about-releases/">GitHub Release</a> on your project’s repository.</p>
+
+<p>To offer prebuilt frameworks for a specific tag, the binaries for <em>all</em> supported platforms should be zipped up together into <em>one</em> archive, and that archive should be attached to a published Release corresponding to that tag. The attachment should include <code>.framework</code> in its name (e.g., <code>ReactiveCocoa.framework.zip</code>), to indicate to Carthage that it contains binaries.</p>
+
+<p>You can perform the archiving operation above with the <code>carthage archive</code> command as follows:</p>
+
+<pre><code>carthage build --no-skip-current
+carthage archive YourFrameworkName
+</code></pre>
+
+<p>Draft Releases will be automatically ignored, even if they correspond to the desired tag.</p>
+
+<h3>Declare your compatibility</h3>
+
+<p>Want to advertise that your project can be used with Carthage? You can add a compatibility badge:</p>
+
+<p>… to your README, by simply inserting the following Markdown:</p>
+
+<pre><code>[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+</code></pre>
+
+<h2>CarthageKit</h2>
+
+<p>Most of the functionality of the <code>carthage</code> command line tool is actually encapsulated in a framework named CarthageKit.</p>
+
+<p>If you’re interested in using Carthage as part of another tool, or perhaps extending the functionality of Carthage, take a look at the [CarthageKit][] source code to see if the API fits your needs.</p>
+
+<h2>License</h2>
+
+<p>Carthage is released under the <a href="LICENSE.md">MIT License</a>.</p>
+
+<p>Header backdrop photo is released under the <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">CC BY-NC-SA 2.0</a> license. Original photo by <a href="https://www.flickr.com/photos/prof_richard/">Richard Mortel</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-31T09:33:39+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:33 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/29/iosdi-san-fang-ku-cocoalumberjack-ddlog-2014-04-18-11-53-34-zhuan-zai-v/" title="Previous Post: iOS 第三方库 - CocoaLumberjack-DDLog">&laquo; iOS 第三方库 - CocoaLumberjack-DDLog</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/31/cocoaasyncsocket-introduction/" title="Next Post: CocoaAsyncSocket Introduction">CocoaAsyncSocket Introduction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

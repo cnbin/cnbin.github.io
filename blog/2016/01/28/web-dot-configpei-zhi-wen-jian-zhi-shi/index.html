@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>web.config配置文件知识 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="web.config配置文件知识 web.config配置文件（默认的配置设置）以下所有的代码都应该位于 ＜configuration＞ ＜system.web＞ 和 ＜/system.web＞ ＜/configuration＞ 之间，出于学习的目的下面的示例都省略了这段XML标记 1、＜ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/01/28/web-dot-configpei-zhi-wen-jian-zhi-shi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">web.config配置文件知识</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-28T14:25:32+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:25 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>web.config配置文件知识</p>
+
+<p>web.config配置文件（默认的配置设置）以下所有的代码都应该位于</p>
+
+<pre><code>＜configuration＞ 
+＜system.web＞ 
+和 
+＜/system.web＞ 
+＜/configuration＞ 
+</code></pre>
+
+<p>之间，出于学习的目的下面的示例都省略了这段XML标记</p>
+
+<p>1、＜authentication＞ 节</p>
+
+<p>作用：配置 ASP.NET 身份验证支持（为Windows、Forms、PassPort、None四种）。该元素只能在计算机、站点或应用程序级别声明。＜authentication＞ 元素必需与＜authorization＞ 节配合使用。</p>
+
+<p>示例：</p>
+
+<p>以下示例为基于窗体（Forms）的身份验证配置站点，当没有登陆的用户访问需要身份验证的网页，网页自动跳转到登陆网页。</p>
+
+<p>＜authentication mode=&ldquo;Forms&rdquo; ＞
+＜forms loginUrl=&ldquo;logon.aspx&rdquo;/＞</p>
+
+<p>＜/authentication＞
+其中元素loginUrl表示登陆网页的名称，name表示Cookie名称</p>
+
+<p>2、＜authorization＞ 节</p>
+
+<p>作用：控制对 URL 资源的客户端访问（如允许匿名用户访问）。此元素可以在任何级别（计算机、站点、应用程序、子目录或页）上声明。必需与＜authentication＞ 节配合使用。</p>
+
+<p>示例：以下示例禁止匿名用户的访问</p>
+
+<p>＜authorization＞
+＜deny users=&ldquo;?&rdquo;/＞
+＜/authorization＞
+注：你可以使用user.identity.name来获取已经过验证的当前的用户名；可以使用
+web.Security.FormsAuthentication.RedirectFromLoginPage方法将已验证的用户重定向到用户刚才请求的页面.具体的实例请参考:</p>
+
+<p>3、＜compilation＞节</p>
+
+<p>作用：配置 ASP.NET 使用的所有编译设置。默认的debug属性为“True”.在程序编译完成交付使用之后应将其设为True（Web.config文件中有详细说明，此处省略示例）</p>
+
+<p>4、＜customErrors＞</p>
+
+<p>作用：为 ASP.NET 应用程序提供有关自定义错误信息的信息。它不适用于 XML Web services 中发生的错误。</p>
+
+<p>示例：当发生错误时，将网页跳转到自定义的错误页面。</p>
+
+<p>＜customErrors defaultRedirect=&ldquo;ErrorPage.aspx&rdquo; mode=&ldquo;RemoteOnly"＞
+＜/customErrors＞
+其中元素defaultRedirect表示自定义的错误网页的名称。mode元素表示：对不在本地 Web 服务器上运行的用户显示自定义(友好的)信息。</p>
+
+<p>5、＜httpRuntime＞节</p>
+
+<p>作用：配置 ASP.NET HTTP 运行库设置。该节可以在计算机、站点、应用程序和子目录级别声明。</p>
+
+<p>示例：控制用户上传文件最大为4M，最长时间为60秒，最多请求数为100</p>
+
+<p>＜httpRuntime maxRequestLength=&ldquo;4096&rdquo; executionTimeout=&ldquo;60&rdquo; appRequestQueueLimit=&ldquo;100&rdquo;/＞
+6、 ＜pages＞</p>
+
+<p>作用：标识特定于页的配置设置（如是否启用会话状态、视图状态，是否检测用户的输入等）。＜pages＞可以在计算机、站点、应用程序和子目录级别声明。</p>
+
+<p>示例：不检测用户在浏览器输入的内容中是否存在潜在的危险数据（注：该项默认是检测，如果你使用了不检测，一要对用户的输入进行编码或验证)，在从客户端回发页时将检查加密的视图状态，以验证视图状态是否已在客户端被篡改。(注：该项默认是不验证）</p>
+
+<p>＜pages buffer=&ldquo;true&rdquo; enableViewStateMac=&ldquo;true&rdquo; validateRequest=&ldquo;false&rdquo;/＞
+7、＜sessionState＞</p>
+
+<p>作用：为当前应用程序配置会话状态设置（如设置是否启用会话状态，会话状态保存位置）。</p>
+
+<p>示例：</p>
+
+<p>＜sessionState mode=&ldquo;InProc&rdquo; cookieless=&ldquo;true&rdquo; timeout=&ldquo;20&rdquo;/＞
+＜/sessionState＞
+注：</p>
+
+<p>mode=&ldquo;InProc"表示：在本地储存会话状态（你也可以选择储存在远程服务器或SAL服务器中或不启用会话状态）</p>
+
+<p>cookieless=&ldquo;true"表示：如果用户浏览器不支持Cookie时启用会话状态(默认为False）</p>
+
+<p>timeout=&ldquo;20"表示：会话可以处于空闲状态的分钟数</p>
+
+<p>8、＜trace＞</p>
+
+<p>作用：配置 ASP.NET 跟踪服务，主要用来程序测试判断哪里出错。</p>
+
+<p>示例：以下为Web.config中的默认配置：</p>
+
+<p>＜trace enabled=&ldquo;false&rdquo; requestLimit=&ldquo;10&rdquo; pageOutput=&ldquo;false&rdquo; traceMode=&ldquo;SortByTime&rdquo; localOnly=&ldquo;true&rdquo; /＞
+注：</p>
+
+<p>enabled=&ldquo;false"表示不启用跟踪；requestLimit="10"表示指定在服务器上存储的跟踪请求的数目</p>
+
+<p>pageOutput=&ldquo;false"表示只能通过跟踪实用工具访问跟踪输出；</p>
+
+<p>traceMode=&ldquo;SortByTime"表示以处理跟踪的顺序来显示跟踪信息</p>
+
+<p>localOnly=&ldquo;true&rdquo; 表示跟踪查看器 (trace.axd) 只用于宿主 Web 服务器</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-28T14:25:32+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:25 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/28/shen-ru-li-jie-dot-netfu-wu-qi-kong-jian/" title="Previous Post: 深入理解.net服务器控件">&laquo; 深入理解.net服务器控件</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/28/tu-jie-asp-dot-netying-yong-cheng-xu-yu-ye-mian-sheng-ming-zhou-qi/" title="Next Post: 图解ASP.NET应用程序与页面生命周期">图解ASP.NET应用程序与页面生命周期 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

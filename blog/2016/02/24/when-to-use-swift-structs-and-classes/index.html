@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>When to Use Swift Structs and Classes - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="One of the persistent topics of discussion in the world of Swift has been the question of when to use classes and when to use structs. I thought I& &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/24/when-to-use-swift-structs-and-classes/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">When to Use Swift Structs and Classes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-24T10:44:10+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:44 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>One of the persistent topics of discussion in the world of Swift has been the question of when to use classes and when to use structs. I thought I&rsquo;d contribute my own version of things today.</p>
+
+<p>Values Versus References
+The answer is actually really simple: use structs when you need value semantics, and use classes when you need reference semantics. That&rsquo;s it!</p>
+
+<p>Come back next week for&hellip;.</p>
+
+<p>Wait</p>
+
+<p>What?</p>
+
+<p>That Doesn&rsquo;t Answer It</p>
+
+<p>What do you mean? It&rsquo;s right there.</p>
+
+<p>Yes, But&hellip;</p>
+
+<p>What?</p>
+
+<p>What Are Value and Reference Semantics?</p>
+
+<p>Oh, I see. Maybe I should talk about that, then.</p>
+
+<p>And How They Relate to struct and class</p>
+
+<p>Right.</p>
+
+<p>It all comes down to data and where it&rsquo;s stored. We store stuff in local variables, parameters, properties, and globals. There are fundamentally two different ways to store that stuff in all these places.</p>
+
+<p>With value semantics, the data exists directly in the storage location. With reference semantics, the data exists elsewhere, and the storage location stores a reference to it. This difference isn&rsquo;t necessarily apparent when you access the data. Where it makes itself known is when you copy the storage. With value semantics, you get a new copy of the data. With reference semantics, you get a new copy of the reference to the same data.</p>
+
+<p>This is all really abstract. Let&rsquo;s look at an example. To remove the question of Swift from the picture for a moment, let&rsquo;s look at an Objective-C example:</p>
+
+<pre><code>@interface SomeClass : NSObject 
+@property int number;
+@end
+@implementation SomeClass
+@end
+
+struct SomeStruct {
+    int number;
+};
+
+SomeClass *reference = [[SomeClass alloc] init];
+reference.number = 42;
+SomeClass *reference2 = reference;
+reference.number = 43;
+NSLog(@"The number in reference2 is %d", reference2.number);
+
+struct SomeStruct value = {};
+value.number = 42;
+struct SomeStruct value2 = value;
+value.number = 43;
+NSLog(@"The number in value2 is %d", value2.number);
+</code></pre>
+
+<p>This prints:</p>
+
+<pre><code>The number in reference2 is 43
+The number in value2 is 42
+</code></pre>
+
+<p>Why the difference?</p>
+
+<p>The code SomeClass *reference = [[SomeClass alloc] init] creates a new instance of SomeClass in memory, then puts a reference to that instance in the variable. The code reference2 = reference places a reference to that same object into the new variable. Then reference.number = 43 modifies the number stored in the object both variables now point to. The result is that when the log prints the value from the object, it prints 43.</p>
+
+<p>The code struct SomeStruct value = {} creates a new instance of SomeStruct in the variable. The code value2 = value copies that instance into the second variable. Each variable contains a separate chunk of data. The code value.number = 43 only modifies the one in value, and when the log prints the number from value2 it still prints 42.</p>
+
+<p>This example maps directly to Swift:</p>
+
+<pre><code>class SomeClass {
+    var number: Int = 0
+}
+
+struct SomeStruct {
+    var number: Int = 0
+}
+
+var reference = SomeClass()
+reference.number = 42
+var reference2 = reference
+reference.number = 43
+print("The number in reference2 is \(reference2.number)")
+
+var value = SomeStruct()
+value.number = 42
+var value2 = value
+value.number = 43
+print("The number in value2 is \(value2.number)")
+</code></pre>
+
+<p>As before, this prints:</p>
+
+<pre><code>The number in reference2 is 43
+The number in value2 is 42
+</code></pre>
+
+<p>Experience With Value Types</p>
+
+<p>Value types aren&rsquo;t new. But for a lot of people they feel new. What&rsquo;s the deal?</p>
+
+<p>structs aren&rsquo;t used that often in most Objective-C code. We occasionally touch them in the form of CGRect and CGPoint and friends, but rarely make our own. For one thing, they aren&rsquo;t very functional. It&rsquo;s really difficult to correctly store references to objects in a struct in Objective-C, especially when using ARC.</p>
+
+<p>Lots of other languages don&rsquo;t have anything like struct at all. Many languages like Python and JavaScript where &ldquo;everything is an object&rdquo; just have reference types. If you&rsquo;ve come to Swift from a language like that, the concept might be even more foreign to you.</p>
+
+<p>But wait! There&rsquo;s one area where almost every language uses value types: numbers! The following behavior shouldn&rsquo;t surprise any programmer with more than a few weeks of experience, regardless of the language:</p>
+
+<pre><code>var x = 42
+var x2 = x
+x++
+print("x=\(x) x2=\(x2)")
+// prints: x=43 x2=42
+</code></pre>
+
+<p>This is so obvious and natural to us that we don&rsquo;t even realize that it acts differently, but it&rsquo;s right there in front of us. You&rsquo;ve been working with value types for as long as you&rsquo;ve been programming, even if you didn&rsquo;t realize it.</p>
+
+<p>Lots of languages actually implement numbers as reference types, because they&rsquo;re hard-core on the &ldquo;everything is an object&rdquo; philosophy. However, they&rsquo;re immutable types, and the difference between a value type and an immutable reference type is hard to detect. They act like value types act, even if they might not be implemented that way.</p>
+
+<p>This is a big part of understanding value and reference types. The distinction only matters, in terms of language semantics, when mutating data. If your data is immutable, then the value/reference distinction disappears, or at least turns into a mere question of performance rather than semantics.</p>
+
+<p>This even shows up in Objective-C with tagged pointers. An object stored within the pointer value, as happens with a tagged pointer, is a value type. Copying the storage copies the object. This difference isn&rsquo;t apparent, because the Objective-C libraries are careful to only put immutable types in tagged pointers. Some NSNumbers are reference types and some are value types but it doesn&rsquo;t make a difference.</p>
+
+<p>Making the Choice</p>
+
+<p>Now that we know how value types work, how do you make the choice for your own data types?</p>
+
+<p>The fundamental difference between the two is what happens when you use = on them. Value types get copied, and reference types just get another reference.</p>
+
+<p>Thus the fundamental question to ask when deciding which one to use is: does it make sense to copy this type? Is copying an operation you want to make easy, and use often?</p>
+
+<p>Let&rsquo;s look at some extreme, obvious examples first. Integers are obviously copyable. They should be value types. Network sockets can&rsquo;t be sensibly copied. They should be reference types. Points, as in x, y pairs, are copyable. They should be value types. A controller that represents a disk can&rsquo;t be sensibly copied. That should be a reference type.</p>
+
+<p>Some types can be copied but it may not be something you want to happen all the time. This suggests that they should be reference types. For example, a button on the screen can conceptually be copied. The copy will not be quite identical to the original. A click on the copy will not activate the original. The copy will not occupy the same location on the screen. If you pass the button around or put it into a new variable you&rsquo;ll probably want to refer to the original button, and you&rsquo;d only want to make a copy when it&rsquo;s explicitly requested. That means that your button type should be a reference type.</p>
+
+<p>View and window controllers are a similar example. They might be copyable, conceivably, but it&rsquo;s almost never what you&rsquo;d want to do. They should be reference types.</p>
+
+<p>What about model types? You might have a User type representing a user on your system, or a Crime type representing an action taken by a User. These are pretty copyable, so they should probably be value types. However, you probably want updates to a User&rsquo;s Crime made in one place in your program to be visible to other parts of the program. This suggests that your Users should be managed by some sort of user controller which would be a reference type.</p>
+
+<p>Collections are an interesting case. These include things like arrays and dictionaries, as well as strings. Are they copyable? Obviously. Is copying something you want to happen easily and often? That&rsquo;s less clear.</p>
+
+<p>Most languages say &ldquo;no&rdquo; to this and make their collections reference types. This is true in Objective-C and Java and Python and JavaScript and almost every other language I can think of. (One major exception is C++ with STL collection types, but C++ is the raving lunatic of the language world which does everything strangely.)</p>
+
+<p>Swift said &ldquo;yes,&rdquo; which means that types like Array and Dictionary and String are structs rather than classes. They get copied on assignment, and on passing them as parameters. This is an entirely sensible choice as long as the copy is cheap, which Swift tries very hard to accomplish.</p>
+
+<p>Nesting Types</p>
+
+<p>There are four possibile combinations when nesting value and reference types. Life gets interesting with just one of them.</p>
+
+<p>If you have a reference type which contains another reference type, nothing much interesting happens. Anything which has a reference to either the inner or outer value can manipulate it, as usual. Everyone will see any changes made.</p>
+
+<p>If you have a value type which contains another value type, this effectively just makes the value bigger. The inner value is part of the outer value. If you put the outer value into some new storage, it all gets copied, including the inner value. If you put the inner value into some new storage, it gets copied.</p>
+
+<p>A reference type which contains a value type effectively makes the referenced value bigger. Anyone with a reference to the outer value can manipulate the whole thing, included the nested value. Changes to the nested value are visible to everyone with a reference to the outer value. If you put the inner value into some new storage, it gets copied there.</p>
+
+<p>A value type which contains a reference type is not so simple. You can effectively break value semantics without being obvious that you&rsquo;re doing it. This can be good or bad, depending on how you do it. When you put a reference type inside a value type, then the outer value is copied when you place it into new storage, but the copy has a reference to the same nested object as the original. Here&rsquo;s an example:</p>
+
+<pre><code>class Inner {
+    var value = 42
+}
+
+struct Outer {
+    var value = 42
+    var inner = Inner()
+}
+
+var outer = Outer()
+var outer2 = outer
+outer.value = 43
+outer.inner.value = 43
+print("outer2.value=\(outer2.value) outer2.inner.value=\(outer2.inner.value)")
+</code></pre>
+
+<p>This prints:</p>
+
+<pre><code>outer2.value=42 outer2.inner.value=43
+</code></pre>
+
+<p>While outer2 gets a copy of value, it only copies the reference to inner, and so the two structs end up sharing the same instance of Inner. Thus an update to outer.inner.value affects outer2.inner.value. Yikes!</p>
+
+<p>This behavior can be really handy. When used with care, it allows you to create structs which perform a copy on write, to allow efficient implementations of value semantics that don&rsquo;t copy a ton of data everywhere. This is how Swift&rsquo;s collections work, and you can build your own as well. For more information on how to do that, see Let&rsquo;s Build Swift.Array.</p>
+
+<p>It can also be extremely dangerous. For example, let&rsquo;s say you&rsquo;re making a Person type. It&rsquo;s a model type that&rsquo;s sensibly copyable, so it can be a struct. In a fit of nostalgia, you decide to use NSString for the Person&rsquo;s name:</p>
+
+<pre><code>struct Person {
+    var name: NSString
+}
+</code></pre>
+
+<p>Then you build up a couple of Persons, constructing the name from parts:</p>
+
+<pre><code>let name = NSMutableString()
+name.appendString("Bob")
+name.appendString(" ")
+name.appendString("Josephsonson")
+let bob = Person(name: name)
+
+name.appendString(", Jr.")
+let bobjr = Person(name: name)
+</code></pre>
+
+<p>Print them out:</p>
+
+<pre><code>print(bob.name)
+print(bobjr.name)
+</code></pre>
+
+<p>This produces:</p>
+
+<pre><code>Bob Josephsonson, Jr.
+Bob Josephsonson, Jr.
+</code></pre>
+
+<p>Eek!</p>
+
+<p>What happened? Unlike Swift&rsquo;s String type, NSString is a reference type. It&rsquo;s immutable, but it has a mutable subtype, NSMutableString. When bob was created, it created a reference to the string held in name. When that string was subsequently mutated, the mutation was visible through bob. Note that this effectively mutates bob even though it&rsquo;s a value type stored in a let binding. It&rsquo;s not really mutating bob, merely mutating a value that bob holds a reference to, but since that value is part of bob&rsquo;s data, in a semantic sense, it looks like a mutation of bob.</p>
+
+<p>This sort of thing happens in Objective-C all the time. Every Objective-C programmer with some experience gets in the habit of sprinkling defensive copies all over the place. Since an NSString might actually be an NSMutableString, you define properties as copy, or write explicit copy calls in your initializers, to avoid a catastrophe. The same goes for the various Cocoa collections.</p>
+
+<p>In Swift, the solution here is simpler: use value types rather than reference types. In this case, make name be a String. There is then no worry about inadvertently sharing references.</p>
+
+<p>In other cases, the solution may be less simple. For example, you may create a struct containing a view, which is a reference type, and can&rsquo;t be changed to a value type. This is probably a good indication that your type shouldn&rsquo;t be a struct, since you can&rsquo;t make it maintain value semantics anyway.</p>
+
+<p>Conclusion</p>
+
+<p>Value types are copied whenever you move them around, whereas reference types just get new references to the same underlying object. That means that mutations to reference types are visible to everything that has a reference, whereas mutations to value types only affect the storage you&rsquo;re mutating. When choosing which kind of type to make, consider how suitable your type is for copying, and lean towards a value type for types that are inherently copyable. Finally, beware of embedding reference types in value types, as terrible things can happen if you&rsquo;re not careful.</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://www.mikeash.com/pyblog/friday-qa-2015-07-17-when-to-use-swift-structs-and-classes.html">https://www.mikeash.com/pyblog/friday-qa-2015-07-17-when-to-use-swift-structs-and-classes.html</a></li>
+<li><a href="http://swift.gg/2015/08/14/friday-qa-2015-07-17-when-to-use-swift-structs-and-classes/">http://swift.gg/2015/08/14/friday-qa-2015-07-17-when-to-use-swift-structs-and-classes/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-24T10:44:10+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:44 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/24/swiftyuserdefaults/" title="Previous Post: SwiftyUserDefaults 2.0">&laquo; SwiftyUserDefaults 2.0</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/24/objective-c-tutorials/" title="Next Post: Objective-C Tutorials">Objective-C Tutorials &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>RNGridMenu Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="A grid based menu view with field depth and bounce animation: inspired by Mailbox, and extended for multiple needs. I created this project out of a &hellip;">
+  <meta name="keywords" content="rngridmenu">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/31/rngridmenu-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">RNGridMenu Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-31T09:41:47+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:41 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>A grid based menu view with field depth and bounce animation: inspired by Mailbox, and extended for multiple needs. I created this project out of a stint of boredom. This control is customizable to a degree, but kept simple so you can take it and spin your own subclass or fork out of it.</p>
+
+<p><code>&lt;p align="center"&gt;&lt;img src="https://raw.github.com/rnystrom/RNGridMenu/master/images/menu.gif"/&gt;&lt;/p&gt;</code></p>
+
+<p><code>&lt;p align="center"&gt;&lt;img src="https://raw.github.com/rnystrom/RNGridMenu/master/images/options.jpg"/&gt;&lt;/p&gt;</code></p>
+
+<h2>Installation</h2>
+
+<p>Installation with <a href="http://cocoapods.org/">CocoaPods</a> made available by <a href="https://github.com/thaberkern">thaberkern</a>. Just add this line to your Podfile.</p>
+
+<pre><code>pod 'RNGridMenu', '~&gt; 0.1.2'
+</code></pre>
+
+<p>Drag and drop the <code>RNGridMenu</code> .h and .m files into your project. To get this working, you&rsquo;ll need to include the following frameworks:</p>
+
+<ul>
+<li>QuartCore</li>
+<li>Accelerate</li>
+</ul>
+
+
+<h2>Usage</h2>
+
+<p>Getting started with <code>RNGridMenu</code> is dead simple. Just initialize it with a list of options, images, or both, and call the <code>-show</code> method. Like this:</p>
+
+<pre><code>NSArray *images = //...
+NSArray *options = //...
+RNGridMenu *av = [[RNGridMenu alloc] initWithOptions:options images:images delegate:self];
+[av show];
+</code></pre>
+
+<p>There are 3 initialization methods in all for now. Note that the delgate is entirely optional. Just set that parameter to nil (though the control is kind of useless without it, right?).</p>
+
+<pre><code>// Note this changes the view to style RNGridMenuStyleList since there are no images
+- (id)initWithOptions:(NSArray *)options delegate:(id &lt;RNGridMenuDelegate&gt;)delegate;
+
+- (id)initWithImages:(NSArray *)images delegate:(id &lt;RNGridMenuDelegate&gt;)delegate;
+
+// The count of both options and images must be equal (caught with assert)
+- (id)initWithOptions:(NSArray *)options images:(NSArray *)images delegate:(id &lt;RNGridMenuDelegate&gt;)delegate;
+</code></pre>
+
+<h2>Customization</h2>
+
+<pre><code>@property (nonatomic, copy) UIColor *highlightColor;
+</code></pre>
+
+<p>The color that items will be highlighted with on selection. Defaults to table view selection blue.</p>
+
+<pre><code>@property (nonatomic, strong, readonly) UIColor *backgroundColor;
+</code></pre>
+
+<p>The background color of the main view (note this is a UIViewController subclass). Default is black with 0.7 alpha.</p>
+
+<pre><code>@property (nonatomic, assign) CGSize itemSize;
+</code></pre>
+
+<p>The size of a list or grid item. Default is 100x100.</p>
+
+<pre><code>@property (nonatomic, assign) CGFloat blurLevel;
+</code></pre>
+
+<p>The level of blur for the background image. Range is 0.0 to 1.0. Default is 0.3.</p>
+
+<pre><code>@property (nonatomic, assign) BOOL addsToWindow;
+</code></pre>
+
+<p>Set to YES if you want to add the control to the window of your app. Default is NO.</p>
+
+<pre><code>@property (nonatomic, assign) CGFloat animationDuration;
+</code></pre>
+
+<p>The time in seconds for the show and dismiss animation. Default is 0.25.</p>
+
+<pre><code>@property (nonatomic, copy) UIColor *itemTextColor;
+</code></pre>
+
+<p>The text color for list items. Default is white.</p>
+
+<pre><code>@property (nonatomic, copy) UIFont *itemFont;
+</code></pre>
+
+<p>The font used for list items. Default is bold size 14.</p>
+
+<pre><code>@property (nonatomic, assign) NSTextAlignment itemTextAlignment;
+</code></pre>
+
+<p>The text alignment of the item titles. Default center alignment.</p>
+
+<pre><code>@property (nonatomic, assign) RNGridMenuStyle menuStyle;
+</code></pre>
+
+<p>The list layout. Default <code>RNGridMenuStyleGrid</code>. Options are</p>
+
+<pre><code>RNGridMenuStyleDefault
+RNGridMenuStyleList
+
+
+
+@property (nonatomic, strong) UIView *headerView;
+</code></pre>
+
+<p>An optional header view. Make sure to set the frame height when setting. Same usage as <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UITableView_Class/Reference/Reference.html">UITableView header</a>.</p>
+
+<h2>Credits</h2>
+
+<p>I finally got a solid implementation on responding to orientation changes by looking at the source of <a href="https://github.com/mobitar/MBAlertView"><code>MBAlertView</code></a>. Great project if you haven&rsquo;t seen it.</p>
+
+<p>Sample icons provided by <a href="http://icomoon.io/">IcoMoon</a>.</p>
+
+<p>I followed <a href="http://petersteinberger.com/">Peter Steinberger</a>&rsquo;s <a href="http://petersteinberger.com/blog/2013/uiappearance-for-custom-views/">post</a> on setting up <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UIAppearance_Protocol/">UIAppearance</a>.</p>
+
+<p>The blurring algorithm was initially used from <a href="http://indieambitions.com/idevblogaday/perform-blur-vimage-accelerate-framework-tutorial/">this post</a> but then perfected by <a href="https://github.com/Club15CC">Club15CC</a> in a <a href="https://github.com/rnystrom/RNBlurModalView/pull/11">pull request</a> for <code><a href="https://github.com/rnystrom/RNBlurModalView">RNBlurModalView</a></code>.</p>
+
+<h2>Apps</h2>
+
+<p>If you&rsquo;ve used this project in a live app, please <a href="mailTo:rnystrom@whoisryannystrom.com">let me know</a>! Nothing makes me happier than seeing someone else take my work and go wild with it.</p>
+
+<h2>Todo</h2>
+
+<ul>
+<li><del>Images only</del></li>
+<li><del>Vertical list with text only</del></li>
+<li>Advanced styles - Item borders, gradients (Mailbox)</li>
+<li>UIAppearance with styles</li>
+<li><del>Title view</del></li>
+<li><del>Readme</del></li>
+<li>Cocoapods</li>
+<li><del>More screenshots</del></li>
+<li>Optional block callbacks</li>
+</ul>
+
+
+<h2>Contact</h2>
+
+<ul>
+<li><a href="https://twitter.com/_ryannystrom">@nystrorm</a> on Twitter</li>
+<li><a href="https://github.com/rnystrom">@rnystrom</a> on Github</li>
+<li><a href="mailTo:rnystrom@whoisryannystrom.com">rnystrom [at] whoisryannystrom [dot] com</a></li>
+</ul>
+
+
+<h2>License</h2>
+
+<p>See <a href="https://github.com/rnystrom/RNGridMenu/blob/master/LICENSE">LICENSE</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-31T09:41:47+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>9:41 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/31/idmphotobrowser-introduction/" title="Previous Post: IDMPhotoBrowser Introduction">&laquo; IDMPhotoBrowser Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/31/overview-of-the-xmpp-framework/" title="Next Post: Overview of the XMPP Framework">Overview of the XMPP Framework &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

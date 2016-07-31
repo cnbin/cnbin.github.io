@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>如何在不同的 Mac 上使用 Octopress 博客 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="如何在不同的 Mac 上使用 Octopress 博客">
+  <meta name="keywords" content="Octopress">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/22/ru-he-zai-bu-tong-de-mac-shang-shi-yong-octopress-bo-ke/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">如何在不同的 Mac 上使用 Octopress 博客</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-22T09:22:49+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:22 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esdyy81z7fj20rj0603zs.jpg" alt="img" /></p>
+
+<p>自己搭建了 Octopress 博客之后，在公司用的时候感觉很简单，回到家里想继续玩的时候，发现对 git 掌握程度还是不够，以为简单的 clone 下就 OK 了，后来发现直接 clone 下来的文件只有一部分，经过摸索，才知道是要这样解决的。<!--More--></p>
+
+<h2>一.说明下 Octopress 目录结构</h2>
+
+<p>Octopress 的 git 目录下有两个 branch，<code>source</code>和<code>master</code>。</p>
+
+<p><code>source</code>分支下保存 Octopress 的源代码，我们需要用他们生成博客，该分支保存在 Octopress 本地仓库的根目录下；</p>
+
+<p><code>master</code> 分支下保存生成的博客内容，该分支在 Octopress 本地仓库的根目录下一个叫 <code>_deploy</code> 的文件夹中。该文件夹是以下划线开头的，会在执行 <code>git push origin source</code> 命令时被忽略，这也是为什么一个目录中能同时存在两个不同分支的文件夹的原因。</p>
+
+<h2>二.在本地电脑重建 Octopress 仓库</h2>
+
+<p>具体步骤如下：</p>
+
+<p>1.clone <code>source</code> 分支</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">clone</span> <span class="o">-</span><span class="n">b</span> <span class="n">source</span> <span class="n">git</span><span class="nd">@github.com</span><span class="p">:</span><span class="n">username</span><span class="o">/</span><span class="n">username</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git</span> <span class="n">octopress</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>特别注意： clone 的地址不能是<code>http</code> 而必须是 <code>ssh</code>，上面的的把 username 改成具体你的用户名。如果你的仓库是 <code>username.github.com</code>，就写成</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">clone</span> <span class="o">-</span><span class="n">b</span> <span class="n">source</span> <span class="n">git</span><span class="nd">@github.com</span><span class="p">:</span><span class="n">username</span><span class="o">/</span><span class="n">username</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">git</span> <span class="n">octopress</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+说明下，只克隆 git 仓库中的一个分支，用 <code>git clone -b 指定的分支名字</code>。</p>
+
+<p>运行后如果出现以下错误提示：</p>
+
+<pre><code>Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+</code></pre>
+
+<p>则表示要添加密匙。执行2，如果没有错误，直接执行3。</p>
+
+<p>2.创建 ssh key</p>
+
+<p>执行命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">ssh</span><span class="o">-</span><span class="n">keygen</span> <span class="o">-</span><span class="n">t</span> <span class="n">rsa</span> <span class="o">-</span><span class="n">C</span> <span class="s">&quot;your_email@example.com&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>会出现提示：</p>
+
+<pre><code>Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
+</code></pre>
+
+<p>这时候按回车键(Enter)继续：</p>
+
+<pre><code>Enter passphrase (empty for no passphrase): [Type a passphrase]
+# Enter same passphrase again: [Type passphrase again]
+</code></pre>
+
+<p>会要求你输入一个密码，4位以上，记起来，后面要用到。</p>
+
+<p>接下来会提示：</p>
+
+<pre><code>Your identification has been saved in /Users/you/.ssh/id_rsa.
+# Your public key has been saved in /Users/you/.ssh/id_rsa.pub.
+# The key fingerprint is:
+# 01:0f:f4:3b:ca:85:d6:17:a1:7d:f0:68:9d:f0:a2:db your_email@example.com
+</code></pre>
+
+<p>到这里就说明key已经创建成功了。</p>
+
+<p>把生成的key添加到ssh-agent中 最后需要执行以下命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">ssh</span><span class="o">-</span><span class="n">add</span> <span class="o">~/.</span><span class="n">ssh</span><span class="o">/</span><span class="n">id_rsa</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后把 id_rsa.pub 的内容复制到 github 里面的添加 Add-key 的 key 内容中。</p>
+
+<p>然后验证 key 是否可用，输入</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">ssh</span> <span class="o">-</span><span class="n">T</span> <span class="n">git</span><span class="nd">@github.com</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>出现下面情况就说明 OK 了</p>
+
+<pre><code>Hi username! You've successfully authenticated, but GitHub does not
+</code></pre>
+
+<p>3.clone <code>master</code> 分支</p>
+
+<p>下面需要将 master 分支 clone 到 <code>_deploy</code>目录：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">cd</span> <span class="n">octopress</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="nd">@github.com</span><span class="p">:</span><span class="n">username</span><span class="o">/</span><span class="n">username</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">git</span> <span class="n">_deploy</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>4.配置环境</p>
+
+<p>执行下面命令配置环境：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">bundler</span>
+</span><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="n">install</span>
+</span><span class='line'><span class="err">$</span> <span class="n">rake</span> <span class="n">setup_github_pages</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行最后一条命令时需要你输入 github中 博客仓库地址：</p>
+
+<pre><code>Enter the read/write url for your repository
+(For example, 'git@github.com:your_username/your_username.github.io)
+</code></pre>
+
+<p>到此所有的工作都完成了，你就可以享受在两台电脑上使用 Octopress 了！</p>
+
+<h2>三.细节注意</h2>
+
+<p>1.及时提交本地修改</p>
+
+<p>每次在本地做完修改以后，都要及时提交，分别执行以下命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">rake</span> <span class="n">generate</span>
+</span><span class='line'><span class="err">$</span> <span class="n">rake</span> <span class="n">deploy</span>             <span class="c"># update the remote master branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一条命令会使用本地的修改生成最新的 blog 网站，并且生成的 blog 会存放到 Octopress 根目录下的 <code>public/</code> 目录下；</p>
+
+<p>第二条命令主要做了两件事：</p>
+
+<ul>
+<li><p>用 <code>generate</code> 命令生成在 <code>public/</code> 目录下的内容覆盖 <code>_deploy/</code> 目录下内容；</p></li>
+<li><p>将 <code>_deploy/</code> 目录下的修改 <code>add</code> 、 <code>commit</code> 到 <code>git</code>，并 <code>push</code> 到 <code>git</code> 的 <code>master</code> 分支。</p></li>
+</ul>
+
+
+<p>最后把 source 分支中做的修改提交到 git 中， 执行以下命令：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">add</span> <span class="o">.</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">commit</span> <span class="o">-</span><span class="n">am</span> <span class="s">&quot;Some comment here.&quot;</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">push</span> <span class="n">origin</span> <span class="n">source</span>  <span class="c"># update the remote source branch </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.修改前先更新到最新版本</p>
+
+<p>为了以防万一，在本地做任何修改前都要先做更新，可以执行以下命令分别更新 <code>source</code> 和 <code>master</code>分支：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='Python'><span class='line'><span class="err">$</span> <span class="n">cd</span> <span class="n">octopress</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">pull</span> <span class="n">origin</span> <span class="n">source</span>  <span class="c"># update the local source branch</span>
+</span><span class='line'><span class="err">$</span> <span class="n">cd</span> <span class="o">./</span><span class="n">_deploy</span>
+</span><span class='line'><span class="err">$</span> <span class="n">git</span> <span class="n">pull</span> <span class="n">origin</span> <span class="n">master</span>  <span class="c"># update the local master branch</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="https://help.github.com/articles/generating-ssh-keys/">Generating SSH keys</a></li>
+<li><a href="http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/">Clone Your Octopress to Blog From Two Places</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-22T09:22:49+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:22 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/21/bridge-xiang-guan-de-shi-yong/" title="Previous Post: __bridge 相关的使用">&laquo; __bridge 相关的使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/22/mac-xian-shi-he-yin-cang-wen-jian/" title="Next Post: Mac 显示和隐藏文件">Mac 显示和隐藏文件 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

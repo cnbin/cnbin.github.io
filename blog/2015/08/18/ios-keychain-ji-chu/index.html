@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS KeyChain 基础 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="根据苹果的介绍，iOS设备中的Keychain是一个安全的存储容器，可以用来为不同应用保存敏感信息比如用户名，密码，网络密码，认证令牌。苹果自己用keychain来保存Wi-Fi网络密码，VPN凭证等等。它是一个sqlite数据库，位于/private/var/Keychains/ &hellip;">
+  <meta name="keywords" content="keychain">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/18/ios-keychain-ji-chu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS KeyChain 基础</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-18T10:27:11+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:27 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>根据苹果的介绍，iOS设备中的Keychain是一个安全的存储容器，可以用来为不同应用保存敏感信息比如用户名，密码，网络密码，认证令牌。苹果自己用keychain来保存Wi-Fi网络密码，VPN凭证等等。它是一个sqlite数据库，位于<code>/private/var/Keychains/keychain-2.db</code>，其保存的所有数据都是加密过的。</p>
+
+<p>开发者通常会希望能够利用操作系统提供的功能来保存凭证（credentials）而不是把它们（凭证）保存到NSUserDefaults,plist文件等地方。保存这些数据的原因是开发者不想用户每次都要登录，因此会把认证信息保存到设备上的某个地方并且在用户再次打开应用的时候用这些数据自动登录。Keychain的信息是存在于每个应用（app）的沙盒之外的。</p>
+
+<p>通过keychain access groups可以在应用之间共享keychain中的数据。要求在保存数据到keychain的时候指定group。把数据保存到keychain的最好方法就是用苹果提供的KeychainItemWrapper。可以到<a href="http://developer.apple.com/library/ios/">这</a>下载例子工程。第一步就是创建这个类的实例。</p>
+
+<pre><code>KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@”Password” accessGroup:nil];
+</code></pre>
+
+<p>标识符（Identifier）在后面我们要从keychain中取数据的时候会用到。如果你想要在应用之间共享信息，那么你需要指定访问组（access group）。有同样的访问组 的应用能够访问同样的keychain信息。</p>
+
+<pre><code>KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@”Account Number” accessGroup:@”YOUR_APP_ID_HERE.com.yourcompany.GenericKeychainSuite”];
+</code></pre>
+
+<p>要把信息保存到keychain中，使用 setObject:forKey: 方法。在这里， (id)kSecAttrAccount 是一个预先定义好的键（key），我们可以用它来保存账号名称。 kSecClass指定了我们要保存的某类信息，在这里是一个通用的密码。kSecValueData可以被用来保存任意的数据，在这里是一个密码。</p>
+
+<pre><code>[wrapper setObject:kSecClassGenericPassword forKey:(id)kSecClass];
+
+[wrapper setObject:@"username" forKey:(id)kSecAttrAccount];
+
+[wrapper setObject:@"password"forKey:(id)kSecValueData];
+
+[wrapper setObject:(id)kSecAttrAccessibleAlwaysThisDeviceOnly forKey:(id)kSecAttrAccessible];
+
+kSecAttrAccessiblein变量用来指定这个应用合适需要访问这个数据。我们需要对这个选项特别注意，并且使用最严格的选项。这个键（key）可以设置6种值。
+</code></pre>
+
+<p>你可以从如下对苹果的<a href="http://developer.apple.com/library/mac/">文档</a>的截图看到。</p>
+
+<p><img src="http://a1.qpic.cn/psb?/V136PgQ20dwY05/IM.GPwWulWcom0Jp*Gruv9CaVlmuFE1n50aYxhxntTs!/b/dB4AAAAAAAAA&amp;bo=iQSAAgAAAAADBy0!&amp;rf=viewer_4" alt="img" /></p>
+
+<p>当然，我们应该绝对不要使用kSecAttrAccessibleAlways。一个安全点的选项是kSecAttrAccessibleWhenUnlocked。有些选项是以 ThisDeviceOnly 结尾的，如果选中了这个选项，那么数据就会被以硬件相关的密钥（key）加密，因此不能被传输到或者被其他设备看到。即使它们提供了进一步的安全性，使用它们可能不是一个好主意，除非你有一个更好的理由不允许数据在备份之间迁移。</p>
+
+<p>要从keychain中获取数据，可以用 <code>NSString *accountName = [wrapper objectForKey:(id)kSecAttrAccount];</code></p>
+
+<p>钥匙串中的条目称为SecItem，但它是存储在CFDictionary中的。SecItemRef类型并不存在。SecItem有五类：通用密码、互联网密码、证书、密钥和身份。在大多数情况下，我们用到的都是通用密码。许多问题都是开发人员尝试用互联网密码造成的。互联网密码要复杂得多，而且相比之下优势寥寥无几，除非开发Web浏览器，否则没必要用它。KeyChainItemWrapper只使用通用密码，这也是我喜欢它的原因之一。iOS应用很少将密钥和身份存储起来，所以我们在本书中不会讨论这方面的内容。只有公钥的证书通常应该存储在文件中，而不是钥匙串中。</p>
+
+<p>最后，我们需要在钥匙串中搜索需要的内容。密钥有很多个部分可用来搜索，但最好的办法是将自己的标识符赋给它，然后搜索。通用密码条目都包含属性kSecAttrGeneric，可以用它来存储标识符。这也是KeyChainItemWrapper的处理方式。</p>
+
+<p>钥匙串中的条目都有几个可搜索的<strong>属性</strong>和一个加密过的<strong>值</strong>。对于通用密码条目，比较重要的属性有账户（kSecAttrAccount）、服务（kSecAttrService）和标识符（kSecAttrGeneric）。而值通常是密码。</p>
+
+<p>说明:</p>
+
+<p><img src="http://a2.qpic.cn/psb?/V136PgQ20dwY05/c8Myo02y3pqmLHrVwlG60VN2gXAI7DsY6IaXBI1N*uw!/b/dGoAAAAAAAAA&amp;bo=RwEdAQAAAAADAH8!&amp;rf=viewer_4" alt="img" /></p>
+
+<p>每一个keyChain的组成如图,整体是一个字典结构.</p>
+
+<ol>
+<li>kSecClass key 定义属于那一种类型的keyChain</li>
+<li>不同的类型包含不同的Attributes,这些attributes定义了这个item的具体信息</li>
+<li>每个item可以包含一个密码项来存储对应的密码</li>
+</ol>
+
+
+<p>安全性：</p>
+
+<p>从Keychain中导出数据的最流行工具是ptoomey3的Keychain dumper。其github地址位于<a href="https://github.com/ptoomey3/Keychain-Dumper">此</a>。现在到这个地址把它下载下来。然后解压zip文件。在解压的文件夹内，我们感兴趣的文件是keychain_dumper这个二进制文件。一个应用能够访问的keychain数据是通过其entitlements文件指定的。keychain_dumper使用一个自签名文件，带有一个*通配符的entitlments，因此它能够访问keychain中的所有条目。 当然，也有其他方法来使得所有keychain信息都被授权，比如用一个包含所有访问组(access group)的entitlements文件，或者使用一个特定的访问组（access group）使得能够访问所有的keychain数据。 例如，工具Keychain-viewer就使用如下的entitlements.</p>
+
+<p>虽然keychain也容易被破解，不过比NSUserDefaults和plist安全得多，只要我们注意不要在keychain中保存明文密码就会在很大程度上提升安全性。</p>
+
+<h3>二、Keychain操作</h3>
+
+<p>iOS中Security.framework框架提供了四个主要的方法来操作KeyChain:</p>
+
+<pre><code>// 查询
+OSStatus SecItemCopyMatching(CFDictionaryRef query, CFTypeRef *result);
+
+// 添加
+OSStatus SecItemAdd(CFDictionaryRef attributes, CFTypeRef *result);
+
+// 更新
+KeyChain中的ItemOSStatus SecItemUpdate(CFDictionaryRef query, CFDictionaryRef attributesToUpdate);
+
+// 删除
+KeyChain中的ItemOSStatus SecItemDelete(CFDictionaryRef query)
+</code></pre>
+
+<h3>三、Keychain使用</h3>
+
+<p>引入Security包，引入文件 <code>#import &lt;Security/Security.h&gt;</code></p>
+
+<h4>添加</h4>
+
+<pre><code>-(void)addbuttonAction:(UIButton *)button {
+
+    NSMutableDictionary* dic = [NSMutableDictionary dictionary];
+    [dic setObject:(__bridge id)(kSecClassGenericPassword) forKey:(__bridge id)(kSecClass)];
+
+    [dic setObject:[_passwordField.text dataUsingEncoding:NSUTF8StringEncoding] forKey:(__bridge id&lt;NSCopying&gt;)(kSecValueData)];
+
+    OSStatus s = SecItemAdd((__bridge CFDictionaryRef)dic, NULL);
+
+     NSLog(@"%d",(int)s);
+}
+</code></pre>
+
+<h4>查找</h4>
+
+<pre><code>-(void)checkbuttonAction:(UIButton *)button {
+NSDictionary* query = [NSDictionary dictionaryWithObjectsAndKeys:(__bridge id)(kSecClassGenericPassword),kSecClass,
+                       kSecMatchLimitAll,kSecMatchLimit,
+                       kCFBooleanTrue,kSecReturnAttributes,nil];
+CFTypeRef result = nil;
+OSStatus s = SecItemCopyMatching((__bridge CFDictionaryRef)query, &amp;result);
+
+NSLog(@"%d",(int)s);
+NSLog(@"%@",result);
+}
+</code></pre>
+
+<h4>修改</h4>
+
+<pre><code>- (IBAction)update:()sender {
+     (nameField.text.length &gt; &amp;&amp; passwordField.text.length &gt; ) {
+                NSDictionary* query = [NSDictionary dictionaryWithObjectsAndKeys:kSecClassGenericPassword,kSecClass, 
+                               nameField.text,kSecAttrAccount,
+                               kCFBooleanTrue,kSecReturnAttributes,nil];
+
+        CFTypeRef result = nil;
+         (SecItemCopyMatching((CFDictionaryRef)query, &amp;result) == noErr)
+        {    
+                        NSMutableDictionary* update = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary*)result];
+                        [update setObject:[query objectForKey:kSecClass] forKey:kSecClass];
+            [update setObject:[passwordField.text dataUsingEncoding:NSUTF8StringEncoding] forKey:kSecValueData];
+            [update removeObjectForKey:kSecClass];
+ TARGET_IPHONE_SIMULATOR
+                        [update removeObjectForKey:()kSecAttrAccessGroup];
+
+                        NSMutableDictionary* updateItem = [NSMutableDictionary dictionaryWithDictionary:result];
+            [updateItem setObject:[query objectForKey:()kSecClass] forKey:()kSecClass];
+                        OSStatus status = SecItemUpdate((CFDictionaryRef)updateItem, (CFDictionaryRef)update);
+            NSLog(,status);
+</code></pre>
+
+<h4>删除</h4>
+
+<pre><code>-(void)deletebuttonAction:(UIButton *)button {
+
+        NSDictionary* query = [NSDictionary dictionaryWithObjectsAndKeys:(__bridge id)(kSecClassGenericPassword),kSecClass,
+                               _nameField.text,kSecAttrAccount,nil];
+        OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
+        NSLog(@"%d",(int)status);
+}
+</code></pre>
+
+<h3>注意:</h3>
+
+<p>1.区别(标识)一个item要用<code>kSecAttrAccount</code>和<code>kSecAttrService</code></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-18T10:27:11+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:27 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/18/dispatch-get-current-queue/" title="Previous Post: dispatch_get_current_queue">&laquo; dispatch_get_current_queue</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/18/ios-jian-ce-dai-ma-zhi-xing-xiao-lu/" title="Next Post: iOS 检测代码执行效率">iOS 检测代码执行效率 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

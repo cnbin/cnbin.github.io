@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>排序notes(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1 第一趟合并：(3),(1), (4),(1), (5),(9), (6),(5)
+合并结果:(3,1)(4,1)(9,5)(6,5),共四个小组比较4次
+第二趟合并结果：(4, 3, 1, 1), (9, 6, 5, 5) 共2个小组,比较次数为3 + 3 = 6次
+第3趟合并结果(9, 6 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/14/pai-xu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">排序notes(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-14T10:33:40+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:33 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>1</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyxuejpmfuj20mp0eg78c.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyy21f8mmuj20fv071jsa.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyy21l1awej20g408c75j.jpg" alt="img" /></p>
+
+<pre><code>第一趟合并：(3),(1), (4),(1), (5),(9), (6),(5)
+合并结果:(3,1)(4,1)(9,5)(6,5),共四个小组比较4次
+第二趟合并结果：(4, 3, 1, 1), (9, 6, 5, 5) 共2个小组,比较次数为3 + 3 = 6次
+第3趟合并结果(9, 6, 5, 5, 4,3,1,1) 比较次数为4次
+</code></pre>
+
+<h3>2</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eyx97ak1fjj20p10g2af8.jpg" alt="img" /></p>
+
+<h3>3</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f13btwpqw2j20jg07v0u9.jpg" alt="img" /></p>
+
+<h3>4</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f13bzsqb2yj20jh0d90u6.jpg" alt="img" /></p>
+
+<h3>5</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859ejw1f13fw767odj20k20gi41p.jpg" alt="img" /></p>
+
+<h3>6</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyxuetxzedj20lt0dz420.jpg" alt="img" /></p>
+
+<h3>7</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyyfn8y5hqj20l108q0uh.jpg" alt="img" /></p>
+
+<h3>8</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f13fwz5phuj20jk0c9q6c.jpg" alt="img" /></p>
+
+<h3>9</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9rjz9x2vj20qr0gvn16.jpg" alt="img" /></p>
+
+<h3>10</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez01i3e876j20q30in429.jpg" alt="img" /></p>
+
+<h3>11</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f13fy3t62fj20jg0esq57.jpg" alt="img" /></p>
+
+<h3>12</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez076ymbc2j20q60j7jvu.jpg" alt="img" /></p>
+
+<h3>13</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez079fvwaqj20q20fb78w.jpg" alt="img" /></p>
+
+<h3>14</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez079h4xsuj20q009nq4d.jpg" alt="img" /></p>
+
+<h3>15</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f13fz3gu0xj20jh0bs76s.jpg" alt="img" /></p>
+
+<h3>16</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez1bszmv9rj20r90mr0wp.jpg" alt="img" /></p>
+
+<pre><code>向下取整：
+第一次：10个数，10/2 =5，取55
+第二次：左边为：15，23，38，47，共4个数，4/2=2，取23
+第三次：左边为：15，只有1个数，1/1=1,取15，15&lt;23，为左叶子结点
+
+第四次：右边为：62，88，95，102，123，共5个数，5/2=2.5，取整为3，取95
+第五次：左边为：62，88，共2个数，2/2=1,取62
+第六次：左边为：88，直接取88 ，88&gt;62,为右叶子结点
+
+第七次：右边为102，123，共2个数，2/2=1，取102
+第八次：右边为123，共1个数，直接取103，123&gt;102,取右叶子结点
+
+向上取整：
+第一次：10个数，10/2 =5，5+1=6，则向上+1，取62，左边分为：15，23，38，47，55；右边分为：88，95，102，123
+第二次：左边 15，23，38，47，55： 共4个数，4/2=2,2+1=3,取38，左边分为：15，23，右边分为47，55
+第三次：左边：15，23，共2个数，2/2=1，1+1=2，取23，剩下15
+
+第四次：右边：88，95，102，123：共4个数，4/2=2,2+1=3,取102，左边分为：88，95，右边分为：123
+第五次：右边：88，95，共2个数，2/2=1,1+1=2,取95，剩下88
+</code></pre>
+
+<h3>17</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9ronmycrj20rp0ff41z.jpg" alt="img" /></p>
+
+<h3>18</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez6zgdb2qlj20nt0cbgpy.jpg" alt="img" /></p>
+
+<h3>19</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez72wv6rs1j20kc0c6ae0.jpg" alt="img" /></p>
+
+<h3>20</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9ctkk0j9j20m406m0uh.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9ctk5smjj20ie0f042a.jpg" alt="img" /></p>
+
+<h3>21</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9ctmkj82j20j70g9dkp.jpg" alt="img" /></p>
+
+<h3>22</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9px5d16aj20s60m6gsr.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-14T10:33:40+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:33 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/14/bian-yi-yuan-li-zheng-gui-shi-he-you-xian-zi-dong-ji/" title="Previous Post: 编译原理-正规式和有限自动机">&laquo; 编译原理-正规式和有限自动机</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/14/cazheng-shu-shou-quan-notes/" title="Next Post: CA证书授权notes">CA证书授权notes &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

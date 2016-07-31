@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: React | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/react/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[调试 React Native 应用]]></title>
+    <link href="http://cnbin.github.io/blog/2016/05/03/diao-shi-react-native-ying-yong/"/>
+    <updated>2016-05-03T09:11:27+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/05/03/diao-shi-react-native-ying-yong</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>访问应用程序内开发者菜单：</p>
+
+<p>在 iOS 中摇动设备或在虚拟机里按组合键 <code>control + ⌘ + z</code> .</p>
+
+<p>我在用的过程中因为开启了QQ，按了组合键没效果，因此，需要关闭QQ先。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f3hxf07tg1j20a50itgn4.jpg" alt="img" /></p>
+
+<h3>Live Reload</h3>
+
+<p>这个选项可触发 JS 在连接设备/模拟器上自动刷新。启用此选项：</p>
+
+<p>在 iOS 中，通过开发者菜单选择 <code>Enable Live Reload</code> ，当 JavaScript 有任何改动时，应用程序会自动重新加载。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://wiki.jikexueyuan.com/project/react-native/debugging.html">http://wiki.jikexueyuan.com/project/react-native/debugging.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Babel]]></title>
+    <link href="http://cnbin.github.io/blog/2016/05/01/babel/"/>
+    <updated>2016-05-01T14:07:10+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/05/01/babel</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h2>Babel is a JavaScript compiler.</h2>
+
+<h3><a href="https://babeljs.io/">https://babeljs.io/</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用React-Native开发要学习些什么呢？]]></title>
+    <link href="http://cnbin.github.io/blog/2016/04/30/shi-yong-react-nativekai-fa-yao-xue-xi-xie-shi-yao-ni/"/>
+    <updated>2016-04-30T16:34:48+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/04/30/shi-yong-react-nativekai-fa-yao-xue-xi-xie-shi-yao-ni</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<ul>
+<li>Html+CSS+JavaScript的基本功肯定是少不了；</li>
+<li>Node.js的基本概念学习。API文档：<a href="https://nodejs.org/dist/v4.2.2/docs/api/">https://nodejs.org/dist/v4.2.2/docs/api/</a></li>
+<li>JSX: JavaScript语法的一个扩展，类似XML结构。<a href="https://facebook.github.io/react/docs/jsx-in-depth.html">https://facebook.github.io/react/docs/jsx-in-depth.html</a></li>
+<li>FLUX: Facebook公司的一个创建用户客户端web程序的框架。<a href="https://facebook.github.io/flux/docs/overview.html">https://facebook.github.io/flux/docs/overview.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[React Native注意点]]></title>
+    <link href="http://cnbin.github.io/blog/2016/04/30/react-nativezhu-yi-dian/"/>
+    <updated>2016-04-30T16:26:10+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/04/30/react-nativezhu-yi-dian</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>在使用React Native的时候，经常会看到这么一段代码</p>
+
+<pre><code>var React = require('react-native');
+</code></pre>
+
+<p>那么require这个语句的作用到底是什么呢，下面的流程提取自require() 源码解读</p>
+
+<p>当遇到 require(X) 时，按下面的顺序处理。</p>
+
+<p>1）如果 X 是内置模块（比如 require(‘http’）)</p>
+
+<ol type="a">
+<li>返回该模块。
+　　</li>
+<li>不再继续执行。</li>
+</ol>
+
+
+<p>2）如果 X 以 “./” 或者 “/” 或者 “../” 开头</p>
+
+<ol type="a">
+<li><p>根据 X 所在的父模块，确定 X 的绝对路径。</p></li>
+<li><p>将 X 当成文件，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</p>
+
+<p> X</p>
+
+<p> X.js</p>
+
+<p> X.json</p>
+
+<p> X.node</p></li>
+<li><p>将 X 当成目录，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</p>
+
+<p> X/package.json（main字段）</p>
+
+<p> X/index.js</p>
+
+<p> X/index.json</p>
+
+<p> X/index.node</p></li>
+</ol>
+
+
+<p>3）如果 X 不带路径</p>
+
+<ol type="a">
+<li><p>根据 X 所在的父模块，确定 X 可能的安装目录。</p></li>
+<li><p>依次在每个目录中，将 X 当成文件名或目录名加载。</p></li>
+</ol>
+
+
+<p>4） 抛出 “not found”</p>
+
+<p>以上就是require语句的整个执行过程。那么require(‘react-native’);请求的到底是什么呢，其实就是node_modules\react-native\Libraries\react-native\react-native.js这个文件，该文件中导出了一些常用的组件</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/sbsujjbcy/article/details/49953041">http://blog.csdn.net/sbsujjbcy/article/details/49953041</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[整理了一份React-Native学习指南]]></title>
+    <link href="http://cnbin.github.io/blog/2016/04/30/zheng-li-liao-fen-react-nativexue-xi-zhi-nan/"/>
+    <updated>2016-04-30T16:08:33+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/04/30/zheng-li-liao-fen-react-nativexue-xi-zhi-nan</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>自己在学习React-Native过程中整理的一份学习指南，包含 教程、开源app和资源网站等，还在不断更新中。欢迎pull requests！</p>
+
+<p>React-Native学习指南</p>
+
+<p>本指南汇集React-Native各类学习资源，给大家提供便利。指南正在不断的更新，大家有好的资源欢迎Pull Requests！</p>
+
+<p>同时还有Awesome React-Native系列</p>
+
+<p><a href="https://github.com/jondot/awesome-react-native">https://github.com/jondot/awesome-react-native</a></p>
+
+<p>教程</p>
+
+<p>react-native 官方api文档 <a href="http://facebook.github.io/react-native/docs/getting-started.html">http://facebook.github.io/react-native/docs/getting-started.html</a></p>
+
+<p>react-native 中文api文档 (翻译中) <a href="https://github.com/ecomfe/react-native-cn">https://github.com/ecomfe/react-native-cn</a></p>
+
+<p>react.js中文文档 <a href="http://reactjs.cn/">http://reactjs.cn/</a></p>
+
+<p>react.js入门教程(gitbook) <a href="http://hulufei.gitbooks.io/react-tutorial/content/introduction.html">http://hulufei.gitbooks.io/react-tutorial/content/introduction.html</a></p>
+
+<p>react.js快速入门教程 - 阮一峰 <a href="http://www.ruanyifeng.com/blog/2015/03/react.html">http://www.ruanyifeng.com/blog/2015/03/react.html</a></p>
+
+<p>react.js视频教程 <a href="http://react.nodejs-china.org/t/reactjszhong-wen-shi-pin-jiao-cheng-bai-du-wang-pan/584">http://react.nodejs-china.org/t/reactjszhong-wen-shi-pin-jiao-cheng-bai-du-wang-pan/584</a></p>
+
+<p>react-native第一课 <a href="http://html-js.com/article/2783">http://html-js.com/article/2783</a></p>
+
+<p>深入浅出 React Native：使用 JavaScript 构建原生应用 <a href="http://zhuanlan.zhihu.com/FrontendMagazine/19996445">http://zhuanlan.zhihu.com/FrontendMagazine/19996445</a></p>
+
+<p>React Native通信机制详解 <a href="http://blog.cnbang.net/tech/2698/">http://blog.cnbang.net/tech/2698/</a></p>
+
+<p>React Native布局篇 <a href="http://segmentfault.com/a/1190000002658374">http://segmentfault.com/a/1190000002658374</a></p>
+
+<p>React Native 基础练习指北（一） <a href="http://segmentfault.com/a/1190000002645929">http://segmentfault.com/a/1190000002645929</a></p>
+
+<p>React Native 基础练习指北（二）<a href="http://segmentfault.com/a/1190000002647733">http://segmentfault.com/a/1190000002647733</a></p>
+
+<p>构建一个简单的列表页和2页导航 <a href="http://www.xn--cnq920ntha.cn/archives/235#6838470-tsina-1-17436-6a377b1a66595f9ede646cf5c012734c">http://www.xn--cnq920ntha.cn/archives/235#6838470-tsina-1-17436-6a377b1a66595f9ede646cf5c012734c</a></p>
+
+<p>Diary of Building an iOS App with React Native <a href="http://herman.asia/building-a-flashcard-app-with-react-native">http://herman.asia/building-a-flashcard-app-with-react-native</a></p>
+
+<p>Use React Native in Existing iOS App <a href="http://blog-en.leapoahead.com/post/use-react-native-in-existing-ios-app">http://blog-en.leapoahead.com/post/use-react-native-in-existing-ios-app</a></p>
+
+<p>tcomb-form-native使用视频教程(需翻墙) <a href="http://react.rocks/example/tcomb-form-native">http://react.rocks/example/tcomb-form-native</a></p>
+
+<p>开源APP</p>
+
+<p>研究源码也是一个很好的学习方式</p>
+
+<p>官方演示App <a href="https://github.com/facebook/react-native/tree/master/Examples">https://github.com/facebook/react-native/tree/master/Examples</a></p>
+
+<p>ReactNativeRubyChina <a href="https://github.com/henter/ReactNativeRubyChina">https://github.com/henter/ReactNativeRubyChina</a></p>
+
+<p>HackerNews-React-Native <a href="https://github.com/iSimar/HackerNews-React-Native">https://github.com/iSimar/HackerNews-React-Native</a></p>
+
+<p>React-Native新闻客户端 <a href="https://github.com/tabalt/ReactNativeNews">https://github.com/tabalt/ReactNativeNews</a></p>
+
+<p>newswatch(新闻客户端)<a href="https://github.com/bradoyler/newswatch-react-native">https://github.com/bradoyler/newswatch-react-native</a></p>
+
+<p>buyscreen(购买页面) <a href="https://github.com/appintheair/react-native-buyscreen">https://github.com/appintheair/react-native-buyscreen</a></p>
+
+<p>V2EX客户端 <a href="https://github.com/samuel1112/v2er">https://github.com/samuel1112/v2er</a></p>
+
+<p>react-native-todo <a href="https://github.com/joemaddalone/react-native-todo">https://github.com/joemaddalone/react-native-todo</a></p>
+
+<p>react-native-beer <a href="https://github.com/muratsu/react-native-beer">https://github.com/muratsu/react-native-beer</a></p>
+
+<p>react-native-stars <a href="https://github.com/86/react-native-stars">https://github.com/86/react-native-stars</a></p>
+
+<p>模仿天猫首页的app <a href="https://github.com/baofen14787/react-native-demo">https://github.com/baofen14787/react-native-demo</a></p>
+
+<p>ReactNativeChess <a href="https://github.com/csarsam/ReactNativeChess">https://github.com/csarsam/ReactNativeChess</a></p>
+
+<p>react native 编写的音乐软件 <a href="https://github.com/Johnqing/miumiu">https://github.com/Johnqing/miumiu</a></p>
+
+<p>react-native-pokedex <a href="https://github.com/ababol/react-native-pokedex">https://github.com/ababol/react-native-pokedex</a></p>
+
+<p>CNode-React-Native <a href="https://github.com/SFantasy/CNode-React-Native">https://github.com/SFantasy/CNode-React-Native</a></p>
+
+<p>8tracks电台客户端 <a href="https://github.com/voronianski/EightTracksReactNative">https://github.com/voronianski/EightTracksReactNative</a></p>
+
+<p>React-Native实现的计算器 <a href="https://github.com/yoxisem544/Calculator-using-React-Native">https://github.com/yoxisem544/Calculator-using-React-Native</a></p>
+
+<p>房产搜索app <a href="https://github.com/jawee/react-native-PropertyFinder">https://github.com/jawee/react-native-PropertyFinder</a></p>
+
+<p>知乎专栏app <a href="https://github.com/LeezQ/react-native-zhihu-app">https://github.com/LeezQ/react-native-zhihu-app</a></p>
+
+<p>ForeignExchangeApp <a href="https://github.com/peralmq/ForeignExchangeApp">https://github.com/peralmq/ForeignExchangeApp</a></p>
+
+<p>工具</p>
+
+<p>react-native-snippets(代码提示) <a href="https://github.com/Shrugs/react-native-snippets">https://github.com/Shrugs/react-native-snippets</a></p>
+
+<p>react-native-babel(使用ES6+) <a href="https://github.com/roman01la/react-native-babel">https://github.com/roman01la/react-native-babel</a></p>
+
+<p>资源网站</p>
+
+<p>React-native官网 <a href="http://facebook.github.io/react-native/">http://facebook.github.io/react-native/</a></p>
+
+<p>React-China社区 <a href="http://react-china.org/">http://react-china.org/</a></p>
+
+<p>React-native组件库（比较全的组件库） <a href="http://react.parts/">http://react.parts/</a></p>
+
+<p>React Native Modules <a href="http://reactnativemodules.com/">http://reactnativemodules.com/</a></p>
+
+<p>11款React Native开源移动 UI 组件 <a href="http://www.oschina.net/news/61214/11-react-native-ui-components">http://www.oschina.net/news/61214/11-react-native-ui-components</a></p>
+
+<p>业界讨论</p>
+
+<p>谈谈 React Native - 唐巧 <a href="http://blog.devtang.com/blog/2015/02/01/talk-about-react-native/">http://blog.devtang.com/blog/2015/02/01/talk-about-react-native/</a></p>
+
+<p>如何评价React-Native? <a href="http://www.zhihu.com/question/27852694/answer/43990708">http://www.zhihu.com/question/27852694/answer/43990708</a></p>
+
+<p>React Native概述：背景、规划和风险 <a href="http://div.io/topic/938">http://div.io/topic/938</a></p>
+
+<p>指南： <a href="https://github.com/ele828/react-native-guide">https://github.com/ele828/react-native-guide</a></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>csharp使用MemoryStream类读写内存 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="MemoryStream和BufferedStream都派生自基类Stream，因此它们有很多共同的属性和方法，但是每一个类都有自己独特的用法。这两个类都是实现对内存进行数据读写的功能，而不是对持久性存储器进行读写。来看本文。 和FileStream一样， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/01/28/csharpshi-yong-memorystreamlei-du-xie-nei-cun/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">csharp使用MemoryStream类读写内存</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-28T14:21:10+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:21 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>MemoryStream和BufferedStream都派生自基类Stream，因此它们有很多共同的属性和方法，但是每一个类都有自己独特的用法。这两个类都是实现对内存进行数据读写的功能，而不是对持久性存储器进行读写。来看本文。</p>
+
+<p>和FileStream一样，MemoryStream和BufferedStream都派生自基类Stream，因此它们有很多共同的属性和方法，但是每一个类都有自己独特的用法。这两个类都是实现对内存进行数据读写的功能，而不是对持久性存储器进行读写。</p>
+
+<h3>读写内存-MemoryStream类</h3>
+
+<p>MemoryStream类用于向内存而不是磁盘读写数据。MemoryStream封装以无符号字节数组形式存储的数据，该数组在创建MemoryStream对象时被初始化，或者该数组可创建为空数组。可在内存中直接访问这些封装的数据。内存流可降低应用程序中对临时缓冲区和临时文件的需要。下表列出了MemoryStream类的重要方法：</p>
+
+<p>1、Read()：读取MemoryStream流对象，将值写入缓存区。</p>
+
+<p>2、ReadByte()：从MemoryStream流中读取一个字节。</p>
+
+<p>3、Write()：将值从缓存区写入MemoryStream流对象。</p>
+
+<p>4、WriteByte()：从缓存区写入MemoytStream流对象一个字节。</p>
+
+<p>Read方法使用的语法如下：</p>
+
+<pre><code>mmstream.Read(byte[] buffer,offset,count) 
+</code></pre>
+
+<p>其中mmstream为MemoryStream类的一个流对象，3个参数中，buffer包含指定的字节数组，该数组中，从offset到(offset +count-1)之间的值由当前流中读取的字符替换。Offset是指Buffer中的字节偏移量，从此处开始读取。Count是指最多读取的字节数。Write()方法和Read()方法具有相同的参数类型。</p>
+
+<p>MemoryStream类的使用实例：</p>
+
+<pre><code>using System;  
+using System.IO;  
+using System.Text;  
+class program{  
+static void Main()  
+    {  
+    int count;  
+    byte[] byteArray;  
+    char[] charArray;  
+    UnicodeEncoding uniEncoding=new UnicodeEncoding();  
+    byte[] firstString=uniEncoding.GetBytes("努力学习");  
+    byte[] secondString=uniEncoding.GetBytes("不做C#中的菜鸟");  
+    using (MemoryStream memStream=new MemoryStream(100))  
+    {  
+        memStream.Write(firstString,0,firstString.Length);  
+        count=0;  
+        while(count&lt;secondString.Length)  
+        {  
+        memStream.WriteByte(secondString[count++]);  
+        }  
+        Console.WriteLine("Capacity={0},Length={1},Position={2}\n",memStream.Capacity.ToString(),memStream.Length.ToString(),memStream.Position.ToString());  
+        memStream.Seek(0, SeekOrigin.Begin);  
+        byteArray=new byte[memStream.Length];  
+        count=memStream.Read(byteArray,0,20);  
+        while(count&lt;memStream.Length)  
+        {  
+        byteArray[count++]=Convert.ToByte(memStream.ReadByte());  
+        }  
+        charArray=new char[uniEncoding.GetCharCount(byteArray,0,count)];  
+        uniEncoding.GetDecoder().GetChars(byteArray,0,count,charArray,0);  
+        Console.WriteLine(charArray);  
+        Console.ReadKey();  
+        }  
+    }  
+} 
+</code></pre>
+
+<p>在这个实例代码中使用了using关键字。注意：</p>
+
+<p>using 关键字有两个主要用途：</p>
+
+<p>1、作为指令，用于为命名空间创建别名或导入其他命名空间中定义的类型。</p>
+
+<p>例如:</p>
+
+<pre><code>using System; 
+</code></pre>
+
+<p>2、作为语句，用于定义一个范围，在此范围的末尾将释放对象。</p>
+
+<pre><code>using(Connection conn=new Connection(connStr))  
+{  
+}  
+
+//使用using关键字可及时销毁对象 
+</code></pre>
+
+<p>MemoryStream.Capacity 属性 取得或设定配置给这个资料流的位元组数目。</p>
+
+<p>MemoryStream.Position 属性 指定当前流的位置。</p>
+
+<p>MemoryStream.Length 属性获取用字节表示的流长度。</p>
+
+<p>SeekOrigin()是一个枚举类，作用设定流的一个参数。</p>
+
+<p>SeekOrigin.Begin我得理解就是文件的最开始，“0”是偏移，表示跳过0个字节。写2就是跳过2个字节。</p>
+
+<p>MemoryStream类通过字节读写数据。本例中定义了写入的字节数组，为了更好的说明Write和WriteByte的异同，在代码中声明了两个byte数组，其中一个数组写入时调用Write方法，通过指定该方法的三个参数实现如何写入。</p>
+
+<p>另一个数组调用了WriteByte方法，每次写入一个字节，所以采用while循环来完成全部字节的写入。写入MemoryStream后，可以检索该流的容量，实际长度，当前流的位置，将这些值输出到控制台。通过观察结果，可以确定写入MemoryStream流是否成功。</p>
+
+<p>调用Read和ReadByte两种方法读取MemoryStream流中的数据，并将其进行Unicode编码后输出到控制台。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://developer.51cto.com/art/201105/263356.htm">http://developer.51cto.com/art/201105/263356.htm</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-28T14:21:10+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:21 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/25/sqldatasourcexuan-ze-ji-lu/" title="Previous Post: SqlDataSource选择记录">&laquo; SqlDataSource选择记录</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/28/filestream/" title="Next Post: FileStream">FileStream &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

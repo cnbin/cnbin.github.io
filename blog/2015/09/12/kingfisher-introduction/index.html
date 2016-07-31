@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kingfisher Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Kingfisher is a lightweight and pure Swift implemented library for downloading and caching image from the web. This project is heavily inspired by &hellip;">
+  <meta name="keywords" content="kingfisher">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/12/kingfisher-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Kingfisher Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-12T10:13:34+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:13 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/logo.png" alt="Kingfisher" title="Kingfisher" width="557"/>
+</p>
+
+
+<p>Kingfisher is a lightweight and pure Swift implemented library for downloading and caching image from the web. This project is heavily inspired by the popular <a href="https://github.com/rs/SDWebImage">SDWebImage</a>. And it provides you a chance to use pure Swift alternation in your next app.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Everything in Kingfisher goes asynchronously, not only downloading, but also caching. That means you will never worry about blocking your UI thread.</li>
+<li>Multiple-layer cache. Downloaded images will be cached in both memory and disk. So there is no need to download again and this could boost your app dramatically.</li>
+<li>Cache management. You can set the max duration or size the cache could take. And the cache will also be cleaned automatically to prevent taking too much resource.</li>
+<li>Modern framework. Kingfisher uses <code>NSURLSession</code> and the latest technology of GCD, which makes it a strong and swift framework. It also provides you easy APIs to use.</li>
+<li>Cancelable processing task. You can cancel the downloading process if it is not needed anymore.</li>
+<li>Independent components. You can use the downloader or caching system separately. Or even create your own cache based on Kingfisher&rsquo;s code.</li>
+<li>Options to decompress the image in background before rendering it, which could improve the UI performance.</li>
+<li>Categories over <code>UIImageView</code> and <code>UIButton</code> for setting image from an URL directly.</li>
+</ul>
+
+
+<h2>Requirements</h2>
+
+<ul>
+<li>iOS 8.0+</li>
+<li>Xcode 7.0 or above</li>
+</ul>
+
+
+<h2>Installation</h2>
+
+<h3>CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects.</p>
+
+<p>CocoaPods 0.36 adds supports for Swift and embedded frameworks. You can install it with the following command:</p>
+
+<pre><code>$ gem install cocoapods
+</code></pre>
+
+<p>To integrate Kingfisher into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+
+<pre><code>source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+use_frameworks!
+
+pod 'Kingfisher', '~&gt; 1.5'
+</code></pre>
+
+<p>Then, run the following command:</p>
+
+<pre><code>$ pod install
+</code></pre>
+
+<p>You should open the <code>{Project}.xcworkspace</code> instead of the <code>{Project}.xcodeproj</code> after you installed anything from CocoaPods.</p>
+
+<p>For more information about how to use CocoaPods, I suggest <a href="http://www.raywenderlich.com/64546/introduction-to-cocoapods-2">this tutorial</a>.</p>
+
+<h3>Carthage</h3>
+
+<p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager for Cocoa application. To install the carthage tool, you can use <a href="http://brew.sh">Homebrew</a>.</p>
+
+<pre><code>$ brew update
+$ brew install carthage
+</code></pre>
+
+<p>To integrate Kingfisher into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
+
+<pre><code>github "onevcat/Kingfisher" &gt;= 1.5
+</code></pre>
+
+<p>Then, run the following command to build the Kingfisher framework:</p>
+
+<pre><code>$ carthage update
+</code></pre>
+
+<p>At last, you need to set up your Xcode project manually to add the Kingfisher framework.</p>
+
+<p>On your application targets’ “General” settings tab, in the “Linked Frameworks and Libraries” section, drag and drop each framework you want to use from the Carthage/Build folder on disk.</p>
+
+<p>On your application targets’ “Build Phases” settings tab, click the “+” icon and choose “New Run Script Phase”. Create a Run Script with the following content:</p>
+
+<pre><code>/usr/local/bin/carthage copy-frameworks
+</code></pre>
+
+<p>and add the paths to the frameworks you want to use under “Input Files”:</p>
+
+<pre><code>$(SRCROOT)/Carthage/Build/iOS/Kingfisher.framework
+</code></pre>
+
+<p>For more information about how to use Carthage, please see its <a href="https://github.com/Carthage/Carthage">project page</a>.</p>
+
+<h3>Manually</h3>
+
+<p>It is not recommended to install the framework manually, but if you prefer not to use either of the aforementioned dependency managers, you can integrate Kingfisher into your project manually. A regular way to use Kingfisher in your project would be using Embedded Framework.</p>
+
+<ul>
+<li>Add Kingfisher as a <a href="http://git-scm.com/docs/git-submodule">submodule</a>. In your favorite terminal, <code>cd</code> into your top-level project directory, and entering the following command:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git submodule add https://github.com/onevcat/Kingfisher.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Open the <code>Kingfisher</code> folder, and drag <code>Kingfisher.xcodeproj</code> into the file navigator of your app project, under your app project.</li>
+<li>In Xcode, navigate to the target configuration window by clicking on the blue project icon, and selecting the application target under the &ldquo;Targets&rdquo; heading in the sidebar.</li>
+<li>In the tab bar at the top of that window, open the &ldquo;Build Phases&rdquo; panel.</li>
+<li>Expand the &ldquo;Target Dependencies&rdquo; group, and add <code>Kingfisher.framework</code>.</li>
+<li>Click on the <code>+</code> button at the top left of &ldquo;Build Phases&rdquo; panel and select &ldquo;New Copy Files Phase&rdquo;. Rename this new phase to &ldquo;Copy Frameworks&rdquo;, set the &ldquo;Destination&rdquo; to &ldquo;Frameworks&rdquo;, and add <code>Kingfisher.framework</code>.</li>
+</ul>
+
+
+<h2>Usage</h2>
+
+<p>You can find the full API documentation at <a href="http://cocoadocs.org/docsets/Kingfisher/">CocoaDocs</a>.</p>
+
+<h3>UIImageView category</h3>
+
+<p>Use Kingfisher in your project is as easy as a pie. You can use the <code>UIImageView</code> category and trust Kingfisher to manage downloading and cache images.</p>
+
+<h4>Basic</h4>
+
+<p>In your source files, add the following code:</p>
+
+<pre><code>import Kingfisher
+
+imageView.kf_setImageWithURL(NSURL(string: "http://your_image_url.png")!)
+</code></pre>
+
+<p>In most cases, Kingfisher is used in a reusable cell. Since the downloading process is asynchronous, the earlier image will be remained during the downloading of newer one. The placeholder version of this API could help:</p>
+
+<pre><code>imageView.kf_setImageWithURL(NSURL(string: "http://your_image_url.png")!, placeholderImage: nil)
+</code></pre>
+
+<p>By default, <code>Kingfisher</code> will use <code>absoluteString</code> of the URL as the key for cache. If you need another key instead of URL&rsquo;s <code>absoluteString</code>, there is another set of APIs accepting <code>Resource</code> as parameter:</p>
+
+<pre><code>let URL = NSURL(string: "http://your_image_url.png")!
+let resource = Resource(downloadURL: URL, cacheKey: "your_customized_key")
+
+imageView.kf_setImageWithResource(resource)
+</code></pre>
+
+<p>It will ask Kingfisher&rsquo;s manager to get the image for the &ldquo;your_customized_key&rdquo; from memory and disk first. If the manager does not find it, it will try to download the image at the URL, and store it with <code>cacheKey</code> (&ldquo;your_customized_key&rdquo; here) for next use.</p>
+
+<h4>Options</h4>
+
+<p>Kingfisher will search in cache (both memory and disk) first with the URL, if no image found, it will try to download and store the image in the cache. You can change this behavior by passing an option dictionary, to let it ignore the cache.</p>
+
+<pre><code>imageView.kf_setImageWithURL(NSURL(string: "your_image_url")!,
+                         placeholderImage: nil,
+                              optionsInfo: [.Options: KingfisherOptions.ForceRefresh])
+</code></pre>
+
+<p>There are also other options to control the cache level, downloading priority, etc. Take another example, if you need to cache the downloaded image to a customized cache instead of the default one:</p>
+
+<pre><code>let myCache = ImageCache(name: "my_cache")
+
+imageView.kf_setImageWithURL(NSURL(string: "your_image_url")!,
+                         placeholderImage: nil,
+                              optionsInfo: [.TargetCache: myCache])
+</code></pre>
+
+<p>This is useful if you want to use a specified cache for some reasons. For more information about options, please see the <code>KingfisherOptionsInfo</code> in the <a href="http://cocoadocs.org/docsets/Kingfisher/index.html">documentation</a>.</p>
+
+<h4>Callbacks</h4>
+
+<p>You can get a chance during Kingfisher downloading images and when the process is done:</p>
+
+<pre><code>imageView.kf_setImageWithURL(NSURL(string: "your_image_url")!,
+                         placeholderImage: nil,
+                              optionsInfo: nil,
+                            progressBlock: { (receivedSize, totalSize) -&gt; () in
+                                println("Download Progress: \(receivedSize)/\(totalSize)")
+                            },
+                        completionHandler: { (image, error, imageURL) -&gt; () in
+                            println("Downloaded and set!")
+                        }
+)
+</code></pre>
+
+<h4>Cancel Task</h4>
+
+<p>All <code>kf_setImageWithURL</code> methods return a <code>RetrieveImageTask</code> object. You can <code>cancel</code> the task if the images are not needed.</p>
+
+<pre><code>let task = imageView.kf_setImageWithURL(NSURL(string: "http://your_image_url.png")!)
+task.cancel()
+
+// The image retrieving will stop.
+</code></pre>
+
+<p>There is a category for <code>UIButton</code> as well.</p>
+
+<h3>Downloader &amp; Cache system</h3>
+
+<p>Kingfisher will use the default downloader and cache if you do not specify them by yourself. You can access them by using <code>KingfisherManager.sharedManager.downloader</code> and <code>KingfisherManager.sharedManager.cache</code>. You can adjust some parameters to meet your demands:</p>
+
+<pre><code>let downloader = KingfisherManager.sharedManager.downloader
+
+// Download process will timeout after 5 seconds. Default is 15.
+downloader.downloadTimeout = 5
+
+// requestModifier will be called before image download request made.
+downloader.requestModifier = {
+    (request: NSMutableURLRequest) in
+    // Do what you need to modify the download request. Maybe add your HTTP basic authentication for example.
+}
+
+// Hosts in trustedHosts will be ignore the received challenge.
+// You can add the host of your self-signed site to it to bypass the SSL.
+// (Do not do it unless you know what you are doing)
+downloader.trustedHosts = Set(["your_self_signed_host"])
+
+
+let cache = KingfisherManager.sharedManager.cache
+
+// Set max disk cache to 50 mb. Default is no limit.
+cache.maxDiskCacheSize = 50 * 1024 * 1024
+
+// Set max disk cache to duration to 3 days, Default is 1 week.
+cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
+
+// Get the disk size taken by the cache.
+cache.calculateDiskCacheSizeWithCompletionHandler { (size) -&gt; () in
+    println("disk size in bytes: \(size)")
+}
+</code></pre>
+
+<p>The memory cache will be purged whenever the app switched to background or receiving a memory warning. Disk cache will be cleaned when the conditions are met. You can also clear these caches manually:</p>
+
+<pre><code>// Clear memory cache right away.
+cache.clearMemoryCache()
+
+// Clear disk cache. This is an async operation.
+cache.clearDiskCache()
+
+// Clean expired or size exceeded disk cache. This is an async operation.
+cache.cleanExpiredDiskCache()
+</code></pre>
+
+<h2>Future of Kingfisher</h2>
+
+<p>I want to keep Kingfisher slim. This framework will focus on providing a simple solution for image downloading and caching. But that does not mean the framework will not be improved. Kingfisher is far away from perfect, and necessary and useful features will be added later to make it better.</p>
+
+<h2>About the logo</h2>
+
+<p>The logo of Kingfisher is inspired by <a href="http://en.wikipedia.org/wiki/Tangram">Tangram (七巧板)</a>, a dissection puzzle consisting of seven flat shapes from China. I believe she&rsquo;s a kingfisher bird instead of a swift, but someone insists that she is a pigeon. I guess I should give her a name. Hi, guys, do you have any suggestion?</p>
+
+<h2>License</h2>
+
+<p>Kingfisher is released under the MIT license. See LICENSE for details.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-12T10:13:34+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:13 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/12/irate-introduction/" title="Previous Post: iRate Introduction">&laquo; iRate Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/12/swipeview-introduction/" title="Next Post: SwipeView Introduction">SwipeView Introduction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

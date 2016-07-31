@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Fink ，macports 和 Homebrew 比较 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Fink，Macports 和 Homebrew 是3个主流的 package management tool。 1.Fink Fink 是基于 Debian 的 packaging tools 开发的。最大的特点是安装软件是预编译好的 (pre-compiled/pre-built)。
+所以， &hellip;">
+  <meta name="keywords" content="fink,macports,homebrew">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/03/fink-,macports-he-homebrew-bi-jiao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Fink ，macports 和 Homebrew 比较</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-03T11:53:48+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:53 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Fink，Macports 和 Homebrew 是3个主流的 <strong>package management tool</strong>。</p>
+
+<h2>1.Fink</h2>
+
+<p>Fink 是基于 Debian 的 packaging tools 开发的。最大的特点是安装软件是预编译好的 (pre-compiled/pre-built)。
+所以，用 Fink 安装 package 是不需要在本机编译的，都是现成的 binary code。</p>
+
+<p>Fink 最大的问题是 package 跟进不够快。很多最新版的软件，你要等 Fink 。</p>
+
+<h2>2.Macports</h2>
+
+<p>Mac 算是 BSD 的一个变种。所以，BSD 的包管理软件 port 被移植到 Mac 上就显的理所当然了。</p>
+
+<p>macports 的工作方式是下载 source code 然后在本地编译。macport 的理念是尽量减少对系统现有库的依赖。
+所以，第一次用 macport 的时候，需要很长时间让 macport 重新 build 整个基本库，什么 perl 啊，python 啊的。</p>
+
+<p>代价是较长的编译时间，较多的依赖关系下载。好处是不怎么依赖系统，也就是说，更新 Mac OS 不会破坏你现有的 package。</p>
+
+<p>另外，macports 安装所有的 package 到 <strong>/opt/local</strong> 下面。这样不会和系统现有的 <strong>/usr/local</strong> 有什么冲突。</p>
+
+<h2>3.Homebrew</h2>
+
+<p>这个比较新，是在 Lion 之后才兴起的。</p>
+
+<p>工作方式和 macport 类似，也是下载 source 并在本地编译安装。但是和 macports 有两个根本的区别。</p>
+
+<ol>
+<li>Homebrew 的理念是尽量使用系统现有的库。这样可以大大的减少编译时间。</li>
+<li>package 都安装到 <strong>/usr/local</strong> 下面。</li>
+</ol>
+
+
+<p>这两点和 macports 是完全相反的。结果也是有利有弊。</p>
+
+<p>最大的好处莫过于编译时间变短，安装简单。问题就是和系统紧密依赖。</p>
+
+<p>另外 Homebrew 假设你的Mac是单用户系统，所以 <strong>/usr/local</strong> 的 owner 应该是你，而不是传统的 root。</p>
+
+<p>这个假设在大多数情况下都成立。</p>
+
+<p>（当然你可以改变 Homebrew 的安装路径，然后修改你的 <strong>PATH</strong>）</p>
+
+<p>另外，一个不太重要的区别，macport 是用 <strong>rsync</strong> 来同步 repository tree 和获取新的 package 的。</p>
+
+<p>Homebrew 是用 <strong>git</strong> 来管理 repository 的。
+如果你是在内部网或者 firewall 后通过 <strong>proxy</strong> 使用，这点可能会给你带来影响&ndash;一些 proxy 不支持 rsync 的。</p>
+
+<h2>总结</h2>
+
+<ol>
+<li>少用或者不用 Fink 。</li>
+<li>如果你是重量级的 Linux 用户，希望使用所有的 open source package，那么 macports 是你不二的选择。</li>
+<li>如果你只希望很快的安装一些便利的工具，那么 homebrew 是个不错的选择。</li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-03T11:53:48+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:53 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/03/ios-nsuserdefaults/" title="Previous Post: iOS-NSUserDefaults">&laquo; iOS-NSUserDefaults</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/03/vim-cha-jian-pei-zhi-he-shi-yong/" title="Next Post: Vim 插件配置和使用">Vim 插件配置和使用 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

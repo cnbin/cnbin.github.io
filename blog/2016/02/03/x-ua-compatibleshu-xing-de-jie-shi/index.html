@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>X-UA-Compatible属性的解释 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="问题描述： 代码如下: &lt;meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" /&gt; 1、这个到底是什么意思？ 2、一些示例使用”,”分离IE的版本，而一些使用”；“，哪个正确？ 3、我想知道IE= &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/03/x-ua-compatibleshu-xing-de-jie-shi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">X-UA-Compatible属性的解释</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-03T15:58:45+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>3:58 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>问题描述：</p>
+
+<p>代码如下:</p>
+
+<pre><code>&lt;meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" /&gt;
+</code></pre>
+
+<p>1、这个到底是什么意思？</p>
+
+<p>2、一些示例使用”,”分离IE的版本，而一些使用”；“，哪个正确？</p>
+
+<p>3、我想知道IE=9; IE=8; IE=7; IE=EDGE顺序的含义。</p>
+
+<p>在文档中使用了<code>&lt;!DOCTYPE&gt;</code></p>
+
+<p>答复：</p>
+
+<p>对于IE8及以上版本，例如：</p>
+
+<p>代码如下:</p>
+
+<pre><code>&lt;meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7" /&gt;
+</code></pre>
+
+<p>强制浏览器按照特定的版本标准进行渲染。但不支持IE7及以下版本。如果用分号（；）分隔，对于不同的浏览器版本就有不同的兼容性，例如</p>
+
+<p>代码如下:</p>
+
+<pre><code>&lt;meta http-equiv="X-UA-Compatible" content="IE=7; IE=9" /&gt;
+</code></pre>
+
+<p>以上就表明，将IE8和IE7按照IE7标准渲染，但是IE9还是按照IE9的标准渲染。它允许有不同的向后兼容水平。尽管在真实情况中，你只要选择一种版本：</p>
+
+<p>代码如下:</p>
+
+<pre><code>&lt;meta http-equiv="X-UA-Compatible" content="IE=8" /&gt;
+</code></pre>
+
+<p>这对于测试和维护会更加简单。而通常更加有用的方式就是进行仿真模拟</p>
+
+<p>代码如下:</p>
+
+<pre><code>&lt;meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" /&gt;
+</code></pre>
+
+<p>对于IE=EDGE</p>
+
+<p>代码如下:</p>
+
+<pre><code>&lt;meta http-equiv="X-UA-Compatible" content="IE=Edge" /&gt;
+</code></pre>
+
+<p>这意味着，会强制浏览器按照最新的标准去渲染。就像在Google’s CDN使用最新版本的JQuery一样，这是按照最新版本，但也可能由于没有固定的版本而破坏你的布局。</p>
+
+<p>最后，考虑下面这个</p>
+
+<p>代码如下:</p>
+
+<pre><code>&lt;meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" /&gt;
+</code></pre>
+
+<p>添加”chrome=1“将允许站点在使用了谷歌浏览器内嵌框架（Chrome Frame）的客户端渲染，对于没有使用的，则没有任何影响。</p>
+
+<p>代码如下:</p>
+
+<p>For more information, there is plenty to read here, and if you want to learn about ChromeFrame (which I recommend) you can learn about its implementation here.</p>
+
+<p>PS:X-UA-Compatible是针对 IE8 版本的一个特殊文件头标记，用于为 IE8 指定不同的页面渲染模式，对于ie8之外的浏览器是不识别的。</p>
+
+<p>目前绝大多数网站都用<code>&lt;meta http-equiv=”X-UA-Compatible” content=”IE=EmulateIE7″ &gt;</code>来作为IE8的兼容方法。为了避免制作出的页面在IE8下面出现错误，建议直接将IE8使用IE7进行渲染。也就是直接在页面的header的meta标签中加入如下代码：</p>
+
+<p>代码如下:</p>
+
+<pre><code>&lt;meta http-equiv=”X-UA-Compatible” content=”IE=7″ /&gt;&lt;/p&gt; &lt;p&gt;&lt;meta http-equiv=”X-UA-Compatible” content=”IE=EmulateIE7″ &gt;&lt;/p&gt; &lt;p&gt;&lt;meta http-equiv=”X-UA-Compatible” content=”IE=EmulateIE8″ &gt;
+</code></pre>
+
+<p>但是<code>&lt;meta http-equiv=”X-UA-Compatible” content=”IE=EmulateIE7″ &gt;</code>仍然是首选。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.3lian.com/edu/2014/10-10/171025.html">http://www.3lian.com/edu/2014/10-10/171025.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-03T15:58:45+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>3:58 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/03/ke-hu-duan-(liu-lan-qi-)cong-fu-wu-qi-qing-qiu-shu-ju-jing-li/" title="Previous Post: 客户端（浏览器）从服务器请求数据经历">&laquo; 客户端（浏览器）从服务器请求数据经历</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/03/xmlhttprequest/" title="Next Post: XMLHttpRequest">XMLHttpRequest &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

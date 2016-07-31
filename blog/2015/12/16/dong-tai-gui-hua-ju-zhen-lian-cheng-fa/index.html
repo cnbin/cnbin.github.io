@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>动态规划-矩阵链乘法 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="给定一个矩阵序列&lt;A1,A2,…,An>，计算乘积A1A2…An。要求找出一个加全部括号的方式，使得标量乘法的次数最小。 加全部括号： 性质1，A1A2…An相乘，必须满足前一个矩阵的列数等于后一个矩阵的行数。 证明：假设Ai的列数为pi，i=1,…,n。下面我们来看各矩阵的行数。 当n= &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/16/dong-tai-gui-hua-ju-zhen-lian-cheng-fa/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">动态规划-矩阵链乘法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-16T12:32:47+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:32 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>给定一个矩阵序列&lt;A1,A2,…,An>，计算乘积A1A2…An。要求找出一个加全部括号的方式，使得标量乘法的次数最小。</p>
+
+<p>加全部括号：</p>
+
+<h3>性质1，A1A2…An相乘，必须满足前一个矩阵的列数等于后一个矩阵的行数。</h3>
+
+<p>证明：假设Ai的列数为pi，i=1,…,n。下面我们来看各矩阵的行数。</p>
+
+<p>当n=2时，根据矩阵乘法的定义可知，A1的列数等于A2的行数。因此，A2的行数等于p1。</p>
+
+<p>当n=3时，因为A1A2相乘得到的新矩阵的列数为p2，而A1A2和A3可以相乘，因此A3的行数为p2。
+依次类推，Ai(i≥2)的行数为pi-1，得证。</p>
+
+<h3>性质2，序列中的任何n个相邻矩阵都可以直接相乘，n≥2。</h3>
+
+<p>证明：</p>
+
+<p>根据性质1可知，任意两个相邻矩阵都可以相乘，即n=2时，满足上述性质。</p>
+
+<p>n=3时，假设我们选择任意相邻矩阵Ai-1AiAi+1，根据矩阵性质，Ai-1Ai得到的新矩阵为pi-2×pi，而Ai+1为pi×pi+1，因此Ai-1Ai得到的矩阵可以与Ai+1相乘，即Ai-1AiAi+1可以相乘。由于这三个矩阵是任意选择的，因此，n=3时，满足上述性质。</p>
+
+<p>依次类推，对于任意n>=2，均满足上述性质。得证。</p>
+
+<p>加全部括号具体步骤如下：</p>
+
+<ul>
+<li>步骤一：选取相邻的两个矩阵，加括号；</li>
+<li>步骤二：将步骤一中的括号看做一个新的矩阵，放回原先位置，得到一个新的序列；</li>
+<li>步骤三：如果新序列中矩阵个数等于1，则结束，否则，返回步骤一。</li>
+</ul>
+
+
+<p>也可以按照下面步骤进行加括号：</p>
+
+<ul>
+<li>步骤一：如果当前序列只有一个矩阵，则不需加括号，否则将整个序列最外层加一个括号，使其成为一个新序列；</li>
+<li>步骤二：检查序列里面是否有两个以上矩阵；</li>
+<li>步骤三：如果是，则在这些矩阵中找一个分界点，将其分为两个新序列，对这两个新序列分别从步骤一开始重复执行上述步骤。</li>
+</ul>
+
+
+<p>对于任意两个矩阵AiAi+1相乘，其乘法次数为pi-1pi pi+1，不同的加全部括号，所需要的乘法次数可能相差很大。</p>
+
+<h2>假设现在有三个矩阵A1A2A3相乘，维数分别为：10×100，100×5，5×50。</h2>
+
+<h3>1、如果我们采用如下方式加全部括号：</h3>
+
+<pre><code>(（A1A2）A3)
+</code></pre>
+
+<p>则</p>
+
+<p>首先计算（A1A2），乘法次数为p0p1p2，得到新矩阵的维数为p0×p2</p>
+
+<p>计算(（A1A2）A3)，乘法次数为p0p2p3，</p>
+
+<p>总的计算次数为p0p1p2+ p0p2p3=10×100×5+10×5×50=7500</p>
+
+<h3>2、如果我们采用如下方式加全部括号：</h3>
+
+<pre><code>(A1（A2 A3）)
+</code></pre>
+
+<p>则</p>
+
+<p>首先计算（A2 A3），乘法次数为p1 p2 p3，得到新矩阵的维数为p1× p3</p>
+
+<p>计算(A1（A2 A3）)，乘法次数为p0p1 p3，</p>
+
+<p>总的计算次数为p1 p2 p3+ p0p1 p3=100×5×50+10×100×50=75000</p>
+
+<p>第二种方式需要的次数是第一种的10倍！</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-16T12:32:47+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:32 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/15/suan-fa-tu-jie-bu-fen/" title="Previous Post: 算法图解部分">&laquo; 算法图解部分</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/17/dong-tai-gui-hua-ju-zhen-lian-cheng-an-li/" title="Next Post: 动态规划矩阵链乘案例分析">动态规划矩阵链乘案例分析 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

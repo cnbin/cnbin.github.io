@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Shell 脚本中的常见特殊符号 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1、{} 大括号： 用法一：通配符扩展 eg: ls my_{finger,toe}s 这条命令相当于如下命令的组合： ls my_fingers my_toes
+eg: mkdir {userA,userB,userC}-{home,bin,data} 我们将得到 userA-home, &hellip;">
+  <meta name="keywords" content="linux,shell">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/22/shell-jiao-ben-zhong-de-chang-jian-te-shu-fu-hao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Shell 脚本中的常见特殊符号</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-22T11:21:07+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:21 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>1、{} 大括号：</h3>
+
+<h4>用法一：通配符扩展</h4>
+
+<pre><code>eg: ls my_{finger,toe}s
+</code></pre>
+
+<p>这条命令相当于如下命令的组合：</p>
+
+<pre><code>ls my_fingers my_toes
+eg: mkdir {userA,userB,userC}-{home,bin,data}
+</code></pre>
+
+<p>我们将得到 <code>userA-home, userA-bin, userA-data, userB-home, userB-bin,userB-data,userC-home, userC-bin, userC-data</code>，这几个目录。</p>
+
+<h4>用法二：可用于语句块的构造，语句之间用回车隔开。</h4>
+
+<p>如果你想在某些使用单个语句的地方（比如在 AND 或 OR 列表中）使用多条语句，你可以把它们括在花括号 <code>{}</code> 中来构造一个语句块。</p>
+
+<pre><code>eg:
+{
+grep -v "$cdcatnum" $strack_file &gt; $temp_file
+cat $temp_file &gt; $strack_file
+echo
+cat -n file1
+} (注：以上大括号中的四句命令够成了一个语句块)
+</code></pre>
+
+<h4>用法三：参数扩展</h4>
+
+<pre><code>${name:-default} 使用一个默认值（一般是空值）来代替那些空的或者没有赋值的变量name；
+${name:=default}使用指定值来代替空的或者没有赋值的变量name；
+${name:?message}如果变量为空或者未赋值，那么就会显示出错误信息并中止脚本的执行同时返回退出码1。
+${#name} 给出name的长度
+${name%word} 从name的尾部开始删除与word匹配的最小部分，然后返回剩余部分
+${name%%word} 从name的尾部开始删除与word匹配的最长部分，然后返回剩余部分
+${name#word} 从name的头部开始删除与word匹配的最小部分，然后返回剩余部分
+${name##word} 从name的头部开始删除与word匹配的最长部分，然后返回剩余部分
+（注，name为变量名，word为要匹配的字符串）
+</code></pre>
+
+<p>用法三在处理字符串和未知变量时，是很有用的。</p>
+
+<h3>2、'string' 单引号 和 &ldquo;string&rdquo; 双引号</h3>
+
+<p>双引号：如果想在定义的变量中加入空格，就必须使用单引号或双引号，</p>
+
+<p>单、双引号的区别在于双引号转义特殊字符而单引号不转义特殊字符</p>
+
+<pre><code>eg: $ heyyou=home
+$ echo '$heyyou'
+$ $heyyou （$没有转义）
+eg: $ heyyou=home
+$ echo "$heyyou"
+$ home （很明显，$转义了输出了heyyou变量的值）
+</code></pre>
+
+<h3>3、$#</h3>
+
+<p>它的作用是告诉你引用变量的总数量是多少</p>
+
+<pre><code>$$ 它的作用是告诉你shell脚本的进程号；
+$* 以一个单字符串显示所有的脚本传递的参数。等价于$1 $2 $3.......；
+$@ 与$*基本类似（参见序号7），但在数组赋值时有些不同；
+$? 前一个命令的退出码；
+$- 显示shell使用的当前选项；
+$! 最后一个后台运行的进程ID号。
+</code></pre>
+
+<h3>4、$((&hellip;))语法：</h3>
+
+<p>对括号内的表达式求值</p>
+
+<pre><code>eg:
+#!/bin/sh
+x=0
+hile [ "$x" -ne 10 ];do
+echo $x
+x=$(($x+1))
+done
+exit 0
+</code></pre>
+
+<h3>5、shell 中几种特殊的参数变量的引用</h3>
+
+<ul>
+<li><code>$1、$2、$3……${10}、${11}、${12}……</code> ：表示脚本传入的的各个参数，注意当需表示两位数以后的参数时数字要用花括号括起。</li>
+<li><code>$@</code> 列出所有的参数，各参数用空格隔开</li>
+<li><code>$*</code>: 列出所有的参数，各参数用环境变量IFS的第一个字符隔开</li>
+</ul>
+
+
+<h3>6、命令列表：</h3>
+
+<p>AND 列表 <code>statement1 &amp;&amp; statement2 &amp;&amp; statement3 &amp;&amp; …</code>:只有在前面所有的命令都执行成功的情况下才执行后一条命令</p>
+
+<p>OR 列表 <code>statement1 || statement2 || statement3 || …</code>:允许执行一系列命令直到有一条命令成功为止，其后所有命令将不再被执行</p>
+
+<pre><code>eg:#!/bin/sh
+touch file_one
+rm -f file_two
+if [ -f file_one ] &amp;&amp; echo "hello" &amp;&amp; [ -f file_two ] &amp;&amp; echo " there"
+then
+echo "in if"
+else
+echo "in else"
+fi
+exit 0
+</code></pre>
+
+<p>上例的输出为：</p>
+
+<pre><code>hello
+in else
+</code></pre>
+
+<p>关于 AND 列表与 OR 列表，在逻辑判断中很使用，下面就举一个其最常用的例子：</p>
+
+<pre><code>[ condition ] &amp;&amp; command for true || command for false:
+当条件为真时，执行commandfor true ,当条件为假时，执行command for false
+</code></pre>
+
+<h3>7、: 冒号：</h3>
+
+<p>内建空指令，返回值为0</p>
+
+<pre><code>eg: $ :
+$ echo $?
+$ 0
+while: (该语句结构可实现一个无限循环)
+</code></pre>
+
+<h3>8、; 分号：</h3>
+
+<p> 在 shell 中，担任"连续指令"功能的符号就是"分号"</p>
+
+<pre><code>eg:cd ~/backup ; mkdir startup ; cp ~/.* startup/.
+</code></pre>
+
+<h3>9、# 井号：</h3>
+
+<p>表示符号后面的是注解文字，不会被执行；</p>
+
+<h3>10、\ 倒斜线：</h3>
+
+<ul>
+<li>放在指令前，有取消 aliases（别名） 的作用；</li>
+<li>放在特殊符号前，则该特殊符号的作用消失；</li>
+<li>放在指令的最末端，表示指令连接下一行（使得回车符无效，只起换行作用）</li>
+</ul>
+
+
+<h3>11、! 感叹号：</h3>
+
+<p>通常它代表反逻辑的作用，譬如条件侦测中，用 <code>!=</code> 来代表"不等于"</p>
+
+<h3>12、** 次方运算：</h3>
+
+<p>两个星号在运算时代表 &ldquo;次方&rdquo; 的意思</p>
+
+<pre><code>eg:let "sus=2**3"
+echo "sus = $sus"
+$ sus = 8 
+</code></pre>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="https://linux.cn/article-5657-1.html">https://linux.cn/article-5657-1.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-22T11:21:07+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:21 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/22/linux-vim-shi-yong/" title="Previous Post: Linux - Vim 使用">&laquo; Linux - Vim 使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/22/zhi-qing-chun-5/" title="Next Post: 致青春-5">致青春-5 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

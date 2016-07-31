@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JQuery - fancyBox - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="fancyBox fancyBox is a tool that offers a nice and elegant way to add zooming functionality for images, html content and multi-media on your &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/23/JQuery-fancyBox/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JQuery - fancyBox</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T09:01:29+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:01 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>fancyBox</h1>
+
+<p>fancyBox is a tool that offers a nice and elegant way to add zooming functionality for images, html content and multi-media on your webpages.</p>
+
+<p>More information and examples: <a href="http://www.fancyapps.com/fancybox/">http://www.fancyapps.com/fancybox/</a></p>
+
+<p>License: <a href="http://www.fancyapps.com/fancybox/#license">http://www.fancyapps.com/fancybox/#license</a></p>
+
+<p>Copyright &copy; 2012 Janis Skarnelis - <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x6a;&#x61;&#110;&#105;&#115;&#64;&#x66;&#97;&#x6e;&#99;&#121;&#x61;&#112;&#x70;&#115;&#46;&#99;&#x6f;&#x6d;">&#x6a;&#97;&#x6e;&#105;&#x73;&#64;&#x66;&#97;&#110;&#99;&#x79;&#x61;&#112;&#112;&#x73;&#46;&#99;&#x6f;&#x6d;</a></p>
+
+<h2>How to use</h2>
+
+<p>To get started, download the plugin, unzip it and copy files to your website/application directory.
+Load files in the <head> section of your HTML document. Make sure you also add the jQuery library.</p>
+
+<pre><code>&lt;head&gt;
+    &lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"&gt;&lt;/script&gt;
+    &lt;link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css" media="screen" /&gt;
+    &lt;script type="text/javascript" src="/fancybox/jquery.fancybox.pack.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+
+<p>Create your links with a <code>title</code> if you want a title to be shown, and add a class:</p>
+
+<pre><code>&lt;a href="large_image.jpg" class="fancybox" title="Sample title"&gt;&lt;img src="small_image.jpg" /&gt;&lt;/a&gt;
+</code></pre>
+
+<p>If you have a set of related items that you would like to group,
+additionally include a group name in the <code>rel</code> (or <code>data-fancybox-group</code>) attribute:</p>
+
+<pre><code>&lt;a href="large_1.jpg" class="fancybox" rel="gallery" title="Sample title 1"&gt;&lt;img src="small_1.jpg" /&gt;&lt;/a&gt;
+&lt;a href="large_2.jpg" class="fancybox" rel="gallery" title="Sample title 1"&gt;&lt;img src="small_2.jpg" /&gt;&lt;/a&gt;
+</code></pre>
+
+<p>Initialise the script like this:</p>
+
+<pre><code>&lt;script&gt;
+    $(document).ready(function() {
+        $('.fancybox').fancybox();
+    });
+&lt;/script&gt;
+</code></pre>
+
+<p>May also be passed an optional options object which will extend the default values. Example:</p>
+
+<pre><code>&lt;script&gt;
+    $(document).ready(function() {
+        $('.fancybox').fancybox({
+            padding : 0,
+            openEffect  : 'elastic'
+        });
+    });
+&lt;/script&gt;
+</code></pre>
+
+<p>Tip: Automatically group and apply fancyBox to all images:</p>
+
+<pre><code>$("a[href$='.jpg'],a[href$='.jpeg'],a[href$='.png'],a[href$='.gif']").attr('rel', 'gallery').fancybox();
+</code></pre>
+
+<p>Script uses the <code>href</code> attribute of the matched elements to obtain the location of the content and to figure out content type you want to display.
+You can specify type directly by adding classname (fancybox.image, fancybox.iframe, etc) or <code>data-fancybox-type</code> attribute:</p>
+
+<pre><code>//Ajax:
+&lt;a href="/example.html" class="fancybox fancybox.ajax"&gt;Example&lt;/a&gt;
+//or
+&lt;a href="/example.html" class="fancybox" data-fancybox-type="ajax"&gt;Example&lt;/a&gt;
+
+//Iframe:
+&lt;a href="example.html" class="fancybox fancybox.iframe"&gt;Example&lt;/a&gt;
+
+//Inline (will display an element with `id="example"`)
+&lt;a href="#example" class="fancybox"&gt;Example&lt;/a&gt;
+
+//SWF:
+&lt;a href="example.swf" class="fancybox"&gt;Example&lt;/a&gt;
+
+//Image:
+&lt;a href="example.jpg" class="fancybox"&gt;Example&lt;/a&gt;
+</code></pre>
+
+<p>Note, ajax requests are subject to the <a href="http://en.wikipedia.org/wiki/Same_origin_policy">same origin policy</a>.
+If fancyBox will not be able to get content type, it will try to guess based on &lsquo;href&rsquo; and will quit silently if would not succeed.
+(this is different from previsous versions where &lsquo;ajax&rsquo; was used as default type or an error message was displayed).</p>
+
+<h2>Advanced</h2>
+
+<h3>Helpers</h3>
+
+<p>Helpers provide a simple mechanism to extend the capabilities of fancyBox. There are two built-in helpers - &lsquo;overlay&rsquo; and &lsquo;title&rsquo;.
+You can disable them, set custom options or enable other helpers. Examples:</p>
+
+<pre><code>//Disable title helper
+$(".fancybox").fancybox({
+    helpers:  {
+        title:  null
+    }
+});
+
+//Disable overlay helper
+$(".fancybox").fancybox({
+    helpers:  {
+        overlay : null
+    }
+});
+
+//Change title position and overlay color
+$(".fancybox").fancybox({
+    helpers:  {
+        title : {
+            type : 'inside'
+        },
+        overlay : {
+            css : {
+                'background' : 'rgba(255,255,255,0.5)'
+            }
+        }
+    }
+});
+
+//Enable thumbnail helper and set custom options
+$(".fancybox").fancybox({
+    helpers:  {
+        thumbs : {
+            width: 50,
+            height: 50
+        }
+    }
+});
+</code></pre>
+
+<h3>API</h3>
+
+<p>Also available are event driven callback methods.  The <code>this</code> keyword refers to the current or upcoming object (depends on callback method). Here is how you can change title:</p>
+
+<pre><code>$(".fancybox").fancybox({
+    beforeLoad : function() {
+        this.title = 'Image ' + (this.index + 1) + ' of ' + this.group.length + (this.title ? ' - ' + this.title : '');
+
+        /*
+            "this.element" refers to current element, so you can, for example, use the "alt" attribute of the image to store the title:
+            this.title = $(this.element).find('img').attr('alt');
+        */
+    }
+});
+</code></pre>
+
+<p>It`s possible to open fancyBox programmatically in various ways:</p>
+
+<pre><code>//HTML content:
+$.fancybox( '&lt;div&gt;&lt;h1&gt;Lorem Lipsum&lt;/h1&gt;&lt;p&gt;Lorem lipsum&lt;/p&gt;&lt;/div&gt;', {
+    title : 'Custom Title'
+});
+
+//DOM element:
+$.fancybox( $("#inline"), {
+    title : 'Custom Title'
+});
+
+//Custom object:
+$.fancybox({
+    href: 'example.jpg',
+    title : 'Custom Title'
+});
+
+//Array of objects:
+$.fancybox([
+    {
+        href: 'example1.jpg',
+        title : 'Custom Title 1'
+    },
+    {
+        href: 'example2.jpg',
+        title : 'Custom Title 2'
+    }
+], {
+    padding: 0
+});
+</code></pre>
+
+<p>There are several methods that allow you to interact with and manipulate fancyBox, example:</p>
+
+<pre><code>//Close fancybox:
+$.fancybox.close();
+</code></pre>
+
+<p>There is a simply way to access wrapping elements using JS:</p>
+
+<pre><code>$.fancybox.wrap
+$.fancybox.skin
+$.fancybox.outer
+$.fancybox.inner
+</code></pre>
+
+<p>You can override CSS to customize the look. For example, make navigation arrows always visible,
+change width and move them outside of area (use this snippet after including fancybox.css):</p>
+
+<pre><code>.fancybox-nav span {
+    visibility: visible;
+}
+
+.fancybox-nav {
+    width: 80px;
+}
+
+.fancybox-prev {
+    left: -80px;
+}
+
+.fancybox-next {
+    right: -80px;
+}
+</code></pre>
+
+<p>In that case, you might want to increase space around box:</p>
+
+<pre><code>$(".fancybox").fancybox({
+    margin : [20, 60, 20, 60]
+});
+</code></pre>
+
+<h2>Bug tracker</h2>
+
+<p>Have a bug? Please create an issue on GitHub at <a href="https://github.com/fancyapps/fancyBox/issues">https://github.com/fancyapps/fancyBox/issues</a></p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://fancyapps.com/fancybox/#license">http://fancyapps.com/fancybox/#license</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T09:01:29+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:01 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/22/dan-xing-huan-deng-pian-qie-huan-te-xiao/" title="Previous Post: 弹性幻灯片切换特效">&laquo; 弹性幻灯片切换特效</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/23/sweet-alert/" title="Next Post: Sweet Alert">Sweet Alert &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

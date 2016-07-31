@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 开源项目- Shimmer - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="iOS开源项目shimmer">
+  <meta name="keywords" content="Shimmer,ios开源">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/25/ios-kai-yuan-xiang-mu-shimmer/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 开源项目- Shimmer</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-25T10:46:37+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:46 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esgbwaq061g208u04iafg.gif" alt="img" /></p>
+
+<p>Facebook 已经在 Paper 中把实现文字闪烁效果的部分开源了出来，就叫做 <code>Shimmer</code>。使用 Shimmer 可以很容易实现这种文字闪光的效果。但是 Shimmer 不仅仅局限于对文字做删光效果，它可以实现任何 view 的闪光效果，如果使用图片做内容，可以实现图像内容的闪光。这样可以实现某些 logo 的闪光效果，甚至可以用来实现反光效果。<!--More--></p>
+
+<h2>Shimmer 原理分析</h2>
+
+<p>Shimmer 的内部包含两个 CALayer， 一个是展示内容的 contentlayer， 另一个是完成闪光效果的 masklayer。这两个 CALayer 通过两个步骤来实现闪光: 遮罩（mask） 和 滑动（slide）。</p>
+
+<h3>1.遮罩（Mask）</h3>
+
+<p>遮罩的作用就是要让闪光效果只是对文字部分起作用，而不是文字所在的整个 view。这一步通过 <code>CALayer</code> 的
+ <code>mask</code>属性实现。Shimmer 将 <code>masklayer</code> 设置为 <code>contentlayer</code> 的 <code>mask</code>。先来看看 CALayer 关于 mask 的解释：</p>
+
+<blockquote><p>The layer’s alpha channel determines how much of the layer’s content and background shows through. Fully or partially opaque pixels allow the underlying content to show through but fully transparent pixels block that content.</p>
+
+<p>The default value of this property is nil . When configuring a mask, remember to set the size and position of the mask layer to ensure it is aligned properly with the layer it masks.</p></blockquote>
+
+<p>Shimmer 中利用这一点，通过设置 masklayer 中 alpha 通道的效果来实现闪光效果中的高亮部分。首先将
+ contentlayer 中的内容设置为白色，通过 masklayer 的遮罩，对应 masklayer 中 alpha 小的部分将会透出一些 contentlayer 的背景，而 alpha 大的部分将会显示出白色的高亮。剩下的工作就是要让这些高亮动起来了。</p>
+
+<h3>2.滑动</h3>
+
+<p>要实现滑动效果，其实非常简单，我们可以将通过设置 masklayer 的 position 来控制其与 contentlayer 做
+mask 的部分，那么，我们可以通过将 masklayer 的尺寸放大，然后保证调整 position 的时候能完全遮罩住
+contentlayer 即可，这样就实现了闪光部分的移动，从而实现了闪光效果。下面这张图很好的描述了整个滑动的原理</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esgbe3anghj20fu05kaa7.jpg" alt="img" /></p>
+
+<p>通过调整 masklayer 中 alpha 通道的形状，可以实现不同的闪光效果。例如如果使用圆形光斑效果的 alpha 通
+道，那么就可以实现 iPhone 本身锁屏的文字滑动效果了。</p>
+
+<h2>安装和使用Shimmer</h2>
+
+<p>我在 <code>CocoaPods 安装和使用</code> 一文中里面已经详细介绍了如何配置 Shimmer了。下面是如何使用 Shimmer。</p>
+
+<h3>Usage(使用)</h3>
+
+<p>To use Shimmer, create a <code>FBShimmeringView</code> or <code>FBShimmeringLayer</code> and add your content. To start shimmering, set the <code>shimmering</code> property to <code>YES</code>.</p>
+
+<p>为了使用 Shimmer,需要在 <code>ViewController.m</code> 文件中创建一个 <code>FBShimmeringView</code> 或者是
+<code>FBShimmeringLayer</code>，并且设置 <code>shimmering</code> 属性 为 <code>YES</code>。</p>
+
+<p>代码如下：</p>
+
+<pre><code>FBShimmeringView *shimmeringView = [[FBShimmeringView alloc] initWithFrame:self.view.bounds];
+[self.view addSubview:shimmeringView];
+
+UILabel *loadingLabel = [[UILabel alloc] initWithFrame:shimmeringView.bounds];
+loadingLabel.textAlignment = NSTextAlignmentCenter;
+loadingLabel.text = NSLocalizedString(@"Shimmer", nil);
+shimmeringView.contentView = loadingLabel;
+
+//start shimmering
+shimmeringView.shimmering = YES;
+</code></pre>
+
+<h2>小结</h2>
+
+<p>通过对 iOS 开源项目 Shimmer 的学习，一方面提高自己的英语阅读和理解能力，另一方面扩宽自己的视野，对开源项目产生兴趣，通过多理解开源项目，提升自己的开发效率，现在倡导<strong>不重复造轮子</strong>理念，前人很多宝贵经验分享出来，应该学习如何合理在自己的实际项目中去进行使用和做相应的修改，达到自己的需求。</p>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="https://github.com/cnbin/Shimmer">https://github.com/cnbin/Shimmer</a></li>
+<li><a href="http://www.cocoachina.com/industry/20140818/9405.html">http://www.cocoachina.com/industry/20140818/9405.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-25T10:46:37+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:46 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/25/cocoapods-an-zhuang-he-shi-yong/" title="Previous Post: CocoaPods 安装和使用">&laquo; CocoaPods 安装和使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/25/ioskai-yuan-xiang-mu-fxblurview/" title="Next Post: iOS 开源项目-FXBlurView">iOS 开源项目-FXBlurView &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

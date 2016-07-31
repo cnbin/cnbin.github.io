@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>VSS - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="VSS 的全称为 Visual Source Safe 。作为 Microsoft Visual Studio 的一名成员，它主要任务就是负责项目文件的管理，几乎可以适用任何软件项目。管理软件开发中各个不同版本的源代码和文档，占用空间小并且方便各个版本代码和文档的获取, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/30/vss/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">VSS</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-30T11:34:14+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>VSS 的全称为 Visual Source Safe 。作为 Microsoft Visual Studio 的一名成员，它主要任务就是负责项目文件的管理，几乎可以适用任何软件项目。管理软件开发中各个不同版本的源代码和文档，占用空间小并且方便各个版本代码和文档的获取,对开发小组中对源代码的访问进行有效的协调。</p>
+
+<h3>运行环境</h3>
+
+<p>Windows平台下使用VSS开发的典型环境是基于C/S架构的，即开发小组的每个开发者在各自的Windows平台下利用开发工具（比如VC）开发项目中的各个模块，而配有专门的服务器集中控制开发过程中的文档和代码。服务器和开发人员的客户机分别装有VSS的服务器和客户端程序。</p>
+
+<h3>使用步骤</h3>
+
+<p>下面以实验室数据仓库项目具体实例说明VSS客户端使用步骤。</p>
+
+<p>第一步</p>
+
+<p>登录到VSS服务器。启动Microsoft Visual SourceSafe6.0客户端（Start/Programs/MicrosoftVisual Studio6.0/Microsoft Visual SourceSafe/Microsoft Visual SourceSafe6.0），出现如下登录窗口；
+点击Browse…按钮，出现下面对话框；
+再点击Browse…按钮，选择下图所示的目录（DBGROUP服务器上的共享目录，如提示输入DBGROUP服务器帐号密码则分别填写vss/vss）；
+单击打开按钮并在随后出现的两个对话框上单击OK和Open；
+重新回到登录对话框；
+输入管理员指定的用户名和密码，即登录到了VSS服务器上。
+注意：可以对不同的用户设置不同的权限（一般由配置管理员完成）。</p>
+
+<p>第二步</p>
+
+<p>如果是第一次登录到VSS服务器，还需要先设定工作目录，否则无法进行checkout操作。
+工作目录的设定如下图所示，选中自己相关模块的文件夹，单击右键，选择Set Working Folder…；
+在弹出的对话框中选择自己所设定的工作目录并单击OK； 注意：工作目录设定完成后，服务器上的文件checkout后均放到该工作目录中，所以本地机器上的工作目录应收到保护不能随意删除移动。</p>
+
+<p>第三步</p>
+
+<p>checkout文件到本地工作目录中。选中相关的文件夹，单击右键并选择Check Out…；
+系统弹出checkout对话框如下，单击OK后该目录下所有文件和子文件夹即checkout到了本地工作目录同时服务器上的文件被锁定呈红色，其他用户不可以再checkout该文件夹（服务器设置为不允许multicheckout）。
+注意：一定要选中Recursive复选框以保证所有子文件夹被checkout。</p>
+
+<p>第四步</p>
+
+<p>对本地工作目录当中的文件进行修改调试。</p>
+
+<p>第五步</p>
+
+<p>将工作目录中的文件checkin。如果不将修改后的文件checkin则第四步中对文件的修改无法反映到服务器上项目文件的主备份中，而且极有可能导致下次checkout后本地文件被旧版本文件覆盖的情况。在VSS客户端窗口中选中要checkin的文件夹单击右键选择Check in…，弹出checkin对话框，单击OK则本地工作目录中的文件checkin到了服务器上同时服务器上的文件解除锁定（变黑）。</p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://blog.sina.com.cn/s/blog_6f2e2ad901011nd6.html">http://blog.sina.com.cn/s/blog_6f2e2ad901011nd6.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-30T11:34:14+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/29/jshint-jie-shao/" title="Previous Post: JSHint 介绍">&laquo; JSHint 介绍</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/30/bootstrap-quan-ju-cssyang-shi-html5wen-dang-lei-xing/" title="Next Post: Bootstrap 全局CSS样式-HTML5文档类型">Bootstrap 全局CSS样式-HTML5文档类型 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

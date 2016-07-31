@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Swift-String还是NSString - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="既然像 String 这样的 Swift 的类型和 Foundation 的对应的类是可以无缝转换的，那么我们在使用和选择的时候，有没有什么需要特别注意的呢？ 简单来说，没有特别需要注意的，但是尽可能的话还是使用原生的 String 类型。 原因有三。 首先虽然 String 和 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/24/swift-stringhuan-shi-nsstring/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Swift-String还是NSString</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-24T16:37:45+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:37 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>既然像 String 这样的 Swift 的类型和 Foundation 的对应的类是可以无缝转换的，那么我们在使用和选择的时候，有没有什么需要特别注意的呢？</p>
+
+<p>简单来说，没有特别需要注意的，但是尽可能的话还是使用原生的 String 类型。</p>
+
+<p>原因有三。</p>
+
+<p>首先虽然 String 和 NSString 有着良好的互相转换的特性，但是现在 Cocoa 所有的 API 都接受和返回 String 类型。我们没有必要也不必给自己凭空添加麻烦去把框架中返回的字符串做一遍转换，既然 Cocoa 鼓励使用 String，并且为我们提供了足够的操作 String 的方法，那为什么不直接使用呢？</p>
+
+<p>其次，因为在 Swift 中 String 是 struct，相比起 NSObject 的 NSString 类来说，更切合字符串的 &ldquo;不变&rdquo; 这一特性。通过配合常量赋值 (let) ，这种不变性在多线程编程时就非常重要了，它从原理上将程序员从内存访问和操作顺序的担忧中解放出来。另外，在不触及 NSString 特有操作和动态特性的时候，使用 String 的方法，在性能上也会有所提升。</p>
+
+<p>最后，因为 String 里的 String.CharacterView 实现了像 CollectionType 这样的接口，因此有些 Swift 的语法特性只有 String 才能使用，而 NSString 是没有的。一个典型就是 for&hellip;in 的枚举，我们可以写：</p>
+
+<pre><code>let levels = "ABCDE"
+for i in levels.characters {
+    print(i)
+}
+
+// 输出：
+// ABCDE
+</code></pre>
+
+<p>而如果转换为 NSString 的话，是无法使用 characters 并且进行枚举的。</p>
+
+<p>不过也有例外的情况。有一些 NSString 的方法在 String 中并没有实现，一个很有用的就是在 iOS 8 中新加的 containsString。我们想使用这个 API 来简单地确定某个字符串包括一个子字符串时，只能先将其转为 NSString：</p>
+
+<pre><code>if (levels as NSString).containsString("BC") {
+    print("包含字符串")
+}
+
+// 输出：
+// 包含字符串
+</code></pre>
+
+<p>Swift 的 String 没有 containsString 是一件很奇怪的事情，理论上应该不存在实现的难度，希望只是 Apple 一时忘了这个新加的 API 吧。当然你也可以自行用扩展的方式在自己的代码库为 String 添加这个方法。当然，还有一些其他的像 length 和 characterAtIndex: 这样的 API 也没有 String 的版本，这主要是因为 String 和 NSString 在处理编码上的差异导致的。</p>
+
+<p>使用 String 唯一一个比较麻烦的地方在于它和 Range 的配合。在 NSString 中，我们在匹配字符串的时候通常使用 NSRange 来表征结果或者作为输入。而在使用 String 的对应的 API 时，NSRange 也会被映射成它在 Swift 中且对应 String 的特殊版本：<code>Range&lt;String.Index&gt;</code>。这有时候会让人非常讨厌：</p>
+
+<pre><code>let levels = "ABCDE"
+
+let nsRange = NSMakeRange(1, 4)
+// 编译错误
+// Cannot invoke `stringByReplacingCharactersInRange` 
+// with an argument list of type '(NSRange, withString: String)'
+levels.stringByReplacingCharactersInRange(nsRange, withString: "AAAA")
+
+let indexPositionOne = levels.startIndex.successor()
+let swiftRange = indexPositionOne ..&lt; indexPositionOne.advancedBy(4)
+levels.stringByReplacingCharactersInRange(swiftRange, withString: "AAAA")
+// 输出：
+// AAAAA
+</code></pre>
+
+<p>一般来说，我们可能更愿意和基于 Int 的 NSRange 一起工作，而不喜欢使用麻烦的 <code>Range&lt;String.Index&gt;</code>。这种情况下，将 String 转为 NSString 也许是个不错的选择：</p>
+
+<pre><code>let nsRange = NSMakeRange(1, 4)
+(levels as NSString).stringByReplacingCharactersInRange(
+    nsRange, withString: "AAAA")
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-24T16:37:45+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:37 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/24/swift-shu-chu-ge-shi-hua/" title="Previous Post: Swift-输出格式化">&laquo; Swift-输出格式化</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/24/swift-jie-kou-he-lei-fang-fa-zhong-de-self/" title="Next Post: Swift-接口和类方法中的 SELF">Swift-接口和类方法中的 SELF &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

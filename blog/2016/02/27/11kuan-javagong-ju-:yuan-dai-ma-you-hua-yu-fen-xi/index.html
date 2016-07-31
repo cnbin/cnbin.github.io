@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>11款Java工具：源代码优化与分析 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="本文介绍一些Java源代码优化和分析工具，以帮助我们优化代码以及检查源代码中的潜在问题。 本文英文原文来源：http://java.dzone.com/articles/java-tools-source-code 1. PMD 网址：http://pmd.sourceforge.net/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/27/11kuan-javagong-ju-:yuan-dai-ma-you-hua-yu-fen-xi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">11款Java工具：源代码优化与分析</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-27T15:03:45+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:03 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>本文介绍一些Java源代码优化和分析工具，以帮助我们优化代码以及检查源代码中的潜在问题。</p>
+
+<p>本文英文原文来源：<a href="http://java.dzone.com/articles/java-tools-source-code">http://java.dzone.com/articles/java-tools-source-code</a></p>
+
+<h3>1. PMD</h3>
+
+<p>网址：<a href="http://pmd.sourceforge.net/">http://pmd.sourceforge.net/</a></p>
+
+<p>PMD能够扫描Java 源代码，查找类似以下的潜在问题：</p>
+
+<p>可能的bug - try/catch/finally/switch语句中返回空值；死代码 - 未使用的局部变量、参数、私有方法；不理想的代码 - 使用String/StringBuffer；过于复杂的表达式 - 没有必要使用if语句、while循环可以代替for循环；重复代码 - 复制/粘贴的代码引发的bug。</p>
+
+<p>PMD集成了JDeveloper, Eclipse, JEdit, JBuilder, BlueJ, CodeGuide, NetBeans/Sun Java Studio Enterprise/Creator, IntelliJ IDEA, TextPad, Maven, Ant, Gel, JCreator, 以及 Emacs。</p>
+
+<h3>2. FindBugs</h3>
+
+<p>网址：<a href="http://findbugs.sourceforge.net">http://findbugs.sourceforge.net</a></p>
+
+<p>FindBugs是一个使用静态方法来查找Java代码漏洞的程序。</p>
+
+<h3>3.Clover</h3>
+
+<p>网址：<a href="http://www.cenqua.com/clover/">http://www.cenqua.com/clover/</a></p>
+
+<p>这个插件允许你在不离开IDE的环境条件下来衡量和检测覆盖效果。该插件通过使用Apache Ant、Maven来无缝集成其它项目，可以通过命令行界面和API系统轻松集成到传统的构建系统中。</p>
+
+<p>该插件的特性：
+　　
+支持快速、准确、可配置的方法、语句等；支持丰富的报告格式：HTML、PDF、XML、以及Swing GUI；精确控制源代码级别的过滤；支持代码覆盖以及其它指标的图表；完全兼容JUnit 3.x &amp; 4.x, TestNG, JTiger以及其它的测试框架。</p>
+
+<h3>4. Macker</h3>
+
+<p>网址：<a href="http://innig.net/macker/">http://innig.net/macker/</a></p>
+
+<p>Macker是一个适用于Java开发人员用来检查架构规则的工具。你可以定制一个适合特定项目架构的规则文件，也可以为您的代码撰写通用的规则说明。</p>
+
+<h3>5. EMMA</h3>
+
+<p>网址：<a href="http://emma.sourceforge.net/">http://emma.sourceforge.net/</a></p>
+
+<p>EMMA支持的覆盖类型：方法、类等。输出报告的格式为：文本、HTML、XML。输出报告可以高亮显示某些项目。EMMA不需要访问源代码，可以在输入类中减少调试的信息。</p>
+
+<h3>6. XRadar</h3>
+
+<p>网址：<a href="http://xradar.sourceforge.net/">http://xradar.sourceforge.net/</a></p>
+
+<p>XRadar是一个开放的、为代码生成可扩展报告的工具。目前支持基于Java的所有系统。批量处理的框架可以用来生成HTML/SVG系统的报告。Xradar可以估量代码的大小、复杂性以及代码的重复性、依赖性等。</p>
+
+<h3>7. Hammurapi</h3>
+
+<p>网址：<a href="http://www.hammurapi.com">http://www.hammurapi.com</a></p>
+
+<p>Hammurapi是一款执行Java程序代码的自动检测工具。提供的实例中含有282条Hammurapi代码规则，提供了120多个Java类，这款所谓的检测工具，可以从三个级别来检测代码是否违背了编码标准。</p>
+
+<h3>8. Relief</h3>
+
+<p>网址：<a href="http://www.workingfrog.org/">http://www.workingfrog.org/</a></p>
+
+<p>Relif是一款设计工具，为Java项目提供了崭新的面貌。我们可以充分发挥自己的能力来处理真实的实例通过检测大小、形状、关系等来简化处理过程。</p>
+
+<h3>9. Hudson</h3>
+
+<p>网址：<a href="http://hudson-ci.org/">http://hudson-ci.org/</a>
+　　
+Hudson 是一个持续集成工具，使用Java编写，运行在Servlet容器中，比如Apache Tomcat或者或GlassFish应用服务器。它支持SCM工具，包括CVS、Subversion、Git和ClearCase。它可以执行Apache Ant、基于Apache Maven的项目、以及任意的shell脚本和Windows批处理命令。</p>
+
+<h3>10. Cobertura</h3>
+
+<p>网址：<a href="http://cobertura.sourceforge.net/">http://cobertura.sourceforge.net/</a></p>
+
+<p>Cobertura是一个免费的基于jcoverage的Java工具，用于计算代码被测试访问的百分比，它可以被用来确定Java程序中的缺少部分的测试覆盖率。</p>
+
+<h3>11. SonarSource</h3>
+
+<p>网址：<a href="http://www.sonarsource.org/">http://www.sonarsource.org/</a></p>
+
+<p>Sonar是一个管理代码质量的开放平台。因此，它涵盖了代码质量的7个方面：架构与设计、重复、单元测试、复杂性、潜在错误、编码规则、评论。</p>
+
+<p>英文原文：<a href="http://java.dzone.com/articles/java-tools-source-code">http://java.dzone.com/articles/java-tools-source-code</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-27T15:03:45+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:03 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/27/jiang-hui-gai-bian-wei-lai-itshi-jie-de-shi-chong-bian-cheng-yu-yan/" title="Previous Post: 将会改变未来IT世界的十种编程语言">&laquo; 将会改变未来IT世界的十种编程语言</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/27/si-xiang-bi-ji-27/" title="Next Post: 思想笔记-27">思想笔记-27 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>用 Yeoman 和 AngularJS 构建 Todo 应用(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="AngularJS 是一个用于开发动态 Web 应用的 JavaScript 框架。如果要开发一个 Web 应用，AngularJS 能够操作 HTML 使之动态地发生改变，而不是一个单纯的静态文档，它提供了像数据绑定和依赖注入 (DI) 这样的高级特定来简化应用的开发。 安装 bower 官网 &hellip;">
+  <meta name="keywords" content="angular,yeoman">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/29/yong-yeoman-he-angularjs-gou-jian-todo-ying-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">用 Yeoman 和 AngularJS 构建 Todo 应用(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-29T14:21:44+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:21 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esl6y1lwm4j205004ct8t.jpg" alt="img" /></p>
+
+<!--More-->
+
+
+<blockquote><p>AngularJS 是一个用于开发动态 Web 应用的 JavaScript 框架。如果要开发一个 Web 应用，AngularJS 能够操作 HTML 使之动态地发生改变，而不是一个单纯的静态文档，它提供了像数据绑定和依赖注入 (DI) 这样的高级特定来简化应用的开发。</p></blockquote>
+
+<h3>安装 bower</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esl549yrysj20go07h74q.jpg" alt="img" /></p>
+
+<p>官网：<a href="http://bower.io/">http://bower.io/</a></p>
+
+<p>执行命令：</p>
+
+<pre><code>npm install -g bower
+</code></pre>
+
+<p>查看是否安装：</p>
+
+<pre><code>bower -v
+</code></pre>
+
+<h3>安装 Grunt</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl54ab64tj20pc09o766.jpg" alt="img" /></p>
+
+<p>官网：<a href="http://gruntjs.com/">http://gruntjs.com/</a></p>
+
+<pre><code>sudo npm install -g grunt-cli
+</code></pre>
+
+<h3>安装 Yeoman</h3>
+
+<p>在安装 Yeoman 之前，需要确认以下配置：</p>
+
+<ul>
+<li>Node.js 版本在0.10以上</li>
+<li>npm 版本在1.3.7以上</li>
+</ul>
+
+
+<p>执行命令：</p>
+
+<pre><code>$ npm install --global yo
+</code></pre>
+
+<p>安装后，用下面这行命令进入 Yeoman 的菜单：</p>
+
+<pre><code>$ yo
+</code></pre>
+
+<p>结果显示如下：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl3wzeedvj20cy03jwf1.jpg" alt="img" /></p>
+
+<h3>安装 angular</h3>
+
+<p>执行命令：</p>
+
+<pre><code>$ npm install -g generator-angular
+</code></pre>
+
+<p>使用生成器搭建应用：</p>
+
+<pre><code>$ mkdir mytodo
+$ cd mytodo
+</code></pre>
+
+<p>执行 <code>yo</code>，选中 <code>Run the Angular generator</code>，运行生成器。当你比较熟悉 <code>Yo</code> 的时候，就可以不通过菜单直接运行生成器：</p>
+
+<pre><code>$ yo angular
+</code></pre>
+
+<p>一些生成器也会提供一些有共同开发库 <code>(common developer libraries)</code> 的可选配置来定制你的应用，能够加速初始化你的开发环境。 <code>generator-angular</code> 会询问你需不需要使用 <code>Sass</code> 和或者<code>Bootstrap</code>，使用 <code>’n'</code> 和 <code>’y'</code> 进行选择。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esl4eoojlaj20eu06q755.jpg" alt="img" /></p>
+
+<p>然后你需要选择你需要使用的Angular模块。Angular模块是一些带有特定功能的独立的JS文件。举个例子，ngResource模块（angular-resource.js）提供了RESTful服务。你可以使用空格键来取消项目。下面来看一看默认值。(当你在试用空格的效果时，确保所有的模块都被标记为绿色)</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl4go72utj20f906g75x.jpg" alt="img" /></p>
+
+<p>按下回车键。Yeoman 将会自动构建你的应用、拉取需要的依赖并在你的工作流中创建一些有帮助的Grunt任务（Grunt Tasks）。</p>
+
+<p>由Yeoman构建的文件目录结构</p>
+
+<p>打开 <code>mytodo</code> 目录，你会看到下面的文件结构：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl5nhut7gj20dr0b7q4y.jpg" alt="img" /></p>
+
+<p>浏览器中查看应用，要将 <code>grunt server</code> 运行起来：</p>
+
+<pre><code>grunt serve
+</code></pre>
+
+<p>运行命令后本地会启动一个基于 <code>Node</code> 的 <code>http</code> 服务。通过浏览器访问 <code>http://localhost:9000</code> 就可以看到自己的应用了。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esl5uc8ag9j20wu0js76m.jpg" alt="img" /></p>
+
+<p>现在可以打开编辑器开始更改应用。每次保存更改后，浏览器将会自动刷新，就是说你是不需要手动再刷新浏览器了。这个被称作<strong>live reloading</strong>，这提供了一个很好的方式来实时查看应用的状态。它是通过一系列的<strong>Grunt</strong>任务来监视你的文件的更改情况，一旦发现文件被改动了，<strong>live reloading</strong>就会自动刷新应用。在这个例子中，我们编辑了<strong>views/main.html</strong>，通过<strong>陈斌彬的技术博客</strong>我们从下面的状态：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl5y6glzhj20jt0b5wfh.jpg" alt="img" /></p>
+
+<h3>编写AngularJS</h3>
+
+<ul>
+<li>创建新模板展现 Todo 列表</li>
+</ul>
+
+
+<p>先将 <code>views/main.html</code> 中除了 <code>class</code> 是 <code>jumbotron</code> 的 <code>div</code> 以外的内容都删除，然后把<code>jumbotron</code> 替换成 <code>container</code></p>
+
+<pre><code>&lt;div class="container"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>更改 <code>Angular</code> 控制器模板（即<code>scripts/controller/main.js</code>），将 <code>awesomeThings</code> 改为<code>todos</code> ：</p>
+
+<pre><code>    'use strict';
+angular.module('mytodoApp')
+    .controller('MainCtrl', function ($scope) {
+         $scope.todos = ['Item 1', 'Item 2', 'Item 3'];
+    });
+</code></pre>
+
+<p>然后更改视图 <code>(views/main.html)</code> 来显示我们的 Todo 事项：</p>
+
+<pre><code>&lt;div class"container"&gt;
+    &lt;h2&gt;My todos&lt;/h2&gt;
+    &lt;p ng-repeat="todo in todos"&gt;
+        &lt;input type="text" ng-model="todo"&gt;
+    &lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>在 <code>p</code> 标签中的 <code>ng-repeat</code> 属性是一个 <code>Angular</code> 指令 <code>(directive)</code>，当获取到一个集合<code>(collection)</code>中的项时，它将项实例化。在我们的例子中，你可以想象一下，每个 <code>p</code> 标签和它的内容都带着这个 <code>ng-repeat</code> 属性。对于每个在 <code>todos</code> 数组中的项，<code>Angular</code>都会生成一组新的</p>
+
+<pre><code>&lt;p&gt;&lt;input&gt;&lt;/p&gt;
+</code></pre>
+
+<p><code>ng-model</code> 是另一个 <code>Angular</code> 指令，它主要是和 <code>input</code>、<code>select</code>、<code>textarea</code> 标签和一些自定义控件一起使用，达到数据双向绑定的效果。在我们的例子中，它用于显示一系列带有 <code>todo</code> 的值的文本输入域。 在浏览器中查看 <code>ng-repeat</code> 和 <code>ng-model</code> 动态变化的效果。在保存之前，我们的应用看起来应该是下图这个样子的：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esl65xsrzjj20df08rgly.jpg" alt="img" /></p>
+
+<ul>
+<li>添加一个 Todo 事项</li>
+</ul>
+
+
+<p>我们将要实现添加新的 Todo 事项的功能。现在需要修改 <code>views/main.html</code>：在 <code>h2</code> 元素和 <code>p</code>元素之间加上一个 <code>form</code> 元素。现在你的 <code>views/main.html</code> 应该是下面这个样子：</p>
+
+<pre><code>&lt;div class="container"&gt;
+       &lt;h2&gt;My todos&lt;/h2&gt;
+
+       &lt;!-- Todos input --&gt;
+       &lt;form role="form" ng-submit="addTodo()"&gt;
+         &lt;div class="row"&gt;
+           &lt;div class="input-group"&gt;
+             &lt;input type="text" ng-model="todo" placeholder="What needs to be done?" class="form-control"&gt;
+             &lt;span class="input-group-btn"&gt; 
+              &lt;input type="submit" value="Add" class="btn btn-primary"&gt;
+             &lt;/span&gt;
+           &lt;/div&gt;
+         &lt;/div&gt;
+       &lt;/form&gt;
+       &lt;p&gt;&lt;/p&gt;
+
+       &lt;!-- Todos list --&gt;
+       &lt;p ng-repeat="todo in todos" class="form-group"&gt;
+         &lt;input type="text" ng-model="todo" class="form-control"&gt;
+       &lt;/p&gt;
+     &lt;/div&gt;
+</code></pre>
+
+<p>这一步里我们在页面顶部增加了一个带有提交按钮的表单。这个表单使用了另一个 <code>Angular</code> 指令：<code>ng-submit</code>。返回查看你的浏览器，现在的 <code>UI</code> 应该是下面这个这样子的：
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esl65xsrzjj20df08rgly.jpg" alt="img" /></p>
+
+<p>如果现在点击 <code>Add</code> 按钮，什么事情都不会发生—— 我们接下来要实现添加的效果： <code>ng-submit</code> 是将一个 <code>Angular</code> 表达式绑定到表单的 <code>onsubmit</code> 事件上。如果 <code>form</code> 上没有绑定任何动作，它也会阻止浏览器的默认行为。在我们的例子中，我们添加了一个 <code>addTodo()</code> 表达式。 下面的 <code>addTodo</code>方法是实现将新增的 <code>Todo</code> 事项添加入已有的事项列表中，然后清空顶部的文本输入域：</p>
+
+<pre><code>$scope.addTodo = function () {
+       $scope.todos.push($scope.todo);
+       $scope.todo = '';
+     };
+</code></pre>
+
+<p>将 <code>addTodo()</code> 方法加到 <code>scripts/controllers/main.js</code> 的 <code>MainCtrl</code> 控制器的定义中，现在你的控制器代码应该如下所示：</p>
+
+<pre><code> 'use strict';
+
+ angular.module('mytodoApp')
+   .controller('MainCtrl', function ($scope) {
+     $scope.todos = ['Item 1', 'Item 2', 'Item 3'];
+     $scope.addTodo = function () {
+       $scope.todos.push($scope.todo);
+       $scope.todo = '';
+     };
+   });
+</code></pre>
+
+<p>再次在浏览器中查看，然后在顶部的输入框中输入新的 Todo 事项按下 <code>Add</code> 按钮。新增的这个事项就会立刻出现在你的 Todo 列表中！</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esl6o3xlxyj20of0bigmb.jpg" alt="img" /></p>
+
+<ul>
+<li>移除一个 Todo 事项</li>
+</ul>
+
+
+<p>添加一个移除事项的功能，先在列表中每一个 Todo 事项的的边上加上一个“移除”按钮。回到我们的视图模板 <code>(views/main.html)</code>，在现有的 <code>ng-repeat</code> 指令上添加一个按钮。然后确认我们的输入框和移除按钮是对齐的，将 <code>p</code> 标签的 <code>class</code> 从 <code>form-group</code> 改成 <code>input-group</code>。 在改动之前代码是这样的：</p>
+
+<pre><code>&lt;!-- Todos list --&gt;
+&lt;p ng-repeat="todo in todos" class="form-group"&gt;
+  &lt;input type="text" ng-model="todo" class="form-control"&gt;
+&lt;/p&gt;
+</code></pre>
+
+<p>改动以后的代码：</p>
+
+<pre><code>&lt;!-- Todos list --&gt;
+&lt;p class="input-group" ng-repeat="todo in todos"&gt;
+    &lt;input type="text" ng-model="todo" class="form-control"&gt;
+    &lt;span class="input-group-btn"&gt;
+        &lt;button class="btn btn-danger" ng-click="removeTodo($index)" aria-label="Remove"&gt;X&lt;/button&gt;
+    &lt;/span&gt;
+&lt;/p&gt;
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl6sti9ebj20ms09fdgj.jpg" alt="img" /></p>
+
+<p>在上面的代码中我们使用了一个新的 <code>Angular</code> 指令—— <code>ng-click</code>。可以用 <code>ng-click</code> 来控制元素被点击时的行为。在这个例子中，我们调用了 <code>removeTodo()</code> 方法并将 <code>$index</code> 传入了这个方法。 <code>$index</code> 的值是当前 <code>todo</code> 项在整个 <code>todo</code> 数组中的位置的索引值。举个例子，数组中的第一项的索引值是0，那么0就会被传入 <code>removeTodo()</code>；类似的，在一个五项的 Todo 列表中，最后一项的索引值是4,4就会被传入 <code>removeTodo()</code>。 现在我们来实现这个 <code>removeTodo()</code> 方法，下面的代码是使用 <code>JS</code> 中的 <code>splice</code> 方法将要移除的项通过给定的 <code>$index</code> 值从数组中移除：</p>
+
+<pre><code>$scope.removeTodo = function (index) {
+    $scope.todos.splice(index, 1);
+ };
+</code></pre>
+
+<p>修改以后的控制器 <code>(scripts/controller/main.js)</code>如下所示：</p>
+
+<pre><code>'use strict';
+angular.module('mytodoApp')
+    .controller('MainCtrl', function ($scope) {
+        $scope.todos = ['Item 1', 'Item 2', 'Item 3'];
+        $scope.addTodo = function () {
+           $scope.todos.push($scope.todo);
+           $scope.todo = '';
+        };
+        $scope.removeTodo = function (index) {
+        $scope.todos.splice(index, 1);
+    };
+});
+</code></pre>
+
+<p>现在你可以点击 <code>×</code> 按钮将一个 Todo 事项从列表中移除。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esl73orsgbj20lq0890tb.jpg" alt="img" /></p>
+
+<p>现在虽然我们可以添加和移除 <code>Todo</code> 事项，但是这些记录都不能永久地保存。一旦页面被刷新了，更改的记录都会不见了，又恢复到我们 <code>main.js</code> 中设置的 <code>todo</code> 数组的值。不过不要担心这个问题，等我们了解更多关于使用 <code>Bower</code> 安装 <code>package</code>了以后，这个问题就会被解决的。</p>
+
+<p>使用 Bower 安装了一个 Angular 组件，叫做 <code>AngularUI Sortable module</code>。用下面的指令我们可以检查现在已经安装上的 package：</p>
+
+<pre><code>$ bower list
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esl7gxcdpkj20fa09i40j.jpg" alt="img" /></p>
+
+<p>为了确认有 <code>AngularUI</code> 的包可以使用，用<code>Bower</code>查找 <code>angular-ui-sortable</code></p>
+
+<pre><code>$ bower search angular-ui-sortable
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl7igqr1bj20fp03ojsn.jpg" alt="img" /></p>
+
+<p>搜索结果中只有一个和<em>angular-ui-sortable</em>有关。而且我们已经安装了 <code>jQuery</code>，那么现在我们就一起把 <code>jQuery UI</code> 也一起安装上。为了节省搜索的时间，<code>jQuery UI</code> 的包的名字是 <code>jquery-ui</code>。要一次性安装上它们使用下面的命令：</p>
+
+<pre><code>$ bower install --save angular-ui-sortable jquery-ui
+</code></pre>
+
+<p>使用 <code>–save</code> 更新 <code>bower.json</code> 文件中关于 <code>angular-ui-sortable</code> 和 <code>jquery-ui</code> 的依赖，这样你就不用手动去 <code>bower.json</code> 中更新依赖了。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl7ly6520j20fd0dadm6.jpg" alt="img" /></p>
+
+<p>看一下 <code>bower_components</code> 目录是不是所有包都已经拉下来了，你可以看到 <code>jquery-ui</code>和 <code>angular-ui-sortable</code> 出现在之前已经安装的 <code>Angular</code> 包边上了：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esl7vqcjzbj20ch09c409.jpg" alt="img" /></p>
+
+<p>1.让你的 Todo 应用可排序（使用 <code>Angular Sortable</code> 模块）这些新安装的依赖要被添加进我们的<code>index.html</code>文件。你可以手动添加，不过其实Y <code>eoman</code> 会自动添加上。退出当前进程，再次运行</p>
+
+<pre><code>$ grunt serve
+</code></pre>
+
+<p>可以看到在 <code>index.html</code> 文件底部链接脚本的位置，<code>jquery-ui/ui/jquery-ui.js</code> 和 <code>angular-ui-sortable/sortable.js</code> 已经自动地被引入了。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl7sb88ivj20fn05dtbx.jpg" alt="img" /></p>
+
+<p>为了使用 <code>Sortable</code> 模块，我们需要在 <code>scripts/app.js</code> 中更新 <code>Angular</code> 模块，将 <code>Sortable</code> 可以加载到我们的应用中，更改前代码如下所示：</p>
+
+<pre><code>angular
+  .module('mytodoApp', [
+    'ngAnimate',
+    'ngCookies',
+    'ngResource',
+    'ngRoute',
+    'ngSanitize',
+    'ngTouch'
+  ])
+</code></pre>
+
+<p>将 <code>ui.sortable</code> 添加进数组中。现在 <code>scripts/app.js</code> 应该是下面这个样子：</p>
+
+<pre><code>angular
+  .module('mytodoApp', [
+    'ngAnimate',
+    'ngCookies',
+    'ngResource',
+    'ngRoute',
+    'ngSanitize',
+    'ngTouch',
+    'ui.sortable'
+  ])
+</code></pre>
+
+<p>最后，在 <code>main.html</code>中，我们需要将 <code>ui-sortable</code> 指令作为一个层将 <code>ng-repeat</code> 层包起来。</p>
+
+<pre><code>&lt;!-- Todos list --&gt;
+&lt;div ui-sortable ng-model="todos"&gt;
+    &lt;p class="input-group" ng-repeat="todo in todos"&gt;
+</code></pre>
+
+<p>我们也需要添加一些内联的 <code>CSS</code>，将鼠标显示为“可移动”样式来告诉用户这些 Todo 事项是可以移动的：</p>
+
+<pre><code> &lt;p ng-repeat="todo in todos" style="padding:5px 10px; cursor: move;"&gt;
+</code></pre>
+
+<p>现在 Todo 列表的 HTML 部分应该是下面这样的：</p>
+
+<pre><code>&lt;!-- Todos list --&gt;
+&lt;div ui-sortable ng-model="todos"&gt;
+    &lt;p class="input-group" ng-repeat="todo in todos" style="padding:5px 10px; cursor: move;"&gt;
+        &lt;input type="text" ng-model="todo" class="form-control"&gt;
+        &lt;span class="input-group-btn"&gt;
+            &lt;button class="btn btn-danger" ng-click="removeTodo($index)" aria-label="Remove"&gt;X&lt;/button&gt;
+        &lt;/span&gt; 
+    &lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>现在这个列表就是可以移动的了：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esl8ahg2xzj20m304zgm3.jpg" alt="img" /></p>
+
+<p>2.使用本地存储实现保存</p>
+
+<p>Angular有一个模块叫做 <code>angular-local-storage</code> 可以很简便地帮我们实现本地存储，使用 <code>Bower</code> 安装:</p>
+
+<pre><code>$ bower install --save angular-local-storage
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esl8h15yksj20fo04pq56.jpg" alt="img" /></p>
+
+<p>与我们添加 <code>jQueryUI</code> 和 <code>AngularUI Sortable</code> 的时候相似，我们需要将 <code>angular-local-storage.js</code> 引入 <code>index.html</code> ：</p>
+
+<pre><code>&lt;script src="bower_components/angular-local-storage/angular-local-storage.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>因为我们是使用 <code>bower.json</code> 来索引我们的模块的，所以先用 <code>Ctrl+c</code> 退出当前的进程，然后再次输入 <code>grunt serve</code> 让 <code>Yeoman</code> 将新逻辑写入你的 <code>index.html</code>，重新启动服务后现在你的 <code>index.html</code> 的脚本部分看起来应该是下面的样子：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esl8k68uu3j20jf05vwi4.jpg" alt="img" /></p>
+
+<p>将 <code>localStorage</code> 写入 <code>scripts/app.js</code> 中：</p>
+
+<pre><code>angular.module('mytodoApp', [
+    'ngCookies',
+    'ngResource',
+    'ngSanitize',
+    'ngRoute',
+    'ui.sortable',
+    'LocalStorageModule'
+ ])
+</code></pre>
+
+<p>在 <code>app.js</code> 中也要配置 <code>localStorageServiceProvider</code>，将 <code>todo</code> 作为本地存储的前缀，这样你的应用就不会把其他应用中重名的变量的内容获取过来：</p>
+
+<pre><code>.config(['localStorageServiceProvider', function(localStorageServiceProvider){
+     localStorageServiceProvider.setPrefix('ls');
+ }])
+</code></pre>
+
+<p>我们的 <code>scripts/app.js</code> 现在应该是这样的：</p>
+
+<pre><code>'use strict';
+angular.module('mytodoApp', [
+   'ngCookies',
+   'ngResource',
+   'ngSanitize',
+   'ngRoute',
+   'ui.sortable',
+   'LocalStorageModule'
+])
+   .config(['localStorageServiceProvider', function(localStorageServiceProvider){
+       localStorageServiceProvider.setPrefix('ls');
+   }])
+   .config(function ($routeProvider) {
+       $routeProvider
+   .when('/', {
+      templateUrl: 'views/main.html',
+      controller: 'MainCtrl'
+   })
+   .otherwise({
+      redirectTo: '/'
+   });
+ });
+</code></pre>
+
+<p>你也需要在你的控制器 <code>(scripts/controllers/main.js)</code> 中声明对本地存储服务的依赖。将 <code>localStorageService</code> 作为第二个传入参数添加到你的回调函数中。</p>
+
+<pre><code>'use strict';
+angular.module('mytodoApp')
+   .controller('MainCtrl', function ($scope, localStorageService) {
+   // (code hidden here to save space)
+});
+</code></pre>
+
+<p>那么现在呢，我们的 Todo 事项就不是从静态的数组中读取的，我们将会从本地存储里读取然后再将它们存入 <code>$scope.todos</code> 中。 我们还需要使用 <code>Angular</code> 的 <code>$warch</code> 监听器来监听 <code>$scope.todos</code> 的值得变化。如果有人添加或者删减了 Todo 项目，本地存储中的数据也会被同步， 因此，我们需要将现在的 <code>$scope.todos</code> 声明删掉：</p>
+
+<pre><code>$scope.todos = ['Item 1', 'Item 2', 'Item 3'];
+</code></pre>
+
+<p>替换成下面的代码：</p>
+
+<pre><code>var todosInStore = localStorageService.get('todos');
+$scope.todos = todosInStore &amp;&amp; todosInStore.split('\n') || [];
+$scope.$watch('todos', function () {
+   localStorageService.add('todos', $scope.todos.join('\n'));
+}, true);
+</code></pre>
+
+<p>现在我们的控制器是这样的：</p>
+
+<pre><code>'use strict';
+
+ angular.module('mytodoApp')
+   .controller('MainCtrl', function ($scope, localStorageService) {
+
+     var todosInStore = localStorageService.get('todos');
+
+     $scope.todos = todosInStore &amp;&amp; todosInStore.split('\n') || [];
+
+     $scope.$watch('todos', function () {
+       localStorageService.add('todos', $scope.todos.join('\n'));
+     }, true);
+
+     $scope.addTodo = function () {
+       $scope.todos.push($scope.todo);
+       $scope.todo = '';
+     };
+
+     $scope.removeTodo = function (index) {
+       $scope.todos.splice(index, 1);
+     };
+
+   });
+</code></pre>
+
+<p>如果现在你在浏览器中查看应用，你会发现 Todo 列表中没有任何东西。因为这个应用从本地存储中读取了todo 数组，而本地存储中还没有任何 Todo 事项。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esl8tvnxscj20nm077mxm.jpg" alt="img" />
+再来添加一些项目到列表中，当我们再次刷新我们的浏览器的时候，这些项目都还在。</p>
+
+<h2>小结</h2>
+
+<ul>
+<li>用 yo 搭建了一个应用的模板文件。</li>
+<li>为了增添应用的功能，用 bower 安装应用需要的依赖。</li>
+<li>用 grunt serve 搭建和预览我们的应用，所有的改动都能实时地反映在页面上，不需要手动刷新。</li>
+</ul>
+
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://blog.jobbole.com/65399/">http://blog.jobbole.com/65399/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-29T14:21:44+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:21 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/29/django-kuai-su-da-jian-blog/" title="Previous Post: Django 快速搭建 Blog">&laquo; Django 快速搭建 Blog</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/30/gao-xiao-de-ios-he-os-kai-fa-gong-ju/" title="Next Post: 高效的 iOS 和 OS 开发工具">高效的 iOS 和 OS 开发工具 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

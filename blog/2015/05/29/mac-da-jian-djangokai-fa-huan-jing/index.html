@@ -1,0 +1,407 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mac 搭建 Django 开发环境(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一.下载Django 如果电脑没安装 python，点击这里。然后从这里下载 Django 稳定版本。 或者执行命令下载 Django 最新版本： git clone https://github.com/django/django.git 这里我用的是 Mac 自带的 python2.7， &hellip;">
+  <meta name="keywords" content="Django,python">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/29/mac-da-jian-djangokai-fa-huan-jing/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mac 搭建 Django 开发环境(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-29T08:24:43+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:24 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>一.下载Django</h2>
+
+<p>如果电脑没安装 python，<a href="https://www.python.org/">点击这里</a>。然后从<a href="https://www.djangoproject.com/download/">这里</a>下载 Django 稳定版本。</p>
+
+<p>或者执行命令下载 Django 最新版本：</p>
+
+<pre><code>git clone https://github.com/django/django.git
+</code></pre>
+
+<p>这里我用的是 Mac 自带的 <code>python2.7</code>，下载是最新版本的 <code>Django</code> 后发现 <code>python2.7</code> 版本需要升级，但是注意，对 iOS 开发者来说，最好不要升级 <code>python2.7</code> 到 <code>python3</code>，因为 <code>Xcode</code> 只支持最稳定版的 <code>python2.7</code> 脚本。所以这里我下载的 <code>Django</code> 版本是 <code>1.6.1</code>。</p>
+
+<h2>二.安装Django</h2>
+
+<pre><code>cd Django
+sudo python setup.py. install
+</code></pre>
+
+<p>Python 默认在 <code>/Library/Python/2.7</code> 中，那么无论如何你在哪里安装完 <code>DJango</code>，都会在 <code>/Library/Python/2.7/site-packages</code> 中生成一个 <code>django</code> 的文件夹。如果要删除 <code>django</code>，只需要把该目录下的 <code>django</code> 文件夹删除即可。</p>
+
+<h2>三.测试LocalHost是否成功</h2>
+
+<pre><code>sudo mkdir ~/Djangodemo
+/*创建一个用于测试Localhost的网站样例*/
+sudo django-admin.py startproject testLocalHost
+
+cd testLocalHost
+python manage.py runserver
+</code></pre>
+
+<p>浏览器打开 <a href="http://localhost:8000">http://localhost:8000</a>，结果如下图显示：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eskuh1xdnqj20pd067mzd.jpg" alt="img" /></p>
+
+<p>说明：<strong>django-admin.py</strong>在我们安装完<strong>Django</strong>之后除了在<strong>site-packages</strong>中生成<strong>django</strong>文件夹之外（里面都是一些DJango命令的一些文件和代码），在<strong>/usr/local/bin/</strong>中也生成了一个名为<strong>django-admin.py</strong>的链接，这样无论你在何种路径下都可以直接调用<strong>django-admin.py</strong>文件了。在<strong>Win</strong>下我们称这个过程为：加入到环境变量。</p>
+
+<h2>四.文件结构</h2>
+
+<h3>1.创建 mysite 工程</h3>
+
+<p>删除原来的 LocalHost 工程，创建 mysite 工程，执行命令：</p>
+
+<pre><code>$ mkdir mysite
+$ django-admin.py startporject mysite
+</code></pre>
+
+<p>此时的目录结构如下：</p>
+
+<pre><code>mysite/
+  mysite/
+     __init__.py
+     settings.py
+     urls.py
+     manage.py
+</code></pre>
+
+<h3>2.manage.py</h3>
+
+<p>作用：</p>
+
+<ol>
+<li>把该工程的包加入了 sys.path ;以后你可以直接在你的代码中引用该工程中其他的包。</li>
+<li>加载 DJANGO_SETTINGS_MODULE ，指明该工程的配置文件是 mysite/settings.py。</li>
+<li>最主要的是它包裹了 django-admin.py 的一些函数，让你可以通过它来操作整个工程。</li>
+</ol>
+
+
+<h3>3.<code>__init__.py</code></h3>
+
+<p>严格意义上讲 <code>__init__.py</code> 不属于 DJango 的范畴，而是 Python 语言的一种习惯，经常为空文件。主要是告诉工程这是一个包（Package），防止不经意间因为包名为诸如 <code>String</code> 之类的字符串而引起的混乱，当然你也可以在里面加一些初始化的函数，但不在我们的讨论之列。</p>
+
+<h3>4.settings.py</h3>
+
+<p>此前我们提到了 <code>manage.py</code> 的第二件工作便是指定了它是工程的配置文件，那它配置了些什么呢？代码量在其他几个文件中属于比较多的，有一百行的样子，主要设置了关于数据库，后台管理等配置，等到我们要用的时候再详细说明。</p>
+
+<h3>5.urls.py</h3>
+
+<p>它负责把客户的请求翻译成函数调用。是重要要掌握的文件。</p>
+
+<ol>
+<li>DJango 通过 settings.py 中指定的 URLconf 参数找到对应的 urls.py 文件，此例中正好为我们的这个文件。</li>
+<li>DJango 在 urls.py 中找到 urlpatterns 变量。</li>
+<li>DJango 收到一个客户地址请求，我们不妨设为 localhost。</li>
+<li>DJango 在 urlpatterns 中顺序遍历正则式，找到第一个匹配，调用该正则式对应的函数。</li>
+<li>该函数返回客户端所请求的内容。</li>
+</ol>
+
+
+<p>对开发者来说，真正需要关心的是如何完成正则表达式和对应函数的对应。
+如下面例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^$&#39;</span><span class="p">,</span> <span class="s">&#39;hello.views.home&#39;</span><span class="p">),</span>
+</span><span class='line'><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>说明：其中<strong>url</strong>里面左半部分是正则式，右半部分是函数调用。<strong>r</strong>说明是<strong>raw</strong>匹配，表明正则表达式要求每个字符都必须被匹配，是一个可选项，如果不能理解可以省略。<strong>^</strong>表示匹配开始，<strong>$</strong>表示匹配结束。所以这个正则表达式匹配了空字符，正好符合地址为<strong>localhost</strong>的客户请求(DJango收到的请求会自动省略域名，即<strong>localhost</strong>，即真正的请求字符串为空)。右侧表明腰调用名为<strong>hello</strong>的<strong>app</strong>的<strong>views.py</strong>文件的<strong>home</strong>函数。</p>
+
+<h3>6.增加 hello app</h3>
+
+<p>刚才我们在<strong>url</strong>匹配的时候调用了<strong>home</strong>函数，此时我们就开始创建它：</p>
+
+<pre><code>python manage.py startapp hello
+</code></pre>
+
+<p>这样我们在<strong>manage.py</strong>同级目录下生成了<strong>hello</strong>目录，进入<strong>hello</strong>目录其他文件都不用管，也不需要理解，直接打开<strong>views.py</strong>编辑成如下样子：</p>
+
+<pre><code>from django.http import HttpResponse
+
+def home(request):
+  return HttpResponse("Hello World")
+</code></pre>
+
+<p>启动服务器。其实<strong>hello</strong>相当于是一个<strong>app</strong>应用被添加进了<strong>mysite</strong>工程，当特定的请求到来时通过<strong>url</strong>匹配调用相应<strong>app</strong>下的<strong>views.py</strong>中的函数来达到不同的显示效果。</p>
+
+<h2>五.Django-URL解析和匹配</h2>
+
+<h3>1.patterns() 函数</h3>
+
+<p>patterns 函数的的原型：</p>
+
+<pre><code>patterns(prefix, pattern_description, ...)
+</code></pre>
+
+<p>其中 <code>prefix</code> 表示函数调用的前缀，而 <code>pattern_description</code> 则是一系列的元组。举例说明<code>prefix</code> 的作用：</p>
+
+<pre><code>urlpatterns = patterns("hello.views",
+    url(r'^$', 'home'),
+)
+</code></pre>
+
+<p>上例和上例的执行效果一样，都表明了 <code>hello app</code> 下的 <code>views</code> 文件里的 <code>home</code> 函数。注意：前缀末尾不必包含<strong>“.”</strong>；另外因为 <code>python</code> 函数规定参数不能多于 255 个，因此如果你的映射关系很多，可以利用诸如: <code>urlpatterns += patterns(…)</code> 这种形式累加。</p>
+
+<h3>2.url()函数</h3>
+
+<p>url 函数的原型：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">url</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">view</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中后三项是可选项，在我们的例子中：<code>regex=”r’^$'”</code> ； <code>view=”hello.views.home”</code>；<code>name</code>项给该 <code>url</code> 命名，这在未来通过 <code>name</code> 反向确定 <code>url</code> 有很大的作用；<code>kwargs</code> 则传递额外的参数；<code>prefix</code> 和此前的 <code>prefix</code> 作用一致，不过只适用这一条 <code>url</code>。</p>
+
+<h3>3.通过url传递信息</h3>
+
+<p>DJango 在通过 <code>url</code> 传递参数时有两种方式，一种通过位置，一种通过关键词。我们先看第一种,改此前的映射关系如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">url</span><span class="p">(</span><span class="s">r&#39;^(\d{4})/(\d{2})$&#39;</span><span class="p">,</span> <span class="s">&#39;hello.views.home&#39;</span><span class="p">),</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改 <code>hello/views.py</code> ，增加两行代码如下：</p>
+
+<pre><code>def home(request, year='0000', month='00'):
+    return HttpResponse("Hello World "+year+" "+month)
+</code></pre>
+
+<p>这样当用户请求 <code>locahost:8000/2015/5</code> 时候，相当于在调用 <code>home(request, ‘2015’, ’5’)</code>，注意此时 <code>year</code> 和 <code>month</code> 的相对关系，因为参数传递是基于位置信息的，第一个是4个数字是年，第二个2个数字是月。</p>
+
+<p>下面是第二种，即关键词方式，我们修改两个文件如下：</p>
+
+<pre><code>#mysite/urls.py
+url(r'^(?P&lt;year&gt;\d{4})/(?P&lt;month&gt;\d{2})$', 'hello.views.home'),
+
+#hello/views.py
+#注意year和month的位置
+def home(request, month='00', year='0000'):
+    return HttpResponse("Hello World "+year+" "+month)
+&lt;/month&gt;&lt;/year&gt;
+</code></pre>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://www.ccpt.cc/">http://www.ccpt.cc/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-29T08:24:43+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:24 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/28/nodejs-jian-li-wei-bo-wang-zhan/" title="Previous Post: Mac 搭建 Nodejs-Express ">&laquo; Mac 搭建 Nodejs-Express </a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/29/django-kuai-su-da-jian-blog/" title="Next Post: Django 快速搭建 Blog">Django 快速搭建 Blog &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

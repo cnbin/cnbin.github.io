@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ionic | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/ionic/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[将网页设置为允许 XMLHttpRequest 跨域访问]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/24/jiang-wang-ye-she-zhi-wei-yun-xu-xmlhttprequest-kua-yu-fang-wen/"/>
+    <updated>2016-06-24T10:06:41+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/24/jiang-wang-ye-she-zhi-wei-yun-xu-xmlhttprequest-kua-yu-fang-wen</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>在非IE下，使用XMLHttpRequest 不能跨域访问，</p>
+
+<p>除非要访问的网页设置为允许跨域访问。</p>
+
+<p>将网页设置为允许跨域访问的方法如下：</p>
+
+<pre><code>Response.AddHeader("Access-Control-Allow-Origin", "*");
+</code></pre>
+
+<p>或指定域名下可以访问：</p>
+
+<pre><code>Response.AddHeader("Access-Control-Allow-Origin", "http://www.163.com:80");
+</code></pre>
+
+<p>在返回的响应信息中，使用 Access-Control-Allow-Origin 头来控制哪些域名的脚本可以访问该资源。如果设置 Access-Control-Allow-Origin:*，则允许所有域名的脚本访问该资源。如果有多个，则只需要使用逗号分隔开即可。</p>
+
+<p>注意：在服务器端，Access-Control-Allow-Origin 响应头中的端口信息不能省略。</p>
+
+<p>参考：<a href="http://www.chinaz.com/program/2010/0111/103511_2.shtml">http://www.chinaz.com/program/2010/0111/103511_2.shtml</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS初探：搭建PhoneCat项目的开发与测试环境]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/24/angularjschu-tan-:da-jian-phonecatxiang-mu-de-kai-fa-yu-ce-shi-huan-jing/"/>
+    <updated>2016-06-24T09:41:31+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/24/angularjschu-tan-:da-jian-phonecatxiang-mu-de-kai-fa-yu-ce-shi-huan-jing</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>AngularJS官方网站提供了一个用于学习的示例项目：PhoneCat。这是一个Web应用，用户可以浏览一些Android手机，了解它们的详细信息，并进行搜索和排序操作。</p>
+
+<p>对于PhoneCat项目的开发环境和测试环境的搭建，官方网站上提供了详细的指导： <a href="http://docs.angularjs.org/tutorial">http://docs.angularjs.org/tutorial</a> 。</p>
+
+<p>获取源代码</p>
+
+<p>PhoneCat项目的源代码托管在GitHub上，因此获取源代码之前需要安装Git ( <a href="http://git-scm.com/download">http://git-scm.com/download</a> )。安装Git后，可以通过git clone来下载源代码：</p>
+
+<pre><code>git clone --depth=14 https://github.com/angular/angular-phonecat.git
+</code></pre>
+
+<p>–depth=14选项的意思为：仅下载最近14次的代码提交版本；这么做可以减少下载的文件大小，加快下载。</p>
+
+<p>安装依赖包</p>
+
+<p>PhoneCat是一个Web应用程序，因此最好在Web服务器中运行，以期获得最佳结果。官方推荐安装Node.js ( <a href="http://nodejs.org/download/">http://nodejs.org/download/</a> )。</p>
+
+<p>PhoneCat项目的运行与测试依赖一些别的工具，可以在安装Node.js后通过npm命令来安装这些依赖包。以下命令需在angular-phonecat项目路径下运行：</p>
+
+<pre><code>npm install
+</code></pre>
+
+<p>运行该命令后，会在angular-phonecat项目路径下安装以下依赖包：</p>
+
+<ul>
+<li>Bower . 包管理器</li>
+<li>Http-Server . 轻量级Web服务器</li>
+<li>Karma . 用于运行单元测试</li>
+<li>Protractor . 用于运行端到端测试</li>
+</ul>
+
+
+<p>运行PhoneCat项目</p>
+
+<p>完成上述工作后，运行PhoneCat项目很简单，在angular-phonecat项目路径下运行以下命令即可：</p>
+
+<p>npm start
+PhoneCat运行后，可以在浏览器中打开<code>http://localhost:8000/app/index.html</code>来访问该Web应用。</p>
+
+<p>运行单元测试</p>
+
+<p>PhoneCat项目中的单元测试是使用Karma来完成的，所有的单元测试用例都存放在test/unit目录下。可以通过执行以下命令来运行单元测试：</p>
+
+<pre><code>npm test
+</code></pre>
+
+<p>值得一提的是，在运行单元测试前，计算机上必须安装Google Chrome浏览器。</p>
+
+<p>运行端到端测试</p>
+
+<p>PhoneCat项目使用端到端测试来保证Web应用的可操作性，而这个端到端测试是通过使用Protractor来实现的，所有的端到端测试用例都存放在test/e2e目录下。可以通过执行以下步骤来运行端到端测试：</p>
+
+<pre><code>//更新webdriver，此命令只需运行一次
+npm run update-webdriver
+//运行PhoneCat
+npm start
+</code></pre>
+
+<p>打开另一个命令行窗口，在其中运行：</p>
+
+<pre><code>npm run protractor
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[跨域访问]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/24/kua-yu-fang-wen/"/>
+    <updated>2016-06-24T09:21:32+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/24/kua-yu-fang-wen</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>域(Domain)是Windows网络中独立运行的单位，域之间相互访问则需要建立信任关系(即Trust Relation)。信任关系是连接在域与域之间的桥梁。当一个域与其他域建立了信任关系后，2个域之间不但可以按需要相互进行管理，还可以跨网分配文件和打印机等设备资源，使不同的域之间实现网络资源的共享与管理。 有一种简明的说法来解释广域跨域：跨域访问，简单来说就是 A 网站的 javascript 代码试图访问 B 网站，包括提交内容和获取内容。由于安全原因，跨域访问是被各大浏览器所默认禁止的。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS实现跨域请求]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/24/angularjsshi-xian-kua-yu-qing-qiu/"/>
+    <updated>2016-06-24T09:02:19+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/24/angularjsshi-xian-kua-yu-qing-qiu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>跨域，前端开发中经常遇到的问题，AngularJS实现跨域方式类似于Ajax，使用CORS机制。</p>
+
+<p>下面阐述一下AngularJS中使用$http实现跨域请求数据。</p>
+
+<p>AngularJS XMLHttpRequest：$http用于读取远程服务器的数据</p>
+
+<pre><code>$http.post(url, data, [config]).success(function(){ ... });
+$http.get(url, [config]).success(function(){ ... });
+$http.get(url, [config]).success(function(){ ... });
+</code></pre>
+
+<p>一、$http.jsonp【实现跨域】</p>
+
+<p>1.指定callback和回调函数名，函数名为JSON_CALLBACK时，会调用success回调函数，JSON_CALLBACK必须全为大写。</p>
+
+<p>2.指定其它回调函数，但必须是定义在window下的全局函数。url中必须加上callback。</p>
+
+<p>二、$http.get【实现跨域】</p>
+
+<p>1.在服务器端设置允许在其他域名下访问</p>
+
+<pre><code>response.setHeader("Access-Control-Allow-Origin", "*"); //允许所有域名访问
+response.setHeader("Access-Control-Allow-Origin", "http://www.123.com"); //允许www.123.com访问
+</code></pre>
+
+<p>2.AngularJS端使用$http.get()</p>
+
+<p>三、$http.post【实现跨域】</p>
+
+<p>1.在服务器端设置允许在其他域名下访问，及响应类型、响应头设置</p>
+
+<pre><code>response.setHeader("Access-Control-Allow-Origin", "*");
+response.setHeader("Access-Control-Allow-Methods","POST");
+response.setHeader("Access-Control-Allow-Headers","x-requested-with,content-type");
+</code></pre>
+
+<p>2.AngularJS端使用$http.post()，同时设置请求头信息</p>
+
+<pre><code>$http.post('http://localhost/ajax/getAllIndustryCategoty.pt',{languageColumn:'name_eu'},{'Content-Type':'application/x-www-form-urlencoded'}).success(function(data){
+        $scope.industries = data;
+    });
+</code></pre>
+
+<p>四、实现方式</p>
+
+<p>跨域方式一【JSONP】：</p>
+
+<pre><code>方法一：
+
+$http.jsonp("http://localhost/sitesettings/getBadgeInfo.pt?jsonp=JSON_CALLBACK&amp;siteid=137bd406").success(function(data){ ... });
+//  The name of the callback should be the string JSON_CALLBACK.
+</code></pre>
+
+<p>方法二【返回值，需要使用对应callback方法接收，但如何置于$scope???】：</p>
+
+<pre><code>$http.jsonp("http://localhost/sitesettings/getBadgeInfo.pt?jsonp=badgeabc&amp;siteid=137bd406");
+function badgeabc(data){ ... }
+
+public String execute() throws Exception {  
+    String result = FAIL;
+    response.setHeader("", "");
+    SiteHandlerAction siteHandlerAction = (SiteHandlerAction)BeansFactory.getBean(SiteHandlerAction.class);
+    BadgeHandlerAction badgeHandlerAction = (BadgeHandlerAction)BeansFactory.getBean(BadgeHandlerAction.class);
+    if("".equals(siteid) || siteid == null || StringUtils.isBlank("jsonp")){
+        result = FAIL;
+    }else{
+        Site site = siteHandlerAction.find(siteid);
+        UserBadgeStatus userBadgeStatus = badgeHandlerAction.getUserBadgeStatus(site.getId());
+        if(userBadgeStatus != null){
+            result = "{\"t\":"+userBadgeStatus.getStyle()+",\"l\":"+userBadgeStatus.getSuspend_location()+",\"s\":"+site.getId()+"}";
+            JSONObject jsonObj = JSONObject.fromObject(result);
+            String json = jsonObj.toString();
+            result = jsonp + "(" + json + ")";
+        }
+    }
+    PrintWriter write = response.getWriter();
+    write.print(result);
+    write.flush();
+    write.close();
+    return NONE;
+}
+</code></pre>
+
+<p>跨域方式二【$http.get()】：</p>
+
+<pre><code>function getAdustryController($scope,$http){
+    $http.get('http://localhost/ajax/getAllIndustryCategoty.pt?languageColumn=name_eu').success(function(data){
+        $scope.industries = data;
+    });
+}
+</code></pre>
+
+<p>跨域方式三【$http.post()】：</p>
+
+<pre><code>function getAdustryController($scope,$http){
+    $http.post('http://localhost/ajax/getAllIndustryCategoty.pt',{languageColumn:'name_eu'},{'Content-Type':'application/x-www-form-urlencoded'}).success(function(data){
+        $scope.industries = data;
+    });
+}
+
+// java端支持跨域请求
+public String execute(){
+    response.setHeader("Access-Control-Allow-Origin", "*"); //允许哪些url可以跨域请求到本域
+    response.setHeader("Access-Control-Allow-Methods","POST"); //允许的请求方法，一般是GET,POST,PUT,DELETE,OPTIONS
+    response.setHeader("Access-Control-Allow-Headers","x-requested-with,content-type"); //允许哪些请求头
+</code></pre>
+
+<p>可以跨域</p>
+
+<pre><code>SiteHandlerAction SiteHandler = (SiteHandlerAction) BeansFactory.getBean(SiteHandlerAction.class);
+List list = SiteHandler.getAllIndustryCategory(); //所有的分类集合
+JSONArray jsonArray = JSONArray.fromObject(list); //将list转为json
+String json = jsonArray.toString(); //转为json字符串
+try {
+    PrintWriter write = response.getWriter();
+    write.print(json);
+    write.close();
+} catch (IOException e) {
+    e.printStackTrace();
+}
+return NONE;
+}
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ionic Market]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/23/ionic-market/"/>
+    <updated>2016-06-23T18:20:10+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/23/ionic-market</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://market.ionic.io/">http://market.ionic.io/</a></h3>
+]]></content>
+  </entry>
+  
+</feed>

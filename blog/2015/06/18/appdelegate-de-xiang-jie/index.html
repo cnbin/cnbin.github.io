@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>AppDelegate 的详解 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="iOS 中的 AppDelegate.m/h 文件是很重要的，因为它是对 Application 的整个生命周期进行管理的。 先明白，每个 iPhone 应用程序都有一个 UIApplication，UIApplication 是 iPhone 应用程序的开始并且负责初始化并显示 &hellip;">
+  <meta name="keywords" content="appdelegate">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/18/appdelegate-de-xiang-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">AppDelegate 的详解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-18T08:28:25+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:28 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>iOS 中的 <code>AppDelegate.m/h</code> 文件是很重要的，因为它是对 Application 的整个生命周期进行管理的。</p>
+
+<p>先明白，每个 iPhone 应用程序都有一个 UIApplication，UIApplication 是 iPhone 应用程序的开始并且负责初始化并显示 UIWindow，并负责加载应用程序的第一个 UIView 到 UIWindow 窗体中。UIApplication 的另一个任务是帮助管理应用程序的生命周期，而 UIApplication 通过一个名字为 UIApplicationDelegate 的代理类来履行这个任务。尽管 UIApplication 会负责接收事件，而 UIApplicationDelegate 则决定应用程序如何去响应这些事件，UIApplicationDelegate 可以处理的事件包括应用程序的生命周期事件（比如程序启动和关闭）、系统事件（比如来电、记事项警 告），本文会介绍如何加载应用程序的 UIView 到 UIWindow 以及如何利用 UIApplicationDelegate 处理系统事件。
+ 
+通常对于 UIApplication 读者是没必要修改它的，只需要知道 UIApplication 接收系统事件即可，而如何编写代码来处理这些系统事件则是程序员的工作。处理系统事件需要编写一个继承自 UIApplicationDelegate 接口的类，而 UIApplicationDelegate 接口提供生命周期函数来处理应用程序以及应用程序的系统事件，这些生命周期函数如下表所示：</p>
+
+<p>1、</p>
+
+<pre><code> - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+ NSLog(@"当程序载入后执行");
+}
+</code></pre>
+
+<p>说明：当程序载入后执行，应用程序启动入口。只在应用程序启动时执行一次。也就是说在应用程序启动后，要执行的委托调用。application 参数用来获取应用程序的状态、变量等，值得注意的是字典参数：<code>(NSDictionary *)launchOptions</code>，该参数存储程序启动的原因。
+若用户直接启动，lauchOptions 内无数据;</p>
+
+<p>若由其他应用程序通过 openURL: 启动，则 UIApplicationLaunchOptionsURLKey 对应的对象为启动 URL（NSURL）,UIApplicationLaunchOptionsSourceApplicationKey 对应启动的源应用程序的 bundle ID (NSString)；</p>
+
+<p>若由本地通知启动，则 UIApplicationLaunchOptionsLocalNotificationKey 对应的是为启动应用程序的的本地通知对象 (UILocalNotification)；</p>
+
+<p>若由远程通知启动，则 UIApplicationLaunchOptionsRemoteNotificationKey 对应的是启动应用程序的的远程通知信息 userInfo（NSDictionary）；
+其他 key 还有 UIApplicationLaunchOptionsAnnotationKey,UIApplicationLaunchOptionsLocationKey,
+UIApplicationLaunchOptionsNewsstandDownloadsKey。</p>
+
+<p>如果要在启动时，做出一些区分，那就需要在下面的代码做处理。比如：应用可以被某个其它应用调起（作为该应用的子应用），要实现单点登录，那就需要在启动代码的地方做出合理的验证，并跳过登录。
+例子：</p>
+
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    NSURL *url = [launchOptions objectForKey:UIApplicationLaunchOptionsURLKey];
+    if(url)
+    {
+    }
+    NSString *bundleId = [launchOptions objectForKey:UIApplicationLaunchOptionsSourceApplicationKey];
+    if(bundleId)
+    {
+    }
+    UILocalNotification * localNotify = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if(localNotify)
+    {
+    }
+    NSDictionary * userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if(userInfo)
+    {
+    }
+} 
+</code></pre>
+
+<p>2、</p>
+
+<pre><code>-  (void)applicationWillResignActive:(UIApplication *)application
+{
+NSLog(@"应用程序将要进入非活动状态，即将进入后台");
+}
+</code></pre>
+
+<p>在应用程序将要由活动状态切换到非活动状态时候，要执行的委托调用，如按下 home 按钮，返回主屏幕，或全屏之间切换应用程序等。   
+说明：当应用程序将要进入非活动状态时执行，在此期间，应用程序不接收消息或事件，比如来电话了。</p>
+
+<p>3、</p>
+
+<pre><code>- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+      NSLog(@"如果应用程序支持后台运行，则应用程序已经进入后台运行"); 
+}
+</code></pre>
+
+<p>说明：当程序被推送到后台的时候调用。所以要设置后台继续运行，则在这个函数里面设置即可</p>
+
+<p>4、</p>
+
+<pre><code>- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+      NSLog(@"应用程序将要进入活动状态，即将进入前台运行");
+}
+</code></pre>
+
+<p>说明：当程序从后台将要重新回到前台时候调用，这个刚好跟上面的那个方法相反。</p>
+
+<p>5、</p>
+
+<pre><code>- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+     NSLog(@"应用程序已进入前台，处于活动状态");
+}
+</code></pre>
+
+<p>说明：当应用程序进入活动状态时执行，这个刚好跟上面那个方法相反 。</p>
+
+<p>6、</p>
+
+<pre><code>-  (void)applicationWillTerminate:(UIApplication *)application
+{
+     NSLog(@"应用程序将要退出，通常用于保存数据和一些退出前的清理工作"); 
+}
+</code></pre>
+
+<p>说明：当程序将要退出是被调用，通常是用来保存数据和一些退出前的清理工作。这个需要要设置 UIApplicationExitsOnSuspend 的键值。</p>
+
+<p>7、</p>
+
+<pre><code>-  (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    NSLog(@"系统内存不足，需要进行清理工作");
+}
+</code></pre>
+
+<p>说明：iPhone 设备只有有限的内存，如果为应用程序分配了太多内存操作系统会终止应用程序的运行，在终止前会执行这个方法，通常可以在这里进行内存清理工作防止程序被终止。</p>
+
+<p>8、</p>
+
+<pre><code>- (void)applicationSignificantTimeChange:(UIApplication *)application
+{
+    NSLog(@"当系统时间发生改变时执行");
+}
+</code></pre>
+
+<p>说明：当系统时间发生改变时执行</p>
+
+<p>9、</p>
+
+<pre><code> -  (void)application:(UIApplication)application  willChangeStatusBarFrame:(CGRect)newStatusBarFrame
+{
+   NSLog(@"StatusBar框将要变化");
+}   
+</code></pre>
+
+<p>说明：当 StatusBar 框将要变化时执行</p>
+
+<p>10、</p>
+
+<pre><code> -  (void)application:(UIApplication*)application willChangeStatusBarOrientation:
+(UIInterfaceOrientation)newStatusBarOrientation duration:(NSTimeInterval)duration
+{
+}
+</code></pre>
+
+<p>说明：当 StatusBar 框方向将要变化时执行</p>
+
+<p>11、</p>
+
+<pre><code>- (BOOL)application:(UIApplication*)application handleOpenURL:(NSURL*)url
+{
+}
+</code></pre>
+
+<p>说明：当通过 url 执行</p>
+
+<p>12、</p>
+
+<pre><code> -  (void)application:(UIApplication*)application  didChangeStatusBarOrientation:(UIInterfaceOrientation)oldStatusBarOrientation
+{
+}
+</code></pre>
+
+<p>说明：当 StatusBar 框方向变化完成后执行</p>
+
+<p>13、</p>
+
+<pre><code>-  (void)application:(UIApplication*)application didChangeSetStatusBarFrame:(CGRect)oldStatusBarFrame
+{
+}
+</code></pre>
+
+<p>说明：当 StatusBar 框变化完成后执行</p>
+
+<p>另外还有一些协议方法需要知道：</p>
+
+<p>Handling Remote Notifications  （处理远程消息）</p>
+
+<pre><code>-(void) application:(UIApplication *) applicationdidReceiveRemoteNotification:(NSDictonary *) userinfo
+</code></pre>
+
+<p>说明：当一个运行着的应用程序收到一个远程的通知发送到委托去&hellip;</p>
+
+<pre><code>-(void) application：(UIApplication *) applicationdidRegisterForRemoteNotificationsWithDeviceToken:(NSData *) deviceToken
+</code></pre>
+
+<p>说明：当一个应用程序成功的注册一个推送服务（APS） 发送到委托去&hellip;</p>
+
+<pre><code>-(void) application:(UIApplication *) applicationdidFailToRegisterForRemoteNotificationsWithError:(NSError *) error
+</code></pre>
+
+<p>说明：当 APS无法成功的完成向 程序进程推送时 发送到委托去&hellip;</p>
+
+<p>Handling Local Notification （处理本地消息）</p>
+
+<pre><code>-(void) application:(UIApplication *) applicationdidReceiveLocalNotification:(UILocalNotification *)notification
+</code></pre>
+
+<p>说明：当一个运行着的应用程序收到一个本地的通知 发送到委托去&hellip;</p>
+
+<p>Responding to Content Protections Changes（响应受保护内容的改变）</p>
+
+<pre><code>-applicationProtectedDataWillBecomeUnavailable:
+</code></pre>
+
+<p>说明：通知委托，受保护的文件当前变为不可用的</p>
+
+<pre><code>-applicationProtectedDataWillBecomeAvailable:
+</code></pre>
+
+<p>说明：通知委托  受保护的文件当前变为可用</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-18T08:28:25+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:28 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/18/3gp-H264-aac/" title="Previous Post: 3gp,H.264 和 aac">&laquo; 3gp,H.264 和 aac</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/18/uiview-xiang-jie/" title="Next Post: UIView 详解">UIView 详解 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

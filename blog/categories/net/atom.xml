@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Net | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/net/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Vs快捷键]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/11/vskuai-jie-jian/"/>
+    <updated>2016-06-11T08:27:20+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/11/vskuai-jie-jian</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><strong>for</strong> +2次tab键 是for循环</p>
+
+<p>vs 中。有自动生成构造方法的快捷键吗？</p>
+
+<p>构造函数 输入<strong>ctor</strong> 在按TAB键</p>
+
+<p>C#中,定义构造函数的快捷键是什么 ?</p>
+
+<p>中虽然没有构造函数的快捷键，但是对字段的封装有快捷键。（ctrl+R+E）或者在写字段时写打上<strong>PROP</strong>然后按2次TAB键，直接可以把字段和属性的格式打出来了，然后改下字段和属性的类型名称即可。</p>
+
+<p>构造函数是一个计算机术语，是一种特殊的方法，主要用来在创建对象时初始化对象，构造函数的命名必须和类名完全相同，而一般方法则不能和类名相同</p>
+
+<p>VS2012输出语句的快捷键是什么？</p>
+
+<p>这两句：Console.WriteLine(&ldquo;&rdquo;);  Console.ReadLine(&ldquo;&rdquo;);</p>
+
+<p><strong>c+w +tab tab</strong></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[博客园-LINQ to SQL语句(1)之Where]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/11/bo-ke-yuan-linq-to-sqlyu-ju-1-zhi-where/"/>
+    <updated>2016-06-11T08:21:23+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/11/bo-ke-yuan-linq-to-sqlyu-ju-1-zhi-where</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://kb.cnblogs.com/page/42465/">http://kb.cnblogs.com/page/42465/</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linq Group查询]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/08/linq-groupcha-xun/"/>
+    <updated>2016-06-08T14:23:35+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/08/linq-groupcha-xun</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4nsr7ed66j20gd070wf0.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4nsp8v6w9j20ae08q74c.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4nt7mymhaj20eh0bs75l.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f4nt7ma68dj208z05omx6.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4nvbf8hnbj20jf0d2766.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4nvbfyib6j209703uq30.jpg" alt="img" /></p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://code.msdn.microsoft.com/LINQ-to-DataSets-Grouping-c62703ea">https://code.msdn.microsoft.com/LINQ-to-DataSets-Grouping-c62703ea</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[结尾日志备份]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/08/jie-wei-ri-zhi-bei-fen/"/>
+    <updated>2016-06-08T11:39:48+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/08/jie-wei-ri-zhi-bei-fen</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3>一、结尾日志</h3>
+
+<p>在最后一次事务日志备份之后，数据库继续执行新的事务，这样就会在事务日志中还存在着尚未备份的日志记录，这部分“新”日志就称为“结尾日志”。</p>
+
+<h3>二、结尾日志备份</h3>
+
+<p>“结尾日志备份”就是用来捕获事务日志的“尾部”（即尚未备份的那部分日志记录），而且可以备份到最后一个事务，从而形成一个完好无损的日志链。</p>
+
+<p>通过结尾日志备份，可以将数据库恢复到最后一个时间点的最后一个事务，以防丢失所做的工作。</p>
+
+<p>结尾日志备份将是数据库还原计划中相关的最后一个备份。结尾日志完成后，数据库处于“正在恢复”状态，不可以访问。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[LINQ基本信息]]></title>
+    <link href="http://cnbin.github.io/blog/2016/06/08/linqji-ben-xin-xi/"/>
+    <updated>2016-06-08T09:26:34+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/06/08/linqji-ben-xin-xi</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4nk48fp7qj20o102n3z4.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f4nk48s83mj20so04yjt4.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f4nk49b3lqj20sn0c0djk.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f4nkkui3btj20sp08staw.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4nkkuy0inj20su09bq5j.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f4nkkvjdmyj20sg0k7n2g.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4nlmgr7y6j20rq0560u2.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f4nlmh7xrrj20rq0lmjx6.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+</feed>

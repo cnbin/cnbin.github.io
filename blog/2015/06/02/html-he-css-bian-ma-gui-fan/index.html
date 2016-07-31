@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>HTML 和 CSS 编码规范 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、省略ur地址中的 http: 或 https: 的部分 在引用样式表文件、脚本文件、图片以及其它媒体文件时，都可以这样做，除非使用这两种协议都无法获取到资源，也就是说必须使用其它协议才能获取到资源的，就不能省略啦，只有 http: 和 https: 是可以省略的。 &hellip;">
+  <meta name="keywords" content="html,css">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/02/html-he-css-bian-ma-gui-fan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">HTML 和 CSS 编码规范</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-02T11:40:21+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:40 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>一、省略ur地址中的 <a href="http:">http:</a> 或 <a href="https:">https:</a> 的部分</h3>
+
+<p>在引用样式表文件、脚本文件、图片以及其它媒体文件时，都可以这样做，除非使用这两种协议都无法获取到资源，也就是说必须使用其它协议才能获取到资源的，就不能省略啦，只有 <a href="http:">http:</a> 和 <a href="https:">https:</a> 是可以省略的。这样做的好处是能减少文件的体积，而且还能避免一些相对 url 中混乱问题的产生。</p>
+
+<pre><code>&lt;!-- 不推荐 --&gt;
+&lt;script src="http://www.google.com/js/gweb/analytics/autotrack.js"&gt;&lt;/script&gt;
+&lt;!-- 推荐 --&gt;
+&lt;script src="//www.google.com/js/gweb/analytics/autotrack.js"&gt;&lt;/script&gt;
+/* 不推荐 */
+.example {
+  background: url(http://www.google.com/images/example);
+}
+/* 推荐 */
+.example {
+  background: url(//www.google.com/images/example);
+}
+</code></pre>
+
+<h3>二、通用代码风格</h3>
+
+<p>1、每次缩进两个空格，不要使用 tab 键进行缩进，也不要把 tab 键以及空格混合起来进行缩进。单纯的使用空格进行缩进就好了。</p>
+
+<pre><code>&lt;ul&gt;
+  &lt;li&gt;Fantastic
+  &lt;li&gt;Great
+&lt;/ul&gt;
+
+.example {
+  color: blue;
+}
+</code></pre>
+
+<p>2、只使用小写，包括标签名、属性名、属性值（一些可以自定义的字符串属性值除外）</p>
+
+<pre><code>&lt;!-- 不推荐 --&gt;
+&lt;A HREF="/"&gt;Home&lt;/A&gt;
+
+&lt;!-- 推荐 --&gt;
+&lt;img src="google.png" alt="Google"&gt;
+</code></pre>
+
+<h3>三、通用 Meta 规则</h3>
+
+<p> 1.确保你的 IDE 使用的是 UTF-8 编码来保存文件的，且不要带上 BOM。在定义页面的编码时使用 <meta charset="utf-8"> 就好了。在样式表文件里不用去声明 UTF-8 编码什么的。</p>
+
+<p> 2.在需要地地方进行注释。</p>
+
+<p> 3.用 TODO 来标志代码中需要完善的地方</p>
+
+<pre><code>&lt;!-- TODO: remove optional tags --&gt;
+&lt;ul&gt;
+  &lt;li&gt;Apples&lt;/li&gt;
+  &lt;li&gt;Oranges&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<h3>四、HTML书写规则</h3>
+
+<p>1.文档类型。HTML5 的文档类型对所有的 html 文档都适用：&lt;!doctype html>。另外，最好使用 html，而不是 xhtml.</p>
+
+<p>2.使用规范化的 html，并使用 <a href="http://validator.w3.org/">W3C HTML validator</a> 之类的工具来进行检测。</p>
+
+<pre><code>&lt;!-- 不规范 --&gt;
+&lt;title&gt;Test&lt;/title&gt;
+&lt;article&gt;This is only a test.
+
+&lt;!-- 规范 --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;title&gt;Test&lt;/title&gt;
+&lt;article&gt;This is only a test.&lt;/article&gt;
+</code></pre>
+
+<p>3.使用语义化的 html 标签，根据用途来选择标签。</p>
+
+<pre><code>&lt;!-- 不推荐 --&gt;
+&lt;div onclick="goToRecommendations();"&gt;All recommendations&lt;/div&gt;
+
+&lt;!-- 推荐 --&gt;
+&lt;a href="recommendations/"&gt;All recommendations&lt;/a&gt;
+</code></pre>
+
+<p>4.把多媒体元素可知化。像图片、视频、动画等多媒体元素，要有相关的文字来体现其内容，比如 <code>&lt;img&gt;</code> 可以使用 alt 属性来说明图片内容。</p>
+
+<pre><code>&lt;!-- 不推荐 --&gt;
+&lt;img src="spreadsheet.png"&gt;
+
+&lt;!-- 推荐 --&gt;
+&lt;img src="spreadsheet.png" alt="Spreadsheet screenshot."&gt;
+</code></pre>
+
+<p>5.确保页面的 结构、样式、行为三者相分离。确保文档或模板中只包含html，把用到的样式都写到样式表文件中，把脚本都写到 js 文件中。这在多人协作时非常重要。</p>
+
+<pre><code>&lt;!-- Not recommended --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;title&gt;HTML sucks&lt;/title&gt;
+&lt;link rel="stylesheet" href="base.css" media="screen"&gt;
+&lt;link rel="stylesheet" href="grid.css" media="screen"&gt;
+&lt;link rel="stylesheet" href="print.css" media="print"&gt;
+&lt;h1 style="font-size: 1em;"&gt;HTML sucks&lt;/h1&gt;
+&lt;p&gt;I’ve read about this on a few sites but now I’m sure:
+  &lt;u&gt;HTML is stupid!!1&lt;/u&gt;
+&lt;center&gt;I can’t believe there’s no way to control the styling of
+  my website without doing everything all over again!&lt;/center&gt;
+
+&lt;!-- Recommended --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;title&gt;My first CSS-only redesign&lt;/title&gt;
+&lt;link rel="stylesheet" href="default.css"&gt;
+&lt;h1&gt;My first CSS-only redesign&lt;/h1&gt;
+&lt;p&gt;I’ve read about this on a few sites but today I’m actually
+  doing it: separating concerns and avoiding anything in the HTML of
+  my website that is presentational.
+&lt;p&gt;It’s awesome!
+</code></pre>
+
+<p>6、优化标签。有些标签是不需要用到的，能少就少。可以参考 <a href="https://html.spec.whatwg.org/multipage/syntax.html#syntax-tag-omission">HTML5 specification</a>来知道哪些标签是必须的，哪些又是多余的。</p>
+
+<pre><code>&lt;!-- Not recommended --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Spending money, spending bytes&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;Sic.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+&lt;!-- Recommended --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;title&gt;Saving money, saving bytes&lt;/title&gt;
+&lt;p&gt;Qed.
+</code></pre>
+
+<p>7.省略 <code>&lt;style&gt;</code> 和 <code>&lt;script&gt;</code> 的 <code>type</code> 属性</p>
+
+<h3>五、HTML代码的格式化</h3>
+
+<p>1.为每个块级元素或表格元素标签新起一行，并且对每个子元素进行缩进</p>
+
+<pre><code>&lt;blockquote&gt;
+  &lt;p&gt;&lt;em&gt;Space&lt;/em&gt;, the final frontier.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+  &lt;li&gt;Moe
+  &lt;li&gt;Larry
+  &lt;li&gt;Curly
+&lt;/ul&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th scope="col"&gt;Income
+      &lt;th scope="col"&gt;Taxes
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;$ 5.00
+      &lt;td&gt;$ 4.50
+&lt;/table&gt;
+</code></pre>
+
+<h3>六、css书写规则</h3>
+
+<p>1.使用合法、规范的 css,可以通过 <a href="http://jigsaw.w3.org/css-validator/">W3C CSS validator</a>来进行验证。</p>
+
+<p>2.ID 和 class 的命名尽可能短，并符合语义。</p>
+
+<pre><code>/* Not recommended */
+#navigation {}
+.atr {}
+/* Recommended */
+#nav {}
+.author {}
+</code></pre>
+
+<p>3.尽量少用多重选择器或后代选择器，因为这会影响性能。</p>
+
+<pre><code>/* Not recommended */
+ul#example {}
+div.error {}
+/* Recommended */
+#example {}
+.error {}
+</code></pre>
+
+<p>4.使用组合属性。css 中提供了不少的能进行组合属性连写的地方。比如font，margin，padding 等。</p>
+
+<pre><code>/* Not recommended */
+border-top-style: none;
+font-family: palatino, georgia, serif;
+font-size: 100%;
+line-height: 1.6;
+padding-bottom: 2em;
+padding-left: 1em;
+padding-right: 1em;
+padding-top: 0;
+
+/* Recommended */
+border-top: 0;
+font: 100%/1.6 palatino, georgia, serif;
+padding: 0 1em 2em;
+</code></pre>
+
+<p>5.如果 css 属性的值为 0 ,则后面不要带上单位。除非真的是需要。</p>
+
+<pre><code>margin: 0;
+padding: 0;
+</code></pre>
+
+<p>6.省略小数前面的 0。比如 0.8 可以写成 .8</p>
+
+<p>7.在 URI 类型的值里不要加上引号。比如 @import url(//www.google.com/css/go.css);</p>
+
+<p>8.如果有可能，尽量使用3个字符的十六进制数。</p>
+
+<pre><code>/* Not recommended */
+color: #eebbcc;
+/* Recommended */
+color: #ebc;
+</code></pre>
+
+<p>9.使用特定的前缀</p>
+
+<pre><code>.adw-help {} /* AdWords */
+#maia-note {} /* Maia */
+</code></pre>
+
+<p>10.在 ID 和 class 中使用 <strong>-</strong> 来作为连字符。</p>
+
+<pre><code>/* Not recommended: does not separate the words “demo” and “image” */
+.demoimage {}
+
+/* Not recommended: uses underscore instead of hyphen */
+.error_status {}
+/* Recommended */
+#video-id {}
+.ads-sample {}
+</code></pre>
+
+<p>11.避免使用 css hack，首先考虑使用另一种写法来解决。</p>
+
+<h3>七、css格式化规则</h3>
+
+<p>1.按字母的先后顺序来进行 css 属性的声明，但某些浏览器的私有前缀可以不算进来。</p>
+
+<pre><code>    background: fuchsia;
+    border: 1px solid;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    color: black;
+    text-align: center;
+    text-indent: 2em;
+</code></pre>
+
+<p>2.对处在 <strong>{}</strong> 中的语句进行缩进。</p>
+
+<pre><code>@media screen, projection {
+
+  html {
+    background: #fff;
+    color: #444;
+  }
+
+}
+</code></pre>
+
+<p>3.每个 css 属性声明后都要使用一个分号，即使是最后的那个。</p>
+
+<pre><code>/* Not recommended */
+.test {
+  display: block;
+  height: 100px
+}
+
+/* Recommended */
+.test {
+  display: block;
+  height: 100px;
+}
+</code></pre>
+
+<p>4.在紧跟属性名的冒号后使用一个空格</p>
+
+<pre><code>/* Not recommended */
+h3 {
+  font-weight:bold;
+}
+
+/* Recommended */
+h3 {
+  font-weight: bold;
+}
+</code></pre>
+
+<p>5.每一个 css 选择器或是属性声明都要新起一行。</p>
+
+<pre><code>/* Not recommended */
+a:focus, a:active {
+  position: relative; top: 1px;
+}
+
+/* Recommended */
+h1,
+h2,
+h3 {
+  font-weight: normal;
+  line-height: 1.2;
+}
+</code></pre>
+
+<p>6.在每一个 css 规则之间应该空一行</p>
+
+<pre><code>html {
+  background: #fff;
+}
+
+body {
+  margin: auto;
+  width: 50%;
+}
+</code></pre>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://www.css88.com/doc/codeguide/">http://www.css88.com/doc/codeguide/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-02T11:40:21+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:40 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/02/mac-shell-bian-liang-,shu-ju-zhong-ding-xiang-he-guan-dao/" title="Previous Post: Mac-shell 变量，数据重定向和管道">&laquo; Mac-shell 变量，数据重定向和管道</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/02/ios-she-bei-xiang-su/" title="Next Post: iOS 设备像素">iOS 设备像素 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

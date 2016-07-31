@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android提供了几种在其他线程中访问UI线程的方法 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Activity.runOnUiThread( Runnable ) View.post( Runnable ) View.postDelayed( Runnable, long ) Hanlder AsyncTask(推荐使用) package org.unique.async; import &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/20/androidti-gong-liao-ji-chong-zai-qi-ta-xian-cheng-zhong-fang-wen-uixian-cheng-de-fang-fa/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android提供了几种在其他线程中访问UI线程的方法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T16:41:03+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:41 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<pre><code>Activity.runOnUiThread( Runnable )
+
+View.post( Runnable )
+
+View.postDelayed( Runnable, long )
+
+Hanlder
+</code></pre>
+
+<p>AsyncTask(推荐使用)</p>
+
+<pre><code>package org.unique.async;   
+import java.io.ByteArrayOutputStream;   
+import java.io.InputStream;   
+import java.util.ArrayList;   
+
+import org.apache.http.HttpEntity;   
+import org.apache.http.HttpResponse;   
+import org.apache.http.client.HttpClient;   
+import org.apache.http.client.methods.HttpGet;   
+import org.apache.http.impl.client.DefaultHttpClient;   
+
+import android.app.Activity;   
+import android.app.ProgressDialog;   
+import android.content.Context;   
+import android.content.DialogInterface;   
+import android.os.AsyncTask;   
+import android.os.Bundle;   
+import android.os.Handler;   
+import android.os.Message;   
+import android.view.View;   
+import android.widget.Button;   
+import android.widget.EditText;   
+import android.widget.TextView;   
+
+public class NetworkActivity extends Activity{   
+    private TextView message;   
+    private Button open;   
+    private EditText url;   
+
+    @Override   
+    public void onCreate(Bundle savedInstanceState) {   
+       super.onCreate(savedInstanceState);   
+       setContentView(R.layout.network);   
+       message= (TextView) findViewById(R.id.message);   
+       url= (EditText) findViewById(R.id.url);   
+       open= (Button) findViewById(R.id.open);   
+       open.setOnClickListener(new View.OnClickListener() {   
+           public void onClick(View arg0) {   
+              connect();   
+           }   
+       });   
+
+    }   
+
+    private void connect() {   
+        PageTask task = new PageTask(this);   
+        task.execute(url.getText().toString());   
+    }   
+
+    class PageTask extends AsyncTask&lt;String, Integer, String&gt; {   
+        // 可变长的输入参数，与AsyncTask.exucute()对应   
+        ProgressDialog pdialog;   
+        public PageTask(Context context){   
+            pdialog = new ProgressDialog(context, 0);      
+            pdialog.setButton("cancel", new DialogInterface.OnClickListener() {   
+             public void onClick(DialogInterface dialog, int i) {   
+              dialog.cancel();   
+             }   
+            });   
+            pdialog.setOnCancelListener(new DialogInterface.OnCancelListener() {   
+             public void onCancel(DialogInterface dialog) {   
+              finish();   
+             }   
+            });   
+            pdialog.setCancelable(true);   
+            pdialog.setMax(100);   
+            pdialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);   
+            pdialog.show();   
+
+        }   
+        @Override   
+        protected String doInBackground(String... params) {   
+
+            try{   
+
+               HttpClient client = new DefaultHttpClient();   
+               // params[0]代表连接的url   
+               HttpGet get = new HttpGet(params[0]);   
+               HttpResponse response = client.execute(get);   
+               HttpEntity entity = response.getEntity();   
+               long length = entity.getContentLength();   
+               InputStream is = entity.getContent();   
+               String s = null;   
+               if(is != null) {   
+                   ByteArrayOutputStream baos = new ByteArrayOutputStream();   
+
+                   byte[] buf = new byte[128];   
+
+                   int ch = -1;   
+
+                   int count = 0;   
+
+                   while((ch = is.read(buf)) != -1) {   
+
+                      baos.write(buf, 0, ch);   
+
+                      count += ch;   
+
+                      if(length &gt; 0) {   
+                          // 如果知道响应的长度，调用publishProgress（）更新进度   
+                          publishProgress((int) ((count / (float) length) * 100));   
+                      }   
+
+                      // 让线程休眠100ms   
+                      Thread.sleep(100);   
+                   }   
+                   s = new String(baos.toByteArray());              }   
+               // 返回结果   
+               return s;   
+            } catch(Exception e) {   
+               e.printStackTrace();   
+
+            }   
+
+            return null;   
+
+        }   
+
+        @Override   
+        protected void onCancelled() {   
+            super.onCancelled();   
+        }   
+
+        @Override   
+        protected void onPostExecute(String result) {   
+            // 返回HTML页面的内容   
+            message.setText(result);   
+            pdialog.dismiss();    
+        }   
+
+        @Override   
+        protected void onPreExecute() {   
+            // 任务启动，可以在这里显示一个对话框，这里简单处理   
+            message.setText(R.string.task_started);   
+        }   
+
+        @Override   
+        protected void onProgressUpdate(Integer... values) {   
+            // 更新进度   
+              System.out.println(""+values[0]);   
+              message.setText(""+values[0]);   
+              pdialog.setProgress(values[0]);   
+        }   
+
+     }   
+
+}
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T16:41:03+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:41 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/20/androidkai-fa-zhong-handlerde-jing-dian-zong-jie/" title="Previous Post: Android开发中Handler的经典总结">&laquo; Android开发中Handler的经典总结</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/20/androidxiang-mu-gong-cheng-xia-mian-de-assetsmu-lu-de-zuo-yong-shi-shi-yao/" title="Next Post: Android项目工程下面的assets目录的作用是什么">Android项目工程下面的assets目录的作用是什么 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

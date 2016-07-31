@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>NPM-Peer Dependencies 介绍 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="npm 是非常棒的包管理器。特别是对子依赖处理得非常好。如果我的包依赖于 request v2 及 some-other-library，但是 some-other-library 依赖于 request v1，安装后的依赖树是这样的： ├── request@2.12.0
+└─┬ some- &hellip;">
+  <meta name="keywords" content="peer dependencies,npm">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/05/npm-peer-dependencies-jie-shao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">NPM-Peer Dependencies 介绍</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-05T09:49:52+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>npm 是非常棒的包管理器。特别是对子依赖处理得非常好。如果我的包依赖于 request v2 及 some-other-library，但是 some-other-library 依赖于 request v1，安装后的依赖树是这样的：</p>
+
+<pre><code>├── request@2.12.0
+└─┬ some-other-library@1.2.3
+  └── request@1.9.9
+</code></pre>
+
+<p>通常这样不错：<code>some-other-library</code> 用自己的 <code>request v1</code>，不会影响到我的包的 <code>request v2</code>。</p>
+
+<h3>问题：插件</h3>
+
+<p>不过有一种情况这样会失败：插件。一个插件（plugin package ）跟另一个宿主（host plugin）一起用，即使它不直接使用宿主。在 Node.js 里已有有不少的例子：</p>
+
+<ul>
+<li>Grunt 插件</li>
+<li>Chai 插件</li>
+<li>Levelup 插件</li>
+<li>Express 中间件</li>
+<li>Winston transports</li>
+</ul>
+
+
+<p>如果你是客户端开发者，即使你不熟悉上面这些包，你可以想一下 <code>“jQuery plugins”</code>：向页面插入 <code>&lt;script&gt;</code>，它们向 <code>jQuery.prototype</code> 添加属性，方便后面使用。</p>
+
+<p>大体上，插件是要与宿主一起用。但是更重要的是，它们与特定版本的宿主一起用。例如，我的插件 <code>chai-as-promised 1.x</code> 与 <code>2.x</code> 与 <code>Chai v0.5</code> 一起用，<code>3.x</code> 与 <code>Chai v1.x</code> 一起用。又比如，对于不遵守 <code>semver</code> 的 <code>Grunt</code> 插件，<code>grunt-contrib-stylus v0.3.1</code> 与 <code>Grunt 0.4.0rc4</code> 一起用，但是不能与 <code>Grunt 0.4.0rc5</code> 一起用，因为移除了相关 <code>API</code>。</p>
+
+<p>作为包管理器，npm 在安装依赖包的时候一大块的工作是处理版本。但是它的常用模式—— package.json 的 <code>dependencies</code> 表，对于插件毫无疑问地失败。多数插件从不依赖于它们的宿主，例如 <code>grunt</code> 插件从不 <code>require("grunt")</code>，所以即使写下依赖的宿主，也不会使用下载的宿主。于是我们回到了起点，所用的插件不兼容于它的宿主。</p>
+
+<p>即使是直接依赖宿主的插件——可能用到宿主的 API，在插件的 <code>package.json</code> 指定依赖，这将下载多个版本的宿主，却不是你想要的。举个例子，假如 <code>winston-mail</code> 在它的 <code>dependencies</code> 表中指定了 <code>"winston": "0.5.x"</code>，这是它测试的最新版本。作为一个应用开发者，你想要最新最棒的，所以你查找最新版本的 <code>winston</code> 和 <code>winston-mail</code>，在你的 <code>package.json</code> 这样写道：</p>
+
+<pre><code>{
+  "dependencies": {
+    "winston": "0.6.2",
+    "winston-mail": "0.2.3"
+  }
+}
+</code></pre>
+
+<p>但是运行 <code>npm install</code> 得到的依赖树不是预期的：</p>
+
+<pre><code>├── winston@0.6.2
+└─┬ winston-mail@0.2.3
+  └── winston@0.5.11
+</code></pre>
+
+<h3>解决办法：同伴依赖</h3>
+
+<p>我们需要一个办法表达插件与它们的宿主之间的依赖。好比说 “我是宿主 1.2.x 的扩展，如果你安装我，请确定安装兼容的宿主。” 我们称这种关系为同伴依赖（peer dependency）。</p>
+
+<p>同伴依赖的思路提出来已经有"好些年"了（930 - 1400）。九个月前我说用“整个周末”实现它，终于我得到一个空闲的周末，现在 npm 有同伴依赖了！</p>
+
+<p>特别是它作为基础部分引入到 npm 1.2.0，在后面几个版本中又继续完善，我很高兴看到这点。今天 Isaac 将 npm 1.2.10 打包进 Node.js 0.8.19，所以如果你安装最新的 Node, 你能马上使用同伴依赖。</p>
+
+<p>为证明我说的，看我用 npm 1.2.10 安装 jistu 0.11.6:</p>
+
+<pre><code>npm ERR! peerinvalid The package flatiron does not satisfy its siblings' peerDependencies requirements!
+npm ERR! peerinvalid Peer flatiron-cli-config@0.1.3 wants flatiron@~0.1.9
+npm ERR! peerinvalid Peer flatiron-cli-users@0.1.4 wants flatiron@~0.3.0
+</code></pre>
+
+<p>正如所见，<code>jistu</code> 依赖于两个 <code>Flatiron</code> 插件，它们同伴依赖于版本相冲突的 <code>Flatiron</code>。<code>npm</code> 在帮我们判断这个冲突，<code>jistu 0.11.7</code> 将修复这个问题。</p>
+
+<h3>使用同伴依赖</h3>
+
+<p>同伴依赖用法很简单。写插件时，确定插件使用哪个版本的宿主，将它添加到你的 <code>package.json</code>：</p>
+
+<pre><code>{
+  "name": "chai-as-promised",
+  "peerDependencies": {
+    "chai": "1.x"
+  }
+}
+</code></pre>
+
+<p>当安装 <code>chai-as-promised</code> 时，也会安装 <code>chai</code>。如果后面你打算安装另一个适用于 <code>Chai 0.x</code> 的 插件，将会得到一个错误。好！</p>
+
+<p>一个建议：不像一般的依赖，同伴依赖需要放宽版本。你不应该将你的同伴依赖锁定到特定的补丁版本号。这将会很烦人，一个 Chai 同伴依赖于 Chai 1.4.1，另一个同伴依赖于 Chai 1.5.0，只是因为作者比较懒，不花时间去确定最低可以使用的 Chai 版本。</p>
+
+<p>确定同伴依赖的最好办法是确实地遵守 semver。假定只有宿主的主版本号的变动才会损坏你的插件。因此，如果是 1.x 宿主，使用 &ldquo;~1.0&rdquo; 或 &ldquo;1.x"；如果依赖于 1.5.2 引入的功能，使用 &rdquo;>= 1.5.2 &lt; 2"。</p>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="https://github.com/hongfanqie/peer-dependencies">https://github.com/hongfanqie/peer-dependencies</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-05T09:49:52+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:49 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/05/mac-an-zhuang-he-shi-yong-xampp/" title="Previous Post: Mac 安装和使用 XAMPP(原创)">&laquo; Mac 安装和使用 XAMPP(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/05/git-github-gitlab-zhi-jian-de-guan-xi/" title="Next Post: git github gitlab 之间的关系">git github gitlab 之间的关系 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

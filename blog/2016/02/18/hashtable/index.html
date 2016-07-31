@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Hashtable - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一.哈希表(Hashtable)简述 在.NET work中，Hashtable是System.Collections命名空间提供的一个容器，用于处理和表现类似key/的键值对，其中key通常可用来快速查找，同时key是区分大小写；用于存储对应于key的值。Hashtable中key/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/18/hashtable/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Hashtable</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-18T11:55:23+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:55 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>一.哈希表(Hashtable)简述</h3>
+
+<p>在.NET work中，Hashtable是System.Collections命名空间提供的一个容器，用于处理和表现类似key/的键值对，其中key通常可用来快速查找，同时key是区分大小写；用于存储对应于key的值。Hashtable中key/键值对均为object类型，所以Hashtable可以支持任何类型的key/键值对.</p>
+
+<h3>二.哈希表的简单操作</h3>
+
+<p> 在哈希表中添加一个key/键值对：HashtableObject.Add(key,);</p>
+
+<p> 在哈希表中去除某个key/键值对：HashtableObject.Remove(key);</p>
+
+<p> 从哈希表中移除所有元素：HashtableObject.Clear();</p>
+
+<p> 判断哈希表是否包含特定键key: HashtableObject.Contains(key);</p>
+
+<p> 下面控制台程序将包含以上所有操作：</p>
+
+<pre><code>using System;
+using System.Collections; //使用Hashtable时，必须引入这个命名空间
+
+class hashtable
+{
+  public static void Main()
+  {
+  Hashtable ht=new Hashtable(); //创建一个Hashtable实例
+  ht.Add("E","e");//添加key/键值对
+  ht.Add("A","a");
+  ht.Add("C","c");
+  ht.Add("B","b");
+
+  string s=(string)ht["A"];  //直接根据键获取值
+  if(ht.Contains("E"))       //判断哈希表是否包含特定键,其返回值为true或false
+    Console.WriteLine("the E key:exist");
+  ht.Remove("C");//移除一个key/键值对
+  Console.WriteLine(ht["A"]);//此处输出a
+  ht.Clear();//移除所有元素
+  Console.WriteLine(ht["A"]); //此处将不会有任何输出
+  }
+}
+</code></pre>
+
+<h3>三.遍历哈希表</h3>
+
+<p> 遍历哈希表需要用到DictionaryEntry Object，代码如下：</p>
+
+<pre><code> for(DictionaryEntry de in ht) //ht为一个Hashtable实例
+ {
+   Console.WriteLine(de.Key); //de.Key对应于key/键值对key
+   Console.WriteLine(de.);    //de.Key对应于key/键值对
+ }
+</code></pre>
+
+<h3>四.对哈希表进行排序</h3>
+
+<p>  对哈希表进行排序在这里的定义是对key/键值对中的key按一定规则重新排列，但是实际上这个定义是不能实现的，因为我们无法直接在Hashtable进行对key进行重新排列，如果需要Hashtable提供某种规则的输出，可以采用一种变通的做法：</p>
+
+<pre><code> ArrayList akeys=new ArrayList(ht.Keys); //别忘了导入System.Collections
+ // 这样可以提高查询速度
+ akeys.Sort(); //按字母顺序进行排序
+ for(string skey in akeys) 
+ {
+   Console.Write(skey ":");
+   Console.WriteLine(ht[skey]);//排序后输出
+ }
+</code></pre>
+
+<h3>五.在哈希表存取类等其它对象</h3>
+
+<pre><code>// 类对象
+public class Person
+{
+    private string FirstName;
+    private string LastName;
+
+    public Person(string first, string last)
+    {
+        FirstName = first;
+        LastName = last;
+    }
+
+    public string FullName
+    {
+        get
+        {
+            return FirstName + " " + LastName;
+        }
+    }
+}
+
+// 存取过程
+protected void Page_Load(object sender, EventArgs e)
+    {
+        Person scott = new Person("Scott", "Hanselman");
+        Person bill = new Person("Bill", "Evjen");
+        Person srini = new Person("Srinivasa", "Sivakumar");
+
+        Hashtable peopleHashtable = new Hashtable();
+        peopleHashtable.Add("sh", scott);
+        peopleHashtable.Add("be", bill);
+        peopleHashtable.Add("ss", srini);
+
+        Person found = (Person)peopleHashtable["sh"];
+        Response.Write(found.FullName + "&lt;BR/&gt;");
+        found = (Person)peopleHashtable["be"];
+        Response.Write(found.FullName + "&lt;BR/&gt;");
+        found = (Person)peopleHashtable["sh"];
+        Response.Write(found.FullName + "&lt;BR/&gt;");
+
+        ////write method 1:
+        //foreach (DictionaryEntry de in peopleHashtable)
+        //{
+        //    Response.Write(de.Key.ToString() + ":" + ((Person)de.Value).FullName +
+        //       "&lt;BR/&gt;");
+        //}
+
+        ////write method 2:
+        //foreach (string s in peopleHashtable.Keys)
+        //{
+        //    Response.Write(s + "&lt;BR/&gt;");
+        //}
+        //foreach (Person p in peopleHashtable.Values)
+        //{
+        //    Response.Write(p.FullName + "&lt;BR/&gt;");
+        //}
+    }
+</code></pre>
+
+<h3>六.在hashtable中如何根据value读出key</h3>
+
+<pre><code>Hashtable t = new Hashtable();
+
+foreach( DictionaryEntry i in t )
+{
+if(  i.Value == "value1" ) return i.Key ;
+} 
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-18T11:55:23+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:55 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/18/fileuploadkong-jian/" title="Previous Post: FileUpload控件">&laquo; FileUpload控件</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/18/gridview-pageindex/" title="Next Post: GridView-PageIndex">GridView-PageIndex &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

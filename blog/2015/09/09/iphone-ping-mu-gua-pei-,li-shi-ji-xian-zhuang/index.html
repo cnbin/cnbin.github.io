@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iPhone 屏幕适配，历史及现状 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="初代 iPhone 2007 年，初代 iPhone 发布，屏幕的宽高是 320 x 480 像素。下文也是按照宽度，高度的顺序排列。这个分辨率一直到 iPhone 3GS 也保持不变。 那时编写 iOS 的 App(应用程序)，只支持绝对定位。比如一个按钮(x, y, width, &hellip;">
+  <meta name="keywords" content="iphone">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/09/iphone-ping-mu-gua-pei-,li-shi-ji-xian-zhuang/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iPhone 屏幕适配，历史及现状</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-09T14:21:52+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:21 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1evv0yl6zdrj20du09fmy8.jpg" alt="img" /></p>
+
+<h3>初代 iPhone</h3>
+
+<p>2007 年，初代 iPhone 发布，屏幕的宽高是 320 x 480 像素。下文也是按照宽度，高度的顺序排列。这个分辨率一直到 iPhone 3GS 也保持不变。</p>
+
+<p>那时编写 iOS 的 App(应用程序)，只支持绝对定位。比如一个按钮(x, y, width, height) = (20, 30, 40, 50)，就表示它的宽度是 40 像素，高度是 50 像素，放在(20, 20)像素的位置。</p>
+
+<h3>iPhone 4</h3>
+
+<p>2010 年，iPhone 4 发布，率先采用 Retina 显示屏，在屏幕的物理尺寸不变的情况下，像素成倍增加，达到 640 x 960 像素。</p>
+
+<p>这样就出现一个问题，怎么让原有的 App 运行在新的手机上面？iPhone 手机一个优势，就是有众多优秀的 App，假如不兼容原有的 App，就相当于放弃这个得来不易的优势，是很不明智的。</p>
+
+<p>每当 iPhone 的屏幕有所变化，比如 iPhone 3GS 过渡到 iPhone 4, iPhone 4 过渡到 iPhone 5, iPhone 5 过渡到 iPhone 6，苹果公司都需要想办法来解决上述的兼容问题。</p>
+
+<p>为了运行之前的 App，引入一个新的概念 point(点)。点这个概念在 iOS 开发中十分重要，而实际用户很少关注。iPhone 4 屏幕尺寸继续保持 320 x 480，不过单位并非是像素，而是点。</p>
+
+<ul>
+<li>在 iPhone 3GS 中，1 个点等于 1 个像素。也就是说，点跟像素可以直接互换。</li>
+<li>在 iPhone 4 中，1 个点等于 2 个像素。</li>
+</ul>
+
+
+<p>这篇文章中，我将点和像素当成一维的长度单位，而非二维的面积单位，这样对于我来说更自然些，因此 1 个点等于 2 个像素。别的文章中可能会说 1 个点等于 4 个像素，其实是指 1 个点占据了 4 个像素的面积，这样也没有说错，注意上下文语境。</p>
+
+<p>iPhone 4 和 iPhone 3GS 的屏幕尺寸实际上是一样的，都是 3.5 英寸。同样一个点，实际尺寸看起来是一样的。只是 iPhone 4 在单位英寸上像素更多，看起来更细腻。</p>
+
+<p>开发 iOS 的时候，使用点作为基本单位会更加方便，列表对比：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1evv0yll42zj20dz03z74o.jpg" alt="img" /></p>
+
+<p>这里的屏幕模式可以初步理解成，一个点等于多少个像素。2x，就是 1 个点等于 2 个像素。</p>
+
+<p>总结一下单位</p>
+
+<ul>
+<li>手机屏幕的物理长度，使用英寸作为单位。比如 iPhone 4 屏幕是 3.5 英寸，iPhone 5 是 4 英寸，iphone 6 是 4.7 英寸，这里的数字是指手机屏幕对角线的物理长度。</li>
+<li>屏幕像素，比如 iPhone 3GS 屏幕是 320 x 480 像素，iPhone 4 是 640 x 960 像素，这里的像素可以想象成屏幕上真正用来显示颜色的发光小点。</li>
+<li>点，开发 App 时候使用的单位，是一个虚拟的单位，并非实际存在的，因此点有时也叫虚拟点。点这个单位，用于屏蔽各个屏幕设备的不同，兼容以前的程序。</li>
+</ul>
+
+
+<p>每英寸有多少个像素，称为 ppi(pixel per inch)。iPhone 4 的屏幕是 640 x 960 像素，3.5 英寸，我们没有宽高的实际尺寸，就按照对角线来粗略计算它的 ppi。将像素当做长度单位，根据勾股定理，对角线就是 1154 像素。屏幕对角线的实际长度为 3.5 英寸，也就是 1154 像素除以 3.5 英寸，得出 330ppi。而官方给出的数字是 326ppi。当像素太密，超过 300ppi 的时候，人眼也就不能区分出每个像素。因此 iPhone 4 的屏幕叫作 Retina 显示屏。Retina 在英文中，是视网膜的意思。</p>
+
+<p>iPhone 4 之后(x, y, width, height) = (20, 30, 40, 50)，就表示高度为 40 个点，宽度为 50 个点，放在(20, 20)个点的位置。这种处理方法，将之前以像素作为单位自动转换成以点作为单位，使得 iPhone 3GS 的应用程序，不用修改也可运行在 iPhone 4 上面。</p>
+
+<p>文字，颜色等是矢量数据，放大不会失真。原有的 iPhone 3GS 程序，在 iPhone 4 上面运行，文字显示也十分清晰。</p>
+
+<p>而图片并非矢量数据，处理方式有所不同。假设图片 example.png，大小为 30 x 40 像素（这里的单位是像素，数字图片的单位通常都为像素）。当这张 example.png 在 iPhone 3GS 和 iPhone 4 中使用时候，都占据屏幕上 30 x 40 个点。而因为 iPhone 4 中 1 个点等于 2 个像素，也就是 30 x 40 像素的图片，占据了 60 x 80 像素的屏幕，因此这图片在 iPhone 4 中看起来就会模糊。</p>
+
+<p>开发的时候，为使得图片清晰，需要进行图片适配。这时需要准备两张内容相同的图片，放在同一目录下。</p>
+
+<p>example.png      // 30 x 40 像素</p>
+
+<p><a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#58;&#x65;&#x78;&#97;&#x6d;&#112;&#x6c;&#x65;&#64;&#50;&#x78;&#x2e;&#x70;&#x6e;&#x67;">&#x65;&#x78;&#97;&#109;&#x70;&#108;&#101;&#64;&#50;&#x78;&#x2e;&#112;&#x6e;&#x67;</a>   // 60 x 80 像素</p>
+
+<p>当程序中使用 example.png 的时候，会根据屏幕模式自动选择对应的图片。屏幕 1x 模式，就会选择 example.png, 2x 模式就会优先选择 example@2x.png，假如 <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#101;&#x78;&#x61;&#109;&#112;&#108;&#x65;&#x40;&#x32;&#x78;&#46;&#112;&#x6e;&#x67;">&#x65;&#x78;&#x61;&#x6d;&#112;&#x6c;&#x65;&#64;&#50;&#120;&#46;&#112;&#110;&#x67;</a> 不存在，就选择 example.png。</p>
+
+<p>图片跟屏幕一样，也有 1x 模式，2x 模式。在 iPhone 6 Plus 中，还出现 3x 模式，原理是一样的。</p>
+
+<p>当 iPhone 4 选中 <a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#101;&#120;&#x61;&#x6d;&#x70;&#108;&#101;&#64;&#x32;&#x78;&#x2e;&#x70;&#110;&#x67;">&#x65;&#x78;&#97;&#x6d;&#112;&#108;&#101;&#64;&#x32;&#x78;&#46;&#x70;&#x6e;&#103;</a> 的图片，就会生成一张大小为 30 x 40 个点，2x 模式的图片。这个时候，图片看起来就会很清晰了。而没有适配的旧程序，<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#x3a;&#101;&#120;&#x61;&#109;&#112;&#108;&#101;&#x40;&#50;&#x78;&#46;&#112;&#x6e;&#x67;">&#101;&#x78;&#x61;&#109;&#112;&#x6c;&#x65;&#64;&#50;&#x78;&#x2e;&#x70;&#110;&#x67;</a> 不存在，就选中 example.png，生成大小为 30 x 40 个点，1x 模式的图片，看起来比较模糊。但它们占据的屏幕点数是一样的。</p>
+
+<h3>iPhone 5</h3>
+
+<p>2012 年，苹果发布 iPhone 5。我们将所有机型对比，依然采用点作为单位。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1evv0ylwy6kj20e005cmxq.jpg" alt="img" /></p>
+
+<p>跟 iPhone 4 做比较, iPhone 5 的宽度保持不变。高度增加 568 - 480 = 88 个点。</p>
+
+<p>在 iOS 开发中，44 这个数字比较特殊。iOS 界面指南写着，人类的手指有一定大小，点击区域低于 44 个点的时候，就难以点中。44 的两倍就是 88。</p>
+
+<p>当原有程序没有适配 iPhone 5 的时候，也可以正常运行，但多出来的 88 个点将会将会被自动均分为上下两部分，使得上下出现黑边。我找不到好看的图片。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1evv0ymubl7j20900fsgm6.jpg" alt="img" /></p>
+
+<p>那么怎样才能告诉 iOS 系统，应用程序已经适配了 iPhone 5 呢？在这里，我们先扯开一下，谈一下启动图片。</p>
+
+<p>点击主屏幕的图标，进入 App 的时候，会立即显示一张图片，这张图片就是启动图片(Launch Image)。App 在正式启动的时需要做一些初始化处理，这通常比较费时。先出现启动图片，可以使用户觉得系统立即有响应，减少等待的焦虑感。</p>
+
+<p>每个机型，比如同时支持 iPhone 和 iPad 的程序，需要分别为 iPhone 跟 iPad 指定启动图片。当旧的 iPhone 4 的程序，运行在 iPhone 5 上面，没有 iPhone 5 的启动图片，就采用兼容模式，上下留黑边。当为 iPhone 5 指定了新的启动图片，系统就认为这个应用程序是已经适配了 iPhone 5 的，上下就不会留黑边了。下面是微信启动图片，应该都很熟悉了。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1evv0yn7vf7j208w0fsaaj.jpg" alt="img" /></p>
+
+<p>微信启动图片中出现的那个地球，叫蓝色弹珠（The Blue Marble），是在 1972 年 12 月 7 日由阿波罗 17 号太空船的船员所拍摄的。这张照片当年很震撼，是普通人第一次可以通过照片直接看到地球的全貌。见问题为什么微信启动界面的地球图片没有转到中国这部分？这是否有损用户体验？</p>
+
+<p>微信的启动图，为适配 iPhone 5，相比与 iPhone 4, 很明显狭长了。</p>
+
+<p>典型 iPhone 应用程序（游戏除外），很多是上面一个导航栏，下面一个工具栏或者标签栏, 中间一大块用于显示的内容区。iPhone 5 拉长了，对于程序的适配，也不算麻烦，内容区的内容基本是动态生成的。适配时候可以简单上下不变，中间的内容区拉长就行了。注意，导航栏和工具栏的高度也是 44 个点。下面是同一程序，在 iPhone 4 跟 iPhone 5 的对比。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1evv0ynn28dj208w0dc760.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1evv0yogj7bj208w0fs0uu.jpg" alt="img" /></p>
+
+<h3>AutoLayout</h3>
+
+<p>到了这个时候，传统绝对定位的弱点就显露出来了。这时 iPhone 按照点作为单位，已经出现了两种不同尺寸的屏幕，算上 iPad, 就有 3 种尺寸（有些 App 可以同时兼容 iPhone 和 iPad，称为 Universal）。</p>
+
+<p>从iOS 6系统发布后，iOS开发中可以采用一种 AutoLayout 的技术。AutoLayout 就像网页一样，指定 View，Button，Text 之间的相对位置，比如靠左多少，靠右多少，居中多少等等。举个例子，像下面的简单布局。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1evv0yo1jhyj20ao0gt3yu.jpg" alt="img" /></p>
+
+<p>假设左上角的区域为 view1, 右上角的区域为 view2, 下面的区域为 view3。AutoLayout 会说:</p>
+
+<pre><code>view1.left = 20               // View1 的左边距离边界 20 个点
+view1.top = 20                // View1 的上边距离边界 20 个点
+view2.right = 20              // View2 的右边距离边界 20 个点
+view2.top = 20                // View2 的上边距离边界 20 个点
+view2.left = view1.right + 20 // View2 的左边距离 View1 右边 20 个点
+view2.width = view1.width     // View1 的宽度等于 View2 的宽度
+view2.height = view1.height   // view1 高度等于 view2 高度
+view3.left = view1.left       // view3 的跟 view1 左对齐
+view3.right = view2.right     // view3 跟 view2 右对齐
+view3.top = view1.bottom + 20 // view3 的上边距离 view1 下边 20 个点
+view3.bottom = 20             // view3 下边距离边界 20 个点
+view3.height = view1.height   // view3 高度等于 view1 高度
+</code></pre>
+
+<p>指定上面的约束条件后，AutoLayout 就会自动算出对应的布局。上面我写得比较繁琐，事实上很多操作都是可以使用鼠标拖拉来指定的，并不一定需要使用代码。但就算用代码，也有简写的方法。下面是在 xib 中，拖拉鼠标指定约束时的界面。</p>
+
+<p>19.jpg</p>
+
+<p>而绝对定位，会直接说</p>
+
+<pre><code>view1.frame = (x1, y1, width1, height1)
+view2.frame = (x2, y2, width2, height2)
+view3.frame = (x3, y3, width3, height3)
+</code></pre>
+
+<p>绝对定位并非指定约束条件，而是开发者自己来精确指定 View，Button, Text 等的实际坐标大小。</p>
+
+<p>对于一个屏幕，绝对定位可能跟 AutoLayout 的区别不算大，甚至绝对定位会更方便些。但当需要同时适配多个屏幕，AutoLayout 根本不需要更改。而绝对定位就需要根据屏幕大小，一个个算出来。比如横屏，在 AutoLayout 下面，就自动变成：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1evv132iz70j20aj0gb3z3.jpg" alt="img" /></p>
+
+<p>这里不过是 3 个控件的布局，当出现的控件数越多，屏幕尺寸越多，AutoLayout 的优势就显露出来了。另外 AutoLayout 有个好处是容易支持多语言，不同语言下，同一个意思文字的长度是不同的，使用 AutoLayout 也可以自动适配。</p>
+
+<p>在 iOS 6 的时候，AutoLayout 还比较少人使用，当时屏幕尺寸还比较少。iOS 7 的时候，就开始很多人使用了。而到现在 iOS 8 了, 更加上 iPhone 6, iPhone 6 Plus 需要适配，AutoLayout 大势所趋，不用不行了。</p>
+
+<h3>iPhone 6和iPhone 6 Plus</h3>
+
+<p>2014 年，iPhone 6和iPhone 6 Plus 发布后，情况又有新的变化。再次比较所有 iPhone 机型。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1evv132v0xaj20eb07s758.jpg" alt="img" /></p>
+
+<p>屏幕尺寸再度分裂。但是我们比较 iPhone 5 跟 iPhone 6 的宽高比例。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1evv1338s8sj20aq05zq3l.jpg" alt="img" /></p>
+
+<p>可以看出，iPhone 6 跟 iPhone 5 虽然屏幕尺寸改变了，但是它们的比例是不变的。都是 9 ÷ 16 = 0.5625 的屏幕。</p>
+
+<p>当旧的 iPhone 5 程序运行在 iPhone 6 上面，假如没有经过适配，旧程序自动等比放大，铺满新手机，旧程序也可以正常运行。这种方案可算是自动适配。但因为旧程序拉伸了，整体看起来有点虚，也不能更好利用大屏空间。</p>
+
+<p>当需要开发者手动适配的时候，跟 iPhone 4 过渡到 iPhone 5 一样，在新程序中，指定一张新的启动图片。当指定了启动图，屏幕分辨率就已经变成应有的大小，这时候利用 AutoLayout 进行布局，同一份代码，就可以支持多个机型。新手机的屏幕更大，有更多的虚拟点，可以显示更多的内容。</p>
+
+<p>值得注意一点是，iPhone 6 Plus。它的宽高是 414 × 736 个点，3x 模式，理想上来说，应该有 1242 × 2208 像素。但 iPhone 6 Plus 的实际像素是 1080 × 1920，是比理想值要少一点的。iPhone 6 Plus 的处理方式是将程序整体稍微缩小一点。分辨率很高，这点区别，实际上也看不出来。</p>
+
+<p>那为什么需要这样做呢？上面表格中 iPhone 6, iPhone 6 Plus 屏幕宽高的逻辑点的数字是怎么来的？下面我猜测一下原因，但不能证实。</p>
+
+<p>先看 iPhone 6，这个比较简单。iPhone 6 的屏幕宽高比例跟 iPhone 5 一样，使用对角线来计算，就是放大了 4.7 ÷ 4 = 1.175 倍。用这个数字，乘以 iPhone 5 的 320 x 568 个点，忽略误差，差不多就是 iPhone 6 屏幕的 375 x 667 个点。这里需要注意，屏幕宽高比例一样，才能使用对角线来计算。</p>
+
+<p>按照上面的方式来计算 iPhone 6 Plus, 应该是得到 440 x 781 个点，实际上却是 414 × 736 个点。这里我猜测是因为，iPhone 6 Plus 屏幕明显更大，相同尺寸的点放在大的屏幕上面，会使得人感觉尺寸变小，所以就将每个点的实际尺寸放大一些，从而得到更少的点数目。人眼看东西会有种错觉，并非是孤立的看的，而是跟周围的环境作比较。</p>
+
+<p>确定了点数目之后，再确定了像素 1080 × 1920(很多高清电视就是这个尺寸)，应该是 1080/414=2.6x，但 2.6x 这个数字开发就太麻烦了，就按照 3x 来处理。其实假如像素达到 1242 × 2208，3x 下也可以精确到 1:1, 这样会更好。但现今的技术在考虑电池，处理器，屏幕尺寸等综合因素下，很可能达不到这样的细腻程度。</p>
+
+<p>上述只是猜测，我相信那些手机参数是经过反复考虑再确定的。iPhone 6 Plus 这个处于手机跟平板中间地带的产物经过不少特殊处理。</p>
+
+<p>由分析可以看到，慢慢的为了适配多个机型，程序的启动图片也逐渐增多，为解决这个问题。iOS 8 之后，可以使用 xib 来搭建启动界面，这样就可以同一个启动界面，适配多个机型，减少启动图片占用的空间。</p>
+
+<h3>建议</h3>
+
+<ul>
+<li>以后的应用程序，都使用 AutoLayout, 不要再用绝对定位。</li>
+<li>使用类似网页的方式来设计界面。</li>
+<li>设计师好，程序员也好，尽量使用点这个单位进行思考，而不要使用像素。比如，你需要做 44 x 66 个点的按钮，2x 模式，就乘以 2, 3x 模式就乘以 3。这样的思考方式可以大致估计到真实的物理长度。44 个点，就是手机上导航栏，工具栏的高度。假如用像素思考，容易使得做出的图片过大或者过小。</li>
+<li>非矢量素材，就可以做尺寸最大的，之后再进行缩小。比如你需要兼容 3x 的屏幕，就直接做最高那种图片。</li>
+<li>而当使用 Flash 之类的矢量工具来做素材的时候，应该直接做点那个尺寸。比如 44 x 66 个点的按钮。就建立一个 44 x 66 的场景。之后再导出成 2 倍图，3 倍图，因为矢量放大不失真。不要建立一个 3x 的场景，导出成大图片，再进行缩小，这样就容易失真。更理想的是直接使用矢量图。</li>
+<li>假如是那种导航栏，工具栏之类的背景图，需要横跨整个屏幕。可以只切一小块，让程序拉伸，拉伸方式是保持两边的像素不动，只拉伸最中间的一列像素。需要拉伸的话，横方向就不要出现一些渐变色。</li>
+<li>按钮的点击区域，不应该少于 44 像素，就算按钮的图片看起来比较小，也应该使得点按钮周围的透明区也有反应。</li>
+<li>可以按照你当前最方便测试机子的型号来做一些主要预览图，效果图。比如你手头有 iPhone 5，可以按照 iPhone 5 的尺寸，320 x 568 个点，需要兼容 iPhone 6 Plus，就使用 3x 的模式。这样方便将图片放进手机里面看实际的效果。有多个测试机，就选较大的，之后再进行一些细调。假如支持 iPhone 6 Plus 的横屏模式，需要另外处理。</li>
+<li>上面说的是应用的处理方式，游戏会有些特殊。现在很多游戏，按照 1136 x 768 的像素尺寸来设计场景，这样可以同时兼容 iPad 和 iPhone，并只使用一份图。iPad 1x 模式下尺寸是 1024 x 768 像素，iPhone 5 在 2x 模式下，是 1136 * 640 像素。这种尺寸，可以将场景居中显示，各自将场景拉伸到最大。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-09T14:21:52+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:21 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/09/shi-yong-curl-tong-guo-api-guan-li-github-de-ku/" title="Previous Post: 使用 curl 通过 api 管理 github 的库">&laquo; 使用 curl 通过 api 管理 github 的库</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/09/xcode6zhong-zi-dong-bu-ju-autolayouthe-sizeclassde-shi-yong/" title="Next Post: Xcode6 中自动布局 autolayout 和 sizeclass 的使用">Xcode6 中自动布局 autolayout 和 sizeclass 的使用 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

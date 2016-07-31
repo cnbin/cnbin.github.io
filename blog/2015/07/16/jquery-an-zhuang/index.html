@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>jQuery 安装 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="网页中添加 jQuery 可以通过多种方法在网页中添加 jQuery。 您可以使用以下方法： 从 jquery.com 下载 jQuery 库
+从 CDN 中载入 jQuery, 如从 Google 中加载 jQuery 下载 jQuery 有两个版本的 jQuery 可供下载： &hellip;">
+  <meta name="keywords" content="jquery">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/16/jquery-an-zhuang/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">jQuery 安装</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-16T10:33:06+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:33 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>网页中添加 jQuery</h2>
+
+<p>可以通过多种方法在网页中添加 jQuery。 您可以使用以下方法：</p>
+
+<ul>
+<li>从 <a href="http://jquery.com/download/">jquery.com</a> 下载 jQuery 库</li>
+<li>从 CDN 中载入 jQuery, 如从 Google 中加载 jQuery</li>
+</ul>
+
+
+<h2>下载 jQuery</h2>
+
+<p>有两个版本的 jQuery 可供下载：</p>
+
+<ul>
+<li>Production version - 用于实际的网站中，已被精简和压缩。</li>
+<li>Development version - 用于测试和开发（未压缩，是可读的代码）</li>
+</ul>
+
+
+<p>以上两个版本都可以从 <a href="http://jquery.com/download/">jquery.com</a> 中下载。</p>
+
+<p>jQuery 库是一个 JavaScript 文件，您可以使用 HTML 的 <code>&lt;script&gt;</code> 标签引用它：</p>
+
+<pre><code>&lt;head&gt;
+&lt;script src="jquery-1.10.2.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+
+<p>提示： 将下载的文件放在网页的同一目录下，就可以使用 jQuery。</p>
+
+<h2>替代方案</h2>
+
+<p>如果您不希望下载并存放 jQuery，那么也可以通过 CDN（内容分发网络） 引用它。</p>
+
+<p>百度、又拍云、新浪、谷歌和微软的服务器都存有 jQuery 。</p>
+
+<p>如果你的站点用户是国内的，建议使用百度、又拍云、新浪等国内CDN地址，如果你站点用户是国外的可以使用谷歌和微软。</p>
+
+<p>注：本站实例均采用百度 jQuery CDN库。</p>
+
+<p>如需从百度、又拍云、新浪、谷歌或微软引用 jQuery，请使用以下代码之一：</p>
+
+<h3>Baidu CDN:</h3>
+
+<pre><code>&lt;head&gt;
+&lt;script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+
+<h3>又拍云 CDN:</h3>
+
+<pre><code>&lt;head&gt;
+&lt;script src="http://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.2.min.js"&gt;
+&lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+
+<h3>新浪 CDN:</h3>
+
+<pre><code>&lt;head&gt;
+&lt;script src="http://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"&gt;
+&lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+
+<h3>Google CDN:</h3>
+
+<pre><code>&lt;head&gt;
+&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+
+<p>通过 Google CDN 来获得最新可用的版本：</p>
+
+<p>不大推荐使用 Google CDN 来获取版本，因为 Google 产品在中国很不稳定。
+如果您观察上什么的 Google URL - 在 URL 中规定了 jQuery 版本 (1.8.0)。如果您希望使用最新版本的 jQuery，也可以从版本字符串的末尾（比如本例 1.8）删除一个数字，谷歌会返回 1.8 系列中最新的可用版本（1.8.0、1.8.1 等等），或者也可以只剩第一个数字，那么谷歌会返回 1 系列中最新的可用版本（从 1.1.0 到 1.9.9）。</p>
+
+<h3>Microsoft CDN:</h3>
+
+<pre><code>&lt;head&gt;
+&lt;script src="http://ajax.htmlnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js"&gt;
+&lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+
+<p>使用百度、又拍云、新浪、谷歌或微软的 jQuery，有一个很大的优势：</p>
+
+<p>许多用户在访问其他站点时，已经从百度、又拍云、新浪、谷歌或微软加载过 jQuery。所有结果是，当他们访问您的站点时，会从缓存中加载 jQuery，这样可以减少加载时间。同时，大多数 CDN 都可以确保当用户向其请求文件时，会从离用户最近的服务器上返回响应，这样也可以提高加载速度。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-16T10:33:06+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:33 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/16/team-at-osc-introduction/" title="Previous Post: Team@OSC Introduction">&laquo; Team@OSC Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/16/jquery-xuan-ze-qi/" title="Next Post: jQuery 选择器">jQuery 选择器 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Php 魔术变量 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="PHP 向它运行的任何脚本提供了大量的预定义常量。 不过很多常量都是由不同的扩展库定义的，只有在加载了这些扩展库时才会出现，或者动态加载后，或者在编译时已经包括进去了。 有八个魔术常量它们的值随着它们在代码中的位置改变而改变。 例如 __LINE__ 的值就依赖于它在脚本中所处的行来决定。 &hellip;">
+  <meta name="keywords" content="php">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/08/php-mo-zhu-bian-liang/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Php 魔术变量</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-08T09:13:03+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:13 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>PHP 向它运行的任何脚本提供了大量的预定义常量。</p>
+
+<p>不过很多常量都是由不同的扩展库定义的，只有在加载了这些扩展库时才会出现，或者动态加载后，或者在编译时已经包括进去了。</p>
+
+<p>有八个魔术常量它们的值随着它们在代码中的位置改变而改变。</p>
+
+<p>例如 <code>__LINE__</code> 的值就依赖于它在脚本中所处的行来决定。这些特殊的常量不区分大小写，如下：</p>
+
+<h3><code>__LINE__</code></h3>
+
+<p>文件中的当前行号。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+echo '这是第 “ '  . __LINE__ . ' ” 行';
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<p>这是第 “ 2 ” 行</p>
+
+<h3><code>__FILE__</code></h3>
+
+<p>文件的完整路径和文件名。如果用在被包含文件中，则返回被包含的文件名。</p>
+
+<p>自 PHP 4.0.2 起，<strong>FILE</strong> 总是包含一个绝对路径（如果是符号连接，则是解析后的绝对路径），而在此之前的版本有时会包含一个相对路径。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+echo '该文件位于 “ '  . __FILE__ . ' ” ';
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<p>该文件位于 “ E:\wamp\www\test\index.php ”</p>
+
+<h3><code>__DIR__</code></h3>
+
+<p>文件所在的目录。如果用在被包括文件中，则返回被包括的文件所在的目录。</p>
+
+<p>它等价于 dirname(<code>__FILE__</code>)。除非是根目录，否则目录中名不包括末尾的斜杠。（PHP 5.3.0中新增）</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+echo '该文件位于 “ '  . __DIR__ . ' ” ';
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<p>该文件位于 “ E:\wamp\www\test ”</p>
+
+<h3><code>__FUNCTION__</code></h3>
+
+<p>函数名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该函数被定义时的名字（区分大小写）。在 PHP 4 中该值总是小写字母的。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+function test() {
+    echo  '函数名为：' . __FUNCTION__ ;
+}
+test();
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<pre><code>函数名为：test
+</code></pre>
+
+<h3><code>__CLASS__</code></h3>
+
+<p>类的名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该类被定义时的名字（区分大小写）。</p>
+
+<p>在 PHP 4 中该值总是小写字母的。类名包括其被声明的作用区域（例如 Foo\Bar）。注意自 PHP 5.4 起 <code>__CLASS__</code> 对 trait 也起作用。当用在 trait 方法中时，<code>__CLASS__</code> 是调用 trait 方法的类的名字。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+&lt;?php
+class test {
+    function _print() {
+        echo '类名为：'  . __CLASS__ . "&lt;br&gt;";
+        echo  '函数名为：' . __FUNCTION__ ;
+    }
+}
+$t = new test();
+$t-&gt;_print();
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<pre><code>类名为：test
+函数名为：_print
+</code></pre>
+
+<h3><code>__TRAIT__</code></h3>
+
+<p>Trait 的名字（PHP 5.4.0 新加）。自 PHP 5.4.0 起，PHP 实现了代码复用的一个方法，称为 traits。</p>
+
+<p>Trait 名包括其被声明的作用区域（例如 Foo\Bar）。</p>
+
+<p>从基类继承的成员被插入的 SayWorld Trait 中的 MyHelloWorld 方法所覆盖。其行为 MyHelloWorld 类中定义的方法一致。优先顺序是当前类中的方法会覆盖 trait 方法，而 trait 方法又覆盖了基类中的方法。</p>
+
+<pre><code>&lt;?php
+class Base {
+    public function sayHello() {
+        echo 'Hello ';
+    }
+}
+
+trait SayWorld {
+    public function sayHello() {
+        parent::sayHello();
+        echo 'World!';
+    }
+}
+
+class MyHelloWorld extends Base {
+    use SayWorld;
+}
+
+$o = new MyHelloWorld();
+$o-&gt;sayHello();
+?&gt;
+</code></pre>
+
+<p>以上例程会输出：</p>
+
+<pre><code>Hello World!
+</code></pre>
+
+<h3><code>__METHOD__</code></h3>
+
+<p>类的方法名（PHP 5.0.0 新加）。返回该方法被定义时的名字（区分大小写）。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+function test() {
+    echo  '函数名为：' . __METHOD__ ;
+}
+test();
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<pre><code>函数名为：test
+</code></pre>
+
+<h3><code>__NAMESPACE__</code></h3>
+
+<p>当前命名空间的名称（区分大小写）。此常量是在编译时定义的（PHP 5.3.0 新增）。</p>
+
+<p>实例:</p>
+
+<pre><code>&lt;?php
+namespace MyProject;
+
+echo '命名空间为："', __NAMESPACE__, '"'; // 输出 "MyProject"
+?&gt;
+</code></pre>
+
+<p>以上实例输出结果为：</p>
+
+<pre><code>命名空间为："MyProject"
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-08T09:13:03+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:13 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/php/'>php</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/08/php-han-shu/" title="Previous Post: php 函数">&laquo; php 函数</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/08/php-ming-ming-kong-jian/" title="Next Post: php 命名空间">php 命名空间 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

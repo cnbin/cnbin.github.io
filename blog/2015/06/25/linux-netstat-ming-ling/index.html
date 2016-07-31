@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux - Netstat 命令 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="netstat信息 执行 netstat，其输出结果为： 从整体上看，netstat 的输出结果分为两个部分： 一个是激活 Internet 连接，称为有源 TCP 连接，其中Recv-Q 和 Send-Q 指接收队列和发送队列。这些数字一般都应该是0.如果不是则表示软件包正在队列中堆积。 &hellip;">
+  <meta name="keywords" content="netstat,linux">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/25/linux-netstat-ming-ling/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Linux - Netstat 命令</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T12:42:59+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:42 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>netstat信息</h2>
+
+<p>执行 netstat，其输出结果为：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etf33bsobnj20fp0f4jw7.jpg" alt="img" /></p>
+
+<p>从整体上看，netstat 的输出结果分为两个部分：</p>
+
+<ul>
+<li><p>一个是激活 Internet 连接，称为有源 TCP 连接，其中<code>Recv-Q</code> 和 <code>Send-Q</code> 指接收队列和发送队列。这些数字一般都应该是0.如果不是则表示软件包正在队列中堆积。这种情况只能在非常少的情况下见到</p></li>
+<li><p>另一个是活跃的 UNIX 域套接字，称为有源 Unix 域套接口(跟网络套接字一样，但是只能用于本机通信，性能可以提高一倍)。
+<code>Proto</code>：显示连接使用的协议，<code>RefCnt</code>：表示连接到本套接口上的进程号，<code>Types</code>：显示套接口当前的状态，<code>Path</code>：表示连接到套接口的其他进程使用的路径名</p>
+
+<h2>常见参数</h2></li>
+<li><p>-a (all)显示所有选项，默认不显示 LISTEN 相关</p></li>
+<li>-t (tcp)仅显示 tcp 相关选项</li>
+<li>-u (udp)仅显示 udp 相关选项</li>
+<li>-n 拒绝显示别名，能显示数字的全部转化成数字。</li>
+<li>-l 仅列出有在 Listen (监听) 的服務状态</li>
+<li>-p 显示建立相关链接的程序名</li>
+<li>-r 显示路由信息，路由表</li>
+<li>-e 显示扩展信息，例如 uid 等</li>
+<li>-s 按各个协议进行统计</li>
+<li>-c 每隔一个固定时间，执行该 netstat 命令。</li>
+</ul>
+
+
+<p>提示：<code>LISTEN</code> 和 <code>LISTENING</code> 的状态只有用 <code>-a</code> 或者 <code>-l</code> 才能看到</p>
+
+<h2>常用命令</h2>
+
+<h3>1.列出所有的tcp端口(包括监听和未监听的)</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etf2y9henhj20ff0brgse.jpg" alt="img" /></p>
+
+<h3>2.列出所有处于监听状态的tcp端口</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etf2y9yg5tj20fk0nnnad.jpg" alt="img" /></p>
+
+<h3>3.显示所有端口的统计信息</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etf2yafd1xj20f50gvtdz.jpg" alt="img" /></p>
+
+<h3>4.显示占用某个特定tcp端口的进程的pid</h3>
+
+<p><code>netstat -p</code> 可以与其它开关一起使用，就可以添加 <code>PID/进程名称</code> 到 <code>netstat</code> 输出中，这样排查问题的适合可以很方便的发现特定端口运行的程序</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etf2yav3pzj20ff011q32.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T12:42:59+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:42 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/25/python-ji-jie-2/" title="Previous Post: Python 进阶-2">&laquo; Python 进阶-2</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/25/linux-zhong-ding-xiang-yu-guan-dao/" title="Next Post: Linux  重定向与管道">Linux  重定向与管道 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

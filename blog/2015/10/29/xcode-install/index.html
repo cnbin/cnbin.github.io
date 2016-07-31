@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Xcode - Install - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Install and update your Xcodes automatically. $ gem install xcode-install
+$ xcode-install install 6.3 Installation $ gem install xcode-install Usage &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/29/xcode-install/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Xcode - Install</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-29T08:59:52+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:59 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><a href="https://travis-ci.org/neonichu/xcode-install"><img src="http://img.shields.io/travis/neonichu/xcode-install/master.svg?style=flat" alt="Build Status" /></a>
+<a href="https://coveralls.io/r/neonichu/xcode-install"><img src="https://coveralls.io/repos/neonichu/xcode-install/badge.svg" alt="Coverage Status" /></a>
+<a href="http://badge.fury.io/rb/xcode-install"><img src="http://img.shields.io/gem/v/xcode-install.svg?style=flat" alt="Gem Version" /></a>
+<a href="https://codeclimate.com/github/neonichu/xcode-install"><img src="http://img.shields.io/codeclimate/github/neonichu/xcode-install.svg?style=flat" alt="Code Climate" /></a></p>
+
+<p>Install and update your Xcodes automatically.</p>
+
+<pre><code>$ gem install xcode-install
+$ xcode-install install 6.3
+</code></pre>
+
+<h2>Installation</h2>
+
+<pre><code>$ gem install xcode-install
+</code></pre>
+
+<h2>Usage</h2>
+
+<p>XcodeInstall needs environment variables with your credentials to access the Apple Developer
+Center, they are stored using the <a href="https://github.com/fastlane/credentials_manager#using-environment-variables">CredentialsManager</a> of <a href="http://fastlane.tools">fastlane</a>:</p>
+
+<pre><code>XCODE_INSTALL_USER
+XCODE_INSTALL_PASSWORD
+</code></pre>
+
+<p>To list available versions:</p>
+
+<pre><code>$ xcode-install list
+6.0.1
+6.1
+6.1.1
+6.2
+6.3
+</code></pre>
+
+<p>By default, only the latest major version is listed.</p>
+
+<p>To install a certain version, simply:</p>
+
+<pre><code>$ xcode-install install 6.3
+###########################################################               82.1%
+######################################################################## 100.0%
+Please authenticate for Xcode installation...
+
+Xcode 6.3
+Build version 6D570
+</code></pre>
+
+<p>This will download and install that version of Xcode. It will also be automatically selected.</p>
+
+<p>Note: GMs and beta versions usually have special names, e.g.</p>
+
+<pre><code>$ xcode-install list
+7 GM seed
+7.1 beta
+</code></pre>
+
+<p>they have to be installed using the full name, e.g. <code>xcode-install install '7 GM seed'</code>.</p>
+
+<h3>Command Line Tools</h3>
+
+<p>XcodeInstall can also install Xcode&rsquo;s Command Line Tools by calling <code>xcode-install install-cli-tools</code>.</p>
+
+<h2>Limitations</h2>
+
+<p>Unfortunately, the installation size of Xcodes downloaded will be bigger than when downloading via the Mac App Store, see <a href="/../../issues/10">#10</a> and feel free to dupe the radar. 📡</p>
+
+<p>XcodeInstall automatically installs additional components so that it is immediately usable from the
+commandline. Unfortunately, Xcode will load third-party plugins even in that situation, which leads
+to a dialog popping up. Feel free to dupe <a href="http://www.openradar.me/22001810">the radar</a>. 📡</p>
+
+<p>XcodeInstall uses the Spotlight index to locate installed versions of Xcode. If you use it while
+indexing is happening, it might show inaccurate results and it will not be able to see installed
+versions on unindexed volumes.</p>
+
+<h2>Thanks</h2>
+
+<p><a href="http://atastypixel.com/blog/resuming-adc-downloads-cos-safari-sucks/">This</a> downloading script which has been used for some inspiration, also <a href="https://github.com/magneticbear/Jenkins_Bootstrap">this</a>
+for doing the installation. Additionally, many thanks to everyone who has contributed to this
+project, especially <a href="https://github.com/henrikhodne">@henrikhodne</a> and <a href="https://github.com/lacostej">@lacostej</a> for making XcodeInstall C extension free.</p>
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork it ( <a href="https://github.com/neonichu/xcode-install/fork">https://github.com/neonichu/xcode-install/fork</a> )</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-29T08:59:52+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:59 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/29/swiftlint/" title="Previous Post: SwiftLint">&laquo; SwiftLint</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/29/ios8-ying-yong-ni-xiang-gong-cheng-zhu-yao-bo-ke/" title="Next Post: iOS8 应用逆向工程主要博客">iOS8 应用逆向工程主要博客 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

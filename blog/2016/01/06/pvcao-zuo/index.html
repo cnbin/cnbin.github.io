@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PV操作 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="同步、互斥： 同步：其实说同步还不如说”协作“，就是我们的目标只有一个，我们奔着同一个目标去的，都是在大家的努力下共同完成这么一件事情。还是比较容易理解的吧。不见得太难。 互斥：借用别人的一句话“千军万马过独木桥”，很通俗的一句话，就把咱们这个概念表达的淋漓尽致，就好比有一个大部队来到独木桥这， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/01/06/pvcao-zuo/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">PV操作</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-06T09:42:31+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:42 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>同步、互斥：</h3>
+
+<p>同步：其实说同步还不如说”协作“，就是我们的目标只有一个，我们奔着同一个目标去的，都是在大家的努力下共同完成这么一件事情。还是比较容易理解的吧。不见得太难。</p>
+
+<p>互斥：借用别人的一句话“千军万马过独木桥”，很通俗的一句话，就把咱们这个概念表达的淋漓尽致，就好比有一个大部队来到独木桥这，但是必须排好队，一个一个来；其实现实生活中，还有一个很好的例子可以说明这个互斥的概念，比如打印机，打印机这个工具就非常好的体现了互斥的概念，打印机一旦被别人占用了，那无乱你有多着急，都只能等着，对吧。</p>
+
+<p>其实借用别人的话或者资料或者工具来让咱们的学习更加轻松，为咱们的学习加把油，何乐而不为呢？这就是我要说的“站在巨人的肩膀上”来看问题，许多问题就变得轻松起来；这是一种思想，旨在为咱们的学习加把油~这是题外话，但是更重要的是一种思想，很值得学习。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezpj7qnqy0j20kl06caaa.jpg" alt="img" /></p>
+
+<p>我们接下来还继续看一下一张同步的图：</p>
+
+<p>这张图也特别的形象具体，我们具体来看看这张图，A仓库有货物，然后我们需要把货物搬运到B仓库，由搬运工甲和搬运工乙来完成这个过程；那么他们的目标就只有一个，就是把货物从A搬到B去，共同奔着这个方向去发展，所以我们说这是一个同步的问题。</p>
+
+<p>临界资源：就是咱们刚刚说的互斥，诸进程间需要互斥方式对其进行共享资源，如打印机、光驱等。</p>
+
+<p>临界区：就是进程访问临界资源的那段代码。</p>
+
+<p>讲了那么久，我们才引入了PV操作，看来这个PV操作还是挺有意思的。</p>
+
+<p>PV操作：解决互斥和同步的问题。PV操作是分开来看的：</p>
+
+<p>P操作：使S=S-1，若S>=0，则该进程继续执行，否则该进程排入等待队列。</p>
+
+<p>V操作：使S=S+1，若S>0,唤醒等待队列中的一个进程。</p>
+
+<p>这样理解不太好理解，咱们还是来看例子吧：</p>
+
+<p>接下来，我们来看一个与咱们生活很贴切的问题：生产者——消费者问题：</p>
+
+<p>我们还是一样，通过图片来分析问题：
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezpj8ygyuyj20ie0590sq.jpg" alt="img" /></p>
+
+<p>这是一个著名的同步问题，虽然生产者进程和消费者进程都是异步方式运行的，但它们之间必须保持同步，即不允许消费者进程到一个空缓冲区去取产品，也不允许生产者进程向一个已装满产品且尚未被取走的缓冲区中投放产品。这是一个单缓冲区情况。那么这个单缓冲区的PV操作，应该是怎样的呢？我们来看看：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezpj8z9cqej20ii09oq3o.jpg" alt="img" /></p>
+
+<p>我们分析分析，很容易的发现这个流程，前提是S1初值为1，S2初值为0。我们需要记住P操作减1，V操作加1，然后这个分析就变得易如反掌了，我们先对初值进行一下说明：</p>
+
+<p>a、我们把S1的初值设为1：是说明缓冲区还有一个空间可以使用，对于生产者而言，每一个缓冲区的一个空间就是一个资源，也就是说，一开始运行的时候，就允许生产者投放一个产品到缓冲区，</p>
+
+<p>b、然后投放到缓冲区之后，我们来看消费者进程，P（S2）：首先我们要进程一个判断，判断缓冲区中是否有产品，对消费者而言，缓冲区中有产品，就代表有一个资源可以使用，但是最初状态那个缓冲区中是没有资源的，所以S2的初值应该是为0的。</p>
+
+<p>我们刚才都提到了资源的问题，就是信号量的一个值应该是表示资源的数量，但是就消费者和生产者而言，对于他们的资源是不同的，概念是不同的，生产者：缓冲区有多少个空格，就有多少个资源；而对消费者来说，缓冲区有多少个满的格，就有多少个资源，是刚好是相反，所以说，就是这么相反，所以当消费者从缓冲区取出一个产品之后，对于生产者而已，就多了一个资源。</p>
+
+<p>其实这个过程就是这样的。</p>
+
+<p>1、生产者：P（S1），那么P（S1），S1=S1-1，得到P（S1=0）这个进程还能进行，那么生产者把一个产品投放到缓冲区。</p>
+
+<p>2、V（S2），S2=S2+1，S2初值为0，所以S2=S2+1>0，那么就激活了P（S2），那么消费者就能取出一个产品。</p>
+
+<p>4、消费产品：消费产品之前，还有一个V（S1），就激活了P（S1），让生产者继续投放产品到缓冲区。</p>
+
+<p>特别简单吧，这是单缓冲区分析。</p>
+
+<p>我们接下来看一个相对来说，有点复杂一点点的，多缓冲区的，其实也一样一样的，继续：</p>
+
+<p>我们还是分析一样的问题，生产者、消费者问题：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezpj8zkbuvj20hb05cglp.jpg" alt="img" /></p>
+
+<p>对应的PV操作应该是这样的：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezpj9024nvj20gs0aq75e.jpg" alt="img" /></p>
+
+<p>有一点区别，就是要引用互斥的概念，因为缓冲区是一个临界资源，它始终只能有一个进程对其进行操作，所以我们就可以用一个互斥信号量来完成这一点，所以当某一个进程要使用到缓冲区之前，我们就进行以下判断，判断这个缓冲区现在是不是空闲呢？是不是有生产者或者消费者的进程在使用这个这个缓冲区呢？如果有，mute的初值为1，当有人使用这个缓冲区的时候，这个mute的值就由1变为0，这时，第二个进程向再来操作这个缓冲区，就不可能了，就会被阻塞，当第一个进程使用完缓冲区</p>
+
+<p>公交车司机与售票员的问题：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezpj90qlshj20cn0790t4.jpg" alt="img" /></p>
+
+<p>我们来分析这个过程，我们把S1和S2的初值都设为0。我们来分析分析：</p>
+
+<p>1、P（S1）：S1=S1-1=-1，那么司机进程就被暂停，等会售票员进程，售票员关车门。</p>
+
+<p>2、V（S1）：S1=S1+1=0，激活了司机进程，那么司机就开始启动车辆、正常行驶、到站停车，当然售票员也有可能同时在售票。</p>
+
+<p>3、P(S2):S2=S2-1,售票员在售票之后的进程就被暂停，等待司机进程。这样就避免了售票员售票之后就开车门了。因为这是不允许的。</p>
+
+<p>4、V（S2）：S2=S2+1，司机到站停车之后，就激活了售票员P（S2）的进程，那么售票员就进程 开车门、上下客的操作。</p>
+
+<p>那么这个进程就完成了。</p>
+
+<p>其实这些例子都是我们生活中实实在在的例子，所以这样讲起来大家就比较容易接受。学习本来就是一个很轻松的事情。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.cnblogs.com/bizhu/archive/2012/05/17/2506285.html">http://www.cnblogs.com/bizhu/archive/2012/05/17/2506285.html</a></li>
+<li><a href="http://blog.csdn.net/liu765023051/article/details/8067601">http://blog.csdn.net/liu765023051/article/details/8067601</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-06T09:42:31+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:42 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/05/nfazhuan-dfa/" title="Previous Post: NFA转DFA">&laquo; NFA转DFA</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/06/san-ci-wo-shou-xie-yi/" title="Next Post: 三次握手协议">三次握手协议 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

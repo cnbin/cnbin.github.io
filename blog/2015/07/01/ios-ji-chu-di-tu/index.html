@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS - 百度基础地图(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="简介 开发者可利用 SDK 提供的接口，使用百度为您提供的基础地图数据。目前百度地图 SDK 所提供的地图等级为 19 级，所包含的信息有建筑物、道路、河流、学校、公园等内容。 百度地图支持多点触摸、双击放大、多点单击缩小、旋转等手势操作，此外自2.2.0版本起，支持相应的控制接口来开启/ &hellip;">
+  <meta name="keywords" content="ios,gps">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/01/ios-ji-chu-di-tu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS - 百度基础地图(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-01T11:25:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>简介</h2>
+
+<p>开发者可利用 SDK 提供的接口，使用百度为您提供的基础地图数据。目前百度地图 SDK 所提供的地图等级为 19 级，所包含的信息有建筑物、道路、河流、学校、公园等内容。</p>
+
+<p>百度地图支持多点触摸、双击放大、多点单击缩小、旋转等手势操作，此外自2.2.0版本起，支持相应的控制接口来开启/关闭这些手势操作；此外，在该版本地图对象实现了多实例特性，即开发者可以在一个页面中建立多个地图对象，并且针对这些对象分别操作且不会产生相互干扰。具体使用方法请参考 MultiMapViewDemo 的介绍。</p>
+
+<p>地图上自定义的标注点和覆盖物我们统称为地图覆盖物。您可以通过定制 <code>BMKAnnotation</code> 和 <code>BMKOverlay</code> 来添加对应的标注点和覆盖物。地图覆盖物的设计遵循数据与 <code>View</code> 分离的原则，<code>BMKAnnotation</code> 和 <code>BMKOverlay</code> 系列的类主要用来存放覆盖物相关的数据，<code>BMKAnnotaionView</code> 和 <code>BMKOverlayView</code> 系列类为覆盖物对应的 <code>View</code>。</p>
+
+<p>SDK 支持画点、折线、圆、多边形（包括凹凸两种）、图片图层和自定义覆盖物。从 2.0.0 开始矢量地图采用 OpenGL 绘制，新增支持 OpenGL 绘制的基本线绘制、面绘制接口。详见 AnnotationDemo，SDK 内置的 BMKPolylineOverlay、BMKPolygonOverlay，BMKCircleOverlay 均采用 OpenGL 绘制。</p>
+
+<h3>卫星图</h3>
+
+<p>百度地图SDK为您提供基础矢量图和卫星图两种类型的地图，开启卫星图的方法如下：</p>
+
+<pre><code>//切换为卫星图  
+[_mapView setMapType:BMKMapTypeSatellite];
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etn5hxmwjej20r00bbjvb.jpg" alt="img" /></p>
+
+<p>运行后效果如下：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etn5g4cwsfj20h60qkwpq.jpg" alt="img" /></p>
+
+<p>由卫星图切换为普通矢量图的核心代码如下：</p>
+
+<pre><code>//切换为普通地图  
+[_mapView setMapType:BMKMapTypeStandard];
+</code></pre>
+
+<h3>实时交通图</h3>
+
+<p>利用地图 SDK 所提供的接口，开发者可显示当前地图城市内的实时路况信息（点击查看支持实时路况的城市）。此外，自2.0.0版本起，SDK 还支持城际（城市之间，如高速）路况。</p>
+
+<p>开启实时路况的核心代码如下：</p>
+
+<pre><code>//打开实时路况图层  
+[_mapView setTrafficEnabled:YES];
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etn5g4u65ij20hc0qrjxz.jpg" alt="img" /></p>
+
+<h3>地图标注</h3>
+
+<p>BMKAnnotation 为标注对应的 <code>protocal</code>，您可以自定义标注类实现该 protocal。百度地图SDK也预置了基本的标注点（BMKPointAnnotation）和一个大头针标注 View（BMKPinAnnotationView），您可以直接使用来显示标注。方法如下：</p>
+
+<p>第一步，修改您的 <code>ViewController.h</code> 文件，添加以下代码，使您的 <code>ViewController</code> 实现 <code>BMKMapViewDelegate</code> 协议：</p>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;     
+#import "BMapKit.h"       
+@interface AnnotationDemoViewController : UIViewController &lt;BMKMapViewDelegate&gt; {      
+    IBOutlet BMKMapView* _mapView;       
+}       
+@end
+</code></pre>
+
+<p>第二步，修改您的 ViewController.m 文件，实现 BMKMapViewDelegate 的 <code>_mapView:viewForAnnotation:</code> 函数，并在 <code>viewDidAppear</code> 添加标注数据对象，核心代码如下：</p>
+
+<pre><code>- (void) viewDidAppear:(BOOL)animated {
+    // 添加一个PointAnnotation
+    BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc]init];
+    CLLocationCoordinate2D coor;
+    coor.latitude = 23.5533;
+    coor.longitude = 116.3688;
+    annotation.coordinate = coor;
+    annotation.title = @"这里是揭阳";
+    [mapView addAnnotation:annotation];
+}
+
+// Override
+- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id &lt;BMKAnnotation&gt;)annotation
+{
+    if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
+        BMKPinAnnotationView *newAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
+        newAnnotationView.pinColor = BMKPinAnnotationColorPurple;
+        newAnnotationView.animatesDrop = YES;// 设置该标注点动画显示
+        return newAnnotationView;
+    }
+    return nil;
+}
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etn5w99x9gj20xd0diag9.jpg" alt="img" /></p>
+
+<p>运行后，会在地图显示对应的标注点，点击会弹出气泡，效果如图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etn5y41uupj20h70qateo.jpg" alt="img" /></p>
+
+<p>通过以上几步简单的操作，您就可以实现在地图上添加标注了，相应的删除标注方法如下：</p>
+
+<pre><code>if (annotation != nil) {    
+    [_mapView removeAnnotation:annotation];    
+}
+</code></pre>
+
+<h3>几何图形</h3>
+
+<p>百度地图 SDK 支持的几何图形有：折线、弧线、多边形和圆，折线、弧线及其他几何图形的边框自v2.6.0版本起支持使用虚线或者纹理图片进行绘制（具体使用方法请参考官方 Demo，覆盖物章节的介绍）。开发者可利用相应的接口，在地图上快速绘制这些图形，满足相应的业务需求。</p>
+
+<h4>折线</h4>
+
+<p>在地图上添加折线的方法如下：</p>
+
+<p>第一步，修改您的 ViewController.h 文件，添加以下代码，使您的 ViewController 实现 BMKMapViewDelegate 协议：</p>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;  
+#import "BMapKit.h"  
+@interface OverlayDemoViewController : UIViewController &lt;BMKMapViewDelegate&gt;{  
+    IBOutlet BMKMapView* _mapView;  
+}  
+@end
+</code></pre>
+
+<p>第二步，修改您的 ViewController.m 文件，实现 BMKMapViewDelegate 的 <code>mapView:viewForOverlay:</code> 函数，并在 viewDidLoad 添加折线数据对象：</p>
+
+<pre><code>- (void)viewDidLoad {     
+    [super viewDidLoad];    
+    // 添加折线覆盖物    
+    CLLocationCoordinate2D coors[2] = {0}; 
+    coors[0].latitude = 39.315; 
+    coors[0].longitude = 116.304;
+    coors[1].latitude = 39.515; 
+    coors[1].longitude = 116.504;
+    BMKPolyline* polyline = [BMKPolyline polylineWithCoordinates:coors count:2];
+    [_mapView addOverlay:polyline];    
+}    
+// Override    
+- (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id &lt;BMKOverlay&gt;)overlay{    
+   if ([overlay isKindOfClass:[BMKPolyline class]]){    
+        BMKPolylineView* polylineView = [[[BMKPolylineView alloc] initWithOverlay:overlay] autorelease];    
+        polylineView.strokeColor = [[UIColor purpleColor] colorWithAlphaComponent:1];
+        polylineView.lineWidth = 5.0;
+
+        return polylineView;    
+   }    
+   return nil;    
+}
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etn66p58t0j20rh0ljqbp.jpg" alt="img" /></p>
+
+<p>第三步，运行结果：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etn6a4gasdj20hc0q9tev.jpg" alt="img" /></p>
+
+<p>iOS地图SDK自v2.8.0版本起，新增了折线多段颜色绘制能力，实现的核心代码如下：
+第一步，BMKMapView 对象，添加分段纹理绘制折线覆盖物，核心代码如下：</p>
+
+<pre><code>    CLLocationCoordinate2D coords[5] = {0};
+    coords[0].latitude = 23.553;
+    coords[0].longitude = 116.368;
+    coords[1].latitude = 23.513;
+    coords[1].longitude = 116.409;
+    coords[2].latitude = 23.543;
+    coords[2].longitude = 116.459;
+    coords[3].latitude = 23.503;
+    coords[3].longitude = 116.654;
+    coords[4].latitude = 23.565;
+    coords[4].longitude = 116.704;
+    //构建分段纹理索引数组
+    NSArray *textureIndex = [NSArray arrayWithObjects:
+                             [NSNumber numberWithInt:0],
+                             [NSNumber numberWithInt:1],
+                             [NSNumber numberWithInt:2],
+                             [NSNumber numberWithInt:1], nil];
+
+    //构建BMKPolyline,使用分段纹理
+    BMKPolyline* polyLine = [BMKPolyline polylineWithCoordinates:coords count:5 textureIndex:textureIndex];
+    //添加分段纹理绘制折线覆盖物
+    [mapView addOverlay:polyLine];
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etn6r78zy6j20wh0m6480.jpg" alt="img" /></p>
+
+<p>第二步，实现 BMKMapViewDelegate 的 <code>mapView:viewForOverlay:</code> 回调，核心代码如下：</p>
+
+<pre><code>- (BMKOverlayView*)mapView:(BMKMapView *)map viewForOverlay:(id&lt;BMKOverlay&gt;)overlay
+{
+    if ([overlay isKindOfClass:[BMKPolyline class]]) {
+        BMKPolylineView* polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
+        polylineView.lineWidth = 5;
+        polylineView.isFocus = YES;// 是否分段纹理绘制（突出显示），默认YES
+        //加载分段纹理图片，必须否则不能进行分段纹理绘制
+        [polylineView loadStrokeTextureImages:
+         [NSArray arrayWithObjects:[UIImage imageNamed:@"road_blue_arrow.png"],
+          [UIImage imageNamed:@"road_green_arrow.png"],
+          [UIImage imageNamed:@"road_red_arrow.png"],nil]];
+        return polylineView;
+    }
+
+    return nil;
+}
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etn6r7zru0j20rz09gq7i.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etn6nv17e8j20gs0pydln.jpg" alt="img" /></p>
+
+<h4>弧线</h4>
+
+<p>百度地图iOS SDK自v2.1.1本起，新增了绘制弧线的方法。用户可以根据三个有序点唯一确定一条弧线，满足您的业务需求。首先，修改您的 <code>.m</code> 文件，实现 <code>BMKMapViewDelegate</code> 的 <code>_mapView:viewForOverlay:</code> 函数，并在 <code>viewDidLoad</code> 添加弧线数据对象，核心代码如下</p>
+
+<pre><code>CLLocationCoordinate2D coords[3] = {0};
+coords[0].latitude = 23.553;
+coords[0].longitude = 116.368;
+coords[1].latitude = 23.513;
+coords[1].longitude = 116.409;
+coords[2].latitude = 23.543;
+coords[2].longitude = 116.459;
+
+BMKArcline *arcline = [BMKArcline arclineWithCoordinates:coords];
+[mapView addOverlay:arcline];
+
+- (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id&lt;BMKOverlay&gt;)overlay
+{
+    if ([overlay isKindOfClass:[BMKArcline class]])
+    {
+        BMKArclineView* arclineView = [[BMKArclineView alloc] initWithOverlay:overlay];
+        arclineView.strokeColor = [[UIColor blueColor] colorWithAlphaComponent:0.5];
+        arclineView.lineWidth = 5.0;
+
+        return arclineView;
+    }
+    return nil;
+}
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etn8237roqj20r60n9dop.jpg" alt="img" /></p>
+
+<p>运行后，效果如图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etn7y4waasj20hi0q144p.jpg" alt="img" /></p>
+
+<h4>多边形</h4>
+
+<p>修改 <code>ViewController.h</code> 文件，使其实现 <code>BMKMapViewDelegate</code>；同时修改 <code>ViewController.m</code> 文件，实现 <code>BMKMapViewDelegate</code> 的<code>_mapView:viewForOverlay:</code> 函数，并在 <code>viewDidLoad</code> 添加多边形数据对象。核心代码如下：</p>
+
+<pre><code>- (void)viewDidLoad {     
+    [super viewDidLoad];     
+    // 添加多边形覆盖物    
+ CLLocationCoordinate2D coords[3] = {0};
+coords[0].latitude = 23.553;
+coords[0].longitude = 116.368;
+coords[1].latitude = 23.513;
+coords[1].longitude = 116.409;
+coords[2].latitude = 23.543;
+coords[2].longitude = 116.459;
+
+BMKPolygon* polygon = [BMKPolygon polygonWithCoordinates:coords count:3];
+[mapView addOverlay:polygon];
+
+}    
+
+// Override
+- (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id &lt;BMKOverlay&gt;)overlay{
+    if ([overlay isKindOfClass:[BMKPolygon class]]){
+        BMKPolygonView* polygonView = [[BMKPolygonView alloc] initWithOverlay:overlay];
+        polygonView.strokeColor = [[UIColor purpleColor] colorWithAlphaComponent:1];
+        polygonView.fillColor = [[UIColor cyanColor] colorWithAlphaComponent:0.2];
+        polygonView.lineWidth = 5.0;
+
+        return polygonView;
+    }
+    return nil;
+}
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etn87k9rmpj20s90nt12o.jpg" alt="img" /></p>
+
+<p>运行后的显示效果如下图所示：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etn89apuevj20h20q7q96.jpg" alt="img" /></p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://developer.baidu.com/map/index.php?title=iossdk/guide/basicmap">百度基础地图</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-01T11:25:01+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:25 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/01/chuan-shu-ceng-:tcp-xie-yi/" title="Previous Post: 传输层:TCP 协议">&laquo; 传输层:TCP 协议</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/01/nsstring-chang-yong-fang-fa/" title="Next Post: NSString 常用方法">NSString 常用方法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

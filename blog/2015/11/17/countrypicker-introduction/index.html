@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CountryPicker Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Purpose CountryPicker is a custom UIPickerView subclass that provides an iOS control allowing a user to select a country from a list. It can &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/17/countrypicker-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CountryPicker Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-17T18:58:42+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:58 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>Purpose</h2>
+
+<p>CountryPicker is a custom UIPickerView subclass that provides an iOS control allowing a user to select a country from a list. It can optionally display a flag next to each country name, and the library includes a set of 249 public domain flag images from <a href="https://github.com/koppi/iso-country-flags-svg-collection">https://github.com/koppi/iso-country-flags-svg-collection</a> that have been renamed to work with the library.</p>
+
+<p>Note that the list of countries is based on the ISO 3166 country code standard (<a href="http://en.wikipedia.org/wiki/ISO_3166-1">http://en.wikipedia.org/wiki/ISO_3166-1</a>). This list excludes certain smaller countries, regarding them as part of a larger state. For example, England, Scotland, Wales and Northern Ireland are lumped together as Great Britain. For most purposes this is fine as it matches the convention used for locales, but if you need to specify additional countries, you can subclass and modify the countires list as described under &ldquo;Subclassing&rdquo; below.</p>
+
+<h2>Supported iOS &amp; SDK Versions</h2>
+
+<ul>
+<li>Supported build target - iOS 8.1 (Xcode 6.1, Apple LLVM compiler 6.0)</li>
+<li>Earliest supported deployment target - iOS 6.0</li>
+<li>Earliest compatible deployment target - iOS 4.3</li>
+</ul>
+
+
+<p>NOTE: &lsquo;Supported&rsquo; means that the library has been tested with this version. &lsquo;Compatible&rsquo; means that the library should work on this iOS version (i.e. it doesn&rsquo;t rely on any unavailable SDK features) but is no longer being tested for compatibility and may require tweaking or bug fixes to run correctly.</p>
+
+<h2>ARC Compatibility</h2>
+
+<p>As of version 1.1, CountryPicker requires ARC. If you wish to use CountryPicker in a non-ARC project, just add the -fobjc-arc compiler flag to the CountryPicker.m file. To do this, go to the Build Phases tab in your target settings, open the Compile Sources group, double-click CountryPicker.m in the list and type -fobjc-arc into the popover.</p>
+
+<p>If you wish to convert your whole project to ARC, comment out the #error line in CountryPicker.m, then run the Edit > Refactor > Convert to Objective-C ARC&hellip; tool in Xcode and make sure all files that you wish to use ARC for (including CountryPicker.m) are checked.</p>
+
+<h2>Installation</h2>
+
+<p>To use the CountryPicker in an app, just drag the CountryPicker class files into your project. If you want to use the flag icons, drag the CountryPicker.bundle folder in also.</p>
+
+<h2>CountryPicker class methods</h2>
+
+<p>The CountryPicker class includes several handy methods for retrieving country names and codes, and converting between the two:</p>
+
+<pre><code>+ (NSArray *)countryNames;
+</code></pre>
+
+<p>Returns an array of all country names in alphabetical order.</p>
+
+<pre><code>+ (NSArray *)countryCodes;
+</code></pre>
+
+<p>Returns an array of all country codes. The codes are sorted by country name, and their indices match the indices of their respective country name in the <code>countryNames</code> list, but note that this means that the codes themselves are not sorted alphabetically.</p>
+
+<pre><code>+ (NSDictionary *)countryNamesByCode;
+</code></pre>
+
+<p>Returns a dictionary of country names, keyed by country code.</p>
+
+<pre><code>+ (NSDictionary *)countryCodesByName;
+</code></pre>
+
+<p>Returns a dictionary of country codes, keyed by country name.</p>
+
+<h2>CountryPicker properties</h2>
+
+<p>Each CountryPicker view has the following properties:</p>
+
+<pre><code>@property (nonatomic, assign) id&lt;CountryPickerDelegate&gt; delegate;
+</code></pre>
+
+<p>The delegate. This implements the CountryPickerDelegate protocol, and is notified when a country is selected.</p>
+
+<pre><code>@property (nonatomic, copy) NSString *selectedCountryName;
+</code></pre>
+
+<p>The currently selected country name. This is a read-write property, so it can be used to set the picker value. Setting the picker to a country name that does not appear in the <code>countryNames</code> array has no effect.</p>
+
+<pre><code>@property (nonatomic, copy) NSString *selectedCountryCode;
+</code></pre>
+
+<p>The currently selected country code. This is a read-write property, so it can be used to set the picker value. Setting the picker to a country code that does not appear in the <code>countryCodes</code> array has no effect.</p>
+
+<pre><code>@property (nonatomic, copy) NSLocale *selectedLocale;
+</code></pre>
+
+<p>This is a convenience property to set/get the selected country using a locale. The picker will automatically select the correct country based on the local. To default the picker to the current device locale, you can say:</p>
+
+<pre><code>picker.selectedLocale = [NSLocale currentLocale];
+</code></pre>
+
+<h2>CountryPicker instance methods</h2>
+
+<pre><code>- (void)setSelectedCountryCode:(NSString *)countryCode animated:(BOOL)animated;
+- (void)setSelectedCountryName:(NSString *)countryName animated:(BOOL)animated;
+- (void)setSelectedLocale:(NSLocale *)locale animated:(BOOL)animated;
+</code></pre>
+
+<p>These methods allow you to set the current country via name, code or locale. THey work excatly like the equivalent property setters, but have an optional animated parameter to make the picker scroll smoothly to the selected country.</p>
+
+<h2>CountryPickerDelegate protocol</h2>
+
+<p>The CountryPickerDelegate protocol has a single obligatory method:</p>
+
+<pre><code>- (void)countryPicker:(CountryPicker *)picker didSelectCountryWithName:(NSString *)name code:(NSString *)code;
+</code></pre>
+
+<p>This method is called whenever a country is selected in the picker.</p>
+
+<h2>Subclassing</h2>
+
+<p>As of version 1.0.2 you can easily subclass CountryPicker to modify the country name/code list.</p>
+
+<p>To add additional countries, override the +countryNamesByCode method (there is no need to override +countryCodesByName as this is derived automatically from +countryNamesByCode).</p>
+
+<p>To change the display order, or display duplicate copies of (say) US or UK at the top of the list, override +countryNames method (there is no need to override +countryCodes as this is derived automatically from +countryNames and +countryCodesByName).</p>
+
+<h2>Release notes</h2>
+
+<p>Version 1.2.3</p>
+
+<ul>
+<li>Moved flag images into a resource bundle</li>
+</ul>
+
+
+<p>Version 1.2.2</p>
+
+<ul>
+<li>Added workaround for simulator bug where currentLocale doesn&rsquo;t return country names</li>
+</ul>
+
+
+<p>Version 1.2.1</p>
+
+<ul>
+<li>Updated for iOS 8</li>
+<li>Now compliant with -Weverything warning level</li>
+</ul>
+
+
+<p>Version 1.2</p>
+
+<ul>
+<li>Removed Countries.plist - country list is now generated automatically</li>
+<li>Country names are now localized</li>
+<li>Added ability to set and get country using locale</li>
+<li>Removed the setWithLocale: method</li>
+</ul>
+
+
+<p>Version 1.1</p>
+
+<ul>
+<li>Updated for iOS 7 compatibility</li>
+<li>Added new &ldquo;flat&rdquo; flag images for iOS 7</li>
+<li>Now requires ARC (see README for details)</li>
+<li>Now compliant with -Wall and -Wextra warning levels</li>
+</ul>
+
+
+<p>Version 1.0.2</p>
+
+<ul>
+<li>Capitalized Japan</li>
+<li>Added South Sudan</li>
+<li>Refactored to make subclassing easier</li>
+</ul>
+
+
+<p>Version 1.0.1</p>
+
+<ul>
+<li>Added ARC support</li>
+<li>Added example project</li>
+</ul>
+
+
+<p>Version 1.0</p>
+
+<ul>
+<li>Initial release</li>
+</ul>
+
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://github.com/nicklockwood/CountryPicker">https://github.com/nicklockwood/CountryPicker</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-17T18:58:42+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>6:58 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/17/ios-jin-zhi-zi-dong-xiu-mian/" title="Previous Post: iOS 禁止自动休眠">&laquo; iOS 禁止自动休眠</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/17/nullsafe/" title="Next Post: NullSafe">NullSafe &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

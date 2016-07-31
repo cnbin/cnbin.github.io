@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>UserVoice iOS SDK - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="UserVoice iOS SDK (download demo app) The UserVoice iOS SDK allows you to integrate a native UserVoice experience directly in your iPhone or iPad &hellip;">
+  <meta name="keywords" content="uservoice,ios">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/07/uservoice-ios-sdk/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">UserVoice iOS SDK</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-07T16:19:11+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:19 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h4>UserVoice iOS SDK (<a href="https://itunes.apple.com/us/app/uservoice-help-center/id907516756">download demo app</a>)</h4>
+
+<p>The UserVoice iOS SDK allows you to integrate a native UserVoice experience directly in your iPhone or iPad app, allowing you to provide Instant Answers to your customers’ questions, a searchable knowledge base, and feedback forum. Our contact form is a friendlier experience than an email composer filled with debug information, and also eliminates those blank requests clogging up your inbox.</p>
+
+<p>To get started, you will need to have a free UserVoice account to connect to. Go to <a href="https://uservoice.com/mobile/">uservoice.com/mobile/</a> to sign up for free.</p>
+
+<p>Binary builds of the SDK are available for download:
+* Current release is iOS 8 compatible: <a href="https://github.com/uservoice/uservoice-ios-sdk/releases/tag/3.2.1">3.2.1</a> (updated 2014-09-30)
+* See <a href="https://github.com/uservoice/uservoice-ios-sdk/releases">Releases</a> for release notes and previous versions</p>
+
+<p>Example apps:
+* You can try the SDK using your own UserVoice account with our demo <a href="https://itunes.apple.com/us/app/uservoice-help-center/id907516756">Help Center app, available in the App Store</a>.
+* We also have an <a href="https://github.com/uservoice/uservoice-iphone-example">example app</a> on GitHub that demonstrates how to build and integrate the SDK.</p>
+
+<p>Screenshots:</p>
+
+<p><img src="https://www.uservoice.com/assets/img/mobile/uservoice-ios-sdk-instant-answers-3.0.gif" alt="InstantAnswers" /> &nbsp; <img src="https://www.uservoice.com/assets/img/mobile/uservoice-ios-sdk-subscribe-3.0.gif" alt="Subscribe to ideas" /></p>
+
+<h2>Installation</h2>
+
+<ul>
+<li>Download the latest build.</li>
+<li>Drag <code>UVHeaders</code>, <code>UVResources</code>, and <code>libUserVoice.a</code> into your project.
+
+<ul>
+<li>When adding the folders, make sure you have &ldquo;Create groups for any added folders&rdquo; selected rather than &ldquo;Create folder references for any added folders&rdquo;.</li>
+</ul>
+</li>
+<li>Note that the <code>.h</code> files in  <code>UVHeaders</code> do not need to be added to your target.</li>
+<li>Add QuartzCore and SystemConfiguration frameworks to your project.</li>
+</ul>
+
+
+<p>See <a href="https://github.com/uservoice/uservoice-iphone-sdk/blob/master/DEV.md">DEV.md</a> if you want to build the SDK yourself.</p>
+
+<h2>CocoaPods</h2>
+
+<p>Alternatively, if you are using CocoaPods just add the following to your Podfile.</p>
+
+<pre><code>pod 'uservoice-iphone-sdk', '~&gt; 3.2'
+</code></pre>
+
+<h2>API</h2>
+
+<p>Once you have completed these steps, you are ready to launch the UserVoice UI from your code. Import <code>UserVoice.h</code> and create a <code>UVConfig</code> using one of the following options.</p>
+
+<h3>Configuration</h3>
+
+<p>Start by creating a <code>UVConfig</code> object like this:</p>
+
+<pre><code>UVConfig *config = [UVConfig configWithSite:@"yoursite.uservoice.com"];
+</code></pre>
+
+<p>Once you&rsquo;ve set up your config the way you want it, you should go ahead and pass it to initialize:</p>
+
+<pre><code>[UserVoice initialize:config];
+</code></pre>
+
+<p>This should be called when your app starts up so that we can provide accurate metrics in your UserVoice admin console.</p>
+
+<h3>User identification</h3>
+
+<p>If you know who your user is, you can pass in their identity so that they won&rsquo;t
+have to enter their name or email to send tickets or post ideas.</p>
+
+<pre><code>[config identifyUserWithEmail:@"user@example.com" name:@"Example User" guid:@"123"];
+</code></pre>
+
+<p>GUID can be the same as email, but if you have an internal user id, you can
+pass that so that the user&rsquo;s account will have continuity if they later change
+their email address.</p>
+
+<p>Note: One limitation is that this will not work if the email address matches an
+admin on your UserVoice account (for security reasons). Admins will still be able
+to use the iOS SDK but they will need to sign in the first time they do. If you are
+testing this feature, make sure you are not testing with an admin account.</p>
+
+<h3>Specify a forum</h3>
+
+<p>You can specify which forum users will interact with by id.  If you do not
+specify a forum, it will use the default forum for your account.</p>
+
+<pre><code>config.forumId = 123;
+</code></pre>
+
+<h3>Specify a help topic</h3>
+
+<p>You can also specify a help topic by id. If you don&rsquo;t then it will display a
+list of all topics in your account, as long as they contain at least one
+article.</p>
+
+<pre><code>config.topicId = 123;
+</code></pre>
+
+<h3>Custom Fields</h3>
+
+<p>You can set custom field values on the <code>UVConfig</code> object. These will be used
+associated with any tickets the user creates during their session. You can
+also use this to set default values for custom fields on the contact form.</p>
+
+<p>Note: You must first configure these fields in the UserVoice admin console.
+If you pass fields that are not recognized by the server, they will be ignored.</p>
+
+<pre><code>config.customFields = @{@"Key" : @"Value"};
+</code></pre>
+
+<h3>Toggle features</h3>
+
+<p>You can turn off certain features of the SDK if you do not want to use them. By
+default, all features are enabled if they are available on your account.</p>
+
+<p><strong>1. Turn off browsing the forum.</strong> The user will still be able to post ideas, and view ideas that they find by searching.</p>
+
+<pre><code>config.showForum = NO;
+</code></pre>
+
+<p><strong>2. Turn off posting ideas.</strong> The user will still be able to browse and search existing ideas.</p>
+
+<pre><code>config.showPostIdea = NO;
+</code></pre>
+
+<p><strong>3. Turn off the contact form.</strong></p>
+
+<pre><code>config.showContactUs = NO;
+</code></pre>
+
+<p><strong>4. Turn of the knowledge base.</strong> This only affects the knowledge base browser on the portal screen. Instant answers will still include articles.</p>
+
+<pre><code>config.showKnowledgeBase = NO;
+</code></pre>
+
+<p>If you deep-link to an area that is turned off (such as the contact form), it
+will still work. Turning off the feature only prevents it from being accessible
+anywhere in the UserVoice UI.</p>
+
+<h3>Invocation (Deep Linking)</h3>
+
+<p>There are 4 options for how to launch UserVoice from within your app:</p>
+
+<p><strong>1. Standard UserVoice Interface:</strong> This launches the UserVoice for iOS portal page where the user can browse suggestions, contact you or browse the knowledgebase. This is the full experience of everything the SDK can do.</p>
+
+<pre><code>[UserVoice presentUserVoiceInterfaceForParentViewController:self];
+</code></pre>
+
+<p><strong>2. Direct link to contact form:</strong> Launches user directly into the contact form, with Instant Answers, experience. Useful to link to from error or setup pages in your app.</p>
+
+<pre><code>[UserVoice presentUserVoiceContactUsFormForParentViewController:self];
+</code></pre>
+
+<p><strong>3. Direct link to feedback forum:</strong> Launches the user directly into the feedback forum where they can browse, vote on or give their own feedback. Useful for linking from a &ldquo;Give us your ideas?&rdquo; prompt from within your app.</p>
+
+<pre><code>[UserVoice presentUserVoiceForumForParentViewController:self];
+</code></pre>
+
+<p><strong>4. Direct link to idea form:</strong> Launches user directly into the idea form, with Instant Answers, experience.</p>
+
+<pre><code>[UserVoice presentUserVoiceNewIdeaFormForParentViewController:self];
+</code></pre>
+
+<h3>Passing user traits</h3>
+
+<p>You can optionally pass further information about your users into UserVoice. This
+will allow us to provide you more useful reports about your users.</p>
+
+<pre><code>config.userTraits = @{
+  @"created_at" : @(1364406966),    // Unix timestamp for the date the user signed up
+  @"type" : @"Owner",               // Optional: segment your users by type
+  @"account" : @{
+    @"id" : @(123),                 // Optional: associate multiple users with a single account
+    @"name" : @"Acme, Co.",         // Account name
+    @"created_at" : @(1364406966),  // Unix timestampe for the date the account was created
+    @"monthly_rate" : @(9.99),      // Decimal; monthly rate of the account
+    @"ltv" : @(1495.00),            // Decimal; lifetime value of the account
+    @"plan" : @"Enhanced"           // Plan name for the account
+  }
+};
+</code></pre>
+
+<h3>Customizing Colors</h3>
+
+<p>You can also customize the appearance of the UserVoice user interface by
+setting certain key colors.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import "UVStyleSheet.h"
+</span><span class='line'>[UVStyleSheet instance].tintColor = [UIColor redColor];
+</span><span class='line'>[UVStyleSheet instance].tableViewBackgroundColor = [UIColor whiteColor];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>See <code>UVStyleSheet.h</code> for a complete list of the visual properties you can modify.</p>
+
+<h3>User Language</h3>
+
+<p>The library will detect and display in the language the device is set to provided that language is supported by the SDK (<a href="https://github.com/uservoice/uservoice-iphone-sdk#translations">see currently supported languages</a>.).</p>
+
+<h3>Private Sites</h3>
+
+<p>The SDK relies on being able to obtain a client key to communicate with the UserVoice API. If you have a public UserVoice site (the default) then it can obtain this key automatically, so you only need to pass your site URL. However, if you turn on site privacy, this key is also private, so you will need to pass it in. You can obtain a client key pair from the mobile settings section of the UserVoice admin console.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UVConfig *config = [UVConfig configWithSite:@"yoursite.uservoice.com" andKey:@"CLIENT_KEY" andSecret:@"CLIENT_SECRET"];
+</span><span class='line'>[UserVoice initialize:config];</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Upgrading from 2.0.x</h2>
+
+<ul>
+<li>You should pass your <code>UVConfig</code> to <code>+[UserVoice initialize:]</code> shortly after app launch so that we can provide you with accurate usage reports.</li>
+<li>If you are using a custom stylesheet, you will need to update your code as both the set of options and the method of setting them have changed. See the section below on Customizing Colors.</li>
+<li>You no longer need to pass a client key pair to UVConfig unless you have restricted access enabled on your UserVoice site.</li>
+<li>We are dropping support for versions of iOS prior to 6.0. (See note about <a href="#ios-versions">iOS versions</a>)</li>
+</ul>
+
+
+<h2>Give us feedback!</h2>
+
+<p>You can share feedback on our <a href="http://feedback.uservoice.com/forums/64519-mobile-sdks">Mobile SDKs forum</a>.</p>
+
+<h2>FAQs</h2>
+
+<p><strong>What if I only want to collect feedback? What if I only want a contact form?</strong>
+Don’t worry. UserVoice is a modular system and you can link to only the parts of the SDK you want to use. Check out how you can configure <a href="#invocation-deep-linking">invocation</a>.</p>
+
+<p><strong>Why would I use this over a Mail link?</strong>
+There are a lot of reasons why UserVoice for iOS is superior to a Mail link:</p>
+
+<ul>
+<li>It doesn’t take your users out of your app.</li>
+<li>It’s a more efficient way to scale customer support and engagement:
+
+<ul>
+<li>UserVoice automatically suggests articles and forum posts that help solve users’ issues before they contact you. We call it Instant Answers and it can reduce your support load by up to 40%.</li>
+<li>We&rsquo;ve shown it can reduce junk emails (people clicking send to get out of the email app) by up to 74%.</li>
+<li>You can setup custom fields to ask custom questions and pass in environment information (account IDs) that help your agents answer questions faster, reducing the back and forth between agents and customers.</li>
+</ul>
+</li>
+<li>By having a dedicated space for users to give feedback and vote up other users’ ideas, not only will you get more feedback (and more prioritized feedback), but you’ll also reduce the number of feature requests that end up in your support queue.</li>
+</ul>
+
+
+<p><strong>What if I have a web app as well?</strong>
+No problemo! Every UserVoice account comes with a yourname.uservoice.com site and web widgets so you can administer both your mobile and web users from your UserVoice admin console.</p>
+
+<p><strong>What about users who still send in email for support?</strong>
+UserVoice can handle that as well. Simply setup your existing support email forward to your UserVoice tickets email address (<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x74;&#x69;&#99;&#107;&#101;&#x74;&#x73;&#x40;&#x79;&#111;&#117;&#x72;&#x64;&#111;&#x6d;&#97;&#105;&#x6e;&#x2e;&#117;&#x73;&#x65;&#114;&#118;&#111;&#105;&#x63;&#101;&#46;&#99;&#111;&#x6d;">&#x74;&#105;&#x63;&#x6b;&#101;&#x74;&#115;&#x40;&#x79;&#x6f;&#117;&#114;&#x64;&#111;&#x6d;&#x61;&#x69;&#110;&#x2e;&#117;&#115;&#101;&#114;&#118;&#111;&#105;&#99;&#101;&#46;&#99;&#x6f;&#x6d;</a>).</p>
+
+<p><strong>Does it pass device ids or anything that would get me in trouble with Apple?</strong>
+Nope. UserVoice for iOS follows all of Apple’s policies to make sure you can confidently include our SDK in your app.</p>
+
+<p><strong>Can I customize the look and feel to match my app?</strong>
+Yes. You can customize the colors of the UserVoice modal dialogs by creating your own stylesheet. Check out the <a href="#customizing-colors">customization</a> for more info.</p>
+
+<p>If you have any other questions please contact <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x73;&#117;&#112;&#112;&#x6f;&#114;&#x74;&#64;&#x75;&#x73;&#x65;&#x72;&#x76;&#x6f;&#105;&#x63;&#101;&#46;&#99;&#111;&#109;&#46;">&#115;&#x75;&#x70;&#x70;&#x6f;&#114;&#x74;&#64;&#117;&#115;&#101;&#x72;&#118;&#x6f;&#x69;&#x63;&#x65;&#x2e;&#x63;&#x6f;&#109;&#46;</a></p>
+
+<h2>Translations</h2>
+
+<p>UserVoice for iOS now has support for the following locales: ca, cs, da, de,
+el, en-GB, en, es, fi, fr, hr, hu, id, it, ja, ko, ms, nb, nl, pl, pt-PT, pt,
+ro, ru, sk, sv, th, tr, uk, vi, zh-Hans, zh-Hant.</p>
+
+<p>If you have done an additional translation, we would love to pull it in so that
+everyone can benefit. Just fork the project and submit a pull request.</p>
+
+<p>Some strings that show up in the SDK may come directly from the UserVoice API.
+If a translation is missing for a string that does not appear in the SDK
+codebase, you will need to contribute to the main <a href="http://translate.uservoice.com/">UserVoice translation
+site</a>.</p>
+
+<h2>iOS Versions</h2>
+
+<ul>
+<li>UserVoice for iOS 3.0 is designed for iOS 8 with backwards compatibility for iOS 6</li>
+<li>To support earlier versions you would have to go back to UserVoice for iOS 2.0</li>
+</ul>
+
+
+<p>If you want to use UserVoice for iOS 3.0 in your app, but your app also supports iOS 5 or earlier, you will need to tweak your build settings to prevent your app from crashing on launch on old versions of iOS. This is because UserVoice for iOS is typically installed as a static library, and it references classes that are not available on iOS 5. There are 2 options:</p>
+
+<ul>
+<li>Go into Build Settings for your target and change the Foundation and UIKit frameworks from &ldquo;Required&rdquo; to &ldquo;Optional&rdquo;. This means that every class in those frameworks will be resolved when it is first used rather than on app launch.</li>
+<li>Alternatively, pull the UserVoice code into a Vendor directly in your project rather than referencing it as a static library. This is only an option if your project uses ARC.</li>
+</ul>
+
+
+<p>In either case, you will also need to prevent your users from launching UserVoice on an unsupported version of iOS. Something like this should suffice:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if ([UIDevice currentDevice].systemVersion.floatValue &lt; 6) {
+</span><span class='line'>    // hide button that invokes UserVoice
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Contributors</h2>
+
+<p>Special thanks to:</p>
+
+<ul>
+<li><a href="https://github.com/netbe">netbe</a> for the French translation</li>
+<li><a href="https://github.com/Piero87">Piero87</a> for the Italian translation</li>
+<li><a href="https://github.com/zetachang">zetachang</a> for the Traditional Chinese translation</li>
+<li><a href="https://github.com/nvh">nvh</a> for the Dutch translation</li>
+<li><a href="https://github.com/vinzenzweber">vinzenzweber</a> and <a href="http://www.blockhaus-media.com/">Blockhaus Media</a> for the German translation</li>
+<li><a href="https://github.com/hebertialmeida">hebertialmeida</a> for the Portuguese translation</li>
+<li>Everyone else who <a href="https://github.com/uservoice/uservoice-iphone-sdk/issues?state=closed">reported bugs or made pull requests</a>!</li>
+</ul>
+
+
+<h2>License</h2>
+
+<p>Copyright 2010 UserVoice Inc.</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the &ldquo;License&rdquo;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &ldquo;AS IS&rdquo; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+
+<p><a href="http://githalytics.com/uservoice/uservoice-iphone-sdk"><img src="https://cruel-carlota.pagodabox.com/f5b60bff0fbee98bc0e43f57eb49576f" title="githalytics.com" alt="githalytics.com alpha" /></a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-07T16:19:11+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:19 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/07/sialertview/" title="Previous Post: SIAlertView">&laquo; SIAlertView</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/07/diveinchat-xmpp/" title="Next Post: DiveinChat-XMPP">DiveinChat-XMPP &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

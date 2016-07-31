@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>C#中StringBuilder的使用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="String 对象是不可改变的。每次使用 System.String 类中的方法之一时，都要在内存中创建一个新的字符串对象，这就需要为该新对象分配新的空间。在需要对字符串执行重复修改的情况下，与创建新的 String 对象相关的系统开销可能会非常昂贵。如果要修改字符串而不创建新的对象，则可以使用 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/29/c-number-zhong-stringbuilderde-shi-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">C#中StringBuilder的使用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-29T16:17:02+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:17 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>String 对象是不可改变的。每次使用 System.String 类中的方法之一时，都要在内存中创建一个新的字符串对象，这就需要为该新对象分配新的空间。在需要对字符串执行重复修改的情况下，与创建新的 String 对象相关的系统开销可能会非常昂贵。如果要修改字符串而不创建新的对象，则可以使用 System.Text.StringBuilder   类。例如，当在一个循环中将许多字符串连接在一起时，使用 StringBuilder 类可以提升性能。</p>
+
+<p>通过用一个重载的构造函数方法初始化变量，可以创建 StringBuilder 类的新实例，正如以下示例中所阐释的那样。</p>
+
+<pre><code>StringBuilder  MyStringBuilder = new StringBuilder("Hello   World!"); 
+</code></pre>
+
+<h4>设置容量和长度</h4>
+
+<p>虽然 StringBuilder 对象是动态对象，允许扩充它所封装的字符串中字符的数量，但是您可以为它可容纳的最大字符数指定一个值。此值称为该对象的容量，不应将它与当前 StringBuilder 对象容纳的字符串长度混淆在一起。例如，可以创建 StringBuilder 类的带有字符串“Hello”（长度为5）的一个新实例，同时可以指定该对象的最大容量为25。当修改 StringBuilder 时，在达到容量之前，它不会为其自己重新分配空间。当达到容量时，将自动分配新的空间且容量翻倍。可以使用重载的构造函数之一来指定 StringBuilder 类的容量。以下代码示例指定可以将 MyStringBuilder 对象扩充到最大 25 个空白。</p>
+
+<pre><code>StringBuilder MyStringBuilder = new StringBuilder("Hello   World!",   25); 
+</code></pre>
+
+<p>另外，可以使用读/写 Capacity 属性来设置对象的最大长度。以下代码示例使用 Capacity 属性来定义对象的最大长度。</p>
+
+<pre><code> MyStringBuilder.Capacity = 25;
+</code></pre>
+
+<p>EnsureCapacity 方法可用来检查当前 StringBuilder 的容量。如果容量大于传递的值，则不进行任何更改；但是，如果容量小于传递的值，则会更改当前的容量以使其与传递的值匹配。</p>
+
+<p>也可以查看或设置   Length   属性。如果将   Length   属性设置为大于   Capacity   属性的值，则自动将   Capacity   属性更改为与   Length   属性相同的值。如果将   Length 属性设置为小于当前   StringBuilder   对象内的字符串长度的值，则会缩短该字符串。</p>
+
+<h4>修改   StringBuilder   字符串</h4>
+
+<p>下表列出了可以用来修改 StringBuilder 的内容的方法。</p>
+
+<pre><code>方法名   使用     
+StringBuilder.Append   将信息追加到当前   StringBuilder   的结尾。     
+StringBuilder.AppendFormat   用带格式文本替换字符串中传递的格式说明符。     
+StringBuilder.Insert   将字符串或对象插入到当前   StringBuilder   对象的指定索引处。     
+StringBuilder.Remove   从当前   StringBuilder   对象中移除指定数量的字符。     
+StringBuilder.Replace   替换指定索引处的指定字符。     
+</code></pre>
+
+<h4>Append</h4>
+
+<p>Append 方法可用来将文本或对象的字符串表示形式添加到由当前   StringBuilder   对象表示的字符串的结尾处。以下示例将一个  StringBuilder  对象初始化为“Hello  World”，然后将一些文本追加到该对象的结尾处。将根据需要自动分配空间。</p>
+
+<pre><code>  StringBuilder   MyStringBuilder = new StringBuilder("Hello   World!");  
+  MyStringBuilder.Append(" What a beautiful day.");  
+  Console.WriteLine(MyStringBuilder);   
+</code></pre>
+
+<p>此示例将 Hello  World!  What a  beautiful day.  显示到控制台。</p>
+
+<h4>AppendFormat</h4>
+
+<p>AppendFormat   方法将文本添加到   StringBuilder   的结尾处，而且实现了   IFormattable   接口，因此可接受格式化部分中描述的标准格式字符串。可以使用此方法来自定义变量的格式并将这些值追加到   StringBuilder   的后面。以下示例使用   AppendFormat   方法将一个设置为货币值格式的整数值放置到   StringBuilder   的结尾。</p>
+
+<pre><code>int MyInt = 25;    
+StringBuilder  MyStringBuilder = new StringBuilder("Your  total  is ");  
+MyStringBuilder.AppendFormat("{0:C}   ",   MyInt);  
+Console.WriteLine(MyStringBuilder);   
+</code></pre>
+
+<p>此示例将   Your   total   is   $25.00   显示到控制台。</p>
+
+<h4>Insert</h4>
+
+<p>Insert   方法将字符串或对象添加到当前   StringBuilder   中的指定位置。以下示例使用此方法将一个单词插入到   StringBuilder   的第六个位置。</p>
+
+<pre><code>StringBuilder MyStringBuilder = new  StringBuilder("Hello World!");  
+MyStringBuilder.Insert(6,"Beautiful   ");  
+Console.WriteLine(MyStringBuilder);   
+</code></pre>
+
+<p>此示例将   Hello   Beautiful   World!   显示到控制台。</p>
+
+<h4>Remove</h4>
+
+<p>可以使用   Remove   方法从当前   StringBuilder   中移除指定数量的字符，移除过程从指定的从零开始的索引处开始。以下示例使用   Remove   方法缩短   StringBuilder。</p>
+
+<pre><code>StringBuilder MyStringBuilder =  new StringBuilder("Hello  World!");  
+MyStringBuilder.Remove(5,7);  
+Console.WriteLine(MyStringBuilder);   
+</code></pre>
+
+<p>此示例将 Hello 显示到控制台。</p>
+
+<h4>Replace</h4>
+
+<p>使用 Replace 方法，可以用另一个指定的字符来替换 StringBuilder 对象内的字符。以下示例使用 Replace 方法来搜索   StringBuilder 对象，查找所有的感叹号字符  (!)，并用问号字符  (?) 来替换它们。</p>
+
+<pre><code>StringBuilder   MyStringBuilder   =   new   StringBuilder("Hello   World!");  
+MyStringBuilder.Replace('!',   '?');  
+Console.WriteLine(MyStringBuilder);   
+</code></pre>
+
+<p>此示例将 Hello World? 显示到控制台。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-29T16:17:02+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:17 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/28/tu-de-cun-chu-jie-gou/" title="Previous Post: 图的存储结构">&laquo; 图的存储结构</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/29/aspxwen-jian/" title="Next Post: aspx文件">aspx文件 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

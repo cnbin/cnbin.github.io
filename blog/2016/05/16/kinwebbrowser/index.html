@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>KINWebBrowser - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="KINWebBrowser is a web browser module for your apps. Powered by WKWebView on iOS 8. Backwards compatible with iOS 7 using UIWebView. Features iOS 7 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/05/16/kinwebbrowser/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">KINWebBrowser</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-16T15:19:49+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:19 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>KINWebBrowser is a web browser module for your apps.</p>
+
+<p>Powered by <a href="https://developer.apple.com/library/IOs/documentation/WebKit/Reference/WKWebView_Ref/index.html">WKWebView</a> on iOS 8. Backwards compatible with iOS 7 using <a href="https://developer.apple.com/library/ios/documentation/Uikit/reference/UIWebView_Class/index.html">UIWebView</a>.</p>
+
+<p><img src="http://i.imgur.com/z1jkWKG.png" alt="KINWebBrowser Screenshots" /></p>
+
+<h2>Features</h2>
+
+<ul>
+<li>iOS 7 &amp; 8 support for iPhone and iPad devices</li>
+<li>Safari-like interface</li>
+<li>Animated progress bar</li>
+<li>Customizable UI including tint color</li>
+<li>Portrait and landscape orientation support</li>
+<li>Use with existing UINavigationController or present modally</li>
+<li>Delegate protocol for status callbacks</li>
+<li>Action button to allow users to copy URL, share, or open in Safari &amp; Google Chrome</li>
+<li>Supports subclassing</li>
+<li>Installation with <a href="http://cocoapods.org/">CocoaPods</a></li>
+</ul>
+
+
+<h2>Overview</h2>
+
+<p>KINWebBrowser consists of a single component:</p>
+
+<p><strong><code>KINWebBrowserViewController</code></strong> - a <code>UIViewController</code> that contains a full featured web browser.</p>
+
+<p><em><code>KINWebBrowserViewController</code> must be contained in a UINavigationController.</em></p>
+
+<p><strong>Pushing to the navigation stack:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="n">KINWebBrowserViewController</span> <span class="o">*</span><span class="n">webBrowser</span> <span class="o">=</span> <span class="p">[</span><span class="n">KINWebBrowserViewController</span> <span class="n">webBrowser</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span> <span class="nl">pushViewController</span><span class="p">:</span><span class="n">webBrowser</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">webBrowser</span> <span class="nl">loadURLString</span><span class="p">:</span><span class="s">@&quot;http://www.example.com&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Presenting Modally:</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objective-c'><span class='line'><span class="bp">UINavigationController</span> <span class="o">*</span><span class="n">webBrowserNavigationController</span> <span class="o">=</span> <span class="p">[</span><span class="n">KINWebBrowserViewController</span> <span class="n">navigationControllerWithWebBrowser</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span> <span class="nl">presentViewController</span><span class="p">:</span><span class="n">webBrowserNavigationController</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">KINWebBrowserViewController</span> <span class="o">*</span><span class="n">webBrowser</span> <span class="o">=</span> <span class="p">[</span><span class="n">webBrowserNavigationController</span> <span class="n">rootWebBrowser</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">webBrowser</span> <span class="nl">loadURLString</span><span class="p">:</span><span class="s">@&quot;http://www.example.com&quot;</span><span class="p">];</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Installation</h2>
+
+<h4>CocoaPods</h4>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries in your projects. See the <a href="http://guides.cocoapods.org/using/getting-started.html">&ldquo;Getting Started&rdquo; for more information</a>.</p>
+
+<h6>Podfile</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">&#39;7.0&#39;</span>
+</span><span class='line'><span class="n">pod</span> <span class="s1">&#39;KINWebBrowser&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Dependencies</h2>
+
+<p>These dependency projects should be also installed with KINWebBrowser. They are installed automatically when installing KINWebBrowser with CocoaPods.</p>
+
+<ul>
+<li><a href="https://github.com/davbeck/TUSafariActivity">TUSafariActivity</a> -  a UIActivity subclass that provides an &ldquo;Open In Safari&rdquo; action to a UIActivityViewController</li>
+<li><a href="https://github.com/alextrob/ARChromeActivity">ARChromeActivity</a> - a UIActivity subclass that provides an &ldquo;Open In Google Chrome&rdquo; action to a UIActivityViewController</li>
+</ul>
+
+
+<h2>Customizing the User Interface</h2>
+
+<p><strong>Tint Color</strong></p>
+
+<p>The tint color of the toolbars and toolbar items can be customized.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">webBrowser</span><span class="o">.</span><span class="n">tintColor</span> <span class="o">=</span> <span class="o">[</span><span class="no">UIColor</span> <span class="n">blueColor</span><span class="o">]</span><span class="p">;</span>
+</span><span class='line'><span class="n">webBrowser</span><span class="o">.</span><span class="n">barTintColor</span> <span class="o">=</span> <span class="o">[</span><span class="no">UIColor</span> <span class="n">blackColor</span><span class="o">]</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Title Bar Content</strong></p>
+
+<p>The URL can be shown in the <code>UINavigationBar</code> while loading. The title of the page can be shown when loading completes.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">webBrowser</span><span class="o">.</span><span class="n">showsURLInNavigationBar</span> <span class="o">=</span> <span class="no">NO</span><span class="p">;</span>
+</span><span class='line'><span class="n">webBrowser</span><span class="o">.</span><span class="n">showsPageTitleInNavigationBar</span> <span class="o">=</span> <span class="no">YES</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Implementing <code>KINWebBrowserDelegate</code> Protocol</h2>
+
+<p><code>KINWebBrowserDelegate</code> is a set of <code>@optional</code> callback methods to inform the <code>delegate</code> of status changes.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="ss">webBrowser</span><span class="p">:(</span><span class="no">KINWebBrowserViewController</span> <span class="o">*</span><span class="p">)</span><span class="n">webBrowser</span> <span class="ss">didStartLoadingURL</span><span class="p">:(</span><span class="no">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="no">URL</span><span class="p">;</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="ss">webBrowser</span><span class="p">:(</span><span class="no">KINWebBrowserViewController</span> <span class="o">*</span><span class="p">)</span><span class="n">webBrowser</span> <span class="ss">didFinishLoadingURL</span><span class="p">:(</span><span class="no">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="no">URL</span><span class="p">;</span>
+</span><span class='line'><span class="o">-</span> <span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="ss">webBrowser</span><span class="p">:(</span><span class="no">KINWebBrowserViewController</span> <span class="o">*</span><span class="p">)</span><span class="n">webBrowser</span> <span class="ss">didFailToLoadURL</span><span class="p">:(</span><span class="no">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="no">URL</span> <span class="ss">withError</span><span class="p">:(</span><span class="no">NSError</span> <span class="o">*</span><span class="p">)</span><span class="n">error</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-05-16T15:19:49+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:19 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/05/16/ios-ui-diao-shi-gong-ju-revealpo-jie-fang-fa/" title="Previous Post: iOS UI 调试工具Reveal破解方法">&laquo; iOS UI 调试工具Reveal破解方法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/05/18/ios-uitableview-shua-xin-mou-ge-cell-huo-section/" title="Next Post: iOS UITableview 刷新某一个cell 或 section">iOS UITableview 刷新某一个cell 或 section &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

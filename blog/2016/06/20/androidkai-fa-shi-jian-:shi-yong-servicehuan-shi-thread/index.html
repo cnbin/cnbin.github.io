@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android开发实践：使用Service还是Thread - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Service是Android的四大组件之一，被用来执行长时间的后台任务，同样，线程也可以实现在后台执行任务，它们的区别在哪呢?何时使用Service何时使用Thread呢?今天我也来说说我的理解和总结。 首先，需要了解Service的几个特点。 1.默认情况下， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/20/androidkai-fa-shi-jian-:shi-yong-servicehuan-shi-thread/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android开发实践：使用Service还是Thread</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T16:39:51+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:39 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Service是Android的四大组件之一，被用来执行长时间的后台任务，同样，线程也可以实现在后台执行任务，它们的区别在哪呢?何时使用Service何时使用Thread呢?今天我也来说说我的理解和总结。</p>
+
+<p>首先，需要了解Service的几个特点。</p>
+
+<p>1.默认情况下，Service其实是运行在主线程中的，如果需要执行复杂耗时的操作，必须在Service中再创建一个Thread来执行任务。</p>
+
+<p>2.Service的优先级高于后台挂起的Activity，当然，也高于Activity所创建的Thread，因此，系统可能在内存不足的时候优先杀死后台的Activity或者Thread，而不会轻易杀死Service组件，即使被迫杀死Service，也会在资源可用时重启被杀死的Service。</p>
+
+<p>其实，Service和Thread根本就不是一个级别的东西，Service是系统的四大组件之一，Thread只是一个用来执行后台任务的工具类，它可以在Activity中被创建，也可以在Service中被创建。因此，我们其实不应该讨论该使用Service还是Thread，而是应该讨论在什么地方创建Thread。</p>
+
+<p>典型的应用中，它可以在以下三个位置被创建，不同的位置，其生命周期不一样，所以，我们应该根据该Thread的目标生命周期来决定是在Service中创建Thread还是在Activity中创建它。</p>
+
+<p>1.在Activity中被创建</p>
+
+<p>这种情况下，一般在onCreate时创建，在onDestroy()中销毁，否则，Activity销毁后，Thread是会依然在后台运行着。</p>
+
+<p>这种情况下，Thread的生命周期即为整个Activity的生命周期。所以，在Activity中创建的Thread只适合完成一些依赖Activity本身有关的任务，比如定时更新一下Activity的控件状态等。</p>
+
+<p>核心特点：该Thread的就是为这个Activity服务的，完成这个特定的Activity交代的任务，主动通知该Activity一些消息和事件，Activity销毁后，该Thread也没有存活的意义了。</p>
+
+<p>2.在Application中被创建</p>
+
+<p>这种情况下，一般自定义Application类，重载onCreate方法，并在其中创建Thread，当然，也会在onTerminate()方法中销毁Thread，否则，如果Thread没有退出的话，即使整个Application退出了，线程依然会在后台运行着。</p>
+
+<p>这种情况下，Thread的生命周期即为整个Application的生命周期。所以，在Application中创建的Thread，可以执行一些整个应用级别的任务，比如定时检查一下网络连接状态等等。</p>
+
+<p>核心特点：该Thread的终极目标是为这个APP的各个Activity服务的，包括完成某个Activity交代的任务，主动通知某个Activity一些消息和事件等，APP退出之后该Thread也没有存活的意义了。</p>
+
+<p>以上这两种情况下，Thread的生命周期都不应该超出整个应用程序的生命周期，也就是，整个APP退出之后，Thread都应该完全退出，这样才不会出现内存泄漏或者僵尸线程。那么，如果你希望整个APP都退出之后依然能运行该Thread，那么就应该把Thread放到Service中去创建和启动了。</p>
+
+<p>3.在Service中被创建</p>
+
+<p>这是保证最长生命周期的Thread的唯一方式，只要整个Service不退出，Thread就可以一直在后台执行，一般在Service的onCreate()中创建，在onDestroy()中销毁。</p>
+
+<p>所以，在Service中创建的Thread，适合长期执行一些独立于APP的后台任务，比较常见的就是：在Service中保持与服务器端的长连接。</p>
+
+<p>核心特点：该Thread可以为APP提供一些“服务”或者“状态查询”，但该Thread并不需要主动通知APP任何事件，甚至不需要知道APP是谁。</p>
+
+<p>总之，我们不是要考虑该用Thread或者该用Service，而是应该为Thread选择合适的生命周期。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T16:39:51+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:39 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/20/androidkai-fa-layoutparamsde-yong-fa/" title="Previous Post: Android开发：LayoutParams的用法">&laquo; Android开发：LayoutParams的用法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/20/androidkai-fa-zhong-handlerde-jing-dian-zong-jie/" title="Next Post: Android开发中Handler的经典总结">Android开发中Handler的经典总结 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

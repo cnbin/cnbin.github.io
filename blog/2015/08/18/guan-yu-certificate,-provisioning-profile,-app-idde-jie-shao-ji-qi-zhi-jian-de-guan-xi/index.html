@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>关于 Certificate、Provisioning Profile、App ID 的介绍及其之间的关系 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="刚接触iOS开发的人难免会对苹果的各种证书、配置文件等不甚了解，可能你按照网上的教程一步一步的成功申请了真机调试，但是还是对其中的缘由一知半解。这篇文章就对Certificate、Provisioning Profile等做个总结 1.概念介绍 如果你拥有一个开发者账户的话，在iOS Dev &hellip;">
+  <meta name="keywords" content="Certificate">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/18/guan-yu-certificate,-provisioning-profile,-app-idde-jie-shao-ji-qi-zhi-jian-de-guan-xi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">关于 Certificate、Provisioning Profile、App ID 的介绍及其之间的关系</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-18T10:51:22+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:51 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>刚接触iOS开发的人难免会对苹果的各种证书、配置文件等不甚了解，可能你按照网上的教程一步一步的成功申请了真机调试，但是还是对其中的缘由一知半解。这篇文章就对Certificate、Provisioning Profile等做个总结</p>
+
+<h2>1.概念介绍</h2>
+
+<p>如果你拥有一个开发者账户的话，在iOS Dev Center打开Certificates, Indentifiers &amp; Profiles，你就可以看到如下的列表：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1evifuwd8i0j20bk0kgq3p.jpg" alt="img" /></p>
+
+<p>Profile Portal改版有一段时间了，改版之后的结构比以前更清晰明了，易于理解和管理。</p>
+
+<p>上面的列表就包含了开发、调试和发布iOS应用程序所需的所有内容：Certificates、Identifiers、Devices、Provisioning Profiles。下面将一一解释这几个东东。</p>
+
+<h3>Certificate</h3>
+
+<p>证书是用来给应用程序签名的，只有经过签名的应用程序才能保证他的来源是可信任的，并且代码是完整的， 未经修改的。在Xcode Build Setting的Code Signing Identity中，你可以设置用于为代码签名的证书。</p>
+
+<p>众所周知，我们申请一个Certificate之前，需要先申请一个Certificate Signing Request (CSR) 文件，而这个过程中实际上是生成了一对公钥和私钥，保存在你Mac的Keychain中。代码签名正是使用这种基于非对称秘钥的加密方式，用私钥进行签名，用公钥进行验证。如下图所示，在你Mac的keychain的login中存储着相关的公钥和私钥，而证书中包含了公钥。你只能用私钥来进行签名，所以如果没有了私钥，就意味着你不能进行签名了，所以就无法使用这个证书了，此时你只能revoke之前的证书再申请一个。因此在申请完证书时，最好导出并保存好你的私钥。当你想与其他人或其他设备共享证书时，把私钥传给它就可以了。私钥保存在你的Mac中，而苹果生成的Certificate中包含了公钥。当你用自己的私钥对代码签名后，苹果就可以用证书中的公钥来进行验证，确保是你对代码进行了签名，而不是别人冒充你，同时也确保代码的完整性等。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1evifuwr94qj20jc0d30uh.jpg" alt="img" /></p>
+
+<p>证书主要分为两类：Development和Production，Development证书用来开发和调试应用程序，Production主要用来分发应用程序（根据证书种类有不同作用），下面是证书的分类信息：（括号内为证书有效期）</p>
+
+<p>（注：不同类型的开发者账户所能创建的证书种类不同）</p>
+
+<ul>
+<li><p>Development</p>
+
+<ul>
+<li>App Development (1年)：用来开发和真机调试应用程序。</li>
+<li>Push Development (1年)：用来调试Apple Push Notification</li>
+</ul>
+</li>
+<li><p>Production</p>
+
+<ul>
+<li>In-House and Ad Hoc (3年)：用来发布In-House和AdHoc的应用程序。</li>
+<li>App Store ：用来发布提交App Store的应用程序。</li>
+<li>MDM CSR</li>
+<li>Push Production (1年)：用来在发布版本中使用Apple Push Notification。</li>
+<li>Pass Type ID Certificate</li>
+<li>Website Push ID Certificate</li>
+</ul>
+</li>
+</ul>
+
+
+<h3>App ID</h3>
+
+<p>App ID用于标识一个或者一组App，App ID应该是和Xcode中的Bundle ID是一致的或者匹配的。App ID主要有以下两种：</p>
+
+<ul>
+<li>Explicit App ID：唯一的App ID，这种App ID用于唯一标识一个应用程序，例如com.ABC.demo1，标识Bundle ID为com.ABC.demo1的程序。</li>
+<li>Wildcard App ID：通配符App ID，用于标识一组应用程序。例如<code>*</code>可以表示所有应用程序，而<code>com.ABC.*</code>可以表示以com.ABC开头的所有应用程序。</li>
+</ul>
+
+
+<p> 每创建一个App ID，我们都可以设置该App ID所使用的APP Services，也就是其所使用的额外服务。每种额外服务都有着不同的要求，例如，如果要使用Apple Push Notification Services，则必须是一个explicit App ID，以便能唯一标识一个应用程序。下面是目前所有可选的服务和相应的配置要求。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1evifux4u4tj20n30d50ux.jpg" alt="img" /></p>
+
+<p>如果你的App使用上述的任何一种service，就要按照要求去配置。</p>
+
+<h3>Device</h3>
+
+<p>Device最简单了，就是iOS设备。Devices中包含了该账户中所有可用于开发和测试的设备。 每台设备使用UDID来唯一标识。</p>
+
+<p>每个账户中的设备数量限制是100个。Disable 一台设备也不会增加名额，只能在membership year 开始的时候才能通过删除设备来增加名额。</p>
+
+<p>关于设备数量的问题，详见<a href="http://blog.devtang.com/blog/2012/04/06/about-100-devices-limit/">这篇文章</a>。</p>
+
+<h3>Provisioning Profile</h3>
+
+<p>一个Provisioning Profile文件包含了上述的所有内容：证书、App ID、设备。</p>
+
+<p>试想一下，如果我们要打包或者在真机上运行一个应用程序，我们首先需要证书来进行签名，用来标识这个应用程序是合法的、安全的、完整的等等；然后需要指明它的App ID，并且验证Bundle ID是否与其一致；再次，如果是真机调试，需要确认这台设备能否用来运行程序。而Provisioning Profile就把这些信息全部打包在一起，方便我们在调试和发布程序打包时使用，这样我们只要在不同的情况下选择不同的profile文件就可以了。而且这个Provisioning Profile文件会在打包时嵌入.ipa的包里。</p>
+
+<p>例如，如下图所示，一个用于Development的Provisioning Profile中包含了该Provisioning Profile对应的App ID，可使用的证书和设备。这意味着使用这个Provisioning Profile打包程序必须拥有相应的证书，并且是将App ID对应的程序运行到Devices中包含的设备上去。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1evifuxjl05j20h60ah75e.jpg" alt="img" /></p>
+
+<p>如上所述，在一台设备上运行应用程序的过程如下：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1evifuxwsjuj20jd0fxq59.jpg" alt="img" /></p>
+
+<p>与证书一样，Provisioning Profile也分为Development和Distribution两种：</p>
+
+<p>（注：前面提到不同账户类型所能创建的证书种类不同，显然Profile文件的种类是和你所能创建的证书种类相关的）</p>
+
+<ul>
+<li>Development (1年)</li>
+<li>Distribution (1年)
+
+<ul>
+<li>In House</li>
+<li>Ad Hoc</li>
+<li>App Store</li>
+</ul>
+</li>
+</ul>
+
+
+<p>In House 与Ad Hoc的不同之处在于：In House没有设备数量限制，而Ad Hoc是用来测试用的，Ad Hoc的包只能运行在该账户内已登记的可用设备上，显然是有最多100个设备的数量限制。所以这两种Provisioning Profile文件的区别就在于其中的设备限制不一样而已，而他们所使用的Certificate是相同的。</p>
+
+<h2>2.开发/发布流程</h2>
+
+<p>了解了上面的概念，再来看开发及发布流程就非常简单了，而且相信你不用看教程也能一步步完成所有的操作了。</p>
+
+<h3>开发/真机调试流程</h3>
+
+<p>根据上面的介绍，可以知道进行Development主要有以下几个步骤：</p>
+
+<ul>
+<li>申请证书</li>
+<li>加入设备</li>
+<li>生成Provisioning Profile</li>
+<li>设置Xcode Code Sign Identifer</li>
+</ul>
+
+
+<p>事实上第三步通常是不需要的，因为我们通常都是用Xcode生成和管理的iOS Team Provisioning Profile来进行开发，因为它非常方便，所以不需要自己手动生成Provisioning Profile。</p>
+
+<p>iOS Team Provisioning Profile是第一次使用Xcode添加设备时，Xcode自动生成的，它包含了Xcode生成的一个Wildcard App ID（*，匹配所有应用程序），账户里面所有的Devices和所有Development Certificates，如下图所示。因此，team中的所有成员都可以使用这个iOS Team Provisioning Profile在team中的所有设备上调试所有的应用程序。并且当有新设备添加进来时，Xcode会更新这个文件。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1evifuyboiuj20js0bajsg.jpg" alt="img" /></p>
+
+<h3>发布流程</h3>
+
+<p>网上有很多关于发布App Store的流程，不管是App Store、In-House还是Ad-Hoc，打包流程都是差不多的，都包括了以下几个关键步骤：</p>
+
+<ul>
+<li>创建发布证书</li>
+<li>创建App ID</li>
+<li>创建对应的Provisioning Profile文件</li>
+<li>设备Bundle ID和App ID一致</li>
+<li>设置Xcode Code Sign Identifer，选择合适的Profile和证书进行签名，打包</li>
+</ul>
+
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://blog.csdn.net/a351945755/article/details/45582311">http://blog.csdn.net/a351945755/article/details/45582311</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-18T10:51:22+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:51 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/18/20ge-kai-yuan-xiang-mu-tuo-guan-zhan-dian-tui-jian/" title="Previous Post: 20个开源项目托管站点推荐">&laquo; 20个开源项目托管站点推荐</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/18/signair/" title="Next Post: SignaLR">SignaLR &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

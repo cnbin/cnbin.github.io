@@ -1,0 +1,531 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>jQuery 事件 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="什么是事件？ 页面对不同访问者的响应叫做事件。 事件处理程序指的是当 HTML 中发生某些事件时所调用的方法。 实例： 在元素上移动鼠标。
+选取单选按钮
+点击元素 在事件中经常使用术语"触发"（或"激发"）例如： &ldquo;当您按下按键时触发 keypress 事件"。 常见 DOM 事件 &hellip;">
+  <meta name="keywords" content="jquery">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/16/jquery-shi-jian/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">jQuery 事件</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-16T10:47:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:47 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>什么是事件？</h2>
+
+<p>页面对不同访问者的响应叫做事件。</p>
+
+<p>事件处理程序指的是当 HTML 中发生某些事件时所调用的方法。</p>
+
+<p>实例：</p>
+
+<ul>
+<li>在元素上移动鼠标。</li>
+<li>选取单选按钮</li>
+<li>点击元素</li>
+</ul>
+
+
+<p>在事件中经常使用术语"触发"（或"激发"）例如： &ldquo;当您按下按键时触发 keypress 事件"。</p>
+
+<p>常见 DOM 事件：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etyn6j922ej20kc04f0ta.jpg" alt="img" /></p>
+
+<h3>Query 事件方法语法</h3>
+
+<p>在 jQuery 中，大多数 DOM 事件都有一个等效的 jQuery 方法。</p>
+
+<p>页面中指定一个点击事件：</p>
+
+<pre><code>$("p").click();
+</code></pre>
+
+<p>下一步是定义什么时间触发事件。您可以通过一个事件函数实现：</p>
+
+<pre><code>$("p").click(function(){
+  // action goes here!!
+});
+</code></pre>
+
+<h3>常用的 jQuery 事件方法</h3>
+
+<p>$(document).ready()</p>
+
+<p>$(document).ready() 方法允许我们在文档完全加载完后执行函数。</p>
+
+<p>click()</p>
+
+<p>click() 方法是当按钮点击事件被触发时会调用一个函数。</p>
+
+<p>该函数在用户点击 HTMl 元素时执行。</p>
+
+<p>在下面的实例中，当点击事件在某个 <code>&lt;p&gt;</code> 元素上触发时，隐藏当前的 <code>&lt;p&gt;</code> 元素：</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function(){
+  $("p").click(function(){
+    $(this).hide();
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;p&gt;如果你点我，我就会消失。&lt;/p&gt;
+&lt;p&gt;点我消失!&lt;/p&gt;
+&lt;p&gt;点我也消失!&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;         
+</code></pre>
+
+<p>dblclick()</p>
+
+<p>当双击元素时，会发生 dblclick 事件。</p>
+
+<p>dblclick() 方法触发 dblclick 事件，或规定当发生 dblclick 事件时运行的函数：</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function(){
+  $("p").dblclick(function(){
+    $(this).hide();
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;p&gt;双击鼠标左键的，我就消失。&lt;/p&gt;
+&lt;p&gt;双击我消失！&lt;/p&gt;
+&lt;p&gt;双击我也消失！&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;         
+</code></pre>
+
+<p>mouseenter()</p>
+
+<p>当鼠标指针穿过元素时，会发生 mouseenter 事件。</p>
+
+<p>mouseenter() 方法触发 mouseenter 事件，或规定当发生 mouseenter 事件时运行的函数：</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function(){
+  $("#p1").mouseenter(function(){
+    alert("您的鼠标移到了 id=p1 的元素上!");
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;p id="p1"&gt;鼠标指针进入此处，会看到弹窗。&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>mouseleave()</p>
+
+<p>当鼠标指针离开元素时，会发生 mouseleave 事件。</p>
+
+<p>mouseleave() 方法触发 mouseleave 事件，或规定当发生 mouseleave 事件时运行的函数：</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function(){
+  $("#p1").mouseleave(function(){
+    alert("再见，您的鼠标离开了该段落。");
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;p id="p1"&gt;这是一个段落。&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt; 
+</code></pre>
+
+<p>mousedown()</p>
+
+<p>当鼠标指针移动到元素上方，并按下鼠标按键时，会发生 mousedown 事件。</p>
+
+<p>mousedown() 方法触发 mousedown 事件，或规定当发生 mousedown 事件时运行的函数：</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function(){
+  $("#p1").mousedown(function(){
+    alert("鼠标在该段落上按下！");
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;p id="p1"&gt;这是一个段落&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt; 
+</code></pre>
+
+<p>mouseup()</p>
+
+<p>当在元素上松开鼠标按钮时，会发生 mouseup 事件。</p>
+
+<p>mouseup() 方法触发 mouseup 事件，或规定当发生 mouseup 事件时运行的函数：</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function(){
+  $("#p1").mouseup(function(){
+    alert("鼠标在段落上松开。");
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;p id="p1"&gt;这是一个段落。&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt; 
+</code></pre>
+
+<p>hover()</p>
+
+<p>hover()方法用于模拟光标悬停事件。</p>
+
+<p>当鼠标移动到元素上时，会触发指定的第一个函数(mouseenter);当鼠标移出这个元素时，会触发指定的第二个函数(mouseleave)</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function(){
+  $("#p1").hover(function(){
+    alert("You entered p1!");
+    },
+    function(){
+    alert("Bye! You now leave p1!");
+  }); 
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;p id="p1"&gt;This is a paragraph.&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;                 
+</code></pre>
+
+<p>focus()</p>
+
+<p>当元素获得焦点时，发生 focus 事件。</p>
+
+<p>当通过鼠标点击选中元素或通过 tab 键定位到元素时，该元素就会获得焦点。</p>
+
+<p>focus() 方法触发 focus 事件，或规定当发生 focus 事件时运行的函数：</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function(){
+  $("input").focus(function(){
+    $(this).css("background-color","#cccccc");
+  });
+  $("input").blur(function(){
+    $(this).css("background-color","#ffffff");
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+Name: &lt;input type="text" name="fullname"&gt;&lt;br&gt;
+Email: &lt;input type="text" name="email"&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;         
+</code></pre>
+
+<p>blur()</p>
+
+<p>当元素失去焦点时，发生 blur 事件。</p>
+
+<p>blur() 方法触发 blur 事件，或规定当发生 blur 事件时运行的函数：</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"&gt;
+&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function(){
+  $("input").focus(function(){
+    $(this).css("background-color","#cccccc");
+  });
+  $("input").blur(function(){
+    $(this).css("background-color","#ffffff");
+  });
+});
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+Name: &lt;input type="text" name="fullname"&gt;&lt;br&gt;
+Email: &lt;input type="text" name="email"&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;         
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-16T10:47:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:47 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/16/gitbook-update-your-book-using-git/" title="Previous Post: Gitbook - Update your book using GIT">&laquo; Gitbook - Update your book using GIT</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/16/penfilp-introduction/" title="Next Post: Penfilp Introduction">Penfilp Introduction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

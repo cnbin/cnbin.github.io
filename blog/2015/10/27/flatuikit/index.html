@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>FlatUIKit - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Background FlatUIKit was originally written by Jack Flintermann in March of 2013, before iOS7 had even come out. The idea was to give a nice flat &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/27/flatuikit/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">FlatUIKit</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-27T10:31:38+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:31 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>Background</h1>
+
+<p>FlatUIKit was originally written by Jack Flintermann in March of 2013, before iOS7 had even come out.  The idea was to give a nice flat look to some of the native iOS components.  Then iOS7 came along and introduced a decent API to do most of these tasks.</p>
+
+<p>However, for backwards compatability, we will be attempting to maintain iOS6 compatability, as long as feasabilty possible.  If we find a reason to move to iOS7 only support, we will leave a branch for remaining iOS6 support, and move forward.</p>
+
+<h1>FlatUIKit</h1>
+
+<p>FlatUIKit is a collection of iOS components styled with the &ldquo;Flat UI&rdquo; aesthetic that we created while building <a href="http://www.joingrouper.com">Grouper for iPhone</a>. Its design inspiration comes from <a href="http://designmodo.github.io/Flat-UI/">Flat UI</a> and <a href="http://kylemillercreative.com/grouper-social-club">Kyle Miller</a>. Styling is implemented via categories on/drop-in replacements for existing UIKit components, so integrating it into your project is very straightforward.</p>
+
+<h2>Installation</h2>
+
+<p>FlatUIKit can be installed via <a href="http://cocoapods.org/">Cocoapods</a>. Simply add</p>
+
+<pre><code>pod 'FlatUIKit'
+</code></pre>
+
+<p>to your Podfile. If you don&rsquo;t use Cocoapods you&rsquo;re welcome to use git submodules, or simply <a href="https://github.com/Grouper/FlatUIKit/archive/master.zip">download it</a> and include it in your project manually.</p>
+
+<p>Note that FlatUIKit requires the CoreText framework as well as iOS > 6.0.</p>
+
+<h2>The Components</h2>
+
+<h3>Buttons</h3>
+
+<p>FUIButton is a drop-in subclass of UIButton that exposes the additional properties buttonColor, shadowColor, cornerRadius, and shadowHeight. Note that if you set any of these, you have to set all of them.</p>
+
+<pre><code>myButton.buttonColor = [UIColor turquoiseColor];
+myButton.shadowColor = [UIColor greenSeaColor];
+myButton.shadowHeight = 3.0f;
+myButton.cornerRadius = 6.0f;
+myButton.titleLabel.font = [UIFont boldFlatFontOfSize:16];
+[myButton setTitleColor:[UIColor cloudsColor] forState:UIControlStateNormal];
+[myButton setTitleColor:[UIColor cloudsColor] forState:UIControlStateHighlighted];
+</code></pre>
+
+<p><img src="https://raw.github.com/Grouper/FlatUIKit/master/Example/README%20images/fuibutton-small.gif" alt="FUIButton" /></p>
+
+<h3>TextFields</h3>
+
+<p>FUITextField is a drop-in subclass of UITextField that exposes the additional properties edgeInsets, textFieldColor, borderColor, borderWidth and cornerRadius. Note that if you set any of these, you have to set all of them.</p>
+
+<pre><code>myTextField.font = [UIFont flatFontOfSize:16];
+myTextField.backgroundColor = [UIColor clearColor];
+myTextField.edgeInsets = UIEdgeInsetsMake(4.0f, 15.0f, 4.0f, 15.0f);
+myTextField.textFieldColor = [UIColor whiteColor];
+myTextField.borderColor = [UIColor turquoiseColor];
+myTextField.borderWidth = 2.0f;
+myTextField.cornerRadius = 3.0f;
+</code></pre>
+
+<h3>SegmentedControls</h3>
+
+<p>FUISegmentedControl is a drop-in subclass of UISegmentedControl that exposes the additional properties selectedColor, deselectedColor, selectedFont, deselectedFont, selectedFontColor, deselectedFontColor, dividerColor and cornerRadius. Note that if you set any of these, it is recommended that you set all of them.</p>
+
+<pre><code>mySegmentedControl.selectedFont = [UIFont boldFlatFontOfSize:16];
+mySegmentedControl.selectedFontColor = [UIColor cloudsColor];
+mySegmentedControl.deselectedFont = [UIFont flatFontOfSize:16];
+mySegmentedControl.deselectedFontColor = [UIColor cloudsColor];
+mySegmentedControl.selectedColor = [UIColor amethystColor];
+mySegmentedControl.deselectedColor = [UIColor silverColor];
+mySegmentedControl.dividerColor = [UIColor midnightBlueColor];
+mySegmentedControl.cornerRadius = 5.0;
+</code></pre>
+
+<h3>Switches</h3>
+
+<p>FUISwitch is not a subclass of UISwitch (UISwitch is too inflexible to subclass), but rather a reimplementation that exposes all of the methods of UISwitch. In addition, it also provides access to its underlying on/off UILabels and other subviews.</p>
+
+<pre><code>mySwitch.onColor = [UIColor turquoiseColor];
+mySwitch.offColor = [UIColor cloudsColor];
+mySwitch.onBackgroundColor = [UIColor midnightBlueColor];
+mySwitch.offBackgroundColor = [UIColor silverColor];
+mySwitch.offLabel.font = [UIFont boldFlatFontOfSize:14];
+mySwitch.onLabel.font = [UIFont boldFlatFontOfSize:14];
+</code></pre>
+
+<p><img src="https://raw.github.com/Grouper/FlatUIKit/master/Example/README%20images/fuiswitch-small.gif" alt="FUISwitch" /></p>
+
+<h3>Alert Views</h3>
+
+<p>Similar to FUISwitch, FUIAlertView is a reimplemenation of UIAlertView that exposes all of UIAlertView&rsquo;s methods (and delegate methods, with the FUIAlertViewDelegate protocol), but with far greater flexibility in UI customization. All of its child UILabels, UIViews, and FUIButtons can be customized at will.</p>
+
+<pre><code>FUIAlertView *alertView = [[FUIAlertView alloc] initWithTitle:@"Hello"
+                                                      message:@"This is an alert view"
+                                                     delegate:nil cancelButtonTitle:@"Dismiss"
+                                            otherButtonTitles:@"Do Something", nil];
+alertView.titleLabel.textColor = [UIColor cloudsColor];
+alertView.titleLabel.font = [UIFont boldFlatFontOfSize:16];
+alertView.messageLabel.textColor = [UIColor cloudsColor];
+alertView.messageLabel.font = [UIFont flatFontOfSize:14];
+alertView.backgroundOverlay.backgroundColor = [[UIColor cloudsColor] colorWithAlphaComponent:0.8];
+alertView.alertContainer.backgroundColor = [UIColor midnightBlueColor];
+alertView.defaultButtonColor = [UIColor cloudsColor];
+alertView.defaultButtonShadowColor = [UIColor asbestosColor];
+alertView.defaultButtonFont = [UIFont boldFlatFontOfSize:16];
+alertView.defaultButtonTitleColor = [UIColor asbestosColor];
+[alertView show];
+</code></pre>
+
+<p>NOTE: to create FUIAlertView instance in Swift please use default initializer
+s</p>
+
+<pre><code>let alertView = FUIAlertView()
+</code></pre>
+
+<p><img src='https://raw.github.com/Grouper/FlatUIKit/master/Example/README%20images/fuialertview.gif' alt='FUIAlertView' width=316 height=336 /></p>
+
+<h3>Sliders/Steppers/Progress Views</h3>
+
+<p>To provide flat UISliders, UIProgressViews and UISteppers, we simply provide categories on UISlider/ProgressView/UIStepper to automatically configure their appearance with appropriate colors/corner radii. This makes for zero-friction integration with your existing project:</p>
+
+<pre><code>[mySlider configureFlatSliderWithTrackColor:[UIColor silverColor]
+                              progressColor:[UIColor alizarinColor]
+                                 thumbColor:[UIColor pomegranateColor]];
+</code></pre>
+
+<p><img src="https://raw.github.com/Grouper/FlatUIKit/master/Example/README%20images/fuislider-small.gif" alt="FUISlider" /></p>
+
+<pre><code>[myProgressView configureFlatProgressViewWithTrackColor:[UIColor silverColor]
+                              progressColor:[UIColor alizarinColor]];
+
+[myStepper configureFlatStepperWithColor:[UIColor wisteriaColor]
+                        highlightedColor:[UIColor wisteriaColor]
+                           disabledColor:[UIColor amethystColor]
+                               iconColor:[UIColor cloudsColor]];
+</code></pre>
+
+<p><img src="https://raw.github.com/Grouper/FlatUIKit/master/Example/README%20images/fuistepper-small.gif" alt="FUIStepper" /></p>
+
+<h3>Bar Button Items</h3>
+
+<p>To customize bar button items for your entire application (including back buttons), UIBarButtonItem+FlatUI provides a class method which leverages the UIBarButtonItem appearance proxy to do this in one step:</p>
+
+<pre><code>[UIBarButtonItem configureFlatButtonsWithColor:[UIColor peterRiverColor]
+                              highlightedColor:[UIColor belizeHoleColor]
+                                  cornerRadius:3];
+</code></pre>
+
+<p><img src="https://raw.github.com/Grouper/FlatUIKit/master/Example/README%20images/fuinavbar-small.gif" alt="FUINavBar" /></p>
+
+<p>However, this might cause rendering issues with controllers that are pushed from actionsheets, sharesheets or links in webviews. To prevent this behavior, scope the customized bar buttom items to your controllers:</p>
+
+<pre><code>[UIBarButtonItem configureFlatButtonsWithColor:[UIColor peterRiverColor]
+                              highlightedColor:[UIColor belizeHoleColor]
+                                  cornerRadius:3
+                               whenContainedIn:[YourViewController class]];
+</code></pre>
+
+<h3>Navigation Bars</h3>
+
+<p>As above, we provide a category on UINavigationBar to configure it flatly with a single color:</p>
+
+<pre><code>[self.navigationController.navigationBar configureFlatNavigationBarWithColor:[UIColor midnightBlueColor]];
+</code></pre>
+
+<h3>TableView Cells</h3>
+
+<p>You can modify the backgroundColor and selectedBackgroundColor of a UITableViewCell without losing the rounded corners. The cell will copy the UITableView&rsquo;s separator color. The separator height is exposed as separatorHeight and the radius as cornerRadius.</p>
+
+<pre><code>UITableViewCell *cell = ...;
+[cell configureFlatCellWithColor:[UIColor greenSeaColor]
+                   selectedColor:[UIColor cloudsColor]
+                 roundingCorners:corners];
+
+cell.cornerRadius = 5.0f; // optional
+cell.separatorHeight = 2.0f; // optional
+</code></pre>
+
+<p><img src="https://raw.github.com/Grouper/FlatUIKit/master/Example/README%20images/fuitableview-small.png" alt="FUITableViewCell" /></p>
+
+<h3>Popover</h3>
+
+<p>Like some other flat components, we simply provide a category to automatically configure a popover appearance for iPad by only having to set a background color.</p>
+
+<pre><code>popover = [[UIPopoverController alloc] initWithContentViewController:nc];
+[popover configureFlatPopoverWithBackgroundColor: [UIColor midnightBlueColor] cornerRadius:3];
+popover.delegate = self;
+[popover presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+</code></pre>
+
+<p><img src="https://raw.github.com/Grouper/FlatUIKit/master/Example/README%20images/fuipopovercontroller-small.gif" alt="Popover" /></p>
+
+<h2>Colors</h2>
+
+<p>For convenience, FlatUIKit includes the colors defined at <a href="http://flatuicolors.com/">Flat UI Colors</a>. You can see examples of these colors in the code/components above. Using them is as simple as:</p>
+
+<pre><code>#import &lt;FlatUIKit/UIColor+FlatUI.h&gt;
+UIColor *myColor = [UIColor turquoiseColor];
+</code></pre>
+
+<h2>Fonts</h2>
+
+<p>FlatUIKit comes bundled with Lato, a clean, beautiful open font. More info on Lato can be found <a href="http://www.latofonts.com/">here</a>. It is included in FlatUIKit automatically; you can use it as follows:</p>
+
+<pre><code>#import "UIFont+FlatUI.h"
+UIFont *myFont = [UIFont flatFontOfSize:16];
+</code></pre>
+
+<h2>Icons</h2>
+
+<p>You can now use the great icons provided by <a href="http://designmodo.github.io/Flat-UI/">FlatUIKit</a> in your app.  The easiest way is to use a label, but I will be adding support to use them in buttons, ImageViews, and other conveniences.</p>
+
+<pre><code>#import "NSString+Icons.h"
+UILabel *label = [...]
+label.font = [UIFont iconFontWithSize:16];
+label.text = [NSString iconStringForEnum:FUIHeart];
+</code></pre>
+
+<p>The icons follow roughly the same naming scheme as FlatUI, but you can look up the enumeration in NSString+Icons.h</p>
+
+<h2>Contributions</h2>
+
+<p>Contributions are totally welcome. We&rsquo;ll review all pull requests and if you send us a good one/are interested we&rsquo;re happy to give you push access to the repo.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-27T10:31:38+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:31 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/27/blockskit/" title="Previous Post: BlocksKit">&laquo; BlocksKit</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/27/peertalk/" title="Next Post: Peertalk">Peertalk &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>百度云推送故障排查指南 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="使用百度云推送时，可能出现一些问题，你可以根据下面的项目进行排查。 使用百度云推送实现 iOS 推送主要分为三步： 制作推送证书。需要分别制作开发环境和生产证书两个证书。然后测试证书是否正确创建并导出。在制作证书的过程中，会为 App 开启推送功能。
+在百度云推送官网控制台中创建应用。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/20/bai-du-yun-tui-song-gu-zhang-pai-cha-zhi-nan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">百度云推送故障排查指南</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-20T09:48:11+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:48 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>使用百度云推送时，可能出现一些问题，你可以根据下面的项目进行排查。</p>
+
+<p>使用百度云推送实现 iOS 推送主要分为三步：</p>
+
+<ul>
+<li>制作推送证书。需要分别制作开发环境和生产证书两个证书。然后测试证书是否正确创建并导出。在制作证书的过程中，会为 App 开启推送功能。</li>
+<li>在百度云推送官网控制台中创建应用。需要为安卓版本和 iOS 版本分别创建应用，然后为 iOS 应用上传已经制作成功的 pem 格式推送证书。</li>
+<li>在 App 中集成百度云推送 SDK，按照文档中的步骤即可。集成完成后，App 与百度云推送服务器做一次绑定，App 收到绑定成功的回复后，保存回复字典中的 channelID，它是设备的唯一标识。userID 暂时不被使用。</li>
+</ul>
+
+
+<p>完成以上步骤即可在官网的控制台中对安装你应用的 iOS 设备进行推送。如果还需服务端推送的支持，按照文档集成服务端推送 SDK 即可。</p>
+
+<h3>1 注册远程推送通知</h3>
+
+<p>在获取推送消息之前，需要先向 Apple Push Notification service （APNs）注册推送服务。</p>
+
+<ol>
+<li>应用程序调用注册推送服务的 API，需要注意 iOS 8 之前和之后需要使用不同的 API。</li>
+<li>应用程序实现 UIApplicationDelegate委托的 application:didRegisterForRemoteNotificationsWithDeviceToken: 回调方法，用于获取 APNs 返回给设备的 DeviceToken。</li>
+<li>应用程序实现 UIApplicationDelegate 委托的 application:didFailToRegisterForRemoteNotificationsWithError: 回调方法，用于当获取不到 DeviceToken 时，查看其错误原因。​</li>
+</ol>
+
+
+<p>然后应用程序将 DeviceToken 传递给云推送。</p>
+
+<p>注册推送服务比较简单，但是仍然有几点比较重要你需要注意。</p>
+
+<h3>2 注册百度云推送服务</h3>
+
+<p>在注册百度云推送服务时，一定要根据当前应用所处的环境，正确设置注册方法的 PushMode 参数：</p>
+
+<pre><code>(void)registerChannel:(NSDictionary *)launchOptions apiKey:(NSString *)apikey pushMode:(BPushMode)mode withFirstAction:(NSString *)leftAction withSecondAction:(NSString *)rightAction withCategory:(NSString *)category isDebug:(BOOL)isdebug;
+</code></pre>
+
+<p>在开发时使用 Development 模式，在上线前一定需要修改为 Production 模式。如果上面方法的 PushMode 设置错误，那么无法收到通知。</p>
+
+<p>如果在开发时发现设置错误，那么在修改模式之后，需要做一次解除绑定操作再进行绑定。即 PushMode 参数每一次修改后，都需要调用一次 unBind 方法来清除缓存。</p>
+
+<blockquote><p>requestid 为 88888888 时，表示此次请求的回复是从缓存中获取的。在修改 PushMode 参数后，需要调用 unbind 方法或删除应用重新安装来清除缓存。</p></blockquote>
+
+<h3>3 没有委托回调</h3>
+
+<p>当含有推送功能的 App 第一次安装时，iOS 尝试与 APNs 建立一条长连接供所有操作系统上具有推送能力的 app 使用。如果 <code>application:didRegisterForRemoteNotificationsWithDeviceToken</code> 和 <code>application:didFailToRegisterForRemoteNotificationsWithError</code> 这两条回调方法都没有被调用。这意味着 iOS 设备与 APNs 之间没有成功建立起长连接。</p>
+
+<p>这可能没有任何错误提示。系统可能由于蜂窝网络无信号或距离 Wi-Fi 点太远，或者开启了飞行模式。</p>
+
+<p>要注意到网络状态是经常变化的，一旦长连接建立起来了，之前提到的回调方法就会被调用。</p>
+
+<p>在 iOS 上，推送通知首先检查移动蜂窝网络是否能正常使用，即使当前已经连接了 Wi-Fi，只有当移动蜂窝网络无法使用时才会使用 Wi-Fi。</p>
+
+<p>如果你的设备支持移动网络，那么将检查它是否有一个活动的蜂窝数据计划。在设备的【设置】中，关闭 Wi-Fi 选项，然后查看是否能够使用 Safari 浏览器打开网页等。另一方面，如果推送服务使用 Wi-Fi 服务，那么需要确保 Wi-Fi 热点防火墙允许 端口为 5223 的 TCP 通信。</p>
+
+<blockquote><p>注意：不同的推送环境使用单独的长连接，操作系统建立与 Sandbox 环境的长连接用于开发。ad hoc 和生产模式会连接到生产环境下。</p></blockquote>
+
+<h3>4 回调错误的 aps-environment：需重新生成 provisioning profile 文件</h3>
+
+<p>支持推送服务的 iOS App 在第一次运行时，iOS 会询问用户是否想要接收这个 app 的推送通知。如果这个 App 之前没有提供接收推送通知的选项，那么它将失去 <code>aps-environment</code> 代码签名授权的机会。这种资格是在 building app 的时候从 provisioning profile 中得到，它控制了为了接收推送通知时，app 应该使用哪一种推送环境去建立长连接。</p>
+
+<p>如果 iOS app 运行在设备上，在获取推送服务时发现代码签名授权获取失败，则 <code>application:didFailToRegisterForRemoteNotificationsWithError</code> 方法会被调用。如果你没有实现这个方法，那么你应该使用它来检查你的 <code>aps-environment</code> 授权是否在运行时获取到。</p>
+
+<p>如果没有发现对应的代码签名授权，那么说明你还没有配置 app ID 开启推送服务，或者开启后没有更新 Provisioning Profile 文件，需要去 Member Center 去更新。</p>
+
+<p>你需要在 Member Center 中为 App ID 配置开启推送服务后重新创建 provisioning profile，如果你 Xcode 中的 provisioning profile 是未配置前的，那么需要将其删除后重新生成新的并添加到 Xcode。</p>
+
+<p>更新完这些后，你需要 rebuild 你的 app。</p>
+
+<h3>5 注册成功但收不到通知</h3>
+
+<p>如果你的 app 注册推送服务成功，并且能获取到 DeviceToken，但是收不到通知。那么有可能是你设备的问题，也有可能是发送通知的服务器的问题。下面简述了如何排查这些问题。</p>
+
+<p>设备有可能断掉了与 APNs 的长连接且不能重新建立，因而无法通过长连接将通知发送到你的 iOS 设备上。尝试关闭 app 并且重启设备看是否解决了问题。（在 iOS4 之后，app 可以后台运行，因此你需要强制杀死 app）。如果重启后 app 的注册服务不能完成，即获取不到 DeviceToken，那么 iOS 设备还是不能与 APNs 建立长连接。你需要按照之前章节中介绍的内容再次排查问题。</p>
+
+<p>如果可以获取 DeviceToken，你需要上传对应的 DeviceToken 到百度云推送，使用云推送 SDK 中的 RegisterDeviceToken 方法即可 。在 App 每次启动注册推送服务的时候，它总是会向 APNs 请求 DeviceToken，所以你不需要保存 DeviceToken 并且尝试复用它，因为它有时候会改变。</p>
+
+<blockquote><p>注意：系统每次启动都会通过 <code>application:didRegisterForRemoteNotificationsWithDeviceToken方法返回设备的 DeviceToken</code>，你需要在这个方法中调用云推送的RegisterDeviceToken方法。</p></blockquote>
+
+<h3>6 只有部分通知到达</h3>
+
+<p>你如果在很短的一段时间内，发送大量通知到同一台设备，那么 Apple 的 Push 服务将只会发送最后一个通知。原因如下，设备收到的每一条通知后都会进行确认。在 APNs 收到这个确认信息前，它只能假设设备已经离线，然后将通知存储在质量服务（QoS）队列中并尝试再次发送。往返的网络延迟是一个主要原因。</p>
+
+<p>QoS 队列为每一台设备中每一个 App 仅保留一条通知，如果保留的这条通知还没发出去时又收到了一条新的通知，那么旧的通知将被丢弃。</p>
+
+<p>所有的这一切指出，推送通知是提示 App 它所感兴趣的一些事情已经改变，通知不应该包含数据，因为它并不是无论如何都能到达的，并且通知也不应该是具有状态性的。</p>
+
+<p>你的设备无法连接到 APNs 时，任何通知都不能立刻发送成功，需要入队等待以后再次发送。需要考虑网络延迟，最长的情况下 60 秒后 APNs 会认为是超时的。</p>
+
+<h3>7 单播收不到</h3>
+
+<p>在使用百度云推送进行单播推送时，如果一直收不到。首先检查手机的网络连接是否正常。</p>
+
+<p>确认你当前的推送环境，具体可参照推送环境一项。针对不同的推送环境，需要在百度云推送 SDK 中的</p>
+
+<pre><code>+ (void)registerChannel:(NSDictionary *)launchOptions apiKey:(NSString *)apikey pushMode:(BPushMode)mode withFirstAction:(NSString *)leftAction withSecondAction:(NSString *)rightAction withCategory:(NSString *)category isDebug:(BOOL)isdebug; 方法中，修改 BPushMode为正确的环境。
+</code></pre>
+
+<p>卸载应用并且重新创建，根据绑定成功后返回的 channelID 再次进行单播推送。</p>
+
+<h3>8 广播收不到</h3>
+
+<p>在测试广播推送时，如果有部分能收到，那么你的推送服务配置是没有问题的。对于这部分没有收到的设备，首先检查其网络连接，然后尝试对这部分设备推单播，单播收不到时可以按照上面的方法进行排查。</p>
+
+<p>如果广播中所有的用户都无法收到，可以尝试对其中部分用户推送单播，然后按照单播推送的排查方法解决。</p>
+
+<h3>9 APNs 与 iOS 设备之间的长连接</h3>
+
+<p>在 iOS 推送中，通知是通过 Apple 的 APNs 与设备之间的长连接进行推送的。开发环境和生产环境对应不同的长连接，设备上至少有一个开发环境的App，并且这个 App 注册推送服务后，设备才会与 APNs 建立开发环境下的长连接。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-20T09:48:11+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:48 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/20/ios-tui-song-jian-jie/" title="Previous Post: iOS 推送简介">&laquo; iOS 推送简介</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/20/hu-lin-bao-xiang-mu/" title="Next Post: 护林宝项目(原创)">护林宝项目(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

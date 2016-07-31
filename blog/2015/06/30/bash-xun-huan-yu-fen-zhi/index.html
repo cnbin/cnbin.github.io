@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bash - 循环与分支 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、循环 1.for循环 for 循环一般格式为： for 变量 in 列表
+do command1 command2 ... commandN
+done 例子： #!/bin/bash
+# 列出所有的行星名称. (译者注: 现在的太阳系行星已经有了变化^_^) for planet in &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/30/bash-xun-huan-yu-fen-zhi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Bash - 循环与分支</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-30T11:08:52+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>一、循环</h2>
+
+<h3>1.for循环</h3>
+
+<p>for 循环一般格式为：</p>
+
+<pre><code>for 变量 in 列表
+do
+    command1
+    command2
+    ...
+    commandN
+done
+</code></pre>
+
+<p>例子：</p>
+
+<pre><code>#!/bin/bash
+# 列出所有的行星名称. (译者注: 现在的太阳系行星已经有了变化^_^)
+
+for planet in Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune Pluto
+do
+echo $planet  # 每个行星都被单独打印在一行上.
+done
+
+echo
+
+for planet in "Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune Pluto"
+# 所有的行星名称都打印在同一行上.
+# 整个'list'都被双引号封成了一个变量.
+do
+echo $planet
+done
+
+exit 0
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etogl2up78j20fl07l0ts.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etogl29mcqj20d205laao.jpg" alt="img" /></p>
+
+<h2>2.while循环</h2>
+
+<p>while 循环用于不断执行一系列命令，也用于从输入文件中读取数据；命令通常为测试条件。其格式为：</p>
+
+<pre><code>while command
+do
+   Statement(s) to be executed if command is true
+done
+</code></pre>
+
+<p>命令执行完毕，控制返回循环顶部，从头开始直至测试条件为假。</p>
+
+<pre><code>#!/bin/bash
+
+var0=0
+LIMIT=10
+
+while [ "$var0" -lt "$LIMIT" ]
+do
+  echo -n "$var0 "        # -n 将会阻止产生新行.
+  #                     ^           空格, 数字之间的分隔.
+
+  var0=`expr $var0 + 1`   # var0=$(($var0+1))  也可以.
+  # var0=$((var0 + 1)) 也可以.
+  # let "var0 += 1"    也可以.
+done                      # 使用其他的方法也行.
+
+echo
+
+exit 0
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etogs7tcf4j20e904pmxn.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etogs7goahj20a000zaa4.jpg" alt="img" /></p>
+
+<h2>3.until循环</h2>
+
+<p>until 循环执行一系列命令直至条件为 true 时停止。until 循环与 while 循环在处理方式上刚好相反。一般 while 循环优于 until 循环，但在某些时候，也只是极少数情况下，until 循环更加有用。</p>
+
+<p>until 循环格式为：</p>
+
+<pre><code>until command
+do
+   Statement(s) to be executed until command is true
+done
+</code></pre>
+
+<p>command 一般为条件表达式，如果返回值为 false，则继续执行循环体内的语句，否则跳出循环。</p>
+
+<p>例如，使用 until 命令输出 0 ~ 9 的数字：</p>
+
+<pre><code>#!/bin/bash
+a=0
+until [ ! $a -lt 10 ]
+do
+   echo $a
+   a=`expr $a + 1`
+done    
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etoimg5vkwj20dt04y0t2.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etoimfoduuj209k053glq.jpg" alt="img" /></p>
+
+<h2>二、嵌套循环</h2>
+
+<h3>1.嵌套循环</h3>
+
+<pre><code>#!/bin/bash
+# nested-loop.sh: 嵌套的"for"循环.
+
+outer=1             # 设置外部循环计数.
+
+# 开始外部循环.
+for a in 1 2 3 4 5
+do
+  echo "Pass $outer in outer loop."
+  echo "---------------------"
+  inner=1           # 重置内部循环计数.
+
+  # ===============================================
+  # 开始内部循环.
+  for b in 1 2 3 4 5
+  do
+    echo "Pass $inner in inner loop."
+    let "inner+=1"  # 增加内部循环计数.
+  done
+# 内部循环结束.
+# ===============================================
+
+  let "outer+=1"    # 增加外部循环的计数.
+  echo              # 每次外部循环之间的间隔.
+done
+# 外部循环结束.
+
+exit 0
+</code></pre>
+
+<p>注意： 为了能够更友好的让自己或者别人阅读和维护你的代码，应在代码中使用合理的缩进</p>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etoh7x1twpj20aj09kt9o.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etoh7we6pwj20ae0j4whh.jpg" alt="img" /></p>
+
+<h2>三、循环控制</h2>
+
+<h3>1.break</h3>
+
+<pre><code>#!/bin/bash
+
+LIMIT=19  # 上限
+
+echo
+echo "Printing Numbers 1 through 20 (but not 3 and 11)."
+
+a=0
+
+while [ "$a" -le "$LIMIT" ]
+do
+  a=$(($a+1))
+
+  if [ "$a" -gt 2 ]
+  then
+    break  # 将会跳出整个循环.
+  fi
+
+  echo -n "$a "
+done
+
+echo; echo; echo
+
+exit 0
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etohes94fhj20ci0bf75e.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etohesmmc9j20b402raab.jpg" alt="img" /></p>
+
+<h3>2.continue</h3>
+
+<pre><code>#!/bin/bash
+
+LIMIT=19  # 上限
+
+echo
+echo "Printing Numbers 1 through 20 (but not 3 and 11)."
+
+a=0
+
+while [ $a -le "$LIMIT" ]
+do
+  a=$(($a+1))
+
+  if [ "$a" -eq 3 ] || [ "$a" -eq 11 ]  # 除了3和11.
+  then
+    continue      # 跳过本次循环剩余的语句.
+  fi
+
+  echo -n "$a "   # 在$a等于3和11的时候，这句将不会执行.
+done
+
+echo; echo
+
+echo Printing Numbers 1 through 20, but something happens after 2.
+exit 0
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etohjtw169j20eo0b0wg0.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etohjth2lmj20dj02ugmc.jpg" alt="img" /></p>
+
+<h2>四、测试与分支</h2>
+
+<h3>1.case (in) / esac</h3>
+
+<p>case &hellip; esac 与其他语言中的 switch &hellip; case 语句类似，是一种多分支选择结构。</p>
+
+<p>case 语句匹配一个值或一个模式，如果匹配成功，执行相匹配的命令。case语句格式如下：</p>
+
+<pre><code>case 值 in
+模式1)
+    command1
+    command2
+    command3
+    ;;
+模式2）
+    command1
+    command2
+    command3
+    ;;
+*)
+    command1
+    command2
+    command3
+    ;;
+esac
+</code></pre>
+
+<p>case工作方式如上所示。取值后面必须为关键字 <code>in</code> ，每一模式必须以右括号结束。取值可以为变量或常数。匹配发现取值符合某一模式后，其间所有命令开始执行直至 <code>;;</code>。<code>;;</code> 与其他语言中的 break 类似，意思是跳到整个 case 语句的最后。</p>
+
+<p>取值将检测匹配的每一个模式。一旦模式匹配，则执行完匹配模式相应命令后不再继续其他模式。如果无一匹配模式，使用星号 <code>*</code> 捕获该值，再执行后面的命令。</p>
+
+<p>下面的脚本提示输入1到4，与每一种模式进行匹配：</p>
+
+<pre><code>echo 'Input a number between 1 to 4'
+echo 'Your number is:\c'
+read aNum
+case $aNum in
+    1)  echo 'You select 1'
+    ;;
+    2)  echo 'You select 2'
+    ;;
+    3)  echo 'You select 3'
+    ;;
+    4)  echo 'You select 4'
+    ;;
+    *)  echo 'You do not select a number between 1 to 4'
+    ;;
+esac
+</code></pre>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etoiczv8orj20dt08edgz.jpg" alt="img" /></p>
+
+<p>输入不同的内容，会有不同的结果，例如：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etoicyiqbsj20a202dweq.jpg" alt="img" /></p>
+
+<h3>2.select</h3>
+
+<p>select 结构是建立菜单的另一种工具，这种结构是从 ksh 中引入的。</p>
+
+<pre><code>#!/bin/bash
+
+PS3='Choose your favorite vegetable: ' # 设置提示符字串.
+
+echo
+
+select vegetable in "beans" "carrots" "potatoes" "onions" "rutabagas"
+do
+  echo
+  echo "Your favorite veggie is $vegetable."
+  echo "Yuck!"
+  echo
+  break  # 如果这里没有 'break' 会发生什么?
+done
+
+exit 0
+</code></pre>
+
+<p>程序截图：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etoi29yj4mj20f507zjsg.jpg" alt="img" /></p>
+
+<p>运行：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etohyiaqlrj20a505mwf3.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-30T11:08:52+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>30</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:08 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/30/bash-tiao-jian-pan-duan/" title="Previous Post: Bash - 条件判断(原创)">&laquo; Bash - 条件判断(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/30/jabber-xie-yi-gai-shu/" title="Next Post: Jabber 协议概述(原创)">Jabber 协议概述(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

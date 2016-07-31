@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Objective-C 和 Core Foundation 对象相互转换的内存管理总结 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Objective-C 和 Core Foundation 对象相互转换的内存管理总结 iOS 允许 Objective-C 和 Core Foundation 对象之间可以轻松的转换，拿 NSString 和 CFStringRef 来说，直接转换毫无压力： CFStringRef &hellip;">
+  <meta name="keywords" content="objective-c,core foundation">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/24/objective-c-he-core-foundation-dui-xiang-xiang-hu-zhuan-huan-de-nei-cun-guan-li-zong-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Objective-C 和 Core Foundation 对象相互转换的内存管理总结</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-24T08:47:05+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:47 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Objective-C 和 Core Foundation 对象相互转换的内存管理总结</p>
+
+<p>iOS 允许 Objective-C 和 Core Foundation 对象之间可以轻松的转换，拿 NSString 和 CFStringRef 来说，直接转换毫无压力：</p>
+
+<pre><code>CFStringRef aCFString = (CFStringRef)aNSString;  
+NSString *aNSString = (NSString *)aCFString;  
+</code></pre>
+
+<p>针对内存管理问题，ARC 可以帮忙管理 Objective-C 对象, 但是不支持 Core Foundation 对象的管理，所以转换后要注意一个问题：谁来释放使用后的对象。 本文重点总结一下类型转换后的内存管理。</p>
+
+<h3>一、非ARC的内存管理</h3>
+
+<p>倘若不使用ARC，手动管理内存，思路比较清晰，使用完，release 转换后的对象即可。</p>
+
+<pre><code>//NSString 转 CFStringRef  
+CFStringRef aCFString = (CFStringRef) [[NSString alloc] initWithFormat:@"%@", string];  
+//...  
+CFRelease(aCFString);  
+
+
+//CFStringRef 转 NSString  
+CFStringRef aCFString = CFStringCreateWithCString(kCFAllocatorDefault,  
+                                                  bytes,  
+                                                  NSUTF8StringEncoding);  
+NSString *aNSString = (NSString *)aCFString;  
+//...  
+[aNSString release];  
+</code></pre>
+
+<h3>二、ARC下的内存管理</h3>
+
+<p>ARC的诞生大大简化了我们针对内存管理的开发工作，但是只支持管理 Objective-C 对象, 不支持 Core Foundation 对象。Core Foundation 对象必须使用CFRetain和CFRelease来进行内存管理。那么当使用Objective-C 和 Core Foundation 对象相互转换的时候，必须让编译器知道，到底由谁来负责释放对象，是否交给ARC处理。只有正确的处理，才能避免内存泄漏和double free导致程序崩溃。</p>
+
+<p>根据不同需求，有3种转换方式</p>
+
+<pre><code>__bridge                                                （不改变对象所有权）
+__bridge_retained 或者 CFBridgingRetain()                 （解除 ARC 所有权）
+__bridge_transfer 或者 CFBridgingRelease()                （给予 ARC 所有权）
+</code></pre>
+
+<p>1.__bridge_retained 或者 CFBridgingRetain()</p>
+
+<p>__bridge_retained 或者 CFBridgingRetain()  将Objective-C对象转换为Core Foundation对象，把对象所有权桥接给Core Foundation对象，同时剥夺ARC的管理权，后续需要开发者使用CFRelease或者相关方法手动来释放对象。</p>
+
+<p>来看个例子：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1evifuvn7b2j20nl0700uz.jpg" alt="img" /></p>
+
+<pre><code>- (void)viewDidLoad  
+{  
+    [super viewDidLoad];  
+
+    NSString *aNSString = [[NSString alloc]initWithFormat:@"test"];  
+    CFStringRef aCFString = (__bridge_retained CFStringRef) aNSString;  
+
+    (void)aCFString;  
+
+    //正确的做法应该执行CFRelease  
+    //CFRelease(aCFString);   
+}  
+</code></pre>
+
+<p>程序没有执行CFRelease，造成内存泄漏：</p>
+
+<p>CFBridgingRetain()  是 __bridge_retained 的宏方法，下面两行代码等价：</p>
+
+<pre><code>CFStringRef aCFString = (__bridge_retained CFStringRef) aNSString;  
+CFStringRef aCFString = (CFStringRef) CFBridgingRetain(aNSString);  
+</code></pre>
+
+<p>2.__bridge_transfer 或者 CFBridgingRelease()</p>
+
+<p>__bridge_transfer 或者 CFBridgingRelease()  将非Objective-C对象转换为Objective-C对象，同时将对象的管理权交给ARC，开发者无需手动管理内存。</p>
+
+<p>接着上面那个内存泄漏的例子，再转成OC对象交给ARC来管理内存，无需手动管理，也不会出现内存泄漏：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1evifuvzqukj20n7052gnp.jpg" alt="img" /></p>
+
+<pre><code>- (void)viewDidLoad  
+{  
+    [super viewDidLoad];  
+
+    NSString *aNSString = [[NSString alloc]initWithFormat:@"test"];  
+    CFStringRef aCFString = (__bridge_retained CFStringRef) aNSString;  
+    aNSString = (__bridge_transfer NSString *)aCFString;  
+}  
+</code></pre>
+
+<p>CFBridgingRelease() 是__bridge_transfer的宏方法，下面两行代码等价：</p>
+
+<pre><code>aNSString = (__bridge_transfer NSString *)aCFString;  
+aNSString = (NSString *)CFBridgingRelease(aCFString);  
+</code></pre>
+
+<p>3.__bridge</p>
+
+<p>__bridge 只做类型转换，不改变对象所有权，是我们最常用的转换符。</p>
+
+<p>从OC转CF，ARC管理内存：</p>
+
+<pre><code>- (void)viewDidLoad  
+{  
+    [super viewDidLoad];  
+
+    NSString *aNSString = [[NSString alloc]initWithFormat:@"test"];  
+    CFStringRef aCFString = (__bridge CFStringRef)aNSString;  
+
+    (void)aCFString;  
+}  
+</code></pre>
+
+<p>从CF转OC，需要开发者手动释放，不归ARC管：</p>
+
+<pre><code>- (void)viewDidLoad  
+{  
+    [super viewDidLoad];  
+
+    CFStringRef aCFString = CFStringCreateWithCString(NULL, "test", kCFStringEncodingASCII);  
+    NSString *aNSString = (__bridge NSString *)aCFString;  
+
+    (void)aNSString;  
+
+    CFRelease(aCFString);  
+}  
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-24T08:47:05+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:47 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/24/ioskai-fa-keychainde-shi-yong/" title="Previous Post: iOS 开发 — KeyChain 的使用">&laquo; iOS 开发 — KeyChain 的使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/24/shu-ju-bao-hu-api/" title="Next Post: 数据保护API">数据保护API &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

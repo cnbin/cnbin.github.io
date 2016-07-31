@@ -1,0 +1,544 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ReactiveCocoa Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="ReactiveCocoa ReactiveCocoa (RAC) is a Cocoa framework inspired by
+Functional Reactive
+Programming. It
+provides APIs for composing and transforming &hellip;">
+  <meta name="keywords" content="reactivecocoa">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/16/reactivecocoa-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ReactiveCocoa Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-16T08:41:55+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:41 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>ReactiveCocoa</h3>
+
+<p>ReactiveCocoa (RAC) is a Cocoa framework inspired by
+<a href="http://en.wikipedia.org/wiki/Functional_reactive_programming">Functional Reactive
+Programming</a>. It
+provides APIs for composing and transforming <strong>streams of values over time</strong>.</p>
+
+<ol>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#example-online-search">Example: online search</a></li>
+<li><a href="#objective-c-and-swift">Objective-C and Swift</a></li>
+<li><a href="#how-does-reactivecocoa-relate-to-rx">How does ReactiveCocoa relate to Rx?</a></li>
+<li><a href="#getting-started">Getting started</a></li>
+</ol>
+
+
+<p>If you’re already familiar with functional reactive programming or what
+ReactiveCocoa is about, check out the [Documentation][] folder for more in-depth
+information about how it all works. Then, dive straight into our [documentation
+comments][Code] for learning more about individual APIs.</p>
+
+<p>If you have a question, please see if any discussions in our <a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues?q=is%3Aissue+label%3Aquestion+">GitHub
+issues</a> or <a href="http://stackoverflow.com/questions/tagged/reactive-cocoa">Stack
+Overflow</a> have already
+answered it. If not, please feel free to <a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/new">file your
+own</a>!</p>
+
+<p><em>Many thanks to <a href="http://www.rheinfabrik.de">Rheinfabrik</a> for generously sponsoring the development of ReactiveCocoa 3!</em></p>
+
+<h2>Introduction</h2>
+
+<p>ReactiveCocoa is inspired by <a href="http://blog.maybeapps.com/post/42894317939/input-and-output">functional reactive
+programming</a>.
+Rather than using mutable variables which are replaced and modified in-place,
+RAC offers “event streams,” represented by the [<code>Signal</code>][Signals] and
+[<code>SignalProducer</code>][Signal producers] types, that send values over time.</p>
+
+<p>Event streams unify all of Cocoa’s common patterns for asynchrony and event
+handling, including:</p>
+
+<ul>
+<li>Delegate methods</li>
+<li>Callback blocks</li>
+<li><code>NSNotification</code>s</li>
+<li>Control actions and responder chain events</li>
+<li><a href="https://en.wikipedia.org/wiki/Futures_and_promises">Futures and promises</a></li>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html">Key-value observing</a> (KVO)</li>
+</ul>
+
+
+<p>Because all of these different mechanisms can be represented in the <em>same</em> way,
+it’s easy to declaratively chain and combine them together, with less spaghetti
+code and state to bridge the gap.</p>
+
+<p>For more information about the concepts in ReactiveCocoa, see the [Framework
+Overview][].</p>
+
+<h2>Example: online search</h2>
+
+<p>Let’s say you have a text field, and whenever the user types something into it,
+you want to make a network request which searches for that query.</p>
+
+<h4>Observing text edits</h4>
+
+<p>The first step is to observe edits to the text field, using a RAC extension to
+<code>UITextField</code> specifically for this purpose:</p>
+
+<pre><code>let searchStrings = textField.rac_textSignal().toSignalProducer()
+    |&gt; map { text in text as! String }
+</code></pre>
+
+<p>This gives us a [signal producer][Signal producers] which sends
+values of type <code>String</code>. <em>(The cast is <a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/2182">currently
+necessary</a> to bridge
+this extension method from Objective-C.)</em></p>
+
+<h4>Making network requests</h4>
+
+<p>With each string, we want to execute a network request. Luckily, RAC offers an
+<code>NSURLSession</code> extension for doing exactly that:</p>
+
+<pre><code>let searchResults = searchStrings
+    |&gt; flatMap(.Latest) { query in
+        let URLRequest = self.searchRequestWithEscapedQuery(query)
+        return NSURLSession.sharedSession().rac_dataWithRequest(URLRequest)
+    }
+    |&gt; map { data, URLResponse in
+        let string = String(data: data, encoding: NSUTF8StringEncoding)!
+        return parseJSONResultsFromString(string)
+    }
+    |&gt; observeOn(UIScheduler())
+</code></pre>
+
+<p>This has transformed our producer of <code>String</code>s into a producer of <code>Array</code>s
+containing the search results, which will be forwarded on the main thread
+(thanks to the [<code>UIScheduler</code>][Schedulers]).</p>
+
+<p>Additionally, [<code>flatMap(.Latest)</code>][flatMapLatest] here ensures that <em>only one search</em>—the
+latest—is allowed to be running. If the user types another character while the
+network request is still in flight, it will be cancelled before starting a new
+one. Just think of how much code that would take to do by hand!</p>
+
+<h4>Receiving the results</h4>
+
+<p>This won’t actually execute yet, because producers must be <em>started</em> in order to
+receive the results (which prevents doing work when the results are never used).
+That’s easy enough:</p>
+
+<pre><code>searchResults.start(next: { results in
+    println("Search results: \(results)")
+})
+</code></pre>
+
+<p>Here, we watch for the <code>Next</code> [event][Events], which contains our results, and
+just log them to the console. This could easily do something else instead, like
+update a table view or a label on screen.</p>
+
+<h4>Handling errors</h4>
+
+<p>In this example so far, any network error will generate an <code>Error</code>
+[event][Events], which will terminate the event stream. Unfortunately, this
+means that future queries won’t even be attempted.</p>
+
+<p>To remedy this, we need to decide what to do with errors that occur. The
+quickest solution would be to log them, then ignore them:</p>
+
+<pre><code>    |&gt; flatMap(.Latest) { query in
+        let URLRequest = self.searchRequestWithEscapedQuery(query)
+
+        return NSURLSession.sharedSession().rac_dataWithRequest(URLRequest)
+            |&gt; catch { error in
+                println("Network error occurred: \(error)")
+                return SignalProducer.empty
+            }
+    }
+</code></pre>
+
+<p>By replacing errors with the <code>empty</code> event stream, we’re able to effectively
+ignore them.</p>
+
+<p>However, it’s probably more appropriate to retry at least a couple of times
+before giving up. Conveniently, there’s a [<code>retry</code>][retry] operator to do exactly that!</p>
+
+<p>Our improved <code>searchResults</code> producer might look like this:</p>
+
+<pre><code>let searchResults = searchStrings
+    |&gt; flatMap(.Latest) { query in
+        let URLRequest = self.searchRequestWithEscapedQuery(query)
+
+        return NSURLSession.sharedSession().rac_dataWithRequest(URLRequest)
+            |&gt; retry(2)
+            |&gt; catch { error in
+                println("Network error occurred: \(error)")
+                return SignalProducer.empty
+            }
+    }
+    |&gt; map { data, URLResponse in
+        let string = String(data: data, encoding: NSUTF8StringEncoding)!
+        return parseJSONResultsFromString(string)
+    }
+    |&gt; observeOn(UIScheduler())
+</code></pre>
+
+<h4>Throttling requests</h4>
+
+<p>Now, let’s say you only want to actually perform the search when the user pauses
+typing, to minimize traffic.</p>
+
+<p>ReactiveCocoa has a declarative <code>throttle</code> operator that we can apply to our
+search strings:</p>
+
+<pre><code>let searchStrings = textField.rac_textSignal().toSignalProducer()
+    |&gt; map { text in text as! String }
+    |&gt; throttle(0.5, onScheduler: QueueScheduler.mainQueueScheduler)
+</code></pre>
+
+<p>This prevents values from being sent less than 0.5 seconds apart, so the user
+must stop editing for at least that long before we’ll use their search string.</p>
+
+<p>To do this manually would require significant state, and end up much harder to
+read! With ReactiveCocoa, we can use just one operator to incorporate <em>time</em> into
+our event stream.</p>
+
+<h2>Objective-C and Swift</h2>
+
+<p>Although ReactiveCocoa was started as an Objective-C framework, as of [version
+3.0][CHANGELOG], all major feature development is concentrated on the [Swift API][].</p>
+
+<p>RAC’s [Objective-C API][] and Swift API are entirely separate, but there is
+a [bridge][Objective-C Bridging] to convert between the two. This
+is mostly meant as a compatibility layer for older ReactiveCocoa projects, or to
+use Cocoa extensions which haven’t been added to the Swift API yet.</p>
+
+<p>The Objective-C API will continue to exist and be supported for the foreseeable
+future, but it won’t receive many improvements. For more information about using
+this API, please consult our [legacy documentation][].</p>
+
+<p><strong>We highly recommend that all new projects use the Swift API.</strong></p>
+
+<h2>How does ReactiveCocoa relate to Rx?</h2>
+
+<p>ReactiveCocoa was originally inspired, and therefore heavily influenced, by
+Microsoft’s <a href="https://msdn.microsoft.com/en-us/data/gg577609.aspx">Reactive
+Extensions</a> (Rx) library. There are many ports of Rx, including <a href="https://github.com/kzaher/RxSwift">RxSwift</a>, but ReactiveCocoa is <em>intentionally</em> not a direct port.</p>
+
+<p><strong>Where RAC differs from Rx</strong>, it is usually to:</p>
+
+<ul>
+<li>Create a simpler API</li>
+<li>Address common sources of confusion</li>
+<li>More closely match Cocoa conventions</li>
+</ul>
+
+
+<p>The following are some of the concrete differences, along with their rationales.</p>
+
+<h3>Naming</h3>
+
+<p>In most versions of Rx, Streams over time are known as <code>Observable</code>s, which
+parallels the <code>Enumerable</code> type in .NET. Additionally, most operations in Rx.NET
+borrow names from <a href="https://msdn.microsoft.com/en-us/library/bb397926.aspx">LINQ</a>,
+which uses terms reminiscient of relational databases, like <code>Select</code> and <code>Where</code>.</p>
+
+<p><strong>RAC is focused on matching Swift naming first and foremost</strong>, with terms like
+<code>map</code> and <code>filter</code> instead. Other naming differences are typically inspired by
+significantly better alternatives from <a href="https://www.haskell.org">Haskell</a> or
+<a href="http://elm-lang.org">Elm</a> (which is the primary source for the “signal”
+terminology).</p>
+
+<h3>Signals and Signal Producers (“hot” and “cold” observables)</h3>
+
+<p>One of the most confusing aspects of Rx is that of <a href="http://www.introtorx.com/content/v1.0.10621.0/14_HotAndColdObservables.html">“hot”, “cold”, and “warm”
+observables</a> (event streams).</p>
+
+<p>In short, given just a method or function declaration like this, in C#:</p>
+
+<pre><code>IObservable&lt;string&gt; Search(string query)
+</code></pre>
+
+<p>… it is <strong>impossible to tell</strong> whether subscribing to (observing) that
+<code>IObservable</code> will involve side effects. If it <em>does</em> involve side effects, it’s
+also impossible to tell whether <em>each subscription</em> has a side effect, or if only
+the first one does.</p>
+
+<p>This example is contrived, but it demonstrates <strong>a real, pervasive problem</strong>
+that makes it extremely hard to understand Rx code (and pre-3.0 ReactiveCocoa
+code) at a glance.</p>
+
+<p>[ReactiveCocoa 3.0][CHANGELOG] has solved this problem by distinguishing side
+effects with the separate [<code>Signal</code>][Signals] and [<code>SignalProducer</code>][Signal producers] types. Although this
+means there’s another type to learn about, it improves code clarity and helps
+communicates intent much better.</p>
+
+<p>In other words, <strong>ReactiveCocoa’s changes here are <a href="http://www.infoq.com/presentations/Simple-Made-Easy">simple, not
+easy</a></strong>.</p>
+
+<h3>Typed errors</h3>
+
+<p>When [signals][] and [signal producers][] are allowed to [error][Events] in ReactiveCocoa,
+the kind of error must be specified in the type system. For example,
+<code>Signal&lt;Int, NSError&gt;</code> is a signal of integer values that may send an error of
+type <code>NSError</code>.</p>
+
+<p>More importantly, RAC allows the special type <code>NoError</code> to be used instead,
+which <em>statically guarantees</em> that an event stream is not allowed to send an
+error. <strong>This eliminates many bugs caused by unexpected error events.</strong></p>
+
+<p>In Rx systems with types, event streams only specify the type of their
+values—not the type of their errors—so this sort of guarantee is impossible.</p>
+
+<h3>UI programming</h3>
+
+<p>Rx is basically agnostic as to how it’s used. Although UI programming with Rx is
+very common, it has few features tailored to that particular case.</p>
+
+<p>RAC takes a lot of inspiration from <a href="http://reactiveui.net">ReactiveUI</a>,
+including the basis for [Actions][].</p>
+
+<p>Unlike ReactiveUI, which unfortunately cannot directly change Rx to make it more
+friendly for UI programming, <strong>ReactiveCocoa has been improved many times
+specifically for this purpose</strong>—even when it means diverging further from Rx.</p>
+
+<h2>Getting started</h2>
+
+<p>ReactiveCocoa supports OS X 10.9+ and iOS 8.0+.</p>
+
+<p>To add RAC to your application:</p>
+
+<ol>
+<li>Add the ReactiveCocoa repository as a
+<a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">submodule</a> of your
+application’s repository.</li>
+<li>Run <code>script/bootstrap</code> from within the ReactiveCocoa folder.</li>
+<li>Drag and drop <code>ReactiveCocoa.xcodeproj</code>, <code>Carthage/Checkouts/Box/Box.xcodeproj</code> and
+<code>Carthage/Checkouts/Result/Result.xcodeproj</code> into your application’s Xcode project or workspace.</li>
+<li>On the “General” tab of your application target’s settings, add
+<code>ReactiveCocoa.framework</code>, <code>Box.framework</code> and <code>Result.framework</code> to the
+“Embedded Binaries” section.</li>
+<li>If your application target does not contain Swift code at all, you should also
+set the <code>EMBEDDED_CONTENT_CONTAINS_SWIFT</code> build setting to “Yes”.</li>
+</ol>
+
+
+<p>Or, if you’re using <a href="https://github.com/Carthage/Carthage">Carthage</a>, simply add
+ReactiveCocoa to your <code>Cartfile</code>:</p>
+
+<pre><code>github "ReactiveCocoa/ReactiveCocoa"
+</code></pre>
+
+<p>If you would prefer to use <a href="https://cocoapods.org">CocoaPods</a>, there are some
+<a href="https://github.com/CocoaPods/Specs/tree/master/Specs/ReactiveCocoa">unofficial podspecs</a>
+that have been generously contributed by third parties.</p>
+
+<p>Once you’ve set up your project, check out the [Framework Overview][] for
+a tour of ReactiveCocoa’s concepts, and the [Basic Operators][] for some
+introductory examples of using it.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-16T08:41:55+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:41 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/16/guan-yu-run-loop-de-ji-ge-wen-ti/" title="Previous Post: 关于 run loop 的几个问题">&laquo; 关于 run loop 的几个问题</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/16/github-pai-ming/" title="Next Post: github 排名">github 排名 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

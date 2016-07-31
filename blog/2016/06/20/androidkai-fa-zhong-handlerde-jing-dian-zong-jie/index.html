@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android开发中Handler的经典总结 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、Handler的定义： 主要接受子线程发送的数据， 并用此数据配合主线程更新UI。 解释：当应用程序启动时，Android首先会开启一个主线程 (也就是UI线程) ， 主线程为管理界面中的UI控件， 进行事件分发， 比如说， 你要是点击一个 Button ， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/20/androidkai-fa-zhong-handlerde-jing-dian-zong-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android开发中Handler的经典总结</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T16:40:21+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:40 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>一、Handler的定义：</h3>
+
+<p>主要接受子线程发送的数据， 并用此数据配合主线程更新UI。</p>
+
+<p>解释：当应用程序启动时，Android首先会开启一个主线程 (也就是UI线程) ， 主线程为管理界面中的UI控件， 进行事件分发， 比如说， 你要是点击一个 Button ，Android会分发事件到Button上，来响应你的操作。  如果此时需要一个耗时的操作，例如: 联网读取数据，    或者读取本地较大的一个文件的时候，你不能把这些操作放在主线程中，如果你放在主线程中的话，界面会出现假死现象， 如果5秒钟还没有完成的话，会收到Android系统的一个错误提示  &ldquo;强制关闭"。  这个时候我们需要把这些耗时的操作，放在一个子线程中，因为子线程涉及到UI更新，，Android主线程是线程不安全的， 也就是说，更新UI只能在主线程中更新，子线程中操作是危险的。 这个时候，Handler就出现了。，来解决这个复杂的问题 ，由于Handler运行在主线程中(UI线程中)，  它与子线程可以通过Message对象来传递数据， 这个时候，Handler就承担着接受子线程传过来的(子线程用sedMessage()方法传弟)Message对象，(里面包含数据)  ， 把这些消息放入主线程队列中，配合主线程进行更新UI。</p>
+
+<h3>二、Handler一些特点</h3>
+
+<p>handler可以分发Message对象和Runnable对象到主线程中， 每个Handler实例，都会绑定到创建他的线程中(一般是位于主线程)，它有两个作用：</p>
+
+<p>(1)安排消息或Runnable 在某个主线程中某个地方执行；</p>
+
+<p>(2)安排一个动作在不同的线程中执行。</p>
+
+<p>Handler中分发消息的一些方法</p>
+
+<pre><code>post(Runnable)
+
+postAtTime(Runnable，long)
+
+postDelayed(Runnable long)
+
+sendEmptyMessage(int)
+
+sendMessage(Message)
+
+sendMessageAtTime(Message，long)
+
+sendMessageDelayed(Message，long)
+</code></pre>
+
+<p>以上post类方法允许你排列一个Runnable对象到主线程队列中，</p>
+
+<p>sendMessage类方法， 允许你安排一个带数据的Message对象到队列中，等待更新。</p>
+
+<p>三、Handler实例</p>
+
+<p>子类需要继承Hendler类，并重写handleMessage(Message msg) 方法， 用于接受线程数据。</p>
+
+<p>以下为一个实例，它实现的功能为：通过线程修改界面Button的内容</p>
+
+<pre><code>public class MyHandlerActivity extends Activity { 
+    Button button; 
+    MyHandler myHandler; 
+
+    protected void onCreate(Bundle savedInstanceState) { 
+        super。onCreate(savedInstanceState); 
+        setContentView(R。layout。handlertest); 
+
+        button = (Button) findViewById(R。id。button); 
+        myHandler = new MyHandler(); 
+        // 当创建一个新的Handler实例时， 它会绑定到当前线程和消息的队列中，开始分发数据 
+        // Handler有两个作用， (1) : 定时执行Message和Runnalbe 对象 
+        // (2): 让一个动作，在不同的线程中执行。 
+
+        // 它安排消息，用以下方法 
+        // post(Runnable) 
+        // postAtTime(Runnable，long) 
+        // postDelayed(Runnable，long) 
+        // sendEmptyMessage(int) 
+        // sendMessage(Message); 
+        // sendMessageAtTime(Message，long) 
+        // sendMessageDelayed(Message，long) 
+
+        // 以上方法以 post开头的允许你处理Runnable对象 
+        //sendMessage()允许你处理Message对象(Message里可以包含数据，) 
+
+        MyThread m = new MyThread(); 
+        new Thread(m)。start(); 
+    } 
+
+    /** 
+    * 接受消息，处理消息 ，此Handler会与当前主线程一块运行 
+    * */ 
+
+    class MyHandler extends Handler { 
+        public MyHandler() { 
+        } 
+
+        public MyHandler(Looper L) { 
+            super(L); 
+        } 
+
+        // 子类必须重写此方法，接受数据 
+        @Override 
+        public void handleMessage(Message msg) { 
+            // TODO Auto-generated method stub 
+            Log。d("MyHandler"， "handleMessage。。。。。。"); 
+            super。handleMessage(msg); 
+            // 此处可以更新UI 
+            Bundle b = msg。getData(); 
+            String color = b。getString("color"); 
+            MyHandlerActivity。this。button。append(color); 
+
+        } 
+    } 
+
+    class MyThread implements Runnable { 
+        public void run() { 
+
+            try { 
+                Thread。sleep(10000); 
+            } catch (InterruptedException e) { 
+                // TODO Auto-generated catch block 
+                e。printStackTrace(); 
+            } 
+
+            Log。d("thread。。。。。。。"， "mThread。。。。。。。。"); 
+            Message msg = new Message(); 
+            Bundle b = new Bundle();// 存放数据 
+            b。putString("color"， "我的"); 
+            msg。setData(b); 
+
+            MyHandlerActivity。this。myHandler。sendMessage(msg); // 向Handler发送消息，更新UI 
+
+        } 
+    } 
+} 
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T16:40:21+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:40 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/20/androidkai-fa-shi-jian-:shi-yong-servicehuan-shi-thread/" title="Previous Post: Android开发实践：使用Service还是Thread">&laquo; Android开发实践：使用Service还是Thread</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/20/androidti-gong-liao-ji-chong-zai-qi-ta-xian-cheng-zhong-fang-wen-uixian-cheng-de-fang-fa/" title="Next Post: Android提供了几种在其他线程中访问UI线程的方法">Android提供了几种在其他线程中访问UI线程的方法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

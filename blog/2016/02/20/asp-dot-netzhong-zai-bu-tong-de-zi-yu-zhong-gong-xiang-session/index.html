@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ASP.NET中在不同的子域中共享Session - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="今天遇到了这个问题，于是研究了一下。要解决这个问题，首先就要明白一些Session的机理。Session在服务器是以散列表形式存在的，我们都知道Session是会话级的，每个用户访问都会生成一个Session。那么服务器是怎么区分不同用户的Session？ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/20/asp-dot-netzhong-zai-bu-tong-de-zi-yu-zhong-gong-xiang-session/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ASP.NET中在不同的子域中共享Session</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-20T16:07:27+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:07 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>今天遇到了这个问题，于是研究了一下。要解决这个问题，首先就要明白一些Session的机理。Session在服务器是以散列表形式存在的，我们都知道Session是会话级的，每个用户访问都会生成一个Session。那么服务器是怎么区分不同用户的Session？又是怎么将不同用户的Session与不同的用户绑定的呢？下面我们来研究一下，以下纯属我个人的理解，如有错误请指证。</p>
+
+<p>Session在服务器端是以散列表的形式存在的，区分每一个Session是通过SessionID来实现的，所以可以说这个SessionID是一个Key是一个全局唯一的值。我们可以通过ASP.NET来打印出SessionID，如下代码：</p>
+
+<pre><code>protected void Page_Load(object sender, EventArgs e)         {             Response.Write(Session.SessionID.ToString());         }
+</code></pre>
+
+<p>这样我们就得到了这样的值：0julmoedn0kz3gyfnr1vksv0,有点像是GUID，就算不是算法也都是类似的，主要就是为了保证全局唯一性。这样就达到了区分不同用户的Session的目的。接下来还有第二个问题，那就是SessionID有了，但是它又是怎么和相应的访问者（用户）绑定的呢？比如说用户A访问维护了自己的SessionID,用户B访问也维护了自己的SessionID。我们都知道web是基于http无链接的，他们又是怎么做到的呢？没错，答案就是在客户端存储了自己的SessionID。浏览器存储SessionID有两种方式，一种就是利用Cookies;还有一种就是利用url参数(这种我们不常用,很不友好)。</p>
+
+<p>话题说到Cookies上来了，怎么的？没想到Session和Cookies还有这样的关系吧？(很多人知道，别BS我)没错，当我们请求一个URL时候，服务器会生成一个全局的SessionID，并且把这个值以Cookies的形式保存在客户端也就是浏览器（这里暂不讨论url方式）。这样当用户再去请求的时候，在http头把这个SessionID的Cookie发到服务器端，服务器就去找这个SessionID，如果找到了。就证明这个用户的状态是存在的。</p>
+
+<p>知道了这个原理，我们的问题也就有眉头了，即然是用Cookies来保存SessionID，那么我们就可以在Cooikes上做手脚了。我们都知道Cooikes记录方式是以域(例如：<a href="http://www.local.com/">http://www.local.com/</a>)为区分的，这也是各种浏览器规定的。如果不这么做，安全性就会有问题。我们要做的就是让指定Cookies的父域方式，不指定具体指域，这样Cookies就可以跨子域了。Cookies可以像这样指定域：</p>
+
+<pre><code> protected void Page_Load(object sender, EventArgs e)         {             Response.Cookies["MyCook"].Domain = ".local.com";         }
+</code></pre>
+
+<p>   这样，我们所有的二级域全部是认这一个主域的，比如a.local.com;b.local.com;user.local.com等等。有了这个认识，我想大家心里也有数了，该怎么怎么做，但是现在问题是用来生成SessionID的方法是ASP.NET自动实现的，我们又怎么去干涉它呢？这是这样做的，不主动干涉它，但是我可以操作它的Cookies啊。接下来我们就研究ASP.NET存SessionID的Cooike的名字是什么。经过网上很容易就查找到了，名字是：ASP.NET_SessionId，这个就是SessionId的Cookies名字。我们可以在Session_Start中这样写：</p>
+
+<pre><code> protected void Session_Start(object sender, EventArgs e)         {             Response.Cookies["ASP.NET_SessionId"].Value = Session.SessionID.ToString();             Response.Cookies["ASP.NET_SessionId"].Domain = ".local.com";         }
+</code></pre>
+
+<p>代码的意思是每次会话开始的时候，我都把ASP.NET_SessionId这个Cookie重写成我们已有的SessionID,并且把这个Cookie的domain指定为父域，比如:.local.com,这样就可以实现跨子域的Session共享了。怎么样很简单吧？</p>
+
+<p>我们还有一个外题问题，就是客户端保存的问题解决了，但是服务器端的Session怎么办？一般情况下我们不同的子域做的是指向不同的服务器的，比如user.local.com 专门一台服务器，yellow.local.com专门一台服务器。这时它们别说是进程了，连物理上都不是一个了。Session怎么共享？这时就用到另一个方法了，我们默认的Session是存储在asp.net进程中的，这样没法互相访问，如下面所示：</p>
+
+<pre><code>&lt;sessionState mode="InProc" /&gt;
+</code></pre>
+
+<p>我们可以修改为State Server方式，这是一个单独的服务可以用来存储ASP.NET Session的，它支持分布式远程主机的，这样我们可以用一台服务器来提供Session服务，如下所示：</p>
+
+<pre><code>&lt;sessionState mode="StateServer" stateConnectionString="tcpip=127.0.0.1:42424" timeout="30" /&gt;
+</code></pre>
+
+<p>这样，就完全实现了不同子域的Session共享了。</p>
+
+<p>前面说到Url保存SessionId的方式，由于不常用，给大家演示一下，如下配置就可以了：</p>
+
+<pre><code>&lt;sessionState mode="StateServer" stateConnectionString="tcpip=127.0.0.1:42424" timeout="30" cookieless="true" /&gt;
+</code></pre>
+
+<p>cookieless属性指定是否用cookie来保存SessionId,我们运行一下得到下面的样子：</p>
+
+<p><a href="http://localhost:3380/(S(dqxcs455n4u2vg55ia51fvqg))/default.aspx">http://localhost:3380/(S(dqxcs455n4u2vg55ia51fvqg))/default.aspx</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-20T16:07:27+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:07 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/20/asp-dot-net26ge-chang-yong-xing-neng-you-hua-fang-fa/" title="Previous Post: ASP.NET26个常用性能优化方法">&laquo; ASP.NET26个常用性能优化方法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/20/http1-dot-0-he-http1-dot-1-qu-bie/" title="Next Post: http1.0 和http1.1 区别">http1.0 和http1.1 区别 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bootstrap 网格系统 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="什么是网格（Grid）？ 摘自维基百科： 在平面设计中，网格是一种由一系列用于组织内容的相交的直线（垂直的、水平的）组成的结构（通常是二维的）。它广泛应用于打印设计中的设计布局和内容结构。在网页设计中，它是一种用于快速创建一致的布局和有效地使用 HTML 和 CSS 的方法。
+简单地说， &hellip;">
+  <meta name="keywords" content="bootstrap">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/21/bootstrap-wang-ge-xi-tong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Bootstrap 网格系统</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-21T11:00:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>什么是网格（Grid）？</h2>
+
+<p>摘自维基百科：</p>
+
+<blockquote><p>在平面设计中，网格是一种由一系列用于组织内容的相交的直线（垂直的、水平的）组成的结构（通常是二维的）。它广泛应用于打印设计中的设计布局和内容结构。在网页设计中，它是一种用于快速创建一致的布局和有效地使用 HTML 和 CSS 的方法。
+简单地说，网页设计中的网格用于组织内容，让网站易于浏览，并降低用户端的负载。</p></blockquote>
+
+<h2>什么是 Bootstrap 网格系统（Grid System）？</h2>
+
+<p>Bootstrap 官方文档中有关网格系统的描述：</p>
+
+<blockquote><p>Bootstrap 包含了一个响应式的、移动设备优先的、不固定的网格系统，可以随着设备或视口大小的增加而适当地扩展到 12 列。它包含了用于简单的布局选项的预定义类，也包含了用于生成更多语义布局的功能强大的混合类。</p></blockquote>
+
+<p>让我们来理解一下上面的语句。Bootstrap 3 是移动设备优先的，在这个意义上，Bootstrap 代码从小屏幕设备（比如移动设备、平板电脑）开始，然后扩展到大屏幕设备（比如笔记本电脑、台式电脑）上的组件和网格。</p>
+
+<p>移动设备优先策略</p>
+
+<ul>
+<li>内容
+
+<ul>
+<li>决定什么是最重要的。</li>
+</ul>
+</li>
+<li>布局
+
+<ul>
+<li>优先设计更小的宽度。</li>
+<li>基础的 CSS 是移动设备优先，媒体查询是针对于平板电脑、台式电脑。</li>
+</ul>
+</li>
+<li>渐进增强
+
+<ul>
+<li>随着屏幕大小的增加而添加元素。</li>
+</ul>
+</li>
+</ul>
+
+
+<p>响应式网格系统随着屏幕或视口（viewport）尺寸的增加，系统会自动分为最多12列。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eu994bcwxtj20ka051wel.jpg" alt="img" /></p>
+
+<h2>Bootstrap 网格系统（Grid System）的工作原理</h2>
+
+<p>网格系统通过一系列包含内容的行和列来创建页面布局。下面列出了 Bootstrap 网格系统是如何工作的：</p>
+
+<ul>
+<li>行必须放置在 .container class 内，以便获得适当的对齐（alignment）和内边距（padding）。</li>
+<li>使用行来创建列的水平组。</li>
+<li>内容应该放置在列内，且唯有列可以是行的直接子元素。</li>
+<li>预定义的网格类，比如 .row 和 .col-xs-4，可用于快速创建网格布局。LESS 混合类可用于更多语义布局。</li>
+<li>列通过内边距（padding）来创建列内容之间的间隙。该内边距是通过 .rows 上的外边距（margin）取负，表示第一列和最后一列的行偏移。</li>
+<li>网格系统是通过指定您想要横跨的十二个可用的列来创建的。例如，要创建三个相等的列，则使用三个 .col-xs-4。</li>
+</ul>
+
+
+<h2>媒体查询</h2>
+
+<p>媒体查询是非常别致的"有条件的 CSS 规则"。它只适用于一些基于某些规定条件的 CSS。如果满足那些条件，则应用相应的样式。</p>
+
+<p>Bootstrap 中的媒体查询允许您基于视口大小移动、显示并隐藏内容。下面的媒体查询在 LESS 文件中使用，用来创建 Bootstrap 网格系统中的关键的分界点阈值。</p>
+
+<pre><code>/* 超小设备（手机，小于 768px） */
+/* Bootstrap 中默认情况下没有媒体查询 */
+
+/* 小型设备（平板电脑，768px 起） */
+@media (min-width: @screen-sm-min) { ... }
+
+/* 中型设备（台式电脑，992px 起） */
+@media (min-width: @screen-md-min) { ... }
+
+/* 大型设备（大台式电脑，1200px 起） */
+@media (min-width: @screen-lg-min) { ... }
+</code></pre>
+
+<p>我们有时候也会在媒体查询代码中包含 max-width，从而将 CSS 的影响限制在更小范围的屏幕大小之内。</p>
+
+<pre><code>@media (max-width: @screen-xs-max) { ... }
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) { ... }
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) { ... }
+@media (min-width: @screen-lg-min) { ... }
+</code></pre>
+
+<p>媒体查询有两个部分，先是一个设备规范，然后是一个大小规则。在上面的案例中，设置了下列的规则：</p>
+
+<p>让我们来看下面这行代码：</p>
+
+<pre><code>@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) { ... }
+</code></pre>
+
+<p>对于所有带有 min-width: @screen-sm-min 的设备，如果屏幕的宽度小于 @screen-sm-max，则会进行一些处理。</p>
+
+<h2>网格选项</h2>
+
+<p>下表总结了 Bootstrap 网格系统如何跨多个设备工作：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eu99j3ku25j20kb0atgo6.jpg" alt="img" /></p>
+
+<h3>基本的网格结构</h3>
+
+<p>下面是 Bootstrap 网格的基本结构：</p>
+
+<pre><code>&lt;div class="container"&gt;
+   &lt;div class="row"&gt;
+      &lt;div class="col-*-*"&gt;&lt;/div&gt;
+      &lt;div class="col-*-*"&gt;&lt;/div&gt;      
+   &lt;/div&gt;
+   &lt;div class="row"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="container"&gt;....
+</code></pre>
+
+<h3>偏移列</h3>
+
+<p>偏移是一个用于更专业的布局的有用功能。它们可用来给列腾出更多的空间。例如，<code>.col-xs=*</code> 类不支持偏移，但是它们可以简单地通过使用一个空的单元格来实现该效果。</p>
+
+<p>为了在大屏幕显示器上使用偏移，请使用 <code>.col-md-offset-*</code> 类。这些类会把一个列的左外边距（margin）增加 <code>*</code> 列，其中 <code>*</code> 范围是从 1 到 11。</p>
+
+<p>在下面的实例中，我们有 <code>&lt;div class="col-md-6"&gt;..&lt;/div&gt;</code>，我们将使用 <code>.col-md-offset-3 class</code> 来居中这个 div。</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+   &lt;title&gt;Bootstrap 实例 - 偏移列&lt;/title&gt;
+   &lt;link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"&gt;
+   &lt;script src="/scripts/jquery.min.js"&gt;&lt;/script&gt;
+   &lt;script src="/bootstrap/js/bootstrap.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class="container"&gt;
+
+   &lt;h1&gt;Hello, world!&lt;/h1&gt;
+
+   &lt;div class="row" &gt;
+      &lt;div class="col-xs-6 col-md-offset-3" 
+         style="background-color: #dedef8;box-shadow: 
+         inset 1px -1px 1px #444, inset -1px 1px 1px #444;"&gt;
+         &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing 
+            elit.
+         &lt;/p&gt;
+      &lt;/div&gt;
+
+   &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eu99wo6dg7j212d03wwex.jpg" alt="img" /></p>
+
+<h3>嵌套列</h3>
+
+<p>为了在内容中嵌套默认的网格，请添加一个新的 .row，并在一个已有的 .col-md-<em> 列内添加一组 .col-md-</em> 列。被嵌套的行应包含一组列，这组列个数不能超过12（其实，没有要求你必须占满12列）。</p>
+
+<p>在下面的实例中，布局有两个列，第二列被分为两行四个盒子。</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+   &lt;title&gt;Bootstrap 实例 - 嵌套列&lt;/title&gt;
+   &lt;link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"&gt;
+   &lt;script src="/scripts/jquery.min.js"&gt;&lt;/script&gt;
+   &lt;script src="/bootstrap/js/bootstrap.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class="container"&gt;
+
+   &lt;h1&gt;Hello, world!&lt;/h1&gt;
+
+   &lt;div class="row"&gt;
+
+      &lt;div class="col-md-3" style="background-color: #dedef8;box-shadow: 
+         inset 1px -1px 1px #444, inset -1px 1px 1px #444;"&gt;
+         &lt;h4&gt;第一列&lt;/h4&gt;
+         &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit.&lt;/p&gt;
+      &lt;/div&gt;
+
+      &lt;div class="col-md-9" style="background-color: #dedef8;box-shadow: 
+         inset 1px -1px 1px #444, inset -1px 1px 1px #444;"&gt;
+         &lt;h4&gt;第二列 - 分为四个盒子&lt;/h4&gt;
+         &lt;div class="row"&gt;
+            &lt;div class="col-md-6" style="background-color: #B18904;
+               box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;"&gt;
+               &lt;p&gt;Consectetur art party Tonx culpa semiotics. Pinterest 
+                  assumenda minim organic quis.
+               &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class="col-md-6" style="background-color: #B18904;
+               box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;"&gt;
+               &lt;p&gt; sed do eiusmod tempor incididunt ut labore et dolore magna 
+                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
+               &lt;/p&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+
+         &lt;div class="row"&gt;
+            &lt;div class="col-md-6" style="background-color: #B18904;
+               box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;"&gt;
+               &lt;p&gt;quis nostrud exercitation ullamco laboris nisi ut 
+                  aliquip ex ea commodo consequat.
+               &lt;/p&gt;
+            &lt;/div&gt;   
+            &lt;div class="col-md-6" style="background-color: #B18904;
+               box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;"&gt;
+               &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+                  sed do eiusmod tempor incididunt ut labore et dolore magna 
+                  aliqua. Ut enim ad minim.&lt;/p&gt;
+            &lt;/div&gt;
+         &lt;/div&gt;
+
+      &lt;/div&gt;
+
+   &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eu9a485v82j219408gjug.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-21T11:00:55+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/21/overflow-y-hidden-shi-shi-yao/" title="Previous Post: overflow-y:hidden 是什么">&laquo; overflow-y:hidden 是什么</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/21/bootstrap3-de-zha-ge-hua-yang-shi/" title="Next Post: Bootstrap3 的栅格化样式">Bootstrap3 的栅格化样式 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

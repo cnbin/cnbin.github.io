@@ -1,0 +1,726 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS知识点小结 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1、#import和#include的区别，@class代表什么？ 参考答案： 这里老生常谈的问题了！#import和#include指令都是用于包含头文件的，前者是保证只会包含一次，不会重复包含；后者是c语言中原来就有的包含头文件的指令，在objc开发中，若是c文件，一件会使用# &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/23/ioszhi-shi-dian-xiao-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS知识点小结</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-23T09:30:04+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>9:30 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>1、#import和#include的区别，@class代表什么？</h3>
+
+<p>参考答案：</p>
+
+<p>这里老生常谈的问题了！#import和#include指令都是用于包含头文件的，前者是保证只会包含一次，不会重复包含；后者是c语言中原来就有的包含头文件的指令，在objc开发中，若是c文件，一件会使用#include指令来包含头文件，为了防止重复包含，通常会加上条件编译，如：</p>
+
+<pre><code>// 随手写的例子
+// 若已经定义过则不再定义之，这是防止重复包含的手段
+#ifndef __HYB__GRIDVIEWCONTROLLER__
+
+#define kScreenWidth ...
+
+#endif
+</code></pre>
+
+<p>@class是类前向声明的指令，相当于告诉编译器有这样一个类，但是类的定义在后面提供。在编译时期，编译器看到@class指令声明了对应的类型，是可以正常编译过的。这是很常用的指令，主要是防止循环引用。</p>
+
+<h3>2、谈谈Objective-C的内存管理方式及过程</h3>
+
+<p>参考答案：</p>
+
+<p>对于Objective-C，在MRC下内存是手动管理的，而在ARC下，我们不用手动去添加retain/release，但是其内存管理法则是一样的。</p>
+
+<p>内存管理黄金法则：谁使对象的引用计数+1，谁就负责管理使该对象的引用计数-1。</p>
+
+<p>说说内存管理的过程：</p>
+
+<p>在MRC下，对于需要手动释放的对象的内存管理，我们通过release使对象引用计数-1，若其引用计数变成0，则对象会被立刻释放掉。对于autorelease交给自动释放池管理的对象，每个runloop循环结束就会去自动释放池中使所有autorelease类型对象的引用计数减一，若变成0，则释放之。</p>
+
+<p>在ARC下，我们没有不能直接调用retain/release来管理释放，都是交给自动释放池来管理的。因此，若创建临时变量，想要使用完就释放之，需要在临时变量放到新创建的自动释放池里，这样就可以使用完后就到达了自动释放池的一个循环，就会去使对象引用计数减一，变成0后释放之。</p>
+
+<p>最后：对于交给自动释放池管理的对象，是在每个run loop事件循环结束时才会去使对象引用计数减一，此时引用计数为0的才会得到释放。</p>
+
+<h3>3、Objective-C有私有方法吗？私有变量呢？</h3>
+
+<p>参考答案：</p>
+
+<p>在Objective-C中，没有实实存在的私有方法。通常所谓的私有方法就是放在.m文件中声明和实现，外部不能直接看到而已，但是若我们知道有这么一个API，我们是可以调用的。比如，在苹果上架会因为使用了苹果的所谓的私有API而被拒，而这个所谓的私有API就是指苹果没有公司出来，但是我们通过其它方式可以看到苹果的内部有这样一个API可以实现某些不公开的功能。</p>
+
+<p>私有变量是有的，可以通过@private来声明私有变量。比如：</p>
+
+<pre><code>@interface HYBTestModel: NSObject {
+  @private NSString *_privateName;
+}
+</code></pre>
+
+<p>如果我们没有使用@private声明，它是受保护的，外部也不能直接通过对象给变量赋值：</p>
+
+<pre><code>// error
+testModel-&gt;_privateName = @"报错了，提示成员变量是受保护的";
+</code></pre>
+
+<h3>4、Objective-C有多继承吗？没有的话用什么代替？Cocoa中所有的类都是NSObject的子类？</h3>
+
+<p>参考答案：</p>
+
+<p>Objective-C没有多继承，这是去掉C++中多继承的特性，改成使用protocol来代替。Cocoa中所有的类都是NSObject的子类，这是正确的。如果学习过runtime，应该知道根类是NSOjbect，它元类的isa指针指向的是NSObject。参考下图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f26i75s32pj20fa0fz0uk.jpg" alt="img" /></p>
+
+<h3>5、浅拷贝与深拷贝的区别是什么</h3>
+
+<p>参考答案：</p>
+
+<p>用最简单的话说：浅拷贝就是指针拷贝（指向原有内存空间），而深拷贝是内容拷贝（有新的内存空间）。</p>
+
+<p>或者说：浅复制并不拷贝对象本身而仅仅是拷贝指向对象的指针；深复制是直接拷贝整个对象内存到另一块内存中。</p>
+
+<p>更详细地可以阅读这篇文章：iOS深拷贝与浅拷贝</p>
+
+<h3>6、属性readwrite、readonly、assign、retain、copy、nonatomic各是什么作用，在哪种情况下用？</h3>
+
+<p>参考答案：</p>
+
+<p>作用分别是：</p>
+
+<ul>
+<li>readwrite：代表可读可写，会生成getter和setter方法</li>
+<li>readonly：代表只读，只生成getter方法，不会生成setter方法</li>
+<li>assign：代表普通赋值，通常用于非对象类型</li>
+<li>retain：MRC下才能手动使用，与ARC下的strong一样，指定强引用，引用计数加1</li>
+<li>copy：代表拷贝，也是强引用，引用计数加1，进行指针拷贝</li>
+<li>nonatomic：代表非原子操作，非线程安全，但可提高性能</li>
+</ul>
+
+
+<p>在哪种情况使用：</p>
+
+<ul>
+<li>readwrite：默认就是，通过不用显示指定，需要生成setter和getter时使用</li>
+<li>readonly：当不希望生成setter时使用</li>
+<li>assign：通常是非对象类型使用</li>
+<li>retain：MRC下才能使用，表示对象强引用</li>
+<li>copy：生成不可变对象、需要拷贝时使用</li>
+<li>nonatomic：不要求线程安全时使用，可提高性能，通常都会使用</li>
+</ul>
+
+
+<h3>7、常见的objective-c的数据类型有哪些，和C的基本数据类型有什么区别？</h3>
+
+<p>参考答案：</p>
+
+<p>这是一道弱智的问题，出题者一定是脑子进水了。</p>
+
+<p>常见数据类型：NSData、NSArray、NSDictionary、NSSet、NSCountedSet、NSNumber、NSInteger、NSUInteger、所有基本C数据类型，当然还有对应可变的类型。</p>
+
+<p>有什么区别：对象类型在C中全没有。然后基本类型是所有的C的基本类型，当然oc还提供了NSNumber这个类来处理所有的基本C类型。</p>
+
+<h3>8、描述iOS SDK中如何实现MVC的开发模式</h3>
+
+<p>参考答案：</p>
+
+<p>这使用MVC的开发模式与是不是SDK没有关系，即使是SDK，如果有Model、View、Controller，那么就可以通过MVC模式来开发。</p>
+
+<p>笔者真不知道这道题的本质是不是想问如何开发iOS SDK？如何使用MVC？</p>
+
+<h3>9、什么时候使用NSMutableArray，什么时候使用NSArray？</h3>
+
+<p>参考答案：</p>
+
+<p>原则上对外返回的数据都应该是NSArray类型，防止外部操作内容的数据，提供只读不可写的操作。NSMutableArray与NSArray的区别在于，前者是可以有增、删、改操作的，但是后者在初始化之后就只有读操作。如果不要求增、删、改操作，原则上直接使用NSArray即可；反之都使用NSMutableArray。</p>
+
+<h3>10、给出委托方法的实例，并且说出UITableView的DataSource方法</h3>
+
+<p>参考答案：</p>
+
+<p>这给出委托的实例是很简单，但是后面要说出DataSource的方法，这是有点脑残了，除了required这两个方法，其它怎么会记得全~</p>
+
+<p>随手写一个：</p>
+
+<pre><code>@protocol HYBTestCellDelegate &lt;NSObject&gt;
+
+- (void)fuckInterviewerWithSBMessage:(NSString *)sbInterviewMessage;
+
+@end
+
+@interface HYBTestCell: NSObject 
+
+@property (nonatomic, weak) id&lt;HYBTestCellDelegate&gt; delegate
+
+@end
+</code></pre>
+
+<p>然后我们在控制器中调用的时候，设置了代理:</p>
+
+<pre><code>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  HYBTestCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+
+  HYBTestModel *model = [self.datasource objectAtIndex:indexPath.row];
+
+  cell.delegate = self;
+
+  return cell;
+}
+
+#pragma mark - HYBTestCellDelegate
+- (void)fuckInterviewerWithSBMessage:(NSString *)sbInterviewMessage {
+  NSLog(sbInterviewMessage);
+}
+</code></pre>
+
+<p>至于后面的datasource的方法，记住这两个required的就行了：</p>
+
+<pre><code>- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+</code></pre>
+
+<h3>11、在做图片优化处理的时候，怎么将一个原图比较小（或大）的image放到一个固定的imageview中，如何减少失真度，除了这个，图片优化还有哪些方法？</h3>
+
+<p>参考答案：</p>
+
+<p>最直接的办法就是使用UIImageView的contentMode，让其自动适应，但是这样会消耗一定的性能。</p>
+
+<p>如果要优化，可以通过手动将原图处理成UIImageView大小的图，再给它呈现。</p>
+
+<h3>12.写出UIViewController的完整生命周期</h3>
+
+<p>面是笔者通过打印，先出现ViewController，然后在点击ViewController上的按钮时，模态弹出了一个纯代码HYBViewController，其打印如下：</p>
+
+<pre><code>-[ViewController initWithCoder:]
+-[ViewController loadView]
+-[ViewController viewDidLoad]
+-[ViewController viewWillAppear:]
+-[ViewController viewDidAppear:]
+
+// present HYBViewController
+-[HYBViewController initWithNibName:bundle:]
+-[HYBViewController init]
+-[HYBViewController loadView]
+-[HYBViewController viewDidLoad]
+-[ViewController viewWillDisappear:]
+-[HYBViewController viewWillAppear:]
+-[HYBViewController viewDidAppear:]
+-[ViewController viewDidDisappear:]
+</code></pre>
+
+<p>生命周期如下：</p>
+
+<pre><code>* xib/storyboard：-initWithCoder:，而非xib/storyboard的是-initWithNibName:bundle:然后-init
+* -loadView
+* -viewDidLoad
+* -viewWillAppear:
+* -viewDidAppear:
+* -viewWillDisappear:
+* -viewDidDisappear:
+</code></pre>
+
+<p>注意，当从ViewController进入到HYBViewController控制器时，注意出现顺序如下：</p>
+
+<pre><code>* -[ViewController viewWillDisappear:]
+* -[HYBViewController viewWillAppear:]
+* -[HYBViewController viewDidAppear:]
+* -[ViewController viewDidDisappear:]
+</code></pre>
+
+<p>在HYBViewController完全出现后，才会调用前一个控制器的完全消失。像这种要不同控制器之间导航条隐藏与显示控制问题，就需要特别注意其生命周期的顺序。</p>
+
+<h3>13.描述一下iOS的内存管理，在开发中对于内存的使用和优化包含哪些方面。我们在开发中应该注意哪些问题。</h3>
+
+<p>参考答案：</p>
+
+<p>内存管理准则：谁强引用过，谁就在不再使用时使引用计数减一。</p>
+
+<p>对于内存的使用和优化常见的有以下方面：</p>
+
+<ul>
+<li>重用问题：如UITableViewCells、UICollectionViewCells、UITableViewHeaderFooterViews设置正确的reuseIdentifier，充分重用。</li>
+<li>尽量把views设置为不透明：当opque为NO的时候，图层的半透明取决于图片和其本身合成的图层为结果，可提高性能。</li>
+<li>不要使用太复杂的XIB/Storyboard：载入时就会将XIB/storyboard需要的所有资源，包括图片全部载入内存，即使未来很久才会使用。那些相比纯代码写的延迟加载，性能及内存就差了很多。</li>
+<li>选择正确的数据结构：学会选择对业务场景最合适的数组结构是写出高效代码的基础。比如，数组: 有序的一组值。使用索引来查询很快，使用值查询很慢，插入/删除很慢。字典: 存储键值对，用键来查找比较快。集合: 无序的一组值，用值来查找很快，插入/删除很快。</li>
+<li>gzip/zip压缩：当从服务端下载相关附件时，可以通过gzip/zip压缩后再下载，使得内存更小，下载速度也更快。</li>
+<li>延迟加载：对于不应该使用的数据，使用延迟加载方式。对于不需要马上显示的视图，使用延迟加载方式。比如，网络请求失败时显示的提示界面，可能一直都不会使用到，因此应该使用延迟加载。</li>
+<li>数据缓存：对于cell的行高要缓存起来，使得reload数据时，效率也极高。而对于那些网络数据，不需要每次都请求的，应该缓存起来，可以写入数据库，也可以通过plist文件存储。</li>
+<li>处理内存警告：一般在基类统一处理内存警告，将相关不用资源立即释放掉</li>
+<li>重用大开销对象：一些objects的初始化很慢，比如NSDateFormatter和NSCalendar，但又不可避免地需要使用它们。通常是作为属性存储起来，防止反复创建。</li>
+<li>避免反复处理数据：许多应用需要从服务器加载功能所需的常为JSON或者XML格式的数据。在服务器端和客户端使用相同的数据结构很重要。</li>
+<li>使用Autorelease Pool：在某些循环创建临时变量处理数据时，自动释放池以保证能及时释放内存。</li>
+<li>正确选择图片加载方式：详情阅读<a href="http://www.henishuo.com/image-loaded-method/">细读UIImage加载方式</a></li>
+</ul>
+
+
+<h3>14、plist文件是用来做什么的。一般用它来处理一些什么方面的问题。</h3>
+
+<p>参考答案：</p>
+
+<p>plist是iOS系统中特有的文件格式。我们常用的NSUserDefaults偏好设置实质上就是plist文件操作。plist文件是用来持久化存储数据的。</p>
+
+<p>我们通常使用它来存储偏好设置，以及那些少量的、数组结构比较复杂的不适合存储数据库的数据。比如，我们要存储全国城市名称和id，那么我们要优先选择plist直接持久化存储，因为更简单。</p>
+
+<h3>15、iOS中缓存一定量的数据以便下次可以快速执行，那么数据会存储在什么地方，有多少种存储方式？</h3>
+
+<p>参考答案：</p>
+
+<ul>
+<li>偏好设置(NSUserDefaults)</li>
+<li>plist文件存储</li>
+<li>归档</li>
+<li>SQLite3</li>
+<li>Core Data</li>
+</ul>
+
+
+<p>详情请阅读：<a href="http://www.henishuo.com/ios-persistent-storage/">iOS常用的持久化存储方式</a></p>
+
+<h3>15.请描述一下同步和异步，说说它们之间的区别。</h3>
+
+<p>参考答案：</p>
+
+<p>首先，我们要明确一点，同步和异步都是在线程中使用的。在iOS开发中，比如网络请求数据时，若使用同步请求，则只有请求成功或者请求失败得到响应返回后，才能继续往下走，也就是才能访问其它资源（会阻塞了线程）。网络请求数据异步请求时，不会阻塞线程，在调用请求后，可以继续往下执行，而不用等请求有结果才能继续。</p>
+
+<p>区别：</p>
+
+<ul>
+<li>线程同步：是多个线程访问同一资源时，只有当前正在访问的线程访问结束之后，其他线程才能开始访问（被阻塞）。</li>
+<li>线程异步：是多个线程在访问竞争资源时，可以在空闲等待时去访问其它资源（不被阻塞）。</li>
+</ul>
+
+
+<h3>16.简单描述一下XIB与Storyboards，说一下他们的优缺点。</h3>
+
+<p>参考答案：</p>
+
+<p>优点：</p>
+
+<ul>
+<li>XIB：在编译前就提供了可视化界面，可以直接拖控件，也可以直接给控件添加约束，更直观一些，而且类文件中就少了创建控件的代码，确实简化不少，通常每个XIB对应一个类。</li>
+<li>Storyboard：在编译前提供了可视化界面，可拖控件，可加约束，在开发时比较直观，而且一个storyboard可以有很多的界面，每个界面对应一个类文件，通过storybard，可以直观地看出整个App的结构。</li>
+</ul>
+
+
+<p>缺点：</p>
+
+<ul>
+<li>XIB：需求变动时，需要修改XIB很大，有时候甚至需要重新添加约束，导致开发周期变长。XIB载入相比纯代码自然要慢一些。对于比较复杂逻辑控制不同状态下显示不同内容时，使用XIB是比较困难的。当多人团队或者多团队开发时，如果XIB文件被发动，极易导致冲突，而且解决冲突相对要困难很多。</li>
+<li>Storyboard：需求变动时，需要修改storyboard上对应的界面的约束，与XIB一样可能要重新添加约束，或者添加约束会造成大量的冲突，尤其是多团队开发。对于复杂逻辑控制不同显示内容时，比较困难。当多人团队或者多团队开发时，大家会同时修改一个storyboard，导致大量冲突，解决起来相当困难。</li>
+</ul>
+
+
+<h3>17.如何优化一个TableView</h3>
+
+<p>参考答案：</p>
+
+<ul>
+<li>若高度一定，直接使用rowHeight属性而不是使用heightForRowAtIndexPath方法，以减少调用的消耗。若高度是不固定的，heightForRowAtIndexPath所计算的高度应该缓存起来，每次数据源发生变化时，比如删除、插入、更新行都会重新请求所有的高度。若有100个行，就会有调用100次，因为将高度缓存起来是应该的。同理，heightForHeaderInSection、heightForFooterInSection也应该缓存起来。</li>
+<li>不要在tableView:cellForRowAtIndexPath:中做太多的计算和IO操作，比如可以将需要的计算提前计算好、IO操作也提前计算好。它应该直接调用来显示就可以。</li>
+<li>将计算行高的时间提前到从服务器获取数据的时候，计算完了高度一并写回数据库或者通过转型为model，将高度放到模型中。但是，最好将高度缓存起来。若一个model的数据有不同的状态，比如展开与收起状态，应该也将高度都缓存起来。注意使用异步去计算，计算完成后再回到主线程显示。</li>
+<li>在设置显示图片时，不要直接设置UIImageView的contentMode属性自动适应，图片变形会计算transform，压缩时会乘以一个矩阵，消耗性能。对于要求性能较高的app，应该将得到的图片经过处理成UIImageView大小后再呈现。</li>
+<li>不要将视图的opaque属性设置为NO，默认为YES,它表示不透明度。当opque为NO的时候，图层的半透明取决于图片和其本身合成的图层为结果。</li>
+<li>layer添加圆角是比较耗时的，这样会离屏渲染，需要牺牲更多的性能。比如，图片显示有圆角时，可以通过core graphics来生成带圆角的图片等。</li>
+<li>手动绘制cell。绘制cell不建议使用UIView，建议使用CALayer。 UIView的绘制是建立在CoreGraphic上的，其使用的是CPU。CALayer使用的是Core Animation，CPU、GPU都可以使用且由系统自动决定使用哪一个。UIView的绘制，使用的是自下向上的一层一层的绘制，而后渲染。Layer处理的是纹理，利用GPU的 Texture Cache和独立的浮点数计算单元可以加速纹理的处理。</li>
+<li>重用cell。防止重复的绘制，减少渲染次数，可提高性能。</li>
+<li>减少subviews的数量。尽量放在同一层view上显示。</li>
+<li>尽量少动态给cell添加子view。用addView给Cell动态添加View，可以初始化时就添加，然后通过hide来控制是否显示。</li>
+</ul>
+
+
+<h3>18.什么情况使用weak关键字，相比assign有什么不同？</h3>
+
+<p>使用weak关键字的主要场景：</p>
+
+<p>在ARC下,在有可能出现循环引用的时候往往要通过让其中一端使用weak来解决，比如: delegate代理属性，通常就会声明为weak。
+自身已经对它进行一次强引用，没有必要再强引用一次时也会使用weak。比如：自定义 IBOutlet控件属性一般也使用weak，当然也可以使用strong。
+相比assign不同之处：</p>
+
+<ul>
+<li>weak关键字只能用于对象，对于基本类型不能使用</li>
+<li>assign既可以用于对象，也可以用于基本类型，但是只是简单地进行赋值操作而已</li>
+</ul>
+
+
+<h3>19.怎么用copy关键字？</h3>
+
+<h4>分析</h4>
+
+<p>copy关键字只能应用于对象，不能用于基本类型。copy属性会复制一份，并且强引用之，但是对于集合类型，通常并不能达到深拷贝的目的。NSString、NSArray、NSDictionary等经常使用copy关键字，是因为他们有对应的可变类型：NSMutableString、NSMutableArray、NSMutableDictionary，当然很多时候都使用了strong来声明。block也使用copy关键字来声明。</p>
+
+<p>参考答案：</p>
+
+<ul>
+<li>copy关键字只能应用于对象，不能用于基本类型</li>
+<li>对于字符串，理应始终使用copy，虽然使用strong一般情况下也没有关系</li>
+<li>对于不可变集合类型，有可变和不可变类型，若要防止外部的修改影响所传过来的值，应该使用copy来声明，虽然大多情况下使用strong一定问题都没有。不过，实际开发中，我见到的几乎都是使用strong来声明的，包括笔者在内。</li>
+<li>对于可变集合类型，都应该使用strong来声明，不能使用copy，因为copy会生成一个不可变的类型，而不是可变的。</li>
+<li>对于block，都应该使用copy来声明，原因是block来捕获上下文的信息。具体请参考：<a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html#//apple_ref/doc/uid/TP40011210-CH8-SW12">【官方文档】Objects Use Properties to Keep Track of Blocks</a></li>
+</ul>
+
+
+<h3>20.这个写法会出什么问题：@property (copy) NSMutableArray *array;</h3>
+
+<p>参考答案：</p>
+
+<ul>
+<li>没有指明为nonatomic，因此就是atomic原子操作，会影响性能。该属性使用了同步锁，会在创建时生成一些额外的代码用于帮助编写多线程程序，这会带来性能问题，通过声明nonatomic可以节省这些虽然很小但是不必要额外开销。在我们的应用程序中，几乎都是使用nonatomic来声明的，因为使用atomic并不能保证绝对的线程安全，对于要绝对保证线程安全的操作，还需要使用更高级的方式来处理，比如NSSpinLock、@syncronized等</li>
+<li>因为使用的是copy，所得到的实际是NSArray类型，它是不可变的，若在使用中使用了增、删、改操作，则会crash</li>
+</ul>
+
+
+<p>例如：</p>
+
+<pre><code>// 使用copy声明，生成的实际上是NSArray类型
+@property (copy) NSMutableArray *mutableArray;
+
+NSMutableArray *array = [NSMutableArray arrayWithObjects:@1,@2,nil];
+self.mutableArray = array;
+
+// 调用删除操作，会崩溃，因为所生成的对象类型实际上是NSArray类型，是不可变的
+[self.mutableArray removeObjectAtIndex:0];
+
+// Crash信息
+-[__NSArrayI removeObjectAtIndex:]: unrecognized selector sent to instance 0x7fcd1bc30460
+</code></pre>
+
+<h3>21.@protocol和category中如何使用 @property</h3>
+
+<p>参考答案：</p>
+
+<p>在protocol中使用@property只会生成setter和getter方法声明，我们使用属性的目的是希望遵守我协议的对象能实现该属性
+category使用@property也是只会生成setter和getter方法的声明，如果我们真的需要给category增加属性的实现，需要借助于运行时的两个函数：</p>
+
+<pre><code>objc_setAssociatedObject
+objc_getAssociatedObject
+</code></pre>
+
+<p>如果想了解更多关于runtime方面的知识，请<a href="http://www.henishuo.com/runtime-association/">阅读runtime关联属性</a></p>
+
+<h3>22weak属性需要在dealloc中置nil么？</h3>
+
+<p>参考答案：</p>
+
+<p>对于weak声明的属性，都不需要在dealloc中指定为nil，在ARC下，编译器会自动帮助我们处理。即使编译器不帮助我们处理，我们也不需要手动在dealloc中设置为nil。</p>
+
+<h3>23.objc中向一个nil对象发送消息将会发生什么？</h3>
+
+<p>参考答案：</p>
+
+<p>在Objective-C中向nil发送消息是完全有效的，只是在运行时不会有任何作用，因为在运行时调用时，objc_msgSend函数传过去的receiver是nil，而内部会判断receiver是否为nil，若为nil则什么也不干。同样，若cmd也就是selector为nil，也是什么也不干。</p>
+
+<h3>24.objc中向一个对象发送消息[obj foo]和objc_msgSend()函数之间有什么关系？</h3>
+
+<p>参考答案：</p>
+
+<p>实际上，编译器在编译时会转换成objc_msgSend，大概会像这样：</p>
+
+<pre><code>((void (*)(id, SEL))(void)objc_msgSend)((id)obj, sel_registerName("foo"));
+</code></pre>
+
+<p>也就是说，[obj foo];在objc动态编译时，会被转换为：objc_msgSend(obj, @selector(foo));这样的形式，但是需要根据具体的参数类型及返回值类型进行相应的类型转换。</p>
+
+<h3>25.runtime如何通过selector找到对应的IMP地址？</h3>
+
+<p>如下图所示，每个selector都与对应的IMP是一一对应的关系，通过selector就可以直接找到对应的IMP：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f26ubxfdk1j20p609yjs2.jpg" alt="img" /></p>
+
+<h3>26.objc中的类方法和实例方法有什么本质区别和联系？</h3>
+
+<p>类方法：</p>
+
+<ul>
+<li>类方法是属于类对象的（所谓的类对象，不是class instance）</li>
+<li>类方法只能通过类对象调用</li>
+<li>类方法中的self是类对象</li>
+<li>类方法可以调用其他的类方法</li>
+<li>类方法中不能访问成员变量</li>
+<li>类方法中不定直接调用对象方法</li>
+</ul>
+
+
+<p>实例方法：</p>
+
+<ul>
+<li>实例方法是属于实例对象的</li>
+<li>实例方法只能通过实例对象调用</li>
+<li>实例方法中的self是实例对象</li>
+<li>实例方法中可以访问成员变量</li>
+<li>实例方法中直接调用实例方法</li>
+<li>实例方法中也可以调用类方法(通过类名)</li>
+</ul>
+
+
+<h3>27.使用block时什么情况会发生引用循环，如何解决？</h3>
+
+<p>参考答案：</p>
+
+<p>一个对象中强引用了block，在block中又使用了该对象，就会发生循环引用。 解决方法是将该对象使用<code>_weak</code>或者<code>_block</code>修饰符修饰之后再在block中使用。</p>
+
+<pre><code>__weak __typeof(self) weakSelf = self；
+
+比如，controller中有成员变量_name：
+
+__weak __typeof(_name) weakName = _name;
+self.vc = [[HYBController alloc] init];
+vc.successBlock = ^(NSString *name) {
+  weakName = name;
+  // 如果直接使用_name，则会造成循环引用
+  // _name = name;
+};
+</code></pre>
+
+<h3>28.苹果为什么要废弃dispatch_get_current_queue？</h3>
+
+<p>参考答案：</p>
+
+<pre><code>dispatch_get_current_queue容易造成死锁。
+</code></pre>
+
+<h3>29.如何调试BAD_ACCESS错误？</h3>
+
+<p>参考答案：</p>
+
+<p>出现BAD_ACCESS错误，通常是访问了野指针，比如访问了已经释放了的对象。快速定位问题的步骤有：</p>
+
+<ul>
+<li>重写对象的respondsToSelector方法，先找到出现EXECBADACCESS前访问的最后一个object</li>
+<li>设置Enable Zombie Objects</li>
+<li>设置全局断点快速定位问题代码所在行，接收所有的异常</li>
+<li>Xcode7已经集成了BAD_ACCESS捕获功能：Address Sanitizer，与步骤2一样设置</li>
+</ul>
+
+
+<h3>30.如何实现单例，单例会有什么弊端？</h3>
+
+<p>单例在项目中的是必不可少的，它可以使我们全局都可共享我们的数据。这只是简单的问题，大家根据自己的情况回答。</p>
+
+<p>参考答案：</p>
+
+<ul>
+<li>首先，单例写法有好几种，通常的写法是基于线程安全的写法，结合dispatch_once来使用，保证单例对象只会被创建一次。如果不小心销毁了单例，再调用单例生成方法是不会再创建的。</li>
+<li>其次，由于单例是约定俗成的，因此在实际开发中通常不会去重写内存管理方法。</li>
+</ul>
+
+
+<p>单例确实给我们带来的便利，但是它也会有代价的。单例一旦创建，整个App使用过程都不会释放，这会占用内存，因此不可滥用单例。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.henishuo.com/ios-dalataosha-interview/">http://www.henishuo.com/ios-dalataosha-interview/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-23T09:30:04+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>9:30 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/23/si-xiang-bi-ji-59/" title="Previous Post: 思想笔记-59">&laquo; 思想笔记-59</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/23/cong-yuan-ma-dao-cheng-xu/" title="Next Post: 从源码到程序">从源码到程序 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

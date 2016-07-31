@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CocoaPods详解 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、Podfile.lock文件 上文讲过，在开始使用CocoaPods，执行完pod install之后，会生成一个Podfile.lock文件。这个文件看起来跟我们关系不大，实际上绝对不应该忽略它。 该文件用于保存已经安装的Pods依赖库的版本，通过CocoaPods安装了SBJson、 &hellip;">
+  <meta name="keywords" content="podfile,lock">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/02/cocoapodsxiang-jie-zhi-podfile-dot-lock/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CocoaPods详解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-02T11:34:59+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>一、Podfile.lock文件</h3>
+
+<p>上文讲过，在开始使用CocoaPods，执行完pod install之后，会生成一个Podfile.lock文件。这个文件看起来跟我们关系不大，实际上绝对不应该忽略它。</p>
+
+<p>该文件用于保存已经安装的Pods依赖库的版本，通过CocoaPods安装了SBJson、AFNetworking、Reachability三个POds依赖库以后对应的Podfile.lock文件内容为：</p>
+
+<pre><code>PODS:
+  - AFNetworking (2.1.0):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+    - AFNetworking/UIKit
+  - AFNetworking/NSURLConnection (2.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.1.0):
+    - AFNetworking/NSURLConnection
+  - AFNetworking/Reachability (2.1.0)
+  - AFNetworking/Security (2.1.0)
+  - AFNetworking/Serialization (2.1.0)
+  - AFNetworking/UIKit (2.1.0):
+    - AFNetworking/NSURLConnection
+  - Reachability (3.0.0)
+  - SBJson (4.0.0)
+
+DEPENDENCIES:
+  - AFNetworking (~&gt; 2.0)
+  - Reachability (~&gt; 3.0.0)
+  - SBJson (~&gt; 4.0.0)
+
+SPEC CHECKSUMS:
+  AFNetworking: c7d7901a83f631414c7eda1737261f696101a5cd
+  Reachability: 500bd76bf6cd8ff2c6fb715fc5f44ef6e4c024f2
+  SBJson: f3c686806e8e36ab89e020189ac582ba26ec4220
+
+COCOAPODS: 0.29.0
+</code></pre>
+
+<p>Podfile.lock文件最大得用处在于多人开发。对于没有在Podfile中指定Pods依赖库版本的写法，如下：</p>
+
+<pre><code>pod 'SBJson'
+</code></pre>
+
+<p>该句话用于获取当前SBJson这个Pods依赖库的最新版本。</p>
+
+<p>当团队中的某个人执行完pod install命令后，生成的Podfile.lock文件就记录下了当时最新Pods依赖库的版本，这时团队中的其它人check下来这份包含Podfile.lock文件的工程以后，再去执行pod install命令时，获取下来的Pods依赖库的版本就和最开始用户获取到的版本一致。如果没有Podfile.lock文件，后续所有用户执行pod install命令都会获取最新版本的SBJson，这就有可能造成同一个团队使用的依赖库版本不一致， 这对团队协作来说绝对是个灾难！
+在这种情况下，如果团队想使用当前最新版本的SBJson依赖库，有两种方案：</p>
+
+<ul>
+<li>更改Podfile，使其指向最新版本的SBJson依赖库；</li>
+<li>执行pod update命令；</li>
+</ul>
+
+
+<p>鉴于Podfile.lock文件对团队协作如此重要，我们需要将它添加到版本管理中。</p>
+
+<h3>二、Podfile文件</h3>
+
+<p>对于普通用户来说，使用CocoaPods我们打交道最多的就是Podfile文件。CocoaPods是用ruby实现的，因此Podfile文件的语法就是ruby的语法。接着从以下几个方面来介绍Podfile:</p>
+
+<h4>1、Podfile文件存放位置</h4>
+
+<p>这是在上篇文章中，遗留的一个问题。通常情况下我们都推荐Podfile文件都放在工程根目录，如下图所示：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f211kdogzcj20fa092jrh.jpg" alt="img" /></p>
+
+<p>事实上Podfile文件可以放在任意一个目录下，需要做的是在Podfile中指定工程的路径，和原来相比，Podfile文件就在最开始的位置增加了一行，具体内容如下：</p>
+
+<pre><code>xcodeproj "/Users/wangzz/Desktop/CocoaPodsTest/CocoaPodsTest.xcodeproj"
+
+platform :ios  
+pod 'Reachability',  '~&gt; 3.0.0'  
+pod 'SBJson', '~&gt; 4.0.0'  
+
+platform :ios, '7.0'  
+pod 'AFNetworking', '~&gt; 2.0'
+</code></pre>
+
+<p>指定路径使用的是xcodeproj关键字。</p>
+
+<p>此后，进入Podfile文件所在路径，执行pod install命令就会和之前一样下载这些Pods依赖库，而且 生成的相关文件都放在了Podfile所在目录下面， 如下图：</p>
+
+<p>和之前一样，我们仍然需要使用这里生成的workspace文件打开工程。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f211ke7qixj20fa0awjre.jpg" alt="img" /></p>
+
+<h4>2、Podfile和target</h4>
+
+<p>Podfile本质上是用来描述Xcode工程中的targets用的 。如果我们不显式指定Podfile对应的target，CocoaPods会创建一个名称为default的隐式target，会和我们工程中的第一个target相对应。换句话说， 如果在Podfile中没有指定target，那么只有工程里的第一个target能够使用Podfile中描述的Pods依赖库。</p>
+
+<p>如果想在一个Podfile中同时描述project中的多个target，根据需求的不同，可以有不同的实现方式。为了说明问题，在原来的工程中再创建一个名称为Second的target，现在的project中包含的target有：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f211keowzhj20fa08yjrl.jpg" alt="img" /></p>
+
+<p>①多个target中使用相同的Pods依赖库</p>
+
+<p>比如，名称为CocoaPodsTest的target和Second的target都需要使用Reachability、SBJson、AFNetworking三个Pods依赖库，可以使用 link_with 关键字来实现，将Podfile写成如下方式：</p>
+
+<pre><code>link_with 'CocoaPodsTest', 'Second'
+platform :ios  
+pod 'Reachability',  '~&gt; 3.0.0'  
+pod 'SBJson', '~&gt; 4.0.0'  
+
+platform :ios, '7.0'  
+pod 'AFNetworking', '~&gt; 2.0'
+</code></pre>
+
+<p>这种写法就实现了CocoaPodsTest和Second两个target共用相同的Pods依赖库。</p>
+
+<p>②不同的target使用完全不同的Pods依赖库</p>
+
+<p>CocoaPodsTest这个target使用的是Reachability、SBJson、AFNetworking三个依赖库，但Second这个target只需要使用OpenUDID这一个依赖库，这时可以使用 target 关键字，Podfile的描述方式如下：</p>
+
+<pre><code>target :'CocoaPodsTest' do
+platform :ios  
+pod 'Reachability',  '~&gt; 3.0.0'  
+pod 'SBJson', '~&gt; 4.0.0'  
+
+platform :ios, '7.0'  
+pod 'AFNetworking', '~&gt; 2.0'
+end
+
+target :'Second' do
+pod 'OpenUDID', '~&gt; 1.0.0'
+end
+</code></pre>
+
+<p>其中，do/end作为开始和结束标识符。</p>
+
+<h4>3、使用Podfile管理Pods依赖库版本</h4>
+
+<p>再引入依赖库时，需要显示或隐式注明引用的依赖库版本，具体写法和表示含义如下：</p>
+
+<pre><code>pod 'AFNetworking'      //不显式指定依赖库版本，表示每次都获取最新版本
+pod 'AFNetworking', '2.0'     //只使用2.0版本
+pod 'AFNetworking', '&gt; 2.0'     //使用高于2.0的版本
+pod 'AFNetworking', '&gt;= 2.0'     //使用大于或等于2.0的版本
+pod 'AFNetworking', '&lt; 2.0'     //使用小于2.0的版本
+pod 'AFNetworking', '&lt;= 2.0'     //使用小于或等于2.0的版本
+pod 'AFNetworking', '~&gt; 0.1.2'     //使用大于等于0.1.2但小于0.2的版本
+pod 'AFNetworking', '~&gt;0.1'     //使用大于等于0.1但小于1.0的版本
+pod 'AFNetworking', '~&gt;0'     //高于0的版本，写这个限制和什么都不写是一个效果，都表示使用最新版本
+</code></pre>
+
+<h3>三、CocoaPods常用命令</h3>
+
+<h4>1、pod install</h4>
+
+<p>根据Podfile文件指定的内容，安装依赖库，如果有Podfile.lock文件而且对应的Podfile文件未被修改，则会根据Podfile.lock文件指定的版本安装。</p>
+
+<p>每次更新了Podfile文件时，都需要重新执行该命令，以便重新安装Pods依赖库。</p>
+
+<h4>2、pod update</h4>
+
+<p>若果Podfile中指定的依赖库版本不是写死的，当对应的依赖库有了更新，无论有没有Podfile.lock文件都会去获取Podfile文件描述的允许获取到的最新依赖库版本。</p>
+
+<h4>3、pod search</h4>
+
+<p>命令格式为：</p>
+
+<pre><code>$ pod search OpenUDID
+</code></pre>
+
+<p>后面的OpenUDID为参数。</p>
+
+<p>从命令的名称不难看出，该命令是用来按名称搜索可用的Pods依赖库，执行结果如下：</p>
+
+<pre><code>-&gt; OpenUDID (1.0.0)
+   Open source initiative for a universal and persistent UDID solution for iOS.
+   pod 'OpenUDID', '~&gt; 1.0.0'
+   - Homepage: http://OpenUDID.org
+   - Source:   https://github.com/ylechelle/OpenUDID.git
+   - Versions: 1.0.0 [master repo]
+</code></pre>
+
+<p>这里我们搜到了一条可用数据，里面描述了OpenUDID库的简要信息。其实我们真正需要的是上述结果中的第三行：</p>
+
+<pre><code>pod 'OpenUDID', '~&gt; 1.0.0'
+</code></pre>
+
+<p>不难看出，这是我们需要添加到Podfile文件中的。</p>
+
+<p>有了这条命令，就可以方便、迅速地找到需要的Pods依赖库。</p>
+
+<h3>四、参考文档</h3>
+
+<ul>
+<li><a href="http://guides.cocoapods.org/using/index.html">http://guides.cocoapods.org/using/index.html</a></li>
+<li><a href="http://www.tuicool.com/articles/RRJRbi">http://www.tuicool.com/articles/RRJRbi</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-02T11:34:59+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>11:34 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/02/li-jie-nsattributedstring/" title="Previous Post: 理解 NSAttributedString">&laquo; 理解 NSAttributedString</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/02/middleman-makes-develping-websites-simple/" title="Next Post: Middleman - Makes develping websites simple">Middleman - Makes develping websites simple &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

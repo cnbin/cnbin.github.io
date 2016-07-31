@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ResearchKit Framework - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="The ResearchKit™ framework is an open source software framework that makes it easy to
+create apps for medical research or for other research &hellip;">
+  <meta name="keywords" content="researchkit">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/22/researchkit-framework/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">ResearchKit Framework</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-22T09:03:19+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:03 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>The ResearchKit™ framework is an open source software framework that makes it easy to
+create apps for medical research or for other research projects.</p>
+
+<ul>
+<li><a href="#gettingstarted">Getting Started</a></li>
+<li>Documentation:
+
+<ul>
+<li><a href="http://researchkit.org/docs/docs/Overview/GuideOverview.html">Programming Guide</a></li>
+<li> <a href="http://researchkit.org/docs/index.html">Framework Reference</a></li>
+</ul>
+</li>
+<li><a href="../../wiki/best-practices">Best Practices</a></li>
+<li><a href="CONTRIBUTING.md">Contributing to ResearchKit</a></li>
+<li><a href="http://researchkit.org">Website</a> and <a href="http://researchkit.org/blog.html">Blog</a></li>
+<li><a href="#license">ResearchKit BSD License</a></li>
+</ul>
+
+
+<h1>Getting More Information</h1>
+
+<ul>
+<li>Join <a href="https://lists.apple.com/mailman/listinfo/researchkit-users">researchkit-users</a> for discussing uses of the ResearchKit framework and related projects.</li>
+<li>Join <a href="https://lists.apple.com/mailman/listinfo/researchkit-dev">researchkit-dev</a> for discussing ongoing work to improve and expand the framework.</li>
+<li>Or <a href="https://developer.apple.com/contact/researchkit/">contact us</a>.</li>
+</ul>
+
+
+<h1>Use Cases</h1>
+
+<p>A task in the ResearchKit framework contains a set of steps to present to a
+user. Everything, whether it’s a survey, the consent process, or active tasks,
+is represented as a task that can be presented with a task view controller.</p>
+
+<h2>Surveys</h2>
+
+<p>The ResearchKit framework provides a pre-built user interface for surveys, which can be
+presented modally on an iPhone, iPod Touch, or iPad. See  <em><a href="http://researchkit.org/docs/docs/Survey/CreatingSurveys.html">Creating Surveys</a></em> for more information.</p>
+
+<h2>Consent</h2>
+
+<p>The ResearchKit framework provides visual consent templates that you can customize to
+explain the details of your research study and obtain a signature if needed.  See <em><a href="http://researchkit.org/docs/docs/InformedConsent/InformedConsent.html">Obtaining Consent</a></em> for more information.</p>
+
+<h2>Active Tasks</h2>
+
+<p>Some studies may need data beyond survey questions or the passive data collection
+capabilities available through use of the HealthKit and CoreMotion APIs if you are
+programming for iOS. ResearchKit&rsquo;s active tasks invite users to perform activities
+under semi-controlled conditions, while iPhone sensors actively collect data.  See <em><a href="http://researchkit.org/docs/docs/ActiveTasks/ActiveTasks.html">Active Tasks</a></em> for more information.</p>
+
+<h1>Getting Started<a name="gettingstarted"></a></h1>
+
+<h2>Requirements</h2>
+
+<p>The primary ResearchKit framework codebase supports iOS and requires Xcode 7.0
+or newer.
+The ResearchKit framework has a Base SDK version of 8.0, meaning that apps
+using the ResearchKit framework can run on devices with iOS 8.0 or newer.</p>
+
+<h2>Installation</h2>
+
+<p>The latest stable version of ResearchKit framework can be cloned with</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone -b stable https://github.com/ResearchKit/ResearchKit.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or, for the latest changes, use the <code>master</code> branch:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone https://github.com/ResearchKit/ResearchKit.git</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Building</h2>
+
+<p>Build the ResearchKit framework by opening <code>ResearchKit.xcodeproj</code> and running the
+<code>ResearchKit</code> framework target. Optionally, run the unit tests too.</p>
+
+<h2>Adding the ResearchKit framework to your App</h2>
+
+<p>This walk-through shows how to embed the ResearchKit framework in your app as a
+dynamic framework, and present a simple task view controller.</p>
+
+<h3>1. Add the ResearchKit framework to Your Project</h3>
+
+<p>To get started, drag <code>ResearchKit.xcodeproj</code> from your checkout into
+your iOS app project in Xcode:</p>
+
+<p>Note: You can also import ResearchKit into your project using a <a href="./docs-standalone/dependency-management.md">dependency manager</a> such as CocoaPods or Carthage.</p>
+
+<h3>2. Create a Step</h3>
+
+<p>In this walk-through, we will use the ResearchKit framework to modally present a
+simple single-step task showing a single instruction.</p>
+
+<p>Create a step for your task by adding some code, perhaps in
+<code>viewDidAppear:</code> of an existing view controller. To keep things
+simple, we&rsquo;ll use an instruction step (<code>ORKInstructionStep</code>) and name
+the step <code>myStep</code>.</p>
+
+<p><em>Objective-C</em></p>
+
+<pre><code>ORKInstructionStep *myStep =
+  [[ORKInstructionStep alloc] initWithIdentifier:@"intro"];
+myStep.title = @"Welcome to ResearchKit";
+</code></pre>
+
+<p><em>Swift</em></p>
+
+<pre><code>let myStep = ORKInstructionStep(identifier: "intro")
+myStep.title = "Welcome to ResearchKit"
+</code></pre>
+
+<h3>3. Create a Task</h3>
+
+<p>Use the ordered task class (<code>ORKOrderedTask</code>) to create a task that
+contains <code>myStep</code>. An ordered task is just a task where the order and
+selection of later steps does not depend on the results of earlier
+ones. Name your task <code>task</code> and initialize it with <code>myStep</code>.</p>
+
+<p><em>Objective-C</em></p>
+
+<pre><code>ORKOrderedTask *task =
+  [[ORKOrderedTask alloc] initWithIdentifier:@"task" steps:@[myStep]];
+</code></pre>
+
+<p><em>Swift</em></p>
+
+<pre><code>let task = ORKOrderedTask(identifier: "task", steps: [myStep])
+</code></pre>
+
+<h3>4. Present the Task</h3>
+
+<p>Create a task view controller (<code>ORKTaskViewController</code>) and initialize
+it with your <code>task</code>. A task view controller manages a task and collects the
+results of each step. In this case, your task view
+controller simply displays your instruction step.</p>
+
+<p><em>Objective-C</em></p>
+
+<pre><code>ORKTaskViewController *taskViewController =
+  [[ORKTaskViewController alloc] initWithTask:task taskRunUUID:nil];
+taskViewController.delegate = self;
+[self presentViewController:taskViewController animated:YES completion:nil];
+</code></pre>
+
+<p><em>Swift</em></p>
+
+<pre><code>let taskViewController = ORKTaskViewController(task: task, taskRunUUID: nil)
+taskViewController.delegate = self
+presentViewController(taskViewController, animated: true, completion: nil)
+</code></pre>
+
+<p>The above snippet assumes that your class implements the
+<code>ORKTaskViewControllerDelegate</code> protocol. This has just one required method,
+which you must implement in order to handle the completion of the task:</p>
+
+<p><em>Objective-C</em></p>
+
+<pre><code>- (void)taskViewController:(ORKTaskViewController *)taskViewController
+       didFinishWithReason:(ORKTaskViewControllerFinishReason)reason
+                     error:(NSError *)error {
+
+    ORKTaskResult *taskResult = [taskViewController result];
+    // You could do something with the result here.
+
+    // Then, dismiss the task view controller.
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+</code></pre>
+
+<p><em>Swift</em></p>
+
+<pre><code>func taskViewController(taskViewController: ORKTaskViewController,
+                didFinishWithReason reason: ORKTaskViewControllerFinishReason,
+                                     error: NSError?) {
+  let taskResult = taskViewController.result
+  // You could do something with the result here.
+
+  // Then, dismiss the task view controller.
+  dismissViewControllerAnimated(true, completion: nil)
+}
+</code></pre>
+
+<p>If you now run your app, you should see your first ResearchKit framework
+instruction step:</p>
+
+<h2>What else can the ResearchKit framework do?</h2>
+
+<p>The ResearchKit <a href="samples/ORKCatalog"><code>ORKCatalog</code></a> sample app is a
+good place to start. Find the project in ResearchKit&rsquo;s
+<a href="samples"><code>samples</code></a> directory. This project includes a list of all
+the types of steps supported by the ResearchKit framework in one tab, and displays a
+browser for the results of the last completed task in the other tab.</p>
+
+<h1>License<a name="license"></a></h1>
+
+<p>The source in the ResearchKit repository is made available under the
+following license unless another license is explicitly identified:</p>
+
+<p>Copyright &copy; 2015, Apple Inc. All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:</p>
+
+<ol>
+<li><p>Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.</p></li>
+<li><p>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation and/or
+other materials provided with the distribution.</p></li>
+<li><p>Neither the name of the copyright holder(s) nor the names of any contributors
+may be used to endorse or promote products derived from this software without
+specific prior written permission. No license is granted to the trademarks of
+the copyright holders even if such marks are included in this software.</p></li>
+</ol>
+
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &ldquo;AS IS&rdquo;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-22T09:03:19+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:03 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/22/pkhud-introduction/" title="Previous Post: PKHUD Introduction">&laquo; PKHUD Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/22/xcode7-shi-yong-nsurlsessionfa-song-httpqing-qiu-bao-cuo/" title="Next Post: Xcode7 使用 NSURLSession 发送 HTTP 请求报错">Xcode7 使用 NSURLSession 发送 HTTP 请求报错 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

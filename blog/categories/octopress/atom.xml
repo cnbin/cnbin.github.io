@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octopress | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress 迁移到 Hexo]]></title>
+    <link href="http://cnbin.github.io/blog/2015/07/24/Octopress-%E8%BF%81%E7%A7%BB%E5%88%B0-Hexo/"/>
+    <updated>2015-07-24T08:31:13+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/07/24/Octopress-迁移到-Hexo</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3>迁移文章</h3>
+
+<p>把 Octopress <code>source/_posts</code> 文件夹内的所有文件转移到 Hexo 的 <code>source/_posts</code> 文件夹即可
+改变新文章的命名格式（这个看个人喜好）</p>
+
+<p>在 <code>_config.yml</code> 中修改 <code>new_post_name</code> 参数</p>
+
+<pre><code>new_post_name: :year-:month-:day-:title.md
+</code></pre>
+
+<p>保证以前的外链可被访问（这个比较重要）</p>
+
+<p>这个是要确保被搜索引擎索引的或者别人转载的外链能被正常的访问，不然404多不好</p>
+
+<p>在 <code>_config.yml</code> 中修改 permalink 参数</p>
+
+<pre><code>permalink: /blog/:year/:month/:day/:title/
+</code></pre>
+
+<h3>YAML</h3>
+
+<p>hexo文章的头部文件是用<a href="http://en.wikipedia.org/wiki/YAML">YAML</a>来写的，比如文章要同时标记多个 tags，就需要用</p>
+
+<pre><code>tags: [tag1, tag2]
+</code></pre>
+
+<p>或者</p>
+
+<pre><code>tags:
+- tag1
+- tag2
+</code></pre>
+
+<p>这样的语法来写，详见 YAML 的 <a href="http://en.wikipedia.org/wiki/YAML">wikipedia</a>.</p>
+
+<h3>ejs和stylus</h3>
+
+<p>hexo 用的 ejs 和 stylus。同样如果习惯用 LESS 之类也可以装相应的 plugins.</p>
+
+<p>ejs 是 embedded javascript，从 js 文件中抽取出 html 结构，使代码结构清晰简洁易读。</p>
+
+<p>文档存备用：<a href="https://code.google.com/p/embeddedjavascript/w/list">https://code.google.com/p/embeddedjavascript/w/list</a></p>
+
+<p>stylus 是和 less/sass 类似的一个 css processor，比原生的 css 更简洁一些。</p>
+
+<p>同样文档存备用：<a href="http://learnboost.github.io/stylus/">http://learnboost.github.io/stylus/</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hexo PK Octopress]]></title>
+    <link href="http://cnbin.github.io/blog/2015/05/23/hexo/"/>
+    <updated>2015-05-23T09:23:06+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/05/23/hexo</id>
+    <content type="html"><![CDATA[<p>今天发现到有另一种风格的博客系统 Hexo，跟 Octopress 的区别是 Hexo 运行会更快，更流畅，打算来实际证明一下。顺便记下 Hexo 的安装和使用过程。本博文配置环境为 iMac。<!--More--></p>
+
+<h2>What&rsquo;s Node.js?</h2>
+
+<blockquote><p>Node.js® is a platform built on <strong>Chrome&rsquo;s JavaScript runtime</strong> for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.</p></blockquote>
+
+<p>实际上 <code>Node.js</code> 只是计算机上执行代码的另一种方式，它是一个简单的 <code>JavaScript Runtime</code>。</p>
+
+<h2>What&rsquo;s Hexo?</h2>
+
+<blockquote><p>A fast, simple &amp; powerful <strong>blog framework</strong></p></blockquote>
+
+<h2>搭建步骤</h2>
+
+<h3>安装 Node.js</h3>
+
+<p>有多种安装方式，这里采用最简单的安装方式，直接登录网站 <a href="https://nodejs.org/">https://nodejs.org/</a>，下载后一键安装，就可以在 Mac 上安装 <code>node</code> 和 <code>npm(node package manager)</code>。</p>
+
+<h3>安装 Hexo</h3>
+
+<p>一步安装 Hexo 本体和所有依赖套件。</p>
+
+<pre><code class="python">npm install hexo -g
+</code></pre>
+
+<h3>初始化</h3>
+
+<pre><code class="python">hexo init &lt;folder&gt;
+npm install
+</code></pre>
+
+<p>如果指定 <code>&lt;folder&gt;</code>，便会在目前的资料夹建立一个名为 <code>&lt;folder&gt;</code> 的新资料夹；否则会在目前资料夹初始化。</p>
+
+<h3>创建新博文</h3>
+
+<pre><code class="python">hexo new "Hello World" 或 hexo n "Hello World"
+</code></pre>
+
+<h3>生成网站</h3>
+
+<pre><code class="python">hexo generate 或 hexo g
+</code></pre>
+
+<h3>登录服务器</h3>
+
+<pre><code class="python">hexo server
+</code></pre>
+
+<p>服务器会跑在 <code>http://localhost:port</code> （<code>port</code> 预设为 <code>4000</code>，可在 <code>_config.yml</code> 设定）</p>
+
+<h3>安装 yillia 主题</h3>
+
+<p>执行命令：</p>
+
+<pre><code class="python">$ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia
+</code></pre>
+
+<p>配置</p>
+
+<pre><code class="python">修改hexo根目录下的 _config.yml ： theme: yilia
+</code></pre>
+
+<p>更新</p>
+
+<pre><code class="python">cd themes/yilia
+git pull
+</code></pre>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="http://hexo.io/">http://hexo.io/</a></li>
+<li><a href="https://www.npmjs.com/">https://www.npmjs.com/</a></li>
+<li><a href="https://nodejs.org/">https://nodejs.org/</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[如何在不同的 Mac 上使用 Octopress 博客]]></title>
+    <link href="http://cnbin.github.io/blog/2015/05/22/ru-he-zai-bu-tong-de-mac-shang-shi-yong-octopress-bo-ke/"/>
+    <updated>2015-05-22T09:22:49+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/05/22/ru-he-zai-bu-tong-de-mac-shang-shi-yong-octopress-bo-ke</id>
+    <content type="html"><![CDATA[<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esdyy81z7fj20rj0603zs.jpg" alt="img" /></p>
+
+<p>自己搭建了 Octopress 博客之后，在公司用的时候感觉很简单，回到家里想继续玩的时候，发现对 git 掌握程度还是不够，以为简单的 clone 下就 OK 了，后来发现直接 clone 下来的文件只有一部分，经过摸索，才知道是要这样解决的。<!--More--></p>
+
+<h2>一.说明下 Octopress 目录结构</h2>
+
+<p>Octopress 的 git 目录下有两个 branch，<code>source</code>和<code>master</code>。</p>
+
+<p><code>source</code>分支下保存 Octopress 的源代码，我们需要用他们生成博客，该分支保存在 Octopress 本地仓库的根目录下；</p>
+
+<p><code>master</code> 分支下保存生成的博客内容，该分支在 Octopress 本地仓库的根目录下一个叫 <code>_deploy</code> 的文件夹中。该文件夹是以下划线开头的，会在执行 <code>git push origin source</code> 命令时被忽略，这也是为什么一个目录中能同时存在两个不同分支的文件夹的原因。</p>
+
+<h2>二.在本地电脑重建 Octopress 仓库</h2>
+
+<p>具体步骤如下：</p>
+
+<p>1.clone <code>source</code> 分支</p>
+
+<pre><code class="Python">$ git clone -b source git@github.com:username/username.github.io.git octopress
+</code></pre>
+
+<p>特别注意： clone 的地址不能是<code>http</code> 而必须是 <code>ssh</code>，上面的的把 username 改成具体你的用户名。如果你的仓库是 <code>username.github.com</code>，就写成</p>
+
+<pre><code class="Python">    $ git clone -b source git@github.com:username/username.github.com.git octopress
+</code></pre>
+
+<p>说明下，只克隆 git 仓库中的一个分支，用 <code>git clone -b 指定的分支名字</code>。</p>
+
+<p>运行后如果出现以下错误提示：</p>
+
+<pre><code>Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+</code></pre>
+
+<p>则表示要添加密匙。执行2，如果没有错误，直接执行3。</p>
+
+<p>2.创建 ssh key</p>
+
+<p>执行命令：</p>
+
+<pre><code class="Python">    $ ssh-keygen -t rsa -C "your_email@example.com"
+</code></pre>
+
+<p>会出现提示：</p>
+
+<pre><code>Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/you/.ssh/id_rsa): [Press enter]
+</code></pre>
+
+<p>这时候按回车键(Enter)继续：</p>
+
+<pre><code>Enter passphrase (empty for no passphrase): [Type a passphrase]
+# Enter same passphrase again: [Type passphrase again]
+</code></pre>
+
+<p>会要求你输入一个密码，4位以上，记起来，后面要用到。</p>
+
+<p>接下来会提示：</p>
+
+<pre><code>Your identification has been saved in /Users/you/.ssh/id_rsa.
+# Your public key has been saved in /Users/you/.ssh/id_rsa.pub.
+# The key fingerprint is:
+# 01:0f:f4:3b:ca:85:d6:17:a1:7d:f0:68:9d:f0:a2:db your_email@example.com
+</code></pre>
+
+<p>到这里就说明key已经创建成功了。</p>
+
+<p>把生成的key添加到ssh-agent中 最后需要执行以下命令：</p>
+
+<pre><code class="Python">    $ ssh-add ~/.ssh/id_rsa
+</code></pre>
+
+<p>然后把 id_rsa.pub 的内容复制到 github 里面的添加 Add-key 的 key 内容中。</p>
+
+<p>然后验证 key 是否可用，输入</p>
+
+<pre><code class="Python">    $ ssh -T git@github.com
+</code></pre>
+
+<p>出现下面情况就说明 OK 了</p>
+
+<pre><code>Hi username! You've successfully authenticated, but GitHub does not
+</code></pre>
+
+<p>3.clone <code>master</code> 分支</p>
+
+<p>下面需要将 master 分支 clone 到 <code>_deploy</code>目录：</p>
+
+<pre><code class="Python">$ cd octopress
+$ git clone git@github.com:username/username.github.io.git _deploy 
+</code></pre>
+
+<p>4.配置环境</p>
+
+<p>执行下面命令配置环境：</p>
+
+<pre><code class="Python">$ gem install bundler
+$ bundle install
+$ rake setup_github_pages 
+</code></pre>
+
+<p>执行最后一条命令时需要你输入 github中 博客仓库地址：</p>
+
+<pre><code>Enter the read/write url for your repository
+(For example, 'git@github.com:your_username/your_username.github.io)
+</code></pre>
+
+<p>到此所有的工作都完成了，你就可以享受在两台电脑上使用 Octopress 了！</p>
+
+<h2>三.细节注意</h2>
+
+<p>1.及时提交本地修改</p>
+
+<p>每次在本地做完修改以后，都要及时提交，分别执行以下命令：</p>
+
+<pre><code class="Python">    $ rake generate
+    $ rake deploy             # update the remote master branch
+</code></pre>
+
+<p>第一条命令会使用本地的修改生成最新的 blog 网站，并且生成的 blog 会存放到 Octopress 根目录下的 <code>public/</code> 目录下；</p>
+
+<p>第二条命令主要做了两件事：</p>
+
+<ul>
+<li><p>用 <code>generate</code> 命令生成在 <code>public/</code> 目录下的内容覆盖 <code>_deploy/</code> 目录下内容；</p></li>
+<li><p>将 <code>_deploy/</code> 目录下的修改 <code>add</code> 、 <code>commit</code> 到 <code>git</code>，并 <code>push</code> 到 <code>git</code> 的 <code>master</code> 分支。</p></li>
+</ul>
+
+
+<p>最后把 source 分支中做的修改提交到 git 中， 执行以下命令：</p>
+
+<pre><code class="Python">    $ git add .
+    $ git commit -am "Some comment here." 
+    $ git push origin source  # update the remote source branch 
+</code></pre>
+
+<p>2.修改前先更新到最新版本</p>
+
+<p>为了以防万一，在本地做任何修改前都要先做更新，可以执行以下命令分别更新 <code>source</code> 和 <code>master</code>分支：</p>
+
+<pre><code class="Python">    $ cd octopress
+    $ git pull origin source  # update the local source branch
+    $ cd ./_deploy
+    $ git pull origin master  # update the local master branch
+</code></pre>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="https://help.github.com/articles/generating-ssh-keys/">Generating SSH keys</a></li>
+<li><a href="http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/">Clone Your Octopress to Blog From Two Places</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress博客搭建(原创)]]></title>
+    <link href="http://cnbin.github.io/blog/2015/05/18/octopressbo-ke-da-jian/"/>
+    <updated>2015-05-18T14:12:37+08:00</updated>
+    <id>http://cnbin.github.io/blog/2015/05/18/octopressbo-ke-da-jian</id>
+    <content type="html"><![CDATA[<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esbkjnttydj20m80b4763.jpg" alt="img" /></p>
+
+<h2>小引</h2>
+
+<p>最近看到 Octopress 博客系统是一种号称是 hacker 风格的博客系统
+ <code>(A blogging framework for hackers)</code>，自己很感兴趣，想通过搭建独立博客，记录自己工作上的点点滴滴，分享自己的一些心得体会。第一次搭建个人独立博客，网上查了不少资料，自己走一遍还是免不了走弯路，在这里分享下我创建博客的一些经验。本博文配置环境是用 iMac。<!--More--></p>
+
+<h2>搭建步骤</h2>
+
+<ul>
+<li>1.github 的注册和配置</li>
+<li>2.安装 Octopress</li>
+<li>3.将 Octopress 博客部署到 github 上
+
+<ul>
+<li>3.1 Rake 常用命令</li>
+</ul>
+</li>
+<li>4.Octopress DIY 定制
+
+<ul>
+<li>4.1添加侧边栏文章分类</li>
+<li>4.2添加社会化评论</li>
+<li>4.3修改导航栏,添加 about 页面</li>
+<li>4.4添加个人二维码</li>
+<li>4.5添加社会化分享</li>
+<li>4.6文章只显示部分正文</li>
+<li>4.7添加百度统计或CNZZ统计</li>
+<li>4.8安装第三方主题</li>
+<li>4.9添加地图名片</li>
+<li>4.10添加有道翻译API</li>
+</ul>
+</li>
+<li>5.写博流程</li>
+<li>6.Octopress 优化
+
+<ul>
+<li>6.1替换Google JS公共库</li>
+<li>6.2去掉Twitter</li>
+<li>6.3删除 Google font</li>
+<li>6.4搜索优化</li>
+<li>6.5使用InstantClick提升链接打开速度</li>
+</ul>
+</li>
+<li>7.细节注意</li>
+<li>8.小结</li>
+</ul>
+
+
+<h2>1.github的注册和配置</h2>
+
+<h3>创建仓库</h3>
+
+<p>登录<a href="http:github.com">github网站</a>，注册一个用户，例如superman。</p>
+
+<p>创建一个仓库，必须命名为username.github.io/username.github.com，</p>
+
+<p>例如<code>superman.github.io</code>/<code>superman.github.com</code></p>
+
+<h3>使用github密匙</h3>
+
+<p>配置用户名和密码</p>
+
+<pre><code>git config --user.name  "xxx用户名"
+git config --user.email "xxx@mail.com"
+</code></pre>
+
+<p>终端输入</p>
+
+<pre><code>ssh-keygen -t rsa   #生成密匙对，id_rsa文件自己保存好
+</code></pre>
+
+<p>然后一直按 Enter 默认即可。将生成的 id_rsa.pub 打开后复制内容到 github 的 key 里面，title 不用填</p>
+
+<p>终端输入</p>
+
+<pre><code>  ssh-add ~/id_rsa
+  ssh -T git@github.com 
+</code></pre>
+
+<p>如下结果</p>
+
+<pre><code>Hi xxx!You've successfully authenticated, but GitHub does not provide shell access.
+</code></pre>
+
+<p>则可以上传文件到 github 上了。</p>
+
+<h2>2.安装Octorpress</h2>
+
+<pre><code>git clone git://github.com/imathis/octopress.git octopress
+</code></pre>
+
+<p>打开 Octopress 文件夹，找到 Gemfile 文件，修改第一行为 <a href="http://ruby.taobao.org">http://ruby.taobao.org</a> ，用国内淘宝镜像，否则像我开始一样，安装依赖包没完没了的。</p>
+
+<pre><code>gem sources -l
+gem sources -r https://rubygems.org    #删除 http://rubygems.org
+gem sources -a http://ruby.taobao.org  #添加 http://ruby.taobao.org
+cd octopress
+gem install bundler
+bundle install
+rake install  #安装 octopress默认主题
+</code></pre>
+
+<p>上面步骤顺利完成后，终端输入</p>
+
+<pre><code>rake new_post["Welcome"]
+</code></pre>
+
+<p>生成新文章会放在/octopress/source/_post目录下面，然后执行</p>
+
+<pre><code>rake generate 
+rake preview
+</code></pre>
+
+<p>浏览器打开 <a href="http://localhost:4000/">http://localhost:4000/</a>或者 <a href="http://127.0.0.1:4000/">http://127.0.0.1:4000/</a> 可以看到预览效果。</p>
+
+<h2>3.将 Octopress 博客部署到 github 上</h2>
+
+<p>终端输入</p>
+
+<pre><code>rake setup_github_pages
+</code></pre>
+
+<p>会提示你输入 github项目的Url路径，这个通过在 github 的项目右下方找到。例如
+<code>git@github.com:superman/super.github.io.git</code></p>
+
+<p>执行</p>
+
+<pre><code>git add .   #注意add后面不要漏了 "."号
+git commit -m "first commit"
+git push origin source   
+rake deploy #rake deploy 会直接 push Octopress目录中 master 分支
+</code></pre>
+
+<h3>3.1 Rake 常用命令</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et15l2ec0zj20fh09hdkg.jpg" alt="img" /></p>
+
+<h2>4.Octopress DIY 定制</h2>
+
+<h3>4.1 添加侧边栏文章分类</h3>
+
+<p>1.在 plugins 目录中创建<code>category_list_tag.rb</code>文件，文件内容如下：</p>
+
+<pre><code>module Jekyll
+  class CategoryListTag &lt; Liquid::Tag
+    def render(context)
+      html = ""
+      categories = context.registers[:site].categories.keys
+      categories.sort.each do |category|
+        posts_in_category = context.registers[:site].categories[category].size
+        category_dir = context.registers[:site].config['category_dir']
+        category_url = File.join(category_dir, category.gsub(/_|\P{Word}/, '-').gsub(/-{2,}/, '-').downcase)
+        html &lt;&lt; "&lt;li class='category'&gt;&lt;a href='http://cnbin.github.io/#{category_url}/'&gt;#{category} (#{posts_in_category})&lt;/a&gt;&lt;/li&gt;\n"
+      end
+      html
+    end
+  end
+end
+
+Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)
+</code></pre>
+
+<p>2.把下面内容添加到<code>source/_includes/asides/category_list.html</code>文件</p>
+
+<pre><code>&lt;section&gt; 
+  &lt;h1&gt;文章分类&lt;/h1&gt; 
+  &lt;ul id="categories"&gt; 
+    {%raw%}{% category_list %} {%endraw%} 
+    &lt;/ul&gt; 
+&lt;/section&gt;
+</code></pre>
+
+<p>3.修改<code>_config.yml</code>文件，用 command+f 找到<code>default_asides</code>，然后添加<code>asides/category_list.html</code>，值之间以逗号隔开。</p>
+
+<pre><code>default_asides: [asides/category_list.html, asides/recent_posts.html]
+</code></pre>
+
+<h3>4.2添加社会化评论</h3>
+
+<p>方法一：利用 Disqus，这种方法添加简单，但是由于 Disqus 是国外的，所以加载很慢，我实践后推荐还是使用多说，至于国内还有很多社交评论系统，比如友言，评论啦、贝米Baye.me。。。我就没去尝试了，但是步骤也是差不多的。</p>
+
+<p>步骤：</p>
+
+<p>1.登录 <a href="https://disqus.com/">Disqus</a>，创建一个账号，然后点击 <code>Add Disqus to your site</code>，输入 <code>Site name</code> ，例如 boy，然后点击 Finish registration。这里页面会自动生成shortname，记起来，待会有用。</p>
+
+<p>2.打开<code>_config.yml</code>文件，找到</p>
+
+<pre><code># Disqus Comments 
+disqus_short_name:  
+disqus_show_comment_count: false
+</code></pre>
+
+<p>设置 disqus_short_name 为刚刚创建的 Disqus 生成的 shortname，例如 boy，</p>
+
+<p>把<code>false</code>改为<code>true</code>。特别注意，冒号后面要空出一个空格。</p>
+
+<p>方法二：添加多说。用微博登陆多说，然后创建个人站点。</p>
+
+<p>步骤：</p>
+
+<p>1.在 <code>_config.yml</code> 中添加</p>
+
+<pre><code># duoshuo comments
+duoshuo_comments: true
+duoshuo_short_name: yourshortname
+</code></pre>
+
+<p>2.在 <code>source/_layouts/post.html</code> 中的 <code>disqus</code>代码</p>
+
+<pre><code> {%raw%}{% if site.disqus_short_name and page.comments == true %} 
+      &lt;section&gt;
+        &lt;h1&gt;Comments&lt;/h1&gt;
+        &lt;div id="disqus_thread" aria-live="polite"&gt;{% include post/disqus_thread.html %}&lt;/div&gt;
+      &lt;/section&gt;
+    {% endif %}{%endraw%}
+</code></pre>
+
+<p>下方添加多说评论模块</p>
+
+<pre><code>{%raw%}{% if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %}
+  &lt;section&gt;
+    &lt;h1&gt;Comments&lt;/h1&gt;
+    &lt;div id="comments" aria-live="polite"&gt;{% include post/duoshuo.html %}&lt;/div&gt;
+  &lt;/section&gt;
+{% endif %}{%endraw%}
+</code></pre>
+
+<p>3.在<code>/source/_includes/post/</code>目录下创建<code>duoshuo.html</code>，
+添加代码</p>
+
+<pre><code>{%raw%}&lt;div class="ds-thread" data-title="{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}"&gt;&lt;/div&gt;{%endraw%}
+{%raw%}
+    &lt;script type="text/javascript"&gt;
+      var duoshuoQuery = {short_name:"{{ site.duoshuo_short_name }}"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    &lt;/script&gt;{%endraw%}
+</code></pre>
+
+<p>4.修改<code>_includes/article.html</code> 文件，在</p>
+
+<pre><code>{%raw%} {% if site.disqus_short_name and page.comments != false and post.comments != false and site.disqus_show_comment_count == true %}
+         | &lt;a href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#disqus_thread"&gt;Comments&lt;/a&gt;
+        {% endif %}{%endraw%}
+</code></pre>
+
+<p>下面添加如下代码</p>
+
+<pre><code> {%raw%}{% if site.duoshuo_short_name and page.comments != false and post.comments != false and site.duoshuo_comments == true %}
+          | &lt;a href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#comments"&gt;Comments&lt;/a&gt;
+         {% endif %}{%endraw%}
+</code></pre>
+
+<h3>4.3修改导航栏,添加 about 页面</h3>
+
+<p>导航栏的setting在<code>source\_includes\custom\navigation.html</code></p>
+
+<p>我们可以将 Blog 和 Archives 修改为首页和归档，也可以在此添加一个标签页，此时应使用命令<code>rake new_page['about']</code>创建一个页面，页面路径为<code>source\about\index.markdown</code>;</p>
+
+<p>修改后的文件如下：</p>
+
+<pre><code>&lt;ul class="main-navigation"&gt; 
+  &lt;li&gt;&lt;a href="{{ root_url }}/"&gt;首页&lt;/a&gt;&lt;/li&gt; 
+  &lt;li&gt;&lt;a href="{{ root_url }}/blog/archives"&gt;归档&lt;/a&gt;&lt;/li&gt; 
+  &lt;li&gt;&lt;a href="{{ root_url }}/about"&gt;关于&lt;/a&gt;&lt;/li&gt; 
+&lt;/ul&gt;
+</code></pre>
+
+<h3>4.4添加个人二维码</h3>
+
+<p>在侧边栏显示二维码，下载插件，<a href="https://github.com/sailor79/Octopress-dynamic-QR-Code-aside">点击这里</a>，
+将 <code>qrcode.html</code> 放入 <code>source/_includes/custom/asides/</code> 中，
+在 <code>_config.yml</code> 中<code>default_asides</code> 添加 <code>custom/asides/qrcode.html</code>。
+然后打开qrcode.html，做<code>image src</code>的修改.或者将 qrcode.html 代码添加到你想展示的页面的HTML文件中亦可。</p>
+
+<h3>4.5添加社会化分享</h3>
+
+<p>在www.addthis.com上获取分享按钮代码，粘贴到 <code>source/_includes/post/sharing.html</code> 中，例如我的代码如下：</p>
+
+<pre><code>&lt;div class="sharing"&gt;
+  &lt;!-- AddThis Button BEGIN --&gt;
+  &lt;div class="addthis_toolbox addthis_default_style addthis_32x32_style"&gt;
+      &lt;a class="addthis_button_sinaweibo"&gt;&lt;/a&gt;
+      &lt;a class="addthis_button_facebook"&gt;&lt;/a&gt;
+      &lt;a class="addthis_button_twitter"&gt;&lt;/a&gt;
+      &lt;a class="addthis_button_google_plusone_share"&gt;&lt;/a&gt;
+      &lt;a class="addthis_button_delicious"&gt;&lt;/a&gt;
+      &lt;a class="addthis_button_compact"&gt;&lt;/a&gt;&lt;a class="addthis_counter addthis_bubble_style"&gt;&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=undefined" async="async"&gt;&lt;/script&gt;
+  &lt;!-- AddThis Button END --&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3>4.6文章只显示部分正文</h3>
+
+<p>在文章的后面添加<code>&lt;!--more--&gt;</code>即可，首页就只会显示部分正分，而且会在文章尾部添加 <code>Read On</code>超链接，如果要更改超链接内容，可以在 <code>_config.yml</code>中找到 <code>Read On</code>，然后修改为“继续阅读”。</p>
+
+<h3>4.7添加百度统计或CNZZ统计</h3>
+
+<p>到百度统计或 CNZZ 统计上注册账号，然后添加脚本文件到 <code>source/_includes/custom/footer.html</code> 文件中。</p>
+
+<p>这里我到 CNZZ 注册账号，登录进去后添加站点 <a href="http://cnbin.github.io">http://cnbin.github.io</a>，</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eu4evayrirj210u0dbq86.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eu4evbg3naj20nx0gf0um.jpg" alt="img" /></p>
+
+<p>复制任一一种形式的代码，粘贴到<code>source/_includes/custom/footer.html</code>中</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eu4ewm2uloj20ux0m9jzw.jpg" alt="img" /></p>
+
+<p>如下图所示：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eu4ez79adjj21a406lwhy.jpg" alt="img" /></p>
+
+<pre><code>&lt;p&gt;
+  Copyright &amp;copy; {{ site.time | date: "%Y" }} - {{ site.author }} -
+  &lt;span class="credit"&gt;Powered by &lt;a href="http://octopress.org"&gt;Octopress&lt;/a&gt;&lt;/span&gt;
+
+    &lt;script type="text/javascript"&gt;var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255152795'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1255152795%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));&lt;/script&gt;
+&lt;/p&gt;
+</code></pre>
+
+<p>此处我开启带“带数据显示”</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eu4f56e9i6j20le0foq7v.jpg" alt="img" /></p>
+
+<p>效果显示：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eu4f33iq3jj20q201dgm3.jpg" alt="img" /></p>
+
+<h3>4.8安装第三方主题</h3>
+
+<p>比较常见的有<code>slash</code>主题。Slash is a minimal theme for Octopress.</p>
+
+<p>执行指令：</p>
+
+<pre><code>$ cd octopress
+$ git clone git://github.com/tommy351/Octopress-Theme-Slash.git .themes/slash
+$ rake install['slash']
+$ rake generate
+</code></pre>
+
+<h3>4.9添加地图名片</h3>
+
+<p>打开 <a href="http://api.map.baidu.com/mapCard/setInformation.html">http://api.map.baidu.com/mapCard/setInformation.html</a>，填入相关信息，如图所示：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etu19lb1t2j20s90jltcw.jpg" alt="img" /></p>
+
+<p>确定后，提交</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etu1az7jo1j20hr0k8n02.jpg" alt="img" /></p>
+
+<p>在 <code>source/_includes/asides</code> 目录下添加 <code>map.html</code> 文件，内容如下：</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;iframe width="224" height="621" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://j.map.baidu.com/jVhl4"&gt;&lt;/iframe&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>保存后，修改<code>_config.yml</code>文件，用 command+f 找到<code>default_asides</code>，然后添加<code>asides/category_list.html</code>，值之间以逗号隔开。</p>
+
+<pre><code>default_asides: [asides/category_list.html, asides/recent_posts.html,asides/map.html]
+</code></pre>
+
+<h3>4.10添加有道翻译API</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ex0fv6cspaj20v90dtn16.jpg" alt="img" /></p>
+
+<h4>打开网址<a href="http://fanyi.youdao.com/openapi?path=web-mode">http://fanyi.youdao.com/openapi?path=web-mode</a></h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ex0fyaqk76j20qt0klgqx.jpg" alt="img" /></p>
+
+<p>打卡<code>octopress/source/_layouts/</code>目录下的<code>post.html</code>文件，</p>
+
+<p>底部添加复制的代码：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ex0fzydrdfj20hr07j41c.jpg" alt="img" /></p>
+
+<p>实现效果</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ex0g2uwu1jj20nj06rgnu.jpg" alt="img" /></p>
+
+<h2>5.写博流程</h2>
+
+<p>Octopress 博文必须存储在<code>source/_posts</code>目录下，并且需要按照Jekyll的命名规范对文章进行命名：<code>YYYY-MM-DD-post-title.markdown</code>。文章的名字会被当做url的一部分，而其中的日期用于对博文的区分和排序。创建和部署博文的一个完整流程：</p>
+
+<pre><code>$ rake new_post["New Post"]
+$ rake generate
+$ git add .
+$ git commit -am "add comment here." 
+$ git push origin source
+$ rake deploy
+</code></pre>
+
+<h2>6.Octopress 优化</h2>
+
+<h3>6.1替换Google JS公共库</h3>
+
+<p>Octopress 默认使用的是 Google 的 JS 公共库地址，加载的过程特别的慢。所以我们要把它改为百度的 JS 公共库 ，需要把<code>/source/_includes/head.html</code> 文件中的 Google 公共库地址改为：</p>
+
+<p>把 <code>&lt;script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"&gt;&lt;/script&gt;</code></p>
+
+<p>改成</p>
+
+<p><code>&lt;script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"&gt;&lt;/script&gt;</code></p>
+
+<h3>6.2去掉Twitter</h3>
+
+<p>把在根目录下的 <code>_config.yml</code>文件中 Twitter 内容给注释掉。</p>
+
+<pre><code># Twitter
+#twitter_user:
+#twitter_tweet_button: true
+</code></pre>
+
+<p>把 <code>\source\_includes\after_footer.html</code> 文件中的 Twitter 内容给注释掉：</p>
+
+<p><code>&lt;!--{%raw%}{% include twitter_sharing.html %}{%endraw%}--&gt;</code></p>
+
+<h3>6.3删除 Google font</h3>
+
+<p>把在<code>\source\_includes\custom\head.html</code> 中的<code>Google font</code>样式给删除：</p>
+
+<pre><code>&lt;link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"&gt;
+&lt;link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"&gt;
+</code></pre>
+
+<h3>6.4搜索优化</h3>
+
+<p>为了让自己搭建的博客更容易被搜索引擎搜到，最好将网站地址提交给各大搜索引擎，下面有两个连接搜集了各个搜索引擎的网站提交入口：</p>
+
+<pre><code>http://urlc.cn/tool/addurl.html
+http://tool.lusongsong.com/addurl.html
+</code></pre>
+
+<p>我也刚刚搭建，加了百度和 google 的，过段时间看搜索关键字的时候自己的博客能排名到什么程度。</p>
+
+<p>实际上我们还必须为自己写的文章添加关键字，才能更好地被引擎搜到，在创建一篇新文章的时候，生成的 makedown 文件包含以下内容，以本文举例：</p>
+
+<pre><code>---
+
+layout: post
+title: "Octopress博客搭建"
+date: 2015-05-18 14:12:37 +0800
+comments: true
+categories: Octopress
+
+---
+</code></pre>
+
+<p>实际上我们还可以为其添加以下几项，以本文举例：</p>
+
+<pre><code>tags: [octopress,seo]
+keywords:  octopress, analytics
+description: 如何搭建Octopress博客
+</code></pre>
+
+<h3>6.5使用InstantClick提升链接打开速度</h3>
+
+<p>下载instantclick.js，放到 octopress的<code>_source/javascripts/</code> 目录中</p>
+
+<pre><code>curl http://instantclick.io/instantclick.min.js -o octopress的_source/javascripts/instantclick.min.js
+</code></pre>
+
+<p>Step1: Download the .js package from : <a href="http://instantclick.io">http://instantclick.io</a></p>
+
+<p>Step2: Add the .js package to octopress/source/javascripts/instantclick.min.js</p>
+
+<p>Step3: Add these two line of code in octopress/source/_includes/custom/after_footer.html</p>
+
+<pre><code>&lt;script src="instantclick.min.js" data-no-instant&gt;&lt;/script&gt;  
+&lt;script data-no-instant&gt;InstantClick.init();&lt;/script&gt;  
+</code></pre>
+
+<p>参考：<a href="http://www.tuicool.com/articles/6F7NVb">http://www.tuicool.com/articles/6F7NVb</a>, <a href="https://github.com/dieulot/instantclick">https://github.com/dieulot/instantclick</a></p>
+
+<h2>7.细节注意</h2>
+
+<p>1.侧边栏的 DIY 定制一般都是新建一个 <code>xxx.html</code> 文件，放在<code>source\_includes\custom\asides</code>目录下，然后文件模板必须为：</p>
+
+<pre><code>    &lt;section&gt;
+     &lt;h1&gt;xxx&lt;/h1&gt;
+     &lt;!--添加代码--&gt;
+    &lt;/section&gt;
+</code></pre>
+
+<p>然后在 <code>_config.yml</code>文件中，找到<code>default_asides</code>数组，添加<code>custom/asides/xxx.html</code> 。侧边栏的排序就根据数组的排序进行 DIY。</p>
+
+<p>2.在使用 Mou 写文章时，由于 tab 键无法使用，可替换为 <code>command+f</code>。</p>
+
+<p>3.上传图片时，可以把图片上传到微博，然后复制图片网址，这样就可以免费分享了。</p>
+
+<p>4.当文章有多个标签时候，执行 <code>rake generate</code>会出现下面情况</p>
+
+<pre><code>AppledeiMac:octopress apple$ rake generate
+##Generating Site with Jekyll
+    write source/stylesheets/screen.css
+Configuration file: /Users/apple/octopress/_config.yml
+            Source: source
+       Destination: public
+      Generating...
+  Liquid Exception: comparison of Array with Array failed in _layouts/page.html
+</code></pre>
+
+<p>解决办法是，在<code>source/_includes/custom/asides/tags.html</code>中把<code>limit</code>参数去掉。
+另外，如果执行 <code>rake generate</code>出现</p>
+
+<pre><code>Build Warning: Layout 'nil' requested in tags/octopress/atom.xml does not exist.
+     Build Warning: Layout 'nil' requested in tags/ios/atom.xml does not exist.
+</code></pre>
+
+<p>直接忽略即可，这是因为2.0版本的 Octopress 调用 generate 操作会执行 plugings 中的所有插件。看来我很幸运，这两个坑都被我遇到了。</p>
+
+<p>5.不能在 <code>Zsh</code> 中输入命令的问题</p>
+
+<p><code>Octopress</code> 提供了许多 <code>Rake</code> 任务，可以方便地完成一些操作。常用的命令是 <code>rake new_post[“title”]</code>。但是在 <code>Zsh</code> 下，输入这样的命令，会提示错误：</p>
+
+<pre><code>zsh: no matches found: new_post[...]
+</code></pre>
+
+<p>原因是诸如 <code>[]</code> 之类的不是正确的命令字符。当然，我们也可以使用转义符来解决这一问题。但每次都需要敲入转义符，实在是太麻烦了。解决方案是在 <code>~/.zshrc</code> 文件下，加入这样一行内容：</p>
+
+<pre><code>alias rake="noglob rake"
+</code></pre>
+
+<p>这个问题是我后来在使用 <code>Zsh</code> 的时候碰到的，所以在这里补充一下。</p>
+
+<h2>8.小结</h2>
+
+<p>通过这次搭建独立博客，对 iMac 环境下如何使用 git 指令来创建仓库，修改和提交文件，用 Mou 来写 Markdown 文章，还有学到了如何用多说来添加评论，用 addthis 添加社会化分享，访客地图，使我对学到互联网上的知识有了一个实际的应用，加深我对互联网的一种热爱，同时也让我了解到互联网上还有很多让我好奇的东西。</p>
+]]></content>
+  </entry>
+  
+</feed>

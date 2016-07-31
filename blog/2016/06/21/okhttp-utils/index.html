@@ -1,0 +1,667 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Okhttp-utils - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="okhttp-utils 对okhttp的封装类，okhttp见：https://github.com/square/okhttp. 目前对应okhttp版本3.3.1. 用法 Android Studio compile 'com.zhy:okhttputils:2.6.2' Eclipse &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/21/okhttp-utils/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Okhttp-utils</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-21T16:50:44+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>4:50 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>okhttp-utils</h1>
+
+<p>对okhttp的封装类，okhttp见：<a href="https://github.com/square/okhttp">https://github.com/square/okhttp</a>.</p>
+
+<p>目前对应okhttp版本<code>3.3.1</code>.</p>
+
+<h2>用法</h2>
+
+<ul>
+<li><p>Android Studio</p>
+
+<pre><code class="``">  compile 'com.zhy:okhttputils:2.6.2'
+</code></pre></li>
+<li><p>Eclipse</p>
+
+<p>  下载最新jar:<a href="okhttputils-2_6_2.jar?raw=true">okhttputils-2_6_2.jar</a></p>
+
+<p>  注：需要同时导入okhttp和okio的jar，下载见：<a href="https://github.com/square/okhttp">https://github.com/square/okhttp</a>.</p></li>
+</ul>
+
+
+<h2>目前对以下需求进行了封装</h2>
+
+<ul>
+<li>一般的get请求</li>
+<li>一般的post请求</li>
+<li>基于Http Post的文件上传（类似表单）</li>
+<li>文件下载/加载图片</li>
+<li>上传下载的进度回调</li>
+<li>支持取消某个请求</li>
+<li>支持自定义Callback</li>
+<li>支持HEAD、DELETE、PATCH、PUT</li>
+<li>支持session的保持</li>
+<li>支持自签名网站https的访问，提供方法设置下证书就行</li>
+</ul>
+
+
+<h2>配置OkhttpClient</h2>
+
+<p>默认情况下，将直接使用okhttp默认的配置生成OkhttpClient，如果你有任何配置，记得在Application中调用<code>initClient</code>方法进行设置。</p>
+
+<pre><code>public class MyApplication extends Application
+{   
+    @Override
+    public void onCreate()
+    {
+        super.onCreate();
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addInterceptor(new LoggerInterceptor("TAG"))
+                  .connectTimeout(10000L, TimeUnit.MILLISECONDS)
+                  .readTimeout(10000L, TimeUnit.MILLISECONDS)
+                  //其他配置
+                 .build();
+
+        OkHttpUtils.initClient(okHttpClient);
+
+    }
+}
+</code></pre>
+
+<p>别忘了在AndroidManifest中设置。</p>
+
+<h2>对于Cookie(包含Session)</h2>
+
+<p>对于cookie一样，直接通过cookiejar方法配置，参考上面的配置过程。</p>
+
+<pre><code>CookieJarImpl cookieJar = new CookieJarImpl(new PersistentCookieStore(getApplicationContext()));
+OkHttpClient okHttpClient = new OkHttpClient.Builder()
+          .cookieJar(cookieJar)
+          //其他配置
+         .build();
+
+OkHttpUtils.initClient(okHttpClient);
+</code></pre>
+
+<p>目前项目中包含：</p>
+
+<ul>
+<li>PersistentCookieStore //持久化cookie</li>
+<li>SerializableHttpCookie //持久化cookie</li>
+<li>MemoryCookieStore //cookie信息存在内存中</li>
+</ul>
+
+
+<p>如果遇到问题，欢迎反馈，当然也可以自己实现CookieJar接口，编写cookie管理相关代码。</p>
+
+<p>此外，对于持久化cookie还可以使用<a href="https://github.com/franmontiel/PersistentCookieJar">https://github.com/franmontiel/PersistentCookieJar</a>.</p>
+
+<p>相当于框架中只是提供了几个实现类，你可以自行定制或者选择使用。</p>
+
+<h2>对于Log</h2>
+
+<p>初始化OkhttpClient时，通过设置拦截器实现，框架中提供了一个<code>LoggerInterceptor</code>，当然你可以自行实现一个Interceptor 。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> OkHttpClient okHttpClient = new OkHttpClient.Builder()
+</span><span class='line'>       .addInterceptor(new LoggerInterceptor("TAG"))
+</span><span class='line'>        //其他配置
+</span><span class='line'>        .build();
+</span><span class='line'>OkHttpUtils.initClient(okHttpClient);</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>对于Https</h2>
+
+<p>依然是通过配置即可，框架中提供了一个类<code>HttpsUtils</code></p>
+
+<ul>
+<li>设置可访问所有的https网站</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(null, null, null);
+</span><span class='line'>OkHttpClient okHttpClient = new OkHttpClient.Builder()
+</span><span class='line'>        .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
+</span><span class='line'>         //其他配置
+</span><span class='line'>         .build();
+</span><span class='line'>OkHttpUtils.initClient(okHttpClient);</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>设置具体的证书</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory(证书的inputstream, null, null);
+</span><span class='line'>OkHttpClient okHttpClient = new OkHttpClient.Builder()
+</span><span class='line'>        .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager))
+</span><span class='line'>         //其他配置
+</span><span class='line'>         .build();
+</span><span class='line'>OkHttpUtils.initClient(okHttpClient);</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>双向认证</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HttpsUtils.getSslSocketFactory(
+</span><span class='line'>  证书的inputstream, 
+</span><span class='line'>  本地证书的inputstream, 
+</span><span class='line'>  本地证书的密码)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同样的，框架中只是提供了几个实现类，你可以自行实现<code>SSLSocketFactory</code>，传入sslSocketFactory即可。</p>
+
+<h2>其他用法示例</h2>
+
+<h3>GET请求</h3>
+
+<pre><code>String url = "http://www.csdn.net/";
+OkHttpUtils
+    .get()
+    .url(url)
+    .addParams("username", "hyman")
+    .addParams("password", "123")
+    .build()
+    .execute(new StringCallback()
+            {
+                @Override
+                public void onError(Request request, Exception e)
+                {
+
+                }
+
+                @Override
+                public void onResponse(String response)
+                {
+
+                }
+            });
+</code></pre>
+
+<h3>POST请求</h3>
+
+<pre><code> OkHttpUtils
+    .post()
+    .url(url)
+    .addParams("username", "hyman")
+    .addParams("password", "123")
+    .build()
+    .execute(callback);
+</code></pre>
+
+<h3>Post String</h3>
+
+<pre><code>  OkHttpUtils
+    .postString()
+    .url(url)
+    .content(new Gson().toJson(new User("zhy", "123")))
+    .build()
+    .execute(new MyStringCallback());
+</code></pre>
+
+<p>提交一个Gson字符串到服务器端。</p>
+
+<h3>Post File</h3>
+
+<pre><code> OkHttpUtils
+    .postFile()
+    .url(url)
+    .file(file)
+    .build()
+    .execute(new MyStringCallback());
+</code></pre>
+
+<p>将文件作为请求体，发送到服务器。</p>
+
+<h3>Post表单形式上传文件</h3>
+
+<pre><code>OkHttpUtils.post()//
+    .addFile("mFile", "messenger_01.png", file)//
+    .addFile("mFile", "test1.txt", file2)//
+    .url(url)
+    .params(params)//
+    .headers(headers)//
+    .build()//
+    .execute(new MyStringCallback());
+</code></pre>
+
+<p>支持单个多个文件，<code>addFile</code>的第一个参数为文件的key，即类别表单中<code>&lt;input type="file" name="mFile"/&gt;</code>的name属性。</p>
+
+<h3>自定义CallBack</h3>
+
+<p>目前内部包含<code>StringCallBack</code>,<code>FileCallBack</code>,<code>BitmapCallback</code>，可以根据自己的需求去自定义Callback，例如希望回调User对象：</p>
+
+<pre><code>public abstract class UserCallback extends Callback&lt;User&gt;
+{
+    @Override
+    public User parseNetworkResponse(Response response) throws IOException
+    {
+        String string = response.body().string();
+        User user = new Gson().fromJson(string, User.class);
+        return user;
+    }
+}
+
+ OkHttpUtils
+    .get()//
+    .url(url)//
+    .addParams("username", "hyman")//
+    .addParams("password", "123")//
+    .build()//
+    .execute(new UserCallback()
+    {
+        @Override
+        public void onError(Request request, Exception e)
+        {
+            mTv.setText("onError:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(User response)
+        {
+            mTv.setText("onResponse:" + response.username);
+        }
+    });
+</code></pre>
+
+<p>通过<code>parseNetworkResponse</code>回调的response进行解析，该方法运行在子线程，所以可以进行任何耗时操作，详细参见sample。</p>
+
+<h3>下载文件</h3>
+
+<pre><code> OkHttpUtils//
+    .get()//
+    .url(url)//
+    .build()//
+    .execute(new FileCallBack(Environment.getExternalStorageDirectory().getAbsolutePath(), "gson-2.2.1.jar")//
+    {
+        @Override
+        public void inProgress(float progress)
+        {
+            mProgressBar.setProgress((int) (100 * progress));
+        }
+
+        @Override
+        public void onError(Request request, Exception e)
+        {
+            Log.e(TAG, "onError :" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(File file)
+        {
+            Log.e(TAG, "onResponse :" + file.getAbsolutePath());
+        }
+    });
+</code></pre>
+
+<p>注意下载文件可以使用<code>FileCallback</code>，需要传入文件需要保存的文件夹以及文件名。</p>
+
+<h3>显示图片</h3>
+
+<pre><code> OkHttpUtils
+    .get()//
+    .url(url)//
+    .build()//
+    .execute(new BitmapCallback()
+    {
+        @Override
+        public void onError(Request request, Exception e)
+        {
+            mTv.setText("onError:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Bitmap bitmap)
+        {
+            mImageView.setImageBitmap(bitmap);
+        }
+    });
+</code></pre>
+
+<p>显示图片，回调传入<code>BitmapCallback</code>即可。</p>
+
+<h3>上传下载的进度显示</h3>
+
+<pre><code>new Callback&lt;T&gt;()
+{
+    //...
+    @Override
+    public void inProgress(float progress)
+    {
+       //use progress: 0 ~ 1
+    }
+}
+</code></pre>
+
+<p>callback回调中有<code>inProgress</code>方法，直接复写即可。</p>
+
+<h3>HEAD、DELETE、PUT、PATCH</h3>
+
+<pre><code>OkHttpUtils
+     .put()//also can use delete() ,head() , patch()
+     .requestBody(RequestBody.create(null, "may be something"))//
+     .build()//
+     .execute(new MyStringCallback());
+</code></pre>
+
+<p>如果需要requestBody，例如：PUT、PATCH，自行构造进行传入。</p>
+
+<h3>同步的请求</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> Response response = OkHttpUtils
+</span><span class='line'>    .get()//
+</span><span class='line'>    .url(url)//
+</span><span class='line'>    .tag(this)//
+</span><span class='line'>    .build()//
+</span><span class='line'>    .execute();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>execute方法不传入callback即为同步的请求，返回Response。</p>
+
+<h3>取消单个请求</h3>
+
+<pre><code> RequestCall call = OkHttpUtils.get().url(url).build();
+ call.cancel();
+</code></pre>
+
+<h3>根据tag取消请求</h3>
+
+<p>目前对于支持的方法都添加了最后一个参数<code>Object tag</code>，取消则通过<code>OkHttpUtils.cancelTag(tag)</code>执行。</p>
+
+<p>例如：在Activity中，当Activity销毁取消请求：</p>
+
+<pre><code>OkHttpUtils
+    .get()//
+    .url(url)//
+    .tag(this)//
+    .build()//
+
+@Override
+protected void onDestroy()
+{
+    super.onDestroy();
+    //可以取消同一个tag的
+    OkHttpUtils.cancelTag(this);//取消以Activity.this作为tag的请求
+}
+</code></pre>
+
+<p>比如，当前Activity页面所有的请求以Activity对象作为tag，可以在onDestory里面统一取消。</p>
+
+<h2>混淆</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#okhttputils
+</span><span class='line'>-dontwarn com.zhy.http.**
+</span><span class='line'>-keep class com.zhy.http.**{*;}
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>#okhttp
+</span><span class='line'>-dontwarn okhttp3.**
+</span><span class='line'>-keep class okhttp3.**{*;}
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>#okio
+</span><span class='line'>-dontwarn okio.**
+</span><span class='line'>-keep class okio.**{*;}
+</span><span class='line'>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-21T16:50:44+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>4:50 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/21/android-studioru-he-kuai-su-sheng-cheng-get,set,tostring,gou-zao-han-shu/" title="Previous Post: Android Studio如何快速生成get，set，tostring，构造函数">&laquo; Android Studio如何快速生成get，set，tostring，构造函数</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/22/ionicxiang-guan-zi-liao/" title="Next Post: ionic相关资料">ionic相关资料 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

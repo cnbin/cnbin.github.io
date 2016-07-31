@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>百度云推送(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="测试效果：收到远程通知 什么是云推送？ 百度云推送（Push）是一站式APP信息推送平台，为企业和开发者提供免费的消息推送服务，开发者可以通过云推送向用户精准推送通知和自定义消息以提升用户留存率和活跃度。 百度云推送SDK 功能说明 框架设计 在iOS App &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/17/bai-du-yun-tui-song/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">百度云推送(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-17T15:43:06+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:43 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>测试效果：收到远程通知</h2>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ex47hehrzlj20ku1120uv.jpg" alt="img" /></p>
+
+<h3>什么是云推送？</h3>
+
+<blockquote><p>百度云推送（Push）是一站式APP信息推送平台，为企业和开发者提供免费的消息推送服务，开发者可以通过云推送向用户精准推送通知和自定义消息以提升用户留存率和活跃度。</p></blockquote>
+
+<h3>百度云推送SDK 功能说明</h3>
+
+<h4>框架设计</h4>
+
+<p>在iOS App 中加入消息推送功能的基本步骤分为如下两步</p>
+
+<p>第一步，开发者在 Apple <a href="http://push.baidu.com/doc/ios/developer.apple.com">开发者中心官网</a>上注册推送证书(详见附录)，然后在 App 工程中添加证书，并且实现一系列推送有关的方法。</p>
+
+<p>第二步，向 Apple 的推送服务器 APNS (Apple Push Notification Service) 发送需要推送的消息，APNS 在收到消息后，会将消息发到设备上。</p>
+
+<p>以上整个过程较为复杂，而且功能比较单一，在集成百度的Push SDK 后，可以越过这些复杂的操作，使用百度 Push SDK 提供的 API接口，可以更加简便、简捷的在 App 中使用 Push 功能。</p>
+
+<p>由于苹果 iOS 系统限制，推送到搭载 iOS 系统设备上的消息都需要经过 APNS 再下发到设备，百度 Push 服务相当于开发者与 APNS 之间的桥梁，帮助开发者完成 Push 服务。具体如下图所示：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ex47u1aniaj20dw0agaau.jpg" alt="img" /></p>
+
+<p>对应上图的流程标号，推送服务的各个流程解释如下：</p>
+
+<ul>
+<li><p>1、初始化应用推送证书</p></li>
+<li><p>2、应用运行在 iOS 设备上时，向百度云推送服务器做绑定操作</p></li>
+<li><p>3、向云推送服务发送请求，向指定iOS设备推送消息（广播或组播不需要user id）</p></li>
+<li><p>4、百度云推送在收到开发者的推送请求后，向 APNS 转发推送消息</p></li>
+<li><p>5、APNS 收到推送消息的命令，向 iOS 设备推送消息，开发者想要推送的消息成功到达指定设备</p></li>
+</ul>
+
+
+<h4>主要功能</h4>
+
+<p>百度云推送 SDK 主要提供以下功能接口：</p>
+
+<ol>
+<li><p>Push 服务</p>
+
+<ul>
+<li>Push 服务初始化及绑定</li>
+<li>Push 服务解除绑定</li>
+</ul>
+</li>
+<li><p>Tag 管理</p>
+
+<ul>
+<li>创建 tag</li>
+<li>删除 tag</li>
+<li>列出 tag</li>
+</ul>
+</li>
+<li><p>通知推送</p></li>
+<li><p>推送效果反馈</p></li>
+</ol>
+
+
+<h3>制作推送证书</h3>
+
+<h4>开发证书：需上传推送证书的“开发版本” 的pem文件。制作iOS 开发推送证书在我的这篇<a href="http://cnbin.github.io/blog/2015/10/12/ios-xiao-xi-tui-song-message-zheng-shu-she-zhi-zhi-nan/">iOS 消息推送 (Message) 证书设置指南</a>中有讲到，不熟悉的同学可以参考一下。</h4>
+
+<p>进入终端，到证书目录下，运行以下命令将p12文件转换为pem证书文件：</p>
+
+<pre><code>openssl pkcs12 -in MyApnsCert.p12 -out MyApnsCert.pem -nodes    
+</code></pre>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ex46esfbwtj20fq02y3z8.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ex46esu96fj20eb09cwh5.jpg" alt="img" /></p>
+
+<h4>进入左边导航栏，选择“云推送”功能，首次选择时，需要进行【推送设置】，如图所示：</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ex46et6eqyj20j70fpabn.jpg" alt="img" /></p>
+
+<p>说明（iOS）：</p>
+
+<p>开发证书：需上传推送证书的“开发版本” 的pem文件。</p>
+
+<p>生产证书：需上传推送证书的“生产版本” 的pem文件。</p>
+
+<p>部署状态：开发测试期间选择 【开发状态】，待 App 上线完成后可更改为【生产状态】。</p>
+
+<p>注：有关如何申请证书的步骤可在文档最后【附录-申请推送证书】中参考。</p>
+
+<p>完成以上信息后，点击“保存设置”按钮即可保存信息。</p>
+
+<h4>保存后回到原来的界面，点击应用配置</h4>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ex46wh43ldj20z4063t9u.jpg" alt="img" /></p>
+
+<h5>可以查看到 API KEY</h5>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ex46wg2yf1j20v70d5tba.jpg" alt="img" /></p>
+
+<h3>修改工程设置</h3>
+
+<p>选择相应的Demo分开发Demo和发布Demo打开.xcodeproj 工程，首先需要修改 Bundle Identifier ，修改为在创建证书时所选择的 Bundle ID，如下图:</p>
+
+<h3>iOS SDK开发步骤</h3>
+
+<p>添加SDK到工程中</p>
+
+<p>添加到SDK到工程中的步骤如下：</p>
+
+<ul>
+<li><p>将libBPush.a和BPush.h添加到自己的工程下，添加时需要注意勾选当前Target</p></li>
+<li><p>SDK需要以下库：Foundation.framework、CoreTelephony.framework、libz.dylib、SystemConfiguration.framework，请在工程中添加。</p></li>
+</ul>
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ex47dgr72ij20mn0a0760.jpg" alt="img" /></p>
+
+<p>修改下面方法中的apikey的值为自己的apikey,并配置为自己的证书，如下图:</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ex47g6qldnj20sp0g8doz.jpg" alt="img" /></p>
+
+<p>客户端设置开启Remote notifications,需要在 Xcode 中修改应用的 Capabilities 开启 Remote notifications，(红框内的必须要做哦)请参考下图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ex7ckuznz9j21bw0qated.jpg" alt="img" /></p>
+
+<p>ios7之后如果像上面一样设置好了，并且服务端aps字段中添加content-available字段为1的话，了那么收到远程通知后，应用在后台的话会在下面的方法中接受到远程通知，对应程序中的代码是（注意，iOS7之后没有开启后台的话也可以通过点击通知调起下面的方法只是不能在后台状态下运行一段代码）：</p>
+
+<pre><code>- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+</code></pre>
+
+<p>iOS7之前没有后台运行代码的功能，只能在接受到通知，并点击通知调起下面的方法，对应程序中的代码是：</p>
+
+<pre><code>- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+</code></pre>
+
+<h3>运行Demo应用</h3>
+
+<p>若以上步骤均无误，即可对 Demo 进行真机测试(推送通知必须在真机环境下进行测试)。如下图所示</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ex47he9566j20ku112n0q.jpg" alt="img" /></p>
+
+<h3>推送信息</h3>
+
+<h4>广播</h4>
+
+<h4>点击创建推送</h4>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ex46etnzu7j20vs0650tw.jpg" alt="img" /></p>
+
+<h4>进入百度云推送管理平台</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ex46eu2gcej20z00cwwge.jpg" alt="img" /></p>
+
+<h4>编写短信</h4>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ex47di5wsyj20pz0jx413.jpg" alt="img" /></p>
+
+<h4>控制台输出</h4>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ex47dhwleoj20f50fjtex.jpg" alt="img" /></p>
+
+<h4>查看发送状态</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ex47dispq1j20zk09sjto.jpg" alt="img" /></p>
+
+<h3>收到远程通知</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ex47hehrzlj20ku1120uv.jpg" alt="img" /></p>
+
+<h4>单播</h4>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ex7dyheph2j20va0dcmyg.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ex7dyifuoyj20ku112dik.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ex7dyj4zrzj20ku112wgc.jpg" alt="img" /></p>
+
+<h3>参考</h3>
+
+<h4><a href="http://push.baidu.com/doc/ios/api">百度云推送</a></h4>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-17T15:43:06+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:43 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/17/you-meng-xiao-xi-tui-song/" title="Previous Post: 友盟消息推送(原创)">&laquo; 友盟消息推送(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/17/zhi-qing-chun-23/" title="Next Post: 致青春-23">致青春-23 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS-冒泡排序 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="冒泡排序核心思想 算法最讲究的就是算法的思想，只要将算法思想想明白了，就可以通过伪代码来写出算法，那么再使用对应的语言来实现就可以了。 冒泡排序的核心思想就是通过与相邻元素的比较和交换，把小的数交换到最前面。因为这个过程类似于水泡向上升一样，因此被命名为冒泡排序。 举个小例子：对5,3,8,6, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/23/ios-mou-pao-pai-xu-ocban/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS-冒泡排序</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-23T16:13:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>4:13 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>冒泡排序核心思想</p>
+
+<p>算法最讲究的就是算法的思想，只要将算法思想想明白了，就可以通过伪代码来写出算法，那么再使用对应的语言来实现就可以了。</p>
+
+<p>冒泡排序的核心思想就是通过与相邻元素的比较和交换，把小的数交换到最前面。因为这个过程类似于水泡向上升一样，因此被命名为冒泡排序。</p>
+
+<p>举个小例子：对5,3,8,6,4这个无序序列进行冒泡排序。</p>
+
+<p>首先从后向前冒泡，4和6比较，把4交换到前面，序列变成5,3,8,4,6。同理4和8交换，变成5,3,4,8,6,3和4无需交换。5和3交换，变成3,5,4,8,6.这样一次冒泡就完了，把最小的数3排到最前面了。对剩下的序列依次冒泡就会得到一个有序序列。</p>
+
+<p>其过程大概是这样的：</p>
+
+<p>第一趟：</p>
+
+<pre><code>5, 3, 8, 6, 4 （开始）
+5, 3, 8, 4, 6 （6和4交换）
+5, 3, 4, 8, 6 （8和4交换）
+5, 3, 4, 8, 6 （3和4不用交换）
+3, 5, 4, 8, 6 （5和3交换）
+</code></pre>
+
+<p>第二趟：</p>
+
+<pre><code>3, 5, 4, 6, 8 （8和6交换）
+3, 5, 4, 6, 8 （4和6不用交换）
+3, 4, 5, 6, 8 （5和4交换）
+3, 4, 5, 6, 8 （3和4不用交换）
+</code></pre>
+
+<p>这里只需要两趟就可以排序完成了。</p>
+
+<p>时间复杂度</p>
+
+<p>从算法思想可知，冒泡排序需要两个循环来控制遍历，也就是需要n * n趟才能判断、交换完成。</p>
+
+<p>冒泡排序的时间复杂度为O ( n2 )。</p>
+
+<p>伪代码</p>
+
+<pre><code>void bubbleSort(int a[], int len) {
+   for i = 0; i &lt; len - 1; ++i {
+      for j = len - 1; j &gt; i; --j {
+         if a[j] &lt; a[j - 1] {
+            swap(a, j, j - 1);
+         }
+      }
+   }
+}
+
+void swap(int a[], int i, int j) {
+   int temp = a[i];
+   a[i] = a[j];
+   a[j] = temp;
+}
+</code></pre>
+
+<h3>C语言版</h3>
+
+<pre><code>void bubbleSortUsingC(int arr[], int len) {
+  // 代表走多少趟，最后一趟就不用再走了
+  for (int i = 0; i &lt; len - 1; ++i) {
+
+    // 从后往前走，相当于泡从水底冒出来到水面
+    for (int j = len - 1; j &gt; i; --j) {
+
+      // 如果后面的比前面一个的值还要小，则需要交换
+      if (arr[j] &lt; arr[j - 1]) {
+        swap(arr, j, j - 1);
+      }
+    }
+  }
+}
+
+void swap(int arr[], int i, int j) {
+  int temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+}
+</code></pre>
+
+<p>测试一下：</p>
+
+<pre><code>int a[5] = {5,3,8,6,4};
+
+bubbleSortUsingC(a, sizeof(a) / sizeof(int));
+
+for (int i = 0; i &lt; sizeof(a) / sizeof(int); ++i) {
+    NSLog(@"%d", a[i]);
+}
+
+// 打印: 3, 4, 5, 6, 8 初步如期效果
+</code></pre>
+
+<h3>ObjC版</h3>
+
+<pre><code>- (void)bubbleSort:(int [])array len:(size_t)len {
+  for (size_t i = 0; i &lt; len - 1; ++i) {
+    for (size_t j = len - 1; j &gt; i; --j) {
+      if (array[j] &lt; array[j - 1]) {
+        // 交换
+        int temp = array[j];
+        array[j] = array[j - 1];
+        array[j - 1] = temp;
+      }
+    }
+  }
+}
+</code></pre>
+
+<p>测试使用：</p>
+
+<pre><code>int a[5] = {5,3,8,6,4};
+[self bubbleSort:a len:sizeof(a) / sizeof(int)];
+for (int i = 0; i &lt; sizeof(a) / sizeof(int); ++i) {
+    NSLog(@"%d", a[i]);
+}
+</code></pre>
+
+<h3>Swift版</h3>
+
+<pre><code>func bubbleSort(var arr: [Int]) -&gt;[Int] {
+  // 走多少趟
+  for var i = 0; i &lt; arr.count - 1; ++i {
+
+    // 从后往前
+    for var j = arr.count - 1; j &gt; i; --j {
+
+      // 后者 &lt; 前者 ？ 交换 ： 不交换
+      if arr[j] &lt; arr[j - 1] {
+        let temp = arr[j]
+
+        arr[j] = arr[j - 1]
+        arr[j - 1] = temp
+      }
+    }
+  }
+
+  return arr
+}
+</code></pre>
+
+<p>测试使用：</p>
+
+<pre><code>// 由于swift中数组也是结构体，是值类型，因此需要接收返回值才能得到排序后的数组
+var arr = [5, 3, 8, 6, 4]
+arr = bubbleSort(arr)
+print(arr)
+</code></pre>
+
+<h3>尝试给Model排序</h3>
+
+<pre><code>- (void)bubbleSort:(NSMutableArray *)array {
+  for (NSUInteger i = 0; i &lt; array.count - 1; ++i) {
+
+    for (NSUInteger j = array.count - 1; j &gt; i; --j) {
+      HYBTestModel *modelj = [array objectAtIndex:j];
+      HYBTestModel *modelj_1 = [array objectAtIndex:j - 1];
+
+      // 前者 &lt; 后者 ？ 交换 ： 不交换
+      if ([modelj.uid compare:modelj_1.uid options:NSCaseInsensitiveSearch] == NSOrderedAscending) {
+        [array exchangeObjectAtIndex:j withObjectAtIndex:j - 1];
+      }
+    }
+  }
+}
+</code></pre>
+
+<p>测试：</p>
+
+<pre><code>NSMutableArray *array = [[NSMutableArray alloc] init];
+for (NSUInteger i = 0; i &lt; 10; ++i) {
+  HYBTestModel *model = [[HYBTestModel alloc] init];
+  model.title = [NSString stringWithFormat:@"标哥的技术博客：%ld", 10 - (i + 1)];
+  model.uid = [NSString stringWithFormat:@"%ld", 10 - (i + 1)];
+
+  [array addObject:model];
+}
+
+[self bubbleSort:array];
+
+for (HYBTestModel *model in array) {
+  NSLog(@"%@ %@", model.uid, model.title);
+}
+
+// 打印:
+2016-03-10 22:57:37.524 DataAgorithmDemos[96148:3779265] 0 标哥的技术博客：0
+2016-03-10 22:57:37.526 DataAgorithmDemos[96148:3779265] 1 标哥的技术博客：1
+2016-03-10 22:57:37.526 DataAgorithmDemos[96148:3779265] 2 标哥的技术博客：2
+2016-03-10 22:57:37.526 DataAgorithmDemos[96148:3779265] 3 标哥的技术博客：3
+2016-03-10 22:57:37.582 DataAgorithmDemos[96148:3779265] 4 标哥的技术博客：4
+2016-03-10 22:57:37.588 DataAgorithmDemos[96148:3779265] 5 标哥的技术博客：5
+2016-03-10 22:57:37.589 DataAgorithmDemos[96148:3779265] 6 标哥的技术博客：6
+2016-03-10 22:57:37.593 DataAgorithmDemos[96148:3779265] 7 标哥的技术博客：7
+2016-03-10 22:57:37.594 DataAgorithmDemos[96148:3779265] 8 标哥的技术博客：8
+2016-03-10 22:57:37.596 DataAgorithmDemos[96148:3779265] 9 标哥的技术博客：9
+</code></pre>
+
+<p>说明排序正常的~</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.henishuo.com/bubble-sort/">http://www.henishuo.com/bubble-sort/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-23T16:13:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>4:13 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/23/si-xiang-bi-ji-76/" title="Previous Post: 思想笔记-64">&laquo; 思想笔记-64</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/23/si-xiang-bi-ji-65/" title="Next Post: 思想笔记-65">思想笔记-65 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

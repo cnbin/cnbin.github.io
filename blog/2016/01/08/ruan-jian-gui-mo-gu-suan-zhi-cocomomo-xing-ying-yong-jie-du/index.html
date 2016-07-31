@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>软件规模估算之COCOMO模型应用解读 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="模型按其详细程度可以分为三级：基本COCOMO模型，中间COCOMO模型，详细COCOMO模型。其中基本COCOMO模型是是一个静态单变量模型，它用一个以已估算出来的原代码行数(LOC)为自变量的经验函数计算软件开发工作量。 中级COCOMO模型在基本COCOMO模型的基础上，再用涉及产品、硬件 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/01/08/ruan-jian-gui-mo-gu-suan-zhi-cocomomo-xing-ying-yong-jie-du/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">软件规模估算之COCOMO模型应用解读</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-08T15:59:14+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:59 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>模型按其详细程度可以分为三级：基本COCOMO模型，中间COCOMO模型，详细COCOMO模型。其中基本COCOMO模型是是一个静态单变量模型，它用一个以已估算出来的原代码行数(LOC)为自变量的经验函数计算软件开发工作量。 中级COCOMO模型在基本COCOMO模型的基础上，再用涉及产品、硬件、人员、项目等方面的影响因素调整工作量的估算。详细COCOMO模型包括中间COCOMO模型的所有特性，但更进一步考虑了软件工程中每一步骤（如分析、设计）的影响。</p>
+
+<p>模型中，考虑开发环境，软件开发项目的类型可以分为3种：</p>
+
+<ol>
+<li><p>组织型(organic): 相对较小、较简单的软件项目。开发人员对开发目标理解比较充分，与软件系统相关的工作经验丰富，对软件的使用环境很熟悉，受硬件的约束较小，程序的规模不是很大（&lt;50000行）</p></li>
+<li><p>嵌入型(embedded): 要求在紧密联系的硬件、软件和操作的限制条件下运行，通常与某种复杂的硬件设备紧密结合在一起。对接口，数据结构，算法的要求高。软件规模任意。如大而复杂的事务处理系统，大型/超大型操作系统，航天用控制系统，大型指挥系统等。</p></li>
+<li>半独立型（semidetached）： 介于上述两种软件之间。规模和复杂度都属于中等或更高。最大可达30万行。</li>
+</ol>
+
+
+<p>COCOMO模型中我们定义以下变量：</p>
+
+<ul>
+<li>L&mdash;&mdash;-源指令条数。不包括注释。1KDSI = 1000DSI。</li>
+<li>E&mdash;&mdash;-开发工作量（以人月计） 1MM = 19 人日 = 152 人时 =1/12 人年</li>
+<li>D&mdash;&ndash;开发进度。(以月计)</li>
+</ul>
+
+
+<p>根据以上定义，我们分别对基本COCOMO模型，中间COCOMO模型，详细COCOMO模型的应用做出解释如下：</p>
+
+<h4>基本COCOMO模型</h4>
+
+<ol>
+<li>我们知道，COCOMO模型是一种基于代码行估算的成本分析方法，因此我们首先估算出软件的代码行规模L(单位是kLoc,即千行代码)</li>
+<li>然后我们根据公式 <code>E = a*L^b , D = c*E^d</code> 得到估算出的工作量和开发时间。其中a,b,c,d是固定的参数值，需要注意的是，对于不同类型的软件项目，参数值是不同的，如表。</li>
+</ol>
+
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezs5cmk6b8j20dv04k3yz.jpg" alt="img" /></p>
+
+<p>很显然，这种方法过于粗糙，我们需要对其进行精化，因此就有了中间COCOMO模型。</p>
+
+<h4>中间COCOMO模型</h4>
+
+<p>中间COCOMO模型区别于基本COCOMO模型的地方就是对于工作量的估算，计算公式是<code>E=a*EAF*L^b,D=cE^d</code>，其中EAF是指工作量调节因子。EAF是根据可能影响工作量的15个因素产生的，如下，计算公式是15个参数（不同项目的各因素值是不一样的，这个是自定义的）的乘积：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezs5cmwmdrj20cc0ct76f.jpg" alt="img" /></p>
+
+<h4>详细COCOMO模型</h4>
+
+<p>详细COCOMO模型是在中间模型的又一次细化。详细模型针对每一影响因素，按模块层、子系统层、系统层，有三张工作量因素分级表，供不同层次的估算使用，而每一张表中又按开发各个不同阶段给出。如软件可靠性在子系统层的工作量因素分级表如下：
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezs5cnelwfj20h905u752.jpg" alt="img" /></p>
+
+<p>详细模型过于繁琐，适用于大型复杂项目的估算，我们不做过多解读，其中的参数项太多。</p>
+
+<h4>COCOMO和COCOMOII的区别</h4>
+
+<p>COCOMOII是顺应现代软件开发的变化而对COCOMO做出的改进版，把最新软件开发方法考虑在内。现在还在持续的开发中，目前是美国南加州大学的教师带领一个学生团队在开发。</p>
+
+<p>COCOMOII实际上是三个不同的计算模型组成的：</p>
+
+<ol>
+<li>应用组合模型：适用于使用现代GUI工具开发的项目。</li>
+<li>早期开发模型：适用于在软件架构确定之前对软件进行粗略的成本和事件估算，包含了一系列新的成本和进度估算方法。基于功能点或者代码行。</li>
+<li>结构化后期模型：这是COCOMOII中最详细的模型。它使用在在整体软件架构已确定之后。包含最新的成本估算、代码行计算方法。</li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-08T15:59:14+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:59 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/08/hu-chi-liang-yu-xin-hao-liang-de-qu-bie/" title="Previous Post: 互斥量与信号量的区别">&laquo; 互斥量与信号量的区别</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/08/ruan-jian-gong-cheng-min-jie-fang-fa/" title="Next Post: 软件工程-敏捷方法">软件工程-敏捷方法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

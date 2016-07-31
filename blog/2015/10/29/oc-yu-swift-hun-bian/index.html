@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OC 与 Swift 混编 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="第一个是swift语言写的类,文件名为 act.swift import Foundation class Act : NSObject { func hasAct(tag:Int) -&gt; String { switch (tag) { case 1:return "Movie" case &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/29/oc-yu-swift-hun-bian/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">OC 与 Swift 混编</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-29T08:41:30+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:41 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>第一个是swift语言写的类,文件名为 act.swift</p>
+
+<pre><code>import Foundation  
+
+class Act : NSObject  
+{  
+    func hasAct(tag:Int) -&gt; String  
+    {  
+        switch (tag)  
+        {  
+        case 1:return "Movie"  
+        case 2:return "CCTV"  
+        case 3:return "Sport TV"  
+        default:return "Area TV"  
+        }  
+    }  
+
+    init()  
+    {  
+        println("act constructor is called.")  
+    }  
+
+    deinit  
+    {  
+        println("act destroyed is called.")  
+    }  
+}  
+</code></pre>
+
+<p>第二个是用OC写的类 头文件为OCChannel.h ,实现文件为OCChannel.m
+头文件</p>
+
+<pre><code>#import &lt;Foundation/Foundation.h&gt;  
+
+@interface OCChannel : NSObject  
+
+@property (nonatomic,retain) NSString *ChannelName;  
+
+- (NSString *)ChannelChange:(NSInteger) channels;  
+
+@end  
+</code></pre>
+
+<p>实现文件</p>
+
+<pre><code>#import "OCChannel.h"  
+ #import "SwiftModule-swift.h"  
+
+
+@interface OCChannel()  
+{  
+    Act *act;  //swift的类  
+}  
+@end  
+
+@implementation OCChannel  
+
+- (id)init  
+{  
+    if (self = [super init]) {  
+        NSLog(@"OC Constructor is called.");  
+        //使用Swift类  
+        act = [[Act alloc]init];  
+    }  
+    return self;  
+}  
+
+- (void)dealloc  
+{  
+    NSLog(@"OC Destroyed is called.");  
+    //[act release];//ARC not use  
+    //[super dealloc];//ARC not use  
+}  
+
+- (NSString *)ChannelChange:(NSInteger) channels  
+{  
+    return [act hasAct:channels];  
+}  
+
+@end  
+</code></pre>
+
+<p>这个OCChannel为中引用了swift写的类Act 。主要是为了演示在同一个工程项目里，swift类调用OC,同时OC类也调用Swift。从而形成一种混合编写的模式。</p>
+
+<p>下面是具体步骤：</p>
+
+<p>1.新建一个Swift工程：我这里工程名为MixDemo</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1exh2xpa1uej20ka0byjsv.jpg" alt="img" /></p>
+
+<p>建好后工程：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1exh2xn4bzmj207c072aao.jpg" alt="img" /></p>
+
+<p>2.就是分别引入前面的两个类，咱先一个个来。因为建的是Swift，所以，咱先以Swift工程中引用OC文件进行一次混编</p>
+
+<h3>Swift中使用OC</h3>
+
+<p>首先swift中不再使用头文件和<code>.m</code>文件的方式了。所以也不需要使用<code>import ""</code>来导入头文件。那swift如何能访问到OC的类声明的。</p>
+
+<p>其实，swift也是需要使用头文件进行访问的，只不过不再需要使用显式的方式使用import进行导入。有两种方式来实现这个头文件的生成。</p>
+
+<p>方式一：在一个全新的swift，利用第一次新建提示的方式自动添加桥接头文件。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1exh2yvv3i6j20m90ahtbt.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1exh2zmxe4qj20h609pjs3.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1exh2zo1ejmj20bq04l759.jpg" alt="img" /></p>
+
+<p>点确定这后就会生成一个以<code>&lt;produceName-Bridging-Header.h&gt;</code>的头文件。</p>
+
+<p>建好后的工程：</p>
+
+<p>这里有一个地方需要注意的就是在<code>targets-&gt;build settings -&gt;Object-C Bridging Header</code> 设为那个桥接的头文件即可。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1exh2zfkielj20o805t0uo.jpg" alt="img" /></p>
+
+<p>经过上述步骤，桥接文件弄好了就可以</p>
+
+<p>尽情的把想要在swift类中调用的OC头文件放使用<code>import ""</code> 写到这个桥接文件中吧。就像：</p>
+
+<pre><code>//  
+//  Use this file to import your target's public headers that you would like to expose to Swift.  
+//MixDemo/MixDemo-Bridging-Header.h  
+  #import "OCChannel.h"  
+</code></pre>
+
+<p>同样的，当你知道这个swift搜索头文件的关系后，就不需要再理会这个<code>-Bridging-Header.h</code>的文件了。完全可以手工建一个并取自己喜欢的名字。如：</p>
+
+<p>方式二：</p>
+
+<p>新建一个头文件，名为:OCContainerHeader.h</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1exh2zqh5uxj207b08y75h.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1exh355qqbjj20ma06o76c.jpg" alt="img" /></p>
+
+<p>好了，以上的设置后就完全满足了swift使用OC写的类了。</p>
+
+<pre><code>import UIKit  
+
+class ViewController: UIViewController {  
+
+    override func viewDidLoad() {  
+        super.viewDidLoad()  
+        // Do any additional setup after loading the view, typically from a nib.  
+
+        //调用OC类  
+       //调用OC类
+        let channel = OCChannel()
+        print(channel.ChannelChange(10))
+        print(channel.ChannelChange(2))
+
+    }  
+
+    override func didReceiveMemoryWarning() {  
+        super.didReceiveMemoryWarning()  
+        // Dispose of any resources that can be recreated.  
+    }  
+
+
+}  
+</code></pre>
+
+<h3>OC如何调用Swift写的类</h3>
+
+<p>OC要想使用，必须有头文件。而swift文件却没有头文件，所在咱们想必也需要产生一个头文件。但对于OC调用swift的头文件比较特殊。</p>
+
+<p>因头文件里面的机制是自动生成的，不建议手写。如何产生这个头文件。注意，系统设置的头文件，在工程中是看不到的。</p>
+
+<p>产生步骤：</p>
+
+<p>选中<code>targets-&gt;build settings -&gt;packing-&gt;Product Module Name</code>中设置模块名，这个名称很重要swift的头文件就是根据这个来命名的。</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1exh36m335kj20no0cu77c.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1exh36ol29nj20da04babh.jpg" alt="img" /></p>
+
+<p>虽然你看图中有这个<code>import "SwiftModule-swift.h"</code>但你在整个工程中是找不到这个文件的，但可以使用<code>CMD+</code> 鼠标点击可看这个头文件中的内容。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1exh36jen2tj20mh0gb0zi.jpg" alt="img" /></p>
+
+<p>这样，工程中如查swift要使用OC,则把需要使用的OC类的头文件，全写在MixDemo-Bridging-Header.h里。同样如果OC中所使用的swift类，只需要Clean一把，再编就可以了，但不要忘了导入<code>SwiftModule-swift.h</code>哦（名称自取，但<code>-swift.h</code>是固定的），另外还有一个需要读者注意的。</p>
+
+<p>注：</p>
+
+<p>凡是用Swift写的类，如果不继成自NSObject或NSObject的派生类，哪么编译后将不会生成对应的转换类。从而使得OC中找不到相应的声明。</p>
+
+<p>如我的例子中 class Act 这样不会被编译到SwiftModule-swift.h中，但写为 class Act : NSObject，就可以编译出相应的声明。另外可以使用@objc加以声明，但这个还是一样，类最好继承NSObject下来。就像下面：</p>
+
+<pre><code>import Foundation  
+
+@objc(Act)  
+
+class Act   
+{  
+    func hasAct(tag:Int) -&gt; String  
+    {  
+        switch (tag)  
+        {  
+        case 1:return "Movie"  
+        case 2:return "CCTV"  
+        case 3:return "Sport TV"  
+        default:return "Area TV"  
+        }  
+    }  
+
+    @objc(init)//原本以为加上这个alloc就可以找到，但不行的。。。  
+    init()  
+    {  
+        println("act constructor is called.")  
+    }  
+
+    deinit  
+    {  
+        println("act destroyed is called.")  
+    }  
+}  
+</code></pre>
+
+<p>但是在使用时你就会发现</p>
+
+<pre><code>act = [[Act alloc]init]; //报错，找不到alloc，因此建议大家还是继承NSObject.
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/fengsh998/article/details/34440159">http://blog.csdn.net/fengsh998/article/details/34440159</a></li>
+<li><a href="http://www.cocoachina.com/swift/20150707/12437.html">http://www.cocoachina.com/swift/20150707/12437.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-29T08:41:30+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:41 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/28/chisel/" title="Previous Post: Chisel">&laquo; Chisel</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/29/swiftlint/" title="Next Post: SwiftLint">SwiftLint &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

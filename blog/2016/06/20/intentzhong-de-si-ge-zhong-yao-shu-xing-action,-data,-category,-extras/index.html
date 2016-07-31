@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Intent中的四个重要属性——Action、Data、Category、Extras - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Intent作为联系各Activity之间的纽带，其作用并不仅仅只限于简单的数据传递。通过其自带的属性，其实可以方便的完成很多较为复杂的操作。例如直接调用拨号功能、直接自动调用合适的程序打开不同类型的文件等等。诸如此类，都可以通过设置Intent属性来完成。 Intent主要有以下四个重要属性， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/20/intentzhong-de-si-ge-zhong-yao-shu-xing-action,-data,-category,-extras/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Intent中的四个重要属性——Action、Data、Category、Extras</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T17:56:11+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:56 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Intent作为联系各Activity之间的纽带，其作用并不仅仅只限于简单的数据传递。通过其自带的属性，其实可以方便的完成很多较为复杂的操作。例如直接调用拨号功能、直接自动调用合适的程序打开不同类型的文件等等。诸如此类，都可以通过设置Intent属性来完成。</p>
+
+<p>Intent主要有以下四个重要属性，它们分别为：</p>
+
+<p>Action：Action属性的值为一个字符串，它代表了系统中已经定义了一系列常用的动作。通过setAction()方法或在清单文件AndroidManifest.xml中设置。默认为：DEFAULT。</p>
+
+<p>Data：Data通常是URI格式定义的操作数据。例如：tel:// 。通过setData()方法设置。</p>
+
+<p>Category：Category属性用于指定当前动作（Action）被执行的环境。通过addCategory()方法或在清单文件</p>
+
+<p>AndroidManifest.xml中设置。默认为：CATEGORY_DEFAULT。</p>
+
+<p>Extras：Extras属性主要用于传递目标组件所需要的额外的数据。通过putExtras()方法设置。</p>
+
+<p>四个属性各自的常用值如下所示：</p>
+
+<pre><code>     Action：
+
+　　　  ACTION_MAIN：Android Application的入口，每个Android应用必须且只能包含一个此类型的Action声明。　
+
+　　　　ACTION_VIEW：系统根据不同的Data类型，通过已注册的对应Application显示数据。
+
+　　　　ACTION_EDIT：系统根据不同的Data类型，通过已注册的对应Application编辑示数据。　
+
+　　　　ACTION_DIAL：打开系统默认的拨号程序，如果Data中设置了电话号码，则自动在拨号程序中输入此号码。　
+
+　　　　ACTION_CALL：直接呼叫Data中所带的号码。　
+
+　　　　ACTION_ANSWER：接听来电。　
+
+　　　　ACTION_SEND：由用户指定发送方式进行数据发送操作。
+
+　　　　ACTION_SENDTO：系统根据不同的Data类型，通过已注册的对应Application进行数据发送操作。　
+
+　　　　ACTION_BOOT_COMPLETED：Android系统在启动完毕后发出带有此Action的广播（Broadcast）。　
+
+　　　　ACTION_TIME_CHANGED：Android系统的时间发生改变后发出带有此Action的广播（Broadcast）。　
+
+　　　　ACTION_PACKAGE_ADDED：Android系统安装了新的Application之后发出带有此Action的广播（Broadcast）。　
+
+　　　　ACTION_PACKAGE_CHANGED：Android系统中已存在的Application发生改变之后（如应用更新操作）发出带有此Action的广播（Broadcast）。　
+
+　　　　ACTION_PACKAGE_REMOVED：卸载了Android系统已存在的Application之后发出带有此Action的广播（Broadcast）。　　
+
+　　Category：
+
+　　　   CATEGORY_DEFAULT：Android系统中默认的执行方式，按照普通Activity的执行方式执行。　
+
+　　　　CATEGORY_HOME：设置该组件为Home Activity。
+
+　　　　CATEGORY_PREFERENCE：设置该组件为Preference。　
+
+　　　　CATEGORY_LAUNCHER：设置该组件为在当前应用程序启动器中优先级最高的Activity，通常为入口ACTION_MAIN配合使用。　
+
+　　　　CATEGORY_BROWSABLE：设置该组件可以使用浏览器启动。　
+
+　　　　CATEGORY_GADGET：设置该组件可以内嵌到另外的Activity中。
+
+　　Extras:
+
+　　　 EXTRA_BCC：存放邮件密送人地址的字符串数组。　
+
+　　　　EXTRA_CC：存放邮件抄送人地址的字符串数组。
+
+　　　　EXTRA_EMAIL：存放邮件地址的字符串数组。　
+
+　　　　EXTRA_SUBJECT：存放邮件主题字符串。　
+
+　　　　EXTRA_TEXT：存放邮件内容。　
+
+　　　　EXTRA_KEY_EVENT：以KeyEvent对象方式存放触发Intent的按键。　　
+
+　　　　EXTRA_PHONE_NUMBER：存放调用ACTION_CALL时的电话号码。　　　
+
+ 　　Data:
+
+　　　   tel://：号码数据格式，后跟电话号码。　
+
+　　　　mailto://：邮件数据格式，后跟邮件收件人地址。
+
+　　　　smsto://：短息数据格式，后跟短信接收号码。
+
+　　　　content://：内容数据格式，后跟需要读取的内容。　
+
+　　　　file://：文件数据格式，后跟文件路径。
+
+　　　　market://search?q=pname:pkgname：市场数据格式，在Google Market里搜索包名为pkgname的应用。
+
+　　　　geo://latitude, longitude：经纬数据格式，在地图上显示经纬度所指定的位置。
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T17:56:11+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:56 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/20/arrayadapterhe-baseadapterde-qu-bie/" title="Previous Post: ArrayAdapter和BaseAdapter的区别">&laquo; ArrayAdapter和BaseAdapter的区别</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/20/ioshe-androidde-appjie-mian-she-ji-gui-fan/" title="Next Post: iOS和Android的app界面设计规范">iOS和Android的app界面设计规范 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

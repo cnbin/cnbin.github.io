@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>REFrostedViewController Introduce - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="REFrostedViewController iOS 7/8 style blurred view controller that appears on top of your view controller. Requirements Xcode 6 or higher
+Apple LLVM &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/16/refrostedviewcontroller/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">REFrostedViewController Introduce</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-16T16:47:28+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:47 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>REFrostedViewController</h1>
+
+<p>iOS 7/8 style blurred view controller that appears on top of your view controller.</p>
+
+<p><img src="https://github.com/romaonthego/REFrostedViewController/raw/master/Screenshot.png" alt="REFrostedViewController Screenshot" width="400" height="568" />
+<img src="https://github.com/romaonthego/REFrostedViewController/raw/master/Demo.gif" alt="REFrostedViewController Screenshot" width="320" height="568" /></p>
+
+<h2>Requirements</h2>
+
+<ul>
+<li>Xcode 6 or higher</li>
+<li>Apple LLVM compiler</li>
+<li>iOS 6.0 or higher</li>
+<li>ARC</li>
+</ul>
+
+
+<h2>Demo</h2>
+
+<p>Build and run the <code>REFrostedViewControllerExample</code> project in Xcode to see <code>REFrostedViewController</code> in action.</p>
+
+<h2>Installation</h2>
+
+<h3>CocoaPods</h3>
+
+<p>The recommended approach for installating <code>REFrostedViewController</code> is via the <a href="http://cocoapods.org/">CocoaPods</a> package manager, as it provides flexible dependency management and dead simple installation.
+For best results, it is recommended that you install via CocoaPods >= <strong>0.28.0</strong> using Git >= <strong>1.8.0</strong> installed via Homebrew.</p>
+
+<p>Install CocoaPods if not already available:</p>
+
+<pre><code>$ [sudo] gem install cocoapods
+$ pod setup
+</code></pre>
+
+<p>Change to the directory of your Xcode project:</p>
+
+<pre><code>$ cd /path/to/MyProject
+$ touch Podfile
+$ edit Podfile
+</code></pre>
+
+<p>Edit your Podfile and add REFrostedViewController:</p>
+
+<pre><code>platform :ios, '6.0'
+pod 'REFrostedViewController', '~&gt; 2.4'
+</code></pre>
+
+<p>Install into your Xcode project:</p>
+
+<pre><code>$ pod install
+</code></pre>
+
+<p>Open your project in Xcode from the .xcworkspace file (not the usual project file)</p>
+
+<pre><code>$ open MyProject.xcworkspace
+</code></pre>
+
+<p>Please note that if your installation fails, it may be because you are installing with a version of Git lower than CocoaPods is expecting. Please ensure that you are running Git >= <strong>1.8.0</strong> by executing <code>git --version</code>. You can get a full picture of the installation details by executing <code>pod install --verbose</code>.</p>
+
+<h3>Manual Install</h3>
+
+<p>All you need to do is drop <code>REFrostedViewController</code> files into your project, and add <code>#include "REFrostedViewController.h"</code> to the top of classes that will use it.</p>
+
+<p>Your project must be linked against the <code>Accelerate</code> framework.</p>
+
+<h2>Example Usage</h2>
+
+<p>In your AppDelegate&rsquo;s <code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</code> create the view controller and assign content and menu view controllers.</p>
+
+<pre><code>// Create content and menu controllers
+//
+DEMONavigationController *navigationController = [[DEMONavigationController alloc] initWithRootViewController:[[DEMOHomeViewController alloc] init]];
+DEMOMenuViewController *menuController = [[DEMOMenuViewController alloc] initWithStyle:UITableViewStylePlain];
+
+// Create frosted view controller
+//
+REFrostedViewController *frostedViewController = [[REFrostedViewController alloc] initWithContentViewController:navigationController menuViewController:menuController];
+frostedViewController.direction = REFrostedViewControllerDirectionLeft;
+
+// Make it a root controller
+//
+self.window.rootViewController = frostedViewController;
+</code></pre>
+
+<p>You can present it manually:</p>
+
+<pre><code>[self.frostedViewController presentMenuViewController];
+</code></pre>
+
+<p>or using a pan gesture recognizer:</p>
+
+<pre><code>- (void)panGestureRecognized:(UIPanGestureRecognizer *)sender
+{
+    [self.frostedViewController panGestureRecognized:sender];
+}
+</code></pre>
+
+<h3>Live Blur</h3>
+
+<p>By default, live blurring is enabled under iOS 7. The live blurring is performed by using a <code>UIToolbar</code> as a background view, that means when you change its tint color, it becomes desaturated. That&rsquo;s the way it works on iOS 7. iPhone 4 doesn&rsquo;t support live blur and falls back to a transparent view. This also applies to when a user device has high contrast accessibility setting set to on.
+To disable live blurring, set <code>liveBlur</code> property to <code>NO</code>.</p>
+
+<h2>Storyboards Example</h2>
+
+<p>1.Create a subclass of <code>REFrostedViewController</code>. In this example we call it <code>DEMORootViewController</code>.</p>
+
+<p>2.In the Storyboard designate the root view&rsquo;s owner as <code>DEMORootViewController</code>.</p>
+
+<p>3.Make sure to <code>#import "REFrostedViewController.h"</code> in <code>DEMORootViewController.h</code>.</p>
+
+<p>4.Add more view controllers to your Storyboard, and give them identifiers &ldquo;menuController&rdquo; and &ldquo;contentController&rdquo;. Note that in the new XCode the identifier is called &ldquo;Storyboard ID&rdquo; and can be found in the Identity inspector.</p>
+
+<p>5.Add a method <code>awakeFromNib</code> to <code>DEMORootViewController.m</code> with the following code:</p>
+
+<pre><code>- (void)awakeFromNib
+{
+    self.contentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"contentController"];
+    self.menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menuController"];
+}
+</code></pre>
+
+<h2>Customization</h2>
+
+<p>You can customize the following properties of <code>REFrostedViewController</code>:</p>
+
+<pre><code>@property (strong, readonly, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
+@property (assign, readwrite, nonatomic) BOOL panGestureEnabled;
+@property (assign, readwrite, nonatomic) REFrostedViewControllerDirection direction;
+@property (assign, readwrite, nonatomic) CGFloat backgroundFadeAmount;
+@property (strong, readwrite, nonatomic) UIColor *blurTintColor; // Used only when live blur is off
+@property (assign, readwrite, nonatomic) CGFloat blurRadius; // Used only when live blur is off
+@property (assign, readwrite, nonatomic) CGFloat blurSaturationDeltaFactor; // Used only when live blur is off
+@property (assign, readwrite, nonatomic) NSTimeInterval animationDuration;
+@property (assign, readwrite, nonatomic) BOOL limitMenuViewSize;
+@property (assign, readwrite, nonatomic) CGSize menuViewSize;
+@property (assign, readwrite, nonatomic) BOOL liveBlur; // iOS 7 only
+@property (assign, readwrite, nonatomic) REFrostedViewControllerLiveBackgroundStyle liveBlurBackgroundStyle; // iOS 7 only
+</code></pre>
+
+<h2>Credits</h2>
+
+<p>Inspired by a <a href="http://dribbble.com/shots/1173945-Menu-Concept-1">Dribbble shot</a>, author <a href="http://dribbble.com/jackietrananh">Jackie Tran</a>.</p>
+
+<p>The blur algorithm that is used for static blur comes from WWDC 2013&rsquo;s session 208, &ldquo;What&rsquo;s New in iOS User Interface Design&rdquo;.</p>
+
+<h2>Contact</h2>
+
+<p>Roman Efimov</p>
+
+<ul>
+<li><a href="https://github.com/romaonthego">https://github.com/romaonthego</a></li>
+<li><a href="https://twitter.com/romaonthego">https://twitter.com/romaonthego</a></li>
+<li><a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#x72;&#111;&#x6d;&#x65;&#x66;&#105;&#x6d;&#x6f;&#118;&#x40;&#x67;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#x6f;&#x6d;">&#x72;&#x6f;&#x6d;&#x65;&#x66;&#105;&#x6d;&#x6f;&#118;&#x40;&#x67;&#x6d;&#97;&#x69;&#x6c;&#46;&#99;&#x6f;&#x6d;</a></li>
+</ul>
+
+
+<h2>License</h2>
+
+<p>REFrostedViewController is available under the MIT license.</p>
+
+<p>Copyright © 2013 Roman Efimov.</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &ldquo;Software&rdquo;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED &ldquo;AS IS&rdquo;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-16T16:47:28+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:47 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/16/eleven-player/" title="Previous Post: Eleven Player Introduce">&laquo; Eleven Player Introduce</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/16/uuid-generator/" title="Next Post: UUID Generator">UUID Generator &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

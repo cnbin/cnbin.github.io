@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>基于 XMPP 的 iOS 聊天客户端（XMPP服务器架构）(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="ejabberd 简介 ejabberd 是基于 Jabber/XMPP 协议的即时通讯服务器，由 GPLv2 授权（免费和开放源码），采用 Erlang/OTP 开发。它的特点是，跨平台，容错，集群和模块化。 Ejabberd 目前是可扩展性最好的一种 Jabber/XMPP 服务器， &hellip;">
+  <meta name="keywords" content="xmpp">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/26/ji-yu-xmpp-de-ios-liao-tian-ke-hu-duan-(xmppfu-wu-qi-jia-gou-)/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">基于 XMPP 的 iOS 聊天客户端（XMPP服务器架构）(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-26T17:45:35+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:45 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ethkomdysnj206y01sdfw.jpg" alt="img" /></p>
+
+<!--More-->
+
+
+<h2>ejabberd 简介</h2>
+
+<p>ejabberd 是基于 <code>Jabber/XMPP</code> 协议的即时通讯服务器，由 GPLv2 授权（免费和开放源码），采用 Erlang/OTP 开发。它的特点是，跨平台，容错，集群和模块化。</p>
+
+<p>Ejabberd 目前是可扩展性最好的一种 <code>Jabber/XMPP</code> 服务器，支持分布多个服务器，并且具有容错处理，单台服务器失效不影响整个 <code>cluster</code> 运作。</p>
+
+<p>关于 XMPP 的框架，以文本聊天为例，需要发送的消息为：</p>
+
+<pre><code>&lt;message type="chat" from="kang@server.com" to="test@server.com"&gt;  
+    &lt;body&gt;helloWord&lt;/body&gt;  
+&lt;/message&gt; 
+</code></pre>
+
+<p>基中 <code>from</code> 是从哪个用户发送的消息，<code>to</code> 是发给谁的消息，<code>XMPP</code> 的用户都是以邮箱形式。<code>body</code> 就是我们发送的消息文本。</p>
+
+<p>好了，说到这里，我们就来开发一个基于 XMPP 的 IOS 聊天客户端程序，首先我们需要 XMPP 服务器，这里，我就拿本机做服务器，首先从<a href="http://xmpp.org/xmpp-software/servers/">xmpp Server</a>下载ejabberd 这个服务器，ejabberd 支持 <code>Linux / Mac OS X / Solaris / Windows</code>，所以任何操作系统都可以做我们的聊天服务器。好了，下载完后，一步一步安装就可以了，这里我们要注意一下。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ethem6znczj20fw0k3te9.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ethelho5jgj20j80aptan.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ethelipegjj20jn0ftju0.jpg" alt="img" /></p>
+
+<h3>打开安装包，进行安装</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ethgaw5gvqj20gd0bgwf9.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ethgeb2kqdj20gf0bpjsz.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ethgfbtuktj20gi0bk75a.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ethggjdc86j20gg0bldgw.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ethgita02sj20gm0bhjs2.jpg" alt="img" /></p>
+
+<p>这里我们的服务器就是 <code>appledeimac.local</code>（一般就是机器名，默认就可以了，不需要改），每台机器的用户名都不一样，这里的服务器域名就是机器名，这个我们需要记住哦</p>
+
+<p>接着一步一步，还要设置管理员密码，密码当然也需要记住了，不然我们没办法登录管理员页面去。</p>
+
+<p>好了，安装完后启动，如图所示：</p>
+
+<p>方法一：终端输入</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ethgngpkafj20dv01v3z1.jpg" alt="img" /></p>
+
+<p>方法二：直接点击 start</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etsri6z8rzj20gr0d1adb.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ethgyxq0lpj20w50g5gqn.jpg" alt="img" /></p>
+
+<p>我们点击 <code>admin interface</code>，会要求我们输入用户名和密码：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ethgqv80gqj20bl06nwfc.jpg" alt="img" /></p>
+
+<p>这里用户名是前面我们安装的时候有一个管理员名，将管理员名跟我们的服务器组合就可以了，我这里是 <code>admin@appledeimac.local</code>，每一台机器都不一样，不要照抄哦，这样你是登录不了的，密码就是安装的时候设置的密码，我的是 <code>12345</code>，如果一直进入不了，就关闭网页，输入网址：<a href="http://localhost:5280/admin">http://localhost:5280/admin</a></p>
+
+<h3>Configuring Jabber Users</h3>
+
+<p>At the moment our service has just administrators. We need to populate it with at least one user. The previous web page contains a link to the admin interface, which is available at <a href="http://localhost:5280/admin/">http://localhost:5280/admin/</a>. Once you have logged in as the admin you should see a console like the following.</p>
+
+<p>登录成功后就会显示如下页面</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ethgsvryg8j20hs08g0uk.jpg" alt="img" /></p>
+
+<p>这里我们需要解释的就是"访问控制列表"，这里是设置管理员的，我们可以在这里创建其他管理员，这个不是我们的重点，我们的重点是"虚拟主机"</p>
+
+<p>点开->虚拟主机，下面有一个 <code>appledeimac.local</code>，也点开</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ethgvylyu6j20et072gnc.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ethh0p80qhj20cy0czq5g.jpg" alt="img" /></p>
+
+<p>这里有一个 <code>用户</code>，我们需要创建几个用户来进行数据交互。</p>
+
+<p>我创建了 <code>kang@appledeimac.local</code>，<code>test@appledeimac.local</code>，<code>abc@appledeimac.local</code> 这几个用户，过一会我们就用这几个用户进行聊天</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ethh3hgj1ij20d205bwf8.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ethh4z7ripj20d109eabo.jpg" alt="img" /></p>
+
+<p>好了，服务器装好了以后，我们就需要下载个客户端来进行聊天，这里有一些客户端工具</p>
+
+<p><a href="http://xmpp.org/xmpp-software/clients/">http://xmpp.org/xmpp-software/clients/</a>，这里我们主要推荐 MAC 用 <a href="http://sourceforge.net/projects/adium/?source=typ_redirect">Adium</a>,Windows 用 Citron。</p>
+
+<h3>安装 Adium</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ethj64tazmj20gm0azq66.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ethiz6aa2pj20ge0ajmzr.jpg" alt="img" /></p>
+
+<h4>成功登陆后，显示可以聊天状态</h4>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ethj7w7234j205p0cvmxf.jpg" alt="img" /></p>
+
+<p>在 ejabberd 里面可以看到 admin@appledeimac 用户在线</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ethjh827qyj20oq085mye.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ethjh8nmdkj20sk0auta7.jpg" alt="img" /></p>
+
+<h4>添加好友</h4>
+
+<p>选择联系人</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ethja71abaj20h000xq36.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ethjc22mwsj205m08hmxp.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ethjehk3bsj20bi08wt9y.jpg" alt="img" /></p>
+
+<p>双击联系人，发送一条信息</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ethk9etighj20az07taag.jpg" alt="img" /></p>
+
+<p>在 ejabberd 中就可以看得一条离线信息</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ethkco88eaj20jo07d40l.jpg" alt="img" /></p>
+
+<p>可以看到 body 里面就是发送的内容</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ethkcphyrbj211i09h77m.jpg" alt="img" /></p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://mobile.tutsplus.com/tutorials/iphone/building-a-jabber-client-for-ios-server-setup/">Building A Jabber Client For iOS: Server Setup</a></li>
+<li><a href="http://mobile.tutsplus.com/tutorials/iphone/building-a-jabber-client-for-ios-interface-setup/">Building a Jabber Client for iOS: Interface Setup</a></li>
+<li><a href="http://mobile.tutsplus.com/tutorials/iphone/building-a-jabber-client-for-ios-xmpp-integration/">Building a Jabber Client for iOS: XMPP Setup</a></li>
+<li>如何开发Jabber iOS客户端： <a href="https://github.com/funkyboy/Building-a-Jabber-client-for-iOS">https://github.com/funkyboy/Building-a-Jabber-client-for-iOS</a></li>
+<li>XMPP协议Objective-C框架： <a href="http://code.google.com/p/xmppframework/">http://code.google.com/p/xmppframework/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-26T17:45:35+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:45 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/26/ji-you-xmpp-de-ios-liao-tian-ke-hu-duan-cheng-xu/" title="Previous Post: 基于 XMPP 的 iOS 聊天客户端程序(原创)">&laquo; 基于 XMPP 的 iOS 聊天客户端程序(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/27/objective-c-private-wen-ti/" title="Next Post: Objective-c private 问题">Objective-c private 问题 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

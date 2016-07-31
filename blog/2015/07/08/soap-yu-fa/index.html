@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SOAP 语法 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="SOAP 构建模块 一条 SOAP 消息就是一个普通的 XML 文档，包含下列元素： 必需的 Envelope 元素，可把此 XML 文档标识为一条 SOAP 消息
+可选的 Header 元素，包含头部信息
+必需的 Body 元素，包含所有的调用和响应信息
+可选的 Fault 元素， &hellip;">
+  <meta name="keywords" content="soap">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/08/soap-yu-fa/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SOAP 语法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-08T10:00:19+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>SOAP 构建模块</h3>
+
+<p>一条 SOAP 消息就是一个普通的 XML 文档，包含下列元素：</p>
+
+<ul>
+<li>必需的 Envelope 元素，可把此 XML 文档标识为一条 SOAP 消息</li>
+<li>可选的 Header 元素，包含头部信息</li>
+<li>必需的 Body 元素，包含所有的调用和响应信息</li>
+<li>可选的 Fault 元素，提供有关在处理此消息所发生错误的信息</li>
+</ul>
+
+
+<h3>语法规则</h3>
+
+<p>这里是一些重要的语法规则：</p>
+
+<ul>
+<li>SOAP 消息必须用 XML 来编码</li>
+<li>SOAP 消息必须使用 SOAP Envelope 命名空间</li>
+<li>SOAP 消息必须使用 SOAP Encoding 命名空间</li>
+<li>SOAP 消息不能包含 DTD 引用</li>
+<li>SOAP 消息不能包含 XML 处理指令</li>
+</ul>
+
+
+<h3>SOAP 消息的基本结构</h3>
+
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;soap:Envelope
+xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
+soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt;
+
+&lt;soap:Header&gt;
+...
+&lt;/soap:Header&gt;
+
+&lt;soap:Body&gt;
+...
+  &lt;soap:Fault&gt;
+  ...
+  &lt;/soap:Fault&gt;
+&lt;/soap:Body&gt;
+
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<h3>Envelope 元素</h3>
+
+<p>必需的 SOAP 的 Envelope 元素是 SOAP 消息的根元素。它可把 XML 文档定义为 SOAP 消息。</p>
+
+<p>实例</p>
+
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;soap:Envelope
+xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
+soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt;
+  ...
+  Message information goes here
+  ...
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<h4>xmlns:soap 命名空间</h4>
+
+<p>SOAP 消息必须拥有与命名空间 &ldquo;<a href="http://www.w3.org/2001/12/soap-envelope">http://www.w3.org/2001/12/soap-envelope</a>&rdquo; 相关联的一个 Envelope 元素。</p>
+
+<p>如果使用了不同的命名空间，应用程序会发生错误，并抛弃此消息。</p>
+
+<h4>encodingStyle 属性</h4>
+
+<p>SOAP 的 encodingStyle 属性用于定义在文档中使用的数据类型。此属性可出现在任何 SOAP 元素中，并会被应用到元素的内容及元素的所有子元素上。</p>
+
+<p>SOAP 消息没有默认的编码方式。</p>
+
+<p>语法</p>
+
+<pre><code>soap:encodingStyle="URI"
+</code></pre>
+
+<p>实例</p>
+
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;soap:Envelope
+xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
+soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt;
+  ...
+  Message information goes here
+  ...
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<h3>SOAP Header 元素</h3>
+
+<p>可选的 SOAP Header 元素可包含有关 SOAP 消息的应用程序专用信息（比如认证、支付等）。</p>
+
+<p>如果 Header 元素被提供，则它必须是 Envelope 元素的第一个子元素。</p>
+
+<p>注意： 所有 Header 元素的直接子元素必须是合格的命名空间。</p>
+
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;soap:Envelope
+xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
+soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt;
+
+&lt;soap:Header&gt;
+  &lt;m:Trans xmlns:m="http://www.w3schools.com/transaction/"
+  soap:mustUnderstand="1"&gt;234
+  &lt;/m:Trans&gt;
+&lt;/soap:Header&gt;
+...
+...
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>上面的例子包含了一个带有一个 &ldquo;Trans&rdquo; 元素的头部，它的值是 234，此元素的 &ldquo;mustUnderstand&rdquo; 属性的值是 &ldquo;1"。</p>
+
+<p>SOAP 在默认的命名空间中 (&ldquo;<a href="http://www.w3.org/2001/12/soap-envelope">http://www.w3.org/2001/12/soap-envelope</a>&rdquo;) 定义了三个属性。</p>
+
+<p>这三个属性是：actor、 mustUnderstand 以及 encodingStyle。这些被定义在 SOAP 头部的属性可定义容器如何对 SOAP 消息进行处理。</p>
+
+<h4>mustUnderstand 属性</h4>
+
+<p>SOAP 的 mustUnderstand 属性可用于标识标题项对于要对其进行处理的接收者来说是强制的还是可选的。</p>
+
+<p>假如您向 Header 元素的某个子元素添加了 &ldquo;mustUnderstand="1"，则它可指示处理此头部的接收者必须认可此元素。假如此接收者无法认可此元素，则在处理此头部时必须失效。</p>
+
+<p>语法</p>
+
+<pre><code>soap:mustUnderstand="0|1"
+</code></pre>
+
+<p>实例</p>
+
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;soap:Envelope
+xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
+soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt;
+
+&lt;soap:Header&gt;
+  &lt;m:Trans xmlns:m="http://www.w3schools.com/transaction/"
+  soap:mustUnderstand="1"&gt;234
+  &lt;/m:Trans&gt;
+&lt;/soap:Header&gt;
+...
+...
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<h4>actor 属性</h4>
+
+<p>通过沿着消息路径经过不同的端点，SOAP 消息可从某个发送者传播到某个接收者。并非 SOAP 消息的所有部分均打算传送到 SOAP 消息的最终端点，不过，另一个方面，也许打算传送给消息路径上的一个或多个端点。</p>
+
+<p>SOAP 的 actor 属性可被用于将 Header 元素寻址到一个特定的端点。</p>
+
+<p>语法</p>
+
+<pre><code>soap:actor="URI"
+</code></pre>
+
+<p>实例</p>
+
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;soap:Envelope
+xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
+soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt;
+
+&lt;soap:Header&gt;
+  &lt;m:Trans xmlns:m="http://www.w3schools.com/transaction/"
+  soap:actor="http://www.w3schools.com/appml/"&gt;234
+  &lt;/m:Trans&gt;
+&lt;/soap:Header&gt;
+...
+...
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<h4>encodingStyle 属性</h4>
+
+<p>SOAP 的 encodingStyle 属性用于定义在文档中使用的数据类型。此属性可出现在任何 SOAP 元素中，并会被应用到元素的内容及元素的所有子元素上。</p>
+
+<p>SOAP 消息没有默认的编码方式。</p>
+
+<p>语法</p>
+
+<pre><code>soap:encodingStyle="URI"
+</code></pre>
+
+<h3>SOAP Body 元素</h3>
+
+<p>必需的 SOAP Body 元素可包含打算传送到消息最终端点的实际 SOAP 消息。</p>
+
+<p>SOAP Body 元素的直接子元素可以是合格的命名空间。</p>
+
+<p>实例</p>
+
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;soap:Envelope
+xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
+soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt;
+
+&lt;soap:Body&gt;
+  &lt;m:GetPrice xmlns:m="http://www.w3schools.com/prices"&gt;
+    &lt;m:Item&gt;Apples&lt;/m:Item&gt;
+  &lt;/m:GetPrice&gt;
+&lt;/soap:Body&gt;
+
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<p>上面的例子请求苹果的价格。请注意，上面的 m:GetPrice 和 Item 元素是应用程序专用的元素。它们并不是 SOAP 标准的一部分。</p>
+
+<p>而一个 SOAP 响应应该类似这样：</p>
+
+<pre><code>&lt;?xml version="1.0"?&gt;
+&lt;soap:Envelope
+xmlns:soap="http://www.w3.org/2001/12/soap-envelope"
+soap:encodingStyle="http://www.w3.org/2001/12/soap-encoding"&gt;
+
+&lt;soap:Body&gt;
+  &lt;m:GetPriceResponse xmlns:m="http://www.w3schools.com/prices"&gt;
+    &lt;m:Price&gt;1.90&lt;/m:Price&gt;
+  &lt;/m:GetPriceResponse&gt;
+&lt;/soap:Body&gt;
+
+&lt;/soap:Envelope&gt;
+</code></pre>
+
+<h3>SOAP Fault 元素</h3>
+
+<p>可选的 SOAP Fault 元素用于指示错误消息。</p>
+
+<p>如果已提供了 Fault 元素，则它必须是 Body 元素的子元素。在一条 SOAP 消息中，Fault 元素只能出现一次。</p>
+
+<p>SOAP 的 Fault 元素拥有下列子元素：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etqipjptnjj20kh04eaau.jpg" alt="img" /></p>
+
+<p>在下面定义的 faultcode 值必须用于描述错误时的 faultcode 元素中：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etqipk36vkj20k8049gmp.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-08T10:00:19+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/08/java-sdk-yu-jdk-qu-bie/" title="Previous Post: Java sdk 与 jdk 区别">&laquo; Java sdk 与 jdk 区别</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/08/wsdl/" title="Next Post: WSDL">WSDL &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

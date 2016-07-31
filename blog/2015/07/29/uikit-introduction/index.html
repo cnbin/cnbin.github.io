@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>UIkit Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="UIkit is a lightweight and modular front-end framework for developing fast and powerful web interfaces. Homepage - Learn more about UIkit
+@getuikit &hellip;">
+  <meta name="keywords" content="uikit">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/29/uikit-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">UIkit Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-29T10:15:31+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:15 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>UIkit is a lightweight and modular front-end framework for developing fast and powerful web interfaces.</p>
+
+<ul>
+<li><a href="http://getuikit.com">Homepage</a> - Learn more about UIkit</li>
+<li><a href="https://twitter.com/getuikit">@getuikit</a> - Get the latest buzz on Twitter</li>
+<li><a href="https://plus.google.com/communities/114238665434626719878">Google+ Community</a> - Share news and latest work</li>
+</ul>
+
+
+<p>Join our developer chat. We are online every work day between 8:00 and 18:00 UTC</p>
+
+<p><a href="https://gitter.im/uikit/uikit"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter" /></a></p>
+
+<h2>Getting started</h2>
+
+<p>You have following options to get UIkit:</p>
+
+<ul>
+<li>Download the <a href="https://github.com/uikit/uikit/releases/latest">latest release</a></li>
+<li>Clone the repo, <code>git clone git://github.com/uikit/uikit.git</code>.</li>
+<li>Install with <a href="http://bower.io">Bower</a>: <code>bower install uikit</code></li>
+</ul>
+
+
+<p>You find the compiled UIkit distribution in its own <a href="https://github.com/uikit/bower-uikit">repo</a>.</p>
+
+<h2>Developers</h2>
+
+<p>First of all, install <a href="http://nodejs.org/">Node</a>. We use <a href="http://gulpjs.com">Gulp</a> to build UIkit. If you haven&rsquo;t used Gulp before, you need to install the <code>gulp</code> package as a global install.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>npm install --global gulp</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you haven&rsquo;t done so already, clone the UIkit git repo.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/uikit/uikit.git</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Install the Node dependencies.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd uikit
+</span><span class='line'>npm install</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Run <code>gulp</code> to lint, build and minify the release.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gulp [-t themename]</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eui9tvjoy0j20fc0mlgtc.jpg" alt="img" /></p>
+
+<p>The built version of UIkit will be put in the <code>/dist</code> subdirectory. Pass a theme name parameter to only build the specified theme.</p>
+
+<h3>Browsersync</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gulp sync</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After running <code>gulp sync</code> a new browser instance will open, pointing to the uikit folder - <code>http://localhost:3000/</code>. The browser window will reload anytime you modify a source file.</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eui9tvydqtj20wt0m7wiq.jpg" alt="img" /></p>
+
+<h3>Custom prefix</h3>
+
+<p>Run gulp with your own prefix parameter <code>-p</code> to have all classes and JavaScript files custom prefixed.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gulp -p myprefix</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Contributing</h2>
+
+<p>UIkit follows the <a href="http://nvie.com/posts/a-successful-git-branching-model">GitFlow branching model</a>. The <code>master</code> branch always reflects a production-ready state while the latest development is taking place in the <code>develop</code> branch.</p>
+
+<p>Each time you want to work on a fix or a new feature, create a new branch based on the <code>develop</code> branch: <code>git checkout -b BRANCH_NAME develop</code>. Only pull requests to the <code>develop</code> branch will be merged.</p>
+
+<h2>Versioning</h2>
+
+<p>UIkit is maintained by using the <a href="http://semver.org">Semantic Versioning Specification (SemVer)</a>.</p>
+
+<h2>Browser Support</h2>
+
+<table>
+<thead>
+<tr>
+<th><img src="https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png" alt="Chrome" /> </th>
+<th> <img src="https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png" alt="Firefox" /> </th>
+<th> <img src="https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png" alt="IE" /> </th>
+<th> <img src="https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png" alt="Safari" /> </th>
+<th> <img src="https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png" alt="Opera" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Latest ✔ </td>
+<td> Latest ✔ </td>
+<td> 9+ ✔ </td>
+<td> 7.1+ ✔ </td>
+<td> Latest ✔ </td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Copyright and License</h2>
+
+<p>Copyright <a href="http://www.yootheme.com">YOOtheme</a> GmbH under the <a href="LICENSE.md">MIT license</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-29T10:15:31+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:15 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/29/uikit-less-and-sass-files/" title="Previous Post: UIkit - Less and Sass files">&laquo; UIkit - Less and Sass files</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/29/phantomjs-scriptable-headless-webkit/" title="Next Post: PhantomJS- Scriptable Headless WebKit">PhantomJS- Scriptable Headless WebKit &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

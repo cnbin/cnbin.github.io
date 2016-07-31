@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>思想笔记-14 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="转：https://www.byvoid.com/zhs/blog/tag/%E7%A8%B7%E4%B8%8B%E5%AD%B8%E5%AE%AE 高维世界与一维价值 高维世界的序关系 说到CPU的性能，几年前，大家在装电脑的时候选购CPU只看主频，频率越高越好。于是英特尔为了迎合市场， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/26/si-xiang-bi-ji-14/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">思想笔记-14</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-26T08:44:47+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:44 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>转：<a href="https://www.byvoid.com/zhs/blog/tag/%E7%A8%B7%E4%B8%8B%E5%AD%B8%E5%AE%AE">https://www.byvoid.com/zhs/blog/tag/%E7%A8%B7%E4%B8%8B%E5%AD%B8%E5%AE%AE</a></p>
+
+<h2>高维世界与一维价值</h2>
+
+<h3>高维世界的序关系</h3>
+
+<p>说到CPU的性能，几年前，大家在装电脑的时候选购CPU只看主频，频率越高越好。于是英特尔为了迎合市场，推出了奔腾四3.0GHz甚至3.6GHz主频的CPU。后来进入多核时代，大家就看核心数，双核的肯定比单核的好，四核的肯定比双核的好。殊不知CPU的性能好坏有太多的参数，盲目追求高的主频或者核心的数量没有意义。不单单是CPU，想想看大家买数码相机看什么呢？许多人第一反应当然是像素啊。买单反镜头？光圈大小！买汽车？排量！买房？面积！</p>
+
+<p>事实上这个道理浅显易懂，但人们却对它无能为力。作为没有相关知识的普通消费者，面对这个世界纷繁复杂的参数真的是无能为力，于是只好选择一个「公认」的参数作为基准了。</p>
+
+<p>这一切的根源在于，向量和向量是无法比较大小的，只有标量才能比较。向量只能通过一些函数变换到标量才能比较，如模长，或者在某个空间上的投影。世界上的任何一件东西都可以用一个高维向量来表示，但为了获得序关系，我们通常只能把它映射到一个一维空间。在这个过程中，大量的信息都丢失了。对于同一组向量使用不同的函数，获得序关系可以是完全不一样的。</p>
+
+<p>这是一个浅显易懂的道理，而人们却无能为力。因为人们天生倾向于用一个一维的数值来比较一切同类的事物（甚至不同类的事物），但事物天生是高维的。</p>
+
+<h3>价值观是一个从高维空间到一维空间的映射</h3>
+
+<p>人们经常谈论价值观，譬如价值观不同的人不要在一起，现代社会通过价值观把人分为不同的群体。价值观实际上是一个从高维空间到一维空间的映射，也就是一个高维向量的函数。人们面对纷繁复杂的事物，一个与生俱来的冲动就是对它进行评价，然后与其他事物相互比较。在这个过程中，不同价值观的人使用了不同的函数，因此得出的结果是大相径庭的。</p>
+
+<h3>商品的价格与价值</h3>
+
+<p>作为一个通用的价值衡量工具，商品的价格成为一个被广泛使用的尺度。价格短期看来反应的是供求的关系，但本质上反映了一个长期的、多人的价值。用数学的语言方式表示，价格是一个高维的泛函（Functional），其中每一维的变量都是一个个体的价值观函数，或者用以下代码（OCaml）表示：</p>
+
+<pre><code>(* 价值观是一个从任意向量到整数的函数 *)
+type value = (anything -&gt; int)
+
+(* 价格是一个从多个价值观函数到一个价值观函数的函数(泛函) *)
+val price : (values_of_all : value list) -&gt; value
+
+(* 一个简单实现：价格即为所有人价值观的平均值 *)
+let price values_of_all =
+  fun thing -&gt;
+    let sum = List.fold_left (
+      fun sum value_function -&gt; sum + (value_function thing)
+    ) 0 values_of_all in
+    let number_of_people = (List.length values_of_all) in
+    sum / number_of_people
+</code></pre>
+
+<p>换人话说，价格反映了全体生产者和消费者的价值观，尽管可能各不相同，但却用一个工具把它们统一了起来，变成了一个单一的可以衡量不同事物的价值的函数。对于一个个体来说，商品的价格可能偏离个人对商品的价值衡量，因此会有感觉便宜或者感觉贵。根据个人是否有钱，个人对价值的衡量也会不同，个人资产可以作为价值观函数的一个其他参数。</p>
+
+<p>用价格衡量价值的方法看似简单粗暴，有诸多弊端，却也有着其他方法无可比拟的优点。其最大的优点就是简单性，因为人类对复杂事物的理解力实在有限。这也是为什么计划经济无法执行的一个原因，因为没有一个把万物映射到一维的函数，或者这个函数取样过于有限，只能反应少数统治者的意愿。</p>
+
+<h3>价值多元化</h3>
+
+<p>一元价值尽管有着便于比较排序的优点，但却会导致优化目标的单一化。譬如超级计算机只优化LINPACK或其他某个性能，学生为了应付高考成为做题机器，全社会「向钱看」道德沦丧等等。尽管着本身没有什么问题，却会让导致潜在的评估偏差风险。对此，价值多元化的主张被提了出来。价值多元化是把一维的价值标量变为多维向量，也可以理解为是多个价值函数的组合。价值多元化以后，价值本身重新变得不可比较，只能按照维度比较（或者价值向量的函数）。</p>
+
+<p>在我看来，价值多元化没有解决太多的问题，反而丧失了序关系，事实上是一种掩耳盗铃的方法。价值多元化就等于没有价值，只是把一个高维向量映射到了另一个向量，不仅丢失了信息，还无法比较。价值多元化可以当作进一步价值比较的「中间结果」，方便进一步计算而已，最终还是要归结于一维。用金钱衡量一切的一元价值尽管不能解决许多问题，却是人类目前能想到并实践的最有效的方法。但愿会有更好的方式被发明出来。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-26T08:44:47+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:44 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/life/'>life</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/25/swift-jiang-protocol-de-fang-fa-sheng-ming-wei-mutating/" title="Previous Post: Swift-将 PROTOCOL 的方法声明为 MUTATING">&laquo; Swift-将 PROTOCOL 的方法声明为 MUTATING</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/26/swift-lei-xing-zhuan-huan-%7B-number-type-casting%7D/" title="Next Post: Swift-类型转换{#Type-Casting}">Swift-类型转换{#Type-Casting} &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

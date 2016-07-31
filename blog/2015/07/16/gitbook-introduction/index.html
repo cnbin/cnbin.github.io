@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Gitbook Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Gitbook 是一个命令行工具(node.js库)， 使用 Github/Git 创建漂亮的图书。 你可以看一些用它编写的图书的例子： 学习Javascript. 你也可以很容易的通过 gitbook.io 网站发布在线图书。 editor 是一个图形化的编辑工具， 提供 Windows, &hellip;">
+  <meta name="keywords" content="gitbook">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/16/gitbook-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Gitbook Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-16T09:53:57+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Gitbook 是一个命令行工具(node.js库)， 使用 Github/Git 创建漂亮的图书。 你可以看一些用它编写的图书的例子： <a href="https://www.gitbook.io/book/GitBookIO/javascript">学习Javascript</a>. 你也可以很容易的通过 <a href="https://www.gitbook.io/">gitbook.io</a> 网站发布在线图书。 <a href="https://github.com/GitbookIO/editor">editor</a> 是一个图形化的编辑工具， 提供 Windows, Mac 和 Linux 的版本. 关注 Twitter 帐号 <a href="https://twitter.com/GitBookIO">@GitBookIO</a>. 这篇文章只是一个起步教程， 完整的文档可以在 <a href="http://help.gitbook.io/">help.gitbook.io</a> 网站找到.</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eu0wzokw32j217s0hnwit.jpg" alt="img" /></p>
+
+<h2>使用</h2>
+
+<p>GitBook 可以通过 NPM 安装:</p>
+
+<pre><code>$ npm install -g gitbook-cli
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eu0xlzmp7sj20fm06kdhx.jpg" alt="img" /></p>
+
+<p>你可以将一个 <code>repository</code> 作为一本书:</p>
+
+<pre><code>$  gitbook serve ./repository
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eu0xm0coa2j20fq05pwg4.jpg" alt="img" /></p>
+
+<p>或者简单的生成静态网站:</p>
+
+<pre><code>$ gitbook build ./repository --output=./outputFolder
+</code></pre>
+
+<p>命令 <code>build</code> 和 <code>serve</code> 的参数为:</p>
+
+<pre><code>-o, --output &lt;directory&gt;  输出文件件, 默认为 ./_book
+-f, --format &lt;name&gt;       产生的书籍的类型, 默认为静态站点, 可用的格式为: site, page, ebook, json
+--config &lt;config file&gt;    配置文件, 默认为 book.js 或 book.json
+</code></pre>
+
+<p>GitBook 会从仓库中的 <code>book.json</code> 文件加载默认的配置，前提是此文件存在.</p>
+
+<p>下面是此文件的一些配置项:</p>
+
+<pre><code>{
+    // 输出文件夹
+    // 注意: 它会覆盖命令行传入的参数
+    // 不建议在此文件中配置
+    "output": null,
+    // 产生的书籍的类型
+    // 注意: 它会覆盖命令行传入的参数
+    // 不建议在此文件中配置
+    "generator": "site",
+    // 图书标题和描述 (默认从README抽取)
+    "title": null,
+    "description": null,
+    // 对于ebook格式, 扩展名the extension to use for generation (default is detected from output extension)
+    // "epub", "pdf", "mobi"
+    // 注意: 它会覆盖命令行传入的参数
+    // 不建议在此文件中配置
+    "extension": null,
+    // GitHub 信息(defaults are extracted using git)
+    "github": null,
+    "githubHost": "https://github.com/",
+    // 插件列表, can contain "-name" for removing default plugins
+    "plugins": [],
+    // 插件通用配置
+    "pluginsConfig": {
+        "fontSettings": {
+            "theme": "sepia", "night" or "white",
+            "family": "serif" or "sans",
+            "size": 1 to 4
+        }
+    },
+    // 模版中的链接 (null: default, false: remove, string: new value)
+    "links": {
+        // Custom links at top of sidebar
+        "sidebar": {
+            "Custom link name": "https://customlink.com"
+        },
+        // Sharing links
+        "sharing": {
+            "google": null,
+            "facebook": null,
+            "twitter": null,
+            "weibo": null,
+            "all": null
+        }
+    },
+    // PDF 参数
+    "pdf": {
+        // Add toc at the end of the file
+        "toc": true,
+        // Add page numbers to the bottom of every page
+        "pageNumbers": false,
+        // Font size for the fiel content
+        "fontSize": 12,
+        // Paper size for the pdf
+        // Choices are [u’a0’, u’a1’, u’a2’, u’a3’, u’a4’, u’a5’, u’a6’, u’b0’, u’b1’, u’b2’, u’b3’, u’b4’, u’b5’, u’b6’, u’legal’, u’letter’]
+        "paperSize": "a4",
+        // Margin (in pts)
+        // Note: 72 pts equals 1 inch
+        "margin": {
+            "right": 62,
+            "left": 62,
+            "top": 36,
+            "bottom": 36
+        }
+    }
+}
+</code></pre>
+
+<h2>输出格式</h2>
+
+<p>GitBook 可以产生下列类型的图书:</p>
+
+<ul>
+<li>静态站点: 默认格式. 创建一个完全交互式的静态网站，可以发布到GitHub Pages等网站.</li>
+<li>eBook: 图书完成后可以使用它创建电子书. 创建命令: <code>gitbook ebook ./myrepo</code>. 你需要安装 <code>ebook-convert</code>. 输出格式可以是 PDF, ePub 或 MOBI.</li>
+<li>单页网页: 可以生成一个单页的 HTML 网页。这个格式可以用来转换 PDF 或者 eBook. 创建命令: <code>gitbook build ./myrepo -f page</code>.</li>
+<li>JSON: 此格式用来调试或者抽取图书的元数据. 创建命令: <code>gitbook build ./myrepo -f json</code></li>
+</ul>
+
+
+<h2>图书格式</h2>
+
+<p>一本图书就是一个 Git repository， 至少包含两个文件:    <code>README.md</code> 和 <code>SUMMARY.md</code>.</p>
+
+<h3>README.md</h3>
+
+<p>典型的, 它应该是你的图书的介绍. 它可以自动的被加到最终的summary中.</p>
+
+<h3>SUMMARY.md</h3>
+
+<p>SUMMARY.md 定义了你的图书的结构. 它应该包含章节的列表,以及它们的链接.</p>
+
+<p>例如:</p>
+
+<pre><code># Summary
+This is the summary of my book.
+* [section 1](section1/README.md)
+    * [example 1](section1/example1.md)
+    * [example 2](section1/example2.md)
+* [section 2](section2/README.md)
+    * [example 1](section2/example1.md)
+</code></pre>
+
+<p>不被 <code>SUMMARY.md</code> 包含的文件不会被 <code>gitbook</code> 处理.</p>
+
+<h2>多语言</h2>
+
+<p>GitBook 支持使用多种语言编写图书. 每种语言应该是一个子目录， 遵循正常gitbook格式, LANGS.md文件应该被放到repository的根文件夹， 格式如下:</p>
+
+<pre><code>* [English](en/)
+* [French](fr/)
+* [Español](es/)
+</code></pre>
+
+<p>看个例子 <a href="https://github.com/GitbookIO/git">学习 Git</a>.</p>
+
+<h3>词汇表</h3>
+
+<p>允许你列出条目以及它们的定义. 基于这些条目 <code>gitbook</code> 会自动创建一个索引，并在页面中加亮这些条目.</p>
+
+<p><code>GLOSSARY.md</code> 格式很简单 :</p>
+
+<pre><code># term
+Definition for this term
+# Another term
+With it's definition, this can contain bold text and all other kinds of inline markup ...
+</code></pre>
+
+<h3>忽略文件和文件夹</h3>
+
+<p>GitBook 读取 <code>.gitignore</code>, <code>.bookignore</code> 和 <code>.ignore</code> 得到需要忽略的文件/文件夹的列表. (文件的格式和 <code>.gitignore</code> 一样).</p>
+
+<p><code>.gitignore</code>最佳实践是忽略 <code>build</code>文件，这些文件来自 node.js (node_modules, &hellip;) 和 GitBook 的 <code>build</code> 文件:<code>_book</code>, <code>*.epub</code>, <code>*.mobi and *.pdf</code>.</p>
+
+<h3>封面</h3>
+
+<p>封面文件为: <code>/cover.jpg</code>.
+尺寸为 1800x2360. 插件 autocover可以自动创建一个文件.</p>
+
+<p>封面的小尺寸图形为: /cover_small.jpg.</p>
+
+<h3>发布图书</h3>
+
+<p>平台 <a href="https://www.gitbook.io/">GitBook.io</a> 就像"Heroku for books": 你可以在它上面创建图书 (公开的, 付费的, 或者私有的)， 并且使用 git push 就可以更新.</p>
+
+<h3>插件</h3>
+
+<p>P 插件可以扩展图书的功能. 查看插件介绍 <a href="https://github.com/GitbookIO/plugin">GitbookIO/plugin</a> 来了解如何创建一个插件.</p>
+
+<h3>官方插件:</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eu0xkphfasj20o706igmk.jpg" alt="img" /></p>
+
+<h3>其它插件:</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eu0xkpw4f5j20o40eudjo.jpg" alt="img" /></p>
+
+<h3>调试</h3>
+
+<p>增加环境变量 <code>DEBUG=true</code> 来得到更好的错误信息(包含错误堆栈). 例如:</p>
+
+<pre><code>$ export DEBUG=true
+$ gitbook build ./
+</code></pre>
+
+<h2>浏览</h2>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eu0yjap8xtj20vg0fctaw.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eu0yipbb1tj20u40fitao.jpg" alt="img" /></p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://help.gitbook.com/index.html">gitbook help</a></li>
+<li>GitBook 项目官网：<a href="http://www.gitbook.io/">http://www.gitbook.io</a></li>
+<li>GitBook Github 地址：<a href="https://github.com/GitbookIO/gitbook">https://github.com/GitbookIO/gitbook</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-16T09:53:57+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:53 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/16/cmd-markdown-introduction/" title="Previous Post: Cmd Markdown Introduction">&laquo; Cmd Markdown Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/16/team-at-osc-introduction/" title="Next Post: Team@OSC Introduction">Team@OSC Introduction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

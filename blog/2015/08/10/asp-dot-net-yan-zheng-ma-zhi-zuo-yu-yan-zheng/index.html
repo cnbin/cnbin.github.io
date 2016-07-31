@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>asp.net 验证码制作与验证 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="搭建环境-VS2010 新建 ASP.NET Web 应用程序，名称为 ValiDemo 项目目录结构 新建Default.aspx文件 &lt;%@ Page Title="主页" Language="C#" AutoEventWireup="true" CodeBehind="Default &hellip;">
+  <meta name="keywords" content="net,asp">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/10/asp-dot-net-yan-zheng-ma-zhi-zuo-yu-yan-zheng/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">asp.net 验证码制作与验证</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T08:25:13+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>搭建环境-VS2010</h2>
+
+<h3>新建 ASP.NET Web 应用程序，名称为 ValiDemo</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1euw4iv83g5j20j40dv40z.jpg" alt="img" /></p>
+
+<h3>项目目录结构</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1euw580bh4fj205l09b3zc.jpg" alt="img" /></p>
+
+<h3>新建Default.aspx文件</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1euw5844weqj20iv0b3dj3.jpg" alt="img" /></p>
+
+<pre><code>&lt;%@ Page Title="主页" Language="C#" AutoEventWireup="true"
+    CodeBehind="Default.aspx.cs" Inherits="ValiCodeDemo._Default" %&gt;
+
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head id="Head1" runat="server"&gt;
+    &lt;title&gt;验证码测试&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form id="form1" runat="server"&gt;
+    &lt;center&gt;
+    &lt;fieldset&gt;
+    &lt;legend&gt;验证码测试&lt;/legend&gt;
+        请输入验证码：&lt;asp:TextBox ID="valid" runat="server"&gt;&lt;/asp:TextBox&gt;  
+        &lt;asp:Image ID="Image1" runat="server" /&gt;
+        &lt;asp:Button ID="Button1" runat="server" Text="提交" onclick="Button1_Click" /&gt;
+    &lt;/fieldset&gt;
+    &lt;/center&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h3>新建Default.aspx.cs文件</h3>
+
+<pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Configuration;
+using System.Data;
+using System.Web.Security;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls.WebParts;
+
+namespace ValiCodeDemo
+{
+    public partial class _Default : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            Image1.ImageUrl = "ValiCode.aspx";
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            string ValiCode = valid.Text;
+            if (ValiCode == "")
+            {
+                Response.Write("&lt;script&gt;alert('验证码为空！');&lt;/script&gt;");
+                valid.Focus();
+                return;
+            }
+            else if (ValiCode != (string)Session["ValiCode"])
+            {
+                Response.Write("&lt;script&gt;alert('输入的验证码错误');&lt;/script&gt;");
+                valid.Text = "";
+                valid.Focus();
+            }
+            else
+            {
+                Response.Write("&lt;script&gt;alert('你输入的验证码正确');&lt;/script&gt;");
+                valid.Text = "";
+                valid.Focus();
+            }
+        }
+    }
+}
+</code></pre>
+
+<h3>新建ValiCode.aspx文件</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1euw582e7u1j20jg0f775g.jpg" alt="img" /></p>
+
+<pre><code>&lt;%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ValiCode.aspx.cs" Inherits="ValiCodeDemo.ValiCode" %&gt;
+
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head runat="server"&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form id="form1" runat="server"&gt;
+    &lt;div&gt;
+
+    &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>或者使用母版页：</p>
+
+<pre><code>&lt;%@ Page Title="主页" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
+    CodeBehind="Default.aspx.cs" Inherits="WebApplication2._Default" %&gt;
+
+&lt;asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent"&gt;
+&lt;/asp:Content&gt;
+&lt;asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent"&gt;
+     &lt;asp:Image ID="Image1" runat="server" /&gt;
+        &lt;asp:Button ID="Button1" runat="server" Text="提交" onclick="Button1_Click" /&gt;
+&lt;/asp:Content&gt;
+</code></pre>
+
+<h3>新建ValiCode.aspx.cs文件</h3>
+
+<pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.Security;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Xml.Linq;
+using System.Drawing;       //引用Bitmap类和Graphics类来创建画板对象
+
+namespace ValiCodeDemo
+{
+    public partial class ValiCode : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            DoImg(DoCode(5));
+        }
+
+        /// &lt;summary&gt;
+        /// 生成验证码表达式
+        /// &lt;/summary&gt;
+        /// &lt;param name="num"&gt;验证码的长度&lt;/param&gt;
+        /// &lt;returns&gt;验证码表达式&lt;/returns&gt;
+        private string DoCode(int num)
+        {
+            //要从这个数组中随机取字符来生成验证码
+            string[] Codesource ={"0","1","2","3","4","5","6","7","8","9",
+                             "a","b","c","d","e","f","g","h","i","j","k","l","m","n"};
+            string code = "";
+            Random rd = new Random();
+            for (int i = 0; i &lt; num; i++)
+            {
+                code += Codesource[rd.Next(0, Codesource.Length)];
+            }
+            return code;
+        }
+        /// &lt;summary&gt;
+        /// 生成图片
+        /// &lt;/summary&gt;
+        /// &lt;param name="code"&gt;验证码表达式&lt;/param&gt;
+        private void DoImg(string code)
+        {
+            Random random = new Random();
+            Bitmap mypalette = new Bitmap(100, 30);
+            Graphics gh = Graphics.FromImage(mypalette);
+            using (gh)
+            {
+                Rectangle rc = new Rectangle(0, 0, 100, 30);
+                //填充图片
+                gh.FillRectangle(new SolidBrush(Color.White), rc);
+                for (int i = 0; i &lt; 1; i++)
+                {
+                    int x1 = random.Next(mypalette.Width);
+                    int x2 = random.Next(mypalette.Width);
+                    int y1 = random.Next(mypalette.Height);
+                    int y2 = random.Next(mypalette.Height);
+                    //在图片上随机画线条
+                    gh.DrawLine(new Pen(Color.Blue), x1, y1, x2, y2);
+                }
+                gh.DrawString(code, new Font("宋体", 20), new SolidBrush(Color.Black), rc);
+                for (int i = 1; i &lt; 60; i++)
+                {
+                    int x = random.Next(mypalette.Width);
+                    int y = random.Next(mypalette.Height);
+                    //在图片中填充随机颜色
+                    mypalette.SetPixel(x, y, Color.FromArgb(random.Next()));
+                }
+                //将生成的图像保存到流中
+                mypalette.Save(Response.OutputStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                Session["ValiCode"] = code;                                                 //主要用来验证
+            }
+            Response.Write(code);
+        }
+
+    }
+}
+</code></pre>
+
+<h3>启动调试</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1euw5834ed8j20ik0c674u.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-10T08:25:13+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:25 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/08/you-are-the-only-one/" title="Previous Post: You are the only one">&laquo; You are the only one</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/10/httpservice-he-webservicequ-bie/" title="Next Post: httpservice 和 webservice区别">httpservice 和 webservice区别 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Swift | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/swift/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Swift问题汇总]]></title>
+    <link href="http://cnbin.github.io/blog/2016/05/04/swiftwen-ti-hui-zong/"/>
+    <updated>2016-05-04T10:15:20+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/05/04/swiftwen-ti-hui-zong</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<pre><code>error: Redundant conformance of 'qos_class_t' to protocol 'Equatable'
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f3j4xr5ly5j20q80263yt.jpg" alt="img" /></p>
+
+<p>冗余的协议不一致</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f3j4wqfrrdj20c5029q37.jpg" alt="img" /></p>
+
+<p><code>qos_class_t</code>在swift2.1后已经实现了Equatable协议</p>
+
+<p>原因是因为<code>qos_class_t</code>在swift2.1后已经实现了<code>Equatable</code>协议,所以没必要在实现Equatable协议了定义的时候</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Swift-类型转换{#Type-Casting}]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/26/swift-lei-xing-zhuan-huan-%7B-number-type-casting%7D/"/>
+    <updated>2016-02-26T09:01:54+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/26/swift-lei-xing-zhuan-huan-{-number-type-casting}</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>暂时我们还不太可能脱离 Cocoa 框架，而 Swift 有着较强类型安全特性，其实这本质是和 Objective-C 时代的 Cocoa 框架是不太相符合的。在 Objective-C 里我们可以简单地使用 id 指代一切类型，并且在使用时如果我们可以完全确定的话，只需要声明并使用合适类型的指针就可以了。但是在 Swift 里事情就要麻烦一些，我们经常会需要进行向下的类型转换。比如下面这段代码在 Objective-C 中再普通不过了：</p>
+
+<pre><code>for (UIView *view in [self.view subviews]) {
+    // 对 view 进行操作
+    // 如果 view 实际上不是 UIView 的话，crash
+    view.backgroundColor = [UIColor redColor];
+}
+</code></pre>
+
+<p>在 Objective-C 中，因为没有泛型存在，因此虽然可以确信在 Cocoa 框架中 self.view subviews 返回的数组中的对象一定都是 UIView 的子类，但是在进行传递的时候这个信息并不为编译器所知。虽然在这个例子里对背景颜色的设定一定不可能造成崩溃，但是其实最为安全的写法应该是：</p>
+
+<pre><code>for (id object in [self.view subviews]) {
+    if ([object isKindOfClass:[UIView class]]) {
+        // 对 object 进行了判断，它一定是 UIView 或其子类
+        UIView * view = (UIView *)object;
+        // 对 view 进行操作
+        // 因为 view 一定是 UIView，所以绝对安全
+        view.backgroundColor = [UIColor redColor];
+    }
+}
+</code></pre>
+
+<p>在 Swift 中虽然有泛型，但是绝大多数 Cocoa API 并没有对 Swift 进行很好的适配，原来返回 id 的地方现在都以 AnyObject 或者 AnyObject? (如果可能是 nil 的话) 替代，而对于像数组这样的结构，除了 String 这样的精心打磨的类型以外，也基本是简单暴力地使用 [AnyObject] 的形式返回。这就导致了在这种情况下我们无法利用泛型的特性，而需要经常地做类型转换。Swift 中使用 as! 关键字做强制类型转换。结合使用 is 进行自省，上面最安全的版本对应到 Swift 中的形式是：</p>
+
+<pre><code>for object in self.view.subviews {
+    if object is UIView {
+        let view = object as! UIView
+        view.backgroundColor = UIColor.redColor()
+    }
+}
+</code></pre>
+
+<p>这显然还是太麻烦了，但是如果我们不加检查就转换的话，如果待转换对象 (object) 并不是目标类型 (UIView) 的话，app 将崩溃，这是我们最不愿意看到的。我们可以利用 Swift 的 Optional，在保证安全的前提下让代码稍微简单一些。在类型转换的关键字 as 后面添加一个问号 ?，可以在类型不匹配及转换失败时返回 nil，这种做法显然更有 Swift 范儿：</p>
+
+<pre><code>for object in self.view.subviews {
+    if let view = object as? UIView {
+        view.backgroundColor = UIColor.redColor()
+    }
+}
+</code></pre>
+
+<p>不仅如此，我们还可以对整个 [AnyObject] 的数组进行转换，先将其转为 [UIView] 再直接使用：</p>
+
+<pre><code>if let subviews = self.view.subviews as? [UIView] {
+    for view in subviews {
+        view.backgroundColor = UIColor.redColor()
+    }
+}
+</code></pre>
+
+<p>注意对于整个数组进行转换这个行为和上面的单个转换的行为并不是等同的。整体转换要求数组里的所有元素都是目标类型，否则转换的整个结果都将变成 nil。</p>
+
+<p>当然，因为这里我们总能保证 self.view.subviews 返回的数组里一定是 UIView，在这样的自信和这种特定的场景下，我们将代码写成强制的转换也无伤大雅：</p>
+
+<pre><code>for view in self.view.subviews as! [UIView] {
+    view.backgroundColor = UIColor.redColor()
+}
+</code></pre>
+
+<p>但是需要牢记，这是以牺牲了一部分类型安全为代价的简化。如果代码稍后发生了意料之外的变化，或者使用者做了什么超乎常理的事情的话，这样的代码是存在崩溃的风险的。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Swift-将 PROTOCOL 的方法声明为 MUTATING]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/25/swift-jiang-protocol-de-fang-fa-sheng-ming-wei-mutating/"/>
+    <updated>2016-02-25T18:53:00+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/25/swift-jiang-protocol-de-fang-fa-sheng-ming-wei-mutating</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>Swift 的 protocol 不仅可以被 class 类型实现，也适用于 struct 和 enum。因为这个原因，我们在写给别人用的接口时需要多考虑是否使用 mutating 来修饰方法，比如定义为 mutating func myMethod()。Swift 的 mutating 关键字修饰方法是为了能在该方法中修改 struct 或是 enum 的变量，所以如果你没在接口方法里写 mutating 的话，别人如果用 struct 或者 enum 来实现这个接口的话，就不能在方法里改变自己的变量了。比如下面的代码</p>
+
+<pre><code>protocol Vehicle
+{
+    var numberOfWheels: Int {get}
+    var color: UIColor {get set}
+
+    mutating func changeColor()
+}
+
+struct MyCar: Vehicle {
+    let numberOfWheels = 4
+    var color = UIColor.blueColor()
+
+    mutating func changeColor() {
+        color = UIColor.redColor()
+    }
+}
+</code></pre>
+
+<p>如果把 protocol 定义中的 mutating 去掉的话，MyCar 就怎么都过不了编译了：保持现有代码不变的话，会报错说没有实现接口；如果去掉 mutating 的话，会报错说不能改变结构体成员。这个接口的使用者的忧伤的眼神，相信你能想象得出。</p>
+
+<p>另外，在使用 class 来实现带有 mutating 的方法的接口时，具体实现的前面是不需要加 mutating 修饰的，因为 class 可以随意更改自己的成员变量。所以说在接口里用 mutating 修饰方法，对于 class 的实现是完全透明，可以当作不存在的。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Swift-优雅的 NSStringFromClass 替代方案]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/25/swift-you-ya-de-nsstringfromclass-ti-dai-fang-an/"/>
+    <updated>2016-02-25T15:50:10+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/25/swift-you-ya-de-nsstringfromclass-ti-dai-fang-an</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>使用 Swift 过程中，我意识到的第一个问题就是没有 <code>NSStringFromClass</code> 的替代方案。在自定义 <code>TableViewCell</code> 时，我喜欢用类名作为 cell 的 identifier，然后在重用队列中，通过 <code>NSStringFromClass</code> 来获得 identifier，从而避免拼写错误。</p>
+
+<p>然而，在 Swift 中，我不得不写一个丑陋的 extension 来达到这一目的。（<a href="http://stackoverflow.com/questions/24107658/get-a-user-readable-version-of-the-class-name-in-swift-in-objc-nsstringfromclas">参考 StackOverflow 的回答</a>）</p>
+
+<pre><code>public extension NSObject{
+    public class var nameOfClass: String{
+        return NSStringFromClass(self).componentsSeparatedByString(".").last!
+    }
+
+    public var nameOfClass: String{
+        return NSStringFromClass(self.dynamicType).componentsSeparatedByString(".").last!
+    }
+}
+</code></pre>
+
+<p>不知道以下写法是什么时候出现的，但我确实在 @aligatr 发表的文章中看到了：</p>
+
+<pre><code>// This now works!!!
+String(MyTableViewCell)
+</code></pre>
+
+<p>为确保这个方案可行，我在自己的工程中试了试，没想到真的成功了！！</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1bmu03sh6j20ec04gaag.jpg" alt="img" /></p>
+
+<pre><code>// BlueTableViewController
+override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {
+
+    // 从重用队列中取出 cell!!!
+    let cell = tableView.dequeueReusableCellWithIdentifier(String(BlueTableViewCell), forIndexPath: indexPath)
+
+    return cell
+}
+</code></pre>
+
+<p>超级赞赞赞，我终于可以删掉丑陋的 extension 了。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Swift-公开 Getter，隐藏 Setter]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/25/swift-gong-kai-getter,yin-cang-setter/"/>
+    <updated>2016-02-25T15:46:22+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/25/swift-gong-kai-getter,yin-cang-setter</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>在 struct 中有一个属性，这属性需要在外部读，并只能在内部进行写。当时的实现方式是：</p>
+
+<pre><code>struct Counter {
+    // `count` 在这里必须是一个 var 
+    // 但我并不想将 `count` 设为公开的，
+    // 所以加了 private 定为私有的
+    private var count: Int
+
+    // 现在就只能通过这种方式在外部访问 `count` 了
+    func getCount() {
+        return count
+    }
+}
+</code></pre>
+
+<p>这种方式并不优雅，但却是我唯一能想到的解决方案。幸运的是，现在我找到了一个更好的方式！</p>
+
+<p>Twitter 上 @mipstian 指出可以通过设置私有的 Setter 方法来达到效果，就像这样：</p>
+
+<pre><code>struct Counter {
+    // 现在就只有setter是private的了！
+    private(set) var count: Int
+}
+</code></pre>
+
+<p>对当前案例来说，将 Counter 设置为模块内公开(也就是internal)。但如果你是要做 SDK，你可以像下面这样公开 Getter ，同时隐藏 Setter：</p>
+
+<pre><code>public struct Counter {
+    // 现在就只有setter是private的了！
+    public private(set) var count: Int
+}
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.saitjr.com/ios/swift-magic-public-getter-private-setter.html">http://www.saitjr.com/ios/swift-magic-public-getter-private-setter.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS - ChatSecure - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="ChatSecure ChatSecure is a free and open source instant messaging client for iOS and Android that integrates encrypted OTR (&ldquo;Off the Record& &hellip;">
+  <meta name="keywords" content="chatsecure">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/04/ios-chatsecure/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS - ChatSecure</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-04T10:30:15+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:30 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1><a href="https://github.com/ChatSecure/ChatSecure-iOS">ChatSecure</a></h1>
+
+<p><a href="https://chatsecure.org">ChatSecure</a> is a free and open source instant messaging client for <a href="https://itunes.apple.com/us/app/chatsecure/id464200063">iOS</a> and <a href="https://play.google.com/store/apps/details?id=info.guardianproject.otr.app.im&amp;hl=en">Android</a> that integrates encrypted <a href="https://en.wikipedia.org/wiki/ChatSecure_Messaging">OTR</a> (&ldquo;Off the Record&rdquo;) messaging support from the <a href="https://otr.cypherpunks.ca/">libotr</a> library and the <a href="https://github.com/robbiehanson/XMPPFramework/">XMPPFramework</a> to handle Jabber/GTalk (XMPP).</p>
+
+<h2>Cost</h2>
+
+<p>This project is <strong>100% free</strong> because it is important that all people around the world have unrestricted access to privacy tools.
+However, developing and supporting this project is hard work and costs real money. Please help support the development of this project! We now also accept Bitcoin via Coinbase! :)</p>
+
+<h2>Localization</h2>
+
+<p>If you would like to contribute/improve a translation:</p>
+
+<ol>
+<li>Visit our <a href="https://www.transifex.net/projects/p/chatsecure/">Transifex project page</a> and make an account if you don&rsquo;t have one already.</li>
+<li>Go to the resources subsites <a href="https://www.transifex.net/projects/p/chatsecure/resource/appstorestrings/">AppStore.strings</a> &amp; <a href="https://www.transifex.net/projects/p/chatsecure/resource/strings/">Localizable.strings</a> to add a new language or improve an existing translation.</li>
+<li><a href="https://github.com/ChatSecure/ChatSecure-iOS/issues">Open an issue on Github</a> notifying us of your translation.</li>
+</ol>
+
+
+<h2>Compatibility</h2>
+
+<p>There&rsquo;s a more <a href="https://en.wikipedia.org/wiki/Off-the-Record_Messaging#Client_support">full list of OTR clients on Wikipedia</a>.</p>
+
+<h3>Desktop</h3>
+
+<ul>
+<li><a href="https://adium.im/">Adium</a> (Mac OS X)</li>
+<li><a href="https://jitsi.org">Jitsi</a> (Cross-platform)</li>
+<li><a href="https://pidgin.im/">Pidgin</a> (cross-platform), with <a href="https://otr.cypherpunks.ca/index.php#downloads">pidgin-otr</a> plugin.</li>
+</ul>
+
+
+<h3>Mobile</h3>
+
+<ul>
+<li><a href="https://guardianproject.info/apps/chatsecure/">ChatSecure-Android</a> (formerly known as Gibberbot)</li>
+<li><a href="http://beem-project.com/projects/beem">BEEM</a> (Android)</li>
+<li><a href="https://github.com/siacs/Conversations">Conversations</a> (Android)</li>
+</ul>
+
+
+<h2>Build Instructions</h2>
+
+<p>You&rsquo;ll need <a href="http://cocoapods.org">Cocoapods</a> for most of our dependencies.</p>
+
+<pre><code>$ gem install cocoapods
+</code></pre>
+
+<p>Download the source code and <strong>don&rsquo;t forget</strong> to pull down all of the submodules as well.</p>
+
+<pre><code>$ git clone https://github.com/ChatSecure/ChatSecure-iOS.git
+$ cd ChatSecure-iOS/
+$ git submodule update --init --recursive
+</code></pre>
+
+<p>   <img src="http://ww4.sinaimg.cn/mw690/78f9859egw1evnuqfybyaj20tq056afb.jpg" alt="img" /></p>
+
+<p>Now you&rsquo;ll need to build the dependencies. During this process we will automatically verify the integity of each package by checking its GPG signature. Install <a href="https://gpgtools.org">GPGTools</a> and add the public signing keys for OpenSSL, GnuPG, libevent, and libotr. <em>(TODO make these links to the keys)</em></p>
+
+<pre><code>$ bash ./Submodules/CPAProxy/scripts/build-all.sh
+$ bash ./Submodules/OTRKit/scripts/build-all.sh
+$ pod install
+</code></pre>
+
+<p> <img src="http://ww3.sinaimg.cn/mw690/78f9859egw1evnuqgqyofj20id03t766.jpg" alt="img" />
+ <img src="http://ww1.sinaimg.cn/mw690/78f9859egw1evnuqga9tqj20c607zdgh.jpg" alt="img" /></p>
+
+<p>Next you&rsquo;ll need to create your own version of environment-specific data. Make a copy of <code>OTRSecrets-Template.m</code> as <code>OTRSecrets.m</code>:</p>
+
+<pre><code>$ cp ChatSecure/Classes/Utilities/OTRSecrets-Template.m ChatSecure/Classes/Utilities/OTRSecrets.m
+$ cp ./configurations/OTR_Codesigning.xcconfig.sample ./configurations/OTR_Codesigning.xcconfig
+</code></pre>
+
+<p>Then set your own value for <code>PROVISIONING_PROFILE_Debug</code> in <code>OTR_Codesigning.xcconfig</code> to your iOS team provisioning profile identifier to run it on your device. You can get this identifier by temporarily selecting the desired profile in Xcode (Build Settings -> Provisiong Profile), then selecting &ldquo;Other&hellip;&rdquo;.</p>
+
+<p>Open <code>ChatSecure.xcworkspace</code> in Xcode and build.</p>
+
+<p><em>Note</em>: <strong>Don&rsquo;t open the <code>.xcodeproj</code></strong> because we use Cocoapods now!</p>
+
+<p>If you&rsquo;re still having trouble compiling check out the Travis-CI build status and <code>.travis.yml</code> file.</p>
+
+<h2>Contributing</h2>
+
+<p>Thank you for your interest in contributing to ChatSecure! To avoid potential legal headaches and to allow distribution on Apple&rsquo;s App Store please sign our CLA (Contributors License Agreement). For contributing translations, please check out our <a href="https://www.transifex.com/projects/p/chatsecure/">Transifex</a> page.</p>
+
+<ol>
+<li>Sign the CLA (<a href="https://github.com/ChatSecure/ChatSecure-iOS/raw/master/media/contributing/CLA.odt">odt</a>, <a href="https://github.com/ChatSecure/ChatSecure-iOS/raw/master/media/contributing/CLA.pdf">pdf</a>) and email it to <a href="mailto:chris@chatsecure.org">chris@chatsecure.org</a>.</li>
+<li><a href="https://github.com/ChatSecure/ChatSecure-iOS/fork">Fork</a> the project and (preferably) work in a feature branch.</li>
+<li>Open a <a href="https://github.com/ChatSecure/ChatSecure-ios/pulls">pull request</a> on GitHub.</li>
+<li>Thank you!</li>
+</ol>
+
+
+<h2>License</h2>
+
+<pre><code>Software License Agreement (GPLv3+)
+
+Copyright (c) 2015, Chris Ballinger. All rights reserved.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+</code></pre>
+
+<p>If you would like to relicense this code to distribute it on the App Store,
+please contact me at <a href="mailto:chris@chatsecure.org">chris@chatsecure.org</a>.</p>
+
+<h2>Third-party Libraries</h2>
+
+<p>This software additionally references or incorporates the following sources
+of intellectual property, the license terms for which are set forth
+in the sources themselves:</p>
+
+<p>The following dependencies are bundled with the ChatSecure, but are under
+terms of a separate license:</p>
+
+<ul>
+<li><a href="https://github.com/chatsecure/otrkit">OTRKit</a> - Objective-C libotr wrapper library for OTR encryption <a href="https://travis-ci.org/ChatSecure/OTRKit"><img src="https://travis-ci.org/ChatSecure/OTRKit.svg?branch=master" alt="Build Status" /></a>
+
+<ul>
+<li><a href="https://otr.cypherpunks.ca/">libotr</a> - provides the core message encryption capabilities</li>
+<li><a href="https://www.gnu.org/software/libgcrypt/">libgcrypt</a> - handles core libotr encryption routines</li>
+<li><a href="http://www.gnupg.org/related_software/libgpg-error/">libgpg-error</a> - error codes used by libotr</li>
+</ul>
+</li>
+<li><a href="https://github.com/ursachec/CPAProxy">CPAProxy</a> - Objective-C Tor Wrapper Framework for iOS <a href="https://travis-ci.org/ursachec/CPAProxy"><img src="https://travis-ci.org/ursachec/CPAProxy.svg?branch=master" alt="Build Status" /></a>
+
+<ul>
+<li><a href="https://www.openssl.org">OpenSSL</a> - crypto primitives required by Tor</li>
+<li><a href="http://libevent.org">libevent</a> - Tor i/o dependency</li>
+<li><a href="https://www.torproject.org">Tor</a> - internet anonymity framework</li>
+</ul>
+</li>
+<li><a href="https://github.com/robbiehanson/XMPPFramework">XMPPFramework</a> - XMPP support</li>
+<li><a href="https://github.com/yapstudios/YapDatabase">YapDatabase</a> - YapDatabase is a pretty awesome key/value/collection store built atop sqlite for iOS &amp; Mac.
+
+<ul>
+<li><a href="https://www.zetetic.net/sqlcipher/">SQLCipher</a> - full database encryption for <a href="http://sqlite.org">sqlite</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/mantle/mantle">Mantle</a> - Model framework for Cocoa and Cocoa Touch</li>
+<li><a href="https://github.com/jessesquires/JSQMessagesViewController">JSQMessagesViewController</a> - Messages UI library for iOS</li>
+<li><a href="https://github.com/jdg/MBProgressHUD">MBProgressHUD</a> - a nice looking progress HUD</li>
+<li><a href="https://github.com/mwaterfall/MWFeedParser">MWFeedParser</a> - Methods for escaping HTML strings</li>
+<li><a href="https://github.com/soffes/sskeychain">SSKeychain</a> - Utilities to store passwords securely in the iOS keychain</li>
+<li><a href="https://github.com/arashpayan/appirater">Appirater</a> - nags people to give reviews</li>
+<li><a href="https://www.uservoice.com/">UserVoice</a> - in-app support forum</li>
+<li><a href="https://github.com/bitstadium/HockeySDK-iOS">HockeySDK</a> - crash reporting framework</li>
+<li><a href="https://github.com/danielamitay/DAKeyboardControl">DAKeyboardControl</a> - support for swiping down keyboard in chat view</li>
+</ul>
+
+
+<p>For a more complete list, check the <a href="https://github.com/ChatSecure/ChatSecure-iOS/blob/master/Podfile">Podfile</a>.</p>
+
+<h2>Acknowledgements</h2>
+
+<p>Thank you to everyone who helped this project become a reality! This project is also supported by the fine folks from <a href="https://guardianproject.info">The Guardian Project</a> and <a href="https://openitp.org">OpenITP</a>.</p>
+
+<ul>
+<li><a href="http://nickhum.com/">Nick Hum</a> - awesome icon.</li>
+<li><a href="http://icons8.com/license">Icons8</a> - Various new &ldquo;iOS 7&rdquo;-style icons</li>
+<li><a href="http://thenounproject.com/mateozlatar/">Mateo Zlatar</a> - <a href="http://thenounproject.com/term/world/6502/">World Icon</a></li>
+<li><a href="http://rocketdock.com/addon/icons/3462">Goxxy</a> - Google Talk icon.</li>
+<li>Yes designed by <a href="http://www.thenounproject.com/khogan87">Kristin Hogan</a> from the <a href="http://www.thenounproject.com">Noun Project</a></li>
+<li>No designed by <a href="http://www.thenounproject.com/khogan87">Kristin Hogan</a> from the <a href="http://www.thenounproject.com">Noun Project</a></li>
+<li>Wifi designed by <a href="http://thenounproject.com/useiconic.com/">useiconic.com</a> from the <a href="http://www.thenounproject.com">Noun Project</a></li>
+<li>Warning designed by <a href="http://thenounproject.com/lorens/">Lorena Salagre</a> from the <a href="http://www.thenounproject.com">Noun Project</a></li>
+<li><a href="https://www.transifex.com/projects/p/chatsecure/">Localizations</a>
+
+<ul>
+<li><a href="http://www.personal.psu.edu/jwl5262/blogs/lin_portfolio/">Jiajuan Lin</a> (Chinese)</li>
+<li><a href="http://jancborchardt.net/">Jan-Christoph Borchardt</a> (German)</li>
+<li><a href="https://github.com/vitalyster">vitalyster</a> (Russian)</li>
+<li><a href="https://www.transifex.net/accounts/profile/burhanteoman/">burhan teoman</a> (Turkish)</li>
+<li><a href="https://www.transifex.net/accounts/profile/shikibiomernok/">shikibiomernok</a> (Hungarian)</li>
+</ul>
+</li>
+<li>Many many more!</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-04T10:30:15+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:30 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/02/appirater-introduction/" title="Previous Post: Appirater Introduction">&laquo; Appirater Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/04/zxing-coocapodsbei-qiang-de-wen-ti/" title="Next Post: ZXing CoocaPods 被墙的问题">ZXing CoocaPods 被墙的问题 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

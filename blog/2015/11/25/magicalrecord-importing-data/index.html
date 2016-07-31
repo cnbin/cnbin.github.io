@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MagicalRecord-Importing Data - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="We&rsquo;re working on updating this documentation — thanks for your patience.
+For the moment, please refer to Importing Data Made Easy at Cocoa Is &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/25/magicalrecord-importing-data/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MagicalRecord-Importing Data</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-25T08:47:33+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:47 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<blockquote><p>We&rsquo;re working on updating this documentation — thanks for your patience.
+For the moment, please refer to <a href="http://www.cimgf.com/2012/05/29/importing-data-made-easy/">Importing Data Made Easy</a> at <a href="http://www.cimgf.com/">Cocoa Is My Girlfriend</a>. Much of this document is based upon Saul&rsquo;s work in that original article.</p>
+
+<p><cite>MagicalRecord Team</cite></p></blockquote>
+
+<p>MagicalRecord can help import data from standard NSObject instances such as NSArray and NSDictionary directly into your Core Data store.</p>
+
+<p>It&rsquo;s a two step process to import data from an external source into your persistent store using MagicalRecord:</p>
+
+<ol>
+<li><strong>Define how the data you&rsquo;re importing maps to your store</strong> using your data model (it&rsquo;s pretty much codeless!)</li>
+<li><strong>Perform the data import</strong></li>
+</ol>
+
+
+<h2>Define Your Import</h2>
+
+<p>Data from external sources can be wildly variable in quality and structure, so we&rsquo;ve done our best to make MagicalRecord&rsquo;s import processes flexible.</p>
+
+<p><strong>MagicalRecord can import data from any Key-Value Coding (KVC) compliant object</strong>. We usually find people work with <code>NSArray</code> and <code>NSDictionary</code> instances, but it works just fine with any KVC compliant <code>NSObject</code> subclass.</p>
+
+<p>MagicalRecord makes use of the Xcode data modeling tool&rsquo;s &ldquo;<strong>User Info</strong>&rdquo; values to allow configuration of import options and mappings possible without having to edit any code.</p>
+
+<p align="center">
+<img src="http://cl.ly/image/1e333E3W2Y3E/datamodeller_userinfogroup.png" alt="Xcode's 'User Info' group in the data modeller" width="324" height="374" style="margin: 0 auto;" />
+</p>
+
+
+<blockquote><p><strong>For reference</strong>: The user info keys and values are held in an NSDictionary that is attached to every entity, attribute and relationship in your data model, and can be accessed via the <code>userInfo</code> method on your <code>NSEntityDescription</code> instances.</p></blockquote>
+
+<p>Xcode&rsquo;s data modelling tools give you access to this dictionary via the Data Model Inspector&rsquo;s &ldquo;User Info&rdquo; group. When editing a data model, you can open this inspector using Xcode&rsquo;s menus — <strong>View > Utilities > Show Data Model Inspector</strong>, or press <kbd>⌥⌘3</kbd> on your keyboard.</p>
+
+<p>By default, MagicalRecord will automatically try to match attribute and relationship names with the keys in your imported data. <strong>If an attribute or relationship name in your model matches a key in your data, you don&rsquo;t need to do anything — the value attached to the key will be imported automatically</strong>.</p>
+
+<p>For example, if an attribute on an entity has the name &lsquo;firstName&rsquo;, MagicalRecord will assume the key in the data to import will also have a key of &lsquo;firstName&rsquo; — if it does, your entity&rsquo;s <code>firstName</code> attribute will be set to the value of the <code>firstName</code> key in your data.</p>
+
+<p>More often than not, the keys and structure in the data you are importing will not match your entity&rsquo;s attributes and relationships. In this case, you will need to tell MagicalRecord how to map your import data&rsquo;s keys to the correct attribute or relationship in your data model.</p>
+
+<p>Each of the three key objects we deal with in Core Data — Entities, Attributes and Relationships — have options that may need to be specified via user info keys:</p>
+
+<h3>Attributes</h3>
+
+<table>
+<thead>
+<tr>
+<th> Key </th>
+<th> Type </th>
+<th> Purpose </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> <strong>attributeValueClassName</strong> </td>
+<td> String </td>
+<td> TBD </td>
+</tr>
+<tr>
+<td> <strong>dateFormat</strong> </td>
+<td> String </td>
+<td> TBD. Defaults to <code>yyyy-MM-dd'T'HH:mm:ssz</code>. </td>
+</tr>
+<tr>
+<td> <strong>mappedKeyName</strong>       </td>
+<td> String </td>
+<td> Specifies the name of the keypath in your data to import the value from. Supports keypaths, delimited by <code>.</code>, eg. <code>location.latitude</code> </td>
+</tr>
+<tr>
+<td> <strong>mappedKeyName.[0-9]</strong> </td>
+<td> String </td>
+<td> Specifies backup keypath names if the key specified by <strong>mappedKeyName</strong> doesn&rsquo;t exist. Supports the same syntax. </td>
+</tr>
+<tr>
+<td> <strong>useDefaultValueWhenNotPresent</strong> </td>
+<td> Boolean </td>
+<td> If this is true, the default value for the attribute will be set on the imported instance if no value is found for any key. </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Entities</h3>
+
+<table>
+<thead>
+<tr>
+<th> Key </th>
+<th> Type </th>
+<th> Purpose </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> <strong>relatedByAttribute</strong>  </td>
+<td> String </td>
+<td> Specifies the attribute in the target of the relationship that links the two. </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Relationships</h3>
+
+<table>
+<thead>
+<tr>
+<th> Key </th>
+<th> Type </th>
+<th> Purpose </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> <strong>mappedKeyName</strong>       </td>
+<td> String </td>
+<td> Specifies the name of the keypath in your data to import the value from. Supports keypaths, delimited by <code>.</code>, eg. <code>location.latitude</code> </td>
+</tr>
+<tr>
+<td> <strong>mappedKeyName.[0-9]</strong> </td>
+<td> String </td>
+<td> Specifies backup keypath names if the key specified by <strong>mappedKeyName</strong> doesn&rsquo;t exist. Supports the same syntax. </td>
+</tr>
+<tr>
+<td> <strong>relatedByAttribute</strong>  </td>
+<td> String </td>
+<td> Specifies the attribute in the target of the relationship that links the two. </td>
+</tr>
+<tr>
+<td> <strong>type</strong> </td>
+<td> String </td>
+<td> TBD </td>
+</tr>
+</tbody>
+</table>
+
+
+<h2>Importing Objects</h2>
+
+<p>To import data into your store using MagicalRecord, you need to know two things:</p>
+
+<ol>
+<li>The format of the data you&rsquo;re importing, and how it</li>
+</ol>
+
+
+<p>The basic idea behind MagicalRecord&rsquo;s importing is that you know the entity the data should be imported into, so you then write a single line of code tying this entity with the data to import. There are a couple of options to kick off the import process.</p>
+
+<p>To automatically create a new instance from the object, you can use the following, shorter approach:</p>
+
+<pre><code>NSDictionary *contactInfo = // Result from JSON parser or some other source
+
+Person *importedPerson = [Person MR_importFromObject:contactInfo];
+</code></pre>
+
+<p>You can also use a two-stage approach:</p>
+
+<pre><code>NSDictionary *contactInfo = // Result from JSON parser or some other source
+
+Person *person = [Person MR_createEntity]; // This doesn't have to be a new entity
+[person MR_importValuesForKeysWithObject:contactInfo];
+</code></pre>
+
+<p>The two-stage approach can be helpful if you’re looking to update an existing object by overwriting its attributes.</p>
+
+<p><code>+MR_importFromObject:</code> will look for an existing object based on the configured lookup value (see the <em>relatedByAttribute</em> and <em>attributeNameID</em>). Also notice how this follows the built in paradigm of importing a list of key-value pairs in Cocoa, as well as following the safe way to import data.</p>
+
+<p>The <code>+MR_importFromObject:</code> class method provides a wrapper around creating a new object using the previously mentioned <code>-MR_importValuesForKeysWithObject:</code> instance method, and returns the newly created object filled with data.</p>
+
+<p>A key item of note is that both these methods are synchronous. While some imports will take longer than others, it’s still highly advisable to perform <em>all imports</em> in the background so as to not impact user interaction. As previously discussed, MagicalRecord provides a handy API to make using background threads more manageable:</p>
+
+<pre><code>[MagicalRecord saveInBackgroundWithBlock:^(NSManagedObjectContext *)localContext {
+  Person *importedPerson = [Person MR_importFromObject:personRecord inContext:localContext];
+}];
+</code></pre>
+
+<h2>Importing Arrays</h2>
+
+<p>It’s common for a list of data to be served using a JSON array, or you’re importing a large list of a single type of data. The details of importing such a list are taken care of in the <code>+MR_importFromArray:</code> class method.</p>
+
+<pre><code>NSArray *arrayOfPeopleData = /// result from JSON parser
+NSArray *people = [Person MR_importFromArray:arrayOfPeopleData];
+</code></pre>
+
+<p>This method, like <code>+MR_importFromObject:</code> is also synchronous, so for background importing, use the previously mentioned helper method for performing blocks in the background.</p>
+
+<p>If your import data exactly matches your Core Data model, then read no further because the aforementioned methods are all you need to import your data into your Core Data store. However, if your data, like most, has little quirks and minor deviations, then read on, as we’ll walk through some of the features of MagicalRecord that will help you handle several commonly encountered deviations.</p>
+
+<h2>Best Practice</h2>
+
+<h3>Handling Bad Data When Importing</h3>
+
+<p>APIs can often return data that has inconsistent formatting or values. The best way to handle this is to use the import category methods on your entity classes. There are three provided:</p>
+
+<table>
+<thead>
+<tr>
+<th>Method                          </th>
+<th> Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>- (BOOL) shouldImport;</code>        </td>
+<td> Called before an data is imported. Use this to cancel importing data on a specific instance of an entity by returning <code>NO</code>.</td>
+</tr>
+<tr>
+<td><code>- (void) willImport:(id)data;</code> </td>
+<td> Called immediately before data is imported.</td>
+</tr>
+<tr>
+<td><code>- (void) didImport:(id)data;</code>  </td>
+<td> Called immediately after data has been imported.</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>Generally, if your data is bad you&rsquo;ll want to fix what the import did after an attempt has been made to import any values.</p>
+
+<p>A common scenario is importing JSON data where numeric strings can often be misinterpreted as an actual number. If you want to ensure that a value is imported as a string, you could do the following:</p>
+
+<pre><code>@interface MyGreatEntity
+
+@property(readwrite, nonatomic, copy) NSString *identifier;
+
+@end
+
+@implementation MyGreatEntity
+
+@dynamic identifier;
+
+- (void)didImport:(id)data
+{
+  if (NO == [data isKindOfClass:[NSDictionary class]]) {
+    return;
+  }
+
+  NSDictionary *dataDictionary = (NSDictionary *)data;
+
+  id identifierValue = dataDictionary[@"my_identifier"];
+
+  if ([identifierValue isKindOfClass:[NSNumber class]]) {
+    NSNumber *numberValue = (NSNumber *)identifierValue;
+
+    self.identifier = [numberValue stringValue];
+  }
+}
+
+@end
+</code></pre>
+
+<h3>Deleting local records on import update</h3>
+
+<p>Sometimes you will want to make sure that subsequent import operations not only update but also delete local records that are not included as part of the remote dataset. To do this, fetch all local records not included in this update via their <code>relatedByAttribute</code> (<code>id</code> in the example below) and remove them immediately before importing the new dataset.</p>
+
+<pre><code>NSArray *arrayOfPeopleData = /// result from JSON parser
+NSArray *people = [Person MR_importFromArray:arrayOfPeopleData];
+NSArray *idList = [arrayOfPeopleData valueForKey:@"id"];
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT(id IN %@)", idList];
+[Person MR_deleteAllMatchingPredicate:predicate];
+</code></pre>
+
+<p>If you also want to make sure that related records are removed during this update, you can use similar logic as above but implement it in the <code>willImport:</code> method of <code>Person</code></p>
+
+<pre><code>@implementation Person
+
+-(void)willImport:(id)data {
+    NSArray *idList = [data[@"posts"] valueForKey:@"id"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT(id IN %@) AND person.id == %@", idList, self.id];
+    [Post MR_deleteAllMatchingPredicate:predicate];
+}
+</code></pre>
+
+<p>Source: <a href="http://stackoverflow.com/a/24252825/401092">http://stackoverflow.com/a/24252825/401092</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-25T08:47:33+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:47 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/25/ios-shi-xian-da-dian-hua/" title="Previous Post: iOS 实现打电话">&laquo; iOS 实现打电话</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/25/shi-yong-intulocationmanagershi-xian-ding-wei/" title="Next Post: 使用INTULocationManager实现定位">使用INTULocationManager实现定位 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

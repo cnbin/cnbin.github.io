@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS - AVAudioPlayer 播放本地音频 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Introduction The AV Foundation (Audio and Video Foundation) framework in the iOS SDK allows developers to play and/or record audio and video with &hellip;">
+  <meta name="keywords" content="avfoundation">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/04/ios-avaudioplayer-bo-fang-ben-di-yin-pin/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS - AVAudioPlayer 播放本地音频</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-04T12:20:19+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:20 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>Introduction</h2>
+
+<p>The AV Foundation (Audio and Video Foundation) framework in the iOS SDK allows developers to play and/or record audio and video with ease. In addition, the Media Player framework allows developers to play audio and video files.
+Before you can run the code in this chapter, you must add the AVFoundation.frame work and MediaPlayer.framework frameworks to your Xcode project. With the new LLVM compiler, all you have to do in order to include these frameworks into your app is to import their umbrella header files into your app like so:</p>
+
+<pre><code>#import "AppDelegate.h"
+#import &lt;AVFoundation/AVFoundation.h&gt;
+
+#import &lt;MediaPlayer/MediaPlayer.h&gt;
+@implementation AppDelegate
+&lt;# Rest of your app delegate code goes here #&gt;
+</code></pre>
+
+<h2>Playing Audio Files</h2>
+
+<h3>Solution</h3>
+
+<p>Use the AV Foundation framework’s AVAudioPlayer class.</p>
+
+<h3>Discussion</h3>
+
+<p>The <strong>AVAudioPlayer</strong> class in the AV Foundation framework can play back all audio formats supported by iOS. The <strong>delegate</strong> property of an instance of <strong>AVAudioPlayer</strong> allows you to get notified by events, such as when the audio playback is interrupted or when an error occurs as a result of playing an audio file. Let’s have a look at a simple example that demonstrates how we can play an audio file from the <strong>application’s bundle</strong>:</p>
+
+<pre><code>- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
+
+NSLog(@"Finished playing the song");
+/* The [flag] parameter tells us if the playback was successfully
+         finished or not */
+
+if ([player isEqual:self.audioPlayer]){ self.audioPlayer = nil;
+
+}else{
+/* Which audio player is this? We certainly didn't allocate
+             this instance! */
+   }
+}
+- (void)viewDidLoad { [super viewDidLoad];
+dispatch_queue_t dispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+dispatch_async(dispatchQueue, ^(void) {
+NSBundle *mainBundle = [NSBundle mainBundle];
+
+            NSString *filePath = [mainBundle pathForResource:@"MySong"
+
+                                                      ofType:@"mp3"];
+
+NSData *fileData=[NSDatadataWithContentsOfFile:filePath]; NSError *error = nil;
+            /* Start the audio player */
+
+            self.audioPlayer = [[AVAudioPlayer alloc] initWithData:fileData
+
+                                                             error:&amp;error];
+
+            /* Did we get an instance of AVAudioPlayer? */
+
+if (self.audioPlayer != nil){
+/* Set the delegate and start playing */ self.audioPlayer.delegate = self;
+if ([self.audioPlayer prepareToPlay] &amp;&amp;
+[self.audioPlayer play]){
+/* Successfully started playing */
+
+}else{
+
+/* Failed to play */
+
+} }else{
+                /* Failed to instantiate AVAudioPlayer */
+
+} });
+}
+</code></pre>
+
+<p>As you can see, the file’s data is loaded into an instance of <strong>NSData</strong> and then passed on to <strong>AVAudioPlayer ’s initWithData:error:</strong> method. Because we need the actual, absolute path of the <strong>MP3 file</strong> to extract the data from that file, we invoke the <strong>mainBundle</strong> class method of NSBundle to retrieve the information from the application’s configuration. The <strong>pathForResource:ofType:</strong> instance method of NSBundle can then be used to retrieve the absolute path to a resource of a specific type, as demonstrated in the example code.</p>
+
+<p>The <strong>audioPlayerDidFinishPlaying:successfully:</strong> delegate method of the audio player will get called on the delegate object of the player whenever, as the method’s name indicates, the audio player finishes playing the audio file. Now, this does not necessarily mean that the audio playback was finished after the whole audio file was finished playing. There could have been an interruption—for instance, the audio channel may have gotten occupied by another app that came to the foreground, causing your app to stop playing. In this case, the aforementioned method gets called. This is a great place to release your audio player if you no longer need it.</p>
+
+<p>In the <strong>viewDidLoad</strong> method, we are using GCD to asynchronously load the song’s data into an instance of <strong>NSData</strong> and use that as a feed to the audio player. We do this because loading the data of an audio file can take a long time (depending on the length of the audio file), and if we do this on the main thread, we run the risk of stalling the UI experience. Because of this, we are using <strong>a global concurrent queue</strong> to ensure that the code does not run on the main thread.</p>
+
+<p>Since we are assigning the instance of AVAudioPlayer to a property named audioPlayer, we must also see how this property is defined:</p>
+
+<pre><code>#import "ViewController.h"
+
+#import &lt;AVFoundation/AVFoundation.h&gt;
+
+@interface ViewController () &lt;AVAudioPlayerDelegate&gt; @property (nonatomic, strong) AVAudioPlayer *audioPlayer; @end
+
+@implementation ViewController
+</code></pre>
+
+<p>As you can see, we have made the view controller the delegate of the audio player. This way, we can receive messages from the system whenever the audio player, for instance,is interrupted or has finished playing the song. With this information in hand, we can make appropriate decisions in the application, such as starting to play another audio file.</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etm21osdalj20uk0fewkl.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etm21o3jq8j20ma0l4ag3.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-04T12:20:19+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:20 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/04/nsuserdefaults-standarduserdefaults-de-shi-yong/" title="Previous Post: NSUserDefaults standardUserDefaults 的使用">&laquo; NSUserDefaults standardUserDefaults 的使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/04/find-yoursel/" title="Next Post: Find yourself">Find yourself &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

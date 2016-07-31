@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>搭建 Hexo 博客 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="初始化 然后，执行init命令初始化hexo到你指定的目录： hexo init &lt;folder&gt; 也可以 cd 到目标目录，执行 hexo init 。 生成静态页面 cd 到你的init目录，执行如下命令，生成静态页面至 hexo\public\ 目录。 hexo &hellip;">
+  <meta name="keywords" content="hexo">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/25/da-jian-hexo-bo-ke/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">搭建 Hexo 博客</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-25T10:57:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:57 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>初始化</h2>
+
+<p>然后，执行init命令初始化hexo到你指定的目录：</p>
+
+<pre><code>hexo init &lt;folder&gt;
+</code></pre>
+
+<p>也可以 cd 到目标目录，执行 <code>hexo init</code> 。</p>
+
+<h2>生成静态页面</h2>
+
+<p>cd 到你的init目录，执行如下命令，生成静态页面至 <code>hexo\public\</code> 目录。</p>
+
+<pre><code>hexo generate
+</code></pre>
+
+<h2>本地启动</h2>
+
+<p>执行如下命令，启动本地服务，进行文章预览调试。</p>
+
+<pre><code>hexo server
+</code></pre>
+
+<p>浏览器输入 <code>http://localhost:4000</code> 就可以看到效果。</p>
+
+<h2>命令小结</h2>
+
+<pre><code>hexo n 写文章
+hexo g 生成
+hexo d 部署  可与hexo g合并为 hexo d -g
+</code></pre>
+
+<h2>写文章</h2>
+
+<p>执行new命令，生成指定名称的文章至 <code>hexo\source\_posts\postName.md</code> 。</p>
+
+<pre><code>hexo new [layout] "postName" #新建文章
+</code></pre>
+
+<p>其中 layout 是可选参数，默认值为 post。有哪些 layout 呢，请到 scaffolds 目录下查看，这些文件名称就是 layout 名称。当然你可以添加自己的 layout，方法就是添加一个文件即可，同时你也可以编辑现有的 layout，比如 post 的 layout 默认是 <code>hexo\scaffolds\post.md</code></p>
+
+<pre><code>title: { { title } }
+date: { { date } }
+tags:
+---
+</code></pre>
+
+<p>请注意，大括号与大括号之间我多加了个空格，否则会被转义，不能正常显示。
+我想添加 categories，以免每次手工输入，只需要修改这个文件添加一行，如下：</p>
+
+<pre><code>title: { { title } }
+date: { { date } }
+categories: 
+tags: 
+---
+</code></pre>
+
+<p>postName 是 md 文件的名字，同时也出现在你文章的 URL 中，postName 如果包含空格，必须用"将其包围，postName 可以为中文。</p>
+
+<p>注意，所有文件：后面都必须有个空格，不然会报错。
+看一下刚才生成的文件 <code>hexo\source\_posts\postName.md</code> ，内容如下：</p>
+
+<pre><code>title: postName #文章页面上的显示名称，可以任意修改，不会出现在URL中
+date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改
+categories: #文章分类目录，可以为空，注意:后面有个空格
+tags: #文章标签，可空，多标签请用格式[tag1,tag2,tag3]，注意:后面有个空格
+---
+</code></pre>
+
+<p>这里开始使用 markdown 格式输入你的正文。</p>
+
+<h2>录介绍</h2>
+
+<p>默认目录结构：</p>
+
+<pre><code>.
+├── .deploy
+├── public
+├── scaffolds
+├── scripts
+├── source
+|   ├── _drafts
+|   └── _posts
+├── themes
+├── _config.yml
+└── package.json
+</code></pre>
+
+<ul>
+<li>.deploy：执行hexo deploy命令部署到GitHub上的内容目录</li>
+<li>public：执行hexo generate命令，输出的静态网页内容目录</li>
+<li>scaffolds：layout模板文件目录，其中的md文件可以添加编辑</li>
+<li>scripts：扩展脚本目录，这里可以自定义一些javascript脚本</li>
+<li>source：文章源码目录，该目录下的markdown和html文件均会被hexo处理。该页面对应repo的根目录，404文件、favicon.ico文件，CNAME文件等都应该放这里，该目录下可新建页面目录。</li>
+<li>_drafts：草稿文章</li>
+<li>_posts：发布文章</li>
+<li>themes：主题文件目录</li>
+<li>_config.yml：全局配置文件，大多数的设置都在这里</li>
+<li>package.json：应用程序数据，指明hexo的版本等信息，类似于一般软件中的 关于 按钮</li>
+</ul>
+
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://www.tuicool.com/articles/AfQnQjy/">http://www.tuicool.com/articles/AfQnQjy/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-25T10:57:13+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:57 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/25/15ge-zui-hao-de-bootstrap-she-ji-gong-ju-tui-jian/" title="Previous Post: 15个最好的 Bootstrap 设计工具推荐">&laquo; 15个最好的 Bootstrap 设计工具推荐</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/25/hint-css/" title="Next Post: Hint CSS">Hint CSS &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

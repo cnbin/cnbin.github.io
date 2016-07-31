@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Web页面通过URL地址传递参数常见问题及检测方法 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Web页面即我们在浏览器中所看到的网页，在Web应用程序中，其页面往往需要进行动态切换和数据交互，页面间的数据常规传递方法有多种，本文主要介绍Web页面处理程序中常见的URL地址参数传递方法，包括概述其实现原理、特点和常见问题，最后介绍检测该方式常见应用问题的测试思路和方法。 1. &hellip;">
+  <meta name="keywords" content="web,url">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/06/webye-mian-tong-guo-urldi-zhi-chuan-di-can-shu-chang-jian-wen-ti-ji-jian-ce-fang-fa/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Web页面通过URL地址传递参数常见问题及检测方法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-06T14:40:05+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:40 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Web页面即我们在浏览器中所看到的网页，在Web应用程序中，其页面往往需要进行动态切换和数据交互，页面间的数据常规传递方法有多种，本文主要介绍Web页面处理程序中常见的URL地址参数传递方法，包括概述其实现原理、特点和常见问题，最后介绍检测该方式常见应用问题的测试思路和方法。</p>
+
+<h3>1.web页面的概念</h3>
+
+<p>Web是internet上一个非常重要的资源信息网，产生于20世纪90年代初，它遵循超文本传输协议，以超文本或超媒介的形式传送各种各样的信息，为用户提供了一个具有友好的图形化界面——Web页面，以便用户阅读internet上的信息文档。Web页面其实是一个单一的文件，其特点主要表现在：</p>
+
+<pre><code>1)Web是图形化的和易于导航的。Web可以在一页上同时显示色彩丰富的图形和文本的性能，同时Web非常易于导航，它可以在各页各站点之间进行浏览了。
+2)Web与平台无关。无论你的系统平台是什么，你都可以通过Internet访问WWW。
+3)Web是分布式的。大量的图形、音频和视频信息可以放在不同的站点上。只需要在浏览器中指明这个站点就可以了。
+4)Web 是动态的。Web站点的信息包含站点本身的信息，信息的提供者可以经常对站上的信息进行更新，Web动态的特性还表现在Web是交互的，通过超连接可以连接任意可以连接的页面，从服务器方获得动态的信息。
+</code></pre>
+
+<h3>2.URL地址传递参数方法概述</h3>
+
+<p>Web页面是动态和交互的，Web页面之间的数据交换往往存在一些参数的传递，不管是通过哪种语言平台编写Web页面处理程序，其参数传递的方式方法类似，且多种多样，常见方式主要包括通过URL地址、Application/Session、Cache、Cookie以及基于服务器文件或数据库等。</p>
+
+<p>URL地址传递参数方式在我们Web页面程序处理中非常常见，其形式是在页面地址后面附带参数的方式浏览页面，如：<code>“http://test.net/Expert/PostNew.asp?room=301”</code>，其中“room=301”即我们传递的参数名称和值。URL地址方法可以很方便的在页面之间切换并传递参数，无需额外的处理，基于正常情况下不会产生性能损失，以Asp.net程序中URL参数传递处理为例，其简单处理过程如下：
+发送页面处理程序a.aspx：</p>
+
+<pre><code>Send_url = “b.aspx?name=” + paraValue;
+Response.Redirect(s_url);
+接收页面处理程序b.aspx：
+Receive_value=Request.QueryString["name"]；
+</code></pre>
+
+<p>URL地址传递参数方式特点主要表现在以下几个方面：</p>
+
+<pre><code>1)URL地址法简洁易用，可同时传递多个字符型参数；
+2)URL地址法可以很方便的在页面之间切换并传递参数，无需额外的处理，基于正常情况比较不会性能损失；
+3)URL传递参数长度受限，最大为2K；
+4)URL只能传递字符型参数；
+5)信息泄露：URL地址在客户端可见，导致会泄露信息，可能被黑客用来攻击系统。
+</code></pre>
+
+<h3>3.URL地址传递参数常见应用问题</h3>
+
+<pre><code>1）因URL传递参数长度受限，最大为2K，在应用中可能会出现超出范围时的处理错误；
+2）URL只能传递字符型参数，在应用中，经常会传递一些中文名的参数或URL地址，因为发送页面和接收页面的字符编码方式不一样而导致参数解析处理错误，参数包含中文时出现乱码或者参数接收错误；
+3）Web程序中对字符编码的方法多种多样，但是有些方法对一些特殊字符，如：! @ # $&amp; * ( ) = : / ; ? + '中的某些不能进行编码，因此对参数中包含某些特殊字符时不能正确处理，当参数中包含这些特殊字符时，软件接收处理出现异常；
+4）URL可以传递一定长度大小字符型参数，在应用中经常通过URL接收的参数需要进一步进行逻辑处理，比如类型转换或者数字计算操作等，处理过程中开发人员可能会对参数在界面输入时限制处理不充分，而且开发人员在后续逻辑处理中过分信任传递过来的参数而未进行充分逻辑判断，导致在后续的逻辑处理中出现边界处理或者类型转换的错误，导致程序出现异常甚至崩溃；
+5）URL地址中的参数经常与数据库SQL语句中的参数关联，如果开发人员对SQL语句参数化处理不完善，通过URL地址传递参数也容易引起SQL注入问题，参数中包含特殊字符、类型或者长度不符合要求时导致程序出错，甚至可以通过这个入口破坏或者获取数据库信息；
+6）URL显示传递参数，容易产生信息泄露问题，一些关键信息URL地址在客户端可见，这些信息可能被黑客用来攻击系统。
+</code></pre>
+
+<h3>4.URL地址传递方式常见问题测试方法</h3>
+
+<pre><code>针对采用URL地址传递参数的Web程序，为发现及解决其应用问题，我们通过以下几个方面进行测试：
+1）分析软件需求，是否需要处理超过2K大小的参数，如需要则通过Web界面控件或者URL输入超出2K大小参数进行测试，通过这种方式可以发现软件是否可以正常处理超出2K大小参数的需求问题；如无需求也可以通过此测试检测软件在参数大小超过2K时是否进行了相应的限制或者错误处理；
+2）通过Web界面控件或者URL输入中文字符参数进行测试，检测软件在接收页面处理是否正常，是否出现乱码或者异常错误；
+3）通过Web界面控件或者URL输入各种特殊字符，例如：! @ # $&amp; * ( ) = : / ; ? + '等，检测软件接收处理是否正常，是否可以显示处理必须的特殊字符；
+4）通过Web界面控件或者URL输入参数边界值，同时包括输入各种类型参数，检测软件运行是否正常；
+5）通过Web界面控件或者URL输入包含跟数据库SQL语句相关的一些特殊字符参数如’=  和一些关键字符串等，检测软件是否存在SQL注入问题，同时也可以采用一些安全测试工具，对URL输入参数进行SQL注入的渗透测试；
+6）检测URL参数中是否包含关键信息，并可通过获取信息通过安全测试工具进行恶意破坏或者攻击测试。
+</code></pre>
+
+<h3>5.应用建议</h3>
+
+<pre><code>针对URL地址传递参数应用问题，在应用中有如下建议：
+1）在安全性要求较高的系统中不推荐使用这种方法，只适合在一些安全性要求不高，页面逻辑比较的简单的场合；
+2）对参数长度超出2K的传递建议不要采取此方式；
+3）对地址信息进行编码，且保证发送页面和接收页面编码和解码方式对应一致；
+4）对从URL地址中接收的参数信息进行边界和类型校验；
+5）为防止信息泄露，对URL传递的参数进行加密处理，同时需要考虑加密和解密过程的性能损失；
+6）为防止信息泄露，也可对URL进行重写，经过一定算法重组的URL信息，使在IE中不显示真正的参数或者网页链接信息。
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-06T14:40:05+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:40 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/06/c-number-bao-cun-tu-pian-dao-sql/" title="Previous Post: C# 保存图片到 SQL">&laquo; C# 保存图片到 SQL</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/06/c-number-kong-zhi-tai-ying-yong-cheng-xu-zhi-xing-jie-guo-%5B%3F%5D-shan-er-guo-de-jie-jue-fang-fa/" title="Next Post: C#控制台应用程序执行结果一闪而过的解决方法">C#控制台应用程序执行结果一闪而过的解决方法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

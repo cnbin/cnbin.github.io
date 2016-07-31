@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Http协议中的各种长度限制总结 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="HTTP1.0的格式 Request(HTTP请求消息) 结构:一个请求行.部分消息头,以及实体内容，其中的一些消息内容都是可选择的.消息头和实体内容之间要用空行分开. GET /index.html HTTP/1.1 //请求头,下面都是消息头.
+Accept: */*
+Accept- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/20/httpxie-yi-zhong-de-ge-chong-chang-du-xian-zhi-zong-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Http协议中的各种长度限制总结</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-20T16:08:40+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:08 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>HTTP1.0的格式</p>
+
+<p>Request(HTTP请求消息)</p>
+
+<p>结构:一个请求行.部分消息头,以及实体内容，其中的一些消息内容都是可选择的.消息头和实体内容之间要用空行分开.</p>
+
+<pre><code>GET /index.html HTTP/1.1 //请求头,下面都是消息头.
+Accept: */*
+Accept-Languang:en-us
+Connection:keep-alive
+Host:localhost
+Referer:HTTP://localhost/index.html
+User-Agent:Mozilla/4.0
+Accept-Encoding:gzip,deflate//到上面都是消息头,下面一个空行表示完了，接下来是实体内容.
+</code></pre>
+
+<p>Response响应消息头</p>
+
+<p>在接收并解析请求消息后,服务器以 HTTP 响应消息响应。相当服务器对客户的http的回应</p>
+
+<p>结构:一个状态行.部分消息</p>
+
+<p>头,以及实体内容，其中的一些消息内容都是可选择的.消息头和实体内容之间要用空行分开.</p>
+
+<pre><code>HTTP/1.1 200ok           //状态行.下面为消息头
+Server:Apache2.2
+Date:Thu, 13 Jul 2008 16:29:46 GMT
+Content-Length:2222
+Content-Type:text/html
+Cache_control:private //和请求消息头一样下面有一个空行
+</code></pre>
+
+<p>注意：使用get的方法的请求消息中是不能包含实体内容的,只有使用post,put和delete的方法请求消息中才能有实体内容.对 HTTP1.1来讲,如果HTTP中有实体内容,但没有使用权chunked传输编码.那么消息头部分必须包含内容长度字段.不然不知什么时候内容才结 束。HTTP1.1中一定要有host字段</p>
+
+<p>以上消息头的结构:每个消息头都包含一个头字段名称，然后依次是冒号，空格值,回车和换行符,字段不区分大小写.对消息头中的消息头可以任何顺序排列.
+消息头可以分为信息头,请求头,响应头,实体头四类
+如果有多个选项，可以用逗号分隔Accept-Encoding:gzip ,deflate</p>
+
+<h3>1.URL长度限制</h3>
+
+<p>在Http1.1协议中并没有提出针对URL的长度进行限制，RFC协议里面是这样描述的，HTTP协议并不对URI的长度做任何的限制，服务器端必须能够处理任何它们所提供服务多能接受的URI，并且能够处理无限长度的URI,如果服务器不能处理过长的URI,那么应该返回414状态码。</p>
+
+<p>虽然Http协议规定了，但是Web服务器和浏览器对URI都有自己的长度限制。</p>
+
+<p>服务器的限制:我接触的最多的服务器类型就是Nginx和Tomcat,对于url的长度限制，它们都是通过控制http请求头的长度来进行限制的，nginx的配置参数为large_client_header_buffers，tomcat的请求配置参数为maxHttpHeaderSize,都是可以自己去进行设置。</p>
+
+<p>浏览器的限制:每种浏览器也会对url的长度有所限制，下面是几种常见浏览器的url长度限制:(单位:字符)</p>
+
+<pre><code>IE : 2803
+Firefox:65536
+Chrome:8182
+Safari:80000
+Opera:190000
+</code></pre>
+
+<p>对于get请求，在url的长度限制范围之内，请求的参数个数没有限制。</p>
+
+<h3>2.Post数据的长度限制</h3>
+
+<p>Post数据的长度限制与url长度限制类似，也是在Http协议中没有规定长度限制,长度限制可以在服务器端配置最大http请求头长度的方式来实现。</p>
+
+<h3>3.Cookie的长度限制</h3>
+
+<p>Cookie的长度限制分这么几个方面来总结。</p>
+
+<p>(1) 浏览器所允许的每个域下的最大cookie数目,没有去自己测试，从网上找到的资料大概是这么个情况</p>
+
+<pre><code>IE :原先为20个，后来升级为50个
+Firefox: 50个
+Opera:30个
+Chrome:180个
+Safari:无限制
+</code></pre>
+
+<p>当Cookie数超过限制数时浏览器的行为：IE和Opera会采用LRU算法将老的不常使用的Cookie清除掉，Firefox的行为是随机踢出某些Cookie的值。当然无论怎样的策略，还是尽量不要让Cookie数目超过浏览器所允许的范围。</p>
+
+<p>(2) 浏览器所允许的每个Cookie的最大长度</p>
+
+<pre><code>Firefox和Safari:4079字节
+Opera:4096字节
+IE:4095字节
+</code></pre>
+
+<p>(3) 服务器中Http请求头长度的限制。Cookie会被附在每次http请求头中传递给服务器，因此还会受到服务器请求头长度的影响。</p>
+
+<h3>4.Html5 LocalStorage</h3>
+
+<p>Html5提供了本地存储机制来供Web应用在客户端存储数据，尽管这个并不属于Http协议的一部分，但是随着Html5的流行，我们可能需要越来越多使用LocalStorage,甚至当它普及的时候跟它打交道就会同今天我们跟Cookie打交道一样多。</p>
+
+<p>对于LocalStorage的长度限制，同Cookie的限制类似，也是浏览器针对域来限制,只不过cookie限制的是个数，LocalStorage限制的是长度:</p>
+
+<p>Firefox\Chrome\Opera都是允许每个域的最大长度为5MB</p>
+
+<p>但是这次IE比较大方，允许的最大长度是10MB</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/hguisu/article/details/8583552">http://blog.csdn.net/hguisu/article/details/8583552</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-20T16:08:40+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:08 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/20/http1-dot-0-he-http1-dot-1-qu-bie/" title="Previous Post: http1.0 和http1.1 区别">&laquo; http1.0 和http1.1 区别</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/20/httpcontext-dot-current-dot-sessionshi-shi-yao-%3F/" title="Next Post: HttpContext.Current.Session是什么？">HttpContext.Current.Session是什么？ &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

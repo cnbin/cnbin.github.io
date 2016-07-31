@@ -1,0 +1,396 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Newtonsoft.Json(Json.Net)学习笔记 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Newtonsoft.Json，一款.NET中开源的Json序列化和反序列化类库(下载地址http://json.codeplex.com/)。 下面是Json序列化和反序列化的简单封装： /// &lt;summary&gt;
+/// Json帮助类
+/// &lt;/summary&gt; &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/01/28/newtonsoft-dot-json-json-dot-net-xue-xi-bi-ji/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Newtonsoft.Json(Json.Net)学习笔记</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-28T14:23:24+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:23 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Newtonsoft.Json，一款.NET中开源的Json序列化和反序列化类库(下载地址<a href="http://json.codeplex.com/">http://json.codeplex.com/</a>)。</p>
+
+<p>下面是Json序列化和反序列化的简单封装：</p>
+
+<pre><code>/// &lt;summary&gt;
+/// Json帮助类
+/// &lt;/summary&gt;
+public class JsonHelper
+{
+    /// &lt;summary&gt;
+    /// 将对象序列化为JSON格式
+    /// &lt;/summary&gt;
+    /// &lt;param name="o"&gt;对象&lt;/param&gt;
+    /// &lt;returns&gt;json字符串&lt;/returns&gt;
+    public static string SerializeObject(object o)
+    {
+        string json = JsonConvert.SerializeObject(o);
+        return json;
+    }
+
+    /// &lt;summary&gt;
+    /// 解析JSON字符串生成对象实体
+    /// &lt;/summary&gt;
+    /// &lt;typeparam name="T"&gt;对象类型&lt;/typeparam&gt;
+    /// &lt;param name="json"&gt;json字符串(eg.{"ID":"112","Name":"石子儿"})&lt;/param&gt;
+    /// &lt;returns&gt;对象实体&lt;/returns&gt;
+    public static T DeserializeJsonToObject&lt;T&gt;(string json) where T : class
+    {
+        JsonSerializer serializer = new JsonSerializer();
+        StringReader sr = new StringReader(json);
+        object o = serializer.Deserialize(new JsonTextReader(sr), typeof(T));
+        T t = o as T;
+        return t;
+    }
+
+    /// &lt;summary&gt;
+    /// 解析JSON数组生成对象实体集合
+    /// &lt;/summary&gt;
+    /// &lt;typeparam name="T"&gt;对象类型&lt;/typeparam&gt;
+    /// &lt;param name="json"&gt;json数组字符串(eg.[{"ID":"112","Name":"石子儿"}])&lt;/param&gt;
+    /// &lt;returns&gt;对象实体集合&lt;/returns&gt;
+    public static List&lt;T&gt; DeserializeJsonToList&lt;T&gt;(string json) where T : class
+    {
+        JsonSerializer serializer = new JsonSerializer();
+        StringReader sr = new StringReader(json);
+        object o = serializer.Deserialize(new JsonTextReader(sr), typeof(List&lt;T&gt;));
+        List&lt;T&gt; list = o as List&lt;T&gt;;
+        return list;
+    }
+
+    /// &lt;summary&gt;
+    /// 反序列化JSON到给定的匿名对象.
+    /// &lt;/summary&gt;
+    /// &lt;typeparam name="T"&gt;匿名对象类型&lt;/typeparam&gt;
+    /// &lt;param name="json"&gt;json字符串&lt;/param&gt;
+    /// &lt;param name="anonymousTypeObject"&gt;匿名对象&lt;/param&gt;
+    /// &lt;returns&gt;匿名对象&lt;/returns&gt;
+    public static T DeserializeAnonymousType&lt;T&gt;(string json, T anonymousTypeObject)
+    {
+        T t = JsonConvert.DeserializeAnonymousType(json, anonymousTypeObject);
+        return t;
+    }
+}
+</code></pre>
+
+<p>为进一步理解Newtonsoft，写了一些测试的例子：</p>
+
+<pre><code>/// &lt;summary&gt;
+/// Json测试
+/// &lt;/summary&gt;
+public class JsonTest : IRun
+{
+    public void Run()
+    {
+        Student sdudent = new Student();
+        sdudent.ID = 1;
+        sdudent.Name = "陈晨";
+        sdudent.NickName = "石子儿";
+        sdudent.Class = new Class() { Name = "CS0216", ID = 0216 };
+
+        //实体序列化和反序列化
+        string json1 = JsonHelper.SerializeObject(sdudent);
+        //json1 : {"ID":1,"Name":"陈晨","NickName":"石子儿","Class":{"ID":216,"Name":"CS0216"}}
+        Student sdudent1 = JsonHelper.DeserializeJsonToObject&lt;Student&gt;(json1);
+
+        //实体集合序列化和反序列化
+        List&lt;Student&gt; sdudentList = new List&lt;Student&gt;() { sdudent, sdudent1 };
+        string json2 = JsonHelper.SerializeObject(sdudentList);
+        //json: [{"ID":1,"Name":"陈晨","NickName":"石子儿","Class":{"ID":216,"Name":"CS0216"}},{"ID":1,"Name":"陈晨","NickName":"石子儿","Class":{"ID":216,"Name":"CS0216"}}]
+        List&lt;Student&gt; sdudentList2 = JsonHelper.DeserializeJsonToList&lt;Student&gt;(json2);
+
+        //DataTable序列化和反序列化
+        DataTable dt = new DataTable();
+        dt.TableName = "Student";
+        dt.Columns.Add("ID", typeof(int));
+        dt.Columns.Add("Name");
+        dt.Columns.Add("NickName");
+        DataRow dr = dt.NewRow();
+        dr["ID"] = 112;
+        dr["Name"] = "战三";
+        dr["NickName"] = "小三";
+        dt.Rows.Add(dr);
+        string json3 = JsonHelper.SerializeObject(dt);
+        //json3 : [{"ID":112,"Name":"战三","NickName":"小三"}]
+        DataTable sdudentDt3 = JsonHelper.DeserializeJsonToObject&lt;DataTable&gt;(json3);
+        List&lt;Student&gt; sdudentList3 = JsonHelper.DeserializeJsonToList&lt;Student&gt;(json3);
+
+        //验证对象和数组
+        Student sdudent4 = JsonHelper.DeserializeJsonToObject&lt;Student&gt;("{\"ID\":\"112\",\"Name\":\"石子儿\"}");
+        List&lt;Student&gt; sdudentList4 = JsonHelper.DeserializeJsonToList&lt;Student&gt;("[{\"ID\":\"112\",\"Name\":\"石子儿\"}]");
+
+        //匿名对象解析
+        var tempEntity = new { ID = 0, Name = string.Empty };
+        string json5 = JsonHelper.SerializeObject(tempEntity);
+        //json5 : {"ID":0,"Name":""}
+        tempEntity = JsonHelper.DeserializeAnonymousType("{\"ID\":\"112\",\"Name\":\"石子儿\"}", tempEntity);
+        var tempStudent = new Student();
+        tempStudent = JsonHelper.DeserializeAnonymousType("{\"ID\":\"112\",\"Name\":\"石子儿\"}", tempStudent);
+
+        Console.Read();
+    }
+
+}
+
+/// &lt;summary&gt;
+/// 学生信息实体
+/// &lt;/summary&gt;
+public class Student
+{
+    public int ID { get; set; }
+    public string Name { get; set; }
+    public string NickName { get; set; }
+    public Class Class { get; set; }
+}
+
+/// &lt;summary&gt;
+/// 学生班级实体
+/// &lt;/summary&gt;
+public class Class
+{
+    public int ID { get; set; }
+    public string Name { get; set; }
+}
+</code></pre>
+
+<p>使用Json帮助类时，有两点需要注意下：</p>
+
+<p>1.通常使用调用实体序列化SerializeObject()和反序列化DeserializeJsonToObject()两个方法就可以了。但有些情况下我们解析json字符串时，可能没有对应的实体类型（或者说不想添加对应的实体类），这时候可以用匿名对象解析方法DeserializeAnonymousType()，方便快捷，对应代码如下：</p>
+
+<pre><code>//匿名对象解析
+var tempEntity = new { ID = 0, Name = string.Empty };
+string json5 = JsonHelper.SerializeObject(tempEntity);
+//json5 : {"ID":0,"Name":""}
+tempEntity = JsonHelper.DeserializeAnonymousType("{\"ID\":\"112\",\"Name\":\"石子儿\"}", tempEntity);
+Console.WriteLine(tempEntity.ID + ":" + tempEntity.Name);
+</code></pre>
+
+<p>2.Json的两种结构数组和对象解析时略有不同。Json对象一般转换成实体，Json数组一般转换成实体集合。代码如下：</p>
+
+<pre><code>//验证对象和数组
+Student sdudent4 = JsonHelper.DeserializeJsonToObject&lt;Student&gt;("{\"ID\":\"112\",\"Name\":\"石子儿\"}");
+List&lt;Student&gt; sdudentList4 = JsonHelper.DeserializeJsonToList&lt;Student&gt;("[{\"ID\":\"112\",\"Name\":\"石子儿\"}]");
+</code></pre>
+
+<p> 简单解释下Json对象和数组的含义：</p>
+
+<p> 对象是以“{”（左括号）开始，“}”（右括号）结束。每个“名称”后跟一个“:”（冒号）；“‘名称/值’ 对”之间运用 “,”（逗号）分隔。名称用引号括起来；值如果是字符串则必须用括号，数值型则不须要。例如：{&ldquo;ID&rdquo;:&ldquo;112&rdquo;,&ldquo;Name&rdquo;:&ldquo;石子儿&rdquo;}。</p>
+
+<p> 数组是值（value）的有序集合。一个数组以“[”（左中括号）开始，“]”（右中括号）结束。值之间运用 “,”（逗号）分隔。例如：[{&ldquo;ID&rdquo;:&ldquo;112&rdquo;,&ldquo;Name&rdquo;:&ldquo;石子儿&rdquo;},{&ldquo;ID&rdquo;:&ldquo;113&rdquo;,&ldquo;Name&rdquo;:&ldquo;陈晨&rdquo;}]。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-28T14:23:24+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:23 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/28/httpcontext-dot-current-dot-request-dot-fileshou-tai-qu-bu-dao-zhi-de-jie-jue-fang-fa/" title="Previous Post: HttpContext.Current.Request.Files后台取不到值的解决方法">&laquo; HttpContext.Current.Request.Files后台取不到值的解决方法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/28/csharpfang-fa-shang-mian-de-browsable-false/" title="Next Post: csharp方法上面的[Browsable(false)]">csharp方法上面的[Browsable(false)] &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

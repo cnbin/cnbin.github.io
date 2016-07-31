@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS9新系统下App Store应用上传新指南 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一 iTunes Connect介绍 iTunes Connect是面向iOS应用开发人员的苹果门户网站，供开发人员管理其应用，跟踪下载情况。今年1月份闹得沸沸扬扬的iTunes Connect BUG事件，就是因iTunes Connect漏洞允许开发人员登录他人账户控制他人应用引发的， &hellip;">
+  <meta name="keywords" content="ios,appstore">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/10/ios9xin-xi-tong-xia-app-storeying-yong-shang-chuan-xin-zhi-nan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS9新系统下App Store应用上传新指南</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-10T10:17:34+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:17 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>一 iTunes Connect介绍</h3>
+
+<p>iTunes Connect是面向iOS应用开发人员的苹果门户网站，供开发人员管理其应用，跟踪下载情况。今年1月份闹得沸沸扬扬的iTunes Connect BUG事件，就是因iTunes Connect漏洞允许开发人员登录他人账户控制他人应用引发的，此漏洞导致iTunes Connect一度关闭服务修整。</p>
+
+<p>登入iTunes Connect账号后，首先看到的是如下的主界面。iOS 9.0发布后，iTunes Connect界面也发生了较大变化，体验更好。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewvucypmr2j20rf0cymzf.jpg" alt="img" /></p>
+
+<p>常用的功能有“我的App”“App分析”“销售和趋势”，这三个功能主要围绕App提审、数据分析和趋势。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ewvucz4pkaj20ex01b3yh.jpg" alt="img" /></p>
+
+<p>大家可以重点关注下首页页底“联系我们”（Contact Us）栏。这是与苹果取得联系的重要窗口，包括快速审核通过申请、编辑推荐申请等途径，后面会重点介绍快速审核通道。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ewvuczgphlj20rj0aadhu.jpg" alt="img" /></p>
+
+<h3>二 App Store提交审核</h3>
+
+<ol>
+<li>如果新提审的App，需先在“我的App”中新建App（见图a）；如果只是App更新，在“版本或平台”上添加新版本即可。（打包上传版本构建方面请交予技术）。</li>
+</ol>
+
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ewvuczugx8j20ah0fnwes.jpg" alt="img" /></p>
+
+<ol>
+<li>iOS 9.0版本的应用名称和类别被归纳至“App 信息“中，名称要随版本更新时才能更改，经过审核后才能在App Store展现；名称允许显示的长度不超过255个字符，一般情况下字数过多、含有竞品词、矛盾不通畅都存在被拒绝的可能。注意： iOS 9.0发布以来，品牌词的权重下降，但标题中竞品词被收录的概率也极大降低了（见图c）。</li>
+</ol>
+
+
+<p>类别选择，注意：除了要跟产品定位有关，还要考虑各类别的竞争压力和流量情况（见图d）。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewvud0804xj208c01s0sk.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ewvud0qvavj20ci0axjs0.jpg" alt="img" /></p>
+
+<ol>
+<li>进入iOS App栏进行基本数据填写，需填写的信息有新版本功能、App视频预览和屏幕快照（即应用截图和视频）、描述、关键词和技术支持网址等信息。注意：iOS 9.0更新以来，描述的权重基本可以忽略。关键词中可以加入竞品词，对竞品词的数量也没有固定的限制，从最优角度讲，一般应用中的关键词有6-8个竞品词就OK了，但像金融类，也可以以竞品词为主。</li>
+</ol>
+
+
+<p>关键词是否需要用逗号隔开？这要取决于App当前的日新增数据。如果APP日新增比较OK，且这些词排名都比较靠前，合词能够进一步拓展关键词的覆盖数；日新增数据很差的App，合词被收入的概率很低，即使被收录排名也会很不理想。总结：关键词不用逗号分开，目标关键词被收录的概率较低，排名也不会很理想，但可以增加不定向关键词的覆盖数。</p>
+
+<p>图e为版本新功能和视频预览和屏幕快照截图，图f为描述、关键词和技术支持网址截图。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewvud1207xj20j507vwew.jpg" alt="img" /></p>
+
+<p>另外，不同尺寸的手机屏幕其需要图片的分辨率和视频尺寸不同，情如下。</p>
+
+<p>（1）图片尺寸</p>
+
+<p>3.5英寸：640 x 960</p>
+
+<p>4.0英寸：640 x 1136</p>
+
+<p>4.7英寸：750 x 1334</p>
+
+<p>5.5英寸：1242 x 2208</p>
+
+<p>iPad：768 x 1024</p>
+
+<p>（2）视频尺寸</p>
+
+<p>4.7寸：750x1334</p>
+
+<p>5.5寸／4寸：1080x1920</p>
+
+<p>iPad：900x1200</p>
+
+<h3>三 审核技巧和便捷通道</h3>
+
+<p>许多团队的iOS开发完成上架过程总会遇到这样的问题：一次又一次被苹果审核拒绝，每次重新申请花费一周甚至更久时间，经常一个版本上传成功至少花费数月时间甚至半年多，严重影响产品市场推广计划。大家在开发的过程一定要严格熟悉App Store的审核指南。</p>
+
+<p>在这里跟大家汇总一些常见的审核NG经验。</p>
+
+<p>（1） 程序崩溃或者存在重大BUG：产品提审前一定要经过反复的测试，如果存在APP频繁崩溃或闪退，通过概率基本为零，在苹果丛林法则中，用户体验至上。</p>
+
+<p>（2） 适配：iPhone用五款型号的手机，一定要注意适配到iPhone4，例如iPhone4中页面少了一截，下面的操作按钮看不到的。</p>
+
+<p>（3） Logo和UI：切忌勿模仿苹果的logo，否则是自掘坟墓，模仿竞品问题不会很大，但如果被举报了就另当别论了，个人是不太推崇此类做法，尽量保证logo和UI的原创，才能获取App更高的权重和提升曝光流量转下载的比例。</p>
+
+<p>（4） App描述或应用内购买描述：切记出现“苹果官方” 、“App Store” 、“Apple Pay”等与苹果挂钩的关键词，苹果的版权意识极强。</p>
+
+<p>（5） 定位功能：获取用户定位，需要增加提示并告知用户干什么用，并允许用户拒绝。</p>
+
+<p>（6） UCG内容： 用户产生内容的需要有举报功能；年龄限制等级是否过低；音视频类需要提供版权说明。</p>
+
+<p>（7）诱导用户评论： App中出现“给个好评”、 “好评奖励”等诱导性评论，基本是要NG的。</p>
+
+<p>（8） 登录：第三方登录功能中，若用户没有安装微博微信ＱＱ等，提示未安装也是不被允许的。解决方法：监测用户是否安装相应APP没有就变灰或者隐藏相应图标。</p>
+
+<p>加速审核事宜，加速一旦成功，当天晚上就出审核结果，这也是很多加速厂家标榜当日出结果的原因，加速成功后，即使审核失败重提提交后也会自动加速。</p>
+
+<h4>操作步骤：</h4>
+
+<p>（1） 登入苹果开发者后台；</p>
+
+<p>（2） 点击后台首页下面的Contact Us；</p>
+
+<p>（3）依次选择<code>App Review/App Store Review/Request Expedited Review</code>，最后点击对话框下面Request an Expedited App Review，便可成功进入加急审核页面。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-10T10:17:34+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:17 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/09/linker-error-with-sharekit-ios/" title="Previous Post: linker error with ShareKit ios">&laquo; linker error with ShareKit ios</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/10/zhi-qing-chun-21/" title="Next Post: 致青春-21">致青春-21 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

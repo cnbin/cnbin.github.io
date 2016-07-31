@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linker Error With ShareKit Ios - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Undefined symbols for architecture i386: "_ABAddressBookCopyArrayOfAllPeople", referenced from: ___48+[GPPAddressBook loadDeviceContactsWithHandler &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/09/linker-error-with-sharekit-ios/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Linker Error With ShareKit Ios</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-09T17:19:50+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:19 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<pre><code>Undefined symbols for architecture i386:
+  "_ABAddressBookCopyArrayOfAllPeople", referenced from:
+      ___48+[GPPAddressBook loadDeviceContactsWithHandler:]_block_invoke in GooglePlus(GPPAddressBook.o)
+  "_ABAddressBookCreateWithOptions", referenced from:
+      +[GPPAddressBook loadDeviceContactsWithHandler:] in GooglePlus(GPPAddressBook.o)
+  "_ABAddressBookGetPersonCount", referenced from:
+      ___48+[GPPAddressBook loadDeviceContactsWithHandler:]_block_invoke in GooglePlus(GPPAddressBook.o)
+  "_ABAddressBookRequestAccessWithCompletion", referenced from:
+      +[GPPAddressBook loadDeviceContactsWithHandler:] in GooglePlus(GPPAddressBook.o)
+  "_ABMultiValueCopyValueAtIndex", referenced from:
+      ___48+[GPPAddressBook loadDeviceContactsWithHandler:]_block_invoke in GooglePlus(GPPAddressBook.o)
+  "_ABMultiValueGetCount", referenced from:
+      ___48+[GPPAddressBook loadDeviceContactsWithHandler:]_block_invoke in GooglePlus(GPPAddressBook.o)
+  "_ABPersonCopyImageDataWithFormat", referenced from:
+      ___48+[GPPAddressBook loadDeviceContactsWithHandler:]_block_invoke in GooglePlus(GPPAddressBook.o)
+  "_ABPersonHasImageData", referenced from:
+      ___48+[GPPAddressBook loadDeviceContactsWithHandler:]_block_invoke in GooglePlus(GPPAddressBook.o)
+  "_ABRecordCopyValue", referenced from:
+      ___48+[GPPAddressBook loadDeviceContactsWithHandler:]_block_invoke in GooglePlus(GPPAddressBook.o)
+  "_ACAccountTypeIdentifierFacebook", referenced from:
+      -[SHKiOSFacebook accountTypeIdentifier] in libShareKit.a(SHKiOSFacebook.o)
+  "_ACAccountTypeIdentifierSinaWeibo", referenced from:
+      -[SHKSinaWeibo accountTypeIdentifier] in libShareKit.a(SHKSinaWeibo.o)
+  "_ACAccountTypeIdentifierTwitter", referenced from:
+      -[SHKiOSTwitter accountTypeIdentifier] in libShareKit.a(SHKiOSTwitter.o)
+  "_ACFacebookAppIdKey", referenced from:
+      -[SHKiOSFacebook authorizationFormShow] in libShareKit.a(SHKiOSFacebook.o)
+  "_ACFacebookAudienceEveryone", referenced from:
+      -[SHKiOSFacebook authorizationFormShow] in libShareKit.a(SHKiOSFacebook.o)
+  "_ACFacebookAudienceKey", referenced from:
+      -[SHKiOSFacebook authorizationFormShow] in libShareKit.a(SHKiOSFacebook.o)
+  "_ACFacebookPermissionsKey", referenced from:
+      -[SHKiOSFacebook authorizationFormShow] in libShareKit.a(SHKiOSFacebook.o)
+  "_AVURLAssetPreferPreciseDurationAndTimingKey", referenced from:
+      -[SHKFile getDuration] in libShareKit.a(SHKFile.o)
+  "_CMTimeGetSeconds", referenced from:
+      -[SHKFile getDuration] in libShareKit.a(SHKFile.o)
+  "_MPMoviePlayerThumbnailImageKey", referenced from:
+      -[GPPMediaPreviewView thumbnailImageRequestDidFinish:] in GooglePlus(GPPMediaPreviewView.o)
+  "_MPMoviePlayerThumbnailImageRequestDidFinishNotification", referenced from:
+      -[GPPMediaPreviewView initWithFrame:mediaAttachment:] in GooglePlus(GPPMediaPreviewView.o)
+      -[GPPMediaPreviewView thumbnailImageRequestDidFinish:] in GooglePlus(GPPMediaPreviewView.o)
+  "_OBJC_CLASS_$_ACAccountStore", referenced from:
+      objc-class-ref in libShareKit.a(SHKiOSFacebook.o)
+      objc-class-ref in libShareKit.a(SHKiOSSharer.o)
+  "_OBJC_CLASS_$_ALAssetsLibrary", referenced from:
+      objc-class-ref in GooglePlus(NSData+GPPAdditions.o)
+      objc-class-ref in GooglePlus(UIDevice+GPPAdditions.o)
+      objc-class-ref in libShareKit.a(SHKPhotoAlbum.o)
+  "_OBJC_CLASS_$_AVURLAsset", referenced from:
+      objc-class-ref in libShareKit.a(SHKFile.o)
+  "_OBJC_CLASS_$_CLLocationManager", referenced from:
+      objc-class-ref in GooglePlus(UIDevice+GPPAdditions.o)
+      objc-class-ref in libShareKit.a(SHKFoursquareV2VenuesForm.o)
+      objc-class-ref in libShareKit.a(SHKFoursquareV2.o)
+  "_OBJC_CLASS_$_CMMotionManager", referenced from:
+      objc-class-ref in GooglePlus(GPPSpamSignal.o)
+  "_OBJC_CLASS_$_MPMoviePlayerController", referenced from:
+      objc-class-ref in GooglePlus(GPPMediaPreviewView.o)
+  "_OBJC_CLASS_$_SKStoreProductViewController", referenced from:
+      objc-class-ref in libShareKit.a(EvernoteSession.o)
+  "_OBJC_CLASS_$_SLComposeViewController", referenced from:
+      objc-class-ref in libShareKit.a(SHKiOSSharer.o)
+      objc-class-ref in libShareKit.a(SHKSinaWeibo.o)
+  "_OBJC_CLASS_$_SLRequest", referenced from:
+      objc-class-ref in libShareKit.a(SHKiOSFacebook.o)
+      objc-class-ref in libShareKit.a(SHKiOSTwitter.o)
+  "_SKStoreProductParameterITunesItemIdentifier", referenced from:
+      -[EvernoteSession installAppWithId:withViewController:] in libShareKit.a(EvernoteSession.o)
+  "_SLServiceTypeFacebook", referenced from:
+      -[SHKiOSFacebook serviceTypeIdentifier] in libShareKit.a(SHKiOSFacebook.o)
+      -[SHKiOSFacebook sendFeed] in libShareKit.a(SHKiOSFacebook.o)
+      -[SHKiOSFacebook sendPhoto] in libShareKit.a(SHKiOSFacebook.o)
+      -[SHKiOSFacebook sendVideo] in libShareKit.a(SHKiOSFacebook.o)
+      -[SHKiOSFacebook fetchUserInfo] in libShareKit.a(SHKiOSFacebook.o)
+  "_SLServiceTypeSinaWeibo", referenced from:
+      +[SHKSinaWeibo canShare] in libShareKit.a(SHKSinaWeibo.o)
+      -[SHKSinaWeibo share] in libShareKit.a(SHKSinaWeibo.o)
+  "_SLServiceTypeTwitter", referenced from:
+      -[SHKiOSTwitter serviceTypeIdentifier] in libShareKit.a(SHKiOSTwitter.o)
+      -[SHKiOSTwitter sendStatusViaTwitter:mimeType:filename:] in libShareKit.a(SHKiOSTwitter.o)
+      -[SHKiOSTwitter sendDataViaYFrog:mimeType:filename:] in libShareKit.a(SHKiOSTwitter.o)
+      -[SHKiOSTwitter fetchUserInfo] in libShareKit.a(SHKiOSTwitter.o)
+      -[SHKiOSTwitter downloadAPIConfiguration] in libShareKit.a(SHKiOSTwitter.o)
+      -[SHKiOSTwitter authorizationYFrogHeader] in libShareKit.a(SHKiOSTwitter.o)
+  "_kABPersonEmailProperty", referenced from:
+      ___48+[GPPAddressBook loadDeviceContactsWithHandler:]_block_invoke in GooglePlus(GPPAddressBook.o)
+  "_kABPersonFirstNameProperty", referenced from:
+      ___48+[GPPAddressBook loadDeviceContactsWithHandler:]_block_invoke in GooglePlus(GPPAddressBook.o)
+  "_kABPersonLastNameProperty", referenced from:
+      ___48+[GPPAddressBook loadDeviceContactsWithHandler:]_block_invoke in GooglePlus(GPPAddressBook.o)
+  "_kCLLocationAccuracyBest", referenced from:
+      -[SHKFoursquareV2VenuesForm startMonitoringLocation] in libShareKit.a(SHKFoursquareV2VenuesForm.o)
+ld: symbol(s) not found for architecture i386
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+</code></pre>
+
+<p>Looks like you are missing quite a few frameworks. According to the symbols mentioned, add following list of frameworks to resolve the linker errors,</p>
+
+<pre><code>AddressBook.framework
+AVFoundation.framework
+CoreMedia.framework
+MediaPlayer.framework
+Accounts.framework
+AssetsLibrary.framework
+CoreLocation.framework
+CoreMotion.framework
+StoreKit.framework
+Social.framework
+Hope that helps!
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-09T17:19:50+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:19 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/09/parse-twitter-sdk/" title="Previous Post: Parse Twitter SDK">&laquo; Parse Twitter SDK</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/10/ios9xin-xi-tong-xia-app-storeying-yong-shang-chuan-xin-zhi-nan/" title="Next Post: iOS9新系统下App Store应用上传新指南">iOS9新系统下App Store应用上传新指南 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

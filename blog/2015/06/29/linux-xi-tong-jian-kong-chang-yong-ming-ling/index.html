@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux 系统监控常用命令-2(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="服务管理程序：sysv-rc-conf Linux 系统任何时候都运行在一个指定的运行级上，并且不同的运行级的程序和服务都不同，所要完成的工作和要达到的目的都不同，系统可以在这些运行级之间进行切换，以完成不同的工作。sysv-rc-conf是一个强大的服务管理程序，用于查看程序和服务的运行级别 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/29/linux-xi-tong-jian-kong-chang-yong-ming-ling/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Linux 系统监控常用命令-2(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-29T12:49:45+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:49 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>服务管理程序：sysv-rc-conf</h3>
+
+<p>Linux 系统任何时候都运行在一个指定的运行级上，并且不同的运行级的程序和服务都不同，所要完成的工作和要达到的目的都不同，系统可以在这些运行级之间进行切换，以完成不同的工作。sysv-rc-conf是一个强大的服务管理程序，用于查看程序和服务的运行级别。</p>
+
+<p>Ubuntu 的系统运行级别：</p>
+
+<pre><code>0　　 　系统停机状态
+
+1　　 　单用户或系统维护状态
+
+2~5　　多用户状态
+
+6　　 　重新启动
+</code></pre>
+
+<p>安装并运行 sysv-rc-conf：</p>
+
+<pre><code>$ sudo apt-get install sysv-rc-conf
+$ sudo sysv-rc-conf
+</code></pre>
+
+<p>操作截图：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etkwmk7s52j20k50cxtct.jpg" alt="img" /></p>
+
+<p>操作界面十分简洁，你可以用鼠标点击，也可以用键盘方向键定位，用空格键选择在启动级中开启或关闭程序，用 Ctrl+N 翻下一页，用 Ctrl+P 翻上一页，用 Q 退出。</p>
+
+<p>对程序进行启动级的操作也可以用 update-rc.d 命令实现。</p>
+
+<p>例如：删除 apache2 随机器启动的服务,并查看其它命令选项</p>
+
+<pre><code>$ sudo update-rc.d -f apache2 remove
+$ sudo update-rc.d
+</code></pre>
+
+<h3>监视每个进程使用的网络带宽：NetHogs</h3>
+
+<p>NetHogs 是一个开放源源代码的很小程序（与 Linux 下的 top 命令很相似），它密切监视着系统上每个进程的网络活动。同时还追踪着每个程序或者应用所使用的实时网络带宽。</p>
+
+<pre><code>$ sudo apt-get install nethogs
+$ sudo nethogs
+</code></pre>
+
+<p>操作截图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etkwq0f6brj20lu05vmyd.jpg" alt="img" /></p>
+
+<h3>监视网络带宽：iftop</h3>
+
+<p>iftop 是另一个在控制台运行的开放源代码系统监控应用，它显示了系统上通过网络接口的应用网络带宽使用（源主机或者目的主机）的列表，这个列表定期更新。iftop 用于监视网络的使用情况，而'top'用于监视CPU的使用情况。iftop 是'top'工具系列中的一员，它用于监视所选接口，并显示两个主机间当前网络带宽的使用情况。</p>
+
+<pre><code>$ sudo apt-get install iftop
+
+$ sudo iftop
+</code></pre>
+
+<p>操作截图：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etkv9gp5twj20jw0c6q7l.jpg" alt="img" /></p>
+
+<p>界面相关说明:</p>
+
+<pre><code>&lt;= =&gt; ：表示的是流量的方向。
+TX：发送流量
+RX：接收流量
+TOTAL：总流量
+Cumm：运行iftop到目前时间的总流量
+peak：流量峰值
+rates：分别表示过去 2s 10s 40s 的平均流量
+</code></pre>
+
+<p>界面操作：</p>
+
+<pre><code>按h切换是否显示帮助;
+
+按n切换显示本机的IP或主机名;
+
+按s切换是否显示本机的host信息;
+
+按d切换是否显示远端目标主机的host信息;
+
+按t切换显示格式为2行/1行/只显示发送流量/只显示接收流量;
+
+更多操作请查看帮助
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etkvaty93jj20k90cun1t.jpg" alt="img" /></p>
+
+<h3>System Monitor</h3>
+
+<p>gnome-system-monitor 是 GNOME 系统监视器，能够监听 CPU，内存，进程，硬盘的信息。分为进程监控，资源监控，文件监控：</p>
+
+<pre><code>$ sudo apt-get install gnome-system-monitor
+
+$ gnome-system-monitor
+</code></pre>
+
+<p>进程监控：包括进程名，用户，CPU 占用率，进程 PID，内存占用，优先级：</p>
+
+<p>操作截图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etkvczlh65j20lx0gcq8j.jpg" alt="img" /></p>
+
+<p>资源监控是对历史资源使用的统计，将其绘制成图展现，从图中可以看出CPU使用率的变化，存储占用率变化，带宽占用率变化。</p>
+
+<p>操作截图：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etkvd04wtxj20lx0gc791.jpg" alt="img" /></p>
+
+<p>文件监控包括 hosts，hostname 等</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etkvd0p2uuj20m905b0u1.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-29T12:49:45+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:49 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/29/ruby-shu-ru-shu-chu/" title="Previous Post: ruby - 输入输出(原创)">&laquo; ruby - 输入输出(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/29/linux-xi-tong-jian-kong-gong-ju-conky/" title="Next Post: Linux 系统监控工具 - Conky(原创)">Linux 系统监控工具 - Conky(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>为你的常量选择readonly而不是const - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Prefer readonly to const 对于常量，C#里有两个不同的版本：运行时常量和编译时常量。 因为他们有不同的表现行为，所以当你使用不当时，将会损伤程序性能或者出现错误。 两害相权取其轻，当我们不得不选择一个的时候，我们宁可选择一个运行慢一点但正确的那一个， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/01/23/wei-ni-de-chang-liang-xuan-ze-readonlyer-bu-shi-const/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">为你的常量选择readonly而不是const</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-23T15:44:07+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>3:44 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Prefer readonly to const</p>
+
+<p>对于常量，C#里有两个不同的版本：运行时常量和编译时常量。</p>
+
+<p>因为他们有不同的表现行为，所以当你使用不当时，将会损伤程序性能或者出现错误。</p>
+
+<p>两害相权取其轻，当我们不得不选择一个的时候，我们宁可选择一个运行慢一点但正确的那一个，而不是运行快一点但有错误的那个。基于这个理由，你应该选择运行时常量而不是编译时常量(译注：这里隐藏的说明了编译时常量效率更高，但可能会有错误)。</p>
+
+<p>编译时常量更快更直接，但在可维护性上远不及运行时常量。保留编译时常量是为了满足那些对性能要求克刻，且随着程序运行时间的过去，其值永远不发生改变的常量使用的(译注：这说明编译时常量是可以不被C#采用的，但考虑到性能问题，还是做了保留)。
+你可以用关键字readonly来声明(declare)一个运行时常量，编译时常量是用关键字const声明的。</p>
+
+<pre><code>//Compile time constant:
+
+public cocnst int _Millennium = 2000;
+//Runtime constant:
+
+public static readonly int _ThisYear = 2004;
+</code></pre>
+
+<p>编译时常量与运行时常量不同之处表现在如何对他们的访问上。
+一个编译时常量会被目标代码中的值直接取代。下面的代码：</p>
+
+<pre><code>if(myDateTime.Year == _Millennium)
+</code></pre>
+
+<p>会与下面写的代码编译成完全相同的IL代码：</p>
+
+<pre><code>if(myDateTime.Year == 2000)
+</code></pre>
+
+<p>运行时常量的值是在运行时确定的。当你引用一个只读常量时(read-only)IL会为你引用一个运行时常量的变量，而不是直接使用该值。
+当你任意的使用其中一个常量时，这些区别就在一些限制上表现出来。编译时常量只能是基本类型(primitive types)(built-in integral and floating-poing types),枚举或者是字符串。这些就是你只能给运行时常量在初始化时赋值的类型。这些基本类就是可以被编译器在编译IL代码时直接用真实的值所取代的数据类型。下面的代码块(construct)不能通过编译。你不能用new运算符初始化一个编译时常量，即使这个数据类型是值类型。</p>
+
+<pre><code>//Does not complie, use readonly instead:
+private const DateTime _classCreation = new DateTime(2000,1,1,0,0,0);
+</code></pre>
+
+<p>编译时常量仅限于数字和字符串。只读变量，也就是运行时常量，在构造函数(constructor)执行完成后它们是不以能被修改的。但只读变量是所有不同的，因为他们是在运行时才赋值的。当你使用运行时常量时，你有更大的可伸缩性。有一点要注意的是，运行时常量可以是任何类型的数据。而且你必须在构造函数里对他们初始化，或者你可以用任何一个初始化函数来完成。你可以添加一个DateTime结构的只读变量(&ndash;运行时常量)，但你不能添加一个DateTime结构的(编译时)常量。</p>
+
+<p>你可以把每一个实例(的常量)指定为只读的，从而为每一个类的实例存放不同的值。与编译时常量不同的是，它只能是静态的。</p>
+
+<p>只读数据最重要的区别是他们在运行时才确定值。当你使用只读变量时，IL会为你产生一个对只读变量引用，而不是直接产生数值。随着时间的推移，这个区别在(系统)维护上有深远的潜在影响。</p>
+
+<p>编译时常量生成的IL代码就跟直接使用数值时生成的IL是一样的，即使是在跨程序集时：一个程序集里的编译时常量在另一个程序集会保留着同样的值(译注：这里说的不是很清楚，看后面的这个例子可能会更清楚一些)。
+编译时常量和运行时常量的赋值方法对运行时的兼容性有所影响。</p>
+
+<p>假设你已经在程序集Infrastructure中同时定义了一个const和一个readonly变量:</p>
+
+<pre><code>public class UserfulValues
+{
+public static readonly int StartValue = 5;
+public const int EndValue = 10;
+}
+</code></pre>
+
+<p>同时，在另一个程序集(译注：这个程序集认为是我们做测试的应用程序的程序集，下面所说的应用程序的程序集都是指的这个程序集)中，你引用了这些值：</p>
+
+<pre><code>for(int i=UserfulValues.StartValue;i&lt;UserfulValues.EndValue;i++)
+{
+Console.WriteLine("value is {0}",i);
+}
+</code></pre>
+
+<p>如果你运行这个简单测试程序，你可以看到下面明显的结果：</p>
+
+<pre><code>value is 5
+value is 6
+...
+value is 9
+</code></pre>
+
+<p>过后，你又为程序集Infrastructure发布了个新的版本，并做了如下的修改：</p>
+
+<pre><code>public class UserfulValues
+{
+public static readonly int StartValue = 105;
+public const int EndValue = 120;
+}
+</code></pre>
+
+<p>你单独的发布了程序集Infrastructure而没有全部编译你的程序，你希望得到下面的：</p>
+
+<pre><code>value is 105
+value is 106
+...
+value is 119
+</code></pre>
+
+<p>事实上，你什么也得不到。上面的循环已经是用105开始而用10来结束。C#编译器(在编译时)把常量用10来代替应用程序的程序集中的使用，而不是用常量EndValue所存储的值。而常量StartValue的值，它是被申明为只读的，它可以在运行时重新读取该常量的值。因此，应用程序的程序集可以在不用重新编译的情况下使用新的数据，简单的编译一下Infrastructure程序集，然后重新布署安装一下，就足够让你的客户可能使用这些新的数据了。更新的编译时常量应该看成是接口的变化。你必须重新编译所有引用到编译时常量的代码。更新的运行时常量则可以当成是实现的改变，这于在客户端已经存在的二进制代码是兼容的。用MSIL解释一下前面的那个循环里发生了什么：</p>
+
+<pre><code>IL_0000: ldsfld int32 Chapter1.UserfulValues::StartValue
+IL_0005: stloc.0
+IL_0006: br.s IL_001c
+IL_0008: ldstr "value is {0}"
+IL_000d: ldloc.0
+IL_000e: box [mscrolib]System.Int32
+IL_0013: call void [mscrolib]System.Console::WriteLine(string,object)
+IL_0018: ldloc.0
+IL_0019: ldc.i4.1
+IL_001a: add
+IL_001b: stloc.0
+IL_001c: ldloc.0
+IL_001d: ldc.i4.s 10
+IL_001f: blt.s IL_0008
+</code></pre>
+
+<p>从MSIL命令清单的最上面一行你可以看到，StartValue(的值)是动态载入的。</p>
+
+<p>但是，在MSIL命令的最后，结束条件是把值10当成硬代码(hard-coded)使用的。</p>
+
+<p>另一方面，有些时候你也须要为某些值使用编译时常量。例如：考虑一个须要识别不同版本的续列化情形。用来标识一个特殊版本号的常量应该是一个编译时常量，它们决不会发生改变。而当前版本号则应该是一个运行时常量，在不同的版本发布后会有所改变。</p>
+
+<pre><code>private const int VERSION_1_0 = 0x0100;
+private const int VERSION_1_1 = 0x0101;
+private const int VERSION_1_2 = 0x0102;
+
+//major release;
+private const int VERSION_2_0 = 0x0200;
+//Chech for the current version:
+private static readonly int CURRENT_VERSION = VERSION_2_0;
+在每次存盘时，你用运行常量来保存当前版本号。
+//Read fom persistent storage, check stored version against complie-time constant:
+protected MyType(SerializationInfo info, StreamingContext cntxt)
+{
+int storedVersion = info.GetInt32("VERSION");
+switch(storedVersion){
+case VERSION_2_0:
+readVersion2(info,cntxt);
+break;
+case VERSION_1_1:
+readVersion1(info,cntxt);
+break;
+//etc.
+}
+}
+//Write the current version:
+[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter = true)]
+void ISerializable.GetObjectData(SerializationInfo inf,StreamingContext cxt)
+{
+//use runtime constant for currnet version
+inf.AddValue("VERSION",CURRENT_VERSION);
+//write remaining delements...
+}
+</code></pre>
+
+<p>最后一个有利的原因而使我们要使用编译时常量，就是它的性能。比起运行时常量，已知的编译时常量可以更直接有效的被访问。然而，性能上的功效是甚微的，并且应该与可伸缩性的降低进行一个权衡。Be sure to profile performace differences before giveing up the flexibility.</p>
+
+<p>const的值必须在编译时被确定，(它们可以是)：属性参数，枚举定义，以及一小部份你认为应该定义一个值且该值不能在不同的版本发布时发生改变的常量。</p>
+
+<p>无论如何，宁愿选择伸缩性更强的运行时常量。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-23T15:44:07+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>3:44 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/csharp/'>csharp</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/23/te-xing/" title="Previous Post: 特性">&laquo; 特性</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/23/ying-yong-te-xing/" title="Next Post: 应用特性">应用特性 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

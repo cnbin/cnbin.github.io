@@ -1,0 +1,866 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Objective-C 开发编码规范 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="函数的书写 一个典型的 Objective-C函数应该是这样的： - (void)writeVideoFrameWithData:(NSData *)frameData timeStamp:(int)timeStamp {
+...
+} 在 -和 (void) 之间应该有一个空格，第一个大括号 &hellip;">
+  <meta name="keywords" content="Objective-C">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/26/objective-c-kai-fa-bian-ma-gui-fan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Objective-C 开发编码规范</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-26T14:58:29+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:58 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>函数的书写</h2>
+
+<p>一个典型的 <code>Objective-C</code>函数应该是这样的：</p>
+
+<pre><code>- (void)writeVideoFrameWithData:(NSData *)frameData timeStamp:(int)timeStamp {
+...
+}
+</code></pre>
+
+<p>在 <code>-</code>和 <code>(void)</code> 之间应该有一个空格，第一个大括号 <code>{</code> 的位置在函数所在行的末尾，同样应该有一个空格。</p>
+
+<p>如果一个函数有特别多的参数或者名称很长，应该将其按照 <code>:</code> 来对齐分行显示：</p>
+
+<pre><code>-(id)initWithModel:(IPCModle)model
+       ConnectType:(IPCConnectType)connectType
+        Resolution:(IPCResolution)resolution
+          AuthName:(NSString *)authName
+          Password:(NSString *)password
+               MAC:(NSString *)mac
+              AzIp:(NSString *)az_ip
+             AzDns:(NSString *)az_dns
+             Token:(NSString *)token
+             Email:(NSString *)email
+          Delegate:(id)delegate;
+</code></pre>
+
+<p>在分行时，如果第一段名称过短，保证下一行至少有4个空格的缩进。这样可以使关键字垂直对齐，而不是使用冒号对齐：：</p>
+
+<pre><code>- (void)short:(GTMFoo *)theFoo
+    longKeyword:(NSRect)theRect
+    evenLongerKeyword:(float)theInterval
+    error:(NSError **)theError {
+...
+}
+</code></pre>
+
+<p>总结：<code>-</code> 或者 <code>+</code> 与返回类型之间，需要有空格。参数列表中，只有参数之间有空格。</p>
+
+<h2>@public 和 @private 标记符</h2>
+
+<pre><code>@interface MyClass : NSObject {
+ @public
+   ...
+ @private
+   ...
+}
+@end
+</code></pre>
+
+<p>总结：<code>@public</code> 以及 <code>@private</code> 访问标识符应该以一个空格缩进。</p>
+
+<h2>异常</h2>
+
+<pre><code>@try {
+    foo();
+}
+@catch (NSException *ex) {
+    bar(ex);
+}
+@finally {
+    baz();
+}        
+</code></pre>
+
+<p>总结：每个 <code>@</code> 标签应该有独立的一行，在 <code>@</code> 与 <code>{}</code> 之间需要有一个空格。<code>@catch</code> 与被捕捉到的异常对象的声明之间也要有一个空格。</p>
+
+<h2>协议(Protocols)</h2>
+
+<p>在书写协议的时候注意用<code>&lt;&gt;</code>括起来的协议和类型名之间是没有空格的，比如 <code>IPCConnectHandler()</code>, 这个规则适用所有书写协议的地方，包括函数声明、类声明、实例变量等等：</p>
+
+<pre><code>@interface MyProtocoledClass : NSObject {
+ @private
+    id _delegate;
+}
+- (void)setDelegate:(id)aDelegate;
+@end
+</code></pre>
+
+<h2>文件名</h2>
+
+<p>文件的扩展名应该如下：</p>
+
+<ul>
+<li>.h，C/C++/Objective-C的头文件</li>
+<li>.m，Ojbective-C实现文件</li>
+<li>.mm，Ojbective-C++的实现文件</li>
+<li>.cc，纯C++的实现文件</li>
+<li>.c， 纯C的实现文件</li>
+</ul>
+
+
+<p>分类的文件名应该包含被扩展的类的名字，如：<code>GTMNSString+Utils.h</code> 或 <code>GTMNSTextView+Autocomplete.h</code>。</p>
+
+<p>总结：文件名应该反映了它实现了什么类。遵守你的项目的惯例。</p>
+
+<h2>变量名</h2>
+
+<p>1.常用变量名
+对于静态的类别，如int以及指针等，不要使用匈牙利命名法。要为变量起一个描述性的名字。</p>
+
+<p>错误的命名：</p>
+
+<pre><code>int w;
+int nerr;
+int nCompConns;
+tix = [[NSMutableArray alloc] init];
+obj = [someObject object];
+p = [network port];    
+</code></pre>
+
+<p>正确的命名：</p>
+
+<pre><code>int numErrors;
+int numCompletedConnections;
+tickets = [[NSMutableArray alloc] init];
+userInfo = [someObject object];
+port = [network port];        
+</code></pre>
+
+<p>2.常量</p>
+
+<p>常量名（如宏、枚举、静态局部变量等）应该以小写字母 <code>k</code> 开头，使用混合大小写的格式来分隔单词，如：<code>kInvalidHandle</code>，<code>kWritePerm</code>。</p>
+
+<p>3.成员变量</p>
+
+<p>成员变量应该混合大小写，并以下划线作为后缀，如 <code>usernameTextField_</code>。然而，如果不能使用 <code>Objective-C 2.0</code>（操作系统版本的限制），并且使用 <code>KVO/KVC</code> 绑定成员变量时，我们允许这个例外（译者注：KVO=Key Value Observing，KVC=Key Value Coding）。这种情况下，可以以一个下划线作为成员变量名字的前缀，这是苹果所接受的键/值命名惯例。如果可以使用 <code>Objective-C 2.0</code> ，<code>@property</code> 以及 <code>@synthesize</code> 提供了遵从这一命名规则的解决方案。</p>
+
+<h2>命名属性和实例变量(Properties&amp;Instance Variables)</h2>
+
+<p>属性和对象的存取方法相关联，属性的第一个字母小写，后续单词首字母大写，不必添加前缀。属性按功能命名成名词或者动词：</p>
+
+<pre><code>//名词属性
+@property (strong) NSString *title;
+
+//动词属性
+@property (assign) BOOL showsAlpha;
+</code></pre>
+
+<p>属性也可以命名成形容词，这时候通常会指定一个带有 <code>is</code> 前缀的 <code>get</code> 方法来提高可读性：</p>
+
+<pre><code>@property (assign, getter=isEditable) BOOL editable;
+</code></pre>
+
+<p>命名实例变量，在变量名前加上 <code>_</code> 前缀（有些有历史的代码会将 <code>_</code> 放在后面），其它和命名属性一样：</p>
+
+<pre><code>@implementation MyClass {
+    BOOL _showsTitle;
+}
+</code></pre>
+
+<h2>Cocoa以及Objective-C特性</h2>
+
+<p>成员变量应该为 <code>@private</code></p>
+
+<pre><code>@interface MyClass : NSObject {
+ @private
+    id myInstanceVariable_;
+}
+// public accessors, setter takes ownership
+- (id)myInstanceVariable;
+- (void)setMyInstanceVariable:(id)theVar;
+@end
+</code></pre>
+
+<p>总结：成员变量应该声明为私有。</p>
+
+<h2>命名常量(Constants)</h2>
+
+<p>如果要定义一组相关的常量，尽量使用枚举类型<code>(enumerations)</code>，枚举类型的命名规则和函数的命名规则相同。 建议使用<code>NS_ENUM</code>和 <code>NS_OPTIONS</code> 宏来定义枚举类型。</p>
+
+<pre><code>//定义一个枚举
+typedef NS_ENUM(NSInteger, NSMatrixMode) {
+    NSRadioModeMatrix,
+    NSHighlightModeMatrix,
+    NSListModeMatrix,
+    NSTrackModeMatrix
+};
+</code></pre>
+
+<p>定义bit map：</p>
+
+<pre><code>typedef NS_OPTIONS(NSUInteger, NSWindowMask) {
+    NSBorderlessWindowMask      = 0,
+    NSTitledWindowMask          = 1 &lt;&lt; 0,
+    NSClosableWindowMask        = 1 &lt;&lt; 1,
+    NSMiniaturizableWindowMask  = 1 &lt;&lt; 2,
+    NSResizableWindowMask       = 1 &lt;&lt; 3
+};      
+</code></pre>
+
+<p>使用 <code>const</code> 定义浮点型或者单个的整数型常量，如果要定义一组相关的整数常量，应该优先使用枚举。常量的命名规范和函数相同：</p>
+
+<pre><code>const float NSLightGray;
+</code></pre>
+
+<p>不要使用 <code>#define</code> 宏来定义常量，如果是整型常量，尽量使用枚举，浮点型常量，使用 <code>const</code> 定义。<code>#define</code> 通常用来给编译器决定是否编译某块代码，比如常用的：</p>
+
+<pre><code>#ifdef DEBUG
+</code></pre>
+
+<p>注意到一般由编译器定义的宏会在前后都有一个 <code>__</code>，比如 <code>__MACH__</code>。</p>
+
+<h2>闭包(Blocks)</h2>
+
+<p>根据 block 的长度，有不同的书写规则：</p>
+
+<p>1.较短的 block 可以写在一行内。</p>
+
+<p>2.如果分行显示的话， block 的右括号 <code>}</code> 应该和调用 block 那行代码的第一个非空字符对齐。</p>
+
+<p>3.block 内的代码采用4个空格的缩进。</p>
+
+<p>4.如果 block 过于庞大，应该单独声明成一个变量来使用。</p>
+
+<p>5.<code>^</code> 和 <code>(</code> 之间，<code>^</code>和 <code>{</code> 之间都没有空格，参数列表的右括号 <code>)</code>和 <code>{</code> 之间有一个空格。</p>
+
+<p>例子：</p>
+
+<pre><code>    // 较短的 block 写在一行内
+    [operation setCompletionBlock:^{ [self onOperationDone]; }];
+    // 分行书写的 block ，内部使用 4 空格缩进
+    [operation setCompletionBlock:^{
+    [self.delegate newDataAvailable];
+    }];
+    // 使用 C 语言 API 调用的 block 遵循同样的书写规则
+    dispatch_async(_fileIOQueue, ^{
+    NSString* path = [self sessionFilePath];
+    if (path) {
+    // ...
+    }
+    });
+    // 较长的 block 关键字可以缩进后在新行书写，注意 block 的右括号 '}' 和调用 block 那行代码的第一个非空字符对齐
+    [[SessionService sharedService]
+    loadWindowWithCompletionBlock:^(SessionWindow *window) {
+    if (window) {
+    [self windowDidLoad:window];
+    } else {
+    [self errorLoadingWindow];
+    }
+    }];
+    // 较长的 block 参数列表同样可以缩进后在新行书写
+    [[SessionService sharedService]
+    loadWindowWithCompletionBlock:
+    ^(SessionWindow *window) {
+    if (window) {
+    [self windowDidLoad:window];
+    } else {
+    [self errorLoadingWindow];
+    }
+    }];
+    // 庞大的 block 应该单独定义成变量使用
+    void (^largeBlock)(void) = ^{
+    // ...
+    };
+    [_operationQueue addOperationWithBlock:largeBlock];
+    // 在一个调用中使用多个 block ，注意到他们不是像函数那样通过 ':' 对齐的，而是同时进行了 4 个空格的缩进
+    [myObject doSomethingWith:arg1
+    firstBlock:^(Foo *a) {
+    // ...
+    }
+    secondBlock:^(Bar *b) {
+    // ...
+    }];
+</code></pre>
+
+<h2>数据结构的语法糖</h2>
+
+<p>应该使用可读性更好的语法糖来构造 <code>NSArray</code> ， <code>NSDictionary</code> 等数据结构，避免使用冗长的 <code>alloc</code>,<code>init</code> 方法。</p>
+
+<p>如果构造代码写在一行，需要在括号两端留有一个空格，使得被构造的元素于与构造语法区分开来：</p>
+
+<pre><code>// 正确，在语法糖的 "[]" 或者 "{}" 两端留有空格
+NSArray *array = @[ [foo description], @"Another String", [bar description] ];
+NSDictionary *dict = @{ NSForegroundColorAttributeName : [NSColor redColor] };
+// 不正确，不留有空格降低了可读性
+NSArray* array = @[[foo description], [bar description]];
+NSDictionary* dict = @{NSForegroundColorAttributeName: [NSColor redColor]};
+</code></pre>
+
+<p>如果构造代码不写在一行内，构造元素需要使用两个空格来进行缩进，右括号 ] 或者 } 写在新的一行，并且与调用语法糖那行代码的第一个非空字符对齐：</p>
+
+<pre><code>NSArray *array = @[
+@"This",
+@"is",
+@"an",
+@"array"
+];
+NSDictionary *dictionary = @{
+NSFontAttributeName : [NSFont fontWithName:@"Helvetica-Bold" size:12],
+NSForegroundColorAttributeName : fontColor
+};
+</code></pre>
+
+<p>构造字典时，字典的 <code>Key</code> 和 <code>Value</code> 与中间的冒号 <code>:</code> 都要留有一个空格，多行书写时，也可以将 <code>Value</code> 对齐：</p>
+
+<pre><code>// 正确，冒号 ':' 前后留有一个空格
+NSDictionary *option1 = @{
+NSFontAttributeName : [NSFont fontWithName:@"Helvetica-Bold" size:12],
+NSForegroundColorAttributeName : fontColor
+};
+// 正确，按照 Value 来对齐
+NSDictionary *option2 = @{
+NSFontAttributeName : [NSFont fontWithName:@"Arial" size:12],
+NSForegroundColorAttributeName : fontColor
+};
+// 错误，冒号前应该有一个空格
+NSDictionary *wrong = @{
+AKey: @"b",
+BLongerKey: @"c",
+};
+// 错误，每一个元素要么单独成为一行，要么全部写在一行内
+NSDictionary *alsoWrong= @{ AKey : @"a",
+BLongerKey : @"b" };
+// 错误，在冒号前只能有一个空格，冒号后才可以考虑按照 Value 对齐
+NSDictionary *stillWrong = @{
+AKey : @"b",
+BLongerKey : @"c",
+};
+</code></pre>
+
+<h2>命名通知(Notifications)</h2>
+
+<p>通知常用于在模块间传递消息，所以通知要尽可能地表示出发生的事件，通知的命名范式是：</p>
+
+<pre><code>[触发通知的类名] + [Did | Will] + [动作] + Notification
+</code></pre>
+
+<p>例子：</p>
+
+<pre><code>NSApplicationDidBecomeActiveNotification
+NSWindowDidMiniaturizeNotification
+NSTextViewDidChangeSelectionNotification
+NSColorPanelColorDidChangeNotification
+</code></pre>
+
+<h2>命名头文件(Headers)</h2>
+
+<p>源码的头文件名应该清晰地暗示它的功能和包含的内容：</p>
+
+<ul>
+<li>如果头文件内只定义了单个类或者协议，直接用类名或者协议名来命名头文件，比如 NSLocale.h 定义了 NSLocale 类。</li>
+<li>如果头文件内定义了一系列的类、协议、类别，使用其中最主要的类名来命名头文件，比如 NSString.h 定义了 NSString 和 NSMutableString 。</li>
+<li>每一个 Framework 都应该有一个和框架同名的头文件，包含了框架中所有公共类头文件的引用，比如 Foundation.h</li>
+<li>Framework 中有时候会实现在别的框架中类的类别扩展，这样的文件通常使用被扩展的框架名 +Additions 的方式来命名，比如 NSBundleAdditions.h 。</li>
+</ul>
+
+
+<h2>命名方法(Methods)</h2>
+
+<p>方法一般以小写字母打头，每一个后续的单词首字母大写，方法名中不应该有标点符号（包括下划线），有两个例外：</p>
+
+<p>1.可以用一些通用的大写字母缩写打头方法，比如 PDF,TIFF 等。</p>
+
+<p>2.可以用带下划线的前缀来命名私有方法或者类别中的方法。</p>
+
+<p>如果方法表示让对象执行一个动作，使用动词打头来命名，注意不要使用 do ， does 这种多余的关键字，动词本身的暗示就足够了：</p>
+
+<pre><code>    // 动词打头的方法表示让对象执行一个动作
+    - (void)invokeWithTarget:(id)target;
+    - (void)selectTabViewItem:(NSTabViewItem *)tabViewItem;
+</code></pre>
+
+<p>如果方法是为了获取对象的一个属性值，直接用属性名称来命名这个方法，注意不要添加 <code>get</code> 或者其他的动词前缀：</p>
+
+<pre><code>//正确，使用属性名来命名方法
+- (NSSize)cellSize;
+
+//错误，添加了多余的动词前缀
+- (NSSize)calcCellSize;
+- (NSSize)getCellSize;
+</code></pre>
+
+<p>对于有多个参数的方法，务必在每一个参数前都添加关键词，关键词应当清晰说明参数的作用：</p>
+
+<pre><code>//正确，保证每个参数都有关键词修饰
+- (void)sendAction:(SEL)aSelector toObject:(id)anObject forAllCells:(BOOL)flag;
+
+//错误，遗漏关键词
+- (void)sendAction:(SEL)aSelector :(id)anObject :(BOOL)flag;
+
+//正确
+- (id)viewWithTag:(NSInteger)aTag;
+
+//错误，关键词的作用不清晰
+- (id)taggedView:(int)aTag;
+</code></pre>
+
+<p>不要用 <code>and</code> 来连接两个参数，通常 <code>and</code> 用来表示方法执行了两个相对独立的操作（从设计上来说，这时候应该拆分成两个独立的方法）：</p>
+
+<pre><code>//错误，不要使用"and"来连接参数
+- (int)runModalForDirectory:(NSString *)path andFile:(NSString *)name andTypes:(NSArray *)fileTypes;
+
+//正确，使用"and"来表示两个相对独立的操作
+- (BOOL)openFile:(NSString *)fullPath withApplication:(NSString *)appName andDeactivate:(BOOL)flag;
+</code></pre>
+
+<p>方法的参数命名也有一些需要注意的地方:</p>
+
+<ul>
+<li>和方法名类似，参数的第一个字母小写，后面的每一个单词首字母大写</li>
+<li>不要再方法名中使用类似pointer,ptr这样的字眼去表示指针，参数本身的类型足以说明</li>
+<li>不要使用只有一两个字母的参数名</li>
+<li>不要使用简写，拼出完整的单词</li>
+</ul>
+
+
+<p>下面列举了一些常用参数名：</p>
+
+<pre><code>...action:(SEL)aSelector
+...alignment:(int)mode
+...atIndex:(int)index
+...content:(NSRect)aRect
+...doubleValue:(double)aDouble
+...floatValue:(float)aFloat
+...font:(NSFont *)fontObj
+...frame:(NSRect)frameRect
+...intValue:(int)anInt
+...keyEquivalent:(NSString *)charCode
+...length:(int)numBytes
+...point:(NSPoint)aPoint
+...stringValue:(NSString *)aString
+...tag:(int)anInt
+...target:(id)anObject
+...title:(NSString *)aString
+</code></pre>
+
+<h2>存取方法(Accessor Methods)</h2>
+
+<p>存取方法是指用来获取和设置类属性值的方法，属性的不同类型，对应着不同的存取方法规范：</p>
+
+<pre><code>//属性是一个名词时的存取方法范式
+- (type)noun;
+- (void)setNoun:(type)aNoun;
+//例子
+- (NSString *)title;
+- (void)setTitle:(NSString *)aTitle;
+
+//属性是一个形容词时存取方法的范式
+- (BOOL)isAdjective;
+- (void)setAdjective:(BOOL)flag;
+//例子
+- (BOOL)isEditable;
+- (void)setEditable:(BOOL)flag;
+
+//属性是一个动词时存取方法的范式
+- (BOOL)verbObject;
+- (void)setVerbObject:(BOOL)flag;
+//例子
+- (BOOL)showsAlpha;
+- (void)setShowsAlpha:(BOOL)flag;
+</code></pre>
+
+<p>命名存取方法时不要将动词转化为被动形式来使用：</p>
+
+<pre><code>//正确
+- (void)setAcceptsGlyphInfo:(BOOL)flag;
+- (BOOL)acceptsGlyphInfo;
+
+//错误，不要使用动词的被动形式
+- (void)setGlyphInfoAccepted:(BOOL)flag;
+- (BOOL)glyphInfoAccepted;
+可以使用can,should,will等词来协助表达存取方法的意思，但不要使用do,和does：
+
+//正确
+- (void)setCanHide:(BOOL)flag;
+- (BOOL)canHide;
+- (void)setShouldCloseDocument:(BOOL)flag;
+- (BOOL)shouldCloseDocument;
+
+//错误，不要使用"do"或者"does"
+- (void)setDoesAcceptGlyphInfo:(BOOL)flag;
+- (BOOL)doesAcceptGlyphInfo;
+</code></pre>
+
+<p>为什么 Objective-C 中不适用 <code>get</code> 前缀来表示属性获取方法？因为 <code>get</code> 在 <code>Objective-C</code> 中通常只用来表示从函数指针返回值的函数：</p>
+
+<pre><code>//三个参数都是作为函数的返回值来使用的，这样的函数名可以使用"get"前缀
+- (void)getLineDash:(float *)pattern count:(int *)count phase:(float *)phase;
+</code></pre>
+
+<h2>命名委托(Delegate)</h2>
+
+<p>当特定的事件发生时，对象会触发它注册的委托方法。委托是 <code>Objective-C</code> 中常用的传递消息的方式。委托有它固定的命名范式。</p>
+
+<p>一个委托方法的第一个参数是触发它的对象，第一个关键词是触发对象的类名，除非委托方法只有一个名为 <code>sender</code> 的参数：</p>
+
+<pre><code>//第一个关键词为触发委托的类名
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row;
+- (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename;
+
+//当只有一个"sender"参数时可以省略类名
+- (BOOL)applicationOpenUntitledFile:(NSApplication *)sender;
+</code></pre>
+
+<p>根据委托方法触发的时机和目的，使用 <code>should</code>,<code>will</code>,<code>did</code> 等关键词</p>
+
+<pre><code>- (void)browserDidScroll:(NSBrowser *)sender;
+
+- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window;、
+
+- (BOOL)windowShouldClose:(id)sender;
+</code></pre>
+
+<h2>保证NSString在赋值时被复制</h2>
+
+<p><code>NSString</code> 非常常用，在它被传递或者赋值时应当保证是以复制 <code>(copy)</code> 的方式进行的，这样可以防止在不知情的情况下 <code>String</code> 的值被其它对象修改。</p>
+
+<pre><code>- (void)setFoo:(NSString *)aFoo {
+  _foo = [aFoo copy];
+}
+</code></pre>
+
+<h2>不要使用new方法</h2>
+
+<p>尽管很多时候能用 <code>new</code> 代替 <code>alloc init</code> 方法，但这可能会导致调试内存时出现不可预料的问题。Cocoa的规范就是使用<code>alloc init</code>方法，使用new会让一些读者困惑。</p>
+
+<h2>import和#include</h2>
+
+<p><code>#import</code> 是 <code>Cocoa</code> 中常用的引用头文件的方式，它能自动防止重复引用文件，什么时候使用 <code>#import</code>，什么时候使用 <code>#include</code> 呢？</p>
+
+<p>1.当引用的是一个 <code>Objective-C</code> 或者 <code>Objective-C++</code> 的头文件时，使用  <code>#import</code></p>
+
+<p>2.当引用的是一个 <code>C</code> 或者 <code>C++</code> 的头文件时，使用 <code>#include</code>。</p>
+
+<pre><code>    //例子：
+    #import &lt;Cocoa/Cocoa.h&gt;
+    #include &lt;CoreFoundation/CoreFoundation.h&gt;
+    #import "GTMFoo.h"
+    #include "base/basictypes.h"
+</code></pre>
+
+<p>为什么不全部使用 <code>#import</code> 呢？主要是为了保证代码在不同平台间共享时不出现问题。</p>
+
+<p>总结：<code>#import Ojbective-C/Objective-C++</code> 头文件，<code>#include C/C++</code> 头文件。</p>
+
+<h2>引用框架的根头文件</h2>
+
+<p>上面提到过，每一个框架都会有一个和框架同名的头文件，它包含了框架内接口的所有引用，在使用框架的时候，应该直接引用这个根头文件，而不是其它子模块的头文件，即使是你只用到了其中的一小部分，编译器会自动完成优化的。</p>
+
+<pre><code>//正确，引用根头文件
+#import &lt;Foundation/Foundation.h&gt;
+
+//错误，不要单独引用框架内的其它头文件
+#import &lt;Foundation/NSArray.h&gt;
+#import &lt;Foundation/NSString.h&gt;
+</code></pre>
+
+<h2>BOOL的使用</h2>
+
+<p><code>BOOL</code> 在 <code>Objective-C</code> 中被定义为 <code>signed char</code> 类型，这意味着一个 <code>BOOL</code> 类型的变量不仅仅可以表示 <code>YES(1)</code> 和 <code>NO(0)</code> 两个值，所以永远不要将 <code>BOOL</code> 类型变量直接和 <code>YES</code> 比较：</p>
+
+<pre><code>//错误，无法确定|great|的值是否是YES(1)，不要将BOOL值直接与YES比较
+BOOL great = [foo isGreat];
+if (great == YES)
+  // ...be great!
+
+//正确
+BOOL great = [foo isGreat];
+if (great)
+  // ...be great!
+</code></pre>
+
+<p>同样的，也不要将其它类型的值作为 <code>BOOL</code> 来返回，这种情况下，<code>BOOL</code> 变量只会取值的最后一个字节来赋值，这样很可能会取到 <code>0（NO）</code>。但是，一些逻辑操作符比如 <code>&amp;&amp;</code>,<code>||</code>,<code>!</code> 的返回是可以直接赋给 <code>BOOL</code> 的：</p>
+
+<pre><code>//错误，不要将其它类型转化为BOOL返回
+- (BOOL)isBold {
+  return [self fontTraits] &amp; NSFontBoldTrait;
+}
+- (BOOL)isValid {
+  return [self stringValue];
+}
+
+//正确
+- (BOOL)isBold {
+  return ([self fontTraits] &amp; NSFontBoldTrait) ? YES : NO;
+}
+
+//正确，逻辑操作符可以直接转化为BOOL
+- (BOOL)isValid {
+  return [self stringValue] != nil;
+}
+- (BOOL)isEnabled {
+  return [self isValid] &amp;&amp; [self isBold];
+}
+</code></pre>
+
+<p>另外 <code>BOOL</code> 类型可以和 <code>_Bool</code>,<code>bool</code> 相互转化，但是不能和 <code>Boolean</code> 转化。</p>
+
+<h2>nil检查</h2>
+
+<p>因为在 <code>Objective-C</code> 中向 <code>nil</code> 对象发送命令是不会抛出异常或者导致崩溃的，只是完全的“什么都不干”，所以，只在程序中使用 <code>nil</code> 来做逻辑上的检查。</p>
+
+<p>另外，不要使用诸如 <code>nil == Object</code> 或者 <code>Object == nil</code> 的形式来判断。</p>
+
+<pre><code>//正确，直接判断
+if (!objc) {
+    ... 
+}
+
+//错误，不要使用nil == Object的形式
+if (nil == objc) {
+    ... 
+}
+</code></pre>
+
+<h2>属性的线程安全</h2>
+
+<p>定义一个属性时，编译器会自动生成线程安全的存取方法 <code>(Atomic)</code>，但这样会大大降低性能，特别是对于那些需要频繁存取的属性来说，是极大的浪费。所以如果定义的属性不需要线程保护，记得手动添加属性关键字 <code>nonatomic</code> 来取消编译器的优化。</p>
+
+<h2>点分语法的使用</h2>
+
+<p>不要用点分语法来调用方法，只用来访问属性。这样是为了防止代码可读性问题。</p>
+
+<pre><code>//正确，使用点分语法访问属性
+NSString *oldName = myObject.name;
+myObject.name = @"Alice";
+
+//错误，不要用点分语法调用方法
+NSArray *array = [NSArray arrayWithObject:@"hello"];
+NSUInteger numberOfItems = array.count;
+array.release;
+</code></pre>
+
+<h2>Delegate要使用弱引用</h2>
+
+<p>一个类的 <code>Delegate</code> 对象通常还引用着类本身，这样很容易造成引用循环的问题，所以类的 <code>Delegate</code> 属性要设置为弱引用。</p>
+
+<pre><code>/** delegate */
+@property (nonatomic, weak) id &lt;IPCConnectHandlerDelegate&gt; delegate;
+</code></pre>
+
+<h2>参考</h2>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html">Apple Coding Guidelinews for Cocoa</a></li>
+<li><a href="https://github.com/cnbin/Objective-C-Coding-Guidelines-In-Chinese">https://github.com/cnbin/Objective-C-Coding-Guidelines-In-Chinese</a></li>
+<li><a href="https://github.com/cnbin/zh-google-styleguide">https://github.com/cnbin/zh-google-styleguide</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-26T14:58:29+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:58 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/26/ios-gcdshi-yong-ji-qiao/" title="Previous Post: iOS-GCD使用技巧">&laquo; iOS-GCD使用技巧</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/27/xcode-ci-pan-kong-jian-qing-li/" title="Next Post: Xcode 磁盘空间清理">Xcode 磁盘空间清理 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

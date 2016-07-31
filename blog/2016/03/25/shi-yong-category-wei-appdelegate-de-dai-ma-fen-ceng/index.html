@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>使用category 为 AppDelegate 的代码分层 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Category是一种为现有的类添加新方法的方式。 利用Objective-C的动态运行时分配机制，Category提供了一种比继承（inheritance）更为简洁的方法来对class进行扩展， 无需创建对象类的子类就能为现有的类添加新方法，可以为任何已经存在的class添加方法。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/25/shi-yong-category-wei-appdelegate-de-dai-ma-fen-ceng/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">使用category 为 AppDelegate 的代码分层</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-25T15:10:16+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:10 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Category是一种为现有的类添加新方法的方式。</p>
+
+<p>利用Objective-C的动态运行时分配机制，Category提供了一种比继承（inheritance）更为简洁的方法来对class进行扩展，</p>
+
+<p>无需创建对象类的子类就能为现有的类添加新方法，可以为任何已经存在的class添加方法。</p>
+
+<p>AppDelegate 是iOS app启动的入口，经常需要添加各类的第三方应用，比如：定位服务、统计服务、消息推送服务、支付服务等。</p>
+
+<p>各类服务的代码如果完全放在一个文件中，给阅读和修改带来极大的不便。</p>
+
+<p>利用category的特点，可以将不同的服务分别保存在不同的category(类)文件中，让代码更加简洁，结构层次更加分明，阅读和修改容易。</p>
+
+<p>上代码！</p>
+
+<h3>一、环境</h3>
+
+<h3>二、原始文件</h3>
+
+<h5>1、AppDelegate.h</h5>
+
+<pre><code>#import &lt;UIKit/UIKit.h&gt;  
+
+@interface AppDelegate : UIResponder &lt;UIApplicationDelegate&gt;  
+
+@property (strong, nonatomic) UIWindow *window;  
+
+
+@end  
+</code></pre>
+
+<h4>2、AppDelegate.m</h4>
+
+<pre><code>#import "AppDelegate.h"  
+
+@interface AppDelegate ()  
+
+@end  
+
+@implementation AppDelegate  
+
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {  
+
+    return YES;  
+}  
+
+- (void)applicationWillResignActive:(UIApplication *)application {  
+
+}  
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {  
+
+}  
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {  
+
+}  
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {  
+
+}  
+
+- (void)applicationWillTerminate:(UIApplication *)application {  
+
+}  
+
+@end  
+</code></pre>
+
+<h3>三、创建AppDelegate的category</h3>
+
+<p>1、选中 AppDelegate.h</p>
+
+<p>2、同时按住 command + shift + s ，将AppDelegate.h 另存为</p>
+
+<p>3、名称 AppDelegate+WeixinPayService.h</p>
+
+<p>4、同样操作，修改AppDelegate.m</p>
+
+<p>5、将名称改为 AppDelegate+WeixinPayService.m</p>
+
+<p>6、打开  AppDelegate+WeixinPayService.h 文件，修改</p>
+
+<pre><code>#import "AppDelegate.h"  
+#import "WXApi.h"  
+
+@interface AppDelegate (WeixinPayService) &lt;WXApiDelegate&gt;  
+
+-(void)initWeixnPayService:(UIApplication *)application WithOption:(NSDictionary *)launchOptions;  
+
+@end  
+</code></pre>
+
+<h4>7、打开 AppDelegate+WeixinPayService.m，修改</h4>
+
+<pre><code>#import "AppDelegate+WeixinPayService.h"  
+
+
+@implementation AppDelegate (WeixinPayService)  
+
+
+-(void)initWeixnPayService:(UIApplication *)application WithOption:(NSDictionary *)launchOptions  
+{  
+
+        [WXApi registerApp:@“xxxxxxxxxxxxxxxxxxxxxxxxx”];  
+
+}  
+
+
+@end  
+</code></pre>
+
+<h4>8、导入 weixinPayService到 AppDelegate.m中</h4>
+
+<pre><code>#import "AppDelegate+WeixinPayService.h"  
+</code></pre>
+
+<h4>9、修改 AppDelegate.m 的代码</h4>
+
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {  
+
+    [self initWeixnPayService:application WithOption:launchOptions];  
+
+    return YES;  
+}  
+</code></pre>
+
+<h4>10、在需要回调的其他方法中，以同样的方式回调WeixinPayService中自定义的方法。</h4>
+
+<p>上面代码中没有定义更多WeixinPayService的代码，需要自己根据需要自行添加。</p>
+
+<p>以上这种方式，适合使用的服务比较少的应用，思路是利用Category从原有的类中抽取了代码另存，这样从AppDelegate中可以容易的跟踪代码。</p>
+
+<p>如果添加的服务很多，那么尽管使用了command+shift+s，还是需要添加和修改比较多的代码。</p>
+
+<p>多个服务之间，代码完全独立，没有任何的复用。多个服务使用上述方法，会使代码量增加的较多。</p>
+
+<p>可以将上述代码进行重构，把多个服务的方法进行统一命名，然后做成服务组件进行自动调用。</p>
+
+<p>组件中的服务就是应用需要的服务，每个服务只需要按照统一命名的方法进行开发并注册到组件中，那么服务对AppDelegate的回调自动完成。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/teamlet/article/details/50863761">http://blog.csdn.net/teamlet/article/details/50863761</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-25T15:10:16+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:10 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/25/ioshuo-qu-shou-ji-tong-xun-lu-lian-xi-ren-he-dian-hua/" title="Previous Post: iOS获取手机通讯录联系人和电话">&laquo; iOS获取手机通讯录联系人和电话</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/25/si-xiang-bi-ji-68/" title="Next Post: 思想笔记-68">思想笔记-68 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

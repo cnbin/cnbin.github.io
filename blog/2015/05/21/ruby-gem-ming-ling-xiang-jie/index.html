@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby Gem 命令详解 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Gem 是一个管理 Ruby 库和程序的标准包，它通过 Ruby Gem（如 http://rubygems.org/%C2%A0%EF%BC%89%E6%BA%90%E6%9D%A5%E6%9F%A5%E6%89%BE%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E5 &hellip;">
+  <meta name="keywords" content="rubygems">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/05/21/ruby-gem-ming-ling-xiang-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ruby Gem 命令详解</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-05-21T08:25:12+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>8:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><blockquote><p><strong>Gem</strong> 是一个管理 Ruby 库和程序的标准包，它通过 Ruby Gem（如 <a href="http://rubygems.org/%C2%A0%EF%BC%89%E6%BA%90%E6%9D%A5%E6%9F%A5%E6%89%BE%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E5%8D%87%E7%BA%A7%E5%92%8C%E5%8D%B8%E8%BD%BD%E8%BD%AF%E4%BB%B6%E5%8C%85%EF%BC%8C%E9%9D%9E%E5%B8%B8%E7%9A%84%E4%BE%BF%E6%8D%B7%E3%80%82">http://rubygems.org/%C2%A0%EF%BC%89%E6%BA%90%E6%9D%A5%E6%9F%A5%E6%89%BE%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E5%8D%87%E7%BA%A7%E5%92%8C%E5%8D%B8%E8%BD%BD%E8%BD%AF%E4%BB%B6%E5%8C%85%EF%BC%8C%E9%9D%9E%E5%B8%B8%E7%9A%84%E4%BE%BF%E6%8D%B7%E3%80%82</a><!--More--></p></blockquote>
+
+<h3>Ruby gem 包的安装方式：</h3>
+
+<p>所有的 gem 包，会被安装到 <code>/[Ruby root]/lib/ruby/gems/[ver]/</code> 目录下，这其中包括了 Cache、doc、gems、specifications 4个目录，cache 下放置下载的原生 gem 包，gems 下则放置的是解压过的 gem 包。</p>
+
+<p>当安装过程中遇到问题时，可以进入这些目录，手动删除有问题的 gem 包，然后重新运行 <code>gem install [gemname]</code> 命令即可。</p>
+
+<h3>Ruby Gem 命令详解：</h3>
+
+<pre><code># 更新Gem自身
+# 注意：在某些linux发行版中为了系统稳定性此命令禁止执行
+$ gem update --system
+
+# 从Gem源安装gem包
+$ gem install [gemname]
+
+# 从本机安装gem包
+$ gem install -l [gemname].gem
+
+# 安装指定版本的gem包
+$ gem install [gemname] --version=[ver]
+
+# 更新所有已安装的gem包
+$ gem update
+
+# 更新指定的gem包
+# 注意：gem update [gemname]不会升级旧版本的包，此时你可以使用 gem install [gemname] --version=[ver]代替
+$ gem update [gemname]
+
+# 删除指定的gem包，注意此命令将删除所有已安装的版本
+$ gem uninstall [gemname]
+
+# 删除某指定版本gem
+$ gem uninstall [gemname] --version=[ver]
+
+# 查看本机已安装的所有gem包
+$ gem list [--local]
+</code></pre>
+
+<h3>下载慢的问题</h3>
+
+<p>当我们使用 Gem 进行下载和更新的时候，经常会出现下载很慢，要不断根据系统指示下载相应的依赖包，其中 gem 默认的源是
+<code>http://rubygems.org</code>，这个很慢是大家都知道的了。可以将源更换到国内的 taobao 源。</p>
+
+<p>1.查看当前的源</p>
+
+<p><code>gem sources -l</code></p>
+
+<p>2.移除 <code>https://rubygems.org</code> 源</p>
+
+<p><code>gem sources --remove https:/rubygems.org</code></p>
+
+<p>3.增加 <code>http://ruby.taobao.org</code> 源</p>
+
+<p><code>gem sources -a http://ruby.taobao.org</code></p>
+
+<p>最后，添加完用<code>gem sources -l</code> 再查看一下，请确保只有 <code>http://ruby.taobao.org</code> 这一个源。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-05-21T08:25:12+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>8:25 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/05/20/xcode6-dot-3-plus-ios-8-dot-1mian-zheng-shu-kai-fa-plus-zhen-ji-diao-shi-plus-sheng-cheng-ipa/" title="Previous Post: Xcode6.3+iOS 8.1免证书开发+真机调试+生成ipa(原创)">&laquo; Xcode6.3+iOS 8.1免证书开发+真机调试+生成ipa(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/05/21/objective-c-class-dump-an-zhuang-he-shi-yong-fang-fa/" title="Next Post: Objective-C class-dump 安装和使用方法(原创)">Objective-C class-dump 安装和使用方法(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

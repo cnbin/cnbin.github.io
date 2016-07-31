@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Objective-C-Modules - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="原文地址： https://onevcat.com/2013/06/new-in-xcode5-and-objc/ 什么是Modules呢 在了解Modules之前我们需要先了解一下OC的import机制。#import &lt;FrameworkFoo/HeaderBar.h&gt;， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/05/04/objective-c-modules/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Objective-C-Modules</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-04T09:20:57+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:20 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>原文地址：</p>
+
+<p><a href="https://onevcat.com/2013/06/new-in-xcode5-and-objc/">https://onevcat.com/2013/06/new-in-xcode5-and-objc/</a></p>
+
+<p>什么是Modules呢</p>
+
+<p>在了解Modules之前我们需要先了解一下OC的import机制。<code>#import &lt;FrameworkFoo/HeaderBar.h&gt;</code>，我相信每个开发者都写过这样的代码，用来引用其他的头文件。熟悉C或者C++的童鞋可能会知道，在C和C++里是没有#import的，只有#include（虽然GCC现在为C和C++做了特殊处理使得import可以被编译），用来包含头文件。#include做的事情其实就是简单的复制粘贴，将目标.h文件中的内容一字不落地拷贝到当前文件中，并替换掉这句include，而#import实质上做的事情和#include是一样的，只不过OC为了避免重复引用可能带来的编译错误（这种情况在引用关系复杂的时候很可能发生，比如B和C都引用了A，D又同时引用了B和C，这样A中定义的东西就在D中被定义了两次，重复了），而加入了<code>#import</code>，从而保证每个头文件只会被引用一次。</p>
+
+<p>如果想深究，import的实现是通过#ifndef一个标志进行判断，然后在引入后#define这个标志，来避免重复引用的
+实质上import也还是拷贝粘贴，这样就带来一个问题：当引用关系很复杂，或者一个头文件被非常多的实现文件引用时，编译时引用所占的代码量就会大幅上升（因为被引用的头文件在各个地方都被copy了一遍）。为了解决这个问题，C系语言引入了预编译头文件（PreCompiled Header），将公用的头文件放入预编译头文件中预先进行编译，然后在真正编译工程时再将预先编译好的产物加入到所有待编译的Source中去，来加快编译速度。比如iOS开发中Supporting Files组内的.pch文件就是一个预编译头文件，默认情况下，它引用了UIKit和Foundation两个头文件–这是在iOS开发中基本每个实现文件都会用到的东西。</p>
+
+<p>于是理论上说，想要提高编译速度，可以把所有头文件引用都放到pch中。但是这样面临的问题是在工程中随处可用本来不应该能访问的东西，而编译器也无法准确给出错误或者警告，无形中增加了出错的可能性。</p>
+
+<p>于是Modules诞生了。Modules相当于将框架进行了封装，然后加入在实际编译之时加入了一个用来存放已编译添加过的Modules列表。如果在编译的文件中引用到某个Modules的话，将首先在这个列表内查找，找到的话说明已经被加载过则直接使用已有的，如果没有找到，则把引用的头文件编译后加入到这个表中。这样被引用到的Modules只会被编译一次，但是在开发时又不会被意外使用到，从而同时解决了编译时间和引用泛滥两方面的问题。</p>
+
+<p>稍微追根问底，Modules是什么？其实无非是对框架进行了如下封装，拿UIKit为例：</p>
+
+<pre><code>framework module UIKit { 
+umbrella header “UIKit.h” 
+module * {export *} 
+link framework “UIKit” 
+}
+</code></pre>
+
+<p>这个Module定义了首要头文件（UIKit.h），需要导出的子modules（所有），以及需要link的框架名称（UIKit）。需要指出的是，现在Module还不支持第三方的框架，所以只有SDK内置的框架能够从这个特性中受益。另外，在C++的源代码中，Modules也是被禁用的。
+好了，说了那么多，这玩意儿怎么用呢</p>
+
+<p>关于普通开发者使用的这个新特性的方法，Apple在LLVM5.0（也就是Xcode5带的最新的编译器前端中）引入了一个新的编译符号@import，使用@符号将告诉编译器去使用Modules的引用形式，从而获取好处，比如想引用MessageUI，可以写成</p>
+
+<pre><code>@import MessageUI;
+</code></pre>
+
+<p>在使用上，这将等价于以前的<code>#import &lt;MessageUI/MessageUI.h&gt;</code>，但是将使用Modules的特性。如果只想使用某个特性的.h文件，比如<code>#import &lt;MessageUI/MFMailComposeViewController.h&gt;</code>，对应写作</p>
+
+<pre><code>@import MessageUI.MFMailComposeViewController;
+</code></pre>
+
+<p>当然，如果对于以前的工程，想要使用新的Modules特性，如果要把所有头文件都这样一个一个改成@import的话，会是很大的一个工作量。Apple自然也考虑到了这一点，于是对于原来的代码，只要使用的是iOS7或者MacOS10.9的SDK，在Build Settings中将Enable Modules(C and Objective-C)打开，然后保持原来的#import写法就行了。是的，不需要任何代码上的改变，编译器会在编译的时候自动地把可能的地方换成Modules的写法去编译的。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/zww1984774346/article/details/51210386">http://blog.csdn.net/zww1984774346/article/details/51210386</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-05-04T09:20:57+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:20 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/05/04/ocgong-cheng-diao-yong-swiftfang-fa/" title="Previous Post:  OC工程调用Swift方法">&laquo;  OC工程调用Swift方法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/05/04/swiftwen-ti-hui-zong/" title="Next Post: Swift问题汇总">Swift问题汇总 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

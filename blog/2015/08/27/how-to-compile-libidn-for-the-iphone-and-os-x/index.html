@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Compile Libidn for the iPhone and OS X - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Introduction A precompiled fat binary, libidn.a, with support for the iPad, iPhone, iPod touch, iOS Simulator and OS X is included in xmppframework &hellip;">
+  <meta name="keywords" content="libidn">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/27/how-to-compile-libidn-for-the-iphone-and-os-x/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Compile Libidn for the iPhone and OS X</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-27T11:20:29+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:20 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>Introduction</h2>
+
+<p>A precompiled fat binary, libidn.a, with support for the iPad, iPhone, iPod touch, iOS Simulator and OS X is included in xmppframework.</p>
+
+<p>The libidn source code is included in the XMPP framework libidn directory. The code was obtained from the <a href="http://www.gnu.org/software/libidn/">libidn</a> project page.</p>
+
+<h2>Compiling for iOS</h2>
+
+<p>Expand the libidn source code from its tar or tgz format. Open the terminal, and <em>cd</em> to the expanded directory. It only takes 3 commands to compile the source. (Notice that the first command is one big long command.)</p>
+
+<pre><code>./configure --prefix=/usr/local/iphone --host=arm-apple-darwin --disable-shared CC=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/arm-apple-darwin9-gcc-4.0.1 CFLAGS="-arch armv6 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -fmessage-length=0 -fvisibility=hidden -miphoneos-version-min=2.0 -gdwarf-2 -mthumb -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.0.sdk" CPP=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/cpp AR=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/ar
+
+make
+
+sudo make install
+</code></pre>
+
+<p>You&rsquo;ll find the libraries in /usr/local/iphone/lib <br/>
+Reference: <a href="http://discussions.apple.com/thread.jspa?threadID=1546383">http://discussions.apple.com/thread.jspa?threadID=1546383</a></p>
+
+<p><em>Note: The above command may be a bit dated. Every time I update the command to reflect the latest compiler / iOS SDK, Apple goes and updates the SDK or compiler tools. But this should get you on the right track.</em></p>
+
+<h3>ArmV7</h3>
+
+<p>The following can be used to compile the library for armv7 using GCC 4.2 and targeting iPhone OS 3.1.2:</p>
+
+<pre><code>./configure --prefix=/usr/local/iphone --host=arm-apple-darwin --disable-shared CC=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc-4.2 CFLAGS="-arch armv7 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -Wunused-value -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.1.2.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=3.1.2 " CPP=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/cpp AR=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/ar
+</code></pre>
+
+<p>Another example for armv7 using llvm-gcc 4.2 and targeting iPhone OS 5.1 with SDK 6.0 using Xcode 4.5</p>
+
+<pre><code>./configure --host=arm-apple-darwin --disable-shared CC=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 CFLAGS="-arch armv7 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -Wunused-value -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=5.1 " CPP=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-cpp-4.2 AR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/ar
+make clean
+make
+cp lib/.libs/libidn.a libidn-armv7.a
+</code></pre>
+
+<p>If you want to compile for armv7s just replace armv7 with armv7s and copy the lib as explained above</p>
+
+<p>For iPhone Simulator 6.0 or 5.1:</p>
+
+<pre><code>./configure --host=i686-apple-darwin --disable-shared CC=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-gcc-4.2 CFLAGS="-arch i386 -fmessage-length=0 -pipe -std=c99 -Wno-trigraphs -fpascal-strings -O0 -Wreturn-type -Wunused-variable -Wunused-value -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.0.sdk -fvisibility=hidden -gdwarf-2 -mthumb -miphoneos-version-min=5.1 " CPP=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/llvm-gcc-4.2/bin/llvm-cpp-4.2 AR=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/ar
+make clean
+make
+cp lib/.libs/libidn.a libidn-i386.a
+</code></pre>
+
+<p>After having the three libs you should put them together in a fat binary:</p>
+
+<pre><code>lipo -create libidn-armv7s.a libidn-armv7.a libidn-i386.a -output libidn.a
+</code></pre>
+
+<h2>Compiling for OS X</h2>
+
+<h3>X 86</h3>
+
+<p>To Download and Compile Libidn for OS X run the following commands from the terminal</p>
+
+<pre><code>mkdir libidn
+cd libidn
+curl -O http://ftp.gnu.org/gnu/libidn/libidn-1.25.tar.gz
+tar xzvf libidn-1.25.tar.gz
+cd libidn-1.25
+./configure &amp;&amp; make
+cd ..
+mkdir x86_64
+cp libidn-1.25/lib/.libs/libidn.a x86_64/
+rm -rf libidn-1.25/
+</code></pre>
+
+<h2>Fat Binaries</h2>
+
+<p>You may wish to compile the library for multiple architectures and create a fat binary. This is helpful because then you can link to the same file whether you&rsquo;re compiling for the desktop, simulator or iphone device.</p>
+
+<p>Compile all the different versions you want, put them in the same folder, and then use a command like this:</p>
+
+<pre><code>lipo -create libidn_x86.a libidn_armv6.a libidn_armv7.a -output libidn.a
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-27T11:20:29+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:20 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/27/ascx-aspx-ashx-asmx-wei-hou-zhui-de-wen-jian-de-zuo-yong/" title="Previous Post: ascx aspx ashx asmx 为后缀的文件的作用">&laquo; ascx aspx ashx asmx 为后缀的文件的作用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/27/ios-shang-chuan-tu-pian-bao-cun-fu-wu-qi-tu-pian-lu-jing-dao-sql/" title="Next Post: iOS 上传图片保存服务器图片路径到SQL">iOS 上传图片保存服务器图片路径到SQL &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

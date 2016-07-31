@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Swift-性能考虑 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在 WWDC 14 的 Keynote 上，Swift 相比于其他语言的速度优势被特别进行了强调。但是这种速度优势是有条件的，虽然由于编译器的进步我们可能可以在不了解语言特性的时候随便写也能得到性能上的改善，但是如果能够稍微理解背后的机制的话，我们就能投 “编译器所好”，写出更高效的代码。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/24/swift-xing-neng-kao-lu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Swift-性能考虑</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-24T16:01:37+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:01 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>在 WWDC 14 的 Keynote 上，Swift 相比于其他语言的速度优势被特别进行了强调。但是这种速度优势是有条件的，虽然由于编译器的进步我们可能可以在不了解语言特性的时候随便写也能得到性能上的改善，但是如果能够稍微理解背后的机制的话，我们就能投 “编译器所好”，写出更高效的代码。</p>
+
+<p>相比于 Objective-C，Swift 最大的改变就在于方法调用上的优化。在 Objective-C 中，所有的对于 NSObject 的方法调用在编译时会被转为 objc_msgSend 方法。这个方法运用 Objective-C 的运行时特性，使用派发的方式在运行时对方法进行查找。因为 Objective-C 的类型并不是编译时确定的，我们在代码中所写的类型不过只是向编译器的一种“建议”，不论对于怎样的方法，这种查找的代价基本都是同样的。</p>
+
+<p>这个过程的等效的表述可能类似这样 (注意这只是一种表述，与实际的代码和工作方式无关)：</p>
+
+<pre><code>methodToCall = findMethodInClass(class, selector);
+// 这个查找一般需要遍历类的方法表，需要花费一定时间
+
+methodToCall();  // 调用
+</code></pre>
+
+<p>Objective-C 运行时十分高效，相比于 I/O 这样的操作来说，单次的方法派发和查找并不会花费太多的时间，但实事求是地说，这确实也是 Objective-C 性能上可以改进的地方，这种改善在短时间内大量方法调用时会比较明显。</p>
+
+<p>Swift 因为使用了更安全和严格的类型，如果我们在编写代码中指明了某个实际的类型的话 (注意，需要的是实际具体的类型，而不是像 Any 这样的抽象的接口)，我们就可以向编译器保证在运行时该对象一定属于被声明的类型。这对编译器进行代码优化来说是非常有帮助的，因为有了更多更明确的类型信息，编译器就可以在类型中处理多态时建立虚函数表 (vtable)，这是一个带有索引的保存了方法所在位置的数组。在方法调用时，与原来动态派发和查找方法不同，现在只需要通过索引就可以直接拿到方法并进行调用了，这是实实在在的性能提升。这个过程大概相当于：</p>
+
+<pre><code>let methodToCall = class.vtable[methodIndex]
+// 直接使用 methodIndex 获取实现
+
+methodToCall();  // 调用
+</code></pre>
+
+<p>更进一步，在确定的情况下，编译器对 Swift 的优化甚至可以做到将某些方法调用优化为 inline 的形式。比如在某个方法被 final 标记时，由于不存在被重写的可能，vtable 中该方法的实现就完全固定了。对于这样的方法，编译器在合适的情况下可以在生成代码的阶段就将方法内容提取到调用的地方，从而完全避免调用。</p>
+
+<p>通过 Benchmark 我们可以看出，在一些基本的算法上，Swift 的速度是要远胜过 Objective-C 的，而就算相较于世界上无可匹敌的 C，也没有逊色太多。</p>
+
+<p>所以对于性能方面，我们应该注意的地方就很明显了。如果遇到性能敏感和关键的代码部分，我们最好避免使用 Objective-C 和 NSObject 的子类。在以前我们可能会选择使用混编一些 C 或者 C++ 代码来处理这些关键部分，而现在我们多了 Swift 这个选项。相比起 C 或者 C++，Swift 的语言特性上要先进得多，而使用 Swift 类型和标准库进行编码和构建的难度，比起使用 C 或 C++ 来要简单太多。另外，即使不是性能关键部分，我们也应该尽量考虑在没有必要时减少使用 NSObject 和它的子类。如果没有动态特性的需求的话，保持在 Swift 基本类型中会让我们得到更多的性能提升。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-24T16:01:37+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:01 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/24/swift-lazy-xiu-shi-fu-he-lazy-fang-fa/" title="Previous Post: Swift-LAZY 修饰符和 LAZY 方法">&laquo; Swift-LAZY 修饰符和 LAZY 方法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/24/swift-any-he-anyobject/" title="Next Post: Swift-ANY 和 ANYOBJECT">Swift-ANY 和 ANYOBJECT &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS内存分配与分区 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1. RAM ROM RAM：运行内存，不能掉电存储。ROM：存储性内存，可以掉电存储，例如内存卡、Flash。 由于RAM类型不具备掉电存储能力（即一掉电数据消失），所以app程序一般存放于ROM中。RAM的访问速度要远高于ROM，价格也要高。 2. App程序启动 App程序启动， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/25/iosnei-cun-fen-pei-yu-fen-qu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS内存分配与分区</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-25T16:17:26+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:17 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>1. RAM ROM</h3>
+
+<p>RAM：运行内存，不能掉电存储。ROM：存储性内存，可以掉电存储，例如内存卡、Flash。</p>
+
+<p>由于RAM类型不具备掉电存储能力（即一掉电数据消失），所以app程序一般存放于ROM中。RAM的访问速度要远高于ROM，价格也要高。</p>
+
+<h3>2. App程序启动</h3>
+
+<p>App程序启动，系统会把开启的那个App程序从Flash或ROM里面拷贝到内存（RAM），然后从内存里面执行代码。</p>
+
+<p>另一个原因是CPU不能直接从内存卡里面读取指令（需要Flash驱动等等）。</p>
+
+<h3>3. 内存分区：</h3>
+
+<ul>
+<li>栈区（stack）：
+
+<ul>
+<li>存放的局部变量、先进后出、一旦出了作用域就会被销毁；函数跳转地址，现场保护等；</li>
+<li>程序猿不需要管理栈区变量的内存；
+-栈区地址从高到低分配；</li>
+</ul>
+</li>
+<li>堆区（heap）：
+
+<ul>
+<li>堆区的内存分配使用的是alloc；</li>
+<li>需要程序猿管理内存；</li>
+<li>ARC的内存的管理，是编译器再便宜的时候自动添加 retain、release、autorelease；</li>
+<li>堆区的地址是从低到高分配）</li>
+</ul>
+</li>
+<li>全局区／静态区（static）：
+
+<ul>
+<li>包括两个部分：未初始化过 、初始化过；</li>
+<li>也就是说，（全局区／静态区）在内存中是放在一起的，初始化的全局变量和静态变量在一块区域， 未初始化的全局变量和未初始化的静态变量在相邻的另一块区域；</li>
+<li>eg：int a;未初始化的。int a = 10;已初始化的。</li>
+</ul>
+</li>
+<li>常量区：常量字符串就是放在这里；</li>
+<li>代码区： 存放App代码；</li>
+</ul>
+
+
+<p>如下图所示：代码区存放于低地址，栈区存放于高地址。区与区之间并不是连续的。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859ejw1f1bnuwhuegj20f10beq3g.jpg" alt="img" /></p>
+
+<h3>注意事项</h3>
+
+<ul>
+<li>在iOS中，堆区的内存是应用程序共享的，堆中的内存分配是系统负责的；</li>
+<li>系统使用一个链表来维护所有已经分配的内存空间（系统仅仅纪录，并不管理具体的内容）；</li>
+<li>变量使用结束后，需要释放内存，OC中是根据引用计数＝＝0，就说明没有任何变量使用该空间，那么系统将直接收回；</li>
+<li>当一个app启动后，代码区，常量区，全局区大小已固定，因此指向这些区的指针不会产生崩溃性的错误。而堆区和栈区是时时刻刻变化的（堆的创建销毁，栈的弹入弹出），所以当使用一个指针指向这两个区里面的内存时，一定要注意内存是否已经被释放，否则会产生程序崩溃（也即是野指针报错）。</li>
+</ul>
+
+
+<h3>其它操作系统</h3>
+
+<ul>
+<li><p>iOS是基于UNIX、Android是基于Linux的，在Linux和unix系统中，内存管理的方式基本相同；</p></li>
+<li><p>Android应用程序的内存分配也是如此。除此以外，这些应用层的程序使用的都是虚拟内存，它们都是建立在操作系统之上的，只有开发底层驱动或板级支持包时才会接触到物理内存;</p></li>
+</ul>
+
+
+<p>举例：在嵌入式Linux中，实际的物理地址只有64M甚至更小，但是虚拟内存却可以高达4G;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-25T16:17:26+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:17 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/25/si-xiang-bi-ji-11/" title="Previous Post: 思想笔记-11">&laquo; 思想笔记-11</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/25/ios-guan-yu-blockzai-nei-cun-zhong-de-wei-zhi/" title="Next Post: iOS-关于block在内存中的位置">iOS-关于block在内存中的位置 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

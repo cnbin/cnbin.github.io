@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mac 终端指令 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="文本编辑 nano 文件名 例：编辑用户目录下的 1.txt nano 1.txt ^ 代表 Ctrl 键 ^X 退出 nano ^O 保存文件 ^C 显示光标位置,在第几行,第几列,第几个字符处 ^R 插入磁盘上其他的文件的内容至光标位置 ^W 查找字符串 ^Y 跳至前一屏 ^V 跳至后一屏 &hellip;">
+  <meta name="keywords" content="mac">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/06/mac-zhong-duan-zhi-ling/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mac 终端指令</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-06T13:45:02+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:45 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>文本编辑</h3>
+
+<pre><code>nano 文件名
+</code></pre>
+
+<p>例：编辑用户目录下的 1.txt</p>
+
+<pre><code>nano 1.txt
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esubnhv3g0j20g00cgq3w.jpg" alt="img" /></p>
+
+<pre><code>^ 代表 Ctrl 键
+
+^X 退出 nano
+
+^O 保存文件
+
+^C 显示光标位置,在第几行,第几列,第几个字符处
+
+^R 插入磁盘上其他的文件的内容至光标位置
+
+^W 查找字符串
+
+^Y 跳至前一屏
+
+^V 跳至后一屏
+
+^K 剪切光标所在行的文本, 并保存到剪贴板，或剪切选中内容
+
+^U 将剪贴板内容粘贴至当前行
+
+^P 跳至前一行
+
+^N 跳至后一行
+
+^A 跳至当前行首
+
+^E 跳至当前行尾
+
+^F 向前跳一字符
+
+^B 向后跳一字符
+
+^M 插入新行于游标位置
+
+^D 删除光标之下的一个字符
+
+^H 删除光标左侧的一个字符
+</code></pre>
+
+<p>编辑完成后 用 <code>Ctrl ＋O</code> 存盘，<code>Ctrl＋X</code> 退出</p>
+
+<h3>权限</h3>
+
+<p>读取 read 写入 write 执行权限 excute</p>
+
+<p>例如:777 权限 rwx rwx rwx</p>
+
+<p>三个数字，分成3部分，</p>
+
+<p>第1个数字,表示所有者的权限，</p>
+
+<p>第2个数字,表示同组用户权限，即用户所在的组的其他成员</p>
+
+<p>第3个数字,表示其他组的用户的权限</p>
+
+<p>r 代表读取权限,值等于4，</p>
+
+<p>w 代表写入权限,值等于2，</p>
+
+<p>x 代表执行权限,值等于1。</p>
+
+<p>因此,7表示可读,可写,可执行</p>
+
+<p>0表示不可读,不可写,不可执行</p>
+
+<ul>
+<li>比如上面的777，</li>
+</ul>
+
+
+<p>第一位7等于4+2+1，所以就是rwx，所有者有读取、写入、执行的权限，</p>
+
+<p>第二位7也是4+2+1，rwx，同组用户具有读取、写入、执行权限，</p>
+
+<p>第三位7，代表其他用户有读取、写入、执行的权限。</p>
+
+<ul>
+<li>再比如744，</li>
+</ul>
+
+
+<p>第一位7等于4+2+1，rwx，所有者具有读取、写入、执行权限，</p>
+
+<p>第二位4等于4+0+0，r – –，同组用户只有读取权限，</p>
+
+<p>第三位4，也是r– –，其他组的用户也只有读取权限。</p>
+
+<h3>建立新目录</h3>
+
+<p>mkdir 目录名</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-06T13:45:02+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:45 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/06/redis-an-zhuang-he-shi-yong/" title="Previous Post: Redis 安装和使用">&laquo; Redis 安装和使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/06/dokuwikijie-shao/" title="Next Post: DokuWiki介绍">DokuWiki介绍 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>YYKit - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="YYKit is a collection of iOS components. It&rsquo;s so huge that I split it into several independent components: YYModel — High performance model &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/27/yykit/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">YYKit</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-27T08:38:54+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:38 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>YYKit is a collection of iOS components.</p>
+
+<p>It&rsquo;s so huge that I split it into several independent components:</p>
+
+<ul>
+<li><a href="https://github.com/ibireme/YYModel">YYModel</a> — High performance model framework for iOS.</li>
+<li><a href="https://github.com/ibireme/YYCache">YYCache</a> — High performance cache framework for iOS.</li>
+<li><a href="https://github.com/ibireme/YYImage">YYImage</a> — Image framework for iOS to display/encode/decode animated WebP, APNG, GIF.</li>
+<li><a href="https://github.com/ibireme/YYWebImage">YYWebImage</a> — Asynchronous image loading framework.</li>
+<li><a href="https://github.com/ibireme/YYText">YYText</a> — Powerful rich text component for iOS.</li>
+<li></li>
+<li><a href="https://github.com/ibireme/YYKeyboardManager">YYKeyboardManager</a> — Access keyboard view and track keyboard animation.</li>
+<li><a href="https://github.com/ibireme/YYDispatchQueuePool">YYDispatchQueuePool</a> — iOS utility class to manage global dispatch queue.</li>
+<li><a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a> — iOS utility classes for asynchronous rendering and display.</li>
+<li><a href="https://github.com/ibireme/YYCategories">YYCategories</a> — A set of useful categories for Foundation and UIKit.</li>
+</ul>
+
+
+<h1>Demo Project</h1>
+
+<p>See <code>Demo/YYKitDemo.xcodeproj</code></p>
+
+<p><img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/twitter.png" width="320"><br/>
+<img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo.png" width="320"> <img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo_compose.png" width="320"></p>
+
+<h1>Installation</h1>
+
+<h3>CocoaPods</h3>
+
+<ol>
+<li>Add <code>pod "YYKit"</code> to your Podfile.</li>
+<li>Run <code>pod install</code> or <code>pod update</code>.</li>
+<li>Import \&lt;YYKit/YYKit.h>.</li>
+</ol>
+
+
+<h3>Carthage</h3>
+
+<ol>
+<li>Add <code>github "ibireme/YYKit"</code> to your Cartfile.</li>
+<li>Run <code>carthage update --platform ios</code> and add the framework to your project.</li>
+<li>Import \&lt;YYKit/YYKit.h>.</li>
+<li>Notice: carthage framework doesn&rsquo;t include webp component, if you want to support webp, use CocoaPods or install manually.</li>
+</ol>
+
+
+<h3>Manually</h3>
+
+<ol>
+<li>Download all the files in the <code>YYKit</code> subdirectory.</li>
+<li>Add the source files to your Xcode project.</li>
+<li>Add <code>-fno-objc-arc</code> compiler flag to <code>NSObject+YYAddForARC.m</code> and <code>NSThread+YYAdd.m</code>.</li>
+<li>Link with required frameworks:
+
+<ul>
+<li>UIKit</li>
+<li>CoreFoundation</li>
+<li>CoreText</li>
+<li>CoreGraphics</li>
+<li>CoreImage</li>
+<li>QuartzCore</li>
+<li>ImageIO</li>
+<li>AssetsLibrary</li>
+<li>Accelerate</li>
+<li>MobileCoreServices</li>
+<li>SystemConfiguration</li>
+<li>sqlite3</li>
+<li>libz</li>
+</ul>
+</li>
+<li>Add <code>Vendor/WebP.framework</code>(static library) to your Xcode project if you want to support WebP.</li>
+<li>Import <code>YYKit.h</code>.</li>
+</ol>
+
+
+<h1>Documentation</h1>
+
+<p>Full API documentation is available on <a href="http://cocoadocs.org/docsets/YYKit/">CocoaDocs</a>.<br/>
+You can also install documentation locally using <a href="https://github.com/tomaz/appledoc">appledoc</a>.</p>
+
+<h1>Requirements</h1>
+
+<p>This library requires a deployment target of iOS 6.0 or greater.</p>
+
+<h1>About</h1>
+
+<p>I want to use the APIs as if it was provided by system, so I don&rsquo;t add prefix in
+these categories. You should try the sub-projects above first.</p>
+
+<h1>License</h1>
+
+<p>YYKit is provided under the MIT license. See LICENSE file for details.</p>
+
+<h2><br/></h2>
+
+<h1>中文介绍</h1>
+
+<p>YYKit 是一组庞大、功能丰富的 iOS 组件。</p>
+
+<p>为了尽量复用代码，这个项目中的某些组件之间有比较强的依赖关系。为了方便其他开发者使用，我从中拆分出以下独立组件：</p>
+
+<ul>
+<li><a href="https://github.com/ibireme/YYModel">YYModel</a> — 高性能的 iOS JSON 模型框架。</li>
+<li><a href="https://github.com/ibireme/YYCache">YYCache</a> — 高性能的 iOS 缓存框架。</li>
+<li><a href="https://github.com/ibireme/YYImage">YYImage</a> — 功能强大的 iOS 图像框架。</li>
+<li><a href="https://github.com/ibireme/YYWebImage">YYWebImage</a> — 高性能的 iOS 异步图像加载框架。</li>
+<li><a href="https://github.com/ibireme/YYText">YYText</a> — 功能强大的 iOS 富文本框架。</li>
+<li></li>
+<li><a href="https://github.com/ibireme/YYKeyboardManager">YYKeyboardManager</a> — iOS 键盘监听管理工具。</li>
+<li><a href="https://github.com/ibireme/YYDispatchQueuePool">YYDispatchQueuePool</a> — iOS 全局并发队列管理工具。</li>
+<li><a href="https://github.com/ibireme/YYAsyncLayer">YYAsyncLayer</a> — iOS 异步绘制与显示的工具。</li>
+<li><a href="https://github.com/ibireme/YYCategories">YYCategories</a> — 功能丰富的 Category 类型工具库。</li>
+</ul>
+
+
+<h1>演示项目</h1>
+
+<p>查看并运行 <code>Demo/YYKitDemo.xcodeproj</code></p>
+
+<p><img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/twitter.png" width="320"><br/>
+<img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo.png" width="320"> <img src="https://raw.github.com/ibireme/YYKit/master/Demo/Snapshots/weibo_compose.png" width="320"></p>
+
+<h1>安装</h1>
+
+<h3>CocoaPods</h3>
+
+<ol>
+<li>在 Podfile 中添加  <code>pod "YYKit"</code>。</li>
+<li>执行 <code>pod install</code> 或 <code>pod update</code>。</li>
+<li>导入 \&lt;YYKit/YYKit.h>。</li>
+</ol>
+
+
+<h3>Carthage</h3>
+
+<ol>
+<li>在 Cartfile 中添加 <code>github "ibireme/YYKit"</code>。</li>
+<li>执行 <code>carthage update --platform ios</code> 并将生成的 framework 添加到你的工程。</li>
+<li>导入 \&lt;YYKit/YYKit.h>。</li>
+<li>注意: carthage framework 并没有包含 webp 组件。如果你需要支持 webp，可以用 CocoaPods 安装，或者手动安装。</li>
+</ol>
+
+
+<h3>手动安装</h3>
+
+<ol>
+<li>下载 YYKit 文件夹内的所有内容。</li>
+<li>将 YYKit 内的源文件添加(拖放)到你的工程。</li>
+<li>为 <code>NSObject+YYAddForARC.m</code> 和 <code>NSThread+YYAdd.m</code> 添加编译参数 <code>-fno-objc-arc</code>。</li>
+<li>链接以下 frameworks:
+
+<ul>
+<li>UIKit</li>
+<li>CoreFoundation</li>
+<li>CoreText</li>
+<li>CoreGraphics</li>
+<li>CoreImage</li>
+<li>QuartzCore</li>
+<li>ImageIO</li>
+<li>AssetsLibrary</li>
+<li>Accelerate</li>
+<li>MobileCoreServices</li>
+<li>SystemConfiguration</li>
+<li>sqlite3</li>
+<li>libz</li>
+</ul>
+</li>
+<li>如果你需要支持 WebP，可以将 <code>Vendor/WebP.framework</code>(静态库) 加入你的工程。</li>
+<li>导入 <code>YYKit.h</code>。</li>
+</ol>
+
+
+<h1>文档</h1>
+
+<p>你可以在 <a href="http://cocoadocs.org/docsets/YYKit/">CocoaDocs</a> 查看在线 API 文档，也可以用 <a href="https://github.com/tomaz/appledoc">appledoc</a> 本地生成文档。</p>
+
+<h1>系统要求</h1>
+
+<p>该项目最低支持 iOS 6.0。</p>
+
+<h1>关于</h1>
+
+<p>我希望调用 API 时，有着和调用系统自带 API 一样的体验，所以我并没有为 Category 方法添加前缀。我已经用工具扫描过这个项目中的 API，确保没有对系统 API 产生影响。我知道没有前缀的 Category 可能会带来麻烦，所以如果你只需要其中部分功能，请先查看上面那些拆分出来的子项目。</p>
+
+<h1>许可证</h1>
+
+<p>YYKit 使用 MIT 许可证，详情见 LICENSE 文件。</p>
+
+<h1>相关文章</h1>
+
+<p><a href="http://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">iOS 保持界面流畅的技巧
+</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-27T08:38:54+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:38 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/27/makeobjectsperformselector-fang-fa-de-yong-fa/" title="Previous Post: makeObjectsPerformSelector 方法的用法">&laquo; makeObjectsPerformSelector 方法的用法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/27/extkit/" title="Next Post: ExtKit">ExtKit &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

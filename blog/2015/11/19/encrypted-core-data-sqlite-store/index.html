@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Encrypted Core Data SQLite Store - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Provides a Core Data store that encrypts all data that is persisted. Besides the initial setup, the usage is exactly the same as Core Data and can &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/19/encrypted-core-data-sqlite-store/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Encrypted Core Data SQLite Store</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-19T08:28:13+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:28 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Provides a Core Data store that encrypts all data that is persisted.  Besides the initial setup, the usage is exactly the same as Core Data and can be used in existing projects that use Core Data.</p>
+
+<h1>What&rsquo;s New in ECD 2.0 (as of 6/20/14)</h1>
+
+<ul>
+<li>Many to Many relationship support</li>
+<li>Upgraded to SqlCipher v3.1.0</li>
+<li>Moved away from OpenSSL to Apple&rsquo;s, FIPS compliant, CommonCrypto</li>
+<li>Better unit test support</li>
+<li>Better SQLite cache support</li>
+<li>Support for more sort descriptors</li>
+<li>Closed many of the outstanding issues</li>
+<li>Tested working in iOS 6.0 - 7.1</li>
+</ul>
+
+
+<h1>Vulnerabilities Addressed</h1>
+
+<ol>
+<li>SQLite database is not encrypted, contents are in plain text</li>
+<li>CWE-311: Missing Encryption of Sensitive Data</li>
+<li>SQLite database file protected with 4 digit system passcode</li>
+<li>CWE-326: Inadequate Encryption Strength</li>
+<li>SRG-APP-000129-MAPP-000029  Severity-CAT II: The mobile application must implement automated mechanisms to enforce access control restrictions which are not provided by the operating system</li>
+</ol>
+
+
+<h1>Project Setup</h1>
+
+<ul>
+<li>When creating the project make sure <strong>Use Core Data</strong> is selected</li>
+<li>Switch into your project&rsquo;s root directory and checkout the encrypted-core-data project code</li>
+</ul>
+
+
+<p>code:</p>
+
+<pre><code>    cd ~/Documents/code/YourApp
+
+    git clone https://github.com/project-imas/encrypted-core-data.git
+</code></pre>
+
+<ul>
+<li>Click on the top level Project item and add files (&ldquo;option-command-a&rdquo;)</li>
+<li><p>Navigate to <strong>encrypted-core-data</strong>, highlight <strong>Incremental Store</strong>, and click <strong>Add</strong></p></li>
+<li><p>SQLCipher is added as a git submodule within ECD. A <code>git submodule init</code> and <code>git submodule update</code> should populate the sqlcipher submodule directory, where the <code>sqlcipher.xcodeproj</code> can be found and added to your project.</p></li>
+<li><p>To use CommonCrypto with SQLCipher in Xcode:</p>
+
+<ul>
+<li>add the compiler flags <code>-DSQLCIPHER_CRYPTO_CC</code> and <code>-DSQLITE_HAS_CODEC</code> under the sqlcipher project settings > Build Settings > Custom Compiler Flags > Other C Flags</li>
+<li>Under your application&rsquo;s project settings > Build Phases, add <code>sqlcipher</code> to Target Dependencies, and <code>libsqlcipher.a</code> and <code>Security.framework</code> to Link Binary With Libraries.</li>
+</ul>
+</li>
+<li><p><em>Note:</em> Along with the move to CommonCrypto, we&rsquo;ve updated the version of SQLCipher included as a submodule from v2.0.6 to v3.1.0. Databases created with v2.0.6 will not be able to be read directly by v3.1.0, and support for legacy database migration is not yet supported by ECD.</p></li>
+</ul>
+
+
+<h1>Installation via CocoaPod</h1>
+
+<ul>
+<li>If you don&rsquo;t already have CocoaPods installed, do <code>$ sudo gem install cocoapods</code> in your terminal. (See the <a href="http://guides.cocoapods.org/using/getting-started.html#getting-started">CocoaPods website</a> for details.)</li>
+<li>In your project directory, do <code>pod init</code> to create a Podfile.</li>
+<li>Add <code>pod 'EncryptedCoreData', :git =&gt; 'https://github.com/project-imas/encrypted-core-data.git'</code> to your Podfile</li>
+<li>Run <code>pod install</code></li>
+<li>In your application delegate source file (AppDelegate.m), add <code>#import "EncryptedStore.h"</code></li>
+</ul>
+
+
+<h1>Using EncryptedStore</h1>
+
+<p>EncryptedStore is known to work successfully on iOS versions 6.0 through 7.1.</p>
+
+<p>If you wish to set a custom cache size and/or custom database URL:
+create an NSDictionary to set the options for your EncryptedStore, replacing customPasscode, customCacheSize, and/or customDatabaseURL:</p>
+
+<pre><code>NSDictionary *options = @{ EncryptedStorePassphraseKey: (NSString *) customPasscode,
+                           EncryptedStoreCacheSize: (NSNumber *) customCacheSize,
+                           EncryptedStoreDatabaseLocation: (NSURL *) customDatabaseURL
+                           };
+</code></pre>
+
+<p>In your application delegate source file (i.e. AppDelegate.m) you should see</p>
+
+<pre><code>NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+</code></pre>
+
+<p>If you created an NSDictionary with custom options, replace that line with</p>
+
+<p>Otherwise, replace that line with:</p>
+
+<pre><code>NSPersistentStoreCoordinator *coordinator = [EncryptedStore makeStore:[self managedObjectModel]:@"SOME_PASSCODE"];
+</code></pre>
+
+<p>making sure to replace &ldquo;SOME_PASSCODE&rdquo; with a passcode of your own.</p>
+
+<p>Also in the same file add an import for EncryptedStore.h:</p>
+
+<pre><code>#import "EncryptedStore.h"
+</code></pre>
+
+<p>If there are issues you can add <code>-com.apple.CoreData.SQLDebug 1</code> to see all statements encryted-cored-data generates be logged.</p>
+
+<h1>Features</h1>
+
+<ul>
+<li>One-to-one relationships</li>
+<li>One-to-many relationships</li>
+<li>Many-to-Many relationships (NEW)</li>
+<li>Predicates</li>
+<li>Inherited entities (Thanks to <a href="https://github.com/NachoMan/">NachoMan</a>)</li>
+</ul>
+
+
+<p>Missing features and known bugs are maintained on the <a href="https://github.com/project-imas/encrypted-core-data/issues?state=open">issue tracker</a></p>
+
+<h1>Diagram</h1>
+
+<p>Below is a diagram showing the differences between NSSQLiteStore and EncryptedStore.  Note that actual the SQLite calls are coupled fairly strongly with the layer wrapping it:
+<img src="diagram.jpg" /></p>
+
+<h1>Strings Comparison</h1>
+
+<p>Below is the output of doing the unix <em>strings</em> command on a sample applications .sqlite file.  As you can see, the default persistence store leaves all information in plaintext:
+<img src="stringOutput.jpg" /></p>
+
+<h2>License</h2>
+
+<p>Copyright 2012 - 2014 The MITRE Corporation, All Rights Reserved.</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the &ldquo;License&rdquo;);
+you may not use this work except in compliance with the License.
+You may obtain a copy of the License at</p>
+
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &ldquo;AS IS&rdquo; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-19T08:28:13+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:28 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/19/coredatashu-ju-cha-xun/" title="Previous Post: Coredata 数据查询">&laquo; Coredata 数据查询</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/19/adding-sqlcipher-to-xcode-projects/" title="Next Post: Adding SQLCipher to Xcode Projects">Adding SQLCipher to Xcode Projects &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

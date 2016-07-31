@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mac-shell 变量，数据重定向和管道 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="变量 变量的作用 变量与其他程序设计语言一样，都是存储数据，然后被程序引用。相比于不使用变量，而是直接使用数据，存在两个问题： 1.当数据改变时，直接使用数据的时候却不能灵活地根据数据改变而随着改变，而使用变量却不同，它能够做到这点。 2.当数据发生变化时，如果想保证数据一致性， &hellip;">
+  <meta name="keywords" content="shell">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/02/mac-shell-bian-liang-,shu-ju-zhong-ding-xiang-he-guan-dao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mac-shell 变量，数据重定向和管道</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-02T09:30:17+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:30 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esojmo1e4jj20ph0fzgna.jpg" alt="img" /></p>
+
+<h3>变量</h3>
+
+<h3>变量的作用</h3>
+
+<p>变量与其他程序设计语言一样，都是<strong>存储数据</strong>，然后被程序引用。相比于不使用变量，而是直接使用数据，存在两个问题：</p>
+
+<p>1.当数据改变时，直接使用数据的时候却不能灵活地根据数据改变而随着改变，而使用变量却不同，它能够做到这点。</p>
+
+<p>2.当数据发生变化时，如果想保证数据<strong>一致性</strong>，必须查找所有引用该数据的所有地方，然后将它修改，当下一次再需要修改时，也是像这种情况一样，是多么繁琐的事，而变量却不用，只需要修改变量值即可。</p>
+
+<p>因此，变量具有<strong>可变性</strong>和<strong>易于修改</strong>的两个特点。</p>
+
+<h3>变量的分类</h3>
+
+<p>在 <code>shell</code> 中，大概分为两种变量：<strong>环境变量</strong>和<strong>局部变量</strong>，主要区别在于它们的使用范围不同，环境变量可以在父进程与子进程之间共享，而自定义变量只在本进程使用。举一个简单的例子来说明：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esohhq4y47j209r038q3h.jpg" alt="img" /></p>
+
+<p>首先设置一个 <code>shell</code> 变量 <code>devname=John</code>，然后输入 <code>bash</code> 打开一个新的 <code>shell</code> ，而这个 <code>shell</code> 是子进程，然后 <code>echo $devname</code> 输出变量值，变量值为空，最后 <code>exit</code> 退出子进程。</p>
+
+<p>但使用 <code>export devname</code> 设置环境变量后，再次进入输入 <code>bash</code> 进入子进程之后，<code>echo $devname</code> 输出变量值，这次变量值是 <code>John</code>。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esohnybdn9j20ay01v3ys.jpg" alt="img" /></p>
+
+<h3>查看环境变量 <code>env</code> 和 <code>set</code></h3>
+
+<p>如果想查看系统中以及自定义有哪些环境变量，可以使用 <code>env</code> 命令：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esogdhcnbjj20fo0i2gr1.jpg" alt="img" /></p>
+
+<p>而 <code>set</code> 命令不仅能查看环境变量，还可以查看与 <code>shell</code> 接口有关的变量</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esogfltn4qj20fn0ls14k.jpg" alt="img" /></p>
+
+<h2>变量操作</h2>
+
+<h3>1.显示 <code>echo $variable</code></h3>
+
+<p>如果你想显示某个变量的值，例如 <code>PATH</code>，你只需要输入：</p>
+
+<pre><code>echo $PATH
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esogz8q9xuj20fp01f0tc.jpg" alt="img" /></p>
+
+<p>注意：需要在变量名前加上一个符号 <code>$</code>，这样才能访问变量</p>
+
+<h3>2.设置 <code>variable=value</code> 和取消 <code>unset</code></h3>
+
+<p>如果你想设置某个变量的值，只需在变量名和变量值之间用符号 <code>=</code> 连接就行了，例如：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esoh9blgbtj209o028q3d.jpg" alt="img" /></p>
+
+<p>由上面的输入命令 <code>echo $devname</code>，显示结果为空。由此可知，一开始如果没有设置某个变量时，它的是为空。另外，设置变量的规则还需要几点注意：</p>
+
+<p>1.在命名变量名时，变量名称只能是英文字母和数字，而且首字母不能是数字</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esohyt1uagj209v00t0sv.jpg" alt="img" /></p>
+
+<p>2.等号 <code>=</code> 两边不能有空格</p>
+
+<p> <img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esohsws2q4j209p02tt9f.jpg" alt="img" /></p>
+
+<p>3.如果变量值有空格，可用双引号 <code>" "</code> 或单引号 <code>' '</code> 来包围变量值，但两者是有区别：
+双引号 <code>" "</code> 内的一些特殊字符，可以保持原有的特性，例如：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esohwzeue5j20fn01tjs7.jpg" alt="img" /></p>
+
+<p>而单引号 <code>' '</code> 内的一些特殊字符，仅为一般字符，即纯文本，例如：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esoi1qw970j20c401vwez.jpg" alt="img" /></p>
+
+<p>4.如果想显示一些特殊字符（$、空格、!等），在字符前面加上用转义字符 <code>\</code></p>
+
+<p>5.有些时候，变量的值可能来源于一些命令，这时你可以使用反单引号<code>命令</code>或$(命令)，例如：
+使用反单引号<code>命令</code>的方式</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esohhpuasqj209w02daag.jpg" alt="img" /></p>
+
+<p>使用 <code>$</code> 命令：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esoi7ti1hmj20ao02974r.jpg" alt="img" /></p>
+
+<p>6.如果变量需要在其他子进程使用，用 <code>export</code> 关键字来设置变量为环境变量</p>
+
+<p>7.系统环境变量一般都是<strong>字母全部大写</strong>，例如：<code>PATH</code>，<code>HOME</code>，<code>SHELL</code> 等</p>
+
+<p>8.如果想取消设置变量的值，使用 <code>unset variable</code> 命令。注意，变量之前是没有符号 <code>$</code></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esoj8fqx01j20al04c3zm.jpg" alt="img" /></p>
+
+<h2>环境配置文件</h2>
+
+<p>之前那些设置的环境变量，一旦退出系统后，就<strong>不能再次使用</strong>，如果想再次使用，必须重新再设置才行。如果想就算退出系统，也能重新使用自定义的环境变量，那怎么办呢？</p>
+
+<p>不用怕，系统提供一些环境配置文件：<code>/etc/profile</code> 和 <code>~/.bash_profile</code> 。<code>/etc/profile</code> 是系统整体的设置，每个用户共享，最好不要修改；而 <code>~/.bash_profile</code> 属于单个用户的设置，每个用户设置后，互不影响和共享。但因为我使用 <code>oh my zsh</code> ，之前<code>~/.bash_profile</code> 设置一些配置都不生效了，但它提供一个环境配置文件 <code>.zshrc</code>，所以如果想设置环境变量 <code>TEST</code>，只需将 <code>export TEST=test</code> 添加 <code>.zshrc</code> 即可。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1esojdoiuj1j207z027aad.jpg" alt="img" /></p>
+
+<p>但在 <code>.zshrc</code> 文件设置好环境变量 <code>TEST</code> 后，<code>echo $TEST</code> 为空，原因是还没使用 <code>source</code> 命令来读取环境配置文件。使用<code>source .zshrc</code> 命令之后，设置环境变量 <code>TEST</code>生效了。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esojhxz0ezj208z02ugm5.jpg" alt="img" /></p>
+
+<h2>数据重定向</h2>
+
+<h3>含义</h3>
+
+<p>当输入命令行时，一般都有输入参数(standard input)，而命令行处理完之后，一般都有输出结果，结果有可能成功(standard output)，也有可能失败(standard error)，而这些结果一般都会输出到屏幕上，如果你想控制结果输出到文件或以文件作为输入的话，你需要了解数据重定向的分类和符号操作。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esojra0w3kj20o50923za.jpg" alt="img" /></p>
+
+<h3>分类</h3>
+
+<p>数据重定向主要分为三类：</p>
+
+<ul>
+<li><code>stdin</code>，表示标准输入，代码为 <code>0</code>，使用 <code>&lt;</code> 或 <code>&lt;&lt;</code> 操作符</li>
+</ul>
+
+
+<p>符号 <code>&lt;</code> 表示以文件内容作为输入</p>
+
+<p>符号 <code>&lt;&lt;</code> 表示输入时的结束符号</p>
+
+<ul>
+<li><code>stdout</code>，表示标准输出，代码为 <code>1</code>，使用 <code>&gt;</code> 或 <code>&gt;&gt;</code> 操作符</li>
+</ul>
+
+
+<p>符号 <code>&gt;</code> 表示以覆盖的方式将正确的数据输出到指定文件中</p>
+
+<p>符号 <code>&gt;&gt;</code> 表示以追加的方式将正确的数据输出到指定文件中</p>
+
+<ul>
+<li><code>stderr</code>，表示标准错误输出，代码为 <code>2</code>，使用 <code>2&gt;</code> 或 <code>2&gt;&gt;</code> 操作符</li>
+</ul>
+
+
+<p>符号 <code>2&gt;</code> 表示以覆盖的方式将错误的数据输出到指定文件中</p>
+
+<p>符号 <code>2&gt;&gt;</code> 表示以追加的方式将错误的数据输出到指定文件中</p>
+
+<h3>使用</h3>
+
+<p><strong>stdout</strong></p>
+
+<p>当你输入 <code>ls</code> 命令，屏幕会显示当前目录有哪些文件和目录；而当你使用符号 <code>&gt;</code> 时，输出结果将重定向到 <code>dir.txt</code> 文件，而不显示在屏幕上</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esojwiz3v0j20c80jr41p.jpg" alt="img" /></p>
+
+<p>而符号 <code>&gt;</code> 与符号 <code>&gt;&gt;</code> 有什么区别呢？ <code>&gt;</code> 表示当文件存在时，将文件内容清空，然后 <code>stdout</code> 结果存放到文件中。而 <code>&gt;&gt;</code> 表示当文件存在时，文件内容并没有清空，而是将 <code>stdout</code> 结果追加到文件尾部。</p>
+
+<p>当你再次输入命令 <code>ls &gt; dir.txt</code> 时，文件内容并没有改变，因为之前文件内容被清空，然后 <code>stdout</code> 结果存放在 <code>dir.txt</code> 文件.</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esojz5zhkgj20bm0d7403.jpg" alt="img" /></p>
+
+<p>而你这次使用符号 <code>ls &gt;&gt; dir.txt</code> 的话，文件内容被追加到 <code>dir.txt</code> 文件</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esok1blx4yj20c30o3goc.jpg" alt="img" /></p>
+
+<p><strong>stderr</strong>
+这次我输入命令 <code>ls test</code> 显示一个不存在的文件，会显示错误信息。然后将错误信息输出到文件 <code>error.txt</code>。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esok410knxj20a902rt9l.jpg" alt="img" /></p>
+
+<p>如果你想追加错误信息，可以使用 <code>2&gt;&gt;</code> 符号</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esok5g1n6pj20cj029t9e.jpg" alt="img" /></p>
+
+<p><strong>stdout &amp; stderr</strong></p>
+
+<ul>
+<li>将 <code>stdout</code> 和 <code>stderr</code> 分离： <code>&gt;</code> 和 <code>2&gt;</code> 符号
+输入 <code>ls README.md test</code>，在屏幕显示既有正确信息，也有错误信息，如果想将正确信息和错误信息分离到不同文件，你可以同时使用 <code>&gt;</code> 和 <code>2&gt;</code> 符号。</li>
+</ul>
+
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1esokc50p1uj20fd04e75m.jpg" alt="img" /></p>
+
+<ul>
+<li>将 <code>stdout</code> 和 <code>stderr</code> 合并：<code>&amp;&gt;</code> 符号
+如果你想将正确信息和错误信息合并，且输出到同一个文件，可以使用 <code>&amp;&gt;</code> 符号</li>
+</ul>
+
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esokf7icmsj20d603wt9t.jpg" alt="img" /></p>
+
+<p><strong>stdin</strong></p>
+
+<p>一般输入一些简单的数据的方式都是通过键盘，但是如果要输入大量的数据，最好还是通过文件的方式。举一个简单例子：
+首先输入 <code>cat &gt; test</code> 命令之后，你就可以输入内容，然后键入回车，最后在键盘上按下 <code>Ctrl+D (或者键入Control－D)</code>保存退出。 那些内容最终会存放在 <code>test</code> 文件。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esoklv4ourj209g03saap.jpg" alt="img" /></p>
+
+<p>但如果有大量数据从一个文件导入到 <code>test</code> 文件时，此时需要用到 <code>&lt;</code> 符号</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esokqmpibgj20fp0gzakp.jpg" alt="img" /></p>
+
+<p>还一个符号 <code>&lt;&lt;</code> 需要解释，符号 <code>&lt;&lt;</code> 表示输入时的结束符号。输入 <code>cat &gt; test &lt;&lt; "eof"</code> 命令之后，你就可以输入内容，那些内容最终会存放在 <code>test</code> 文件，输入完内容后可以输入 <code>eof</code> 来结束输入。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esoktpkp96j20bu04bwf3.jpg" alt="img" /></p>
+
+<h2>管道</h2>
+
+<p>在 Unix 设计哲学中，有一个重要设计原则&ndash;<a href="http://en.wikipedia.org/wiki/KISS_principle">KISS</a>(Keep it Simple, Stupid)，大概意思就是<strong>只关注如何做好一件事，并把它做到极致</strong>。每个程序都有各自的功能，那么有没有一样东西将不同功能的程序互相连通，自由组合成更为强大的宏工具呢？此时，管道出现了，它能够让程序实现了<strong>高内聚，低耦合</strong>。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1esokxt0657j20yg080t9n.jpg" alt="img" /></p>
+
+<p>如果我想查看文件是否存在某个关键字，此时我可以使用管道：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1esokzgm7jnj20fp05on0e.jpg" alt="img" /></p>
+
+<p>命令 <code>cat LICENSE | grep 'It'</code>的处理过程分为两步：</p>
+
+<p>1.<code>cat LICENSE</code> 查看文件内容</p>
+
+<p>2.然后将 <code>cat LICENSE</code> 输出的内容作为 <code>grep 'It'</code> 命令的输入，再进行处理。</p>
+
+<p>上面一个很关键的符号 <code>|</code>，就是管道，它能够将前一个命令处理完的 <code>stdout</code> 作为下一条命令 <code>stdin</code>。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-02T09:30:17+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:30 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>mac</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/02/ios-kai-fa-de-gitgnore-pei-zhi/" title="Previous Post: iOS 开发的 .gitgnore 配置">&laquo; iOS 开发的 .gitgnore 配置</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/02/html-he-css-bian-ma-gui-fan/" title="Next Post: HTML 和 CSS 编码规范">HTML 和 CSS 编码规范 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>为什么很多的 iOS App 都有秒退现象？有什么好方法避免它？ - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="问题里的“秒退”如果我没理解错，应该是指程序显示完默认启动图片后，在初始化阶段就崩溃了（也可以叫“闪退”，不过最近“闪退”这个词已经被广泛应用于各种程序崩溃情况了，所以可能还是“秒退”更准确？）。 这种情况应和所谓的内存不足关系不大，很少有程序会在初始化时载入大量内容导致崩溃， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/15/wei-shi-yao-hen-duo-de-ios-app-du-you-miao-tui-xian-xiang-you-shi-yao-hao-fang-fa-bi-mian-ta/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">为什么很多的 iOS App 都有秒退现象？有什么好方法避免它？</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-15T10:18:51+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:18 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>问题里的“秒退”如果我没理解错，应该是指程序显示完默认启动图片后，在初始化阶段就崩溃了（也可以叫“闪退”，不过最近“闪退”这个词已经被广泛应用于各种程序崩溃情况了，所以可能还是“秒退”更准确？）。</p>
+
+<p>这种情况应和所谓的内存不足关系不大，很少有程序会在初始化时载入大量内容导致崩溃，并且这类问题也很容易在开发阶段被发现，所以内存不足造成秒退的可能性低（内存不足退，通常是程序用了一段时间，切换了几个画面以后发生的）。</p>
+
+<p>而且秒退是发生在程序刚刚启动的时候，在开发、苹果审核阶段都没有被发现的最大可能性就是，这个问题只会发生在老版系统、老版机型上。</p>
+
+<p>对于很多开发者（尤其是个人开发者），进行所有 iOS 版本，所有 iOS 机型覆盖测试是有难度的，苹果审核时也只是重点审核该应用在新机器、新版本下的运行情况，并不关注老系统。所以这也就是为什么会秒退的程序竟然也能通过苹果的审核。</p>
+
+<p>在新 iOS 上正常的应用，到了老版本 iOS 上秒退最常见原因是系统动态链接库或Framework无法找到。这种情况通常是由于 App 引用了一个新版操作系统里的动态库（或者某动态库的新版本）或只有新 iOS 支持的 Framework，而又没有对老系统进行测试，于是当 App 运行在老系统上时便由于找不到而秒退。解决办法是等开发人员发现这个问题后升级程序，或由用户自行升级其操作系统。</p>
+
+<p>还有一种常见的秒退是程序在升级时，修改了本地存储的数据结构，但是对用户既存的旧数据没有做好升级，结果导致初始化时因为无法正确读取用户数据而秒退。这类问题通常只需删除程序后重新安装一遍就能解决。但缺点是用户的既存数据会丢失——就算有备份可能也无济于事，因为备份下来的旧数据还是无法被正确升级。如果旧数据非常重要，那么就需要联系开发人员要求其进行程序修正了。</p>
+
+<p>另一种已经变得不那么常见的秒退原因是 App 的设置不正确。例如在编译时没有编译 ARMv6 的版本，但是设置里却允许该 App 运行在 ARMv6 处理器的机器上（如：iPhone 1代，iPhone 3G，iPod touch 1、2代和3代8G版）。这个问题除了等开发人员升级外用户自己没什么办法解决。当然愿意换台新机器是最好的 ；） 这个问题目前已经能够在提交应用至 App Store 的时候被检查出来了，因此今后应该不太常见了。</p>
+
+<p>还有一类秒退或是用到 App 里某个功能后必退的原因，是开发时用到了只有新版操作系统才支持的某个方法，而又没有对该方法是否存在于老系统中做出判断。例如程序启动时用到了 Game Center，而没有判断用户的机器是否支持 Game Center，于是就秒退了。</p>
+
+<p>主要的秒退情况就是这么几个，这些都是以该 App 新版系统上能正常跑为前提的。</p>
+
+<p>诸如内存不足、BAD_ACCESS 这类问题通常不管在新旧 iOS 上都会存在，如果是由于这类问题造成的秒退通常都能在测试和审核阶段被发现，因此并不常见。</p>
+
+<p>作者：徐哲
+链接：<a href="http://www.zhihu.com/question/19920942/answer/13362031">http://www.zhihu.com/question/19920942/answer/13362031</a>
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-15T10:18:51+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:18 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/15/purelayout-shi-yong-chun-dai-ma-xie-autolayout/" title="Previous Post: PureLayout - 使用纯代码写 AutoLayout">&laquo; PureLayout - 使用纯代码写 AutoLayout</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/15/xcode-shang-kai-fa-app,-xu-jian-rong-ios7de-ji-ge-wen-ti/" title="Next Post: Xcode 上开发APP， 需兼容iOS7的几个问题">Xcode 上开发APP， 需兼容iOS7的几个问题 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

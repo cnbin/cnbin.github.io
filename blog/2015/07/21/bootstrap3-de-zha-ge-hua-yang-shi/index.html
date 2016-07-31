@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bootstrap3 的栅格化样式 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Bootstrap3 依旧是支持 IE8 的，只是同时需要加入Respond.js ，通过这个JS来让IE8支持media 查询，由于Bootstrap3已经是用了盒子的border-box模型，而IE8对于box-sizing支持还不完全，所以container的css已经去掉了max- &hellip;">
+  <meta name="keywords" content="botostrap3">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/21/bootstrap3-de-zha-ge-hua-yang-shi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Bootstrap3 的栅格化样式</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-21T12:44:25+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:44 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Bootstrap3 依旧是支持 IE8 的，只是同时需要加入<a href="http://caibaojian.com/respondjs.html">Respond.js</a> ，通过这个JS来让IE8支持media 查询，由于Bootstrap3已经是用了盒子的border-box模型，而IE8对于box-sizing支持还不完全，所以container的css已经去掉了max-width这个属性。只在media才会出现max-width。</p>
+
+<p>bootstrap3 的栅格化样式好像是抄 fundation 的，2.3的时候因为没有加入移动方面的考虑，后来随着移动的热化，才开始加入。</p>
+
+<p>Bootstrap3 的栅格化样式就是通过基础的样式加 media 查询相结合，所以不要把自适应搞得很神秘，其实就是很简单。下面与你一起分析一下具体源码：</p>
+
+<p>里面主要有这么几种查询：</p>
+
+<p>第一种：小于768的时候，是没有使用media查询的样式。使用在较小的设备上，如旧式手机，样式开头为.col-xs-，一般bootstrap在移动设备上都会使用100%，除非有特殊情况，才会应用这个.col-xs标签。</p>
+
+<p>第二种：大于等于768并小于992的时候，使用在小设备平板中，样式开头为.col-sm-，在这里，container会给他设置一个最大的宽度为750，也就是说在这个范围里面的网页最大宽度为750，bootstrap不是随着宽度变宽而变宽的，他在某个范围的时候，会给样式设定一个最大值的。那么这样范围里面的时候，外形是没有变化的。</p>
+
+<p>第三种：大于等于992并小于1200的时候，使用在中等设备桌面中，样式开头为.col-md-，在这里，container会给他设置一个最大宽度为970.现在的浏览器屏幕很多都大于1200了。</p>
+
+<p>第四种：大于1200的，通常在大型设备台式机和手提电脑，样式开头为.col-lg-，在这里，container会给他设置一个最大宽度为1170.</p>
+
+<p>当然，上面这四种情况的初始宽度是可以设置的，bootstrap同样可以通过Less或者Sass来自定义每个查询的宽度的。</p>
+
+<p>所以，从上面的这几种查询，我们看出bootstrap的栅格化系统总共有这么几种变化的。</p>
+
+<p>第一：样式有三个固定宽度和一个自适应宽度，分别是750、970 和1170固定宽，在小于768的时候则是采用屏幕宽度-30（左右15像素）的宽度。</p>
+
+<p>第二：通过不同宽度的标签来改变在不同宽度下的栏目宽度变化，比如在1200的时候，可以使用col-lg-8与col-lg-4，那么在970的时候可以使用col-md-6与col-md-6了。这时候两种不同屏幕的显示时不同的。</p>
+
+<p>需要注意的是：</p>
+
+<p>Bootstrap 给所有的盒子都加了<code>box-sizing:border-box</code>这个样式，所以实际宽度是减去<code>border</code>和<code>padding</code>之后所剩下的宽度。<code>box-sizing</code>这个是css3样式，在 can I use 上显示IE8以下不支持这个属性的。所以 Bootstrap3 在IE7和IE6是惨不忍睹的。你也可以加这个IE的降级标签：</p>
+
+<pre><code>&lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+</code></pre>
+
+<p>鉴于 Bootstrap 的文档已经非常完善了。你可以看看这个演示：<a href="http://getbootstrap.com/examples/grid/">http://getbootstrap.com/examples/grid/</a></p>
+
+<p>Bootstrap的<code>.container{padding-left:15px; padding-right:15px;}</code>的。然后在里面的元素.row又向外扩张15像素，即<code>.row{margin-left:-15px; margin-right:-15px;}</code></p>
+
+<p>然后里面的<code>col-*又col-*{padding-left:15px; padding-right:15px;}</code></p>
+
+<p>所以使用 Bootstrap3 的时候要注意<code>row</code>和<code>col-*</code>是两对同时存在的玩意。虽然很好用，不过IE6和IE7不兼容的话，在国内还是有点头痛的。要是只做移动端的话，那就可以无视古老的IE了。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-21T12:44:25+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>12:44 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/21/bootstrap-wang-ge-xi-tong/" title="Previous Post: Bootstrap 网格系统">&laquo; Bootstrap 网格系统</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/21/bootstrap-zi-ti-tu-biao-glyphicons/" title="Next Post: Bootstrap 字体图标(Glyphicons)">Bootstrap 字体图标(Glyphicons) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

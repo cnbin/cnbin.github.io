@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>如何使用 NPM 来管理你的依赖 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="npm 是 Node.js 的模块依赖管理工具。作为开发者使用的工具，主要解决开发 Node.js 时会遇到的问题。如同 RubyGems 对于 Ruby 开发者和 Maven 对于 Java 开发者的重要性，npm 对与 Node.js 的开发者和社区的重要性不言而喻。本文档包括五点： &hellip;">
+  <meta name="keywords" content="npm">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/06/ru-he-shi-yong-npm-lai-guan-li-ni-de-yi-lai/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">如何使用 NPM 来管理你的依赖</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-06T15:43:33+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:43 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>npm 是 Node.js 的模块依赖管理工具。作为开发者使用的工具，主要解决开发 Node.js 时会遇到的问题。如同 RubyGems 对于 Ruby 开发者和 Maven 对于 Java 开发者的重要性，npm 对与 Node.js 的开发者和社区的重要性不言而喻。本文档包括五点：package.json ，npm 的配置，npm install 命令，npm link 命令和其它 npm 命令。<!--More--></p>
+
+<p>本文已经首发于 InfoQ 中文站 ，版权所有，原文地址为<a href="http://www.infoq.com/cn/articles/msh-using-npm-manage-node.js-dependence">http://www.infoq.com/cn/articles/msh-using-npm-manage-node.js-dependence</a>，如需转载，请务必附带本声明，谢谢。</p>
+
+<h3>package.json</h3>
+
+<p>npm 命令运行时会读取当前目录的 <code>package.json</code> 文件和解释这个文件，这个文件基于 <code>Packages/1.1</code> 规范。
+在这个文件里你可以定义你的</p>
+
+<ul>
+<li><p>应用名称( name )</p></li>
+<li><p>应用描述( description )</p></li>
+<li><p>关键字( keywords )</p></li>
+<li><p>版本号( version )</p></li>
+<li><p>应用的配置项( config )</p></li>
+<li><p>主页( homepage )</p></li>
+<li><p>作者( author )</p></li>
+<li><p>资源仓库地址( repositor )</p></li>
+<li><p>bug的提交地址( bugs )</p></li>
+<li><p>授权方式( licenses )</p></li>
+<li><p>目录( directories )</p></li>
+<li><p>应用入口文件( main )</p></li>
+<li><p>命令行文件( bin )</p></li>
+<li><p>应用依赖模块( dependencies )</p></li>
+<li><p>开发环境依赖模块( devDependencies )</p></li>
+<li><p>运行引擎( engines )</p></li>
+<li><p>脚本( scripts )
+等。</p></li>
+</ul>
+
+
+<p>对于开发者而言，开发和发布模块都依赖于他对这个文件 package.json 所包含的意义的正确理解。我们下面用一个本文共用的例子来说明：</p>
+
+<pre><code>{  
+  "name": "test",
+  "version": "0.1.0",
+  "description": "A testing package",
+  "author": "A messed author &lt;messed@example.com&gt;",
+  "dependencies": {
+    "express": "1.x.x",
+    "ejs": "0.4.2",
+    "redis": "&gt;= 0.6.7"
+  },
+  "devDependencies" : {
+    "vows": "0.5.x"
+  },
+  "main":"index",
+  "bin" : { "test" : "./bin/test.js"},
+  "scripts" : {
+    "start" : "node server.js",
+    "test" : "vows test/*.js",
+    "preinstall" : "./configure",
+    "install" : "make &amp;&amp; make install"
+  },
+  "engines": {
+    "node": "0.4.x"
+  }
+}
+</code></pre>
+
+<p>这个例子里我们定义了应用的入口文件( main )为 index ，当其他应用引用了我们的模块 require(&lsquo;test&rsquo;) 时，这个 main 的值 index.js 文件被调用。脚本( scripts )使用hash 表定义了几个不同的命令。script.start 里的定义的 node server.js 会在 npm start 时被调用，同样的 npm test 调用时对应的 scripts.test 里定义的命令被调用。在有些 native 模块需要编译的话，我们可以定义预编译和编译的命令。本例中还定义了应用依赖模块( dependencies )和开发环境依赖模块( devDependencies )。应用依赖模块会在安装时安装到当前模块的 nodemodules 目录下。开发环境依赖模块主要时在开发环境中用到的依赖模块，用命令 npm 的命令 install 或 link 加上参数 —dev 安装到当前模块的 nodemodules 目录下。</p>
+
+<p>大家也注意到 package.json 里的版本号有些是 <code>&gt;= 0.6.7</code> 有些是 <code>1.x.x</code>，这有什么区别？npm 使用于语义化的版本识别来进行版本管理。并不是所有的模块都会提供向后兼容性，有时候某些模块因为某些原因导致不向后兼容。所以我们需要定义一些规则来保证模块能够在某些特定的版本中可用，并且保证能用最新的版本，因为那些版本总是修改了一些 bug 或提升了性能等。我们来看一下版本定义的字段：</p>
+
+<pre><code>0.4.2
+</code></pre>
+
+<ul>
+<li>主版本( 0 )</li>
+<li>副版本( 4 )</li>
+<li>补丁版本( 2 )</li>
+</ul>
+
+
+<p>在上面 <code>package.json</code> 的定义里我们确信模块在所有的 <code>Nodejs 0.4</code> 及以上和 <code>0.5</code> 以下版本里都能运行。依赖模块 <code>redis</code> 在所有大于或等于 <code>0.6.7</code> 的版本上都能运行，依赖模块 <code>ejs</code> 只能确保运行在 <code>0.4.2</code> 版本里，依赖模块 <code>express</code> 确保能够兼容大于或等于 <code>1.0.0</code> 并且小于 <code>2.0.0</code>。</p>
+
+<h3>npm 的配置</h3>
+
+<p>npm 拥有很多默认配置。你可以使用这些默认的配置，也可以修改这些默认的配置，甚至可以在环境变量或命令行下修改这些配置。配置的权重是如下顺序定义的：</p>
+
+<ol>
+<li>命令行，使用—为前缀的参数。比如 —foo bar，设定变量 foo 的值为" bar “。—foo 后不带值的参数，设定 foo 的值为 true 。</li>
+<li>环境变量，所有 npm_config_ 为前缀的环境变量。比如 npm_config_foo = bar ，设定变量 foo 为 “ bar &ldquo;。</li>
+<li>用户定义。所有的变量存储在 $HOME/.npmrc 文件里的变量。</li>
+<li>全局。所有 $PREFIX/etc/npmrc 文件里的变量。$PREFIX 变量可通过 npm prefix -g 获取，一般默认是 /usr/local。</li>
+<li>内置的配置。通过安装时运行 <code>./configure</code> 所定义的变量。可通过命令 <code>curl http://npmjs.org/install.sh | env npm_config_foo=bar</code> 设置。</li>
+</ol>
+
+
+<p>使用配置能给我们带来很大的灵活性。比如我们使用 <code>npm install</code> 时，对默认的资源库地址 <code>https://registry.npmjs.org/</code> 不是很满意，我们可以使用下面的命令来更改资源库地址。</p>
+
+<pre><code>npm --registry "an other registry" install express
+
+#或者下面的命令
+
+env npm_config_registry="an other registry" npm install express
+</code></pre>
+
+<p>或是对 npm 默认的 vi 编辑器不满意，直接命令 <code>npm set editor mate</code> 。npm 的配置可通过命令 npm config ls 获取。这个命令是获取修改后的配置，要获取包括默认配置的全部配置加上 -l 参数。值得注意的是，开发者通过<code>npm config set registry "an other registry"</code> 的方式修改 registry 这个属性值，一定要明白这个修改这个值所带来的负面效应。一旦设置了 registry 这个值，当你要 publish 一个模块，会把模块发布到修改后的资源库里，而不是原始默认的资源库。其他的资源库是原始默认的资源库的一个复制品，定时从默认的资源库取资源。一般来说，没有把其新家的模块同步到默认的资源库的能力。这样会导致发生你的模块在修改后的资源库里能够找到，而在其它的资源库里找不到的事情。</p>
+
+<h3>npm install命令</h3>
+
+<p>安装模块只需要 <code>npm install express connect</code> 命令给我们带来了很大的方便。安装模块的路径分两种：</p>
+
+<ul>
+<li>全局路径，也就是带上参数 <code>-g</code> 的安装模式。这个命令会把模块安装在 <code>$PREFIX/lib/node_modules</code> 下，可通过命令 <code>npm root -g</code> 查看全局模块的安装目录。 <code>package.json</code> 里定义的 <code>bin</code> 会安装到 <code>$PREFIX/bin</code> 目录下,如果模块带有 <code>man page</code> 会安装到 <code>$PREFIX/share/man</code> 目录下。</li>
+<li>本地路径，不带 <code>-g</code> 参数的。从当前目录一直查找到根目录/下有没有 <code>node_modules</code> 目录，有模块安装到这个目录下的 <code>node_modules</code> 目录里，如果没有找到则把模块安装到当前目录 <code>node_modules</code> 目录下。<code>package.json</code> 定义的 <code>bin</code> 会安装到 <code>node_modules/.bin</code> 目录下，<code>man page</code> 则不会安装。</li>
+</ul>
+
+
+<p>我们需要选择什么样的安装方式呢？全局模式可以让你不用担心找不到模块，如果不需要还是尽量避免全局模式。</p>
+
+<ul>
+<li><p>如果我们只是 <code>require('pkg')</code> 一个模块，我们不需要使用全局模式。</p></li>
+<li><p>如果我们需要在命令行中调用，我们需要使用全局模式。因为这个安装把<code>package.json</code> 里 <code>bin</code> 下的定义安装到 <code>$PATH</code> 目录下。</p></li>
+</ul>
+
+
+<p>有些模块我们既需要在命令行中调用又想 <code>require('pkg')</code> ，比如 <code>Coffee-script</code> 。那么我们可以使用全局模式安装，然后使用下一段要讲的命令 <code>npm link</code> 把它链接到本地的 <code>node_modules</code> 目录下。</p>
+
+<p>不要担心 <code>package.json</code> 里 <code>script</code> 中定义的命令不会因为不是全局安装而不能运行。比如在例子里定义的 <code>devDependencies</code> 的 <code>vows</code> 。在调用 <code>npm test</code> 时 <code>npm</code> 会把 <code>node_modules/.bin</code> 目录放到环境变量 <code>$PATH</code> 的最前面。</p>
+
+<h3>npm link命令</h3>
+
+<p>对开发者而言，这算是最有价值的命令。假设我们开发了一个模块叫 test ，然后我们在 test-example 里引用这个模块 ，每次 test 模块的变动我们都需要反映到 test-example 模块里。不要担心，有了 <code>npm link</code> 命令一切变的非常容易。</p>
+
+<p>首先我们需要把 test 链接到全局模式下：</p>
+
+<pre><code>cd ~/work/node/test # 进入test模块目录  
+npm link            # 创建链接到$PREFIX/lib/node_modules
+</code></pre>
+
+<p>那么 test 的模块将被链接到 $PREFIX/lib/nodemodules 下，就像我的机器上 $PREFIX 指到 /usr/local ，那么 /usr/local/lib/nodemodules/test 将会链接到 ~/work/node/test 下。执行脚本 bin/test.js 被链接到 /usr/local/bin/test 上。</p>
+
+<p>接下来我们需要把 test 引用到 test-example 项目中来：</p>
+
+<pre><code>cd ~/work/node/test-example # 进入test-example模块目录  
+npm link test               # 把全局模式的模块链接到本地
+</code></pre>
+
+<p><code>npm link test</code> 命令会去 $PREFIX/lib/nodemodules 目录下查找名叫 test 的模块，找到这个模块后把 $PREFIX/lib/nodemodules/test 的目录链接到 ~/work/node/test-example/node_modules/test 这个目录上来。</p>
+
+<p>现在任何 test 模块上的改动都会直接映射到 test-example 上来。再比如假设我们开发很多应用，每个应用都用到 <code>Coffee-script</code> ：</p>
+
+<pre><code>npm install coffee-script -g    # 全局模式下安装coffee-script  
+cd ~/work/node/test             # 进入开发目录  
+npm link coffee-script          # 把全局模式的coffee-script模块链接到本地的node_modules下  
+cd ../test-example              # 进入另外的一个开发目录  
+npm link coffee-script          # 把全局模式的coffee-script模块链接到本地  
+npm update coffee-script -g     # 更新全局模式的coffee-script，所有link过去的项目同时更新了。
+</code></pre>
+
+<p>就像你看到，<code>npm link</code> 对于开发时一个模块被多个模块引用时非常有用。windows 的用户会想，我这儿没有 UNIX 下的 link 工具怎么办？别担心只要你的 Node.js 支持 fs.symlink 就可用到这个特性。</p>
+
+<h3>其它 npm 命令</h3>
+
+<p>npm 命令里还有很多有用的命令。<code>npm explore . -- git pull origin master</code> ，更新当前的 git 资源库。<code>npm edit .</code>，编辑当前模块的所有依赖模块。<code>npm docs coffee-script</code> ，打开 coffee-script 模块的文档。<code>npm outdated coffee-script</code> ，查看 coffee-script 是否有新版本。<code>npm submodule .</code> ，你可以要求你的依赖模块是从 git 资源库安装的，而不是从 registry 安装。因为作者的 git 资源库总是最新的版本，registry 上的是模块作者发布上去的稳定版本。甚至你可以用 npm 来编程。</p>
+
+<pre><code>var npm = require('npm');  
+npm.load({}, function (err) {  
+  if (err) return commandFailed(err);
+  npm.on("log", function (message) { if(arg) console.log(message) })
+  var requirements = JSON.parse(fs.readFileSync('config/requirements.json'));
+  npm.commands.install(requirements, function (err, data) {
+    if (err) return commandFailed(err);
+  });
+});
+</code></pre>
+
+<p>做为 Node.js 的开发者工具，npm 已经为我们想到很多的应用场景。这也是 Node.js 社区一致推荐它为开发者模块依赖管理工具。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-06T15:43:33+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:43 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/06/dokuwikijie-shao/" title="Previous Post: DokuWiki介绍">&laquo; DokuWiki介绍</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/08/compassyong-fa-zhi-nan/" title="Next Post: Compass用法指南">Compass用法指南 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

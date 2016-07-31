@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Js | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/js/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-07-26T08:18:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[TreeView,TreeNode,TreeNodeCollection]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/23/treeview/"/>
+    <updated>2016-02-23T10:27:38+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/23/treeview</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<ol>
+<li>TreeView</li>
+</ol>
+
+
+<p>TreeView 控件由节点组成。树中的每一项称为一个节点并由 TreeNode 对象表示。包含其他节点的节点称为“父节点”。包含在其他节点中的节点称为“子节点”。没有任何子节点的节点称为“叶节点”。不被任何其他节点包含并且是所有其他节点的上级节点的节点称为“根节点”。一个节点可以同时是父节点和子节点，但是不能同时为根节点、父节点和叶节点。节点为根节点、父节点还是叶节点决定着节点的几种可视化属性和行为属性。</p>
+
+<p>典型的树只有一个根节点，但 TreeView 控件允许您向树结构中添加多个根节点。如果希望在显示项列表的同时不显示单个的主根节点（例如显示产品类别列表），那么此功能将十分有用。</p>
+
+<p>节点主要在两个属性中存储数据：Text 属性和 Value 属性。在 TreeView 控件中显示 Text 属性的值，而 Value 属性用于存储有关节点的所有其他数据，如用于处理回发事件的数据。节点还在 ValuePath 属性中存储从该节点到其根节点的路径。ValuePath 属性指示节点相对于根节点的位置。</p>
+
+<ol>
+<li>TreeNode</li>
+</ol>
+
+
+<p>TreeNode 对象由以下四个用户界面 (UI) 元素组成，可以自定义或隐藏这些元素：</p>
+
+<p>展开节点指示图标，以表明节点是展开的、折叠的还是不可展开的。</p>
+
+<p>与节点关联的可选复选框。</p>
+
+<p>可选的节点图像。</p>
+
+<p>节点文本。</p>
+
+<p>可以通过设置 TreeView 类的 ExpandImageUrl、CollapseImageUrl 和 NoExpandImageUrl 属性，指定可展开、可折叠和不可展开的节点的自定义图像。通过将 TreeView 类的 ShowExpandCollapse 属性设置为 false，甚至可以完全隐藏展开节点的指示图标。</p>
+
+<p>若要在节点旁显示复选框，请设置 TreeView 类的 ShowCheckBoxes 属性。如果 ShowCheckBoxes 属性设置为 TreeNodeType.Node 以外的一个值，将在指定的节点类型旁显示复选框。通过设置节点的 ShowCheckBox 属性，可以有选择地重写个别节点的复选框。如果显示复选框，可使用 Checked 属性确定复选框是否被选中。</p>
+
+<p>通过设置 ImageUrl 属性可以在节点中显示图像。此图像显示在节点文本旁。</p>
+
+<p>TreeView 控件中的节点文本可以处于两种模式之一：选择模式或导航模式。默认情况下，会有一个节点处于选定状态。若要使一个节点处于导航模式，请将该节点的 NavigateUrl 属性值设置为空字符串 (&ldquo;&rdquo;) 以外的值。若要使节点处于选择模式，请将节点的 NavigateUrl 属性设置为空字符串。</p>
+
+<p>默认情况下，单击处于选择模式的节点会将页面回发到服务器并引发 SelectedNodeChanged 事件。也可以选择设置节点的 SelectAction 属性，指定引发其他事件。有关更多信息，请参见 SelectAction。若要确定哪个节点在被单击时处于选择模式，请使用 TreeView 控件的 SelectedNode 属性。</p>
+
+<p>当节点处于导航模式时，禁用该节点的所有选择事件。单击处于导航模式的节点时，用户将被定向到指定的 URL。可以选择设置 Target 属性以指定用来显示链接内容的窗口或框架。</p>
+
+<p>TreeNode 类包含一些用于存储节点状态的属性。可使用 Selected 属性确定节点是否被选定。若要确定节点是否已展开，请使用 Expanded 属性。DataBound 属性用于确定节点是否绑定到数据。当节点绑定到数据时，可以使用 DataItem 属性访问基础数据项。</p>
+
+<p>此类提供了一些属性，有助于确定一个节点相对于树中其他节点的位置。使用 Depth 属性确定节点的深度。使用 ValuePath 属性可以获得从当前节点到其根节点的分隔节点列表。若要确定节点的父节点，请使用 Parent 属性。使用 ChildNodes 集合访问子节点。</p>
+
+<p>有时，静态地预定义树结构并不可行，因为有时数据大小或自定义内容依用户输入而定。因此，TreeView 控件支持动态节点填充。在运行阶段，可以在展开节点时填充该节点。有关动态节点填充的更多信息，请参见 PopulateOnDemand 属性。</p>
+
+<p>有关 TreeNode 的实例的初始属性值列表，请参见 TreeNode 构造函数。</p>
+
+<ol>
+<li>TreeNodeCollection</li>
+</ol>
+
+
+<p>TreeNodeCollection 类用于存储和管理 TreeView 控件中的 TreeNode 对象的集合。TreeView 控件在其两个属性中使用 TreeNodeCollection 类。在 Nodes 属性中存储其根节点，在 CheckedNodes 属性中存储其选定的节点。TreeNodeCollection 集合也用于 ChildNodes 属性来存储子节点（如果有的话）。</p>
+
+<p>TreeNodeCollection 类支持多种访问集合中的项的方法：</p>
+
+<p>使用 Item 索引器直接在特定的从零开始的索引处检索 TreeNode 对象。</p>
+
+<p>使用 GetEnumerator 方法创建可用于循环访问集合的枚举数。</p>
+
+<p>使用 foreach (C#) 或 For Each (Visual Basic) 循环访问集合。</p>
+
+<p>使用 CopyTo 方法将集合的内容复制到一个 Array 对象中。</p>
+
+<p>可以通过添加和移除 TreeNode 对象以编程方式管理 TreeNodeCollection。若要在集合中添加节点，请使用 Add 或 AddAt 方法。若要从集合中移除节点，请使用 Remove、RemoveAt 或 Clear 方法。</p>
+
+<ol>
+<li>Sample</li>
+</ol>
+
+
+<p>自动化测试情况下：</p>
+
+<p>先实例化treeview，然后</p>
+
+<pre><code>TreeNodeCollection treeNodeCollection = treeView.Nodes;
+
+foreach(TreeNode treeNode in treeNodeCollection)
+
+{
+
+treeNode.select();
+
+if(treeNode.text == "abcd")
+
+{
+
+Console.WriteLine("The node 'abcd' is found.");
+
+具体处理；
+
+break;
+
+}
+
+}
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.360doc.com/content/11/1124/09/4509122_166943059.shtml">http://www.360doc.com/content/11/1124/09/4509122_166943059.shtml</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ExtJS-IE逗号问题]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/23/extjs-iedou-hao-wen-ti/"/>
+    <updated>2016-02-23T10:26:02+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/23/extjs-iedou-hao-wen-ti</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859ejw1f1861feyx0j20v208ftbg.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ExtJS-getCmp函数]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/23/extjs-getcmphan-shu/"/>
+    <updated>2016-02-23T10:25:36+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/23/extjs-getcmphan-shu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1875hv9l7j20sd0cvjv2.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ExtJS-get函数]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/23/extjs-gethan-shu/"/>
+    <updated>2016-02-23T10:24:40+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/23/extjs-gethan-shu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f18yzzia5ij20mq0ggte4.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ExtJS目录结构]]></title>
+    <link href="http://cnbin.github.io/blog/2016/02/23/extjsmu-lu-jie-gou/"/>
+    <updated>2016-02-23T10:23:53+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/02/23/extjsmu-lu-jie-gou</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1841xdobuj20io0c942i.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f18422q9vjj20wc0j2afi.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 开发 — KeyChain 的使用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="iOS开发——keychain的使用 通常情况下，我们用NSUserDefaults存储数据信息，但是对于一些私密信息，比如密码、证书等等，就需要使用更为安全的keychain了。keychain里保存的信息不会因App被删除而丢失，在用户重新安装App后依然有效，数据还在。 &hellip;">
+  <meta name="keywords" content="ios,keychain">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/24/ioskai-fa-keychainde-shi-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 开发 — KeyChain 的使用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-24T08:45:37+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:45 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>iOS开发——keychain的使用</h3>
+
+<p>通常情况下，我们用NSUserDefaults存储数据信息，但是对于一些私密信息，比如密码、证书等等，就需要使用更为安全的keychain了。keychain里保存的信息不会因App被删除而丢失，在用户重新安装App后依然有效，数据还在。</p>
+
+<p>使用苹果官方发布的KeychainItemWrapper或者SFHFKeychainUtils很方便，后来看到 <a href="http://blog.csdn.net/bl1988530/article/details/6887946">iphone使用keychain来存取用户名和密码</a> 一文，觉得对了解keychain有很大的帮助，于是ARC控也尝试了一把。</p>
+
+<p>需要导入Security.framework</p>
+
+<pre><code>@implementation WQKeyChain  
++ (NSMutableDictionary *)getKeychainQuery:(NSString *)service {  
+return [NSMutableDictionary dictionaryWithObjectsAndKeys:  
+        (__bridge_transfer id)kSecClassGenericPassword,(__bridge_transfer id)kSecClass,  
+        service, (__bridge_transfer id)kSecAttrService,  
+        service, (__bridge_transfer id)kSecAttrAccount,  
+        (__bridge_transfer id)kSecAttrAccessibleAfterFirstUnlock,(__bridge_transfer id)kSecAttrAccessible,  
+        nil];  
+}  
+
++ (void)save:(NSString *)service data:(id)data {  
+    //Get search dictionary  
+    NSMutableDictionary *keychainQuery = [self getKeychainQuery:service];  
+    //Delete old item before add new item  
+    SecItemDelete((__bridge_retained CFDictionaryRef)keychainQuery);  
+    //Add new object to search dictionary(Attention:the data format)  
+    [keychainQuery setObject:[NSKeyedArchiver archivedDataWithRootObject:data] forKey:(__bridge_transfer id)kSecValueData];  
+    //Add item to keychain with the search dictionary  
+    SecItemAdd((__bridge_retained CFDictionaryRef)keychainQuery, NULL);  
+}  
+
++ (id)load:(NSString *)service {  
+    id ret = nil;  
+    NSMutableDictionary *keychainQuery = [self getKeychainQuery:service];  
+    //Configure the search setting  
+    [keychainQuery setObject:(id)kCFBooleanTrue forKey:(__bridge_transfer id)kSecReturnData];  
+    [keychainQuery setObject:(__bridge_transfer id)kSecMatchLimitOne forKey:(__bridge_transfer id)kSecMatchLimit];  
+    CFDataRef keyData = NULL;  
+    if (SecItemCopyMatching((__bridge_retained CFDictionaryRef)keychainQuery, (CFTypeRef *)&amp;keyData) == noErr) {  
+        @try {  
+            ret = [NSKeyedUnarchiver unarchiveObjectWithData:(__bridge_transfer NSData *)keyData];  
+        } @catch (NSException *e) {  
+            NSLog(@"Unarchive of %@ failed: %@", service, e);  
+        } @finally {  
+        }  
+    }  
+    return ret;  
+}  
+
++ (void)delete:(NSString *)service {  
+    NSMutableDictionary *keychainQuery = [self getKeychainQuery:service];  
+    SecItemDelete((__bridge_retained CFDictionaryRef)keychainQuery);  
+}  
+@end  
+</code></pre>
+
+<p>比如，保存密码</p>
+
+<pre><code>@interface WQUserDataManager : NSObject  
+
+/** 
+ *  @brief  存储密码 
+ * 
+ *  @param  password    密码内容 
+ */  
++(void)savePassWord:(NSString *)password;  
+
+/** 
+ *  @brief  读取密码 
+ * 
+ *  @return 密码内容 
+ */  
++(id)readPassWord;  
+
+/** 
+ *  @brief  删除密码数据 
+ */  
++(void)deletePassWord;  
+
+@end  
+
+#import "WQUserDataManager.h"  
+
+@implementation WQUserDataManager  
+
+static NSString * const KEY_IN_KEYCHAIN = @"com.wuqian.app.allinfo";  
+static NSString * const KEY_PASSWORD = @"com.wuqian.app.password";  
+
++(void)savePassWord:(NSString *)password  
+{  
+    NSMutableDictionary *usernamepasswordKVPairs = [NSMutableDictionary dictionary];  
+    [usernamepasswordKVPairs setObject:password forKey:KEY_PASSWORD];  
+    [WQKeyChain save:KEY_IN_KEYCHAIN data:usernamepasswordKVPairs];  
+}  
+
++(id)readPassWord  
+{  
+    NSMutableDictionary *usernamepasswordKVPair = (NSMutableDictionary *)[WQKeyChain load:KEY_IN_KEYCHAIN];  
+    return [usernamepasswordKVPair objectForKey:KEY_PASSWORD];  
+}  
+
++(void)deletePassWord  
+{  
+    [WQKeyChain delete:KEY_IN_KEYCHAIN];  
+}  
+@end  
+</code></pre>
+
+<p>实现一个简单的界面，把设定的密码存起来，然后立即读取显示出来看看效果</p>
+
+<pre><code>-(IBAction)btnAciton:(id)sender  
+{  
+    [WQUserDataManager savePassWord:self.textfield.text];  
+    self.label.text = [WQUserDataManager readPassWord];  
+}  
+</code></pre>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://blog.csdn.net/yiyaaixuexi/article/details/7688745">http://blog.csdn.net/yiyaaixuexi/article/details/7688745</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-24T08:45:37+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:45 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/24/hackbi-bei-de-ming-ling-yu-gong-ju/" title="Previous Post: Hack必备的命令与工具">&laquo; Hack必备的命令与工具</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/24/objective-c-he-core-foundation-dui-xiang-xiang-hu-zhuan-huan-de-nei-cun-guan-li-zong-jie/" title="Next Post: Objective-C 和 Core Foundation 对象相互转换的内存管理总结">Objective-C 和 Core Foundation 对象相互转换的内存管理总结 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

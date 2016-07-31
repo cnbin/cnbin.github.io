@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>网络技术notes(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1 CIDR使用斜线记法，成为CIDR记法，即在IP地址后面加一个斜线“/”，然后写上网络前缀所占的比特数（这个数字对应着子网掩码中的比特1的个数） 2 1.全零（0.0.0.0）表示任意网络，全1（255.255.255.255）当前子网的广播地址。 2.子网掩码： &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/14/wang-luo-ji-shu-notes/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">网络技术notes(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-14T13:48:47+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:48 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>1</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyw2crvr4gj20mh0bv76p.jpg" alt="img" /></p>
+
+<p>CIDR使用斜线记法，成为CIDR记法，即在IP地址后面加一个斜线“/”，然后写上网络前缀所占的比特数（这个数字对应着子网掩码中的比特1的个数）</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez0cqit0anj20ed061759.jpg" alt="img" /></p>
+
+<h3>2</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez16ybqz6lj20ji0fun0r.jpg" alt="img" /></p>
+
+<p>1.全零（0.0.0.0）表示任意网络，全1（255.255.255.255）当前子网的广播地址。</p>
+
+<p>2.子网掩码：它是一种用来指明一个IP地址的哪些位标识的是主机所在的子网以及哪些位标识的是主机的位掩码。即它的作用是用来将某个IP地址划分成网络地址和主机地址两部分。</p>
+
+<p>子网掩码是屏蔽一个IP地址的网络部分的“全1”比特模式。</p>
+
+<h3>3</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez16ycabmuj20je08fmys.jpg" alt="img" /></p>
+
+<h3>4</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyx96pzl4xj20nk0dq0w7.jpg" alt="img" /></p>
+
+<h3>5</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyx96z3vu7j20np0cbq6b.jpg" alt="img" /></p>
+
+<h3>6</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eyx974ft9uj20nn09mgnh.jpg" alt="img" /></p>
+
+<h3>7</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyx97c2as5j20hj057aan.jpg" alt="img" /></p>
+
+<h3>8</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyxywfc03vj20m107f3zm.jpg" alt="img" /></p>
+
+<h3>9</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyxywisao2j20kp03h3yv.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyxywi5xzzj20ls09gtbc.jpg" alt="img" /></p>
+
+<h3>10</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez0atv6rfjj20pk086q52.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez0atwh58qj20qe0cqq5w.jpg" alt="img" /></p>
+
+<h3>11</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez017rx0i7j20pp0ehjuq.jpg" alt="img" /></p>
+
+<h3>12</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez01d95dqgj20pr0c8n08.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez01dc3wblj20ps0cgjsp.jpg" alt="img" /></p>
+
+<h3>13</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyvvwdl1inj20nu06z77f.jpg" alt="img" /></p>
+
+<h3>14</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez04i08cczj20pw07jwfr.jpg" alt="img" /></p>
+
+<h3>15</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez07bv08sgj20po0k3773.jpg" alt="img" /></p>
+
+<h3>16</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez171fca1cj20iw08pdhb.jpg" alt="img" /></p>
+
+<h3>17</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez08d66km6j20q00aqgnx.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez08d8cdtvj20pa049t94.jpg" alt="img" /></p>
+
+<h3>18</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez6yvz52yaj20ho0i6799.jpg" alt="img" /></p>
+
+<h3>19</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez6zgahncjj20o60artch.jpg" alt="img" /></p>
+
+<h3>20</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez6zgb5ts8j20ke0fddjy.jpg" alt="img" /></p>
+
+<h3>21</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez70z9n9abj20kn0cx0wt.jpg" alt="img" /></p>
+
+<h3>22</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9dvehpdqj20lh0g17a4.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9e8p28kfj20l904l3zi.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9e8pltzrj20ll06dgns.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9e8q3qxdj20lg0d2aey.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9eagba3xj20lz073di2.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9eafy9c6j20lq06c40x.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9ebaz9qlj20lr05bwfw.jpg" alt="img" /></p>
+
+<h3>23</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez70zbnaeyj20v305c76c.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez70zb4glrj20mu05owg7.jpg" alt="img" /></p>
+
+<h3>24</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez7191s7w9j20ib0f7n1f.jpg" alt="img" /></p>
+
+<h3>25</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez72wsfkcej20lh0a9tbm.jpg" alt="img" /></p>
+
+<h3>26</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eyyekh21mkj20kl06i75t.jpg" alt="img" />)</p>
+
+<h3>27</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez0bn34sc3j20pw0c2jub.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez0bn3kx9gj20py0h9dj0.jpg" alt="img" /></p>
+
+<h3>28</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyxrgxe4ouj20m108igna.jpg" alt="img" /></p>
+
+<h3>29</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eyxrgvyjmij20m10hmacq.jpg" alt="img" /></p>
+
+<h3>30</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez1lnit8yhj20ud0oadlp.jpg" alt="img" /></p>
+
+<h3>31</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez04i11n4nj20qk0anta5.jpg" alt="img" /></p>
+
+<h3>32</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eyx96l2fcnj20ne0a7aca.jpg" alt="img" /></p>
+
+<h3>33</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eywl1nvw2fj20mp07nn01.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eywkzz4vcuj20sb049mxy.jpg" alt="img" /></p>
+
+<h3>34</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9ckbmnf9j20pb08i0ve.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9cke1hb8j20kw05zq4k.jpg" alt="img" /></p>
+
+<h3>35</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9ckeh9dgj20kn09mwh8.jpg" alt="img" /></p>
+
+<pre><code>选C
+</code></pre>
+
+<h3>36</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9ckezo5rj20li0degpu.jpg" alt="img" /></p>
+
+<h3>37</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9cth0goxj20in0bcn0h.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9cthh751j20m8081ju1.jpg" alt="img" /></p>
+
+<h3>38</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9cthxs4ej20ku0a7wh9.jpg" alt="img" /></p>
+
+<h3>39</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9ctie1zwj20ly0b2tbn.jpg" alt="img" /></p>
+
+<h3>40</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9cxvg8kwj20ni09cwh4.jpg" alt="img" /></p>
+
+<h3>41</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9fzsz2vvj20hj0k1gp7.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9fztbvq2j20gz0kl44l.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9fzvnqccj20gt0d0jvk.jpg" alt="img" /></p>
+
+<h3>42</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez72wtywofj20oe0crn0x.jpg" alt="img" /></p>
+
+<h3>43</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez72wup4wrj20id0f7q60.jpg" alt="img" /></p>
+
+<h3>44</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9oojmfh8j20u10jkwif.jpg" alt="img" /></p>
+
+<h3>45</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9ook92f6j20sv0cw77t.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9ookwce1j20sx09vju8.jpg" alt="img" /></p>
+
+<h3>46</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9ool9ktyj20tw0clgow.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9oolreubj20sq0crad2.jpg" alt="img" /></p>
+
+<h3>47</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9rs44xt9j20qx0fl0y0.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9rs4lpndj20qf0c9n16.jpg" alt="img" /></p>
+
+<h3>48</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ez9rs508lhj20qz0a1whf.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9rs5m121j20qz04zmy4.jpg" alt="img" /></p>
+
+<h3>49</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9spkfidaj20qz0cojv5.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9spld2ooj20qv0jwdkv.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ez9spm43tbj20qh0jrdjy.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9spmxcyvj20na0f3dhb.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ez9spnejhij20qr04ygmp.jpg" alt="img" /></p>
+
+<h3>50</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ez9spnto4mj20r50dztci.jpg" alt="img" /></p>
+
+<h3>51</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezafplkz03j20md0de789.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezafpncjhvj20hg076400.jpg" alt="img" /></p>
+
+<h3>52</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezaj1rqgdsj20js06dt9n.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezaj1tgbonj20lo06h402.jpg" alt="img" /></p>
+
+<h3>53</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezhgzknh28j20n908d40x.jpg" alt="img" /></p>
+
+<h3>54</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezhs3nmlb7j20lw0c0jte.jpg" alt="img" /></p>
+
+<h3>55</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezom98f3nlj20h901swej.jpg" alt="img" />
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezom98omdfj20kl05tq3s.jpg" alt="img" /></p>
+
+<h3>56</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezomb1wff5j20d701xweh.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezomb5ax06j20i101rjre.jpg" alt="img" /></p>
+
+<h3>57</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezomkjxl8uj20o703e0t3.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezomkk6w18j20k702vgm7.jpg" alt="img" /></p>
+
+<h3>58</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezofyv4zzcj20d004ddgg.jpg" alt="img" /></p>
+
+<h3>59</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezome3b86mj20lo05vdgy.jpg" alt="img" />
+<img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezome2wy2nj20kb021weq.jpg" alt="img" /></p>
+
+<h3>60</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezon3nml7hj20jm0bbady.jpg" alt="img" />
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezon3o1465j20hu05qq3q.jpg" alt="img" /></p>
+
+<h3>61</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezonc5wdxyj20lm02r3z0.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezonc6wnq2j20i7026glr.jpg" alt="img" /></p>
+
+<h3>62</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ezooln7ry5j20j502kwel.jpg" alt="img" /></p>
+
+<h3>63</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ezopjjzhynj20ji023q2z.jpg" alt="img" />
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezopjkbg6gj20n304v3yo.jpg" alt="img" /></p>
+
+<h3>64</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ezopm7unmwj20pg04b3zc.jpg" alt="img" /></p>
+
+<h3>65</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ezopp4jyrfj20n70bkgmo.jpg" alt="img" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-14T13:48:47+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:48 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/14/shu-ju-ku-guan-xi-dai-shu-notes/" title="Previous Post: 数据库关系代数notes(原创)">&laquo; 数据库关系代数notes(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/14/guan-xi-shu-ju-ku-gui-fan-hua/" title="Next Post: 关系数据库规范化">关系数据库规范化 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

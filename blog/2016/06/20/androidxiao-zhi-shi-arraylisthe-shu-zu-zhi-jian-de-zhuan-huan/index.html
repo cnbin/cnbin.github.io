@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android小知识：ArrayList和数组之间的转换 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="List&mdash;&ndash;>数组 开发中不免碰到List与数组类型之间的相互转换，举一个简单的例子： package test.test1; import java.util.ArrayList; import java.util.List; public class Test &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/20/androidxiao-zhi-shi-arraylisthe-shu-zu-zhi-jian-de-zhuan-huan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android小知识：ArrayList和数组之间的转换</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T16:42:49+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:42 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>List&mdash;&ndash;>数组</h3>
+
+<p>开发中不免碰到List与数组类型之间的相互转换，举一个简单的例子：</p>
+
+<pre><code>package test.test1; 
+import java.util.ArrayList; 
+import java.util.List; 
+public class Test { 
+
+/** 
+* @param args 
+*/ 
+public static void main(String[] args) { 
+List list=new ArrayList(); 
+list.add("王利虎"); 
+list.add("张三"); 
+list.add("李四"); 
+int size=list.size(); 
+String[] array=new String[size]; 
+for(int i=0;i&lt;list.size();i++){ 
+array[i]=(String)list.get(i); 
+} 
+for(int i=0;i&lt;array.length;i++){ 
+System.out.println(array[i]); 
+} 
+} 
+} 
+</code></pre>
+
+<p>正如上面所列举的，当要将ArrayList类型的数据转换为String[]的时候，必须对List类型进行遍历，其实没有这种必要，List提供给我们一个很好的方法解决List转换成为数组的问题，不防再看一个例子：</p>
+
+<pre><code>package test.test1; 
+
+import java.util.ArrayList; 
+import java.util.List; 
+
+public class Test { 
+public static void main(String[] args) { 
+List&lt;String&gt; list=new ArrayList&lt;String&gt;(); 
+list.add("王利虎"); 
+list.add("张三"); 
+list.add("李四"); 
+int size=list.size(); 
+String[] array = (String[])list.toArray(new String[size]); 
+for(int i=0;i&lt;array.length;i++){ 
+System.out.println(array[i]); 
+} 
+} 
+} 
+</code></pre>
+
+<p>你是否发现这才是你想要的呢？其实很简单，ArrayList提供public <T> T[] toArray(T[] a)方法返回一个按照正确的顺序包含此列表中所有元素的数组；返回数组的运行时类型就是指定数组的运行时类型。如果列表能放入指定的数组，则返回放入此列表元素的数组。否则，将根据指定数组的运行时类型和此列表的大小分配一个新的数组。
+如果指定的数组能容纳列表并有剩余空间（即数组的元素比列表的多），那么会将数组中紧跟在集合末尾的元素设置为 null。这对确定列表的长度很有用，但只 在调用方知道列表中不包含任何 null 元素时才有用。</p>
+
+<h3>数组&mdash;>List</h3>
+
+<p> 那么又怎么将数组转换成为List呢？不防再看一个小小的例子，如下所示：</p>
+
+<pre><code>package test.test1; 
+import java.util.ArrayList; 
+import java.util.List; 
+public class Test { 
+public static void main(String[] args) { 
+String[] array=new String[3]; 
+array[0]="王利虎"; 
+array[1]="张三"; 
+array[2]="李四"; 
+List&lt;String&gt; list=new ArrayList&lt;String&gt;(); 
+for(int i=0;i&lt;array.length;i++){ 
+list.add(array[i]); 
+} 
+for(int i=0;i&lt;list.size();i++){ 
+System.out.println(list.get(i)); 
+} 
+} 
+} 
+</code></pre>
+
+<p>你是不发现很费事啊？其实数组转换成为List的问题Arrays对象也提供给我们public static <T> List<T> asList(T&hellip; a)供我们调用, 试运行下面的例子：</p>
+
+<pre><code>package test.test1; 
+
+import java.util.Arrays; 
+import java.util.List; 
+
+public class Test { 
+public static void main(String[] args) { 
+String[] array=new String[3]; 
+array[0]="王利虎"; 
+array[1]="张三"; 
+array[2]="李四"; 
+List&lt;String&gt; list=Arrays.asList(array); 
+for(int i=0;i&lt;list.size();i++){ 
+System.out.println(list.get(i)); 
+} 
+
+
+} 
+</code></pre>
+
+<p>}
+    简单吧，asList方法返回一个受指定数组支持的固定大小的列表，此方法同 Collection.toArray 一起，充当了基于数组的 API 与基于 collection 的 API 之间的桥梁。返回的列表是可序列化的，并且实现了 RandomAccess。除此之外， 此方法还提供了一个创建固定长度的列表的便捷方法，该列表被初始化为包含多个元素：</p>
+
+<pre><code>  package test.test1; 
+import java.util.Arrays; 
+import java.util.List; 
+public class Test1 { 
+public static void main(String[] args) { 
+List&lt;String&gt; list = Arrays.asList("王利虎","张三","李四"); 
+for(int i=0;i&lt;list.size();i++){ 
+System.out.println(list.get(i)); 
+} 
+} 
+}
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T16:42:49+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:42 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/20/androidxiang-mu-gong-cheng-xia-mian-de-assetsmu-lu-de-zuo-yong-shi-shi-yao/" title="Previous Post: Android项目工程下面的assets目录的作用是什么">&laquo; Android项目工程下面的assets目录的作用是什么</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/20/androidying-yong-cheng-xu-jin-cheng-sheng-ming-zhou-qi-xiang-jie/" title="Next Post: Android应用程序进程生命周期详解">Android应用程序进程生命周期详解 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

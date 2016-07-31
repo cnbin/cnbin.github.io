@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>好的代码习惯 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1.代码引用和项目编译配置 不能引用项目外的代码文件，其他人会编译错误 项目一 clone 下来，编译就报这个错误了。因为你引用了你电脑上 Downloads 文件夹下的一个库，可我电脑上没有这个库，就报错了。所以得注意每次拖动文件到项目下的时候，要选择 Copy ： 同时，最好时常检查一下 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/23/hao-de-dai-ma-xi-guan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">好的代码习惯</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-23T11:05:38+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>11:05 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>1.代码引用和项目编译配置</h3>
+
+<p>不能引用项目外的代码文件，其他人会编译错误</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f26mbfoi3aj20m802u74p.jpg" alt="img" /></p>
+
+<p>项目一 clone 下来，编译就报这个错误了。因为你引用了你电脑上 Downloads 文件夹下的一个库，可我电脑上没有这个库，就报错了。所以得注意每次拖动文件到项目下的时候，要选择 Copy ：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f26mbg6vf7j20m8049glt.jpg" alt="img" /></p>
+
+<p>同时，最好时常检查一下 Build Phases 标签下的编译文件详情：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f26mbhty65j20m805lgm3.jpg" alt="img" /></p>
+
+<p>一旦你的同事说代码找不到的时候，就来这里看看每个编译文件的地址。如果是引用了项目外部的文件，其路径会特别长一点。而且也有 &ldquo;../../../&rdquo; 之类的，就特别容易找到。</p>
+
+<p>这个问题不容易自己察觉，因为自己这边是能编译通过的。但当项目要团队合作，要开源出去的话，就值得好好重视了。</p>
+
+<h3>2.属性修饰符的建议</h3>
+
+<pre><code>//这个地方更建议把assign换为weak
+@property (nonatomic, assign) YYTextView *textView;
+</code></pre>
+
+<p>在arc中，基本变量之外的属性 弱引用最好使用weak，来避免野指针的出现，weak可以在指向的对象dealloc的时候自动置为nil。</p>
+
+<pre><code>//推荐将retain换为strong
+@property (nonatomic, retain) NSMutableAttributedString *attrString;
+</code></pre>
+
+<p>在arc中强引用尽量使用strong，当然这里strong和retain的作用是一样的，但是为了保持代码的一致性，这里推荐使用strong。</p>
+
+<h3>3.多使用字面量语法</h3>
+
+<pre><code>_comps.items = [NSArray arrayWithObjects:_photoBarButton, _mediaBarButton, _alarmBarButton, _brushBarButton, _voiceBarButton, _doneBarButton, nil];
+</code></pre>
+
+<p>生成一个数组，更推荐使用字面量语法来创建。</p>
+
+<pre><code>_comps.items = @[_photoBarButton, _mediaBarButton, _alarmBarButton, _brushBarButton, _voiceBarButton, _doneBarButton];
+</code></pre>
+
+<p>这种做法不仅简单，还更加安全。假如当中的_alarmBarButton为nil，那么通过第一种写法，数组还是会创建出来，只不过数组内只有2个对象，原因在于，“arrayWithObjects:”方法会依次处理各个参数，直到发现nil为止，而第二种写法会在插入nil指针的时候抛出异常，令程序终止运行，这比创建好数组后才发现数组内的元素个数少了要好很多。异常往往能更快地发现错误。</p>
+
+<h3>4.常量的声明</h3>
+
+<pre><code>#define TAG_LOCK 1
+#define TAG_UPLOADER 2
+</code></pre>
+
+<p>推荐使用类型常量，少使用define预处理指令。使用预处理指令有这么几个缺点：定义出来的常量没有类型信息，预处理过程会将碰到的所有TAG_LOCK替换为1。而是用类型常量恰巧能解决这两个问题。所以推荐的写法是:</p>
+
+<pre><code>static const NSInteger kLockTag = 100;
+</code></pre>
+
+<p>这里我们声明的常量是在实现文件内，所以推荐命名的时候在常量名称前加k；如果常量在类之外可见，推荐以类名为前缀。</p>
+
+<h3>5.推荐使用懒加载</h3>
+
+<pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.view.backgroundColor = [UIColor whiteColor];
+
+    // compability with automaticallyAdjustsScrollViewInsets: http://stackoverflow.com/questions/20550019/compability-with-automaticallyadjustsscrollviewinsets
+    if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+
+    [self initComps];
+    [self initToolbar];
+    [self initVertical];
+    [self initImageView];
+    [self initMediaPick];
+    [self setupSpeechRecognizer];
+    [self initAttributedString];
+    [self initTextView];
+
+    [[YYTextKeyboardManager defaultManager] addObserver:self];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+</code></pre>
+
+<p>代码当中UI控件和字符串的初始化都封装成了独立的init方法，这点不错。但是你的写法有这么几个问题:首先是在初始化的过程中，你一般都是直接访问了成员变量，例如<em>toolbar,并且在初始化方法以外你访问的也是</em>toolbar，而你声明的是一个属性，两者并不统一，这就使得可读性变得很差；在viewDidLoad之后，初始化的过程必然生成了对应的控件或者数据，无论这些控件或者数据是否立即有用，这会占用比较大的内存空间。 我们可以通过重写属性的get方法，来解决以上问题。 例如</p>
+
+<pre><code>- (void)initAttributedString {
+    NSLog(@"Jump into initAttributedString");
+    if (self.note) {
+        _attrString = [[NSMutableAttributedString alloc] initWithString:self.note.content];
+    } else {
+        _attrString = [[NSMutableAttributedString alloc] initWithString:@"请输入内容："];
+    }
+    _attrString.yy_font = [UIFont fontWithName:@"Times New Roman" size:20];
+    _attrString.yy_lineSpacing = 4;
+    _attrString.yy_firstLineHeadIndent = 20;
+}
+</code></pre>
+
+<p>我们可以将这个方法改造成：</p>
+
+<pre><code>- (NSMutableAttributedString *)attrString {
+    if (_attrString) {
+        return _attrString;
+    }
+
+    if (self.note) {
+        _attrString = [[NSMutableAttributedString alloc] initWithString:self.note.content];
+    } else {
+        _attrString = [[NSMutableAttributedString alloc] initWithString:@"请输入内容："];
+    }
+    _attrString.yy_font = [UIFont fontWithName:@"Times New Roman" size:20];
+    _attrString.yy_lineSpacing = 4;
+    _attrString.yy_firstLineHeadIndent = 20;
+
+    return _attrString;
+}
+</code></pre>
+
+<p>我们重写get方法之后，在其它需要访问的地方，都调用属性self.attrString，这样我们的代码风格就很统一了。</p>
+
+<p>懒加载带来的收益：我们不再需要显式的生成和调用initAttributedString方法，只需要在使用的时候调用属性self.attrString，对象的实例化全部放在getter中，可以有效降低代码的耦合度;在使用属性之前，属性并不会提前生成，减少内存占用。</p>
+
+<h3>6.delegate需要校验传入参数</h3>
+
+<pre><code>- (void)textViewDidEndEditing:(YYTextView *)textView {
+    self.navigationItem.rightBarButtonItem = nil;
+}
+</code></pre>
+
+<p>如果你的delegate方法，只作为一个textView的委托回调，这种写法没有任何问题。但是如果你想扩展你的界面，在将来的界面中很可能出现另一个textView，这时你就必须区分这两个textView是谁回调了这个代理方法。此时，如果你之前并没有添加传入参数判断，那么你还需要将之前的textView变量名字找到，并将之前的这些逻辑转移到一个if分支内，然后才能处理新添加的textView逻辑，这时候你的思路很可能被打断。更糟糕的是，很有可能是你的小伙伴来做这件事情。所以在扩展之前就先加上参数校验是一个很好的习惯。</p>
+
+<pre><code>- (void)textViewDidEndEditing:(YYTextView *)textView {
+    if (textView == self.textView) {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+
+}
+</code></pre>
+
+<h3>7.通知的添加和移除</h3>
+
+<p>在我收集的代码中我看到有人这么添加和删除通知。</p>
+
+<pre><code>-(void)viewWillAppear:(BOOL)animated{
+
+    [[NSNotificationCenter defaultCenter ] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil] ;
+
+    [[NSNotificationCenter defaultCenter ] addObserver:self selector:@selector(keyboardHidden:) name:UIKeyboardWillHideNotification object:nil] ;
+
+}
+-(void)viewWillDisappear:(BOOL)animated{
+
+    [[NSNotificationCenter defaultCenter ] removeObserver:self name:UIKeyboardWillHideNotification object:nil ] ;
+    [[NSNotificationCenter defaultCenter ] removeObserver:self name:UIKeyboardWillShowNotification object:nil ];
+
+}
+</code></pre>
+
+<p>这样极容易出现问题。因为willAppear和Disappear出现的顺序并不一定是一对一的。所以有可能造成多次添加，多次移除通知。</p>
+
+<p>我建议在 viewDidLoad里添加通知。在dealloc里移除通知。</p>
+
+<h3>8.构造易于测试的Category</h3>
+
+<pre><code>[_userPhoto setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://220.175.104.19:8721%@",_model.userPhoto]]placeholderImage:[UIImage imageNamed:@"holderImage.jpg"]];
+</code></pre>
+
+<p>形如</p>
+
+<pre><code>[NSString stringWithFormat:@"http://220.175.104.19:8721%@",_model.userPhoto]
+</code></pre>
+
+<p>的语句都应该创建一个NSString的Category。</p>
+
+<p>例如.</p>
+
+<pre><code>#import "NSString+PhotoURL.h"
+
+static NSString * const kBaseURL = @"http://220.175.104.19:8721";
+
+@implementation NSString (PhotoURL)
+
++ (NSString *)photoURLWithString:(NSString *)url
+{
+    return [NSString stringWithFormat:@"%@%@",kBaseURL, url];
+}
+
+@end
+</code></pre>
+
+<p>相应的你可以很方便的编写Unit Test。</p>
+
+<pre><code>- (void)testphotoURLWithString
+{
+    NSString *result = @"http://220.175.104.19:8721/useravatar.png";
+
+    NSString *avatar = @"useravatar.png";
+
+    XCTAssert([result isEqualToString:[NSString photoURLWithString:avatar]]);
+}
+</code></pre>
+
+<h3>9.声明常量</h3>
+
+<pre><code>NSString *const kcircleModelDataCategoryName = @"categoryName";
+</code></pre>
+
+<p>如果常量不是全局的，请在前面加<code>static</code>。否则可能会产生duplicate symbol的错误。</p>
+
+<p>如果需要声明全局的常量，那么需要在<code>.h</code> 文件中加入。</p>
+
+<pre><code>FOUNDATION_EXPORT NSString * const kcircleModelDataCategoryName;
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://reviewcode.cn/article.html?reviewId=4">http://reviewcode.cn/article.html?reviewId=4</a></li>
+<li><a href="http://reviewcode.cn/article.html?reviewId=10">http://reviewcode.cn/article.html?reviewId=10</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-23T11:05:38+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>11:05 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/23/si-xiang-bi-ji-60/" title="Previous Post: 思想笔记-60">&laquo; 思想笔记-60</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/23/ios-yuan-jiao-wen-ti/" title="Next Post: iOS-圆角问题(Offscreen rendering的问题)">iOS-圆角问题(Offscreen rendering的问题) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

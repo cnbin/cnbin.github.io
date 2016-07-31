@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Web 应用程序项目与网站项目区别 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在 Visual Studio 中，可以创建“Web 应用程序项目”或“网站项目”。 每种项目类型各有优缺点，要选择可以满足需要的最佳项目类型，应了解各项目类型之间的差异。 创建项目之前，必须选择合适的项目类型，原因是从一种项目类型转换到另一种项目类型并不可行。 注意 在某些情况下无法进行选择 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/01/21/web-ying-yong-cheng-xu-xiang-mu-yu-wang-zhan-xiang-mu-qu-bie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Web 应用程序项目与网站项目区别</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-21T14:30:40+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>2:30 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>在 Visual Studio 中，可以创建“Web 应用程序项目”或“网站项目”。 每种项目类型各有优缺点，要选择可以满足需要的最佳项目类型，应了解各项目类型之间的差异。 创建项目之前，必须选择合适的项目类型，原因是从一种项目类型转换到另一种项目类型并不可行。</p>
+
+<p><strong>注意</strong></p>
+
+<p>在某些情况下无法进行选择。 例如，如果要创建一个 ASP.NET MVC 应用程序，您必须使用 Web 应用程序项目</p>
+
+<p>本主题包含以下各节：</p>
+
+<ul>
+<li>方案</li>
+<li>差异摘要</li>
+<li>项目文件结构</li>
+<li>编译</li>
+<li>部署</li>
+</ul>
+
+
+<h3>方案</h3>
+
+<p>优先选择 Web 应用程序项目的情况包括：</p>
+
+<ul>
+<li>需要在不停止调试会话的情况下能够编辑代码。</li>
+<li>需要对与 ASP.NET 页关联的类文件中的代码运行单元测试。</li>
+<li>需要从独立类中引用与页和用户控件关联的类。</li>
+<li>您希望在多个 Web 项目之间建立项目相关性。</li>
+<li>您希望编译器为整个站点创建单个程序集。</li>
+<li>您要控制为站点生成的程序集的名称和版本号。</li>
+<li>需要使用 MSBuild 或 Team Build 编译项目。 例如，您可能希望添加预先生成和后期生成步骤。</li>
+<li>需要避免将源代码放置在生产服务器上。</li>
+<li>需要使用 Visual Studio 2010 中提供的自动化部署工具。</li>
+</ul>
+
+
+<p>优先选择网站项目的情况包括：</p>
+
+<ul>
+<li>需要在单个 Web 项目中同时包含 C# 和 Visual Basic 代码。 （默认情况下，是根据项目文件中的语言设置编译 Web 应用程序的。 可以设置例外情况，但相对较难。）</li>
+<li>需要在 Visual Studio 中打开生产站点和使用 FTP 对其进行实时更新。</li>
+<li>不希望必须显式编译项目才能部署项目。
+*如果预编译站点，您希望编译器为站点创建多个程序集，可以是每个页面或用户控件一个程序集，也可以是每个文件夹一个或多个程序集。</li>
+<li>您希望能够通过仅将新版本复制到生产服务器，或通过在生产服务器上直接编辑文件来更新生产中的各个文件。
+*如果预编译站点，您希望能更新各 ASP.NET 网页（.aspx 文件），而无需重新编译整个网站。</li>
+<li>您希望在生产服务器上保留源代码，以便用作附加备份副本。</li>
+</ul>
+
+
+<h3>差异摘要</h3>
+
+<p>下表总结了主要差异</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f04ki6u05tj20nz0czq88.jpg" alt="img" /></p>
+
+<h3>项目文件结构</h3>
+
+<p>Web 应用程序项目使用 Visual Studio 项目文件（.csproj 或 .vbproj）来跟踪有关项目的信息。 除其他任务以外，这还使得指定项目中要包含或排除哪些文件，以及因此在生成期间编译哪些文件成为可能。
+对于网站项目，文件夹结构中的所有文件会被自动视为包含在网站中。 如果您希望从编译中排除某些文件，必须从网站项目文件夹中移除文件或将其文件扩展名更改为不由 IIS 编译和提供的扩展名。
+使用 Web 应用程序项目中的项目文件具有以下优点：</p>
+
+<ul>
+<li>易于暂时从站点移除文件，但仍确保不会失去对它们的跟踪，因为这些文件保留在文件夹结构中。 例如，如果页面没有为部署准备就绪，您可以暂时从生成中排除它，而无需从文件夹结构中将其删除。 您可以部署编译的程序集，然后再次将文件包括在项目中。 这在使用源代码管理储存库时尤为重要。</li>
+</ul>
+
+
+<p>在网站项目中使用无项目文件的文件夹结构具有以下优点：</p>
+
+<ul>
+<li>您不必专门在 Visual Studio 中管理项目的结构。 例如，您可以通过使用 Windows 资源管理器将文件复制到项目中或从项目中删除文件。</li>
+</ul>
+
+
+<h3>编译</h3>
+
+<p>对于 Web 应用程序项目，通常在 Visual Studio 中生成项目，或通过使用不是生产 IIS 服务器的计算机上的 ASP.NET 批处理编译器生成项目。 项目中的所有代码隐藏类文件和独立类文件都编译为一个程序集，然后将其放在 Web 应用程序项目的 Bin 文件夹中。 （.aspx 和 .ascx 文件以与网站项目类似的方式进行动态编译。）</p>
+
+<p>对于网站项目，您不必手动编译项目。 网站项目通常由 ASP.NET（在开发计算机和生产 IIS 服务器上）进行动态编译。 您可以在批处理编译模式（通常为每个文件夹生成一个程序集）和固定编译模式（通常为每个页面或用户控件生成一个程序集）之间选择。
+Web 应用程序项目的编译模型具有以下优点：</p>
+
+<ul>
+<li>您可以使用 MSBuild 来创建自定义批处理编译过程。</li>
+<li>指定程序集特性（如名称和版本）非常简单。</li>
+<li>事先编译可确保在生产服务器上编译站点期间用户无须等待。 （如果站点非常大，网站项目的动态编译可能需要花费大量时间。 动态编译在更新* 站点之后收到站点资源请求时发生，并且当编译所需资源时，触发编译的请求可能会被延迟。 如果延迟不可接受，则可以预编译站点。 但因此会失去动态编译的某些优点。）</li>
+<li>您可以完全控制项目文件夹结构中放置代码文件的位置，以及项目中的类互相引用的方式。 （动态编译要求在整个站点中使用的所有类的源代码必须位于 App_Code 文件夹中。 您不能从 App_Code 中的类引用页面或用户控件类。）</li>
+</ul>
+
+
+<p>网站项目的编译模型具有以下优点：</p>
+
+<ul>
+<li>您可以测试特定的页面，而不管其他页面的状态。 这是因为运行单个页面不需要成功编译整个站点，仅需编译该页面和该页面所依赖的任何组件，如 App_Code 文件夹或 Global.asax 文件中的代码。 （在 Web 应用程序项目中，如果站点中任何位置存在编译错误，则不能创建程序集，因此* 不能进行测试，甚至连测试所编译站点的部分内容也不行。)</li>
+<li>在生产中更新网站非常容易。 可以更新生产服务器上的各个源代码文件，而无需以显式方式重新编译站点。 即使由于编译错误其他文件未准备就绪，也可以更新各个为部署准备就绪的文件。 还可以直接在 Visual Studio 中打开生产 IIS 服务器上的网站，并实时更新该网站。</li>
+<li>在某些情况下，预编译为多个程序集具有性能优势。 一个典型示例是具有许多页面，并为这些页面编写了大量代码的站点。 其中大多数页面极少被请求，只有某些页面经常受到使用。 如果将这样的站点编译成多个程序集，生产服务器就可以仅加载当前请求所需的程序集。 如果未请求某个页面，则不会加载其对应的程序集。</li>
+</ul>
+
+
+<p><strong>注意</strong></p>
+
+<p>网站项目和 Web 应用程序项目之间没有性能差异。 唯一明显的例外就是那些已经指出的例外，在实际使用时，它们仅适用于非常大的站点。 对网站的第一个请求可能需要对站点进行编译，这可能会导致延迟。 如果网站运行在内存不足的 IIS 服务器上，则将整个站点包含在一个程序集中所使用的内存可能会超过将站点包含在多个程序集中所需的内存。</p>
+
+<h3>部署</h3>
+
+<p>若要部署 Web 应用程序项目，需将通过编译该项目创建的程序集复制到 IIS 服务器。 相反，若要部署网站项目，通常是将项目源文件复制到 IIS 服务器。</p>
+
+<p>Web 应用程序项目部署策略的优点包括：</p>
+
+<ul>
+<li>可以避免将源代码部署到 IIS 服务器。 在某些情况下，例如在共享承载环境中，您可能会关注对 IIS 服务器上源代码进行的未经授权的访问。 （对于网站项目，可能通过在开发计算机上进行预编译并部署所生成的程序集而不是源代码来避免此风险。 不过，在这种情况下，会失去轻松更新站点的某些好处。）</li>
+<li>除将程序集或代码复制到服务器之外，部署通常还涉及其他任务。 例如，数据库脚本可能必须在生产中运行，Web.config 文件中的连接字符串可能需要针对生产服务器进行更改。 Visual Studio 提供了一些处理 Web 应用程序项目以自动执行其中许多任务的工具，如一键式发布。 这些工具对于网站项目不可用。</li>
+</ul>
+
+
+<p>网站项目部署策略的优点包括：</p>
+
+<ul>
+<li>如果对 Web 应用程序进行少量更改，则不必重新部署整个应用程序。 而是可以只将更改过的文件复制到生产 IIS 服务器。 另外，还可在生产服务器上直接编辑文件。 （因为 Web 应用程序项目的代码文件将被编译成单个程序集文件，所以即使进行少量更改，也必须部署整个站点，除非更改只是针对 .aspx 或 .ascx 文件。）</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-21T14:30:40+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>2:30 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/21/vslian-jie-shu-ju-ku-yuan-chuang/" title="Previous Post: VS连接数据库(原创)">&laquo; VS连接数据库(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/21/visual-studio-2010kuai-su-guan-bi-wen-dang-chuang-kou-de-xiao-qiao-men/" title="Next Post: Visual Studio 2010快速关闭文档窗口的小窍门">Visual Studio 2010快速关闭文档窗口的小窍门 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

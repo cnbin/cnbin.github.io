@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>初识 iOS 崩溃日志 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="什么是崩溃日志，从哪里能得它? iOS设备上的应用闪退时，操作系统会生成一个崩溃报告，也叫崩溃日志，保存在设备上。 崩溃日志上有很多有用的信息，包括应用是什么情况下闪退的。通常，上面有每个正在执行线程的完整堆栈跟踪信息，所以你能从中了解到闪退发生时各线程都在做什么，并分辨出闪退发生在哪个线程上 &hellip;">
+  <meta name="keywords" content="崩溃日志">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/20/chu-shi-ios-beng-kui-ri-zhi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">初识 iOS 崩溃日志</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-20T08:41:15+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:41 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>什么是崩溃日志，从哪里能得它?</p>
+
+<p>iOS设备上的应用闪退时，操作系统会生成一个崩溃报告，也叫崩溃日志，保存在设备上。</p>
+
+<p>崩溃日志上有很多有用的信息，包括应用是什么情况下闪退的。通常，上面有每个正在执行线程的完整堆栈跟踪信息，所以你能从中了解到闪退发生时各线程都在做什么，并分辨出闪退发生在哪个线程上。</p>
+
+<p>有几种方法可以从设备上获取崩溃日志。</p>
+
+<p>设备与电脑上的iTunes Store同步后，会将崩溃日志保存在电脑上。根据电脑操作系统的不同，崩溃日志将保存在以下位置:</p>
+
+<pre><code>Mac OS X:~/Library/Logs/CrashReporter/MobileDevice/
+
+Windows XP: C:Documents and Settings&lt;USERNAME&gt;Application DataApple ComputerLogsCrashReporterMobileDevice&lt;DEVICE_NAME&gt;
+
+Windows Vista or 7:  C:Users&lt;USERNAME&gt;AppDataRoamingApple ComputerLogsCrashReporterMobileDevice&lt;DEVICE_NAME&gt;
+</code></pre>
+
+<p>当用户抱怨闪退时，你可以要求他让设备与iTunes同步，并根据操作系统的不同，到上述位置把崩溃日志下载下来，然后通过电子邮件发送给你。</p>
+
+<p>你必需尽量获取用户设备生成的所有崩溃日志。因为崩溃日志越多，就越容易诊断问题所在!</p>
+
+<p>如果设备就在身边，可以连接设备，打开Xcode - Window - Organizer，在左侧面板中选择Device Logs（可以选择具体设备的Device Logs或者Library下所有设备的Device Logs），然后根据时间排序查看设备上的crash日志。这是开发、测试阶段最经常采用的方式。</p>
+
+<p>如果应用程序已经提交到App Store发布，用户已经安装使用了，那么开发者可以通过iTunes Connect（Manage Your Applications - View Details - Crash Reports）获取用户的crash日志。不过这并不是100%有效的，而且大多数开发者并不依赖于此，因为这需要用户设备同意上传相关信息，详情可参见iOS: Providing Apple with diagnostics and usage information摘要。</p>
+
+<p>考虑到并不是所有iPhone用户都允许自动发送诊断报告（crash日志），而且对于部分提交到Apple得crash日志，开发者还需要手动去拉取，然后找到对应的符号文件进行解析——这是一件很繁琐的事情。所以实际项目开发中，通常接入现有的crash收集工具（参考1，参考2），或者自己编写一个进行自动化收集、解析和统计汇总。</p>
+
+<h3>如何解析crash日志</h3>
+
+<p>当获得一份crash日志时，我们需要将初始展示的十六进制地址等原始信息映射为源代码级别的方法名称和代码行数，使其对开发人员可读。这个过程称为符号化解析。要成功地符号化解析一份crash日志，我们需要有对应的应用程序二进制文件以及符号（.dSYM）文件。</p>
+
+<p>如果处于开发调试阶段，通常Xcode都能匹配到crash日志对应的二进制文件和符号文件，所以能够帮我们自动解析。</p>
+
+<p>如果处于测试阶段，测试人员已经安装了不同的版本（比如alpha、beta版本），那么需要保存好对应版本的二进制文件和符号文件，以便在应用程序崩溃时对crash日志进行解析。对于这种场景下产生的crash日志，只需要将.crash文件、.app文件和.dSYM文件三者放在同一个目录下，然后将.crash文件拖放到Xcode - Window - Organizer中左侧面板Library下的Device Logs中，即可进行解析。</p>
+
+<p>如果要提交发布，那么我们通常会先执行Clean，再Build，最后通过Product - Archive来打包。这样，Xcode会将二进制文件和符号文件归档在一起，可以通过Organizer中的Archives进行浏览。</p>
+
+<p>这里是一份关于如何解析crash日志的讨论：<a href="http://stackoverflow.com/questions/1460892/symbolicating-iphone-app-crash-reports">http://stackoverflow.com/questions/1460892/symbolicating-iphone-app-crash-reports</a> 。</p>
+
+<h3>如何分析crash日志</h3>
+
+<p>在分析一份crash日志之前，如果开发人员对于常见的错误类型有所了解，那定是极好的。
+crash日志的产生来源于两种问题：违反iOS策略被干掉，以及自身的代码bug。</p>
+
+<h4>1. iOS策略</h4>
+
+<h5>1.1 低内存闪退</h5>
+
+<p>前面提到大多数crash日志都包含着执行线程的栈调用信息，但是低内存闪退日志除外，这里就先看看低内存闪退日志是什么样的。
+我们使用Xcode 5和iOS 7的设备模拟一次低内存闪退，然后通过Organizer查看产生的crash日志，可以发现Process和Type都为Unknown：</p>
+
+<p>所以当遇到Watchdog日志时，可以检查下上图几个方法是否有比较重的阻塞UI的动作。</p>
+
+<p>QA1693举的例子是在主线程进行同步网络请求。如果我们是在公司的Wifi环境下使用则一切顺利，但当应用程序发布出去面向很大范围的用户，在各种网络环境下运行，则不可避免地会出现一片Watchdog超时报告。
+另一种可能出现问题的场景就是数据量比较大的情况下进行的数据库版本迁移（同样是在主线程上），这也是促使我写这篇总结的一个直接因素。</p>
+
+<h5>1.2 用户强制退出</h5>
+
+<p>一看到“用户强制退出”，首先可能想到的双击Home键，然后关闭应用程序。不过这种场景是不会产生crash日志的，因为双击Home键后，所有的应用程序都处于后台状态，而iOS随时都有可能关闭后台进程，所以这种场景没有crash日志。</p>
+
+<p>另一种场景是用户同时按住电源键和Home键，让iPhone重启。这种场景会产生日志（仅验证过一次），但并不针对特定应用程序。</p>
+
+<p>这里指的“用户强制退出”场景，是稍微比较复杂点的操作：先按住电源键，直到出现“滑动关机”的界面时，再按住Home键，这时候当前应用程序会被终止掉，并且产生一份相应事件的crash日志。</p>
+
+<p>通常，用户应该是遇到应用程序卡死，并且影响到了iOS响应，才会进行这样的操作——不过感觉这操作好高级，所以这样的crash日志应该比较少见。</p>
+
+<h3>2. 常见错误标识</h3>
+
+<h5>2.1 Exception codes</h5>
+
+<p>上面“用户强制退出”的crash日志中的Exception Codes是“0xdeadfa11”，再上面“Watchdog超时”的crash日志中的Exception Codes是“0x8badf00d”，这些都是特有的Exception codes。
+根据官方文档描述，至少有以下几种特定异常代码：</p>
+
+<ul>
+<li>0x8badf00d错误码：Watchdog超时，意为“ate bad food”。</li>
+<li>0xdeadfa11错误码：用户强制退出，意为“dead fall”。</li>
+<li>0xbaaaaaad错误码：用户按住Home键和音量键，获取当前内存状态，不代表崩溃。</li>
+</ul>
+
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.2cto.com/kf/201402/277315.html">http://www.2cto.com/kf/201402/277315.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-20T08:41:15+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:41 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/20/ios-app-sizes/" title="Previous Post: iOS APP Sizes">&laquo; iOS APP Sizes</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/20/xcodebeng-kui-ri-zhi-fen-xi-gong-ju-symbolicatecrashyong-fa/" title="Next Post: Xcode崩溃日志分析工具symbolicatecrash用法">Xcode崩溃日志分析工具symbolicatecrash用法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

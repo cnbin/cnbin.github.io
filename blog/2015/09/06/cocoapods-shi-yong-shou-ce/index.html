@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CocoaPods 使用手册 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="CocoaPods 使用手册 1.核心组件 1.1 CocoaPods / CocoaPod 这是面向用户的组件，每当你执行一个pod命令时，这个组件将被激活。它包括了所有实用CocoaPods的功能，并且还能调用其他gem包来执行任务。 1.2 CocoaPods / Core Core &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/06/cocoapods-shi-yong-shou-ce/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CocoaPods 使用手册</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-06T14:36:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:36 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>CocoaPods 使用手册</h2>
+
+<h3>1.核心组件</h3>
+
+<h4>1.1 CocoaPods / CocoaPod</h4>
+
+<p>这是面向用户的组件，每当你执行一个pod命令时，这个组件将被激活。它包括了所有实用CocoaPods的功能，并且还能调用其他gem包来执行任务。</p>
+
+<h4>1.2 CocoaPods / Core</h4>
+
+<p>Core gem提供了与CocoaPods相关的文件（主要是Podfile和podspecs）的处理。</p>
+
+<h4>1.2.1 Podfile</h4>
+
+<p>Podfile用于配置项目所需要的第三方库。它能被高度定制，所以你可以尽可能地给它添加你想要的特性。</p>
+
+<h4>1.2.2 Podspec</h4>
+
+<p>.podspec文件描述了一个库将怎样被添加进工程中。.podspec文件可以标识该第三方库所需要的源码文件、依赖库、编译选项，以及其他第三方库需要的配置。</p>
+
+<h4>1.3 CocoaPods / Xcodeproj</h4>
+
+<p>这个包负责工程文件直接关系的处理。它能创建以及修改.xcodeproj文件和.xcworkspace文件。它也可以作为一个独立的包使用，当你要编写修改项目文件的脚本时，可以考虑使用CocoaPods/Xcodeproj。</p>
+
+<h3>2.安装和更新</h3>
+
+<p>安装CocoaPods这个工具，需要用到gem(ruby的第三方库管理工具)。MacOS中默认支持gem,但是有时安装或更新cocoapods，需要更高版本的gem支持。</p>
+
+<p><code>[sudo] gem update –system</code>，升级gem。</p>
+
+<p>chmod 775 usr/local，修改usr/local的访问权限，使[sudo] gem install cocoapods有权限安装。</p>
+
+<h3>3.Pod Commands</h3>
+
+<p>1.查看pod所有命令：<code>pod help</code></p>
+
+<p>2.查看具体命令用法： <code>pod &lt;command&gt; —help</code>, 例如：pod try —help</p>
+
+<p>3.安装和配置第三方库: pod install. 如果想看到具体细节，pod install &ndash;verbose.一个很不错的link： <a href="http://blog.jobbole.com/53365/">http://blog.jobbole.com/53365/</a></p>
+
+<p>4.检测并更新新版本库：pod update。可以通过pod outdated查看Pods中已过期的第三方开源库。<code>pod install &amp; pod update</code>区别: 例如：Podfile中，pod ‘SVProgressHUD’，而未指定此开源库版本。pod install,如果SVProgressHUD已存在Pods中,则直接使用它。但是，pod update,会重新下载最新版本到Pods中。</p>
+
+<p>5.产生<code>~/.cocoapods/repos</code>: pod setup. Cocoapods目录中保持了它支持的所有第三方开源库信息. 更新，<code>sudo rm -fr ~/.cocoapods/repos/master</code>, 再pod setup。也可以使用git进行更新。</p>
+
+<p>6.搜索第三方开源库: <code>pod search &lt;open source&gt;</code>, 在cocoapods这个目录中搜索。也可以在<a href="http://cocoapods.org">http://cocoapods.org</a>中搜索第三方库。</p>
+
+<h3>4.Podfile</h3>
+
+<p>具体可以查看: <a href="http://guides.cocoapods.org/syntax/podfile.html">http://guides.cocoapods.org/syntax/podfile.html</a></p>
+
+<p>1.pod ‘objection’’version’;</p>
+
+<p>例如，pod ‘MCDateExtensions’,不指定版本，在pod update时会获取最新的版本；pod ‘MCDateExtensions’’~>1.0.0’，获取的版本信息是[1.0.0, 1.1.0). ~>是参照ruby的语法的，~>x.y.z, 的意思是版本号 x,y 固定，但可以大于等于 z。通常版本号的命名有其惯例：x major 版本号升级表示有 API 发生不向后的兼容性变动，y minor 版本号升级表示有功能新增，z tiny 版本号升级表示 bugs 修正。因此 “~> x.y.z” 可以让我們保有升级弹性，又不致于升級太多让程序发生不兼容错误;</p>
+
+<p>2.从本地pod files， pod &lsquo;AFNetworking&rsquo;, :path => &lsquo;~/Documents/AFNetworking'此目录下一定要有.podspec文档</p>
+
+<p>3.从git server端pod files</p>
+
+<pre><code>To use the master branch of the repo:
+
+pod 'AFNetworking', :git =&gt; 'https://github.com/gowalla/AFNetworking.git', :branch =&gt; ‘develop’
+
+Or specify a commit:
+
+
+pod 'AFNetworking', :git =&gt; 'https://github.com/gowalla/AFNetworking.git', :commit =&gt; '082f8319af'
+</code></pre>
+
+<p>4.pod &lsquo;ShareKit/Facebook&rsquo; 支持子模块的导入。</p>
+
+<p>5.Pod install依次做了什么？</p>
+
+<p>步骤：</p>
+
+<p><a href="http://blog.jobbole.com/53365/">http://blog.jobbole.com/53365/</a></p>
+
+<p>6.较优的git仓库管理</p>
+
+<p>将Podfile &amp; Podfile.lock &amp; workspace放到git仓库中管理</p>
+
+<p>原因：</p>
+
+<p>Podfile.lock, 保证每个team成员使用的第三方库是同一个版本的</p>
+
+<p>Workspace, 如果由CocoaPods生成，则没有必要。如果workspace是自己创建的，就需要。</p>
+
+<p>7.注释</p>
+
+<pre><code>单行注释： #
+
+多行注释:
+
+    =begin    
+
+codes to comment 
+
+   =end
+</code></pre>
+
+<h2>5..podspec Syntax</h2>
+
+<p>1.pod spec create ‘name’产生一个name.podspec文件，可仔细阅读此文件，熟悉.podspec语法；</p>
+
+<p>2.pod spec lint ‘name’.podspec 用来build .podspec文件是否有错。</p>
+
+<h2>6.支持第三方开发者将JPMSDK pod到自己的工程，如何做？</h2>
+
+<p>解决以下几个问题：</p>
+
+<p>1.在工程中创建一个.podspec文件,并让其编译通过；</p>
+
+<p>编译.podspec文件使用命令，pod spec lint name. 官方文档: 这份文档:<a href="http://guides.cocoapods.org/making/making-a-cocoapod.html">http://guides.cocoapods.org/making/making-a-cocoapod.html</a></p>
+
+<p>2.将自定义的.podspec纳入Cocoa Spec管理；</p>
+
+<p>1)需github上一个account,并fork cocoa spec；</p>
+
+<p>2)将更改push到fork cocoa spec responsity上;</p>
+
+<p>3)new pull request -> compare across forks;</p>
+
+<p>3.处理JPMSDK version update；重复2中的III.</p>
+
+<h2>7.制作支持安装第三方静态库podspec和podfile</h2>
+
+<p>1) 如何制作podspec文件参照OpenSSL:</p>
+
+<p>   <a href="https://github.com/krzyzanowskim/OpenSSL">https://github.com/krzyzanowskim/OpenSSL</a></p>
+
+<p>此时需要配置Library search path, 则需要在你的工程的target中做如下操作：</p>
+
+<pre><code>Building Setting-&gt;Other linker,双击加$(inherited)
+</code></pre>
+
+<p>2) 如果写Podfile以支持从本地导入OpenSSL：</p>
+
+<p>例如：<code>pod 'OpenSSL', :path =&gt; '../OpenSSL'</code>（此为OpenSSL在本地的路径），从网上下载的包中，有一个快捷的OpenSSL.podspec文件和OpenSSL-Universal.podspec文件。删除快捷方式打开的OpenSSL.podspec文件，将OpenSSL-Universal.podspec文件重命名为OpenSSL.podspec，并将此文件中s.name = &ldquo;OpenSSL-Universal"修改成s.name = "OpenSSL"。</p>
+
+<p>虽然，从理论上可以用<code>pod ‘OpenSSL’, :podspec =&gt; '../OpenSSL /OpenSSL-Universal.podspec'</code>方式指定，但是实际操作却不成功，不知道为什么。</p>
+
+<h2>8.制作支持subspec的podspec 文件</h2>
+
+<p>参照例子ShareKit :</p>
+
+<p><a href="https://github.com/ShareKit">https://github.com/ShareKit</a></p>
+
+<h2>9.对CocoaPods文档查看的支持</h2>
+
+<p>link: <a href="http://cocoadocs.org">http://cocoadocs.org</a></p>
+
+<p>如何将自己写的代码产生apple 风格的文档：</p>
+
+<pre><code>安装Alcatraz和VVDocumenter-Xcode这两个xcode插件,
+安装 Alcatraz，link: &lt;http://alcatraz.io&gt;
+
+可以在此路径下找到：~/Library/Application Support/Developer/Shared/Xcode/Plug-ins. Relaunch Xcode and type in /// above any code you want to write a document to.
+
+Download the link: https://github.com/tomaz/appledoc, 安装appledoc.
+或者brew(unix tool)安装。安装方法：cd到appledoc的下载路径；sudo sh install-appledoc.sh; sudo sh install-appledoc.sh -b /usr/bin -t ~/Library/Application\ Support/appledoc.
+
+可以在终端上输入appledoc —help查看它的用法。Simple Example:  appledoc ./NoticeBandSDK  --project-name NoticeBandSDK --project-company "mophie-inc" --company-id com.mophie-inc.SDKDoc --output ./,会在当前目录产生一个txt,告诉你文档所在路径。Xcode中所有文档路径： ~/Library/Developer/Shared/Documentation/DocSets
+</code></pre>
+
+<h3>10.清理pod install配置后的工程</h3>
+
+<p>文件清理</p>
+
+<pre><code>删除Podfile.lock,workspace,Pods目录
+</code></pre>
+
+<p>工程配置清理</p>
+
+<pre><code>1.打开要清理的工程，选择Build Phases, delete Manifest.lock &amp; Copy pods Resources &amp; Run script。
+
+2.Framework&amp;Header search path清理
+</code></pre>
+
+<p>清理工程添加文件</p>
+
+<pre><code>选择工程，到Link Binary With Libraries，删除libPods.a和类似于libPods***.a的动态库
+</code></pre>
+
+<h3>11.CocoaPods实用网站</h3>
+
+<ul>
+<li>官网：<a href="http://cocoapods.org">http://cocoapods.org</a></li>
+<li>查cocoapods文档 <a href="http://cocoadocs.org">http://cocoadocs.org</a></li>
+<li>Stackoverflow主页： <a href="http://stackoverflow.com/search?q=CocoaPods">http://stackoverflow.com/search?q=CocoaPods</a></li>
+<li>github主页 <a href="https://github.com/CocoaPods">https://github.com/CocoaPods</a></li>
+</ul>
+
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://www.cnblogs.com/ouyangfang/p/4173544.html">http://www.cnblogs.com/ouyangfang/p/4173544.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-06T14:36:51+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:36 pm</span></time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/06/alamofire/" title="Previous Post: Alamofire">&laquo; Alamofire</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/06/xmppframework-yong-hu-deng-lu/" title="Next Post: XMPPFramework 用户登录">XMPPFramework 用户登录 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

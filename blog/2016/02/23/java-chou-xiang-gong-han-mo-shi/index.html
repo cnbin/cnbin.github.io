@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JAVA-抽象工厂模式 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="抽象工厂模式（Abstract Factory Pattern）是围绕一个超级工厂创建其他工厂。该超级工厂又称为其他工厂的工厂。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。 在抽象工厂模式中，接口是负责创建一个相关对象的工厂，不需要显式指定它们的类。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/23/java-chou-xiang-gong-han-mo-shi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JAVA-抽象工厂模式</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-23T11:49:49+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>11:49 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>抽象工厂模式（Abstract Factory Pattern）是围绕一个超级工厂创建其他工厂。该超级工厂又称为其他工厂的工厂。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。</p>
+
+<p>在抽象工厂模式中，接口是负责创建一个相关对象的工厂，不需要显式指定它们的类。每个生成的工厂都能按照工厂模式提供对象。</p>
+
+<h3>介绍</h3>
+
+<ul>
+<li>意图：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。</li>
+<li>主要解决：主要解决接口选择的问题。</li>
+<li>何时使用：系统的产品有多于一个的产品族，而系统只消费其中某一族的产品。</li>
+<li>如何解决：在一个产品族里面，定义多个产品。</li>
+<li>关键代码：在一个工厂里聚合多个同类产品。</li>
+<li>应用实例：工作了，为了参加一些聚会，肯定有两套或多套衣服吧，比如说有商务装（成套，一系列具体产品）、时尚装（成套，一系列具体产品），甚至对于一个家庭来说，可能有商务女装、商务男装、时尚女装、时尚男装，这些也都是成套的，即一系列具体产品。假设一种情况（现实中是不存在的，要不然，没法进入共产主义了，但有利于说明抽象工厂模式），在您的家中，某一个衣柜（具体工厂）只能存放某一种这样的衣服（成套，一系列具体产品），每次拿这种成套的衣服时也自然要从这个衣柜中取出了。用 OO 的思想去理解，所有的衣柜（具体工厂）都是衣柜类的（抽象工厂）某一个，而每一件成套的衣服又包括具体的上衣（某一具体产品），裤子（某一具体产品），这些具体的上衣其实也都是上衣（抽象产品），具体的裤子也都是裤子（另一个抽象产品）。</li>
+<li>优点：当一个产品族中的多个对象被设计成一起工作时，它能保证客户端始终只使用同一个产品族中的对象。</li>
+<li>缺点：产品族扩展非常困难，要增加一个系列的某一产品，既要在抽象的 Creator 里加代码，又要在具体的里面加代码。</li>
+<li>使用场景： 1、QQ 换皮肤，一整套一起换。 2、生成不同操作系统的程序。</li>
+<li>注意事项：产品族难扩展，产品等级易扩展。</li>
+</ul>
+
+
+<h3>实现</h3>
+
+<p>我们将创建 Shape 和 Color 接口和实现这些接口的实体类。下一步是创建抽象工厂类 AbstractFactory。接着定义工厂类 ShapeFactory 和 ColorFactory，这两个工厂类都是扩展了 AbstractFactory。然后创建一个工厂创造器/生成器类 FactoryProducer。
+AbstractFactoryPatternDemo，我们的演示类使用 FactoryProducer 来获取 AbstractFactory 对象。它将向 AbstractFactory 传递形状信息 Shape（CIRCLE / RECTANGLE / SQUARE），以便获取它所需对象的类型。同时它还向 AbstractFactory 传递颜色信息 Color（RED / GREEN / BLUE），以便获取它所需对象的类型。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f194nkbd9rj20fk0c574y.jpg" alt="img" /></p>
+
+<h4>步骤 1</h4>
+
+<p>为形状创建一个接口。</p>
+
+<pre><code>Shape.java
+public interface Shape {
+   void draw();
+}
+</code></pre>
+
+<h4>步骤 2</h4>
+
+<p>创建实现接口的实体类。</p>
+
+<pre><code>Rectangle.java
+public class Rectangle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Rectangle::draw() method.");
+   }
+}
+Square.java
+public class Square implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Square::draw() method.");
+   }
+}
+Circle.java
+public class Circle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Inside Circle::draw() method.");
+   }
+}
+</code></pre>
+
+<h4>步骤 3</h4>
+
+<p>为颜色创建一个接口。</p>
+
+<pre><code>Color.java
+public interface Color {
+   void fill();
+}
+</code></pre>
+
+<h4>步骤4</h4>
+
+<p>创建实现接口的实体类。</p>
+
+<pre><code>Red.java
+public class Red implements Color {
+
+   @Override
+   public void fill() {
+      System.out.println("Inside Red::fill() method.");
+   }
+}
+Green.java
+public class Green implements Color {
+
+   @Override
+   public void fill() {
+      System.out.println("Inside Green::fill() method.");
+   }
+}
+Blue.java
+public class Blue implements Color {
+
+   @Override
+   public void fill() {
+      System.out.println("Inside Blue::fill() method.");
+   }
+}
+</code></pre>
+
+<h4>步骤 5</h4>
+
+<p>为 Color 和 Shape 对象创建抽象类来获取工厂。</p>
+
+<pre><code>AbstractFactory.java
+public abstract class AbstractFactory {
+   abstract Color getColor(String color);
+   abstract Shape getShape(String shape) ;
+}
+</code></pre>
+
+<h4>步骤 6</h4>
+
+<p>创建扩展了 AbstractFactory 的工厂类，基于给定的信息生成实体类的对象。</p>
+
+<pre><code>ShapeFactory.java
+public class ShapeFactory extends AbstractFactory {
+
+   @Override
+   public Shape getShape(String shapeType){
+      if(shapeType == null){
+         return null;
+      }     
+      if(shapeType.equalsIgnoreCase("CIRCLE")){
+         return new Circle();
+      } else if(shapeType.equalsIgnoreCase("RECTANGLE")){
+         return new Rectangle();
+      } else if(shapeType.equalsIgnoreCase("SQUARE")){
+         return new Square();
+      }
+      return null;
+   }
+
+   @Override
+   Color getColor(String color) {
+      return null;
+   }
+}
+ColorFactory.java
+public class ColorFactory extends AbstractFactory {
+
+   @Override
+   public Shape getShape(String shapeType){
+      return null;
+   }
+
+   @Override
+   Color getColor(String color) {
+      if(color == null){
+         return null;
+      }     
+      if(color.equalsIgnoreCase("RED")){
+         return new Red();
+      } else if(color.equalsIgnoreCase("GREEN")){
+         return new Green();
+      } else if(color.equalsIgnoreCase("BLUE")){
+         return new Blue();
+      }
+      return null;
+   }
+}
+</code></pre>
+
+<h4>步骤 7</h4>
+
+<p>创建一个工厂创造器/生成器类，通过传递形状或颜色信息来获取工厂。</p>
+
+<pre><code>FactoryProducer.java
+public class FactoryProducer {
+   public static AbstractFactory getFactory(String choice){
+      if(choice.equalsIgnoreCase("SHAPE")){
+         return new ShapeFactory();
+      } else if(choice.equalsIgnoreCase("COLOR")){
+         return new ColorFactory();
+      }
+      return null;
+   }
+}
+</code></pre>
+
+<h4>步骤 8</h4>
+
+<p>使用 FactoryProducer 来获取 AbstractFactory，通过传递类型信息来获取实体类的对象。</p>
+
+<pre><code>AbstractFactoryPatternDemo.java
+public class AbstractFactoryPatternDemo {
+   public static void main(String[] args) {
+
+      //获取形状工厂
+      AbstractFactory shapeFactory = FactoryProducer.getFactory("SHAPE");
+
+      //获取形状为 Circle 的对象
+      Shape shape1 = shapeFactory.getShape("CIRCLE");
+
+      //调用 Circle 的 draw 方法
+      shape1.draw();
+
+      //获取形状为 Rectangle 的对象
+      Shape shape2 = shapeFactory.getShape("RECTANGLE");
+
+      //调用 Rectangle 的 draw 方法
+      shape2.draw();
+
+      //获取形状为 Square 的对象
+      Shape shape3 = shapeFactory.getShape("SQUARE");
+
+      //调用 Square 的 draw 方法
+      shape3.draw();
+
+      //获取颜色工厂
+      AbstractFactory colorFactory = FactoryProducer.getFactory("COLOR");
+
+      //获取颜色为 Red 的对象
+      Color color1 = colorFactory.getColor("RED");
+
+      //调用 Red 的 fill 方法
+      color1.fill();
+
+      //获取颜色为 Green 的对象
+      Color color2 = colorFactory.getColor("Green");
+
+      //调用 Green 的 fill 方法
+      color2.fill();
+
+      //获取颜色为 Blue 的对象
+      Color color3 = colorFactory.getColor("BLUE");
+
+      //调用 Blue 的 fill 方法
+      color3.fill();
+   }
+}
+</code></pre>
+
+<h4>步骤 9</h4>
+
+<p>验证输出。</p>
+
+<pre><code>Inside Circle::draw() method.
+Inside Rectangle::draw() method.
+Inside Square::draw() method.
+Inside Red::fill() method.
+Inside Green::fill() method.
+Inside Blue::fill() method.
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-23T11:49:49+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2016</span></span> <span class='time'>11:49 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/23/java-gong-han-mo-shi/" title="Previous Post: JAVA-工厂模式">&laquo; JAVA-工厂模式</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/23/javazhong-equalsignorecasezen-yao-yong/" title="Next Post: java中equalsignorecase怎么用?">java中equalsignorecase怎么用? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Janky Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="This is Janky, a continuous integration server built on top of
+[Jenkins][], controlled by [Hubot][], and designed for [GitHub][]. Built on top of &hellip;">
+  <meta name="keywords" content="janky">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/09/janky-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Janky Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-09T08:36:15+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:36 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>This is Janky, a continuous integration server built on top of
+[Jenkins][], controlled by [Hubot][], and designed for [GitHub][].</p>
+
+<ul>
+<li><p><strong>Built on top of Jenkins.</strong> The power, vast amount of plugins and large
+community of the popular CI server all wrapped up in a great experience.</p></li>
+<li><p><strong>Controlled by Hubot.</strong> Day to day operations are exposed as simple
+Hubot commands that the whole team can use.</p></li>
+<li><p><strong>Designed for GitHub.</strong> Janky creates the appropriate [web hooks][w] for
+you and the web app restricts access to members of your GitHub organization.</p></li>
+<li><p>GitHub: <a href="https://github.com">https://github.com</a></p></li>
+<li>Hubot: <a href="http://hubot.github.com">http://hubot.github.com</a></li>
+<li>Jenkins: <a href="http://jenkins-ci.org">http://jenkins-ci.org</a></li>
+<li>w: <a href="http://developer.github.com/v3/repos/hooks/">http://developer.github.com/v3/repos/hooks/</a>
+Hubot usage</li>
+</ul>
+
+
+<hr />
+
+<p>Start by setting up a new Jenkins job and GitHub web hook for a
+repository:</p>
+
+<pre><code>hubot ci setup github/janky
+</code></pre>
+
+<p>The <code>setup</code> command can safely be run over and over again. It won&rsquo;t do
+anything unless it needs to. It takes an optional name argument:</p>
+
+<pre><code>hubot ci setup github/janky janky-ruby1.9.2
+</code></pre>
+
+<p>It also takes an optional template name argument:</p>
+
+<pre><code>hubot ci setup github/janky janky-ruby1.9.2 ruby-build
+</code></pre>
+
+<p>All branches are built automatically on push. Disable auto build with:</p>
+
+<pre><code>hubot ci toggle janky
+</code></pre>
+
+<p>Run the command again to re-enable it. Force a build of the master
+branch:</p>
+
+<pre><code>hubot ci build janky
+</code></pre>
+
+<p>Of a specific branch:</p>
+
+<pre><code>hubot ci build janky/libgit2
+</code></pre>
+
+<p>Different builds aren&rsquo;t relevant to the same chat room and so Janky
+lets you choose where notifications are sent to. First get a list of
+available rooms:</p>
+
+<pre><code>hubot ci rooms
+</code></pre>
+
+<p>Then pick one:</p>
+
+<pre><code>hubot ci set room janky The Serious Room
+</code></pre>
+
+<p>Get the status of a build:</p>
+
+<pre><code>hubot ci status janky
+</code></pre>
+
+<p>Specific branch:</p>
+
+<pre><code>hubot ci status janky/libgit2
+</code></pre>
+
+<p>All builds:</p>
+
+<pre><code>hubot ci status
+</code></pre>
+
+<p>Finally, get a quick reference of the available commands with:</p>
+
+<pre><code>hubot ci?
+</code></pre>
+
+<h2>Installing</h2>
+
+<h3>Jenkins</h3>
+
+<p>Janky requires access to a Jenkins server. Version <strong>1.580</strong> is
+recommended. Refer to the Jenkins <a href="https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins">documentation</a> for installation
+instructions and install the <a href="https://wiki.jenkins-ci.org/display/JENKINS/Notification+Plugin">Notification Plugin</a> version 1.4.</p>
+
+<p>Remember to set the Jenkins URL in <code>http://your-jenkins-server.com/configure</code>.
+Janky will still trigger builds but will not update the build status without this set.</p>
+
+<h3>Deploying</h3>
+
+<p>Janky is designed to be deployed to <a href="https://heroku.com">Heroku</a>.</p>
+
+<p>Grab all the necessary files from <a href="https://gist.github.com/1497335">the gist</a>:</p>
+
+<pre><code>$ git clone git://gist.github.com/1497335 janky
+</code></pre>
+
+<p>Then push it up to a new Heroku app:</p>
+
+<pre><code>$ cd janky
+$ heroku create --stack cedar
+$ bundle install
+$ git add Gemfile.lock
+$ git commit Gemfile.lock -m "lock bundle"
+$ git push heroku master
+</code></pre>
+
+<p>After configuring the app (see below), create the database:</p>
+
+<pre><code>$ heroku run rake db:migrate
+</code></pre>
+
+<p><strong>NOTE:</strong> Ruby version 2.0.0+ is required to run Janky.</p>
+
+<h2>Upgrading</h2>
+
+<p>We <strong>strongly recommend</strong> backing up your Janky database before upgrading.</p>
+
+<p>The general process is to then upgrade the gem, and then run migrate.  Here is how
+you do that on a local box you have access to (this process will differ for Heroku):</p>
+
+<pre><code>cd [PATH-TO-JANKY]
+gem update janky
+rake db:migrate
+</code></pre>
+
+<h2>Configuring</h2>
+
+<p>Janky is configured using environment variables. Use the <code>heroku config</code>
+command:</p>
+
+<pre><code>$ heroku config:add VARIABLE=value
+</code></pre>
+
+<p>Required settings:</p>
+
+<ul>
+<li><code>JANKY_BASE_URL</code>: The application URL <strong>with</strong> a trailing slash. Example:
+<code>http://mf-doom-42.herokuapp.com/</code>.</li>
+<li><code>JANKY_BUILDER_DEFAULT</code>: The Jenkins server URL <strong>with</strong> a trailing slash.
+ Example: <code>http://jenkins.example.com/</code>. For basic auth, include the
+ credentials in the URL: <code>http://user:pass@jenkins.example.com/</code>.
+ Using GitHub OAuth with Jenkins is not supported by Janky.</li>
+<li><code>JANKY_CONFIG_DIR</code>: Directory where build config templates are stored.
+Typically set to <code>/app/config</code> on Heroku.</li>
+<li><code>JANKY_HUBOT_USER</code>: Login used to protect the Hubot API.</li>
+<li><code>JANKY_HUBOT_PASSWORD</code>: Password for the Hubot API.</li>
+<li><code>JANKY_GITHUB_USER</code>: The login of the GitHub user used to access the
+API. Requires Administrative privileges to set up service hooks.</li>
+<li><code>JANKY_GITHUB_PASSWORD</code>: The password for the GitHub user.</li>
+<li><code>JANKY_GITHUB_HOOK_SECRET</code>: Secret used to sign hook requests from
+GitHub.</li>
+<li><code>JANKY_CHAT_DEFAULT_ROOM</code>: Chat room where notifications are sent by default.</li>
+</ul>
+
+
+<p>Optional database settings:</p>
+
+<ul>
+<li><code>DATABASE_URL</code>: Database connection URL. Example:
+<code>postgres://user:password@host:port/db_name</code>.</li>
+<li><code>JANKY_DATABASE_SOCKET</code>: Path to the database socket. Example:
+<code>/var/run/mysql5/mysqld.sock</code>.</li>
+</ul>
+
+
+<h3>GitHub Enterprise</h3>
+
+<p>Using Janky with <a href="https://enterprise.github.com">GitHub Enterprise</a> requires one extra setting:</p>
+
+<ul>
+<li><code>JANKY_GITHUB_API_URL</code>: Full API URL of the instance, <em>with</em> a trailing
+slash. Example: <code>https://github.example.com/api/v3/</code>.</li>
+</ul>
+
+
+<h3>GitHub Status API</h3>
+
+<p><a href="https://github.com/blog/1227-commit-status-api">https://github.com/blog/1227-commit-status-api</a></p>
+
+<p>To update pull requests with the build status generate an OAuth token
+via the GitHub API:</p>
+
+<pre><code>curl -u username:password \
+  -d '{ "scopes": [ "repo:status" ], "note": "janky" }' \
+  https://api.github.com/authorizations
+</code></pre>
+
+<p>then set <code>JANKY_GITHUB_STATUS_TOKEN</code>.  Optionally, you can also set
+<code>JANKY_GITHUB_STATUS_CONTEXT</code> to send a context to the GitHub API by
+default</p>
+
+<p><code>username</code> and <code>password</code> in the above example should be the same as the
+values provided for <code>JANKY_GITHUB_USER</code> and <code>JANKY_GITHUB_PASSWORD</code>
+respectively.</p>
+
+<h3>Chat notifications</h3>
+
+<h4>Campfire</h4>
+
+<p>Janky notifies <a href="http://campfirenow.com/">Campfire</a> chat rooms by default. Required settings:</p>
+
+<ul>
+<li><code>JANKY_CHAT_CAMPFIRE_ACCOUNT</code>: account name.</li>
+<li><code>JANKY_CHAT_CAMPFIRE_TOKEN</code>: authentication token for the user sending
+build notifications.</li>
+</ul>
+
+
+<h4>HipChat</h4>
+
+<p>Required settings:</p>
+
+<ul>
+<li><code>JANKY_CHAT=hipchat</code></li>
+<li><code>JANKY_CHAT_HIPCHAT_TOKEN</code>: authentication token (This token needs to be an
+admin token, not a notification token.)</li>
+<li><code>JANKY_CHAT_HIPCHAT_FROM</code>: name that messages will appear be sent from.
+Defaults to <code>CI</code>.</li>
+<li><code>JANKY_HUBOT_USER</code> should be XMPP/Jabber username in format xxxxx_xxxxxx
+rather than email</li>
+<li><code>JANKY_CHAT_DEFAULT_ROOM</code> should be the name of the room instead of the
+XMPP format, for example: <code>Engineers</code> instead of xxxx_xxxxxx.</li>
+</ul>
+
+
+<p>Installation:</p>
+
+<ul>
+<li>Add <code>require "janky/chat_service/hipchat"</code> to the <code>config/environment.rb</code>
+file <strong>before</strong> the <code>Janky.setup(ENV)</code> line.</li>
+<li><code>echo 'gem "hipchat", "~&gt;0.4"' &gt;&gt; Gemfile</code></li>
+<li><code>bundle</code></li>
+<li><code>git commit -am "install hipchat"</code></li>
+</ul>
+
+
+<h4>Slack</h4>
+
+<p>Required settings:</p>
+
+<ul>
+<li><code>JANKY_CHAT=slack</code></li>
+<li><code>JANKY_CHAT_SLACK_TEAM</code>: slack team name</li>
+<li><code>JANKY_CHAT_SLACK_TOKEN</code>: authentication token for the user sending build notifications.</li>
+<li><code>JANKY_CHAT_SLACK_USERNAME</code>: name that messages will appear be sent from.
+Defaults to <code>CI</code>.</li>
+<li><code>JANKY_CHAT_SLACK_ICON_URL</code>: URL to an image to use as the icon for this message.</li>
+</ul>
+
+
+<p>Installation:</p>
+
+<ul>
+<li>Add <code>require "janky/chat_service/slack"</code> to the <code>config/environment.rb</code>
+file <strong>before</strong> the <code>Janky.setup(ENV)</code> line.</li>
+<li><code>echo 'gem "slack.rb"' &gt;&gt; Gemfile</code></li>
+<li><code>bundle</code></li>
+<li><code>git commit -am "install slack"</code></li>
+</ul>
+
+
+<h4>Hubot</h4>
+
+<p>Sends notifications to Hubot via <a href="http://git.io/hubot-janky">janky script</a>.</p>
+
+<p>Required settings:</p>
+
+<ul>
+<li><code>JANKY_CHAT=hubot</code></li>
+<li><code>JANKY_CHAT_HUBOT_URL</code>: URL to your Hubot instance.</li>
+<li><code>JANKY_CHAT_HUBOT_ROOMS</code>: List of rooms which can be set via <code>ci set room</code>.
+
+<ul>
+<li>For IRC: Comma-separated list of channels <code>"#room, #another-room"</code></li>
+<li>For Campfire/HipChat: List with room id and name <code>"34343:room, 23223:another-room"</code></li>
+<li>For Slack: List with room names <code>"room, another-room"</code></li>
+</ul>
+</li>
+</ul>
+
+
+<p>Installation:
+* Add <code>require "janky/chat_service/hubot"</code> to the <code>config/environment.rb</code>
+  file <strong>before</strong> the <code>Janky.setup(ENV)</code> line.</p>
+
+<h3>Authentication</h3>
+
+<p>To restrict access to members of a GitHub organization, <a href="https://github.com/settings/applications">register a new
+OAuth application on GitHub</a>
+with the callback set to <code>$JANKY_BASE_URL/auth/github/callback</code> then set
+a few extra settings:</p>
+
+<ul>
+<li><code>JANKY_SESSION_SECRET</code>: Random session cookie secret. Typically
+generated by a tool like <code>pwgen</code>.</li>
+<li><code>JANKY_AUTH_CLIENT_ID</code>: The client ID of the OAuth application.</li>
+<li><code>JANKY_AUTH_CLIENT_SECRET</code>: The client secret of the OAuth application.</li>
+<li><code>JANKY_AUTH_ORGANIZATION</code>: The organization name. Example: &ldquo;github&rdquo;.</li>
+<li><code>JANKY_AUTH_TEAM_ID</code>: An optional team ID to give auth to. Example: &ldquo;1234&rdquo;.</li>
+</ul>
+
+
+<h3>Hubot</h3>
+
+<p>Install the <a href="http://git.io/hubot-janky">janky script</a> in your Hubot
+then set the <code>HUBOT_JANKY_URL</code> environment variable. Example:
+<code>http://user:password@janky.example.com/_hubot/</code>, with user and password
+replaced by <code>JANKY_HUBOT_USER</code> and <code>JANKY_HUBOT_PASSWORD</code> respectively.</p>
+
+<h3>Custom build configuration</h3>
+
+<p>The default build command should suffice for most Ruby applications:</p>
+
+<pre><code>$ bundle install --path vendor/gems --binstubs
+$ bundle exec rake
+</code></pre>
+
+<p>For more control you can add a <code>script/cibuild</code> at the root of your
+repository for Jenkins to execute instead.</p>
+
+<p>For total control, whole Jenkins' <code>config.xml</code> files can be associated
+with Janky builds. Given a build called <code>windows</code> and a template name
+of <code>psake</code>, Janky will try <code>config/jobs/psake.xml.erb</code> to use a template,
+<code>config/jobs/windows.xml.erb</code> to try the job name if the template does
+not exit,  before finally falling back to the default
+configuration, <code>config/jobs/default.xml.erb</code>. After updating or adding
+a custom config, run <code>hubot ci setup</code> again to update the Jenkins
+server.</p>
+
+<h2>Hacking</h2>
+
+<p>Get your environment up and running:</p>
+
+<pre><code>script/bootstrap
+</code></pre>
+
+<p>Create the databases:</p>
+
+<pre><code>mysqladmin -uroot create janky_development
+mysqladmin -uroot create janky_test
+</code></pre>
+
+<p>Create the tables:</p>
+
+<pre><code>RACK_ENV=development bin/rake db:migrate
+RACK_ENV=test bin/rake db:migrate
+</code></pre>
+
+<p>Seed some data into the development database:</p>
+
+<pre><code>bin/rake db:seed
+</code></pre>
+
+<p>Start the server:</p>
+
+<pre><code>script/server
+</code></pre>
+
+<p>Open the app:</p>
+
+<pre><code>open http://localhost:9393/
+</code></pre>
+
+<p>Run the test suite:</p>
+
+<pre><code>script/test
+</code></pre>
+
+<h2>Contributing</h2>
+
+<p>Fork the <a href="https://github.com/github/janky">Janky repository on GitHub</a> and
+send a Pull Request.  Note that any changes to behavior without tests will
+be rejected.  If you are adding significant new features, please add both
+tests and documentation.</p>
+
+<h2>Maintainers</h2>
+
+<ul>
+<li><a href="https://github.com/mattr-">@mattr-</a></li>
+</ul>
+
+
+<h2>Copying</h2>
+
+<p>Copyright © 2011-2014, GitHub, Inc. See the <code>COPYING</code> file for license
+rights and limitations (MIT).</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-09T08:36:15+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:36 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/09/restful-api-she-ji-zhi-nan/" title="Previous Post: RESTful API 设计指南">&laquo; RESTful API 设计指南</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/09/nanoc/" title="Next Post: nanoc">nanoc &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

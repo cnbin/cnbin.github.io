@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>10+年程序员总结的20+条经验教训 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="开发 1.从小事做起，然后再扩展 无论是创建一个新的系统，还是添加功能到现有的系统中，我总是从一个简单到几乎没有任何所需功能的版本启动，然后再一步一步地解决问题，直到满意为止。我从来没有妄想过能够一步登天。相反，我一边开发一边学习，同时新掌握的信息还可以用于解决方案中。 我很喜欢 John &hellip;">
+  <meta name="keywords" content="programmer">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/26/10-plus-nian-cheng-xu-yuan-zong-jie-de-20-plus-tiao-jing-yan-jiao-xun/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">10+年程序员总结的20+条经验教训</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-26T15:20:54+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:20 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>开发</h3>
+
+<h4>1.从小事做起，然后再扩展</h4>
+
+<p>无论是创建一个新的系统，还是添加功能到现有的系统中，我总是从一个简单到几乎没有任何所需功能的版本启动，然后再一步一步地解决问题，直到满意为止。我从来没有妄想过能够一步登天。相反，我一边开发一边学习，同时新掌握的信息还可以用于解决方案中。</p>
+
+<p>我很喜欢 John Gall 的这句话：“复杂系统总是源于简单系统的演化。”</p>
+
+<h4>2.一次只改变一件事</h4>
+
+<p>当我们在开发时，碰到测试失败和功能无效的情况，如果你一次只研究一个问题，那将会更容易找到问题的关键。换言之，就是使用短迭代。必须确保这个问题解决之后，再转移到另一个问题上。这适用于向下提交。如果在你添加新功能之前需要先重构代码，那么先提交重构，然后再添加新的功能。</p>
+
+<h4>3.尽早地添加日志记录和错误处理</h4>
+
+<p>在开发新系统时，我做的第一件事就是添加日志和错误处理，因为这两者从一开始就非常有用。如果系统不能照常工作，那么你就需要知道程序中发生了什么——这是日志的作用。错误处理也是如此——错误和异常越早处理越好。</p>
+
+<h4>4.每一行新代码必须至少执行一次</h4>
+
+<p>在你真正完成一个功能之前，你必须对它进行测试。不然，你怎么知道它是不是按照你的想法在执行呢？通常情况下，最好的方法是通过自动测试，但并非总是如此。不过，不管怎么说，每一行新代码必须至少执行一次。</p>
+
+<h4>5.在整体测试之前先进行模块测试</h4>
+
+<p>先进行部分模块测试可以节省时间。通常说来，我们在整合不同的模块时也会出现问题，例如模块之间的接口不匹配。但是如果我们能够信任各个组件的话，那么跟踪集成问题就会变得简单得多。</p>
+
+<h4>6.所有事情所花费的时间总是比你预期的要长</h4>
+
+<p>特别是在编程中，即使一切进展顺利，我们也很难对功能所需的时间做出正确的预算。并且，开发软件时碰到各种意想不到的问题是非常常见的。</p>
+
+<p>侯世达定律其实道出了真谛：做事所花费的时间总是比你预期的要长，即使你在预期中已经考虑了侯世达定律。</p>
+
+<h4>7.先了解现有的代码</h4>
+
+<p>大多数的编码都需要以某种方式改变现有的代码。即使是新功能，也需要适应现有的程序。所以，在你加进去新的内容前，首先需要了解当前的解决方案。否则，你一不小心就很有可能会打破现有的功能。这意味着，阅读代码和编写代码都是必要的技能。这也是为什么看似微小的变化仍可能需要很长时间才能解决的原因之一——你首先必须了解上下文。</p>
+
+<h4>8.阅读和运行</h4>
+
+<p>幸运的是，对于理解代码，我们有两种互补的方法。你可以阅读代码，也可以运行代码。运行代码的确是个非常棒的好方法。所以，请确保充分利用这两种方法。</p>
+
+<h3>故障排除</h3>
+
+<h4>9.bug总是难免的</h4>
+
+<p>我不喜欢那些宣称软件开发可以“一蹴而就”的高谈阔论。不论你再怎么费尽心机，bug总是难免的。最好能够做成可以快速故障排除、修复bug和部署修复的系统。</p>
+
+<h4>10.解决故障报告</h4>
+
+<p>每个开发人员都应该花时间去处理来自客户的故障报告，并修复bug。这能让你更好地理解客户的意图，明白如何使用系统，知道排除故障的难易程度，了解系统的设计情况。这也是为自己的开发成果负责的好方法。</p>
+
+<h4>11.重现问题</h4>
+
+<p>修复bug的第一步就是重现问题。然后你得确保修复之后，问题能够彻彻底底地消失。这样一个简单的规则可以确保你不会误将非问题当作是问题，并确保解决方案真的能够奏效。</p>
+
+<h4>12.修复已知错误，然后再看看有没有遗漏的地方</h4>
+
+<p>有时候，可能同时存在着几个不同的问题。它们之间的互相作用，可能会让你毫无头绪，束手无策。不要纠结于搞清楚发生了什么，先去解决所有已知的问题，然后再看看还有什么不对的地方。</p>
+
+<h4>13.没有巧合</h4>
+
+<p>在测试和故障排除时，不要相信会出现什么巧合。就像你改变了定时器的值，那么就会改变系统重启的频率。所以一切都并非是巧合。添加新功能，另一个不相干的功能变慢了？这绝对不是巧合。相反，是你应该仔细调查的内容。</p>
+
+<h4>14.关联时间戳</h4>
+
+<p>在故障排除时，事件的时间戳可以作为你的好帮手。寻找偶数增量。例如，如果系统重启了，并且刚刚发出过一个3000毫秒左右的请求，那么可能是触发了某个定时器，才导致出现重启的动作。</p>
+
+<h3>团队合作</h3>
+
+<h4>15.面对面的交流最有效</h4>
+
+<p>当我们需要讨论如何解决问题时，那么面对面的交流比视频、打电话和电子邮件都要好。</p>
+
+<h4>16.橡皮鸭法</h4>
+
+<p>遇到你绞尽脑汁也解决不了的问题时，不妨找一个同事，然后将问题解释给他们听。很多时候，当你在叙述时，即使你的同事一言不发，你可能也会突然灵光乍现找到问题的关键。</p>
+
+<h4>17.问问题</h4>
+
+<p>阅读和运行代码往往非常有助于指出代码的目的和它的工作原理。但是如果你有机会咨询那些更为了解的人（例如原来的程序员），那么千万不要错过。</p>
+
+<h4>18.共享荣誉</h4>
+
+<p>不要贪图荣誉，该是谁的就是谁的。例如：“Marcus想出了这个主意……”（如果真是他想的话），而不要说“我们想出的……”。</p>
+
+<p>其他</p>
+
+<h4>19.尝试</h4>
+
+<p>如果你不知道某种编程语言功能的工作原理，那么不妨写一个小程序来理解它是如何工作的。这同样适用于测试你正在开发的系统。如果我将参数设置为-1，会发生什么？当我在重启系统时，如果服务当掉，会发生什么？以此来研究它的工作原理。</p>
+
+<h4>20.带着问题睡觉</h4>
+
+<p>如果你正在解决一个很难的问题，那么不妨带着问题睡觉。有科学研究表明，这样做虽然你表明上并没有在主动思考，但你的潜意思却这么做了。其结果就是，第二天再去研究问题，解决方案已经呼之欲出了。</p>
+
+<h4>21.跳槽</h4>
+
+<p>不要害怕跳槽。和不同的人共事，开发不同的产品，感受不同的公司文化是非常有意思的。</p>
+
+<h4>22.不断学习</h4>
+
+<p>我们需要不断地学习和了解软件开发。你可以尝试不同的编程语言和工具，阅读软件开发的书籍，接受MOOC课程。相信我，量变才能达到质的飞跃，这些小小的学习积累，终有一天会大大地提高你的知识和能力。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-26T15:20:54+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:20 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/26/linux-ac-ming-ling/" title="Previous Post: Linux - ac 命令(原创)">&laquo; Linux - ac 命令(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/26/ji-you-xmpp-de-ios-liao-tian-ke-hu-duan-cheng-xu/" title="Next Post: 基于 XMPP 的 iOS 聊天客户端程序(原创)">基于 XMPP 的 iOS 聊天客户端程序(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

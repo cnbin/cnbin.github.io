@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Presentation - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Looking for the easiest way of presenting something in your iOS app? Then you are in the right place. Presentation will help you make your tutorials &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/27/presentation/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Presentation</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-27T13:59:36+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="https://raw.githubusercontent.com/hyperoslo/Presentation/master/Images/logo.png" alt="Presentation logo" /></p>
+
+<p><a href="https://travis-ci.org/hyperoslo/Presentation"><img src="http://img.shields.io/travis/hyperoslo/Presentation.svg?style=flat" alt="CI Status" /></a>
+<a href="http://cocoadocs.org/docsets/Presentation"><img src="https://img.shields.io/cocoapods/v/Presentation.svg?style=flat" alt="Version" /></a>
+<a href="http://cocoadocs.org/docsets/Presentation"><img src="https://img.shields.io/cocoapods/l/Presentation.svg?style=flat" alt="License" /></a>
+<a href="http://cocoadocs.org/docsets/Presentation"><img src="https://img.shields.io/cocoapods/p/Presentation.svg?style=flat" alt="Platform" /></a></p>
+
+<p>Looking for the easiest way of presenting something in your iOS app? Then you are in the right place. <strong>Presentation</strong> will help you make your tutorials, release notes and any kind of animated pages with the minimum amount of effort.</p>
+
+<p><em>Presentation</em> includes the following features:</p>
+
+<ul>
+<li>Custom positioning: You can use <a href="https://github.com/hyperoslo/Presentation/blob/master/Source/Position.swift">Position</a> for percentage-based position declaration.</li>
+<li><a href="https://github.com/hyperoslo/Presentation/blob/master/Source/Content.swift">Content</a>: View model used for custom positioning and animations. It translates your percents to AutoLayout constraints behind the scenes.</li>
+<li>Slides: You can use any kind of <code>UIViewController</code> as a slide. <a href="https://github.com/hyperoslo/Presentation/blob/master/Source/SlideController.swift">SlideController</a> is your good friend if you want to use custom positioning and animation features on your pages.</li>
+<li>Background: You can add views that are visible across all the pages. Also it&rsquo;s possible to animate those views during the transition to the specific page.</li>
+<li><a href="https://github.com/hyperoslo/Presentation/tree/master/Source/Animations">Animations</a>: You can easily animate the appearance of a view on the specific page.</li>
+</ul>
+
+
+<p>Presentation works both on the iPhone and the iPad. You can use it with both <code>Swift</code> and <code>Objective-C</code>.</p>
+
+<p>Try one of our <a href="https://github.com/hyperoslo/Presentation/tree/master/Demos">demos</a> to see how it works:</p>
+
+<pre><code>pod try Presentation
+</code></pre>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hyperoslo/Presentation/master/Example/Parallax/Images/Parallax-v2.gif"/>
+</p>
+
+
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="#usage">Usage</a>
+
+<ul>
+<li><a href="#presentation-controller">Presentation controller</a></li>
+<li><a href="#position">Position</a></li>
+<li><a href="#content-view-model">Content view model</a></li>
+<li><a href="#slides">Slides</a></li>
+<li><a href="#page-animations">Page animations</a></li>
+<li><a href="#background-views">Background views</a></li>
+</ul>
+</li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#components">Components</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#credits">Credits</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+
+
+<h2>Usage</h2>
+
+<h3>Presentation controller</h3>
+
+<pre><code>import Presentation
+
+let viewController1 = UIViewController()
+viewController1.title = "Controller A"
+
+let viewController2 = UIViewController()
+viewController2.title = "Controller B"
+
+let presentationController = PresentationController(pages: [viewController1, viewController2])
+</code></pre>
+
+<p>If that&rsquo;s the only thing you need, look into <a href="https://github.com/hyperoslo/Pages">Pages</a>.</p>
+
+<h3>Position</h3>
+
+<p><code>Position</code> is percentage-based; you can use <code>left</code>, <code>right</code>, <code>top</code>, <code>bottom</code> to set a position.</p>
+
+<pre><code>let position = Position(left: 0.3, top: 0.4)
+</code></pre>
+
+<h3>Content view model</h3>
+
+<p><code>Content</code> view model is a layer between <code>UIView</code> and <code>Position</code>. The current position is the center of a view by default, but can also be changed to the origin of a view.</p>
+
+<pre><code>let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+let position = Position(left: 0.3, top: 0.4)
+
+let centeredContent = Content(view: label, position: position)
+let originContent = Content(view: label, position: position, centered: false)
+</code></pre>
+
+<h3>Slides</h3>
+
+<pre><code>let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+label.text = "Slide 1"
+
+let position = Position(left: 0.3, top: 0.4)
+let content = Content(view: label, position: position)
+
+let controller = SlideController(contents: [content])
+
+presentationController.add([controller])
+</code></pre>
+
+<h3>Page animations</h3>
+
+<pre><code>let contents = ["Slide 1", "Slide 2", "Slide 3"].map { title -&gt; Content in
+  let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
+  label.text = title
+
+  let position = Position(left: 0.3, top: 0.4)
+
+  return Content(view: label, position: position)
+}
+
+var slides = [SlideController]()
+
+for index in 0...4 {
+  let content = contents[index]
+  let controller = SlideController(contents: [content])
+  let animation = TransitionAnimation(
+    content: content,
+    destination: Position(left: 0.5, top: content.initialPosition.top),
+    duration: 2.0,
+    dumping: 0.8,
+    reflective: true)
+  controller.addAnimations([animation])
+
+  slides.append(controller)
+}
+
+presentationController.add(slides)
+</code></pre>
+
+<h3>Background views</h3>
+
+<pre><code>let imageView = UIImageView(image: UIImage(named: "image"))
+let content = Content(view: imageView, position: Position(left: -0.3, top: 0.2))
+
+presentationController.addToBackground([content])
+
+// Add pages animations
+presentationController.addAnimations([
+  TransitionAnimation(content: content, destination: Position(left: 0.2, top: 0.2))],
+  forPage: 0)
+
+presentationController.addAnimations([
+  TransitionAnimation(content: content, destination: Position(left: 0.3, top: 0.2))],
+  forPage: 1)
+</code></pre>
+
+<h2>Installation</h2>
+
+<p><strong>Presentation</strong> is available through <a href="http://cocoapods.org">CocoaPods</a>. To install
+it, simply add the following line to your Podfile:</p>
+
+<pre><code>pod 'Presentation'
+</code></pre>
+
+<h2>Components</h2>
+
+<p><strong>Presentation</strong> wouldn’t be possible without the help of these components:</p>
+
+<ul>
+<li><p><a href="https://github.com/hyperoslo/Pages"><strong>Pages</strong></a>: The easiest way of setting up a <code>UIPageViewController</code></p></li>
+<li><p><a href="https://github.com/robb/Cartography"><strong>Cartography</strong></a>: Helps you set up your Auto Layout constraints declaratively and without any stringly typing!</p></li>
+</ul>
+
+
+<h2>Contributing</h2>
+
+<p>Please see our <a href="https://github.com/hyperoslo/playbook/blob/master/GIT_AND_GITHUB.md">playbook</a> for guidelines on contributing.</p>
+
+<h2>Credits</h2>
+
+<p><a href="http://hyper.no">Hyper</a> made this. We’re a digital communications agency with a passion for good code and delightful user experiences. If you’re using this library we probably want to <a href="https://github.com/hyperoslo/iOS-playbook/blob/master/HYPER_RECIPES.md">hire you</a> (we consider remote employees, too; the only requirement is that you’re awesome).</p>
+
+<h2>License</h2>
+
+<p>Presentation is available under the MIT license. See the <a href="https://github.com/hyperoslo/Presentation/blob/master/LICENSE.md">LICENSE</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-27T13:59:36+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:59 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/27/extkit/" title="Previous Post: ExtKit">&laquo; ExtKit</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/27/cannot-install-cocoa-pods-after-uninstalling/" title="Next Post: Cannot install cocoa pods after uninstalling">Cannot install cocoa pods after uninstalling &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

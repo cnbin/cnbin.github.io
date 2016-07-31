@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>关于HttpUtility.UrlEncode，HttpUtility.UrlDecode，Server.UrlEncode，Server.UrlDecode - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="HttpUtility.UrlEncode 方法: 对 URL 字符串进行编码，以便实现从 Web 服务器到客户端的可靠的 HTTP 传输。 重载列表 将字节数组转换为已编码的 URL 字符串，以便实现从 Web 服务器到客户端的可靠的 HTTP 传输。 [C#] public static &hellip;">
+  <meta name="keywords" content="encode,urldecode">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/14/guan-yu-httputility-dot-urlencode,httputility-dot-urldecode,server-dot-urlencode,server-dot-urldecode/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">关于HttpUtility.UrlEncode，HttpUtility.UrlDecode，Server.UrlEncode，Server.UrlDecode</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-14T09:48:47+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:48 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>HttpUtility.UrlEncode 方法:</h2>
+
+<p>对 URL 字符串进行编码，以便实现从 Web 服务器到客户端的可靠的 HTTP 传输。</p>
+
+<h3>重载列表</h3>
+
+<p>将字节数组转换为已编码的 URL 字符串，以便实现从 Web 服务器到客户端的可靠的 HTTP 传输。</p>
+
+<pre><code>[C#] public static string UrlEncode(byte[]);
+</code></pre>
+
+<p>对 URL 字符串进行编码，以便实现从 Web 服务器到客户端的可靠的 HTTP 传输。</p>
+
+<pre><code>[C#] public static string UrlEncode(string);
+</code></pre>
+
+<p>使用指定的编码对象对 URL 字符串进行编码，以便实现从 Web 服务器到客户端的可靠 HTTP 传输。</p>
+
+<pre><code>[C#] public static string UrlEncode(string, Encoding);
+</code></pre>
+
+<p>从数组中的指定位置开始一直到指定的字节数为止，将字节数组转换为 URL 编码的字符串，以便实现从 Web 服务器到客户端的可靠的 HTTP 传输。</p>
+
+<pre><code>[C#] public static string UrlEncode(byte[], int, int);
+</code></pre>
+
+<h2>HttpUtility.UrlDecode 方法：</h2>
+
+<p>将已经为在 URL 中传输而编码的字符串转换为解码的字符串。</p>
+
+<h3>重载列表</h3>
+
+<p>将已经为在 URL 中传输而编码的字符串转换为解码的字符串。</p>
+
+<pre><code>[C#] public static string UrlDecode(string);
+</code></pre>
+
+<p>使用指定的解码对象将 URL 编码的字节数组转换为已解码的字符串。</p>
+
+<pre><code>[C#] public static string UrlDecode(byte[], Encoding);
+</code></pre>
+
+<p>使用指定的编码对象将 URL 编码的字符串转换为已解码的字符串。</p>
+
+<pre><code>[C#] public static string UrlDecode(string, Encoding);
+</code></pre>
+
+<p>使用指定的编码对象，从数组中的指定位置开始到指定的字节数为止，将 URL 编码的字节数组转换为已解码的字符串。</p>
+
+<pre><code>[C#] public static string UrlDecode(byte[], int, int, Encoding);
+</code></pre>
+
+<p>Server是HttpServerUtility类的实例，是System.Web.UI.Page的属性。</p>
+
+<p>HttpServerUtility.UrlEncode 方法：</p>
+
+<p>编码字符串，以便通过 URL 从 Web 服务器到客户端进行可靠的 HTTP 传输。</p>
+
+<h3>重载列表</h3>
+
+<p>对字符串进行 URL 编码，并返回已编码的字符串。</p>
+
+<pre><code>[C#] public string UrlEncode(string);
+</code></pre>
+
+<p>URL 对字符串进行编码，并将结果输出发送到 TextWriter 输出流。</p>
+
+<pre><code>[C#] public void UrlEncode(string, TextWriter);
+</code></pre>
+
+<p>例：</p>
+
+<pre><code>String TestString = "This is a &lt;Test String&gt;.";
+StringWriter writer = new StringWriter();
+Server.UrlEncode(TestString, writer);
+String EncodedString = writer.ToString();
+</code></pre>
+
+<p>HttpServerUtility.UrlDecode 方法：
+对字符串进行解码，该字符串为了进行 HTTP 传输而进行编码并在 URL 中发送到服务器。</p>
+
+<p>重载列表
+对字符串进行 URL 解码并返回已解码的字符串。</p>
+
+<pre><code>[C#] public string UrlDecode(string);
+</code></pre>
+
+<p>对在 URL 中接收的 HTML 字符串进行解码，并将结果输出发送到 TextWriter 输出流。</p>
+
+<pre><code>[C#] public void UrlDecode(string, TextWriter);
+</code></pre>
+
+<p>需要注意的几点：</p>
+
+<ol>
+<li>HttpUtility.UrlEncode，HttpUtility.UrlDecode是静态方法，而Server.UrlEncode，Server.UrlDecode是实例方法。</li>
+<li>Server是HttpServerUtility类的实例，是System.Web.UI.Page的属性。</li>
+<li>用HttpUtility.UrlEncode编码后的字符串和用Server.UrlEncode进行编码后的字符串对象不一样:</li>
+</ol>
+
+
+<p>例如：</p>
+
+<pre><code>string url="http://search.99read.com/index.aspx?book_search=all&amp;main_str=奥迷尔";
+Response.Write(HttpUtility.UrlEncode(url));
+Response.Write("&lt;br&gt;");
+Response.Write(Server.UrlEncode(url));  
+</code></pre>
+
+<p>输出结果是：</p>
+
+<pre><code>http%3a%2f%2fsearch.99read.com%2findex.aspx%3fbook_search%3dall%26main_str%3d%e5%a5%a5%e8%bf%b7%e5%b0%94
+http%3a%2f%2fsearch.99read.com%2findex.aspx%3fbook_search%3dall%26main_str%3d%b0%c2%c3%d4%b6%fb
+</code></pre>
+
+<p>原因：Server.UrlEncode的编码方式是按照本地程序设置的编码方式进行编码的，而HttpUtility.UrlEncode是默认的按照.net的utf-8格式进行编码的。</p>
+
+<p>如果改一下程序：</p>
+
+<pre><code>string url1="http://search.99read.com/index.aspx?book_search=all&amp;main_str=奥迷尔";
+Response.Write(HttpUtility.UrlEncode(url1,System.Text.Encoding.GetEncoding("GB2312")));
+Response.Write("&lt;br&gt;");
+Response.Write(Server.UrlEncode(url1));
+</code></pre>
+
+<p>输出的结果是：</p>
+
+<pre><code>http%3a%2f%2fsearch.99read.com%2findex.aspx%3fbook_search%3dall%26main_str%3d%b0%c2%c3%d4%b6%fb
+http%3a%2f%2fsearch.99read.com%2findex.aspx%3fbook_search%3dall%26main_str%3d%b0%c2%c3%d4%b6%fb
+</code></pre>
+
+<p>4、有时候可能别的系统传递过来的url是用别的编码方式编码的。</p>
+
+<p>介绍自己编写的一个方法，可以获取指定编码格式的QueryString。</p>
+
+<pre><code>public string GetNonNullQueryString(string key,Encoding encoding)
+{
+   //引用System.Collections.Specialized和System.Text命名空间
+   string stringValue;
+   System.Collections.Specialized.NameValueCollection encodingQueryString;
+   //该方法是在2.0中新增的
+   encodingQueryString = HttpUtility.ParseQueryString(Request.Url.Query,encoding);
+   //'里面的key就是你提交的参数的Key
+   return encodingQueryString[key] != null ? encodingQueryString[key].Trim() : ""; 
+}
+</code></pre>
+
+<p>调用：</p>
+
+<pre><code>string url = GetNonNullQueryString("url",Encoding.UTF8).Trim();
+</code></pre>
+
+<p>在对URL进行编码时，该用哪一个？这两都使用上有什么区别吗？</p>
+
+<p>测试：</p>
+
+<pre><code>string file="文件上（传）篇.doc";
+string Server_UrlEncode=Server.UrlEncode(file);
+string Server_UrlDecode=Server.UrlDecode(Server_UrlEncode);
+string HttpUtility_UrlEncode=System.Web.HttpUtility.UrlEncode(file);
+string HttpUtility_UrlDecode=System.Web.HttpUtility.UrlDecode(HttpUtility_UrlEncode);
+Response.Write("原数据："+file);
+SFun.WriteLine("Server.UrlEncode："+Server_UrlEncode);
+SFun.WriteLine("Server.UrlDecode："+Server_UrlDecode);
+SFun.WriteLine("HttpUtility.UrlEncode："+HttpUtility_UrlEncode);
+SFun.WriteLine("HttpUtility.UrlDecode："+HttpUtility_UrlDecode);
+</code></pre>
+
+<p>输出：</p>
+
+<pre><code>原数据：文件上（传）篇.doc 
+
+Server.UrlEncode：%ce%c4%bc%fe%c9%cf%a3%a8%b4%ab%a3%a9%c6%aa.doc
+Server.UrlDecode：文件上（传）篇.doc
+HttpUtility.UrlEncode：%e6%96%87%e4%bb%b6%e4%b8%8a%ef%bc%88%e4%bc%a0%ef%bc%89%e7%af%87.doc
+HttpUtility.UrlDecode：文件上（传）篇.doc
+</code></pre>
+
+<p>区别在于：HttpUtility.UrlEncode()默认是以UTF8对URL进行编码，而Server.UrlEncode()则以默认的编码对URL进行编码。</p>
+
+<p>在用 ASP.Net 开发页面的时候, 我们常常通过 System.Web.HttpUtility.UrlEncode 和 UrlDecode 在页面间通过 URL 传递参数. 成对的使用 Encode 和 Decode 是没有问题的.</p>
+
+<p>但是, 我们在编写文件下载的页面的时候, 常常用如下方法来指定下载的文件的名称:</p>
+
+<pre><code>Response.AddHeader("Content-Disposition","attachment; filename="
++ HttpUtility.UrlEncode(fileName, Encoding.UTF8));
+</code></pre>
+
+<p>之所以转换成 UTF8 是为了支持中文文件名.</p>
+
+<p>这 时候问题就来了, 因为 HttpUtility.UrlEncode 在 Encode 的时候, 将空格转换成加号(&lsquo;+&rsquo;), 在 Decode 的时候将加号转为空格, 但是浏览器是不能理解加号为空格的, 所以如果文件名包含了空格, 在浏览器下载得到的文件, 空格就变成了加号.</p>
+
+<p>一个解决办法是, 在 HttpUtility 的 UrlEncode 之后, 将 &ldquo;+&rdquo; 替换成 &ldquo;%20&rdquo;( 如果原来是 &ldquo;+&rdquo; 则被转换成 &ldquo;%2b&rdquo; ) , 如:</p>
+
+<pre><code>fileName = HttpUtility.UrlEncode(fileName, Encoding.UTF8); 
+fileName = fileName.Replace("+", "%20"); 
+</code></pre>
+
+<p>不明白微软为什么要把空格转换成加号而不是"%20". 记得 JDK 的 UrlEncoder 是将空格转换成 &ldquo;%20"的.
+经检查, 在 .Net 2.0 也是这样.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-14T09:48:47+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:48 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/14/request-dot-querystring/" title="Previous Post: Request.QueryString,Request.Form,Request.Params的区别">&laquo; Request.QueryString,Request.Form,Request.Params的区别</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/14/response-dot-redirect/" title="Next Post: Response.Redirect">Response.Redirect &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

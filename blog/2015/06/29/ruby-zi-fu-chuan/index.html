@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby - 字符串(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="字符串 (String) 前面的实验其实已经使用过 String 类，这里我们将更详细地讨论更多的用法。 这样一个简单的程序： #!/usr/bin/ruby str = 'hello ruby'
+puts str 1. 转义字符 我们想要它的内容中有更多丰富的东西，不可避免会使用到 转义字符 &hellip;">
+  <meta name="keywords" content="ruby,string">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/29/ruby-zi-fu-chuan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ruby - 字符串(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-29T11:06:10+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:06 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>字符串 (String)</h2>
+
+<p>前面的实验其实已经使用过 String 类，这里我们将更详细地讨论更多的用法。</p>
+
+<p>这样一个简单的程序：</p>
+
+<pre><code>#!/usr/bin/ruby
+
+str = 'hello ruby'
+puts str
+</code></pre>
+
+<h3>1. 转义字符</h3>
+
+<p>我们想要它的内容中有更多丰富的东西，不可避免会使用到 转义字符 。Ruby 中的转义字符和其它很多语言类似，以下是一些常见的：</p>
+
+<pre><code>符号  描述
+\a  报警符
+\b  退格
+\f  换页符
+\n  换行符
+\r  回车符
+\s  空格符
+\t  制表符
+\v  垂直制表符符
+</code></pre>
+
+<p>注意以下情况：</p>
+
+<pre><code>#!/usr/bin/ruby
+
+str1 = 'hello \n str1'
+puts str1
+
+str2 = "hello \n str2"
+puts str2
+</code></pre>
+
+<p>执行结果将会是：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etksbni9hnj208301vmx5.jpg" alt="img" /></p>
+
+<p>这是因为双引号括起来的字符串内，转义字符会被解释； 而单引号括起来的字符串内，转义字符会被保留为普通字符。</p>
+
+<h3>2. String 类的内置方法</h3>
+
+<p>和其它很多编程语言一样，Ruby 中对 String 类有很多内置的方法。下面举例说明。</p>
+
+<pre><code>#!/usr/bin/ruby
+
+str1 = "I love Ruby"
+str2 = str1.reverse     # 倒序
+str3 = str1.delete("y") # 删除字符“y”
+str4 = str1.sub("love","hate")  # 替换
+
+puts str2
+puts str3
+puts str4
+</code></pre>
+
+<p> 运行：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etksf533t1j209n01w3yj.jpg" alt="img" /></p>
+
+<p><a href="http://ruby-doc.com/docs/ProgrammingRuby/html/ref_c_string.html">点击这里查看 String 类的更多内置方法</a></p>
+
+<h2>数组 (Array)</h2>
+
+<p>Ruby 中的数组从 0 开始编号，这与其它很多语言一样。数组中可以存储 String, Integer, Float 等类型的元素，甚至也可以是另一个数组。</p>
+
+<p>数组有多种创建方式，比如：</p>
+
+<pre><code>shuzu_1 = Array.new     # 创建一个数组
+shuzu_2 = Array.new(10) # 创建一个有 10 个元素的数组
+shuzu_3 = Array.new(4,"test") # 4 个元素，每个元素都是 'test'
+shuzu_4 = Array[1,2,3,4]  # 4 个元素的数组，给每个元素赋值
+</code></pre>
+
+<p>数组类也有很多内置的方法，这里也举例说明：</p>
+
+<pre><code>shuzu_1 = Array['a','b','c','d','e']
+shuzu_2 = Array['c','d','f','g','e']
+
+shuzu_3 = shuzu_1 &amp; shuzu_2  # 两个数组的交集
+shuzu_4 = shuzu_1 + shuzu_2  # 两数组连接
+shuzu_5 = shuzu_1 | shuzu_2  # 两数组合并，去除重复
+shuzu_6 = shuzu_1 - shuzu_2  # 两数组相减
+shuzu_1.delete_at(3)         # 去除第 3 个元素
+shuzu_7 = shuzu_1.insert(3,'d') # 在第 3 位置插入元素 'd'
+shuzu_8 = shuzu_2.sort       # 对数组中的元素排序
+</code></pre>
+
+<h2>Hash</h2>
+
+<p>Hash 与 数组 十分相似，不过 Hash 保存的是 键值对 （key-value）的组合，键和值可以是 String, Integer, Float, Array, Hash 各种类型。</p>
+
+<p>与数组很像，我们有各种方式创建 Hash：</p>
+
+<pre><code>hs = Hash.new     # 创建一个 Hash
+hs_2 = Hash.new("month") # 创建一个默认值是 "month" 的 Hash
+hs_3 = Hash["ja"=&gt;"January", "fe"=&gt;"February"] # 第1对：key=ja, value=January；第2对：key=fe, value=February
+</code></pre>
+
+<p>Hash 也有各种内置方法，比如：</p>
+
+<pre><code>hs = Hash["t"=&gt;"Tom", "m"=&gt;"Mary", "r"=&gt;"Rose", "k"=&gt;"King"] 
+
+hs.["t"]         # 使用键 "t" 从 Hash 引用值
+hs.["t"]="Tony"  # 将键 "t" 对应的值改为 "Tony"
+hs.delete("m")   # 删除键 "m" 对应的键值对
+hs.index("Rose") # 查找值 "Rose" 对应的键
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-29T11:06:10+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>29</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:06 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/29/ruby-module/" title="Previous Post: Ruby - module(原创)">&laquo; Ruby - module(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/29/zai-rhel-slash-centos-zhong-shi-yong-tmpfs/" title="Next Post: 在 RHEL/CentOS 中使用 tmpfs">在 RHEL/CentOS 中使用 tmpfs &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

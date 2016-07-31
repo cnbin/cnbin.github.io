@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PhoneNumberKit - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="PhoneNumberKit Swift framework for parsing, formatting and validating international phone numbers.
+Inspired by Google&rsquo;s libphonenumber. : &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/26/phonenumberkit/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">PhoneNumberKit</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-26T17:01:17+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:01 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="https://cloud.githubusercontent.com/assets/889949/10723260/5225c86c-7bb9-11e5-883c-9b42aa50ea27.png" alt="PhoneNumberKit" /></p>
+
+<p><a href="https://travis-ci.org/marmelroy/PhoneNumberKit"><img src="https://travis-ci.org/marmelroy/PhoneNumberKit.svg?branch=master" alt="Build Status" /></a> <a href="http://cocoapods.org/?q=PhoneNumberKit"><img src="http://img.shields.io/cocoapods/v/PhoneNumberKit.svg" alt="Version" /></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a></p>
+
+<h1>PhoneNumberKit</h1>
+
+<p>Swift framework for parsing, formatting and validating international phone numbers.
+Inspired by Google&rsquo;s libphonenumber.</p>
+
+<h3>:construction: PhoneNumberKit is currently alpha software :construction:</h3>
+
+<p> | Objective
+&mdash; | &mdash;
+:white_check_mark: | Match Google&rsquo;s libphonenumber accuracy by passing tests against all example numbers
+:white_check_mark: | Faster performance. 1000 parses -> ~0.3 seconds.
+:white_check_mark: | Better formatter. Match Google&rsquo;s libphonenumber.
+:x: | AsYouType formatter for UITextField.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>Quickly validate, normalize and extract the elements of any phone number string.</li>
+<li>Special function to quickly parse a large array of raw phone numbers.</li>
+<li>Automatically grab the default region code from the phone&rsquo;s SIM (or if unavailable, the device&rsquo;s region). You can override this if you need to.</li>
+<li>Convert country codes to country names and vice versa.</li>
+<li>Simple Swift 2.0 syntax and readable codebase.</li>
+<li>PhoneNumberKit uses the best-in-class metadata and basic approach from Google&rsquo;s libphonenumber project. By not being a direct port, PhoneNumberKit can focus on a smaller feature-set that&rsquo;s cleaner, faster and more readable.</li>
+</ul>
+
+
+<h2>Usage</h2>
+
+<p>Import PhoneNumberKit at the top of the Swift file that will interact with a phone number.</p>
+
+<pre><code>import PhoneNumberKit
+</code></pre>
+
+<p>To parse and validate a string, initialize a PhoneNumber object and supply the string as the rawNumber. The region code is automatically computed but can be overridden if needed. In case of an error, it will throw and you can catch and respond to in your app&rsquo;s UI</p>
+
+<pre><code>do {
+    let phoneNumber = try PhoneNumber(rawNumber:"+33 6 89 017383")
+    let phoneNumberCustomDefaultRegion = try PhoneNumber(rawNumber: "+44 20 7031 3000", region: "GB")
+}
+catch {
+    print("Generic parser error")
+}
+</code></pre>
+
+<p>If you need to parse and validate a large amount of numbers at once, there is a special function for that and it&rsquo;s lightning fast. The default region code is automatically computed but can be overridden if needed.</p>
+
+<pre><code>let rawNumberArray = ["0291 12345678", "+49 291 12345678", "04134 1234", "09123 12345"]
+let phoneNumbers = PhoneNumberKit().parseMultiple(rawNumberArray)
+let phoneNumbersCustomDefaultRegion = PhoneNumberKit().parseMultiple(rawNumberArray, region: "DE")
+</code></pre>
+
+<p>You can also query countries for a dialing code or the dailing code for a given country</p>
+
+<pre><code>let phoneNumberKit = PhoneNumberKit()
+phoneNumberKit.countriesForCode(33)
+phoneNumberKit.codeForCountry("FR")
+</code></pre>
+
+<p>Formatting a parsed phone number to a string is also very easy</p>
+
+<pre><code>phoneNumber.toE164() // +61236618300
+phoneNumber.toInternational() // +61 2 3661 8300
+phoneNumber.toNational() // (02) 3661 8300
+</code></pre>
+
+<p>You can access the following properties of a PhoneNumber object</p>
+
+<pre><code>phoneNumber.countryCode
+phoneNumber.nationalNumber
+phoneNumber.numberExtension
+phoneNumber.rawNumber
+phoneNumber.type // e.g Mobile or Fixed
+</code></pre>
+
+<h3>Setting up with Carthage</h3>
+
+<p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager that automates the process of adding frameworks to your Cocoa application.</p>
+
+<p>You can install Carthage with <a href="http://brew.sh/">Homebrew</a> using the following command:</p>
+
+<pre><code>$ brew update
+$ brew install carthage
+</code></pre>
+
+<p>To integrate PhoneNumberKit into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
+
+<pre><code>github "marmelroy/PhoneNumberKit"
+</code></pre>
+
+<h3>Setting up with <a href="http://cocoapods.org/?q=PhoneNumberKit">CocoaPods</a></h3>
+
+<pre><code>source 'https://github.com/CocoaPods/Specs.git'
+pod 'PhoneNumberKit', '~&gt; 0.1'
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-26T17:01:17+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>5:01 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/26/ios-bian-ma-tao-lu/" title="Previous Post: iOS 编码套路">&laquo; iOS 编码套路</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/26/cryptographic-libraries/" title="Next Post: Cryptographic Libraries">Cryptographic Libraries &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>使用 Google Fonts 为网页添加美观字体 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在线字体提供丰富多样的字体样式，能使页面更美观，更具吸引力。Google Fonts 就是一个开源的在线字体库，使用起来简单快速。 前言 文字是网页中很重要的组成部分。为文字选择一个合适的字体，能够更好的展现一个网站的个性，表达所要传递的信息，同时吸引用户来产生兴趣。
+说到字体，我们首先会想到 &hellip;">
+  <meta name="keywords" content="google fonts">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/22/shi-yong-google-fonts-wei-wang-ye-tian-jia-mei-guan-zi-ti/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">使用 Google Fonts 为网页添加美观字体</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T16:35:20+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:35 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>在线字体提供丰富多样的字体样式，能使页面更美观，更具吸引力。Google Fonts 就是一个开源的在线字体库，使用起来简单快速。</p>
+
+<h2>前言</h2>
+
+<p>文字是网页中很重要的组成部分。为文字选择一个合适的字体，能够更好的展现一个网站的个性，表达所要传递的信息，同时吸引用户来产生兴趣。
+说到字体，我们首先会想到 CSS 里面的 font，例如：</p>
+
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        p { font-family: Arial, Helvetica, sans-serif; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;p&gt;some text&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>在这段 HTML 代码中为<p>标签定义了字体，当浏览器解析<code>&lt;p&gt;some text&lt;/p&gt;</code>标签时，首先会在系统中查找 Arial 这个字体，如果找不到，就找 Helvetica 字体，如果还是找不到，就会查找浏览器默认的 sans-serif(非衬线)字体，最后把文字渲染出来。</p>
+
+<h2>什么是安全字体</h2>
+
+<p>安全字体这个概念，也许很多人都不是很熟悉，我们先举个例子：</p>
+
+<pre><code>font-family: Arial, Helvetica, sans-serif;
+</code></pre>
+
+<p>这个对字体（font-family）的定义就是一个安全字体。每种操作系统都有自己默认安装的字体，浏览器只能正常显示操作系统中安装了的字体。而不同的操作系统默认安装的字体不完全相同，有的甚至名称都不一样，在这种情况下，我们必须定义安全字体，使字体在所有的浏览器中都能够正常显示。</p>
+
+<p>在上面这个 font-family 的定义中，我们选择 Arial 作为首选字体（注：Arial 字体是最常用的 sans serif 字体，也是 Windows 的默认字体，当字体很小是不容易阅读），但是，苹果系统中没有这个字体，所以我们选择 Helvetica（和 Arial 很相似）作为第二备选字体，最后我们选择 sans-serif 作为第三备选字体，如果在一个既没有 Arial 也没有 Helvetica 的系统里，那么浏览器会使用默认的 sans-serif 字体来渲染文字。这样，我们很大程度上保证了使用不同操作系统的访问者都能看到相同（至少是类似）的页面文字。</p>
+
+<p>除了 Arial，常见的安全字体还有：</p>
+
+<p>Verdana 字体，它是微软公司的核心字体之一，专门为屏幕显示而开发的。它的应用广泛，宽度大而易于阅读，是显示器中最清晰的字体。CSS 写法：</p>
+
+<pre><code>font-family: Verdana, Geneva, sans-serif;
+</code></pre>
+
+<p>Times New Roman 字体，它是最常用的 serif 字体，是浏览器默认的字体。小号字的易读性也很差。CSS 写法：</p>
+
+<pre><code>font-family: 'Times New Roman', Times, serif;
+</code></pre>
+
+<h2>@font-face 标签简介</h2>
+
+<p>@font-face 被列为了 CSS3 的一项新特性，其实它并不是什么新鲜技术，它最早出现在 CSS2 的规范定义中，但是在 CSS2.1 中又被删除，现在被正式列入 CSS3。目前主流的浏览器（IE 4+/Firefox 3.5+/Chrome 1+/Safari 3.1+/Opera 10+）都能够支持这个属性，所以不用担心会有浏览器兼容性问题。</p>
+
+<p>@font-face 允许您在网页中使用电脑中没有安装的字体，完全摆脱安全字体的限制。只需将字体包安装在服务器上，当用户加载网页时，字体包会自动下载到用户机器上，保证字体能够正确渲染。
+随着@font-face 的不断流行，产生了许多新的字体格式图标集，称为网络字体。Google Fonts API 就是基于@font-face 的特性开发的一套优秀的网络字体库。</p>
+
+<p>网络字体的优点有很多：</p>
+
+<p>1.使用的是真正的文本，而不是图片，放大和缩小都不会影响渲染效果，用户体验好；</p>
+
+<p>2.可以被搜索引擎辨认；</p>
+
+<p>3.不像图片每次需要重新生成，添加删除更方便。</p>
+
+<h3>如何使用 Google Fonts API</h3>
+
+<p>Google Fonts 提供了超过 600 种的高质量的字体，所有的浏览器都兼容，无需引入 JavaScript，简单易用，更重要的是，免费。（虽然，暂时不支持中文字体，因为中文字体库实在是太大了）。</p>
+
+<h4>在您的网页中添加字体链接。</h4>
+
+<p>如果确认使用该字体， 在网页下方的"Collection"中，点击"Use"按钮，在接下来的页面中，您将看到详细的说明，包括字体链接和如何将字体添加到您的网页中。</p>
+
+<p>有三种方式来添加字体链接：</p>
+
+<p>Standard 方式：</p>
+
+<pre><code>&lt;link rel='stylesheet' type='text/css'
+href='http://fonts.googleapis.com/css?family=Condiment'&gt;
+</code></pre>
+
+<p>@import 方式：</p>
+
+<pre><code>@import url(http://fonts.googleapis.com/css?family=Condiment);
+</code></pre>
+
+<p>JavaScript 方式：</p>
+
+<p>（通过添加动态脚本并执行来导入字体，代码省略）
+下一步定义在那个标签上使用该字体，例如：在&lt;class=&ldquo;myheader&rdquo;>标签上使用，</p>
+
+<pre><code>.myheader {font-family: 'Condiment', cursive;}
+</code></pre>
+
+<p>清单 1.测试页面代码</p>
+
+<pre><code>&lt;html&gt;
+          &lt;head&gt;
+                     &lt;link rel="stylesheet" type="text/css"           
+                               href='http://fonts.googleapis.com/css?family=Condiment'&gt;
+                    &lt;style&gt;
+                             .myheader {
+                                        font-family: Condiment, cursive;
+                                        font-size: 48px;
+                                        text-align: center;
+                               }
+                    &lt;/style&gt;
+          &lt;/head&gt;
+          &lt;body&gt;
+                     &lt;div class="myheader"&gt; Test my own text !&lt;/div&gt;
+          &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h3>优化字体包加载</h3>
+
+<p>如果您不是大范围的在网页中使用 Google 字体，只是在标题或 logo 里使用，那么可以在 url 里添加 text 参数，来限制加载的字体包的大小，最高能缩减 90%左右的大小，以此来节约下载流量。例如：</p>
+
+<pre><code>http://fonts.googleapis.com/css?family= Condiment'&amp;text=Hello
+</code></pre>
+
+<p>这样，您只会下载 h，e，l，o 这四个字母的字体，大大缩小了字体包的大小。</p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://www.ibm.com/developerworks/cn/web/1505_zhangyan_googlefont/">http://www.ibm.com/developerworks/cn/web/1505_zhangyan_googlefont/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T16:35:20+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:35 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/21/html-i-biao-qian/" title="Previous Post: HTML - i 标签">&laquo; HTML - i 标签</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/22/grunt-pei-zhi/" title="Next Post: Grunt 配置">Grunt 配置 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

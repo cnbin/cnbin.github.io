@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS中的崩溃类型 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在这里了解一下XCode用来表示各种崩溃类型的术语，补充一些这方面的各知识。崩溃通常是指操作系统向正在运行的程序发送的信号，所以我们在查看崩溃日志时，常常看到如下错误摘要：Application received signal SIGSEGV。一般来说，常见的崩溃类型有以下几种： 1、 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/15/ioszhong-de-beng-kui-lei-xing/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS中的崩溃类型</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-15T10:09:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:09 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>在这里了解一下XCode用来表示各种崩溃类型的术语，补充一些这方面的各知识。崩溃通常是指操作系统向正在运行的程序发送的信号，所以我们在查看崩溃日志时，常常看到如下错误摘要：Application received signal SIGSEGV。一般来说，常见的崩溃类型有以下几种：</p>
+
+<h3>1、EXC_BAD_ACCESS</h3>
+
+<p>在访问一个已经释放的对象或向它发送消息时，EXC_BAD_ACCESS就会出现。造成EXC_BAD_ACCESS最常见的原因是，在初始化方法中初始化变量时用错了所有权修饰符，这会导致对象过早地被释放。举个例子，在viewDidLoad方法中为UIViewController创建了一个包含元素的NSArray，却将该数组的所有权修饰符设成了assign而不是strong。现在在viewWillAppear中，若要访问已经释放掉的对象时，就会得到名为EXC_BAD_ACCESS的崩溃。</p>
+
+<p>这个崩溃发生时，查看崩溃日志，却往往得不到有用的栈信息。还好，有一个方法用来解决这个问题：NSZombieEnabled。</p>
+
+<p>这是一个环境变量，用来调试与内存相关的问题，跟踪对象的释放过程。启用了NSZombieEnabled的话，它会用一个僵尸实现来去你的默认的dealloc实现，也就是在引用计数降到0时，该僵尸实现会将该对象转换成僵尸对象。僵尸对象的作用是在你向它发送消息时，它会显示一段日志并自动跳入调试器。</p>
+
+<p>所以，当在应用中启用NSZombie而不是让应用直接崩溃时，一个错误的内存访问就会变成一条无法识别的消息发送给僵尸对象。僵尸对象会显示接收到的消息，然后跳入调试器，这样你就可以查看到底哪时出了问题。
+可以在Xcode的scheme页面中设置NSZombieEnabled环境变量。点击Product-Edit Scheme打开该页面，然后勾选Enable Zombie Objects复选框，如图所示：</p>
+
+<p>僵尸在RAC出现以前作用很大。但自从有了ARC，如果你在对象的所有权方面比较注意，那么通常不会碰到内存相关的崩溃。</p>
+
+<h3>2、SIGSEGV</h3>
+
+<p>段错误信息（SIGSEGV）是操作系统产生的一个更严重的问题。当硬件出现错误、访问不可读的内存地址或向受保护的内存地址写入数据时，就会发生这个错误。</p>
+
+<p>硬件错误这一情况并不常见。当要读取保存在RAM中的数据，而该位置的RAM硬件有问题时，你会收到SIGSEGV。SIGSEGV更多是出现在后两种情况。默认情况下，代码页不允许进行写操作，而数据而不允许进行执行操作。当应用中的某个指针指向代码页并试图修改指向位置的值时，你会收到SIGSEGV。当要读取一个指针的值，而它被初始化成指向无效内存地址的垃圾值时，你也会收到SIGSEGV。</p>
+
+<p>SIGSEGV错误调试起来更困难，而导致SIGSEGV的最常见原因是不正确的类型转换。要避免过度使用指针或尝试手动修改指针来读取私有数据结构。如果你那样做了，而在修改指针时没有注意内存对齐和填充问题，就会收到SIGSEGV。</p>
+
+<h3>3、 SIGBUS</h3>
+
+<p>总线错误信号（SIGBUG）代表无效内存访问，即访问的内存是一个无效的内存地址。也就是说，那个地址指向的位置根本不是物理内存地址（它可能是某个硬件芯片的地址）。SIGSEGV和SIGBUS都羽毛球EXC_BAD_ACCESS的子类型。</p>
+
+<h3>4、SIGTRAP</h3>
+
+<p>SIGTRAP代表陷阱信号。它并不是一个真正的崩溃信号。它会在处理器执行trap指令发送。LLDB调试器通常会处理此信号，并在指定的断点处停止运行。如果你收到了原因不明的SIGTRAP，先清除上次的输出，然后重新进行构建通常能解决这个问题。</p>
+
+<h3>5、EXC_ARITHETIC</h3>
+
+<p>当要除零时，应用会收到EXC_ARITHMETIC信号。这个错误应该很容易解决。</p>
+
+<h3>6、SIGILL</h3>
+
+<p>SIGILL代表signal illegal instruction(非法指令信号)。当在处理器上执行非法指令时，它就会发生。执行非法指令是指，将函数指针会给另外一个函数时，该函数指针由于某种原因是坏的，指向了一段已经释放的内存或是一个数据段。有时你收到的是EXC_BAD_INSTRUCTION而不是SIGILL，虽然它们是一回事，不过EXC_*等同于此信号不依赖体系结构。</p>
+
+<h3>7、SIGABRT</h3>
+
+<p>SIGABRT代表SIGNAL ABORT（中止信号）。当操作系统发现不安全的情况时，它能够对这种情况进行更多的控制；必要的话，它能要求进程进行清理工作。在调试造成此信号的底层错误时，并没有什么妙招。Cocos2d或UIKit等框架通常会在特定的前提条件没有满足或一些糟糕的情况出现时调用C函数abort（由它来发送此信号）。当SIGABRT出现时，控制台通常会输出大量的信息，说明具体哪里出错了。由于它是可控制的崩溃，所以可以在LLDB控制台上键入bt命令打印出回溯信息。</p>
+
+<h3>8、看门狗超时</h3>
+
+<p>这种崩溃通常比较容易分辨，因为错误码是固定的0x8badf00d。（程序员也有幽默的一面，他们把它读作Ate Bad Food。）在iOS上，它经常出现在执行一个同步网络调用而阻塞主线程的情况。因此，永远不要进行同步网络调用。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-15T10:09:39+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:09 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/14/tableviewshang-mian-%5B%3F%5D-da-duan-shi-kong-de-ru-he-jie-jue/" title="Previous Post: tableview上面一大段是空的如何解决">&laquo; tableview上面一大段是空的如何解决</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/15/purelayout-shi-yong-chun-dai-ma-xie-autolayout/" title="Next Post: PureLayout - 使用纯代码写 AutoLayout">PureLayout - 使用纯代码写 AutoLayout &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

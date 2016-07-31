@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS开发小记：带输入框（TextField）的UIAlertView - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="自己简单定制一个AlertView上添加UITextField，由于项目很简单，就没做很复杂，直接在alertView上addSubview个输入框，然后点击按钮的时候再获取出来这个输入框的值就ok了。是不是很简单呢？ 下面是最初的想法，实现的代码： // &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/17/ioskai-fa-xiao-ji-:dai-shu-ru-kuang-(textfield)de-uialertview/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS开发小记：带输入框（TextField）的UIAlertView</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-17T09:47:27+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:47 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>自己简单定制一个AlertView上添加UITextField，由于项目很简单，就没做很复杂，直接在alertView上addSubview个输入框，然后点击按钮的时候再获取出来这个输入框的值就ok了。是不是很简单呢？</p>
+
+<p>下面是最初的想法，实现的代码：</p>
+
+<pre><code>//自己定义一个UITextField添加上去，后来发现ios5自带了此功能
+UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"类别修改" message:@" " delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"修改",nil];
+UITextField * txt = [[UITextField alloc] init];
+txt.backgroundColor = [UIColor whiteColor];
+txt.frame = CGRectMake(alert.center.x+65,alert.center.y+48, 150,23);
+[alert addSubview:txt];
+[alert show];
+</code></pre>
+
+<p>这张图就是上述代码的效果，可以看到这个输入框不是很美观，棱角很明显，没圆角，没阴影，控制也不是很方便。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1zmcjfihsj207o03pmx8.jpg" alt="img" /></p>
+
+<p>这样其实是一个很笨的方法，没有封装起来一个独立的AlertView，只想投简单搞定一个类似这样功能的东西，不过还是有用的，记录下来以后方便改造。</p>
+
+<p>后来发现经高人指点，ios5已经自带了上述功能，甚至更丰富，那就是 Alert 的 <strong>alertViewStyle</strong> 属性。</p>
+
+<p>alertViewStyle 属性有以下三种选项：</p>
+
+<pre><code>UIAlertViewStylePlainTextInput - 添加一个普通输入框
+UIAlertViewStyleSecureTextInput - 密码输入框
+UIAlertViewStyleLoginAndPasswordInput - 普通输入框加密码输入框
+</code></pre>
+
+<p>下面分别来看看这三种属性的效果：</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859ejw1f1zmdmkxdpj207w059mxb.jpg" alt="img" /></p>
+
+<p>（UIAlertViewStylePlainTextInput）</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f1zmebicwqj207x058jrk.jpg" alt="img" /></p>
+
+<p>（UIAlertViewStyleSecureTextInput）</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f1zmew0v9vj208w0dcmy7.jpg" alt="img" /></p>
+
+<p>(UIAlertViewStyleLoginAndPasswordInput)</p>
+
+<p>可以看到自带的文本+密码输入框弹出的键盘有点点不一样，稍带透明。</p>
+
+<p>初始化AlertView后，通过设置这个属性，达到AlertView上出现输入框的效果，然后再添加UIAlertViewDelegate代理，在下面棉纺就可以获取到这个文本框。</p>
+
+<pre><code>-（void）alertView : (UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex  
+{  
+       //得到输入框
+       UITextField *tf=[alertView textFieldAtIndex:0];
+}
+</code></pre>
+
+<p>是不是很简单呢，看来Xcode是越来越让开发者省心，这也是它不断更新带来的好处，这个只是最基本的实现方法，如果想达到一些额外的效果或者想要的功能，比如在Alert上添加一个UIImageView什么的，那就要自己动手丰衣足食了。。。</p>
+
+<h3>附上代码</h3>
+
+<pre><code>#import "ViewController.h"
+
+@interface ViewController ()
+
+- (IBAction)actionButton:(id)sender;
+
+@end
+
+@implementation ViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view, typically from a nib.
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)actionButton:(id)sender {
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"类别修改" message:@" " delegate:self
+                                          cancelButtonTitle:@"取消" otherButtonTitles:@"修改",nil];
+    alert.alertViewStyle  = UIAlertViewStylePlainTextInput;
+
+    [alert show];
+
+}
+- (void)didPresentAlertView:(UIAlertView *)alertView
+{
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    NSLog(@"present is %@",textField.text);
+
+}
+
+- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    //得到输入框
+    UITextField *tf=[alertView textFieldAtIndex:0];
+    NSString * name = tf.text;
+    NSLog(@"name is %@",name);
+}
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.isaced.com/post-184.html">http://www.isaced.com/post-184.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-17T09:47:27+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>9:47 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/17/iosshi-xian-yi-ge-dai-you-jian-bian-de-uiview/" title="Previous Post: iOS实现一个带有渐变的UIView">&laquo; iOS实现一个带有渐变的UIView</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/17/ioskai-fa-xiao-ji-:xmljie-xi-gdataxml/" title="Next Post: iOS开发小记：XML解析(GDataXML)">iOS开发小记：XML解析(GDataXML) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

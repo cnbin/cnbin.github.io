@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Swift闭包 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="闭包是功能性自包含模块，可以在代码中被传递和使用。 Swift 中的闭包与 C 和 Objective-C 中的 blocks 以及其他一些编程语言中的 lambdas 比较相似。 闭包可以捕获和存储其所在上下文中任意常量和变量的引用。 这就是所谓的闭合并包裹着这些常量和变量，俗称闭包。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/17/swiftbi-bao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Swift闭包</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-17T16:45:01+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:45 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>闭包是功能性自包含模块，可以在代码中被传递和使用。 Swift 中的闭包与 C 和 Objective-C 中的 blocks 以及其他一些编程语言中的 lambdas 比较相似。</p>
+
+<p>闭包可以捕获和存储其所在上下文中任意常量和变量的引用。 这就是所谓的闭合并包裹着这些常量和变量，俗称闭包。Swift会为您管理在捕获过程中涉及到的内存操作。</p>
+
+<p>在Swift函数章节中介绍的全局和嵌套函数实际上也是特殊的闭包，闭包采取如下三种形式之一：</p>
+
+<ul>
+<li>全局函数是一个有名字但不会捕获任何值的闭包</li>
+<li>嵌套函数是一个有名字并可以捕获其封闭函数域内值的闭包</li>
+<li>闭包表达式是一个利用轻量级语法所写的可以捕获其上下文中变量或常量值的没有名字的闭包</li>
+</ul>
+
+
+<p>Swift的闭包表达式拥有简洁的风格，并鼓励在常见场景中以实现语法优化，主要优化如下：</p>
+
+<ul>
+<li>利用上下文推断参数和返回值类型</li>
+<li>单表达式（single-expression）闭包可以省略 return 关键字</li>
+<li>参数名称简写</li>
+<li>Trailing 闭包语法</li>
+</ul>
+
+
+<h4>闭包表达式</h4>
+
+<p>嵌套函数是一种在较复杂函数中方便进行命名和定义自包含代码模块的方式。 当然，有时候撰写小巧的没有完整定义和命名的类函数结构也是很有用处的，尤其是在处理一些函数并需要将另外一些函数作为该函数的参数时。</p>
+
+<p>闭包表达式是一种利用简洁语法构建内联闭包的方式。 闭包表达式提供了一些语法优化，使得撰写闭包变得简单明了。 下面闭包表达式的例子通过使用几次迭代展示了 sort 函数定义和语法优化的方式。 每一次迭代都用更简洁的方式描述了相同的功能。</p>
+
+<h4>sort 函数</h4>
+
+<p>Swift 标准库提供了 sort 函数，会根据您提供的排序闭包将已知类型数组中的值进行排序。 一旦排序完成，函数会返回一个与原数组大小相同的新数组，该数组中包含已经正确排序的同类型元素。</p>
+
+<p>下面的闭包表达式示例使用 sort 函数对一个 String 类型的数组进行字母逆序排序，以下是初始数组值：</p>
+
+<pre><code>let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"] 
+</code></pre>
+
+<p>排序函数有两个参数：</p>
+
+<p>已知类型值的数组。</p>
+
+<p>一个闭包，采用相同类型的数组的内容的两个参数，并返回一个布尔值来表示是否将第一个值在排序时放到第二个值的前面或是后面。如果第一个值应该出现第二个值之前，闭包需要返回true，否则返回false。</p>
+
+<p>该例子对一个 String 类型的数组进行排序，因此排序闭包需为 <code>(String, String) -&gt; Bool</code> 类型的函数。</p>
+
+<p>提供排序闭包的一种方式是撰写一个符合其类型要求的普通函数，并将其作为 sort 函数的第二个参数传入：</p>
+
+<pre><code>func backwards(s1: String, s2: String) -&gt; Bool {
+    return s1 &gt; s2
+}
+var reversed = sort(names, backwards)
+// reversed is equal to ["Ewa", "Daniella", "Chris", "Barry", "Alex"] 
+</code></pre>
+
+<p>如果第一个字符串 (s1) 大于第二个字符串 (s2)，backwards 函数则返回 true，表示在新的数组中 s1 应该出现在 s2 前。 字符中的 &ldquo;大于&rdquo; 表示 &ldquo;按照字母顺序后出现"。 这意味着字母 "B&rdquo; 大于字母 &ldquo;A&rdquo;, 字符串 &ldquo;Tom&rdquo; 大于字符串 &ldquo;Tim"。 其将进行字母逆序排序，"Barry&rdquo; 将会排在 &ldquo;Alex&rdquo; 之后,一次类推。</p>
+
+<p>然而，这是一个相当冗长的方式，本质上只是写了一个单表达式函数 (a > b)。 在下面的例子中，利用闭合表达式语法可以更好的构造一个内联排序闭包。</p>
+
+<h4>闭包表达式语法</h4>
+
+<p>闭包表达式语法有如下一般形式：</p>
+
+<pre><code>{ (parameters) -&gt; returnType in
+    statements
+} 
+</code></pre>
+
+<p>闭包表达式语法可以使用常量、变量和 inout 类型作为参数，但不提供默认值。 也可以在参数列表的最后使用可变参数。元组也可以作为参数和返回值。</p>
+
+<p>下面的例子展示了之前 backwards 函数对应的闭包表达式版本的代码：</p>
+
+<pre><code>reversed = sort(names, { (s1: String, s2: String) -&gt; Bool in
+    return s1 &gt; s2
+}) 
+</code></pre>
+
+<p>需要注意的是内联闭包参数和返回值类型声明与 backwards 函数类型声明相同。 在这两种方式中，都写成了 (s1: String, s2: String) -> Bool类型。 然而在内联闭包表达式中，函数和返回值类型都写在大括号内，而不是大括号外。</p>
+
+<p>闭包的函数体部分由关键字 <code>in</code> 引入。 该关键字表示闭包的参数和返回值类型定义已经完成，闭包函数体即将开始。</p>
+
+<p>因为这个闭包的函数体部分如此短以至于可以将其改写成一行代码：</p>
+
+<pre><code>reversed = sort(names, { (s1: String, s2: String) -&gt; Bool in return s1 &gt; s2 } ) 
+</code></pre>
+
+<p>这说明 sort 函数的整体调用保持不变，一对圆括号仍然包裹住了函数中整个参数集合。而其中一个参数现在变成了内联闭包 (相比于 backwards 版本的代码)。
+根据上下文推断类型</p>
+
+<p>因为排序闭包是作为函数的参数进行传入的，Swift可以推断其参数和返回值的类型。 sort 期望第二个参数是类型为 (String, String) -> Bool 的函数，因此实际上 String, String 和 Bool 类型并不需要作为闭包表达式定义中的一部分。 因为所有的类型都可以被正确推断，返回箭头 (->) 和 围绕在参数周围的括号也可以被省略：</p>
+
+<pre><code>reversed = sort(names, { s1, s2 in return s1 &gt; s2 } ) 
+</code></pre>
+
+<p>实际上任何情况下，通过内联闭包表达式构造的闭包作为参数传递给函数时，都可以推断出闭包的参数和返回值类型，这意味着您几乎不需要利用完整格式构造任何内联闭包。</p>
+
+<p>然而，你也可以使用明确的类型，如果你想它避免读者阅读可能存在的歧义，这样还是值得鼓励的。这个排序函数例子，闭包的目的是很明确的，即排序被替换，而且对读者来说可以安全的假设闭包可能会使用字符串值,因为它正协助一个字符串数组进行排序。</p>
+
+<h4>单行表达式闭包可以省略 return</h4>
+
+<p>单行表达式闭包可以通过隐藏 return 关键字来隐式返回单行表达式的结果，如上版本的例子可以改写为：</p>
+
+<pre><code>reversed = sort(names, { s1, s2 in s1 &gt; s2 } ) 
+</code></pre>
+
+<p>在这个例子中，sort 函数的第二个参数函数类型明确了闭包必须返回一个 Bool 类型值。 因为闭包函数体只包含了一个单一表达式 (s1 > s2)，该表达式返回 Bool 类型值，因此这里没有歧义，return关键字可以省略。</p>
+
+<h4>参数名简写</h4>
+
+<p>Swift 自动为内联函数提供了参数名称简写功能，您可以直接通过 $0,$1,$2等名字来引用的闭包的参数的值。</p>
+
+<p>如果您在闭包表达式中使用参数名称简写，您可以在闭包参数列表中省略对其的定义，并且对应参数名称简写的类型会通过函数类型进行推断。 in 关键字也同样可以被省略，因为此时闭包表达式完全由闭包函数体构成：</p>
+
+<pre><code>reversed = sort(names, { $0 &gt; $1 } ) 
+</code></pre>
+
+<p>在这个例子中，$0 和 $1 表示闭包中第一个和第二个 String 类型的参数。</p>
+
+<h4>运算符函数</h4>
+
+<p>实际上还有一种更简短的方式来撰写上面例子中的闭包表达式。 Swift的 String 类型定义了关于大于号 (>) 的字符串实现，让其作为一个函数接受两个 String 类型的参数并返回 Bool 类型的值。 而这正好与 sort 函数的第二个参数需要的函数类型相符合。 因此，您可以简单地传递一个大于号，Swift可以自动推断出您想使用大于号的字符串函数实现：</p>
+
+<pre><code>reversed = sort(names, &gt;) 
+</code></pre>
+
+<p>更多关于运算符表达式的内容请查看 <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/AdvancedOperators.html#//apple_ref/doc/uid/TP40014097-CH27-XID_43">Operator Functions</a> 。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-17T16:45:01+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:45 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/17/sdautolayout(%5B%3F%5D-xing-dai-ma-gao-ding-zi-dong-bu-ju-!)/" title="Previous Post: SDAutoLayout（一行代码搞定自动布局！）">&laquo; SDAutoLayout（一行代码搞定自动布局！）</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/18/string-indexof/" title="Next Post: String-IndexOf">String-IndexOf &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

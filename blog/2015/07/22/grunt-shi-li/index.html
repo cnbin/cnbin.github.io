@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Grunt 实例 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Gruntfile 实例 Gruntfile 文件： module.exports = function(grunt) { grunt.initConfig({ pkg: grunt.file.readJSON('package.json'), concat: { options: { &hellip;">
+  <meta name="keywords" content="grunt">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/22/grunt-shi-li/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Grunt 实例</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T16:37:40+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:37 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>Gruntfile 实例</h2>
+
+<p><code>Gruntfile</code> 文件：</p>
+
+<pre><code>module.exports = function(grunt) {
+
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    concat: {
+      options: {
+        separator: ';'
+      },
+      dist: {
+        src: ['src/**/*.js'],
+        dest: 'dist/&lt;%= pkg.name %&gt;.js'
+      }
+    },
+    uglify: {
+      options: {
+        banner: '/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today("dd-mm-yyyy") %&gt; */\n'
+      },
+      dist: {
+        files: {
+          'dist/&lt;%= pkg.name %&gt;.min.js': ['&lt;%= concat.dist.dest %&gt;']
+        }
+      }
+    },
+    qunit: {
+      files: ['test/**/*.html']
+    },
+    jshint: {
+      files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+      options: {
+        //这里是覆盖JSHint默认配置的选项
+        globals: {
+          jQuery: true,
+          console: true,
+          module: true,
+          document: true
+        }
+      }
+    },
+    watch: {
+      files: ['&lt;%= jshint.files %&gt;'],
+      tasks: ['jshint', 'qunit']
+    }
+  });
+
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+
+  grunt.registerTask('test', ['jshint', 'qunit']);
+
+  grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
+
+};
+</code></pre>
+
+<p>第一部分是"wrapper" 函数，它包含了整个Grunt配置信息。</p>
+
+<pre><code>module.exports = function(grunt) {
+}
+</code></pre>
+
+<p>在这个函数中，我们可以初始化 configuration 对象：</p>
+
+<pre><code>grunt.initConfig({
+});
+</code></pre>
+
+<p>接下来可以从<code>package.json</code> 文件读入项目配置信息，并存入<code>pkg</code> 属性内。这样就可以让我们访问到<code>package.json</code>文件中列出的属性了，如下：</p>
+
+<pre><code>pkg: grunt.file.readJSON('package.json')
+</code></pre>
+
+<p>到目前为止我们就可以看到如下配置：</p>
+
+<pre><code>module.exports = function(grunt) {
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json')
+  });
+};
+</code></pre>
+
+<p>现在我们就可以为我们的每个任务来定义相应的配置(逐个定义我们为项目定义的任务配置)，然后每个任务的配置对象作为Grunt配置对象(即grunt.initConfig({})所接受的配置对象)的属性，并且这个属性名称与任务名相同。因此"concat"任务就是我们的配置对象中的"concat"键(属性)。下面便是我的"concat"任务的配置对象。</p>
+
+<pre><code>concat: {
+  options: {
+    // 定义一个用于插入合并输出文件之间的字符
+    separator: ';'
+  },
+  dist: {
+    // 将要被合并的文件
+    src: ['src/**/*.js'],
+    // 合并后的JS文件的存放位置
+    dest: 'dist/&lt;%= pkg.name %&gt;.js'
+  }
+}
+</code></pre>
+
+<p>注意我是如何引用<code>JSON</code>文件(也就是我们在配置对象顶部引入的配置文件)中的<code>name</code>属性的。这里我使用<code>pkg.name</code>来访问我们刚才引入并存储在pkg属性中的<code>package.json</code>文件信息，它会被解析为一个JavaScript对象。Grunt自带的有一个简单的模板引擎用于输出配置对象(这里是指<code>package.json</code>中的配置对象)属性值，这里我让<code>concat</code>任务将所有存在于<code>src/</code>目录下以<code>.js</code>结尾的文件合并起来，然后存储在<code>dist</code>目录中，并以项目名来命名</p>
+
+<p>现在我们来配置uglify插件，它的作用是压缩（minify）JavaScript文件：</p>
+
+<pre><code>uglify: {
+  options: {
+    // 此处定义的banner注释将插入到输出文件的顶部
+    banner: '/*! &lt;%= pkg.name %&gt; &lt;%= grunt.template.today("dd-mm-yyyy") %&gt; */\n'
+  },
+  dist: {
+    files: {
+      'dist/&lt;%= pkg.name %&gt;.min.js': ['&lt;%= concat.dist.dest %&gt;']
+    }
+  }
+}
+</code></pre>
+
+<p>这里我们让<code>uglify</code>在<code>dist/</code>目录中创建了一个包含压缩结果的JavaScript文件。注意这里我使用了<code>&lt;%= concat.dist.dest&gt;</code>，因此uglify会自动压缩concat任务中生成的文件。</p>
+
+<p>QUnit插件的设置非常简单。 你只需要给它提供用于测试运行的文件的位置，注意这里的QUnit是运行在HTML文件上的。</p>
+
+<pre><code>qunit: {
+  files: ['test/**/*.html']
+},
+</code></pre>
+
+<p>JSHint插件的配置也很简单：</p>
+
+<pre><code>jshint: {
+  // define the files to lint
+  files: ['gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+  // configure JSHint (documented at http://www.jshint.com/docs/)
+  options: {
+      // more options here if you want to override JSHint defaults
+    globals: {
+      jQuery: true,
+      console: true,
+      module: true
+    }
+  }
+}
+</code></pre>
+
+<p>JSHint只需要一个文件数组(也就是你需要检测的文件数组)， 然后是一个<code>options</code>对象(这个对象用于重写JSHint提供的默认检测规则)。你可以到<a href="http://www.jshint.com/docs/">JSHint官方文档</a>站点中查看完整的文档。如果你乐于使用JSHint提供的默认配置，那么在Gruntfile中就不需要重新定义它们了.</p>
+
+<p>最后，我们来看看watch插件：</p>
+
+<pre><code>watch: {
+  files: ['&lt;%= jshint.files %&gt;'],
+  tasks: ['jshint', 'qunit']
+}
+</code></pre>
+
+<p>你可以在命令行使用<code>grunt watch</code>来运行这个任务。当它检测到任何你所指定的文件(在这里我使用了JSHint任务中需要检测的相同的文件)发生变化时，它就会按照你所指定的顺序执行指定的任务(在这里我指定了jshint和qunit任务)。</p>
+
+<p>最后, 我们还要加载所需要的Grunt插件。 它们应该已经全部通过npm安装好了。</p>
+
+<pre><code>grunt.loadNpmTasks('grunt-contrib-uglify');
+grunt.loadNpmTasks('grunt-contrib-jshint');
+grunt.loadNpmTasks('grunt-contrib-qunit');
+grunt.loadNpmTasks('grunt-contrib-watch');
+grunt.loadNpmTasks('grunt-contrib-concat');
+</code></pre>
+
+<p>最后设置了一些task。最重要的是default任务：</p>
+
+<pre><code>// 在命令行上输入"grunt test"，test task就会被执行。
+grunt.registerTask('test', ['jshint', 'qunit']);
+
+// 只需在命令行上输入"grunt"，就会执行default task
+grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T16:37:40+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:37 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/22/grunt-pei-zhi/" title="Previous Post: Grunt 配置">&laquo; Grunt 配置</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/22/html-lian-jie/" title="Next Post: HTML 链接">HTML 链接 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

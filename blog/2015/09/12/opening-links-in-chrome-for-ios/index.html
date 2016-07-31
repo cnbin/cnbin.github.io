@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Opening Links in Chrome for iOS - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Opening links in Chrome for iOS The easiest way to have your iOS app open links in Chrome is to use the OpenInChromeController class. This API is &hellip;">
+  <meta name="keywords" content="chrome">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/12/opening-links-in-chrome-for-ios/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Opening Links in Chrome for iOS</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-12T09:20:57+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>Opening links in Chrome for iOS</h1>
+
+<p>The easiest way to have your iOS app open links in Chrome is to use the OpenInChromeController class. This API is described here along with the URI schemes it supports.</p>
+
+<h2>Using OpenInChromeController to open links</h2>
+
+<p>The <code>OpenInChromeController</code> class provides methods that encapsulate the URI schemes and the scheme replacement process also described in this document. Use this class to check if Chrome is installed, to specify the URL to open, to provide a callback URL, and to force opening in a new tab.</p>
+
+<h3>Methods</h3>
+
+<ul>
+<li><code>isChromeInstalled</code>: returns YES if Chrome is installed</li>
+<li><code>openInChrome</code>: opens a given URL in Chrome; can be used with or without the following
+
+<ul>
+<li><code>withCallbackURL</code>: the URL to which a callback is sent</li>
+<li><code>createNewTab</code>: forces the calling app to open the URL in a new tab</li>
+</ul>
+</li>
+</ul>
+
+
+<p>For example, use the OpenInChromeController class as follows:</p>
+
+<pre><code>if ([openInController_ isChromeInstalled]) {
+  [openInController_ openInChrome:urlToOpen
+     withCallbackURL:callbackURL
+     createNewTab:createNewTab];
+}
+</code></pre>
+
+<h2>Downloading the class file</h2>
+
+<p>The OpenInChromeController class file is available <a href="https://github.com/GoogleChrome/OpenInChrome">here</a>. Copy it into your Xcode installation.</p>
+
+<p>The rest of this document describes the underpinnings of this API.</p>
+
+<h2>URI schemes</h2>
+
+<p>Chrome for iOS handles the following URI Schemes:
+  * <code>googlechrome</code> for http
+  * <code>googlechromes</code> for https
+  * <code>googlechrome-x-callback</code> for callbacks</p>
+
+<p>To check if Chrome is installed, an app can simply check if either of these URI schemes is available:</p>
+
+<pre><code>[[UIApplication sharedApplication] canOpenURL:
+    [NSURL URLWithString:@"googlechrome://"]];
+</code></pre>
+
+<p>This step is useful in case an app would like to change the UI depending on if Chrome is installed or not. For instance the app could add an option to open URLs in Chrome in a share menu or action sheet.</p>
+
+<p>To actually open a URL in Chrome, the URI scheme provided in the URL must be changed from <code>http</code> or <code>https</code> to the Google Chrome equivalent.</p>
+
+<p>The following sample code opens a URL in Chrome:</p>
+
+<pre><code>NSURL *inputURL = &lt;the URL to open&gt;;
+NSString *scheme = inputURL.scheme;
+
+// Replace the URL Scheme with the Chrome equivalent.
+NSString *chromeScheme = nil;
+if ([scheme isEqualToString:@"http"]) {
+  chromeScheme = @"googlechrome";
+} else if ([scheme isEqualToString:@"https"]) {
+  chromeScheme = @"googlechromes";
+}
+
+// Proceed only if a valid Google Chrome URI Scheme is available.
+if (chromeScheme) {
+  NSString *absoluteString = [inputURL absoluteString];
+  NSRange rangeForScheme = [absoluteString rangeOfString:@":"];
+  NSString *urlNoScheme =
+      [absoluteString substringFromIndex:rangeForScheme.location];
+  NSString *chromeURLString =
+      [chromeScheme stringByAppendingString:urlNoScheme];
+  NSURL *chromeURL = [NSURL URLWithString:chromeURLString];
+
+  // Open the URL with Chrome.
+  [[UIApplication sharedApplication] openURL:chromeURL];
+}
+</code></pre>
+
+<p>If Chrome is installed, the above code converts the URI scheme found in the URL to the Google Chrome equivalent. When Google Chrome opens, the URL passed as a parameter will be opened in a new tab.</p>
+
+<p>If Chrome is not installed the user can be prompted to download it from the App Store. If the user agrees, the app can open the App Store download page using the following:</p>
+
+<pre><code>[[UIApplication sharedApplication] openURL:[NSURL URLWithString:
+    @"itms-apps://itunes.apple.com/us/app/chrome/id535886823"]];
+</code></pre>
+
+<h2>Using the x-callback-url registration scheme to return</h2>
+
+<p>Chrome for iOS also supports <a href="http://x-callback-url.com/specifications/">x-callback-url</a>, an open specification for inter-app communications and messaging between iOS apps that provides a way for the application opened in Chrome to specify a callback URL to return to the calling app. Applications supporting <code>x-callback-url</code> have to register a URL scheme that will be used to call the app with compliant URLs.</p>
+
+<p>The URI scheme that Chrome registers for x-callback-url is:
+  * <code>googlechrome-x-callback</code></p>
+
+<p>This scheme will accept <code>x-callback-url</code> compliant URLs with the <em>open</em> action and the following parameters:
+  * <code>url</code>: (required) the URL to open
+  * <code>x-success</code>: (optional) the URL to call for the return when the operation completes successfully
+  * <code>x-source</code>: (optional; required if x-success is specified): the application name to where the calling app returns
+  * <code>create-new-tab</code>: (optional) forces the creation of a new tab in the calling app</p>
+
+<p>For example:</p>
+
+<pre><code>googlechrome-x-callback://x-callback-url/open/?url=http%3A%2F%2Fwww.google.com
+</code></pre>
+
+<h2>Checking if x-callback-url is available in Chrome</h2>
+
+<p>The <code>x-callback-url</code> parameters are supported in Google Chrome as of version 23.0. Previous versions of Chrome are not registered for the <code>googlechrome-x-callback</code> URL scheme. It’s important for apps to check if the URL scheme is registered before trying to invoke the <code>googlechrome-x-callback</code> scheme.</p>
+
+<p>To check if Chrome with <code>x-callback-url</code> is installed, an app can use the following code:</p>
+
+<pre><code>[[UIApplication sharedApplication] canOpenURL:
+    [NSURL URLWithString:@"googlechrome-x-callback://"]];
+</code></pre>
+
+<p>Once it has been determined that Google Chrome with <code>x-callback-url</code> is installed, the app can then open a URL in Chrome specifying a callback URL as in the following example.</p>
+
+<pre><code>// Method to escape parameters in the URL.
+static NSString * encodeByAddingPercentEscapes(NSString *input) {
+  NSString *encodedValue =
+      (NSString *)CFURLCreateStringByAddingPercentEscapes(
+          kCFAllocatorDefault,
+          (CFStringRef)input,
+          NULL,
+          (CFStringRef)@"!*'();:@&amp;=+$,/?%#[]",
+          kCFStringEncodingUTF8);
+  return [encodedValue autorelease];
+}
+…
+NSString *appName =
+    [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+NSURL *inputURL = &lt;the URL to open&gt;;
+NSURL *callbackURL = &lt;the callback URL&gt;;
+
+NSString *scheme = inputURL.scheme;
+
+// Proceed only if scheme is http or https.
+if ([scheme isEqualToString:@"http"] ||
+    [scheme isEqualToString:@"https"]) {
+  NSString *chromeURLString = [NSString stringWithFormat:
+      @"googlechrome-x-callback://x-callback-url/open/?x-source=%@&amp;x-success=%@&amp;url=%@",
+      encodeByAddingPercentEscapes(appName),
+      encodeByAddingPercentEscapes([callbackURL absoluteString]),
+      encodeByAddingPercentEscapes([inputURL absoluteString])];
+  NSURL *chromeURL = [NSURL URLWithString:chromeURLString];
+
+  // Open the URL with Google Chrome.
+  [[UIApplication sharedApplication] openURL:chromeURL];
+}
+</code></pre>
+
+<h2>Enabling a callback with x-success</h2>
+
+<p>The calling application can also specify a URL as callback when the user finishes the navigation using the <code>x-success</code> parameter in the <code>x-callback-url</code>. When specifying <code>x-success</code> with the callback URL you must also specify the application name (via the <code>x-source</code> parameter), which will be displayed in Chrome as a hint to the user for how to return to the calling application. Failing to provide the app name will result in the <code>x-success</code> parameter to be discarded and ignored.</p>
+
+<p>For example:</p>
+
+<pre><code>googlechrome-x-callback://x-callback-url/open/?x-source=MyApp&amp;x-success=com.myapp.callback%3A%2F%2F&amp;url=http%3A%2F%2Fwww.google.com
+</code></pre>
+
+<p>In this case the callback URL specified is <code>com.myapp.callback://</code> and Chrome will call back to the calling app on that URL when the user has finished the navigation. The application name, specified using the x-source parameter, is <em>MyApp</em>, and it will be shown as a replacement of the back button when the user can return to the calling application.</p>
+
+<h3>Creating a new tab</h3>
+
+<p>By default, Chrome reuses the same tab when opened by the same application. To override this default behavior, the calling app should provide the <code>create-new-tab</code> parameter as part of the action parameter in the x-callback-url URL.
+For example:</p>
+
+<pre><code>googlechrome-x-callback://x-callback-url/open/?x-source=MyApp&amp;x-success=com.myapp.callback%3A%2F%2F&amp;url=http%3A%2F%2Fwww.google.com&amp;create-new-tab
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-12T09:20:57+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:20 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/12/zhi-qing-chun-17/" title="Previous Post: 致青春-17">&laquo; 致青春-17</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/12/app-storeshen-he-zhi-nan-zhong-wen-ban/" title="Next Post: App Store审核指南中文版">App Store审核指南中文版 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

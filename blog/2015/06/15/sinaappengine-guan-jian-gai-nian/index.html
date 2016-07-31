@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SinaAppEngine 关键概念 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="关键概念 开发者、客户、用户 开发者 是云计算服务的使用者，因此在文档中提到的 客户 等同于 开发者 。
+用户 是开发者所推出产品的直接使用者，也是云计算服务的间接使用者。 负载均衡、Web服务池、Web服务器、运行环境、服务 负载均衡是 SAE 云计算服务的最外层，负责接收应用的请求， &hellip;">
+  <meta name="keywords" content="sinaappengine">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/15/sinaappengine-guan-jian-gai-nian/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SinaAppEngine 关键概念</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-15T08:45:49+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:45 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>关键概念</h2>
+
+<h3>开发者、客户、用户</h3>
+
+<ul>
+<li>开发者 是云计算服务的使用者，因此在文档中提到的 客户 等同于 开发者 。</li>
+<li>用户 是开发者所推出产品的直接使用者，也是云计算服务的间接使用者。</li>
+</ul>
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1et26ca5z2pj20ar08cmxp.jpg" alt="img" /></p>
+
+<h3>负载均衡、Web服务池、Web服务器、运行环境、服务</h3>
+
+<ul>
+<li>负载均衡是 SAE 云计算服务的最外层，负责接收应用的请求，并将请求转发到应用所在的 <strong>Web</strong> 服务池去由其做实际的请求处理。</li>
+<li>一个 <strong>Web</strong>服务池一般由一组 Web服务器 组成， 负载均衡使用 Round-Robin 算法在应用的 Web 服务池中选择一个健康的 <strong>Web</strong> 服务器来来处理该应用的请求。</li>
+<li><strong>Web</strong> 服务器负责解析负载均衡转发过来的请求，并调用对应开发者编写的应用代码来处理这个应用的请求，并将用户代码生成的回复返回给负载均衡 ，最终由负载均衡返回给请求者。</li>
+<li>目前各语言环境使用的 <strong>Web</strong> 服务器 分别是：Apache（PHP）、Jetty（Java）、Direwolf（Python） <strong>[1]</strong> 。</li>
+<li>运行环境 是用户代码执行的环境，譬如 <strong>Web</strong>服务器 的版本、本地IO权限、可用的扩展及其版本、SDK 等。本文档中一般会用 <strong>PHP</strong> 运行环境 、 <strong>Java</strong> 运行环境 、 <strong>Python</strong> 运行环境 来指代各语言代码的执行环境。</li>
+<li>SAE 不需要开发者去部署和运维 MySQL、Memcached 等程序，而是将这些程序通过 服务 的形式以接口提供给开发者去使用。</li>
+</ul>
+
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1et26cbdnlzj20tr0k0q63.jpg" alt="img" /></p>
+
+<p><strong>[1]</strong> Direwolf 是 SAE 为 Python 语言环境开发的 Web 服务器，支持 WSGI 协议。</p>
+
+<h3>应用目录、应用版本目录、应用版本</h3>
+
+<p>在 SAE 中一个应用可以部署多个版本，每个版本在 SVN 中对应一个数字为名的目录。下面是一个应用的典型目录结构：</p>
+
+<pre><code>$ tree myapp
+myapp
+|-- 1
+|   |-- build-doc.sh
+|   |-- config.yaml
+|   |-- index.wsgi
+|   `-- README.md
+`-- 2
+    |-- config.yaml
+    `-- index.wsgi
+
+2 directories, 6 files
+</code></pre>
+
+<p>我们称顶级目录 myapp 目录为 应用目录 ，而 myapp/1 为 <strong>应用版本目录</strong> 。</p>
+
+<p>应用版本 是指用户部署的同一个应用的多个版本的代码，对应 <strong>应用版本目录</strong> 。</p>
+
+<p>因为 SVN 作为版本管理系统，本身有个版本的概念，为了防止和 SAE 的 <strong>应用版本</strong> 相混淆，在本文档中我们使用 SVN 版本 来指代 SVN 的版本。</p>
+
+<h3>PV/UIP</h3>
+
+<p><strong>PV</strong> 即 Page View，是指对 <code>*.php</code> 等动态脚本的请求计数，对于以下格式的静态资源的请求不计算在内：js|css|jpg|gif|png|swf|ico。</p>
+
+<p><strong>UIP</strong> 即 Unique IP，是指一个用户通过浏览器发出的请求，在十分钟内该用户 IP 只算一次。</p>
+
+<pre><code>注解
+
+通过curl的请求因为是不带Cookie的header，因此同一IP来源的cURL多次请求会计算多次。
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-15T08:45:49+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:45 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/14/mac-os-zhong-duan-xia-shi-yong-curl-ming-ling-xia-zai-wen-jian/" title="Previous Post: Mac OS 终端下使用 curl 命令下载文件">&laquo; Mac OS 终端下使用 curl 命令下载文件</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/15/cli-zhi-ling/" title="Next Post: CLI 指令">CLI 指令 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

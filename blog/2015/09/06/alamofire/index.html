@@ -1,0 +1,1196 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Alamofire - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Alamofire is an HTTP networking library written in Swift. Features [x] Chainable Request / Response methods
+[x] URL / JSON / plist Parameter &hellip;">
+  <meta name="keywords" content="alamofire">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/06/alamofire/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Alamofire</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-06T12:38:34+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:38 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="https://raw.githubusercontent.com/Alamofire/Alamofire/assets/alamofire.png" alt="Alamofire: Elegant Networking in Swift" /></p>
+
+<p><a href="https://travis-ci.org/Alamofire/Alamofire"><img src="https://travis-ci.org/Alamofire/Alamofire.svg" alt="Build Status" /></a>
+<a href="https://img.shields.io/cocoapods/v/Alamofire.svg"><img src="https://img.shields.io/cocoapods/v/Alamofire.svg" alt="Cocoapods Compatible" /></a>
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage Compatible" /></a>
+<a href="http://cocoadocs.org/docsets/Alamofire"><img src="https://img.shields.io/cocoapods/l/Alamofire.svg?style=flat&amp;color=gray" alt="License" /></a>
+<a href="http://cocoadocs.org/docsets/Alamofire"><img src="https://img.shields.io/cocoapods/p/Alamofire.svg?style=flat" alt="Platform" /></a>
+<a href="http://twitter.com/AlamofireSF"><img src="https://img.shields.io/badge/twitter-@AlamofireSF-blue.svg?style=flat" alt="Twitter" /></a></p>
+
+<p>Alamofire is an HTTP networking library written in Swift.</p>
+
+<h2>Features</h2>
+
+<ul>
+<li>[x] Chainable Request / Response methods</li>
+<li>[x] URL / JSON / plist Parameter Encoding</li>
+<li>[x] Upload File / Data / Stream / MultipartFormData</li>
+<li>[x] Download using Request or Resume data</li>
+<li>[x] Authentication with NSURLCredential</li>
+<li>[x] HTTP Response Validation</li>
+<li>[x] TLS Certificate and Public Key Pinning</li>
+<li>[x] Progress Closure &amp; NSProgress</li>
+<li>[x] cURL Debug Output</li>
+<li>[x] Comprehensive Unit Test Coverage</li>
+<li>[x] <a href="http://cocoadocs.org/docsets/Alamofire">Complete Documentation</a></li>
+</ul>
+
+
+<h2>Requirements</h2>
+
+<ul>
+<li>iOS 7.0+ / Mac OS X 10.9+</li>
+<li>Xcode 6.4</li>
+</ul>
+
+
+<h2>Communication</h2>
+
+<ul>
+<li>If you <strong>need help</strong>, use <a href="http://stackoverflow.com/questions/tagged/alamofire">Stack Overflow</a>. (Tag &lsquo;alamofire&rsquo;)</li>
+<li>If you&rsquo;d like to <strong>ask a general question</strong>, use <a href="http://stackoverflow.com/questions/tagged/alamofire">Stack Overflow</a>.</li>
+<li>If you <strong>found a bug</strong>, open an issue.</li>
+<li>If you <strong>have a feature request</strong>, open an issue.</li>
+<li>If you <strong>want to contribute</strong>, submit a pull request.</li>
+</ul>
+
+
+<h2>Installation</h2>
+
+<blockquote><p><strong>Embedded frameworks require a minimum deployment target of iOS 8 or OS X Mavericks.</strong></p>
+
+<p>To use Alamofire with a project targeting iOS 7, you must include all Swift files located inside the <code>Source</code> directory directly in your project. See the <a href="#source-file">&lsquo;Source File&rsquo;</a> section for additional instructions.</p></blockquote>
+
+<h3>CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects.</p>
+
+<p>CocoaPods 0.36 adds supports for Swift and embedded frameworks. You can install it with the following command:</p>
+
+<pre><code>$ gem install cocoapods
+</code></pre>
+
+<p>To integrate Alamofire into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+
+<pre><code>source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+use_frameworks!
+
+pod 'Alamofire', '~&gt; 1.3'
+</code></pre>
+
+<p>Then, run the following command:</p>
+
+<pre><code>$ pod install
+</code></pre>
+
+<h3>Carthage</h3>
+
+<p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager that automates the process of adding frameworks to your Cocoa application.</p>
+
+<p>You can install Carthage with <a href="http://brew.sh/">Homebrew</a> using the following command:</p>
+
+<pre><code>$ brew update
+$ brew install carthage
+</code></pre>
+
+<p>To integrate Alamofire into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
+
+<pre><code>github "Alamofire/Alamofire" &gt;= 1.3
+</code></pre>
+
+<h3>Manually</h3>
+
+<p>If you prefer not to use either of the aforementioned dependency managers, you can integrate Alamofire into your project manually.</p>
+
+<h4>Embedded Framework</h4>
+
+<ul>
+<li>Add Alamofire as a <a href="http://git-scm.com/docs/git-submodule">submodule</a> by opening the Terminal, <code>cd</code>-ing into your top-level project directory, and entering the following command:</li>
+</ul>
+
+
+<p>cmd:</p>
+
+<pre><code>$ git submodule add https://github.com/Alamofire/Alamofire.git
+</code></pre>
+
+<ul>
+<li><p>Open the new <code>Alamofire</code> folder, and drag the <code>Alamofire.xcodeproj</code> into the Project Navigator of your application&rsquo;s Xcode project.</p>
+
+<blockquote><p>It should appear nested underneath your application&rsquo;s blue project icon. Whether it is above or below all the other Xcode groups does not matter.</p></blockquote></li>
+<li><p>Select the <code>Alamofire.xcodeproj</code> in the Project Navigator and verify the deployment target matches that of your application target.</p></li>
+<li>Next, select your application project in the Project Navigator (blue project icon) to navigate to the target configuration window and select the application target under the &ldquo;Targets&rdquo; heading in the sidebar.</li>
+<li>In the tab bar at the top of that window, open the &ldquo;General&rdquo; panel.</li>
+<li>Click on the <code>+</code> button under the &ldquo;Embedded Binaries&rdquo; section.</li>
+<li><p>You will see two different <code>Alamofire.xcodeproj</code> folders each with two different versions of the <code>Alamofire.framework</code> nested inside a <code>Products</code> folder.</p>
+
+<blockquote><p>It does not matter which <code>Products</code> folder you choose from, but it does matter whether you choose the top or bottom <code>Alamofire.framework</code>.</p></blockquote></li>
+<li><p>Select the top <code>Alamofire.framework</code> for iOS and the bottom one for OS X.</p>
+
+<blockquote><p>You can verify which one you selected by inspecting the build log for your project. The build target for <code>Alamofire</code> will be listed as either <code>Alamofire iOS</code> or <code>Alamofire OSX</code>.</p></blockquote></li>
+<li><p>And that&rsquo;s it!</p></li>
+</ul>
+
+
+<blockquote><p>The <code>Alamofire.framework</code> is automagically added as a target dependency, linked framework and embedded framework in a copy files build phase which is all you need to build on the simulator and a device.</p></blockquote>
+
+<h4>Source File</h4>
+
+<p>For application targets that do not support embedded frameworks, such as iOS 7, Alamofire can be integrated by adding all the Swift files located inside the <code>Source</code> directory (<code>Source/*.swift</code>) directly into your project. Note that you will no longer need to <code>import Alamofire</code> since you are not actually loading a framework. Additionally, any of the calling conventions described in the <a href="#usage">&lsquo;Usage&rsquo;</a> section with the <code>Alamofire</code> prefix would instead omit it (for example, <code>Alamofire.request</code> becomes <code>request</code>), since this functionality is incorporated into the top-level namespace.</p>
+
+<hr />
+
+<h2>Usage</h2>
+
+<h3>Making a Request</h3>
+
+<pre><code>import Alamofire
+
+Alamofire.request(.GET, "http://httpbin.org/get")
+</code></pre>
+
+<h3>Response Handling</h3>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+         .response { request, response, data, error in
+              println(request)
+              println(response)
+              println(error)
+          }
+</code></pre>
+
+<blockquote><p>Networking in Alamofire is done <em>asynchronously</em>. Asynchronous programming may be a source of frustration to programmers unfamiliar with the concept, but there are <a href="https://developer.apple.com/library/ios/qa/qa1693/_index.html">very good reasons</a> for doing it this way.</p>
+
+<p>Rather than blocking execution to wait for a response from the server, a <a href="http://en.wikipedia.org/wiki/Callback_%28computer_programming%29">callback</a> is specified to handle the response once it&rsquo;s received. The result of a request is only available inside the scope of a response handler. Any execution contingent on the response or data received from the server must be done within a handler.</p></blockquote>
+
+<h3>Response Serialization</h3>
+
+<p><strong>Built-in Response Methods</strong></p>
+
+<ul>
+<li><code>response()</code></li>
+<li><code>responseString(encoding: NSStringEncoding)</code></li>
+<li><code>responseJSON(options: NSJSONReadingOptions)</code></li>
+<li><code>responsePropertyList(options: NSPropertyListReadOptions)</code></li>
+</ul>
+
+
+<h4>Response String Handler</h4>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
+         .responseString { _, _, string, _ in
+             println(string)
+         }
+</code></pre>
+
+<h4>Response JSON Handler</h4>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
+         .responseJSON { _, _, JSON, _ in
+             println(JSON)
+         }
+</code></pre>
+
+<h4>Chained Response Handlers</h4>
+
+<p>Response handlers can even be chained:</p>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
+         .responseString { _, _, string, _ in
+             println(string)
+         }
+         .responseJSON { _, _, JSON, _ in
+             println(JSON)
+         }
+</code></pre>
+
+<h3>HTTP Methods</h3>
+
+<p><code>Alamofire.Method</code> lists the HTTP methods defined in <a href="http://tools.ietf.org/html/rfc7231#section-4.3">RFC 7231 §4.3</a>:</p>
+
+<pre><code>public enum Method: String {
+    case OPTIONS = "OPTIONS"
+    case GET = "GET"
+    case HEAD = "HEAD"
+    case POST = "POST"
+    case PUT = "PUT"
+    case PATCH = "PATCH"
+    case DELETE = "DELETE"
+    case TRACE = "TRACE"
+    case CONNECT = "CONNECT"
+}
+</code></pre>
+
+<p>These values can be passed as the first argument of the <code>Alamofire.request</code> method:</p>
+
+<pre><code>Alamofire.request(.POST, "http://httpbin.org/post")
+
+Alamofire.request(.PUT, "http://httpbin.org/put")
+
+Alamofire.request(.DELETE, "http://httpbin.org/delete")
+</code></pre>
+
+<h3>Parameters</h3>
+
+<h4>GET Request With URL-Encoded Parameters</h4>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+// http://httpbin.org/get?foo=bar
+</code></pre>
+
+<h4>POST Request With URL-Encoded Parameters</h4>
+
+<pre><code>let parameters = [
+    "foo": "bar",
+    "baz": ["a", 1],
+    "qux": [
+        "x": 1,
+        "y": 2,
+        "z": 3
+    ]
+]
+
+Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters)
+// HTTP body: foo=bar&amp;baz[]=a&amp;baz[]=1&amp;qux[x]=1&amp;qux[y]=2&amp;qux[z]=3
+</code></pre>
+
+<h3>Parameter Encoding</h3>
+
+<p>Parameters can also be encoded as JSON, Property List, or any custom format, using the <code>ParameterEncoding</code> enum:</p>
+
+<pre><code>enum ParameterEncoding {
+    case URL
+    case JSON
+    case PropertyList(format: NSPropertyListFormat, options: NSPropertyListWriteOptions)
+    case Custom((URLRequestConvertible, [String: AnyObject]?) -&gt; (NSMutableURLRequest, NSError?))
+
+    func encode(request: NSURLRequest, parameters: [String: AnyObject]?) -&gt; (NSURLRequest, NSError?)
+    { ... }
+}
+</code></pre>
+
+<ul>
+<li><code>URL</code>: A query string to be set as or appended to any existing URL query for <code>GET</code>, <code>HEAD</code>, and <code>DELETE</code> requests, or set as the body for requests with any other HTTP method. The <code>Content-Type</code> HTTP header field of an encoded request with HTTP body is set to <code>application/x-www-form-urlencoded</code>. <em>Since there is no published specification for how to encode collection types, Alamofire follows the convention of appending <code>[]</code> to the key for array values (<code>foo[]=1&amp;foo[]=2</code>), and appending the key surrounded by square brackets for nested dictionary values (<code>foo[bar]=baz</code>).</em></li>
+<li><code>JSON</code>: Uses <code>NSJSONSerialization</code> to create a JSON representation of the parameters object, which is set as the body of the request. The <code>Content-Type</code> HTTP header field of an encoded request is set to <code>application/json</code>.</li>
+<li><code>PropertyList</code>: Uses <code>NSPropertyListSerialization</code> to create a plist representation of the parameters object, according to the associated format and write options values, which is set as the body of the request. The <code>Content-Type</code> HTTP header field of an encoded request is set to <code>application/x-plist</code>.</li>
+<li><code>Custom</code>: Uses the associated closure value to construct a new request given an existing request and parameters.</li>
+</ul>
+
+
+<h4>Manual Parameter Encoding of an NSURLRequest</h4>
+
+<pre><code>let URL = NSURL(string: "http://httpbin.org/get")!
+var request = NSURLRequest(URL: URL)
+
+let parameters = ["foo": "bar"]
+let encoding = Alamofire.ParameterEncoding.URL
+(request, _) = encoding.encode(request, parameters: parameters)
+</code></pre>
+
+<h4>POST Request with JSON-encoded Parameters</h4>
+
+<pre><code>let parameters = [
+    "foo": [1,2,3],
+    "bar": [
+        "baz": "qux"
+    ]
+]
+
+Alamofire.request(.POST, "http://httpbin.org/post", parameters: parameters, encoding: .JSON)
+// HTTP body: {"foo": [1, 2, 3], "bar": {"baz": "qux"}}
+</code></pre>
+
+<h3>HTTP Headers</h3>
+
+<p>Adding a custom HTTP header to a <code>Request</code> is supported directly in the global <code>request</code> method. This makes it easy to attach HTTP headers to a <code>Request</code> that can be constantly changing.</p>
+
+<blockquote><p>For HTTP headers that do not change, it is recommended to set them on the <code>NSURLSessionConfiguration</code> so they are automatically applied to any <code>NSURLSessionTask</code> created by the underlying <code>NSURLSession</code>.</p></blockquote>
+
+<pre><code>let headers = [
+    "Authorization": "Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==",
+    "Content-Type": "application/x-www-form-urlencoded"
+]
+
+Alamofire.request(.GET, "http://httpbin.org/get", headers: headers)
+         .responseJSON { _, _, JSON, _ in
+             println(JSON)
+         }
+</code></pre>
+
+<h3>Caching</h3>
+
+<p>Caching is handled on the system framework level by <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLCache_Class/Reference/Reference.html#//apple_ref/occ/cl/NSURLCache"><code>NSURLCache</code></a>.</p>
+
+<h3>Uploading</h3>
+
+<p><strong>Supported Upload Types</strong></p>
+
+<ul>
+<li>File</li>
+<li>Data</li>
+<li>Stream</li>
+<li>MultipartFormData</li>
+</ul>
+
+
+<h4>Uploading a File</h4>
+
+<pre><code>let fileURL = NSBundle.mainBundle().URLForResource("Default", withExtension: "png")
+Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
+</code></pre>
+
+<h4>Uploading with Progress</h4>
+
+<pre><code>Alamofire.upload(.POST, "http://httpbin.org/post", file: fileURL)
+         .progress { bytesWritten, totalBytesWritten, totalBytesExpectedToWrite in
+             println(totalBytesWritten)
+         }
+         .responseJSON { request, response, JSON, error in
+             println(JSON)
+         }
+</code></pre>
+
+<h4>Uploading MultipartFormData</h4>
+
+<pre><code>Alamofire.upload(
+    .POST,
+    URLString: "http://httpbin.org/post",
+    multipartFormData: { multipartFormData in
+        multipartFormData.appendBodyPart(fileURL: unicornImageURL, name: "unicorn")
+        multipartFormData.appendBodyPart(fileURL: rainbowImageURL, name: "rainbow")
+    },
+    encodingCompletion: { encodingResult in
+        switch encodingResult {
+        case .Success(let upload, _, _):
+            upload.responseJSON { request, response, JSON, error in
+                println(JSON)
+            }
+        case .Failure(let encodingError):
+            println(encodingError)
+        }
+    }
+)
+</code></pre>
+
+<h3>Downloading</h3>
+
+<p><strong>Supported Download Types</strong></p>
+
+<ul>
+<li>Request</li>
+<li>Resume Data</li>
+</ul>
+
+
+<h4>Downloading a File</h4>
+
+<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100") { temporaryURL, response in
+    let fileManager = NSFileManager.defaultManager()
+    if let directoryURL = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)[0] as? NSURL {
+        let pathComponent = response.suggestedFilename
+        return directoryURL.URLByAppendingPathComponent(pathComponent!)
+    }
+
+    return temporaryURL
+}
+</code></pre>
+
+<h4>Using the Default Download Destination</h4>
+
+<pre><code>let destination = Alamofire.Request.suggestedDownloadDestination(directory: .DocumentDirectory, domain: .UserDomainMask)
+Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
+</code></pre>
+
+<h4>Downloading a File w/Progress</h4>
+
+<pre><code>Alamofire.download(.GET, "http://httpbin.org/stream/100", destination: destination)
+         .progress { bytesRead, totalBytesRead, totalBytesExpectedToRead in
+             println(totalBytesRead)
+         }
+         .response { request, response, _, error in
+             println(response)
+         }
+</code></pre>
+
+<h3>Authentication</h3>
+
+<p>Authentication is handled on the system framework level by <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLAuthenticationChallenge_Class/Reference/Reference.html"><code>NSURLCredential</code> and <code>NSURLAuthenticationChallenge</code></a>.</p>
+
+<p><strong>Supported Authentication Schemes</strong></p>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Digest_access_authentication">HTTP Digest</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Kerberos_%28protocol%29">Kerberos</a></li>
+<li><a href="http://en.wikipedia.org/wiki/NT_LAN_Manager">NTLM</a></li>
+</ul>
+
+
+<h4>HTTP Basic Authentication</h4>
+
+<p>The <code>authenticate</code> method on a <code>Request</code> will automatically provide an <code>NSURLCredential</code> to an <code>NSURLAuthenticationChallenge</code> when appropriate:</p>
+
+<pre><code>let user = "user"
+let password = "password"
+
+Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
+         .authenticate(user: user, password: password)
+         .response { request, response, _, error in
+             println(response)
+         }
+</code></pre>
+
+<p>Depending upon your server implementation, an <code>Authorization</code> header may also be appropriate:</p>
+
+<pre><code>let user = "user"
+let password = "password"
+
+let credentialData = "\(user):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
+let base64Credentials = credentialData.base64EncodedStringWithOptions(nil)
+
+let headers = ["Authorization": "Basic \(base64Credentials)"]
+
+Alamofire.request(.GET, "http://httpbin.org/basic-auth/user/password", headers: headers)
+         .responseJSON { _, _, JSON, _ in
+             println(JSON)
+         }
+</code></pre>
+
+<h4>Authentication with NSURLCredential</h4>
+
+<pre><code>let user = "user"
+let password = "password"
+
+let credential = NSURLCredential(user: user, password: password, persistence: .ForSession)
+
+Alamofire.request(.GET, "https://httpbin.org/basic-auth/\(user)/\(password)")
+         .authenticate(usingCredential: credential)
+         .response { request, response, _, error in
+             println(response)
+         }
+</code></pre>
+
+<h3>Validation</h3>
+
+<p>By default, Alamofire treats any completed request to be successful, regardless of the content of the response. Calling <code>validate</code> before a response handler causes an error to be generated if the response had an unacceptable status code or MIME type.</p>
+
+<h4>Manual Validation</h4>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+         .validate(statusCode: 200..&lt;300)
+         .validate(contentType: ["application/json"])
+         .response { _, _, _, error in
+             println(error)
+         }
+</code></pre>
+
+<h4>Automatic Validation</h4>
+
+<p>Automatically validates status code within <code>200...299</code> range, and that the <code>Content-Type</code> header of the response matches the <code>Accept</code> header of the request, if one is provided.</p>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+         .validate()
+         .response { _, _, _, error in
+             println(error)
+         }
+</code></pre>
+
+<h3>Printable</h3>
+
+<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/ip")
+
+println(request)
+// GET http://httpbin.org/ip (200)
+</code></pre>
+
+<h3>DebugPrintable</h3>
+
+<pre><code>let request = Alamofire.request(.GET, "http://httpbin.org/get", parameters: ["foo": "bar"])
+
+debugPrintln(request)
+</code></pre>
+
+<h4>Output (cURL)</h4>
+
+<pre><code>$ curl -i \
+    -H "User-Agent: Alamofire" \
+    -H "Accept-Encoding: Accept-Encoding: gzip;q=1.0,compress;q=0.5" \
+    -H "Accept-Language: en;q=1.0,fr;q=0.9,de;q=0.8,zh-Hans;q=0.7,zh-Hant;q=0.6,ja;q=0.5" \
+    "http://httpbin.org/get?foo=bar"
+</code></pre>
+
+<hr />
+
+<h2>Advanced Usage</h2>
+
+<blockquote><p>Alamofire is built on <code>NSURLSession</code> and the Foundation URL Loading System. To make the most of
+this framework, it is recommended that you be familiar with the concepts and capabilities of the underlying networking stack.</p></blockquote>
+
+<p><strong>Recommended Reading</strong></p>
+
+<ul>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/URLLoadingSystem/URLLoadingSystem.html">URL Loading System Programming Guide</a></li>
+<li><a href="https://developer.apple.com/library/mac/documentation/Foundation/Reference/NSURLSession_class/Introduction/Introduction.html#//apple_ref/occ/cl/NSURLSession">NSURLSession Class Reference</a></li>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLCache_Class/Reference/Reference.html#//apple_ref/occ/cl/NSURLCache">NSURLCache Class Reference</a></li>
+<li><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSURLAuthenticationChallenge_Class/Reference/Reference.html">NSURLAuthenticationChallenge Class Reference</a></li>
+</ul>
+
+
+<h3>Manager</h3>
+
+<p>Top-level convenience methods like <code>Alamofire.request</code> use a shared instance of <code>Alamofire.Manager</code>, which is configured with the default <code>NSURLSessionConfiguration</code>.</p>
+
+<p>As such, the following two statements are equivalent:</p>
+
+<pre><code>Alamofire.request(.GET, "http://httpbin.org/get")
+
+
+
+let manager = Alamofire.Manager.sharedInstance
+manager.request(NSURLRequest(URL: NSURL(string: "http://httpbin.org/get")))
+</code></pre>
+
+<p>Applications can create managers for background and ephemeral sessions, as well as new managers that customize the default session configuration, such as for default headers (<code>HTTPAdditionalHeaders</code>) or timeout interval (<code>timeoutIntervalForRequest</code>).</p>
+
+<h4>Creating a Manager with Default Configuration</h4>
+
+<pre><code>let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+let manager = Alamofire.Manager(configuration: configuration)
+</code></pre>
+
+<h4>Creating a Manager with Background Configuration</h4>
+
+<pre><code>let configuration = NSURLSessionConfiguration.backgroundSessionConfiguration("com.example.app.background")
+let manager = Alamofire.Manager(configuration: configuration)
+</code></pre>
+
+<h4>Creating a Manager with Ephemeral Configuration</h4>
+
+<pre><code>let configuration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
+let manager = Alamofire.Manager(configuration: configuration)
+</code></pre>
+
+<h4>Modifying Session Configuration</h4>
+
+<pre><code>var defaultHeaders = Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders ?? [:]
+defaultHeaders["DNT"] = "1 (Do Not Track Enabled)"
+
+let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+configuration.HTTPAdditionalHeaders = defaultHeaders
+
+let manager = Alamofire.Manager(configuration: configuration)
+</code></pre>
+
+<blockquote><p>This is <strong>not</strong> recommended for <code>Authorization</code> or <code>Content-Type</code> headers. Instead, use <code>URLRequestConvertible</code> and <code>ParameterEncoding</code>, respectively.</p></blockquote>
+
+<h3>Request</h3>
+
+<p>The result of a <code>request</code>, <code>upload</code>, or <code>download</code> method is an instance of <code>Alamofire.Request</code>. A request is always created using a constructor method from an owning manager, and never initialized directly.</p>
+
+<p>Methods like <code>authenticate</code>, <code>validate</code>, and <code>response</code> return the caller in order to facilitate chaining.</p>
+
+<p>Requests can be suspended, resumed, and cancelled:</p>
+
+<ul>
+<li><code>suspend()</code>: Suspends the underlying task and dispatch queue</li>
+<li><code>resume()</code>: Resumes the underlying task and dispatch queue. If the owning manager does not have <code>startRequestsImmediately</code> set to <code>true</code>, the request must call <code>resume()</code> in order to start.</li>
+<li><code>cancel()</code>: Cancels the underlying task, producing an error that is passed to any registered response handlers.</li>
+</ul>
+
+
+<h3>Response Serialization</h3>
+
+<h4>Creating a Custom Response Serializer</h4>
+
+<p>Alamofire provides built-in response serialization for strings, JSON, and property lists, but others can be added in extensions on <code>Alamofire.Request</code>.</p>
+
+<p>For example, here&rsquo;s how a response handler using <a href="https://github.com/mattt/Ono">Ono</a> might be implemented:</p>
+
+<pre><code>extension Request {
+    public static func XMLResponseSerializer() -&gt; GenericResponseSerializer&lt;ONOXMLDocument&gt; {
+        return GenericResponseSerializer { request, response, data in
+            if data == nil {
+                return (nil, nil)
+            }
+
+            var XMLSerializationError: NSError?
+            let XML = ONOXMLDocument(data: data!, error: &amp;XMLSerializationError)
+
+            return (XML, XMLSerializationError)
+        }
+    }
+
+    public func responseXMLDocument(completionHandler: (NSURLRequest, NSHTTPURLResponse?, ONOXMLDocument?, NSError?) -&gt; Void) -&gt; Self {
+        return response(responseSerializer: Request.XMLResponseSerializer(), completionHandler: completionHandler)
+    }
+}
+</code></pre>
+
+<h4>Generic Response Object Serialization</h4>
+
+<p>Generics can be used to provide automatic, type-safe response object serialization.</p>
+
+<pre><code>@objc public protocol ResponseObjectSerializable {
+    init?(response: NSHTTPURLResponse, representation: AnyObject)
+}
+
+extension Request {
+    public func responseObject&lt;T: ResponseObjectSerializable&gt;(completionHandler: (NSURLRequest, NSHTTPURLResponse?, T?, NSError?) -&gt; Void) -&gt; Self {
+        let responseSerializer = GenericResponseSerializer&lt;T&gt; { request, response, data in
+            let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
+            let (JSON: AnyObject?, serializationError) = JSONResponseSerializer.serializeResponse(request, response, data)
+
+            if let response = response, JSON: AnyObject = JSON {
+                return (T(response: response, representation: JSON), nil)
+            } else {
+                return (nil, serializationError)
+            }
+        }
+
+        return response(responseSerializer: responseSerializer, completionHandler: completionHandler)
+    }
+}
+
+
+
+final class User: ResponseObjectSerializable {
+    let username: String
+    let name: String
+
+    @objc required init?(response: NSHTTPURLResponse, representation: AnyObject) {
+        self.username = response.URL!.lastPathComponent!
+        self.name = representation.valueForKeyPath("name") as! String
+    }
+}
+
+
+
+Alamofire.request(.GET, "http://example.com/users/mattt")
+         .responseObject { (_, _, user: User?, _) in
+             println(user)
+         }
+</code></pre>
+
+<p>The same approach can also be used to handle endpoints that return a representation of a collection of objects:</p>
+
+<pre><code>@objc public protocol ResponseCollectionSerializable {
+    static func collection(#response: NSHTTPURLResponse, representation: AnyObject) -&gt; [Self]
+}
+
+extension Alamofire.Request {
+    public func responseCollection&lt;T: ResponseCollectionSerializable&gt;(completionHandler: (NSURLRequest, NSHTTPURLResponse?, [T]?, NSError?) -&gt; Void) -&gt; Self {
+        let responseSerializer = GenericResponseSerializer&lt;[T]&gt; { request, response, data in
+            let JSONSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
+            let (JSON: AnyObject?, serializationError) = JSONSerializer.serializeResponse(request, response, data)
+
+            if let response = response, JSON: AnyObject = JSON {
+                return (T.collection(response: response, representation: JSON), nil)
+            } else {
+                return (nil, serializationError)
+            }
+        }
+
+        return response(responseSerializer: responseSerializer, completionHandler: completionHandler)
+    }
+}
+
+
+
+@objc final class User: ResponseObjectSerializable, ResponseCollectionSerializable {
+    let username: String
+    let name: String
+
+    required init?(response: NSHTTPURLResponse, representation: AnyObject) {
+        self.username = response.URL!.lastPathComponent!
+        self.name = representation.valueForKeyPath("name") as! String
+    }
+
+    static func collection(#response: NSHTTPURLResponse, representation: AnyObject) -&gt; [User] {
+        var users: [User] = []
+
+        if let representation = representation as? [[String: AnyObject]] {
+            for userRepresentation in representation {
+                if let user = User(response: response, representation: userRepresentation) {
+                    users.append(user)
+                }
+            }
+        }
+
+        return users
+    }
+}
+
+
+
+Alamofire.request(.GET, "http://example.com/users")
+         .responseCollection { (_, _, users: [User]?, _) in
+             println(users)
+         }
+</code></pre>
+
+<h3>URLStringConvertible</h3>
+
+<p>Types adopting the <code>URLStringConvertible</code> protocol can be used to construct URL strings, which are then used to construct URL requests. <code>NSString</code>, <code>NSURL</code>, <code>NSURLComponents</code>, and <code>NSURLRequest</code> conform to <code>URLStringConvertible</code> by default, allowing any of them to be passed as <code>URLString</code> parameters to the <code>request</code>, <code>upload</code>, and <code>download</code> methods:</p>
+
+<pre><code>let string = NSString(string: "http://httpbin.org/post")
+Alamofire.request(.POST, string)
+
+let URL = NSURL(string: string)!
+Alamofire.request(.POST, URL)
+
+let URLRequest = NSURLRequest(URL: URL)
+Alamofire.request(.POST, URLRequest) // overrides `HTTPMethod` of `URLRequest`
+
+let URLComponents = NSURLComponents(URL: URL, resolvingAgainstBaseURL: true)
+Alamofire.request(.POST, URLComponents)
+</code></pre>
+
+<p>Applications interacting with web applications in a significant manner are encouraged to have custom types conform to <code>URLStringConvertible</code> as a convenient way to map domain-specific models to server resources.</p>
+
+<h4>Type-Safe Routing</h4>
+
+<pre><code>extension User: URLStringConvertible {
+    static let baseURLString = "http://example.com"
+
+    var URLString: String {
+        return User.baseURLString + "/users/\(username)/"
+    }
+}
+
+
+
+let user = User(username: "mattt")
+Alamofire.request(.GET, user) // http://example.com/users/mattt
+</code></pre>
+
+<h3>URLRequestConvertible</h3>
+
+<p>Types adopting the <code>URLRequestConvertible</code> protocol can be used to construct URL requests. <code>NSURLRequest</code> conforms to <code>URLRequestConvertible</code> by default, allowing it to be passed into <code>request</code>, <code>upload</code>, and <code>download</code> methods directly (this is the recommended way to specify custom HTTP header fields or HTTP body for individual requests):</p>
+
+<pre><code>let URL = NSURL(string: "http://httpbin.org/post")!
+let mutableURLRequest = NSMutableURLRequest(URL: URL)
+mutableURLRequest.HTTPMethod = "POST"
+
+let parameters = ["foo": "bar"]
+var JSONSerializationError: NSError? = nil
+mutableURLRequest.HTTPBody = NSJSONSerialization.dataWithJSONObject(parameters, options: nil, error: &amp;JSONSerializationError)
+mutableURLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+Alamofire.request(mutableURLRequest)
+</code></pre>
+
+<p>Applications interacting with web applications in a significant manner are encouraged to have custom types conform to <code>URLRequestConvertible</code> as a way to ensure consistency of requested endpoints. Such an approach can be used to abstract away server-side inconsistencies and provide type-safe routing, as well as manage authentication credentials and other state.</p>
+
+<h4>API Parameter Abstraction</h4>
+
+<pre><code>enum Router: URLRequestConvertible {
+    static let baseURLString = "http://example.com"
+    static let perPage = 50
+
+    case Search(query: String, page: Int)
+
+    // MARK: URLRequestConvertible
+
+    var URLRequest: NSURLRequest {
+        let (path: String, parameters: [String: AnyObject]?) = {
+            switch self {
+            case .Search(let query, let page) where page &gt; 1:
+                return ("/search", ["q": query, "offset": Router.perPage * page])
+            case .Search(let query, _):
+                return ("/search", ["q": query])
+            }
+        }()
+
+        let URL = NSURL(string: Router.baseURLString)!
+        let URLRequest = NSURLRequest(URL: URL.URLByAppendingPathComponent(path))
+        let encoding = Alamofire.ParameterEncoding.URL
+
+        return encoding.encode(URLRequest, parameters: parameters).0
+    }
+}
+
+
+
+Alamofire.request(Router.Search(query: "foo bar", page: 1)) // ?q=foo%20bar&amp;offset=50
+</code></pre>
+
+<h4>CRUD &amp; Authorization</h4>
+
+<pre><code>enum Router: URLRequestConvertible {
+    static let baseURLString = "http://example.com"
+    static var OAuthToken: String?
+
+    case CreateUser([String: AnyObject])
+    case ReadUser(String)
+    case UpdateUser(String, [String: AnyObject])
+    case DestroyUser(String)
+
+    var method: Alamofire.Method {
+        switch self {
+        case .CreateUser:
+            return .POST
+        case .ReadUser:
+            return .GET
+        case .UpdateUser:
+            return .PUT
+        case .DestroyUser:
+            return .DELETE
+        }
+    }
+
+    var path: String {
+        switch self {
+        case .CreateUser:
+            return "/users"
+        case .ReadUser(let username):
+            return "/users/\(username)"
+        case .UpdateUser(let username, _):
+            return "/users/\(username)"
+        case .DestroyUser(let username):
+            return "/users/\(username)"
+        }
+    }
+
+    // MARK: URLRequestConvertible
+
+    var URLRequest: NSURLRequest {
+        let URL = NSURL(string: Router.baseURLString)!
+        let mutableURLRequest = NSMutableURLRequest(URL: URL.URLByAppendingPathComponent(path))
+        mutableURLRequest.HTTPMethod = method.rawValue
+
+        if let token = Router.OAuthToken {
+            mutableURLRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+
+        switch self {
+        case .CreateUser(let parameters):
+            return Alamofire.ParameterEncoding.JSON.encode(mutableURLRequest, parameters: parameters).0
+        case .UpdateUser(_, let parameters):
+            return Alamofire.ParameterEncoding.URL.encode(mutableURLRequest, parameters: parameters).0
+        default:
+            return mutableURLRequest
+        }
+    }
+}
+
+
+Alamofire.request(Router.ReadUser("mattt")) // GET /users/mattt
+</code></pre>
+
+<h3>Security</h3>
+
+<p>Using a secure HTTPS connection when communicating with servers and web services is an important step in securing sensitive data. By default, Alamofire will evaluate the certificate chain provided by the server using Apple&rsquo;s built in validation provided by the Security framework. While this guarantees the certificate chain is valid, it does not prevent man-in-the-middle (MITM) attacks or other potential vulnerabilities. In order to mitigate MITM attacks, applications dealing with sensitive customer data or financial information should use certificate or public key pinning provided by the <code>ServerTrustPolicy</code>.</p>
+
+<h4>ServerTrustPolicy</h4>
+
+<p>The <code>ServerTrustPolicy</code> enumeration evaluates the server trust generally provided by an <code>NSURLAuthenticationChallenge</code> when connecting to a server over a secure HTTPS connection.</p>
+
+<pre><code>let serverTrustPolicy = ServerTrustPolicy.PinCertificates(
+    certificates: ServerTrustPolicy.certificatesInBundle(),
+    validateCertificateChain: true,
+    validateHost: true
+)
+</code></pre>
+
+<p>There are many different cases of server trust evaluation giving you complete control over the validation process:</p>
+
+<ul>
+<li><code>PerformDefaultEvaluation</code>: Uses the default server trust evaluation while allowing you to control whether to validate the host provided by the challenge.</li>
+<li><code>PinCertificates</code>: Uses the pinned certificates to validate the server trust. The server trust is considered valid if one of the pinned certificates match one of the server certificates.</li>
+<li><code>PinPublicKeys</code>: Uses the pinned public keys to validate the server trust. The server trust is considered valid if one of the pinned public keys match one of the server certificate public keys.</li>
+<li><code>DisableEvaluation</code>: Disables all evaluation which in turn will always consider any server trust as valid.</li>
+<li><code>CustomEvaluation</code>: Uses the associated closure to evaluate the validity of the server trust thus giving you complete control over the validation process. Use with caution.</li>
+</ul>
+
+
+<h4>Server Trust Policy Manager</h4>
+
+<p>The <code>ServerTrustPolicyManager</code> is responsible for storing an internal mapping of server trust policies to a particular host. This allows Alamofire to evaluate each host against a different server trust policy.</p>
+
+<pre><code>let serverTrustPolicies: [String: ServerTrustPolicy] = [
+    "test.example.com": .PinCertificates(
+        certificates: ServerTrustPolicy.certificatesInBundle(),
+        validateCertificateChain: true,
+        validateHost: true
+    ),
+    "insecure.expired-apis.com": .DisableEvaluation
+]
+
+let manager = Manager(
+    configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+    serverTrustPolicyManager: ServerTrustPolicyManager(policies: serverTrustPolicies)
+)
+</code></pre>
+
+<p>These server trust policies will result in the following behavior:</p>
+
+<ul>
+<li><code>test.example.com</code> will always use certificate pinning with certificate chain and host validation enabled thus requiring the following criteria to be met to allow the TLS handshake to succeed:
+
+<ul>
+<li>Certificate chain MUST be valid.</li>
+<li>Certificate chain MUST include one of the pinned certificates.</li>
+<li>Challenge host MUST match the host in the certificate chain&rsquo;s leaf certificate.</li>
+</ul>
+</li>
+<li><code>insecure.expired-apis.com</code> will never evaluate the certificate chain and will always allow the TLS handshake to succeed.</li>
+<li>All other hosts will use the default evaluation provided by Apple.</li>
+</ul>
+
+
+<hr />
+
+<h2>FAQ</h2>
+
+<h3>When should I use Alamofire?</h3>
+
+<p>If you&rsquo;re starting a new project in Swift, and want to take full advantage of its conventions and language features, Alamofire is a great choice. Although not as fully-featured as AFNetworking, Alamofire is much nicer to work with, and should satisfy the vast majority of networking use cases.</p>
+
+<blockquote><p>It&rsquo;s important to note that two libraries aren&rsquo;t mutually exclusive: AFNetworking and Alamofire can peacefully exist in the same code base.</p></blockquote>
+
+<h3>When should I use AFNetworking?</h3>
+
+<p>AFNetworking remains the premiere networking library available for OS X and iOS, and can easily be used in Swift, just like any other Objective-C code. AFNetworking is stable and reliable, and isn&rsquo;t going anywhere.</p>
+
+<p>Use AFNetworking for any of the following:</p>
+
+<ul>
+<li>UIKit extensions, such as asynchronously loading images to <code>UIImageView</code></li>
+<li>Network reachability monitoring, using <code>AFNetworkReachabilityManager</code></li>
+</ul>
+
+
+<h3>What&rsquo;s the origin of the name Alamofire?</h3>
+
+<p>Alamofire is named after the <a href="https://aggie-horticulture.tamu.edu/wildseed/alamofire.html">Alamo Fire flower</a>, a hybrid variant of the Bluebonnet, the official state flower of Texas.</p>
+
+<hr />
+
+<h2>Credits</h2>
+
+<p>Alamofire is owned and maintained by the <a href="http://alamofire.org">Alamofire Software Foundation</a>. You can follow them on Twitter at <a href="https://twitter.com/AlamofireSF">@AlamofireSF</a> for project updates and releases.</p>
+
+<h3>Security Disclosure</h3>
+
+<p>If you believe you have identified a security vulnerability with Alamofire, you should report it as soon as possible via email to <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#115;&#101;&#x63;&#117;&#x72;&#x69;&#x74;&#121;&#x40;&#97;&#x6c;&#x61;&#x6d;&#x6f;&#x66;&#105;&#x72;&#x65;&#46;&#x6f;&#114;&#103;&#46;">&#115;&#101;&#x63;&#117;&#x72;&#x69;&#x74;&#121;&#x40;&#97;&#x6c;&#97;&#x6d;&#111;&#x66;&#x69;&#114;&#x65;&#46;&#x6f;&#x72;&#x67;&#46;</a> Please do not post it to a public issue tracker.</p>
+
+<h2>License</h2>
+
+<p>Alamofire is released under the MIT license. See LICENSE for details.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-06T12:38:34+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>12:38 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/06/xcode-pbxcp-error-xiu-fu-no-such-file-or-directory/" title="Previous Post: Xcode PBXcp error 修复- No such file or directory">&laquo; Xcode PBXcp error 修复- No such file or directory</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/06/cocoapods-shi-yong-shou-ce/" title="Next Post: CocoaPods 使用手册">CocoaPods 使用手册 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

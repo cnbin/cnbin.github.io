@@ -1,0 +1,524 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Python 进阶-1 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、词典 词典 (dictionary)与列表相似，词典也可以储存多个元素。这种储存多个元素的对象称为容器(container)。 1、基本概念 常见的创建词典的方法: &gt;&gt;&gt;dic = {'tom':11, 'sam':57,'lily':100}
+&gt;&gt;&gt; &hellip;">
+  <meta name="keywords" content="python">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/25/python-jin-jie-1/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Python 进阶-1</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T09:43:29+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>一、词典</h2>
+
+<p>词典 (dictionary)与列表相似，词典也可以储存多个元素。这种储存多个元素的对象称为容器(container)。</p>
+
+<p>1、基本概念</p>
+
+<p>常见的创建词典的方法:</p>
+
+<pre><code>&gt;&gt;&gt;dic = {'tom':11, 'sam':57,'lily':100}
+&gt;&gt;&gt;print type(dic)
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etexwem3t7j20en03oab5.jpg" alt="img" /></p>
+
+<p>词典和表类似的地方，是包含有多个元素，每个元素以逗号分隔。但词典的元素包含有两部分，键和值，常见的是以字符串来表示键，也可以使用数字或者真值来表示键（不可变的对象可以作为键）。值可以是任意对象。键和值两者一一对应。</p>
+
+<p>比如上面的例子中，‘tom’ 对应11，'sam' 对应57，'lily' 对应100</p>
+
+<p>与表不同的是，词典的元素没有顺序。你不能通过下标引用元素。词典是通过键来引用。</p>
+
+<pre><code>&gt;&gt;&gt;print dic['tom']
+&gt;&gt;&gt;dic['tom'] = 30
+&gt;&gt;&gt;print dic
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etexylj1w8j20ei04s74v.jpg" alt="img" />
+构建一个新的空的词典：</p>
+
+<pre><code>&gt;&gt;&gt;dic = {}
+&gt;&gt;&gt;print dic
+</code></pre>
+
+<p>在词典中增添一个新元素的方法：</p>
+
+<pre><code>&gt;&gt;&gt;dic['lilei'] = 99
+&gt;&gt;&gt;print dic
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etexzt1kpjj208103y3yo.jpg" alt="img" /></p>
+
+<p>这里，我们引用一个新的键，并赋予它对应的值。</p>
+
+<h3>2、词典元素的循环调用</h3>
+
+<pre><code>dic = {'lilei': 90, 'lily': 100, 'sam': 57, 'tom': 90}
+for key in dic:
+    print dic[key]
+</code></pre>
+
+<p>在循环中，dict 的每个键，被提取出来，赋予给 key 变量。</p>
+
+<p>通过 print 的结果，我们可以再次确认，dic 中的元素是没有顺序的。</p>
+
+<h3>3、词典的常用方法</h3>
+
+<pre><code>&gt;&gt;&gt;print dic.keys()           # 返回dic所有的键
+&gt;&gt;&gt;print dic.values()         # 返回dic所有的值
+&gt;&gt;&gt;print dic.items()          # 返回dic所有的元素（键值对）
+&gt;&gt;&gt;dic.clear()                # 清空dic，dict变为{}
+</code></pre>
+
+<p>另外有一个很常用的用法：</p>
+
+<pre><code>&gt;&gt;&gt;del dic['tom']             # 删除 dic 的‘tom’元素
+</code></pre>
+
+<p><code>del</code> 是 Python 中保留的关键字，用于删除对象。</p>
+
+<p>与表类似，你可以用 <code>len()</code> 查询词典中的元素总数。</p>
+
+<pre><code>&gt;&gt;&gt;print len(dic)
+</code></pre>
+
+<h2>二、文本文件的输入输出</h2>
+
+<p>Python 具有基本的文本文件读写功能。Python 的标准库提供有更丰富的读写功能。</p>
+
+<p>文本文件的读写主要通过 <code>open()</code> 所构建的文件对象来实现。</p>
+
+<h3>1、创建文件对象</h3>
+
+<p>我们打开一个文件，并使用一个对象来表示该文件：</p>
+
+<pre><code>对象名 = open(文件名，模式)
+</code></pre>
+
+<p>最常用的模式有：</p>
+
+<ul>
+<li>r 打开只读文件，该文件必须存在。</li>
+<li>r+ 打开可读写的文件，该文件必须存在。</li>
+<li>w 打开只写文件，若文件存在则文件长度清为0，即该文件内容会消失。若文件不存在则建立该文件。</li>
+<li>w+ 打开可读写文件，若文件存在则文件长度清为零，即该文件内容会消失。若文件不存在则建立该文件。</li>
+<li>a 以附加的方式打开只写文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾，即文件原先的内容会被保留。</li>
+<li>a+ 以附加方式打开可读写的文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾后，即文件原先的内容会被保留。</li>
+<li><p>上述的形态字符串都可以再加一个 b 字符，如 rb、w+b 或 ab＋ 等组合，加入b 字符用来告诉函数库打开的文件为二进制文件，而非纯文字文件。</p></li>
+</ul>
+
+
+<p>比如：</p>
+
+<pre><code>&gt;&gt;&gt;f = open("test.txt","r")
+</code></pre>
+
+<h3>2、文件对象的方法</h3>
+
+<p>读取：</p>
+
+<pre><code>content = f.read(N)          # 读取N bytes的数据
+content = f.readline()       # 读取一行
+content = f.readlines()      # 读取所有行，储存在列表中，每个元素是一行。
+</code></pre>
+
+<p>写入：</p>
+
+<pre><code>f.write('I like apple!\n')      # 将'I like apple'写入文件并换行
+</code></pre>
+
+<p>关闭文件：</p>
+
+<pre><code>f.close()   # 不要忘记关闭文件
+</code></pre>
+
+<h2>三、模块</h2>
+
+<p>我们之前看到了函数和对象。从本质上来说，它们都是为了更好的组织已经有的程序，以方便重复利用。</p>
+
+<p>模块(module) 也是为了同样的目的。在 Python 中，一个 <code>.py</code> 文件就构成一个模块。通过模块，你可以调用其它文件中的程序。</p>
+
+<h3>1、引入模块</h3>
+
+<p>我们先写一个 <code>first.py</code> 文件，内容如下：</p>
+
+<pre><code>def laugh():
+    print 'HaHaHaHa'
+</code></pre>
+
+<p>再写一个 <code>second.py</code>，并引入 <code>first</code> 中的程序：</p>
+
+<pre><code>import first   #将first文件引入 
+for i in range(10):
+    first.laugh()
+</code></pre>
+
+<p>在 <code>second.py</code> 中，我们使用了 <code>first.py</code> 中定义的 <code>laugh()</code> 函数。</p>
+
+<p>引入模块后，可以通过 <code>模块.对象</code> 的方式来调用引入模块中的某个对象。上面例子中，first 为引入的模块，<code>laugh()</code> 是我们所引入的对象。</p>
+
+<p>Python中 还有其它的引入方式：</p>
+
+<pre><code>import a as b             # 引入模块a，并将模块a重命名为b
+from a import function1   # 从模块a中引入function1对象。调用a中对象时，我们不用再说明模块，即直接使用function1，而不是a.function1。
+from a import *           # 从模块a中引入所有对象。调用a中对象时，我们不用再说明模块，即直接使用对象，而不是a.对象。
+</code></pre>
+
+<p>这些引用方式，可以方便后面的程序书写。</p>
+
+<h3>2、搜索路径</h3>
+
+<p>Python会在以下路径中搜索它想要寻找的模块：</p>
+
+<ul>
+<li>程序所在的文件夹</li>
+<li>操作系统环境变量 <code>PYTHONPATH</code> 所包含的路径</li>
+<li>标准库的安装路径</li>
+</ul>
+
+
+<p>如果你有自定义的模块，或者下载的模块，可以根据情况放在相应的路径，以便 Python 可以找到。</p>
+
+<h3>3、模块包</h3>
+
+<p>可以将功能相似的模块放在同一个文件夹（比如说this_dir）中，构成一个模块包。通过</p>
+
+<pre><code>import this_dir.module
+</code></pre>
+
+<p>引入 <code>this_dir</code> 文件夹中的 <code>module</code> 模块。</p>
+
+<p>该文件夹中必须包含一个 <code>__init__.py</code> 的文件，提醒 <code>Python</code>，该文件夹为一个模块包。<code>__init__.py</code> 可以是一个空文件。</p>
+
+<h2>四、函数的参数传递</h2>
+
+<p>我们已经接触过函数(function)的参数(arguments)传递。当时我们根据位置，传递对应的参数。我们将接触更多的参数传递方式。</p>
+
+<p>回忆一下位置传递：</p>
+
+<pre><code>def f(a,b,c):
+    return a+b+c、
+
+print(f(1,2,3))
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etezy8accgj207v033wek.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etezy8z58wj20a200w748.jpg" alt="img" /></p>
+
+<p>在调用 f 时，1，2，3 根据位置分别传递给了 <code>a,b,c</code> 。</p>
+
+<h3>1、关键字传递</h3>
+
+<p>有些情况下，用位置传递会感觉比较死板。关键字(keyword)传递是根据每个参数的名字传递参数。关键字并不用遵守位置的对应关系。依然沿用上面 f 的定义，更改调用方式：</p>
+
+<pre><code>print(f(c=3,b=2,a=1))
+</code></pre>
+
+<p>关键字传递可以和位置传递混用。但位置参数要出现在关键字参数之前：</p>
+
+<pre><code>print(f(1,c=3,b=2))
+</code></pre>
+
+<h3>2、参数默认值</h3>
+
+<p>在定义函数的时候，使用形如 <code>a=19</code> 的方式，可以给参数赋予默认值(default)。如果该参数最终没有被传递值，将使用该默认值。</p>
+
+<pre><code>def f(a,b,c=10):
+    return a+b+c
+print(f(3,2))
+print(f(3,2,1))
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etf019kjjpj207x034glt.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etf00e1c52j209j01gweg.jpg" alt="img" />
+在第一次调用函数f时， 我们并没有足够的值，c 没有被赋值，c 将使用默认值10.</p>
+
+<p>第二次调用函数的时候，c 被赋值为1，不再使用默认值。</p>
+
+<h3>3、包裹传递</h3>
+
+<p>在定义函数时，我们有时候并不知道调用的时候会传递多少个参数。这时候，包裹(packing)位置参数，或者包裹关键字参数，来进行参数传递，会非常有用。</p>
+
+<p>下面是包裹位置传递的例子：</p>
+
+<pre><code>def func(*name):
+    print type(name)
+    print name
+
+func(1,4,6)
+func(5,6,7,1,2,3)
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etezs589uuj209p04aglx.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etezs5s4s9j20ah02faa9.jpg" alt="img" /></p>
+
+<p>两次调用，尽管参数个数不同，都基于同一个 <code>func</code> 定义。在 <code>func</code> 的参数表中，所有的参数被 <code>name</code> 收集，根据位置合并成一个元组(tuple)，这就是包裹位置传递。</p>
+
+<p>为了提醒 <code>Python</code> 参数，<code>name</code> 是包裹位置传递所用的元组名，在定义 <code>func</code> 时，在 <code>name</code> 前加 <code>*</code> 号。</p>
+
+<p>下面是包裹关键字传递的例子：</p>
+
+<pre><code>def func(**dict):
+    print type(dict)
+    print dict
+func(a=1,b=9)
+func(m=2,n=1,c=11)
+</code></pre>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etezuql1iuj207i03rwes.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etezutp89tj208w02aweq.jpg" alt="img" /></p>
+
+<p>与上面一个例子类似，dict 是一个字典，收集所有的关键字，传递给函数 func。为了提醒 Python，参数 dict 是包裹关键字传递所用的字典，在 dict 前加。</p>
+
+<p>包裹传递的关键在于定义函数时，在相应元组或字典前加或<code>*</code>。</p>
+
+<h3>4、解包裹</h3>
+
+<p><code>*</code> 和 <code>**</code>，也可以在调用的时候使用，即解包裹(unpacking), 下面为例：</p>
+
+<pre><code>def func(a,b,c):
+    print a,b,c
+args = (1,3,4)
+func(*args)
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eteza3nwf6j209701laa4.jpg" alt="img" /></p>
+
+<p>在这个例子中，所谓的解包裹，就是在传递 tuple 时，让 tuple 的每一个元素对应一个位置参数。在调用 func 时使用 <code>*</code> ，是为了提醒 Python：我想要把 args 拆成分散的三个元素，分别传递给 a,b,c。（设想一下在调用 func 时，args 前面没有 <code>*</code> 会是什么后果？）</p>
+
+<p>相应的，也存在对词典的解包裹，使用相同的 func 定义，然后：</p>
+
+<pre><code>def func(a,b,c):
+    print a,b,c
+dict = {'a':1,'b':2,'c':3}
+func(**dict)
+</code></pre>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etezdq2blbj209i00tq2w.jpg" alt="img" /></p>
+
+<p>在传递词典 <code>dict</code> 时，让词典的每个键值对作为一个关键字传递给 <code>func</code>。</p>
+
+<h3>5、混合</h3>
+
+<p>在定义或者调用参数时，参数的几种传递方式可以混合。但在过程中要小心前后顺序。基本原则是：先位置，再关键字，再包裹位置，再包裹关键字，并且根据上面所说的原理细细分辨。</p>
+
+<p>注意：请注意定义时和调用时的区分。包裹和解包裹并不是相反操作，是两个相对独立的过程。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-25T09:43:29+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/24/bash-yin-yong-bian-liang/" title="Previous Post: Bash - 引用变量">&laquo; Bash - 引用变量</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/25/python-ji-jie-2/" title="Next Post: Python 进阶-2">Python 进阶-2 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

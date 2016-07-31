@@ -1,0 +1,525 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SwiftyUserDefaults 2.0 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="SwiftyUserDefaults makes NSUserDefaults cleaner, nicer and easier to use in Swift. Its statically-typed API gives you extra safety and convenient &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/24/swiftyuserdefaults/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SwiftyUserDefaults 2.0</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-24T10:10:14+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:10 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><strong>SwiftyUserDefaults</strong> makes <code>NSUserDefaults</code> cleaner, nicer and easier to use in Swift. Its statically-typed API gives you extra safety and convenient compile-time checks for free.</p>
+
+<p>Read <a href="http://radex.io/swift/nsuserdefaults/">Swifty APIs: NSUserDefaults</a> and <a href="http://radex.io/swift/nsuserdefaults/static">Statically-typed NSUserDefaults</a> for more information about this project.</p>
+
+<h3>Define your keys</h3>
+
+<p>To get the most out of SwiftyUserDefaults, we recommend defining your user defaults keys ahead of time:</p>
+
+<pre><code>let colorKey = DefaultsKey&lt;String&gt;("color")
+</code></pre>
+
+<p>Just create a <code>DefaultsKey</code> object, put the value type in angled brackets and the key name in parentheses and you&rsquo;re good to go.</p>
+
+<p>You can now use the global <code>Defaults</code> object:</p>
+
+<pre><code>Defaults[colorKey] = "red"
+Defaults[colorKey] // =&gt; "red", typed as String
+</code></pre>
+
+<p>The compiler won&rsquo;t let you set a wrong value type, and fetching conveniently returns <code>String</code> — no need for manual casting or special accessors.</p>
+
+<h3>Take shortcuts</h3>
+
+<p>For extra convenience, define your keys by extending <code>DefaultsKeys</code> and adding static properties:</p>
+
+<pre><code>extension DefaultsKeys {
+    static let username = DefaultsKey&lt;String?&gt;("username")
+    static let launchCount = DefaultsKey&lt;Int&gt;("launchCount")
+}
+</code></pre>
+
+<p>And use the shortcut dot syntax:</p>
+
+<pre><code>Defaults[.username] = "joe"
+Defaults[.launchCount]
+</code></pre>
+
+<h3>Just use it!</h3>
+
+<p>You can easily modify value types (strings, numbers, array) in place, without extra steps or magic operators, as if you were working with a plain old dictionary:</p>
+
+<pre><code>// Modify value types in place
+Defaults[.launchCount]++
+Defaults[.volume] += 0.1
+Defaults[.strings] += "… can easily be extended!"
+
+// Use and modify typed arrays
+Defaults[.libraries].append("SwiftyUserDefaults")
+Defaults[.libraries][0] += " 2.0"
+
+// Easily work with custom serialized types
+Defaults[.color] = NSColor.whiteColor()
+Defaults[.color]?.whiteComponent // =&gt; 1.0
+</code></pre>
+
+<h3>Supported types</h3>
+
+<p>SwiftyUserDefaults supports all of the standard <code>NSUserDefaults</code> types, like strings, numbers, booleans, arrays and dictionaries.</p>
+
+<p>Here&rsquo;s a full table:</p>
+
+<table>
+<thead>
+<tr>
+<th> Optional variant       </th>
+<th> Non-optional variant  </th>
+<th> Default value </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> <code>String?</code>              </td>
+<td> <code>String</code>              </td>
+<td> <code>""</code>          </td>
+</tr>
+<tr>
+<td> <code>Int?</code>                 </td>
+<td> <code>Int</code>                 </td>
+<td> <code>0</code>           </td>
+</tr>
+<tr>
+<td> <code>Double?</code>              </td>
+<td> <code>Double</code>              </td>
+<td> <code>0.0</code>         </td>
+</tr>
+<tr>
+<td> <code>Bool?</code>                </td>
+<td> <code>Bool</code>                </td>
+<td> <code>false</code>       </td>
+</tr>
+<tr>
+<td> <code>NSData?</code>              </td>
+<td> <code>NSData</code>              </td>
+<td> <code>NSData()</code>    </td>
+</tr>
+<tr>
+<td> <code>[AnyObject]?</code>         </td>
+<td> <code>[AnyObject]</code>         </td>
+<td> <code>[]</code>          </td>
+</tr>
+<tr>
+<td> <code>[String: AnyObject]?</code> </td>
+<td> <code>[String: AnyObject]</code> </td>
+<td> <code>[:]</code>         </td>
+</tr>
+<tr>
+<td> <code>NSDate?</code>              </td>
+<td> n/a                   </td>
+<td> n/a           </td>
+</tr>
+<tr>
+<td> <code>NSURL?</code>               </td>
+<td> n/a                   </td>
+<td> n/a           </td>
+</tr>
+<tr>
+<td> <code>AnyObject?</code>           </td>
+<td> n/a                   </td>
+<td> n/a           </td>
+</tr>
+<tr>
+<td> <code>NSString?</code>            </td>
+<td> <code>NSString</code>            </td>
+<td> <code>""</code>          </td>
+</tr>
+<tr>
+<td> <code>NSArray?</code>             </td>
+<td> <code>NSArray</code>             </td>
+<td> <code>[]</code>          </td>
+</tr>
+<tr>
+<td> <code>NSDictionary?</code>        </td>
+<td> <code>NSDictionary</code>        </td>
+<td> <code>[:]</code>         </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>You can mark a type as optional to get <code>nil</code> if the key doesn&rsquo;t exist. Otherwise, you&rsquo;ll get a default value that makes sense for a given type.</p>
+
+<h4>Typed arrays</h4>
+
+<p>Additionally, typed arrays are available for these types:</p>
+
+<table>
+<thead>
+<tr>
+<th> Array type </th>
+<th> Optional variant </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> <code>[String]</code> </td>
+<td> <code>[String]?</code>      </td>
+</tr>
+<tr>
+<td> <code>[Int]</code>    </td>
+<td> <code>[Int]?</code>         </td>
+</tr>
+<tr>
+<td> <code>[Double]</code> </td>
+<td> <code>[Double]?</code>      </td>
+</tr>
+<tr>
+<td> <code>[Bool]</code>   </td>
+<td> <code>[Bool]?</code>        </td>
+</tr>
+<tr>
+<td> <code>[NSData]</code> </td>
+<td> <code>[NSData]?</code>      </td>
+</tr>
+<tr>
+<td> <code>[NSDate]</code> </td>
+<td> <code>[NSDate]?</code>      </td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>Custom types</h3>
+
+<p>You can easily store custom <code>NSCoding</code>-compliant types by extending <code>NSUserDefaults</code> with this stub subscript:</p>
+
+<pre><code>extension NSUserDefaults {
+    subscript(key: DefaultsKey&lt;NSColor?&gt;) -&gt; NSColor? {
+        get { return unarchive(key) }
+        set { archive(key, newValue) }
+    }
+}
+</code></pre>
+
+<p>Just copy&amp;paste this and change <code>NSColor</code> to your class name. If you want, you can also remove <code>?</code> marks and coalesce nils: <code>unarchive(key) ?? yourDefaultValue</code>.</p>
+
+<p>Here&rsquo;s an example use:</p>
+
+<pre><code>extension DefaultsKeys {
+    static let color = DefaultsKey&lt;NSColor?&gt;("color")
+}
+
+Defaults[.color] // =&gt; nil
+Defaults[.color] = NSColor.whiteColor()
+Defaults[.color] // =&gt; w 1.0, a 1.0
+Defaults[.color]?.whiteComponent // =&gt; 1.0
+</code></pre>
+
+<h3>Existence</h3>
+
+<pre><code>if !Defaults.hasKey(.hotkey) {
+    Defaults.remove(.hotkeyOptions)
+}
+</code></pre>
+
+<p>You can use the <code>hasKey</code> method to check for key&rsquo;s existence in the user defaults. <code>remove()</code> is an alias for <code>removeObjectForKey()</code>, that also works with <code>DefaultsKeys</code> shortcuts.</p>
+
+<h2>Legacy stringly-typed API</h2>
+
+<p>There&rsquo;s also a more traditional string-based API available. This will be deprecated and removed in future versions of this library — it&rsquo;s recommended you use the new static keys API.</p>
+
+<pre><code>Defaults["color"].string            // returns String?
+Defaults["launchCount"].int         // returns Int?
+Defaults["chimeVolume"].double      // returns Double?
+Defaults["loggingEnabled"].bool     // returns Bool?
+Defaults["lastPaths"].array         // returns NSArray?
+Defaults["credentials"].dictionary  // returns NSDictionary?
+Defaults["hotkey"].data             // returns NSData?
+Defaults["firstLaunchAt"].date      // returns NSDate?
+Defaults["anything"].object         // returns NSObject?
+Defaults["anything"].number         // returns NSNumber?
+</code></pre>
+
+<p>When you don&rsquo;t want to deal with the <code>nil</code> case, you can use these helpers that return a default value for non-existing defaults:</p>
+
+<pre><code>Defaults["color"].stringValue            // defaults to ""
+Defaults["launchCount"].intValue         // defaults to 0
+Defaults["chimeVolume"].doubleValue      // defaults to 0.0
+Defaults["loggingEnabled"].boolValue     // defaults to false
+Defaults["lastPaths"].arrayValue         // defaults to []
+Defaults["credentials"].dictionaryValue  // defaults to [:]
+Defaults["hotkey"].dataValue             // defaults to NSData()
+</code></pre>
+
+<h2>Installation</h2>
+
+<p>The simplest way to install this library is to copy <code>SwiftyUserDefaults/SwiftyUserDefaults.swift</code> to your project. There&rsquo;s no step two!</p>
+
+<h4>CocoaPods</h4>
+
+<p>You can also install this library using CocoaPods. Just add this line to your Podfile:</p>
+
+<pre><code>pod 'SwiftyUserDefaults'
+</code></pre>
+
+<p>Then import library module like so:</p>
+
+<pre><code>import SwiftyUserDefaults
+</code></pre>
+
+<h4>Carthage</h4>
+
+<p>Just add to your Cartfile:</p>
+
+<pre><code>github "radex/SwiftyUserDefaults"
+</code></pre>
+
+<h2>More like this</h2>
+
+<p>If you like SwiftyUserDefaults, check out <a href="https://github.com/radex/SwiftyTimer">SwiftyTimer</a>, which applies the same swifty approach to <code>NSTimer</code>.</p>
+
+<p>You might also be interested in my blog posts which explain the design process behind those libraries:
+- <a href="http://radex.io/swift/nsuserdefaults/">Swifty APIs: NSUserDefaults</a>
+- <a href="http://radex.io/swift/nsuserdefaults/static">Statically-typed NSUserDefaults</a>
+- <a href="http://radex.io/swift/nstimer/">Swifty APIs: NSTimer</a>
+- <a href="http://radex.io/swift/methods/">Swifty methods</a></p>
+
+<h3>Contributing</h3>
+
+<p>If you have comments, complaints or ideas for improvements, feel free to open an issue or a pull request. Or <a href="http://twitter.com/radexp">ping me on Twitter</a>.</p>
+
+<h3>Author and license</h3>
+
+<p>Radek Pietruszewski</p>
+
+<ul>
+<li><a href="http://github.com/radex">github.com/radex</a></li>
+<li><a href="http://twitter.com/radexp">twitter.com/radexp</a></li>
+<li><a href="http://radex.io">radex.io</a></li>
+<li><a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#116;&#104;&#105;&#x73;&#x2e;&#105;&#115;&#64;&#x72;&#97;&#100;&#x65;&#x78;&#46;&#105;&#x6f;">&#x74;&#x68;&#x69;&#x73;&#46;&#x69;&#x73;&#64;&#114;&#97;&#x64;&#101;&#120;&#x2e;&#x69;&#111;</a></li>
+</ul>
+
+
+<p>SwiftyUserDefaults is available under the MIT license. See the LICENSE file for more info.</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://github.com/cnbin/SwiftyUserDefaults">https://github.com/cnbin/SwiftyUserDefaults</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-24T10:10:14+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:10 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/24/apple-swift-guan-wang/" title="Previous Post: apple swift 官网">&laquo; apple swift 官网</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/24/when-to-use-swift-structs-and-classes/" title="Next Post: When to Use Swift Structs and Classes">When to Use Swift Structs and Classes &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

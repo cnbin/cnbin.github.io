@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>App 提交 iTunes Connect 二进制无效问题解决方案 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="自2015年2月份开始,新上传到iTunes上面审核的app,必须支持64位，新上传是指第一次上传， 或者没有审核通过过，总之就是在AppStore上面没有上架的app,必须支持64位，包括工程里面的代码和用到的静态库文件 如果之前iTunes上面有审核通过的app,现在只是上传升级版本， &hellip;">
+  <meta name="keywords" content="app,itunes connect">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/08/app-ti-jiao-itunes-connect-er-jin-zhi-wu-xiao-wen-ti-jie-jue-fang-an/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">App 提交 iTunes Connect 二进制无效问题解决方案</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-08T11:20:35+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:20 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>自2015年2月份开始,新上传到iTunes上面审核的app,必须支持64位，新上传是指第一次上传，</p>
+
+<p>或者没有审核通过过，总之就是在AppStore上面没有上架的app,必须支持64位，包括工程里面的代码和用到的静态库文件</p>
+
+<p>如果之前iTunes上面有审核通过的app,现在只是上传升级版本，更新版本去审核，这时也可以提交成功，iTunes上面验证二进制文件可以通过，</p>
+
+<p>不必非得支持64位，但是不要高兴太早，这只是权宜之计，到2015年6月份上传的升级版本还是要支持64位，只是现在这种情况不需要强制，</p>
+
+<h3>1.先查看下是否支持64位(发布的App要支持64位)</h3>
+
+<p>如下图所示是支持64位</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ewtkb8sg0pj20kk07vt9d.jpg" alt="img" /></p>
+
+<h3>2.查看Schemes的Analyze和Archive是否是release模式</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1ewtkb9a2juj20ow0e075z.jpg" alt="img" /></p>
+
+<h4>Analyze要为release模式</h4>
+
+<p>以上两个解决了还是不行，打包上传TMD还是二进制文件无效，why?</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewtkb9p4a7j20g409q3zv.jpg" alt="img" /></p>
+
+<p>用Xcode打包上传时，苹果让我们默认勾选了Include app symbols for your application to receive symbolicated crash logs from Apple.</p>
+
+<p>将勾去掉，但是还是不能上传还是二进制文件无效.继续解决问题</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ewtkba7pzcj20kc06wq4h.jpg" alt="img" /></p>
+
+<p>Architectures：你想支持的指令集。（支持指令集是通过编译生成对应的二进制数据包实现的，如果支持的指令集数目有多个，就会编译出包含多个指令集代码的数据包，造成最终编译的包很大。）
+Valid architectures：即将编译的指令集。（Valid architectures 和 Architecture两个集合的交集为最终编译生成的版本）</p>
+
+<p>Build Active Architecture Only：是否只编译当前设备适用的指令集（如果这个参数设为YES，使用iPhone 6调试，那么最终生成的一个支持ARM64指令集的Binary。一般在DEBUG模式下设为YES，RELEASE设为NO）。</p>
+
+<p>还有最好在iOS Device环境下打包，不要插上真机打包。</p>
+
+<p>为了严谨可以将包导出，然后在终端检查看是否支持arm64</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ewtkbamtb9j20ax01i0t2.jpg" alt="img" /></p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://www.jianshu.com/p/3511ec38ca20">http://www.jianshu.com/p/3511ec38ca20</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-08T11:20:35+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:20 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/08/application-loader-xia-zai-an-zhuang-he-shang-chuan-app-cheng-xu/" title="Previous Post: Application Loader 下载安装和上传 app 程序(原创)">&laquo; Application Loader 下载安装和上传 app 程序(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/08/shang-chuan-appgong-ping-shen-shi-de-zhu-yi-shi-xiang/" title="Next Post: 上传APP供评审时的注意事项">上传APP供评审时的注意事项 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

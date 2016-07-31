@@ -1,0 +1,415 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tweaks - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Tweaks is an easy way to fine-tune an iOS app. Why The best way to improve an app is to use it every day. Even when ideas can be tested out in &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/28/tweaks/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Tweaks</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-28T11:04:49+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:04 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Tweaks is an easy way to fine-tune an iOS app.
+<a href="https://travis-ci.org/facebook/Tweaks"><img src="https://travis-ci.org/facebook/Tweaks.svg?branch=master" alt="Build Status" /></a></p>
+
+<p><img src="https://github.com/facebook/Tweaks/blob/master/Images/Tweaks.gif?raw=true" alt="Tweaks" /></p>
+
+<h2>Why</h2>
+
+<p>The best way to improve an app is to use it every day. Even when ideas can be tested out in advance — for example, with <a href="http://origami.facebook.com">Origami</a> — it can still take some time with the app to see how it works in practice.</p>
+
+<p>Occasionally, it&rsquo;s perfect the first try. Sometimes, the idea doesn&rsquo;t work at all. But often, it just needs a few minor adjustments. That last case is where Tweaks fits in. Tweaks makes those small adjustments easy: with no code changes and no computer, you can try out different options and decide which works best.</p>
+
+<p>Some of the most useful parameters to adjust are animation timings, velocity thresholds, colors, and physics constants. At Facebook, we also use tweaks to temporarily disable new features during development. That way, the designers and engineers involved can enable it on just their devices, without getting in the way of others testing the app.</p>
+
+<p>Tweaks was invaluable for building <a href="http://www.facebook.com/paper">Paper</a>. We hope it can be useful for your app too.</p>
+
+<h2>Usage</h2>
+
+<p>Each configurable value is called a tweak. There&rsquo;s a few ways to set them up, found in <code>FBTweakInline.h</code>.</p>
+
+<h3>Value</h3>
+
+<p>The simplest way to create a tweak is to replace a constant with <code>FBTweakValue</code>:</p>
+
+<pre><code>CGFloat animationDuration = FBTweakValue(@"Category", @"Group", @"Duration", 0.5);
+</code></pre>
+
+<p>The first three parameters are where the tweak is listed and what it&rsquo;s called, and the last one is the default value. You can pass in many types of values for the default: booleans, numbers, or strings.</p>
+
+<pre><code>if (FBTweakValue(@"Category", @"Feature", @"Enabled", YES)) {
+  label.text = FBTweakValue(@"Category", @"Group", @"Text", @"Tweaks example.");
+}
+</code></pre>
+
+<p>In release builds, the <code>FBTweakValue</code> macro expands to just the default value, so there&rsquo;s no performance impact. In debug builds, though, it fetches the latest value of the tweak.</p>
+
+<p>You can also pass a fifth parameter, which will constrain the possible values for a tweak. The fifth parameter can be an array, dictionary, or an <code>FBTweakNumericRange</code>. If it&rsquo;s a dictionary, the values should be strings to show in the list of choices. Arrays will show the values' <code>description</code> as choices. (Note that you have to surround array and dictionary literals with an extra set of parentheses.)</p>
+
+<pre><code>self.initialMode = FBTweakValue(@"Header", @"Initial", @"Mode", @(FBSimpleMode), (@{ @(FBSimpleMode) : @"Simple", @(FBAdvancedMode) : @"Advanced" }));
+</code></pre>
+
+<p>For numeric tweaks (<code>NSInteger</code>, <code>CGFloat</code>, and others), you can instead pass two parameters, which constrain the value to a <code>FBTweakNumericRange</code>:</p>
+
+<pre><code>self.red = FBTweakValue(@"Header", @"Colors", @"Red", 0.5, 0.0, 1.0);
+</code></pre>
+
+<h3>Bind</h3>
+
+<p>To make tweaks update live, you can use <code>FBTweakBind</code>:</p>
+
+<pre><code>FBTweakBind(self.headerView, alpha, @"Main Screen", @"Header", @"Alpha", 0.85);
+</code></pre>
+
+<p>The first parameter is the object to bind to, and the second is the property. Whenever the tweak is changed, <code>self.headerView</code>&rsquo;s <code>alpha</code> property is updated to match. A few more examples:</p>
+
+<pre><code>FBTweakBind(audioPlayer, volume, @"Player", @"Audio", @"Volume", 0.9);
+FBTweakBind(webView.scrollView, scrollEnabled, @"Browser", @"Scrolling", @"Enabled", YES);
+</code></pre>
+
+<p>As with <code>FBTweakValue</code>, in release builds <code>FBTweakBind</code> expands to just setting the property to the default value.</p>
+
+<h2>Action</h2>
+
+<p>Actions let you run a (global) block when a tweak is selected. To make one, use <code>FBTweakAction</code>:</p>
+
+<pre><code>FBTweakAction(@"Player", @"Audio", @"Volume", ^{
+  NSLog(@"Action selected.");
+});
+</code></pre>
+
+<p>The first three parameters are the standard tweak listing information, and the last is a block to call. You can use <code>FBTweakAction</code> in any scope, but the block must be global: it can&rsquo;t depend on any local or instance variables (it wouldn&rsquo;t know which object to adjust).</p>
+
+<p>Actions are useful for things like launching debug UIs, checking for updates, or (if you make one that intentionally crashes) testing crash reporting.</p>
+
+<h3>Tweaks UI</h3>
+
+<p>To configure your tweaks, you need a way to show the configuration UI. There&rsquo;s two options for that:</p>
+
+<ul>
+<li><p>Traditionally, tweaks is activated by shaking your phone. To use that, just replace your root <code>UIWindow</code> with a <code>FBTweakShakeWindow</code>. If you&rsquo;re using Storyboards, you can override <code>-window</code> on your app delegate:</p>
+
+<ul>
+<li><p>(UIWindow *)window
+{
+if (!<em>window) {
+  </em>window = [[FBTweakShakeWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+}</p>
+
+<p>return _window;
+}</p></li>
+</ul>
+</li>
+<li><p>You can present a <code>FBTweakViewController</code> from anywhere in your app. Be sure to restrict the activation UI to debug builds!</p></li>
+</ul>
+
+
+<h4>Tweaks UI Dismiss Notification</h4>
+
+<p>Alternatively, when the Tweaks UI is dismissed, you can register your notification center to listen to <code>FBTweakShakeViewControllerDidDismissNotification</code>, which can be used after importing <code>FBTweakViewController.h</code></p>
+
+<h3>Advanced</h3>
+
+<p>You can also access the objects that make up the macros mentioned above. That can be useful for more complex scenarios, like adjusting members of a C structure.</p>
+
+<p>For example, to manually create a tweak:</p>
+
+<pre><code>FBTweak *tweak = [[FBTweak alloc] initWithIdentifier:@"com.tweaks.example.advanced"];
+tweak.name = @"Advanced Settings";
+tweak.defaultValue = @NO;
+
+FBTweakStore *store = [FBTweakStore sharedInstance];
+FBTweakCategory *category = [store tweakCategoryWithName:@"Settings"];
+FBTweakCollection *collection = [category tweakCollectionWithName:@"Enable"];
+[collection addTweak:tweak];
+
+[tweak addObserver:self];
+</code></pre>
+
+<p>Then, you can watch for when the tweak changes:</p>
+
+<pre><code>- (void)tweakDidChange:(FBTweak *)tweak
+{
+  self.advancedSettingsEnabled = ![tweak.currentValue boolValue];
+}
+</code></pre>
+
+<p>Also you have de ability to implement the optional method <code>tweakWillChange:</code> in order to handle the previous value of your tweak:</p>
+
+<pre><code>- (void)tweakWillChange:(FBTweak *)tweak
+{
+  NSLog(@"%@", tweak.currentValue); // Here current value is the previous value of the tweak
+}
+</code></pre>
+
+<p>To override when tweaks are enabled, you can define the <code>FB_TWEAK_ENABLED</code> macro. It&rsquo;s suggested to avoid including them when submitting to the App Store.</p>
+
+<h3>Using from a Swift Project</h3>
+
+<p>Tweaks can be used from Swift projects. In this case the handy shortcut macros defined in <code>FBTweakInline.h</code> are not available, meaning tweaks need to be created programmatically, similar to this example:</p>
+
+<pre><code>let tweak = FBTweak(identifier: "com.tweaks.example.advanced")
+tweak.name = "Advanced settings"
+tweak.defaultValue = false
+
+let collection = FBTweakCollection(name: "Enable");
+collection.addTweak(tweak)
+
+let category = FBTweakCategory(name: "Settings")
+category.addTweakCollection(collection);
+
+let store = FBTweakStore.sharedInstance()
+store.addTweakCategory(category)
+
+tweak.addObserver(self)
+</code></pre>
+
+<p>After setting up a tweak you can watch for when it changes:</p>
+
+<pre><code>func tweakDidChange(tweak: FBTweak!)
+{
+    self.advancedSettingsEnabled = tweak.currentValue as Bool;
+}
+</code></pre>
+
+<h3>How it works</h3>
+
+<p>In debug builds, the tweak macros use <code>__attribute__((section))</code> to statically store data about each tweak in the <code>__FBTweak</code> section of the mach-o. Tweaks loads that data at startup and loads the latest values from <code>NSUserDefaults</code>.</p>
+
+<p>In release builds, the macros just expand to the default value. Nothing extra is included in the binary.</p>
+
+<h2>Installation</h2>
+
+<p>There are two options:</p>
+
+<ol>
+<li>Tweaks is available as <code>Tweaks</code> in <a href="http://cocoapods.org">Cocoapods</a>. (If you have issues with custom Xcode configurations, <a href="https://github.com/facebook/Tweaks/issues/4#issuecomment-40629741">this comment</a> might help.)</li>
+<li>Manually add the files from <code>FBTweak/</code> into your Xcode project. Slightly simpler, but updates are also manual.</li>
+</ol>
+
+
+<p>Tweaks requires iOS 6 or later.</p>
+
+<p>There&rsquo;s also a demo project available. To use it, make sure to open <code>FBTweakExample.xcworkspace</code> (rather than the <code>.xcodeproj</code>) so the dependencies build correctly.</p>
+
+<h2>Contributing</h2>
+
+<p>See the CONTRIBUTING file for how to help out.</p>
+
+<h2>License</h2>
+
+<p>Tweaks is BSD-licensed. We also provide an additional patent grant.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-28T11:04:49+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:04 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/28/the-swift-programming-language/" title="Previous Post: The Swift Programming Language">&laquo; The Swift Programming Language</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/28/ios-diao-shi-ji-qiao-hui-zong/" title="Next Post: iOS 调试技巧汇总(原创)">iOS 调试技巧汇总(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

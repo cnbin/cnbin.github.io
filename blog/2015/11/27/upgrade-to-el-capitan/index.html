@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Upgrade to El Capitan - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Upgrade to El Capitan, with Homebrew &amp; Ruby
+&hellip; and Xcode and Java, etc. Prepare If you don&rsquo;t already have homebrew installed, do &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/27/upgrade-to-el-capitan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Upgrade to El Capitan</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-27T14:53:56+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:53 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Upgrade to El Capitan, with Homebrew &amp; Ruby
+&hellip; and Xcode and Java, etc.</p>
+
+<h3>Prepare</h3>
+
+<p>If you don&rsquo;t already have homebrew installed, do that first, so you don&rsquo;t have to deal with SIP issues. Install all Software Updates available in the Apple Menu, up to and including El Capitan.
+Hardware</p>
+
+<p>After the installs and forced reboots my 27" Thunderbolt display wouldn&rsquo;t display anything. Unplug, replug didn&rsquo;t help. One more reboot fixed it.
+Software</p>
+
+<p>In order&hellip;</p>
+
+<h3>Xcode</h3>
+
+<p>The El Capitan install wiped out my Xcode install, so I had to search for it in the App Store and reinstall. I now believe that I deleted Xcode awhile ago and forgot, hence the reinstall. I did this on a machine that I rarely use.
+After Xcode is finished installing, open iTerm, which I use as a Terminal.app replacement, or Terminal.app if you are so inclined.</p>
+
+<pre><code>∴ xcode-select --install
+</code></pre>
+
+<p>xcode-select: note: install requested for command line developer tools
+A dialog opened, I chose &ldquo;Install&rdquo;, which finished in about a minute.</p>
+
+<h3>Java</h3>
+
+<p>Next, run java, which prompts with a dialog that has a button &ldquo;More Info&rdquo; which takes you to a website where you can accept the license and download the Java .dmg file. You need the JDK, not the JRE, if you intend to run java command-line based tools.
+Unable to find any JVMs matching version &ldquo;1.7&rdquo;.
+No Java runtime present, try &ndash;request to install.</p>
+
+<pre><code>∴ java
+</code></pre>
+
+<p>No Java runtime present, requesting install.
+Once downloaded, open the .dmg (for me it was jdk-8u60-macosx-x64.dmg) and install, then restart iTerm.</p>
+
+<pre><code>∴ java -version
+</code></pre>
+
+<p>java version &ldquo;1.8.0_60&rdquo;
+Java&trade; SE Runtime Environment (build 1.8.0_60-b27)
+Java HotSpot&trade; 64-Bit Server VM (build 25.60-b23, mixed mode)
+Apps like RubyMine should work now, well, at least launch.
+Homebrew</p>
+
+<p>The doctor informed me of several warnings which I took care of as instructed.</p>
+
+<pre><code>∴ brew doctor
+∴ sudo chown -R $(whoami):admin /usr/local
+∴ cd /usr/local/Library &amp;&amp; git stash &amp;&amp; git clean -d -f
+∴ cd ~
+∴ brew prune
+∴ brew unlink qt5
+</code></pre>
+
+<p>Then I was able to update Homebrew.</p>
+
+<pre><code>∴ brew update
+</code></pre>
+
+<h3>qt5</h3>
+
+<p>I know the capybara-webkit gem will require qt5, and I know qt is one of the primary remaining pain points in homebrew / El Capitan issues tracker, so I decided to get it out of the way first.</p>
+
+<pre><code>∴ brew uninstall qt5
+∴ brew install qt5
+∴ brew linkapps qt5
+∴ brew link --force qt5
+</code></pre>
+
+<p>That last line is required to make qmake available. Check with which qmake. Otherwise you will end up with this on the Capybara install later on:
+Gem::Ext::BuildError: ERROR: Failed to build gem native extension.</p>
+
+<pre><code>/Users/pboling/.rvm/rubies/ruby-2.1.2/bin/ruby -r ./siteconf20150930-48087-1vw6bye.rb extconf.rb
+</code></pre>
+
+<p>sh: qmake: command not found
+<strong><em> extconf.rb failed </em></strong></p>
+
+<h3>GPG</h3>
+
+<p>Some software is now being signed with GPG, like RVM, for example, so install it.</p>
+
+<pre><code>∴ brew install gpg
+</code></pre>
+
+<h3>RVM</h3>
+
+<p>My Ruby was working, but I was having trouble with some native gem installations, so I decided to start fresh with a Ruby compiled against all the new homebrew and Xcode libraries.</p>
+
+<pre><code>∴ rvm implode
+</code></pre>
+
+<p>Implode actually failed to remove the main ~/.rvm directory due to permissions issues. I had to sudo remove it.</p>
+
+<pre><code>∴ sudo rm -rf /Users/pboling/.rvm
+</code></pre>
+
+<p>Follow the instructions here for installing RVM, I installed the development version, hoping it would have more El Capitan fixes in it:</p>
+
+<pre><code>∴ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+∴ \curl -sSL https://get.rvm.io | bash
+</code></pre>
+
+<p>The main app I currently work on is using Ruby 2.1.2, so I install that first, and then go to the project directory to have the gemset created and to bundle.</p>
+
+<pre><code>∴ rvm install 2.1.2
+∴ cd ~/project
+∴ gem install bundler -v 1.9.7
+∴ bundle install
+</code></pre>
+
+<p>Bundler version 1.9.7 because that&rsquo;s what Heroku is on, and I want to stay in sync, because 1.10* changed things that make the Gemfile.lock incompatible with 1.9.7 on the deployed server (for me, with multiple gem sources, private gem server, etc).
+Postgres</p>
+
+<p>I also took the opportunity to upgrade to the latest Postgres.app. Alternatively you can install postgres with brew install postgres. I choose Postgres.app begause it is supported directly by Heroku, and I like to think there is a parity win there somewhere.
+Glorious.</p>
+
+<ul>
+<li><a href="https://gist.github.com/pboling/c2bb179e73f8a6ca94e4">Fork it</a></li>
+<li><a href="http://www.railsbling.com/posts/el-capitan-homebrew-ruby-qt5-java/">On my blog</a>
+Update: this got linked in Ruby News! :)</li>
+</ul>
+
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://www.reddit.com/r/ruby/comments/3n26gt">https://www.reddit.com/r/ruby/comments/3n26gt</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-27T14:53:56+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:53 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/27/el-capitan-update-rails/" title="Previous Post: El Capitan Update rails">&laquo; El Capitan Update rails</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/28/swift-perfect/" title="Next Post: Swift-Perfect">Swift-Perfect &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

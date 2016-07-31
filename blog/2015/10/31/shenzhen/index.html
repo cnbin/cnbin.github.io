@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SHENZHEN - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Create .ipa files and distribute them from the command line, using any of the following methods: iTunes Connect
+HockeyApp
+Beta by Crashlytics &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/31/shenzhen/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SHENZHEN</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-31T11:41:12+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:41 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="https://raw.github.com/nomad/nomad.github.io/assets/shenzhen-banner.png" alt="Shenzhen" /></p>
+
+<p>Create <code>.ipa</code> files and distribute them from the command line, using any of the following methods:</p>
+
+<ul>
+<li><a href="https://itunesconnect.apple.com">iTunes Connect</a></li>
+<li><a href="http://www.hockeyapp.net">HockeyApp</a></li>
+<li><a href="http://try.crashlytics.com/beta/">Beta by Crashlytics</a></li>
+<li><a href="http://rivierabuild.com">RivieraBuild</a></li>
+<li><a href="https://www.testfairy.com/">TestFairy</a></li>
+<li><a href="https://deploygate.com">DeployGate</a></li>
+<li><a href="http://fir.im">Fly It Remotely (FIR.im)</a></li>
+<li><a href="http://www.pgyer.com">蒲公英 (PGYER)</a></li>
+<li><a href="http://aws.amazon.com/s3/">Amazon S3</a></li>
+<li>FTP / SFTP</li>
+</ul>
+
+
+<p>Less cumbersome than clicking around in Xcode, and less hassle than rolling your own build script, Shenzhen radically improves the process of getting new builds out to testers and enterprises.</p>
+
+<blockquote><p><code>shenzhen</code> is named for <a href="http://en.wikipedia.org/wiki/Shenzhen">深圳</a>, the Chinese city famous for being the center of manufacturing for a majority of consumer electronics, including iPhones and iPads.
+It&rsquo;s part of a series of world-class command-line utilities for iOS development, which includes <a href="https://github.com/mattt/cupertino">Cupertino</a> (Apple Dev Center management), <a href="https://github.com/mattt/houston">Houston</a> (Push Notifications), <a href="https://github.com/mattt/venice">Venice</a> (In-App Purchase Receipt Verification), <a href="https://github.com/mattt/dubai">Dubai</a> (Passbook pass generation), and <a href="https://github.com/nomad/nashville">Nashville</a> (iTunes Store API).</p></blockquote>
+
+<h2>Installation</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install shenzhen</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>JSON Build Error</h3>
+
+<p>Users running Mac OS X Mavericks with Xcode 5.1 may encounter an error when attempting to install the <code>json</code> gem dependency. As per the <a href="https://developer.apple.com/library/ios/releasenotes/DeveloperTools/RN-Xcode/Introduction/Introduction.html">Xcode 5.1 Release Notes</a>:</p>
+
+<blockquote><p>The Apple LLVM compiler in Xcode 5.1 treats unrecognized command-line options as errors. This issue has been seen when building both Python native extensions and Ruby Gems, where some invalid compiler options are currently specified.</p></blockquote>
+
+<p>To work around this, install the <code>json</code> gem first with the following command:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future gem install json</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Usage</h2>
+
+<blockquote><p>For best results, set your environment localization to UTF-8, with <code>$ export LC_ALL="en_US.UTF-8"</code>. Otherwise, Shenzhen may return unexpectedly with the error &ldquo;invalid byte sequence in US-ASCII&rdquo;.</p></blockquote>
+
+<p>Shenzhen adds the <code>ipa</code> command to your PATH:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa
+</span><span class='line'>
+</span><span class='line'>Build and distribute iOS apps (.ipa files)
+</span><span class='line'>
+</span><span class='line'>  Commands:
+</span><span class='line'>    build                       Create a new .ipa file for your app
+</span><span class='line'>    distribute:rivierabuild     Distribute an .ipa file over [RivieraBuild](http://rivierabuild.com)
+</span><span class='line'>    distribute:hockeyapp        Distribute an .ipa file over HockeyApp
+</span><span class='line'>    distribute:crashlytics      Distribute an .ipa file over Crashlytics
+</span><span class='line'>    distribute:deploygate       Distribute an .ipa file over deploygate
+</span><span class='line'>    distribute:firim            Distribute an .ipa file over fir.im
+</span><span class='line'>    distribute:itunesconnect    Upload an .ipa file to iTunes Connect for review
+</span><span class='line'>    distribute:pgyer            Distribute an .ipa file over Pgyer
+</span><span class='line'>    distribute:ftp              Distribute an .ipa file over FTP
+</span><span class='line'>    distribute:s3               Distribute an .ipa file over Amazon S3
+</span><span class='line'>    distribute:testfairy        Distribute an .ipa file over TestFairy
+</span><span class='line'>    info                        Show mobile provisioning information about an .ipa file
+</span><span class='line'>    help                        Display global or [command] help documentation.
+</span><span class='line'>
+</span><span class='line'>  Global Options:
+</span><span class='line'>    -h, --help           Display help documentation
+</span><span class='line'>    -v, --version        Display version information
+</span><span class='line'>    -t, --trace          Display backtrace when an error occurs</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Building &amp; Distribution</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd /path/to/iOS Project/
+</span><span class='line'>$ ipa build
+</span><span class='line'>$ ipa distribute</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>RivieraBuild Distribution</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:rivierabuild -k API_TOKEN -a AVAILABILITY</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Shenzhen will load credentials from the environment variable <code>RIVIERA_API_TOKEN</code> unless otherwise specified.
+To get the list of availability options, visit <a href="http://api.rivierabuild.com">http://api.rivierabuild.com</a></p></blockquote>
+
+<h4>HockeyApp Distribution</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:hockeyapp -a API_TOKEN</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Shenzhen will load credentials from the environment variable <code>HOCKEYAPP_API_TOKEN</code> unless otherwise specified.</p></blockquote>
+
+<h4>TestFairy Distribution</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:testfairy -a API_KEY</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Shenzhen will load credentials from the environment variable <code>TESTFAIRY_API_KEY</code> unless otherwise specified.</p></blockquote>
+
+<h4>Crashlytics Beta Distribution</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:crashlytics -c /path/to/Crashlytics.framework -a API_TOKEN -s BUILD_SECRET</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Shenzhen will load credentials from the environment variables <code>CRASHLYTICS_API_TOKEN</code> &amp; <code>CRASHLYTICS_BUILD_SECRET</code>, and attempt to run the submit executable <code>submit</code> in the path to Crashlytics.framework specified by <code>CRASHLYTICS_FRAMEWORK_PATH</code> unless otherwise specified.</p></blockquote>
+
+<h4>DeployGate Distribution</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:deploygate -a API_TOKEN -u USER_NAME</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Shenzhen will load credentials from the environment variable <code>DEPLOYGATE_API_TOKEN</code> and <code>DEPLOYGATE_USER_NAME</code> unless otherwise specified.</p></blockquote>
+
+<h4>FTP Distribution</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:ftp --host HOST -u USER -p PASSWORD -P FTP_PATH</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>SFTP Distribution</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:sftp --host HOST -u USER -p PASSWORD -P FTP_PATH</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Amazon S3 Distribution</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:s3 -a ACCESS_KEY_ID -s SECRET_ACCESS_KEY -b BUCKET</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Shenzhen will load credentials from the environment variables <code>AWS_ACCESS_KEY_ID</code>, <code>AWS_SECRET_ACCESS_KEY</code> and <code>AWS_REGION</code> unless otherwise specified.</p></blockquote>
+
+<h4>FIR (Fly it Remotely)</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:fir -u USER_TOKEN -a APP_ID</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Shenzhen will load credentials from the environment variables <code>FIR_USER_TOKEN</code>, <code>FIR_APP_ID</code> unless otherwise specified.</p></blockquote>
+
+<h4>蒲公英 (PGYER)</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:pgyer -u USER_KEY -a APP_KEY</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Shenzhen will load credentials from the environment variables <code>PGYER_USER_KEY</code>, <code>PGYER_API_KEY</code> unless otherwise specified.</p></blockquote>
+
+<h4>iTunes Connect Distribution</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa distribute:itunesconnect -a me@email.com -p myitunesconnectpassword -i appleid --upload</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>Shenzhen will load credentials from the environment variables <code>ITUNES_CONNECT_ACCOUNT</code> and <code>ITUNES_CONNECT_PASSWORD</code> unless otherwise specified. If only an account is provided, the keychain will be searched for a matching entry.</p>
+
+<p>The <code>-i</code> (or <code>--apple-id</code>) flag is &ldquo;An automatically generated ID assigned to your app&rdquo;. It can be found via iTunes Connect by navigating to:
+* My Apps -> [App Name] -> More -> About This App -> Apple ID</p>
+
+<p>For a fully hands-free upload, in a CI environment for example, ensure your iTunes Connect credentials are stored in your keychain, and that the keychain item has the Validation app in its &lsquo;Always allow access&rsquo; list.  Running Shenzhen once with the <code>--save-keychain</code> flag, and clicking <code>Always Allow</code> on the prompt will set this up for you.</p></blockquote>
+
+<h3>Displaying Embedded .mobileprovision Information</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ipa info /path/to/app.ipa
+</span><span class='line'>
+</span><span class='line'>+-----------------------------+----------------------------------------------------------+
+</span><span class='line'>| ApplicationIdentifierPrefix | DJ73OPSO53                                               |
+</span><span class='line'>| CreationDate                | 2014-03-26T02:53:00+00:00                                |
+</span><span class='line'>| Entitlements                | application-identifier: DJ73OPSO53.com.nomad.shenzhen    |
+</span><span class='line'>|                             | aps-environment: production                              |
+</span><span class='line'>|                             | get-task-allow: false                                    |
+</span><span class='line'>|                             | keychain-access-groups: ["DJ73OPSO53.*"]                 |
+</span><span class='line'>| CreationDate                | 2017-03-26T02:53:00+00:00                                |
+</span><span class='line'>| Name                        | Shenzhen                                                 |
+</span><span class='line'>| TeamIdentifier              | S6ZYP4L6TY                                               |
+</span><span class='line'>| TimeToLive                  | 172                                                      |
+</span><span class='line'>| UUID                        | P7602NR3-4D34-441N-B6C9-R79395PN1OO3                     |
+</span><span class='line'>| Version                     | 1                                                        |
+</span><span class='line'>+-----------------------------+----------------------------------------------------------+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Creator</h2>
+
+<p>Mattt Thompson (<a href="https://twitter.com/mattt">@mattt</a>)</p>
+
+<h2>License</h2>
+
+<p>Shenzhen is released under an MIT license. See LICENSE for more information.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-31T11:41:12+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>31</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:41 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/31/xia-zai-homekit-accessory-simulator/" title="Previous Post: 下载HomeKit Accessory Simulator(原创)">&laquo; 下载HomeKit Accessory Simulator(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/31/httpbin-http-request-and-response-service/" title="Next Post: httpbin - HTTP Request and Response Service">httpbin - HTTP Request and Response Service &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

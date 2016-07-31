@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>asp.net获取客户端浏览器及主机信息 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在线预览效果： http://tool.hovertree.com/info/client/ 其中aspx页面的控件代码: &lt;asp:ListBox runat="server" ID="lbHoverTreeInfo" ClientIDMode="Static"&gt; &lt;/asp &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/14/asp-dot-nethuo-qu-ke-hu-duan-liu-lan-qi-ji-zhu-ji-xin-xi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">asp.net获取客户端浏览器及主机信息</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-14T16:54:26+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:54 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>在线预览效果：</p>
+
+<p><a href="http://tool.hovertree.com/info/client/">http://tool.hovertree.com/info/client/</a></p>
+
+<p>其中aspx页面的控件代码:</p>
+
+<pre><code>&lt;asp:ListBox runat="server" ID="lbHoverTreeInfo" ClientIDMode="Static"&gt; &lt;/asp:ListBox&gt;
+</code></pre>
+
+<p>以下是实现代码：</p>
+
+<pre><code>  1 using System;
+  2 using System.Web;
+  3 using System.Web.UI;
+  4 
+  5 namespace HoverTreeTool.HvtInfo.KeleyiClient
+  6 {
+  7 public partial class Index : System.Web.UI.Page
+  8 {
+  9 protected void Page_Load(object sender, EventArgs e)
+ 10 {
+ 11 string userAgent = Request.UserAgent == null ? "无" : Request.UserAgent;
+ 12 if (!IsPostBack)
+ 13 {lbHoverTreeInfo.Items.Add("您的系统信息为：");
+ 14 lbHoverTreeInfo.Items.Add("客户端IP[Page.Request.UserHostAddress]："+ Page.Request.UserHostAddress);
+ 15 lbHoverTreeInfo.Items.Add("浏览器类型[Request.Browser.Browser]：" + Request.Browser.Browser);
+ 16 lbHoverTreeInfo.Items.Add("浏览器标识[Request.Browser.Id]：" + Request.Browser.Id);
+ 17 lbHoverTreeInfo.Items.Add("浏览器版本号[Request.Browser.Version]：" + Request.Browser.Version);
+ 18 lbHoverTreeInfo.Items.Add("浏览器是不是测试版本[Request.Browser.Beta]：" + Request.Browser.Beta);
+ 19 lbHoverTreeInfo.Items.Add("浏览器类型[Request.Browser.Type]：" + Request.Browser.Type);
+ 20 lbHoverTreeInfo.Items.Add("是否支持框架网页[Request.Browser.Frames]：" + Request.Browser.Frames);
+ 21 lbHoverTreeInfo.Items.Add("是否支持Cookie[Request.Browser.Cookies]：" + Request.Browser.Cookies);
+ 22 lbHoverTreeInfo.Items.Add("浏览器JScript版本[Request.Browser.JScriptVersion]：" + Request.Browser.JScriptVersion);
+ 23 lbHoverTreeInfo.Items.Add("屏幕分辨率宽[System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width ]]：" + System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width);
+ 24 lbHoverTreeInfo.Items.Add("屏幕分辨率高[System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height ]]：" + System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height);
+ 25 lbHoverTreeInfo.Items.Add("浏览器类型[Request.Browser.Type]：" + Request.Browser.Type);
+ 26 lbHoverTreeInfo.Items.Add("客户端IP[GetHoverTreeIp()]：" + GetHoverTreeIp());
+ 27 lbHoverTreeInfo.Items.Add("客户端的操作系统[Request.Browser.Platform]：" + Request.Browser.Platform);
+ 28 lbHoverTreeInfo.Items.Add("客户端的操作系统[GetHoverTreeOSName(userAgent)]：" + GetHoverTreeOSName(userAgent));
+ 29 lbHoverTreeInfo.Items.Add("是不是win16系统[Request.Browser.Win16]：" + Request.Browser.Win16);
+ 30 lbHoverTreeInfo.Items.Add("是不是win32系统[Request.Browser.Win32]：" + Request.Browser.Win32);
+ 31 lbHoverTreeInfo.Items.Add("客户端.NET Framework版本：Request.Browser.ClrVersion]：" + Request.Browser.ClrVersion);
+ 32 lbHoverTreeInfo.Items.Add("是否支持Java[Request.Browser.JavaApplets]：" + Request.Browser.JavaApplets);
+ 33 
+ 34 if (Request.ServerVariables["HTTP_UA_CPU"] == null)
+ 35 lbHoverTreeInfo.Items.Add("CPU 类型[Request.ServerVariables[\"HTTP_UA_CPU\"]]:未知");
+ 36 else
+ 37 lbHoverTreeInfo.Items.Add("CPU 类型[Request.ServerVariables[\"HTTP_UA_CPU\"]]:" + Request.ServerVariables["HTTP_UA_CPU"]);
+ 38 
+ 39 lbHoverTreeInfo.Items.Add("UserAgent信息[Request.UserAgent]：" + userAgent);
+ 40 lbHoverTreeInfo.Items.Add("By 何问起工具 http://tool.hovertree.com/info/client/");
+ 41 
+ 42 }
+ 43 }
+ 44 
+ 45 /// &lt;summary&gt;
+ 46 /// 获取真实IP
+ 47 /// &lt;/summary&gt;
+ 48 /// &lt;returns&gt;&lt;/returns&gt;
+ 49 public string GetHoverTreeIp()
+ 50 {
+ 51 string result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+ 52 if (null == result || result == String.Empty)
+ 53 {
+ 54 result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+ 55 }
+ 56 if (null == result || result == String.Empty)
+ 57 {
+ 58 result = HttpContext.Current.Request.UserHostAddress;
+ 59 }
+ 60 return result;
+ 61 }
+ 62 
+ 63 /// &lt;summary&gt;
+ 64 /// 根据 User Agent 获取操作系统名称
+ 65 /// &lt;/summary&gt;
+ 66 private string GetHoverTreeOSName(string userAgent)
+ 67 {
+ 68 string m_hvtOsVersion = "未知";
+ 69 if (userAgent.Contains("NT 6.4"))
+ 70 {
+ 71 m_hvtOsVersion = "Windows 10";
+ 72 }
+ 73 else
+ 74 if (userAgent.Contains("NT 6.3"))
+ 75 {
+ 76 m_hvtOsVersion = "Windows 8.1";
+ 77 }
+ 78 else
+ 79 if (userAgent.Contains("NT 6.2"))
+ 80 {
+ 81 m_hvtOsVersion = "Windows 8";
+ 82 }
+ 83 else
+ 84 if (userAgent.Contains("NT 6.1"))
+ 85 {
+ 86 m_hvtOsVersion = "Windows 7";
+ 87 }else
+ 88 if (userAgent.Contains("NT 6.0"))
+ 89 {
+ 90 m_hvtOsVersion = "Windows Vista/Server 2008";
+ 91 }
+ 92 else if (userAgent.Contains("NT 5.2"))
+ 93 {
+ 94 m_hvtOsVersion = "Windows Server 2003";
+ 95 }
+ 96 else if (userAgent.Contains("NT 5.1"))
+ 97 {
+ 98 m_hvtOsVersion = "Windows XP";
+ 99 }
+100 else if (userAgent.Contains("NT 5"))
+101 {
+102 m_hvtOsVersion = "Windows 2000";
+103 }
+104 else if (userAgent.Contains("NT 4"))
+105 {
+106 m_hvtOsVersion = "Windows NT4";
+107 }
+108 else if (userAgent.Contains("Me"))
+109 {
+110 m_hvtOsVersion = "Windows Me";
+111 }
+112 else if (userAgent.Contains("98"))
+113 {
+114 m_hvtOsVersion = "Windows 98";
+115 }
+116 else if (userAgent.Contains("95"))
+117 {
+118 m_hvtOsVersion = "Windows 95";
+119 }
+120 else if (userAgent.Contains("Mac"))
+121 {
+122 m_hvtOsVersion = "Mac";
+123 }
+124 else if (userAgent.Contains("Unix"))
+125 {
+126 m_hvtOsVersion = "UNIX";
+127 }
+128 else if (userAgent.Contains("Linux"))
+129 {
+130 m_hvtOsVersion = "Linux";
+131 }
+132 else if (userAgent.Contains("SunOS"))
+133 {
+134 m_hvtOsVersion = "SunOS";
+135 }
+136 return m_hvtOsVersion;
+137 }
+138 
+139 }
+140 }
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-14T16:54:26+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:54 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/14/wu-ge-ping-jing-ying-xiang-ni-de-asp-dot-netcheng-xu-wang-zhan-xing-neng/" title="Previous Post: 五个瓶颈影响你的ASP.NET程序(网站)性能">&laquo; 五个瓶颈影响你的ASP.NET程序(网站)性能</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/14/wei-shi-yao-bu-yao-shi-yong-response-dot-close/" title="Next Post: 为什么不要使用Response.Close()">为什么不要使用Response.Close() &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

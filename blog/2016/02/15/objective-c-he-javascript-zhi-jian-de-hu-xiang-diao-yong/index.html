@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Objective C 和 Javascript 之间的互相调用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="有些时候出于某些原因（web界面更新迭代快、工作分离），我们需要让手机里面的网页能调用Objective C的原生代码或者是反过来。
+所以这时候就需要解决Objective C 和 页面代码（一般就是Javascript）之间互相调用、通信的问题了。 那么， 首先我们从简单的方面开始讲吧， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/15/objective-c-he-javascript-zhi-jian-de-hu-xiang-diao-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Objective C 和 Javascript 之间的互相调用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-15T10:38:09+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:38 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>有些时候出于某些原因（web界面更新迭代快、工作分离），我们需要让手机里面的网页能调用Objective C的原生代码或者是反过来。
+所以这时候就需要解决Objective C 和 页面代码（一般就是Javascript）之间互相调用、通信的问题了。</p>
+
+<p>那么， 首先我们从简单的方面开始讲吧，Objective C如何调用Javascript代码</p>
+
+<h1>Objective C如何调用Javascript代码?</h1>
+
+<p>这个很简单， UIWebView有个方法是:</p>
+
+<pre><code>- (NSString *)stringByEvaluatingJavaScriptFromString:(NSString *)script
+</code></pre>
+
+<p>就能直接调用了。例如你想获取页面document的title属性，那么只需要：</p>
+
+<pre><code>NSString *title = [webview stringByEvaluatingJavaScriptFromString:@"document.title"]];
+</code></pre>
+
+<p>又或者想调用页面的一个叫<code>test</code>的函数，则只需要</p>
+
+<pre><code>[webview stringByEvaluatingJavaScriptFromString:@"test()"]
+</code></pre>
+
+<p>注意事项: JS代码占用的内存使用量不能超过10M。</p>
+
+<h1>Javascript如何调用Objective C代码?它们怎么通信呢?</h1>
+
+<p>iOS里面加载一个网页用的是UIWebView，而关于页面加载的情况是通过UIWebView的一个Delegate：<a href="https://developer.apple.com/library/ios/documentation/uikit/reference/UIWebViewDelegate_Protocol/Reference/Reference.html">UIWebViewDelegate</a>来通知
+对应的webview的。而每次点击页面上的链接（或者是加载本页面的地址时）都会在加载前调用UIWebViewDelegate的一个方法：</p>
+
+<pre><code>- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+</code></pre>
+
+<p>如果这个方法的返回值是YES的话就继续加载这个请求，如果是NO的话就不加载了。
+所以Javascript调用Objective C代码的秘诀就在这个方法里面了。</p>
+
+<h2>Step 1. 匹配url格式</h2>
+
+<p>伪代码一般如下：</p>
+
+<pre><code>- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:   (UIWebViewNavigationType)navigationType
+{
+  if (request.URL.absoluteString match urlSchemePattern) {
+    [self executeSomeObjectiveCCode];
+    return NO;
+  } else {
+    return YES;
+  }
+}
+
+
+request.URL.absoluteString match urlSchemePattern    这里就是如果页面的url的格式是满足某种特定格式的话就不加载那个请求，而是执行Objective C的代码。
+</code></pre>
+
+<h2>Step 2. 协商url格式以及参数传递方式</h2>
+
+<p>现在很明显的是， 一般Javascript想要调用Objective C代码时，Javascript代码就需要和Objective C协商一个请求的协议，例如：凡是请求的url scheme
+是<code>"js-call://"</code> 这样格式开头的就是Javascript需要调用Objective C的代码，再具体点，比如"js-call://user/get" 就是要调用Objective C
+代码中一个getUser的方法的。（这里的js-call只是样例，实际中你可以自定义其他的字符串和格式，例如myjs:///也是可以的）
+那么如果Javascript需要传递参数给Objective C呢？ 很自然的，这里我们想到最简单的方法是像http的query string一样传参数（网上也有实现用json传的），
+例如:&ldquo;js-call://user/set?uid=1&amp;name=jpx"，然后在分析url的时候将query string提取出来传给Objective C的方法即可。
+伪代码如下:</p>
+
+<pre><code>- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+  if ([request.URL.absoluteString hasPrefix:@"js-call://user/set"]) {
+    NSDictionary *parameters = [self parseQueryString:request.URL.absoluetString];
+    [self executeSomeObjectiveCCodeWithParameters:parameters];
+    return NO;
+  } else if ([request.URL.absoluteString hasPrefix:@"js-call://user/get"]) {
+    NSDictionary *parameters = [self parseQueryString:request.URL.absoluetString];
+    [self executeSomeObjectiveCCodeWithParameters:parameters];
+    return NO;
+  }
+  return YES;
+}
+</code></pre>
+
+<p>OK, 那么现在Javascript调用Objective C的方法就讲完了。不过认真思考的同学可能会想到，如果我的Javascript需要调用好几个
+Objective C的接口，那么在shouldStartLoadWithRequest的delegate方法里面不就很多if &hellip; elif &hellip; else &hellip;的代码！！！
+而且解析query string的那部分代码也是重复的！！！别的ViewController要实现这样的一套Javascript调用Objective C机制时
+有得重复写这些代码？！So 作为程序员的我，也思考了这样的问题，我的解决办法是将这一切封装起来，于是<a href="https://github.com/jianpx/JPXUIWebViewJSBridge">JPXUIWebViewJSBridge</a>就诞生了。</p>
+
+<h2>介绍JPXUIWebViewJSBridge</h2>
+
+<p>由于我不想对url的格式分析是很多的if else 代码，而且希望这部分代码能重用。所以我参考了以前用过的某Web框架的url dispatch的机制优化。
+大概的思想就是我们定义url格式应该匹配到哪个cgi handler，大概是这样的：</p>
+
+<pre><code>//r'login' 就是正则表达式匹配请求的url的，后面的login对应的是cgi handler的login函数。
+url_config = [
+     (r'login', 'login'),
+     (r'user/set', 'update_user'),
+ ]
+</code></pre>
+
+<p>所以我的JPXUIWebViewJSBridge也是可以这样做的：</p>
+
+<pre><code>self.bridge = [[JPXUIWebViewJSBridge alloc] initWithHandler:self];
+self.bridge.routines = @[@[@"^js-call://user/set.*$", @"setUser"],
+                         @[@"^js-call://user/get.*$", @"getUser"]
+                         ];
+</code></pre>
+
+<p>是不是很方便呢？定义了这套规则之后，只需要比如说在ViewController里面实现一个叫setUser的方法即可：</p>
+
+<pre><code>- (void)setUser:(NSDictionary *)parametersFromWeb , 其中parametersFromWeb就是query string对应的字典！
+</code></pre>
+
+<p>然后在</p>
+
+<pre><code>- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+</code></pre>
+
+<p>只需要这样写就可以了:</p>
+
+<pre><code>- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSError *error;
+    BOOL canHandleRequest = [self.bridge canHandleRequest:request error:&amp;error];
+    if (canHandleRequest) {
+        [self.bridge handleRequest:request error:&amp;error];
+        NSLog(@"error1:%@", [error localizedDescription]);
+        return NO;
+    } else {
+        NSLog(@"error2:%@", [error localizedDescription]);
+    }
+    return YES;
+}
+</code></pre>
+
+<p>具体可以看这里的<a href="https://github.com/jianpx/JPXUIWebViewJSBridge/tree/master/Demo">Demo</a> 。 欢迎有需要的同学使用！</p>
+
+<h2>一些注意事项</h2>
+
+<p>Javascript调用Objective C时，很多人第一反应就是在a标签里面的href写url调用，例如:</p>
+
+<pre><code>&lt;a href="js-call://user/set?uid=1&amp;name=jpx" &gt;测试&lt;/a&gt;, 但是这样的调用会如下的一些问题：
+</code></pre>
+
+<p>There is weird but apprehensible bugs with this practice:
+a lot of javascript/html stuff get broken when we cancel a location change:</p>
+
+<ul>
+<li>All setInterval and setTimeout immediatly stop on location change</li>
+<li>Every innerHTML won’t work after a canceled location change!</li>
+<li>You may get other really weird bugs, really hard to diagnose&hellip;</li>
+</ul>
+
+
+<p>而更加合理的做法应该是通过加载一个iframe：</p>
+
+<pre><code>function execute(url)
+{
+     var iframe = document.createElement("IFRAME");
+     iframe.setAttribute("src", url);
+     document.documentElement.appendChild(iframe);
+     iframe.parentNode.removeChild(iframe);
+     iframe = null;
+}
+</code></pre>
+
+<p>Finally, Have Fun! Guys:)</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://github.com/jianpx/tech-articles/blob/master/invocation-between-objective-c-and-javascript.md">https://github.com/jianpx/tech-articles/blob/master/invocation-between-objective-c-and-javascript.md</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-15T10:38:09+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:38 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/15/ping-guo-wu-xian-jian-pan-ru-he-guan-bi/" title="Previous Post: 苹果无线键盘如何关闭">&laquo; 苹果无线键盘如何关闭</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/15/objective-cyu-jsxiang-hu-diao-yong/" title="Next Post: Objective-c与js相互调用">Objective-c与js相互调用 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

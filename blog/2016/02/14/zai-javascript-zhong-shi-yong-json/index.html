@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>在JavaScript中使用JSON - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="JSON 是 JavaScript 原生格式，这意味着在 JavaScript 中处理 JSON 数据不需要任何特殊的 API 或工具包。 将JSON数据赋值给变量 例如，可以创建一个新的 JavaScript 变量，然后将 JSON 格式的数据字符串直接赋值给它： var people &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/02/14/zai-javascript-zhong-shi-yong-json/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">在JavaScript中使用JSON</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-02-14T16:19:03+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:19 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>JSON 是 JavaScript 原生格式，这意味着在 JavaScript 中处理 JSON 数据不需要任何特殊的 API 或工具包。</p>
+
+<h4>将JSON数据赋值给变量</h4>
+
+<p>例如，可以创建一个新的 JavaScript 变量，然后将 JSON 格式的数据字符串直接赋值给它：</p>
+
+<pre><code>var people =
+
+{ "programmers": [
+
+{ "firstName": "Brett", "lastName":"McLaughlin", "email": "brett@newInstance.com" },
+
+{ "firstName": "Jason", "lastName":"Hunter", "email": "jason@servlets.com" },
+
+{ "firstName": "Elliotte", "lastName":"Harold", "email": "elharo@macfaq.com" }
+
+],
+
+
+
+"authors": [
+
+{ "firstName": "Isaac", "lastName": "Asimov", "genre": "science fiction" },
+
+{ "firstName": "Tad", "lastName": "Williams", "genre": "fantasy" },
+
+{ "firstName": "Frank", "lastName": "Peretti", "genre": "christian fiction" }
+
+],
+
+
+
+"musicians": [
+
+{ "firstName": "Eric", "lastName": "Clapton", "instrument": "guitar" },
+
+{ "firstName": "Sergei", "lastName": "Rachmaninoff", "instrument": "piano" }
+
+]
+
+}
+</code></pre>
+
+<p>这非常简单；现在 people 包含前面看到的 JSON 格式的数据。但是，这还不够，因为访问数据的方式似乎还不明显。</p>
+
+<h4>访问数据</h4>
+
+<p>尽管看起来不明显，但是上面的长字符串实际上只是一个数组；将这个数组放进 JavaScript 变量之后，就可以很轻松地访问它。实际上，只需用点号表示法来表示数组元素。所以，要想访问 programmers 列表的第一个条目的姓氏，只需在 JavaScript 中使用下面这样的代码：</p>
+
+<pre><code>people.programmers[0].lastName;
+</code></pre>
+
+<p>注意，数组索引是从零开始的。所以，这行代码首先访问 people 变量中的数据；然后移动到称为 programmers 的条目，再移动到第一个记录（ [0] ）；最后，访问 lastName 键的值。结果是字符串值 “McLaughlin” 。</p>
+
+<p>下面是使用同一变量的几个示例。</p>
+
+<pre><code>people.authors[1].genre                            
+// Value is "fantasy"
+
+people.musicians[3].lastName             
+
+
+// Undefined. This refers to the fourth entry,and there isn't one
+
+people.programmers[2].firstName          
+// Value is "Elliotte"
+</code></pre>
+
+<p>利用这样的语法，可以处理任何 JSON 格式的数据，而不需要使用任何额外的 JavaScript 工具包或 API 。</p>
+
+<h4>修改 JSON 数据</h4>
+
+<p>正如可以用点号和括号访问数据，也可以按照同样的方式轻松地修改数据：</p>
+
+<pre><code>people.musicians[1].lastName = "Rachmaninov";
+</code></pre>
+
+<p>在将字符串转换为 JavaScript json 格式对象之后，就可以像这样修改变量中的数据。</p>
+
+<p>注意:json 格式的对象和 json 文本是不同的</p>
+
+<pre><code>var obj={name:" 张三 ","sex":' 男 '};    //json 格式的对象
+var str=" { name: " 张三 " , "sex" : ' 男 ' }" ; //json 格式的字符串（ json 格式的文本）
+</code></pre>
+
+<h4>转换回字符串</h4>
+
+<p>当然，如果不能轻松地将对象转换回本文提到的文本格式，那么所有数据修改都没有太大的价值。在 JavaScript 中这种转换也很简单：</p>
+
+<pre><code>var newJSONtext = people.toJSONString();
+</code></pre>
+
+<p>这样就行了！现在就获得了一个可以在任何地方使用的文本字符串，例如，可以将它用作 Ajax 应用程序中的请求字符串。</p>
+
+<p>更重要的是，可以将任何 JavaScript 对象转换为 JSON 文本。并非只能处理原来用 JSON 字符串赋值的变量。为了对名为 myObject 的对象进行转换，只需执行相同形式的命令：</p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+   function Car(make,model,year,color)
+    {
+      this.make=make;  
+      this.model=model;  
+      this.year=year;  
+      this.color=color;
+    }  
+     function showCar()
+    {
+     var carr = new Car("Dodge","Coronet R/T",1968,"yellow");  
+     alert(carr.toJSONString());  
+    }
+&lt;/script&gt;
+</code></pre>
+
+<p>这就是 JSON 与其他数据格式之间最大的差异。如果使用 JSON ，只需调用一个简单的函数，就可以获得经过格式化的数据，可以直接使用了。对于其他数据格式，需要在原始数据和格式化数据之间进行转换。即使使用 Document Object Model 这样的 API （提供了将自己的数据结构转换为文本的函数），也需要学习这个 API 并使用 API 的对象，而不是使用原生的 JavaScript 对象和语法。</p>
+
+<p>最终结论是，如果要处理大量 JavaScript 对象，那么 JSON 几乎肯定是一个好选择，这样就可以轻松地将数据转换为可以在请求中发送给服务器端程序的格式(Ajax) 。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.cnblogs.com/yishanqinghe/p/5181191.html">http://www.cnblogs.com/yishanqinghe/p/5181191.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-02-14T16:19:03+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>4:19 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/02/14/xmlzhi-linqbian-li/" title="Previous Post: Xml之Linq遍历">&laquo; Xml之Linq遍历</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/02/14/ri-qi-kong-jian-de-shi-yong/" title="Next Post: 日期控件的使用">日期控件的使用 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

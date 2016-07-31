@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>软考算法题 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1、穷举法 意义：一一列举，逐一尝试。 应用：顺序查找、简单选择排序、冒泡排序、0/1背包、哈密顿回路、旅行家问题、最近点对和凸包问题。 2、迭代法 意义：找出个函数，不断将结果当做变量代入。 3、递推法 意义：建立起后项和前项的关系数列，后一组数由前一组数表示，运算。 应用：斐波那契数列 F（ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/13/ruan-kao-suan-fa-ti/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">软考算法题</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-13T16:45:58+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:45 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>1、穷举法</h3>
+
+<p>意义：一一列举，逐一尝试。</p>
+
+<p>应用：顺序查找、简单选择排序、冒泡排序、0/1背包、哈密顿回路、旅行家问题、最近点对和凸包问题。</p>
+
+<h3>2、迭代法</h3>
+
+<p>意义：找出个函数，不断将结果当做变量代入。</p>
+
+<h3>3、递推法</h3>
+
+<p>意义：建立起后项和前项的关系数列，后一组数由前一组数表示，运算。</p>
+
+<p>应用：斐波那契数列 F（n）=F(n-1)+F(n-2)  （n≥3）</p>
+
+<h3>4、递归法</h3>
+
+<p>意义：将较复杂的处理归结为简单处理，直到最简单的处理，在处理的递归调用中，系统用堆栈把每次调用的中间结果保存在栈区，直至求出最简值。然后返回调用函数，返回过程中，中间结果相继出栈恢复，它的执行效率相对较低。</p>
+
+<h3>5、分治法</h3>
+
+<p>意义：将一个难以解决的大问题，划分成一些规模较小的子问题，以便各个击破，分而治之。</p>
+
+<p>应用：大整数乘法、矩阵乘法、归并排序、快速排序、循环赛日程安排、最近点对问题、凸包问题。</p>
+
+<h3>6、动态规划法</h3>
+
+<p>意义：对于每一步决策列出各种可能的局部解，再依据各种判定条件，舍弃那些不能得到最优解的局部解，在每一步都经过筛选，以每一步都是最优解来保证全局是最优解。</p>
+
+<p>应用：矩阵连乘、多段图的最短路径、最长公共子序列、最优二叉排序树。</p>
+
+<h3>7、回溯法</h3>
+
+<p>意义：也叫试探法。它是一种系统搜索问题解的方法。从一条路往前走，能走得通就继续走，走不通就退回最近的交叉路口继续走下一步。</p>
+
+<p>应用：图的着色、哈密顿回路、八皇后问题、批处理作业调度。</p>
+
+<h3>8、贪心法</h3>
+
+<p>意义：从问题的某一个初始解出发逐步逼近给定的目标，以尽可能快的求得更好的解。当打到某算法中的某一步不能再继续前进时，算法停止。</p>
+
+<p>存在的问题：（1）不能保证最后求得的解最佳。</p>
+
+<p>　　　　　　（2）不能用来求最大或最小解问题。</p>
+
+<p>　　　　　　（3）只能秋满足某些约束条件的可行解的范围。</p>
+
+<p>应用：最小生成树、背包问题、旅行家问题、图的着色、活动安排问题、多机调度问题。</p>
+
+<h3>9、分支界限法</h3>
+
+<p>意义：是一种在问题的解空间树上搜索问题的解的方法。但与回溯不同，分支定界算法采用广度优先或最小耗费优先的方法搜索解空间树，每一个活节点只有一次机会成为扩展节点。</p>
+
+<p>应用：TSP旅行家旅行，遍历每个城市一次，并使得所走路程最短。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-13T16:45:58+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:45 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/12/you-xian-zi-dong-ji-notes/" title="Previous Post: 有限自动机notes">&laquo; 有限自动机notes</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/14/jiang-zhong-zhui-biao-da-shi-zhuan-hua-wei-hou-zhui-biao-da-shi/" title="Next Post: 将中缀表达式转化为后缀表达式">将中缀表达式转化为后缀表达式 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>FLAnimatedImage Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="FLAnimatedImage is a performant animated GIF engine for iOS: Plays multiple GIFs simultaneously with a playback speed comparable to desktop browsers &hellip;">
+  <meta name="keywords" content="flanimatedimage">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/25/flanimatedimage-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">FLAnimatedImage Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-25T15:41:58+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:41 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>FLAnimatedImage is a performant animated GIF engine for iOS:</p>
+
+<ul>
+<li>Plays multiple GIFs simultaneously with a playback speed comparable to desktop browsers</li>
+<li>Honors variable frame delays</li>
+<li>Behaves gracefully under memory pressure</li>
+<li>Eliminates delays or blocking during the first playback loop</li>
+<li>Interprets the frame delays of fast GIFs the same way modern browsers do</li>
+</ul>
+
+
+<p>It&rsquo;s a well-tested <a href="http://engineering.flipboard.com/2014/05/animated-gif/">component that powers all GIFs in Flipboard</a>. To understand its behavior it comes with an interactive demo:</p>
+
+<p><img src="https://github.com/Flipboard/FLAnimatedImage/raw/master/images/flanimatedimage-demo-player.gif" alt="Flipboard playing multiple GIFs" /></p>
+
+<h2>Who is this for?</h2>
+
+<ul>
+<li>Apps that don&rsquo;t support animated GIFs yet</li>
+<li>Apps that already support animated GIFs but want a higher performance solution</li>
+<li>People who want to tinker with the code (<a href="http://engineering.flipboard.com/2014/05/animated-gif/">the corresponding blog post</a> is a great place to start; also see the <em>To Do</em> section below)</li>
+</ul>
+
+
+<h2>Installation &amp; Usage</h2>
+
+<p>FLAnimatedImage is a well encapsulated drop-in component. Simply replace your <code>UIImageView</code> instances with instances of <code>FLAnimatedImageView</code> to get animated GIF support. There is no central cache or state to manage.</p>
+
+<p>If using CocoaPods, the quickest way to try it out is to type this on the command line:</p>
+
+<pre><code>$ pod try FLAnimatedImage
+</code></pre>
+
+<p>To add it to your app, copy the two classes <code>FLAnimatedImage.h/.m</code> and <code>FLAnimatedImageView.h/.m</code> into your Xcode project or add via <a href="http://cocoapods.org">CocoaPods</a> by adding this to your Podfile:</p>
+
+<pre><code>pod 'FLAnimatedImage', '~&gt; 1.0'
+</code></pre>
+
+<p>If using <a href="https://github.com/Carthage/Carthage">Carthage</a>, add following line into your <code>Carfile</code></p>
+
+<pre><code>github "Flipboard/FLAnimatedImage"
+</code></pre>
+
+<p>In your code, <code>#import "FLAnimatedImage.h"</code>, create an image from an animated GIF, and setup the image view to display it:</p>
+
+<pre><code>FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://raphaelschaad.com/static/nyan.gif"]]];
+FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
+imageView.animatedImage = image;
+imageView.frame = CGRectMake(0.0, 0.0, 100.0, 100.0);
+[self.view addSubview:imageView];
+</code></pre>
+
+<p>It&rsquo;s flexible to integrate in your custom image loading stack and backwards compatible to iOS 6.</p>
+
+<p>It uses ARC and the Apple frameworks <code>QuartzCore</code>, <code>ImageIO</code>, <code>MobileCoreServices</code>, and <code>CoreGraphics</code>.</p>
+
+<p>It has fine-grained logging. By default, it uses NSLog. However, if your project uses <a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a>, it automatically can detect that and use CocoaLumberjack to send logs to the configured output.</p>
+
+<p>Since FLAnimatedImage is licensed under MIT, it&rsquo;s compatible with the terms of using it for any app on the App Store.</p>
+
+<h2>To Do</h2>
+
+<ul>
+<li>Support other animated image formats such as APNG or WebP</li>
+<li>Integration into network libraries and image caches</li>
+<li>Investigate whether <code>FLAnimatedImage</code> should become a <code>UIImage</code> subclass</li>
+<li>Smarter buffering</li>
+<li>Bring demo app to iOS 6 and iPhone</li>
+</ul>
+
+
+<p>This has successfully shipped to many people as is, but please do come with your questions, issues and pull requests!</p>
+
+<p>Feel free to reach out to <a href="https://twitter.com/raphaelschaad">@RaphaelSchaad</a> for further help.</p>
+
+<h2>Select apps using FLAnimatedImage</h2>
+
+<ul>
+<li><a href="https://www.dropbox.com">Dropbox</a></li>
+<li><a href="https://medium.com">Medium</a></li>
+<li><a href="https://facebook.com">Facebook</a></li>
+<li><a href="https://pinterest.com">Pinterest</a></li>
+<li><a href="http://www.liveboothapp.com">LiveBooth</a></li>
+<li><a href="https://itunes.apple.com/app/id792517951">Design Shots</a></li>
+<li><a href="http://lwlvl.com">lWlVl Festival</a></li>
+<li><a href="http://closeu.pe">Close-up</a></li>
+<li><a href="https://itunes.apple.com/app/id893031254">Zip Code Finder</a></li>
+<li><a href="https://itunes.apple.com/app/id964784701">getGIF</a></li>
+<li><a href="http://giffage.com">Giffage</a></li>
+<li><a href="https://flipboard.com">Flipboard</a></li>
+<li><a href="https://itunes.apple.com/us/app/gifalicious-see-your-gifs/id965346708?mt=8">Gifalicious</a></li>
+</ul>
+
+
+<p>Using FLAnimatedImage in your app? <a href="https://twitter.com/raphaelschaad">Let me know!</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-25T15:41:58+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:41 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/25/ruan-jian-ban-ben-zhong-beta-,-lite,-demo,-builddeng-shi-shi-yao-yi-si-%3F/" title="Previous Post: 软件版本中Beta 、Lite、 Demo、 Build等是什么意思？">&laquo; 软件版本中Beta 、Lite、 Demo、 Build等是什么意思？</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/25/ios7-edgesforextendedlayout/" title="Next Post: iOS7 edgesForExtendedLayout">iOS7 edgesForExtendedLayout &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

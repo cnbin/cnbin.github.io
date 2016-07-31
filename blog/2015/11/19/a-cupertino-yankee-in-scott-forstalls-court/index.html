@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A Cupertino Yankee in Scott Forstall's Court - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="An NSDate Category With Locale-Aware Calculations for Beginning &amp; End of Day, Week, Month, and Year Thompson&rsquo;s Law: Any code that performs &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/19/a-cupertino-yankee-in-scott-forstalls-court/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A Cupertino Yankee in Scott Forstall's Court</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-19T11:53:36+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:53 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><strong>An NSDate Category With Locale-Aware Calculations for Beginning &amp; End of Day, Week, Month, and Year</strong></p>
+
+<blockquote><p><strong>Thompson&rsquo;s Law</strong>: Any code that performs sufficiently complex date calculations using naïve arithmetic means has a non-zero chance of causing a Y2K-style collapse of the global technology infrastructure.</p></blockquote>
+
+<p>If your code defines <code>kSecondsInDay</code>, <code>kSecondsInWeek</code>&ndash;or worst of all&ndash;<code>kSecondsInMonth</code> (seriously, what would you set for that?)&hellip; you may want to reconsider. Date and time systems are <a href="http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time">really, really complicated</a>. Between all of the <a href="http://en.wikipedia.org/wiki/List_of_time_zones_by_country">time zones</a>, <a href="http://en.wikipedia.org/wiki/List_of_calendars">calendars</a> and other locale-specific information you should be prepared for, you really can&rsquo;t get it right yourself.</p>
+
+<p>Thank <code>$DEITY</code> for <code>NSCalendar</code> is all I&rsquo;m saying.</p>
+
+<p>Anyway, this library uses <code>NSCalendar</code> and <code>NSDateComponents</code> exclusively for date calculation, so you&rsquo;ll handle everything from <a href="http://en.wikipedia.org/wiki/Leap_year">leap years</a> to <a href="http://en.wikipedia.org/wiki/Hebrew_calendar#Leap_months">leap months</a> like a champ.</p>
+
+<h2>Usage</h2>
+
+<pre><code>NSLog(@"Current Time: %@", date);
+NSLog(@"Beginning of Day:%@", [date beginningOfDay]);
+NSLog(@"End of Day:%@", [date endOfDay]);
+NSLog(@"Beginning of Week:%@", [date beginningOfWeek]);
+NSLog(@"End of Week:%@", [date endOfWeek]);
+NSLog(@"Beginning of Month:%@", [date beginningOfMonth]);
+NSLog(@"End of Month:%@", [date endOfMonth]);
+NSLog(@"Beginning of Year:%@", [date beginningOfYear]);
+NSLog(@"End of Year:%@", [date endOfYear]);
+</code></pre>
+
+<p>Result (Note the Time Zone and Daylight Savings Offsets)</p>
+
+<pre><code>Current Time: 2013-10-19 13:29:26 +0000
+Beginning of Day: 2013-10-18 22:00:00 +0000
+End of Day: 2013-10-19 21:59:59 +0000
+Beginning of Week: 2013-10-12 22:00:00 +0000
+End of Week: 2013-10-19 21:59:59 +0000
+Beginning of Month: 2013-09-30 22:00:00 +0000
+End of Month: 2013-10-31 22:59:59 +0000
+Beginning of Year: 2012-12-31 23:00:00 +0000
+End of Year: 2013-12-31 22:59:59 +0000
+</code></pre>
+
+<h2>Contact</h2>
+
+<p>Mattt Thompson</p>
+
+<ul>
+<li><a href="http://github.com/mattt">http://github.com/mattt</a></li>
+<li><a href="http://twitter.com/mattt">http://twitter.com/mattt</a></li>
+<li><a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#109;&#64;&#x6d;&#97;&#x74;&#116;&#x74;&#46;&#x6d;&#x65;">&#109;&#64;&#109;&#97;&#116;&#116;&#x74;&#46;&#109;&#x65;</a></li>
+</ul>
+
+
+<h2>License</h2>
+
+<p>&ldquo;A Cupertino Yankee in Scott Forstall&rsquo;s Court&rdquo; is available under the MIT license. See the LICENSE file for more info.</p>
+
+<h3>Resource Reference</h3>
+
+<h3><a href="https://github.com/mattt/CupertinoYankee">https://github.com/mattt/CupertinoYankee</a></h3>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-19T11:53:36+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:53 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/19/iosbi-ji-number-pragma-mark-de-yong-fa/" title="Previous Post: iOS笔记 #pragma mark 的用法(原创)">&laquo; iOS笔记 #pragma mark 的用法(原创)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/19/origami/" title="Next Post: origami">origami &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

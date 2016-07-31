@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ghostium - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Ghostium A Ghost theme focused on content based on Medium design/ux. → Live Demo → Download Table of contents Features
+Installing
+Configuring &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/23/Ghostium/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ghostium</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T16:21:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:21 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>Ghostium <a href="https://travis-ci.org/oswaldoacauan/ghostium"><img src="https://travis-ci.org/oswaldoacauan/ghostium.png" alt="Build Status" /></a> <a href="https://sourcegraph.com/github.com/oswaldoacauan/ghostium"><img src="https://sourcegraph.com/api/repos/github.com/oswaldoacauan/ghostium/counters/views.png" alt="Total views" /></a></h1>
+
+<p><img src="http://i.imgur.com/m5VcTBl.png" alt="Ghostium" /></p>
+
+<blockquote><p>A <a href="https://ghost.org/">Ghost</a> theme focused on content based on <a href="https://medium.com">Medium</a> design/ux.</p></blockquote>
+
+<h3><a href="http://ghostium.oswaldoacauan.com/">→ Live Demo</a></h3>
+
+<h3><a href="https://github.com/oswaldoacauan/ghostium/archive/master.zip">→ Download</a></h3>
+
+<h2>Table of contents</h2>
+
+<ul>
+<li><a href="#features">Features</a></li>
+<li><a href="#installing">Installing</a></li>
+<li><a href="#configuring">Configuring</a></li>
+<li><a href="#roadmap">Roadmap</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#history">History</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+
+
+<h2>Features</h2>
+
+<ul>
+<li>Focused on content</li>
+<li>Fully responsive</li>
+<li>HTML5 semantics, WAI-ARIA and Rich Snippets(microdata) roles</li>
+<li>Asynchronous content loading</li>
+<li>Disqus comments</li>
+<li>Syntax Highlight with <a href="http://prismjs.com/">Prism</a></li>
+<li>Google Universal Analytics snippet</li>
+<li>OpenGraph and Twitter Cards meta&rsquo;s</li>
+<li>Baseline HTML5 features, DNS prefetching, responsive meta</li>
+<li>One-file CSS/JS for performance</li>
+</ul>
+
+
+<h2>Installing</h2>
+
+<h3>Using Git</h3>
+
+<ol>
+<li>Navigate to your Ghost theme directory <code>ghost/content/themes</code></li>
+<li>Clone the theme repository using the command below</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git clone https://github.com/oswaldoacauan/ghostium/ <span class="s2">&quot;ghostium&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>Restart ghost and log in to your dashboard</li>
+<li>In settings under themes select <strong>ghostium</strong> and save</li>
+<li>That&rsquo;s all, now its time to <a href="#configuring">configure</a> your theme</li>
+</ol>
+
+
+<h3>Manually</h3>
+
+<ol>
+<li>Download the files using the <a href="https://github.com/oswaldoacauan/ghostium/archive/master.zip">GitHub .zip download</a> option</li>
+<li>Unzip the files and rename the folder to <code>ghostium</code></li>
+<li>Copy the folder into your Ghost theme directory <code>ghost/content/themes</code></li>
+<li>Restart ghost and log in to your dashboard</li>
+<li>In settings under themes select <strong>ghostium</strong> and save</li>
+<li>That&rsquo;s all, now its time to <a href="#configuring">configure</a> your theme</li>
+</ol>
+
+
+<h2>Configuring</h2>
+
+<p>All configurable files are located in <code>ghostium/partials/custom</code>.</p>
+
+<h4>config.hbs</h4>
+
+<p>Configurable javascript identifiers.</p>
+
+<ul>
+<li><code>ga_ua</code>: Your <a href="https://support.google.com/analytics/answer/1032385">Google Analitycs</a> account identifier</li>
+<li><code>disqus_shortname</code>: Your <a href="http://help.disqus.com/customer/portal/articles/466208">Disqus</a> unique identifier</li>
+</ul>
+
+
+<h4>meta.hbs</h4>
+
+<p>Configurable meta tags.</p>
+
+<ul>
+<li><code>twitter:site</code>: Used for <a href="https://dev.twitter.com/docs/cards/markup-reference">Twitter Card</a> identification, the twitter @username of the owner of this card&rsquo;s domain</li>
+<li><code>twitter:creator</code>: Used for <a href="https://dev.twitter.com/docs/cards/markup-reference">Twitter Card</a> identification, the twitter @username of the author of this content</li>
+<li><code>google-site-verification</code>: Used for <a href="https://support.google.com/webmasters/answer/35179">Google Webmaster Tools</a> identification</li>
+<li><code>fb:admins</code>: Used for <a href="https://developers.facebook.com/docs/insights/%E2%80%8E">Facebook Insights</a> identification</li>
+</ul>
+
+
+<h4>navigation.hbs</h4>
+
+<p>Your site navigation items, markup template below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;drawer-list-item&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span> <span class="na">title=</span><span class="s">&quot;My awesome menu&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    My menu
+</span><span class='line'>  <span class="nt">&lt;/a&gt;</span>
+</span><span class='line'><span class="nt">&lt;/li&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Roadmap</h2>
+
+<p>Many features listed here still depend on future implementations in Ghost, take a look at the their <a href="https://github.com/tryghost/ghost/wiki/Roadmap">Roadmap</a> and <a href="https://github.com/tryghost/ghost/wiki/Planned-Features">Planned features</a>.</p>
+
+<ul>
+<li>[ ] Cover image for single post</li>
+<li>[ ] Infinite scroll</li>
+<li>[ ] Next post cover</li>
+</ul>
+
+
+<h2>Contributing</h2>
+
+<p>If you want to help, please read the <a href="https://github.com/oswaldoacauan/ghostium/blob/master/CONTRIBUTING.md">Contributing</a> guide.</p>
+
+<h2>History</h2>
+
+<p>For detailed history, see <a href="https://github.com/oswaldoacauan/ghostium/blob/master/CHANGELOG.md">Changelog</a>.</p>
+
+<h2>License</h2>
+
+<p><a href="http://oswaldoacauan.mit-license.org/">MIT License</a> © Oswaldo Acauan</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-23T16:21:00+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>4:21 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/23/PreloadJS/" title="Previous Post: PreloadJS">&laquo; PreloadJS</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/23/ru-he-shi-wang-ye-zhong-de-lie-biao-heng-xiang-pai-lie/" title="Next Post: 如何使网页中的列表横向排列">如何使网页中的列表横向排列 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

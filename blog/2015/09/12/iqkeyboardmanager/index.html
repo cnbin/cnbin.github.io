@@ -1,0 +1,738 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>IQKeyboardManager - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="IQKeyboardManager Often while developing an app, We ran into an issues where the iPhone keyboard slide up and cover the UITextField/UITextView. &hellip;">
+  <meta name="keywords" content="iqkeyboardmanager">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/12/iqkeyboardmanager/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">IQKeyboardManager</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-12T09:46:22+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:46 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/master/Demo/Resources/icon.png" alt="Icon"/>
+</p>
+
+
+<H1 align="center">IQKeyboardManager</H1>
+
+
+<p>Often while developing an app, We ran into an issues where the iPhone keyboard slide up and cover the <code>UITextField/UITextView</code>. <code>IQKeyboardManager</code> allows you to prevent issues of the keyboard sliding up and cover <code>UITextField/UITextView</code> without needing you to enter any code and no additional setup required. To use <code>IQKeyboardManager</code> you simply need to add source files to your project.</p>
+
+<h4>Key Features</h4>
+
+<p>1) <code>**CODELESS**, Zero Line Of Code</code></p>
+
+<p>2) <code>Works Automatically</code></p>
+
+<p>3) <code>No More UIScrollView</code></p>
+
+<p>4) <code>No More Subclasses</code></p>
+
+<p>5) <code>No More Manual Work</code></p>
+
+<p>6) <code>No More #imports</code></p>
+
+<p><code>IQKeyboardManager</code> works on all orientations, and with the toolbar. There are also nice optional features allowing you to customize the distance from the text field, add the next/previous done button as a keyboard UIToolbar, play sounds when the user navigations through the form and more.</p>
+
+<h2>Screenshot</h2>
+
+<p><a href="http://youtu.be/6nhLw6hju2A"><img src="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/v3.3.0/Screenshot/IQKeyboardManagerScreenshot.png" alt="IQKeyboardManager" /></a>
+<a href="http://youtu.be/6nhLw6hju2A"><img src="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/v3.3.0/Screenshot/IQKeyboardManagerSettings.png" alt="Settings" /></a></p>
+
+<h2>GIF animation</h2>
+
+<p><a href="http://youtu.be/6nhLw6hju2A"><img src="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/v3.3.0/Screenshot/IQKeyboardManager.gif" alt="IQKeyboardManager" /></a></p>
+
+<h2>Video</h2>
+
+<p><a href="http://youtu.be/WAYc2Qj-OQg" target="_blank"><img src="http://img.youtube.com/vi/WAYc2Qj-OQg/0.jpg"
+alt="IQKeyboardManager Demo Video" width="480" height="360" border="10" /></a></p>
+
+<h2>Warning</h2>
+
+<ul>
+<li><strong>If you&rsquo;re planning to build SDK/library/framework and wants to handle UITextField/UITextView with IQKeyboardManager then you&rsquo;re totally going on wrong way.</strong> I would never suggest to add IQKeyboardManager as dependency/adding/shipping with any third-party library, instead of adding IQKeyboardManager you should implement your custom solution to achieve same result. IQKeyboardManager is totally designed for projects to help developers for their convenience, it&rsquo;s not designed for adding/dependency/shipping with any third-party library, because <strong>doing this could block adoption by other developers for their projects as well(who are not using IQKeyboardManager and implemented their custom solution to handle UITextField/UITextView throught the project).</strong></li>
+<li>If IQKeybaordManager conflicts with other third-party library, then it&rsquo;s developer responsibility to enable/disable IQKeyboardManager when presenting/dismissing third-party library UI. Third-party libraries are not responsible to handle IQKeyboardManager.</li>
+</ul>
+
+
+<h2>Requirements</h2>
+
+<h4>IQKeyboardManager:-</h4>
+
+<p>Minimum iOS Target: iOS 5.0</p>
+
+<p>Minimum Xcode Version: Xcode 4.2</p>
+
+<h4>IQKeyboardManagerSwift:-</h4>
+
+<p>Minimum iOS Target: iOS 8.0</p>
+
+<p>Minimum Xcode Version: Xcode 6.3</p>
+
+<h4>Demo Project:-</h4>
+
+<p>Minimum Xcode Version: Xcode 6.3</p>
+
+<h1>Installation</h1>
+
+<h4>Cocoapod Method:-</h4>
+
+<p><strong><em>IQKeyboardManager (Objective-C):-</em></strong> IQKeyboardManager is available through <a href="http://cocoapods.org">CocoaPods</a>, to install
+it simply add the following line to your Podfile: (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/9">#9</a>)</p>
+
+<p><code>pod 'IQKeyboardManager'</code></p>
+
+<p><strong><em>IQKeyboardManager (Swift):-</em></strong> IQKeyboardManagerSwift is available through <a href="http://cocoapods.org">CocoaPods</a>, to install
+it simply add the following line to your Podfile: (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/236">#236</a>)</p>
+
+<p><code>pod 'IQKeyboardManagerSwift'</code></p>
+
+<p>In AppDelegate.swift, just import IQKeyboardManagerSwift framework and enable IQKeyboardManager.</p>
+
+<pre><code>import IQKeyboardManagerSwift
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -&gt; Bool {
+
+    IQKeyboardManager.sharedManager().enable = true
+
+    return true
+    }
+}
+</code></pre>
+
+<h4>Source Code Method:-</h4>
+
+<p><strong><em>IQKeyboardManager (Objective-C):-</em></strong> Just <strong><em>drag and drop</em></strong> <code>IQKeyBoardManager</code> directory from demo project to your project. That&rsquo;s it.</p>
+
+<p><strong><em>IQKeyboardManager (Swift):-</em></strong> <strong><em>Drag and drop</em></strong> <code>IQKeyBoardManagerSwift</code> directory from demo project to your project</p>
+
+<p>In AppDelegate.swift, just enable IQKeyboardManager.</p>
+
+<pre><code>@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -&gt; Bool {
+
+    IQKeyboardManager.sharedManager().enable = true
+
+    return true
+    }
+}
+</code></pre>
+
+<h2>Known Issues:-</h2>
+
+<p><img src="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/v3.3.0/Screenshot/IQKeyboardManagerKnownIssue1.png" alt="Known Issue 1" /></p>
+
+<h4>1) Keyboard does not appear in iOS Simulator (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/62">#62</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/72">#72</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/75">#75</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/90">#90</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/100">#100</a>)</h4>
+
+<p>If keyboard does not appear in iOS Simulator and only toolbar is appearing over it (if enableAutoToolbar = YES), then check this setting</p>
+
+<p><strong><em>Xcode 6:-</em></strong> Goto <strong><em>iOS Simulator->Menu->Hardware->Keyboard->Connect Hardware Keyboard</em></strong>, and deselect that.</p>
+
+<p><strong><em>Xcode 5 and earlier:-</em></strong> Goto <strong><em>iOS Simulator->Menu->Hardware->Simulate Hardware Keyboard</em></strong>, and deselect that.</p>
+
+<h4>2) setEnable = NO doesn&rsquo;t disable automatic UIToolbar (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/117">#117</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/136">#136</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/147">#147</a>)</h4>
+
+<p>If you set <strong><em>[[IQKeyboardManager sharedManager] setEnable:NO]</em></strong> and still automatic toolbar appears on textFields? Probably you haven&rsquo;t heard about <strong><em>@property enableAutoToolbar</em></strong>.</p>
+
+<p><strong><em>@property enable :</em></strong> It enable/disable managing distance between keyboard and textField, and doesn&rsquo;t affect autoToolbar feature.</p>
+
+<p><strong><em>@property enableAutoToolbar :</em></strong> It enable/disable automatic creation of toolbar, please set enableAutoToolbar to NO if you don&rsquo;t want to add automatic toolbar.</p>
+
+<h4>3) Not working when pinning textfield from TopLayoutguide (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/124">#124</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/137">#137</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/160">#160</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/206">#206</a>)</h4>
+
+<p>Now IQKeyboardManager can work with topLayoutConstraint and bottomLayoutConstraint with a bit of manual management. Please check below <strong><em>Manual Management->Working with TopLayoutGuide and BottomLayoutGuide</em></strong> section.</p>
+
+<h2>Known Issues (Swift):-</h2>
+
+<h4>1) Manually enable IQKeyboardManager Swift Version.</h4>
+
+<p>From Swift 1.2, compiler no longer allows to override <code>class func load()</code> method, so you need to manually enable IQKeyboardManager using below line of code in AppDelegate.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IQKeyboardManager.sharedManager().enable = true</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Manual Management:-</h2>
+
+<h4>UINavigationBar:-</h4>
+
+<p>  If you don&rsquo;t want to hide the default UINavigationBar of UINavigationController when keyboardManager slides up the view, then just change the UIView class to UIScrollView from the storyboard or xib.(<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/21">#21</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/24">#24</a>)</p>
+
+<p><img src="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/v3.3.0/Screenshot/UINavigationBarExample.jpg" alt="image" /></p>
+
+<p>  If you are not using storyboard or xib and creating your view programmatically. Then you need to override &lsquo;-(void)loadView&rsquo; method of UIViewController, and need to set an UIScrollView instance to self.view.</p>
+
+<pre><code>-(void)loadView
+{
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.view = scrollView;
+}
+</code></pre>
+
+<h4>Working with TopLayoutGuide and BottomLayoutGuide:-</h4>
+
+<p> Technically IQKeyboardManager moves upwards/downwards of currently presentedViewController&rsquo;s view. So if you&rsquo;re pinning your UITextfield/UITextView with TopLayoutGuide/BottomLayoutGuide then you&rsquo;re saying <strong>Keep x distance from screen top(I don&rsquo;t care about where is self.view)</strong>&lsquo;. In this case your view is moved upwards but textField remains at same position and keeping x distance from screen top.</p>
+
+<p> To fix it, just let IQKeyboardManager know the constraint which is pinned with <strong>TopLayoutGuide/BottomLayoutGuide</strong>, just map <strong>TopLayoutGuide/BottomLayoutGuide</strong> constraint with <strong>IQLayoutGuideConstraint</strong>. Here is the screenshot:-
+<img src="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/v3.3.0/Screenshot/TopLayoutGuideDirectMapping.jpg" alt="image" /></p>
+
+<p> If your textFields are inside any UIView and your UIView is pinned with <strong>TopLayoutGuide/BotomLayoutGuide</strong> then also you can map <strong>TopLayoutGuide/BottomLayoutGuide</strong> constraint with <strong>IQLayoutGuideConstraint</strong>. here are the screenshots:-
+<img src="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/v3.3.0/Screenshot/TopLayoutGuideIndirectMapping.jpg" alt="image" />
+<img src="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/v3.3.0/Screenshot/BottomLayoutGuideIndirectMapping.jpg" alt="image" /></p>
+
+<h4>Disable for a ViewController:-</h4>
+
+<p> If you would like to disable <code>IQKeyboardManager</code> for a particular ViewController then register ViewController with <code>-(void)disableInViewControllerClass:(Class)disabledClass</code> method in AppDelegate.(<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/117">#117</a>,<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/139">#139</a>)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+</span><span class='line'>{
+</span><span class='line'>    [[IQKeyboardManager sharedManager] disableInViewControllerClass:[ViewController class]];
+</span><span class='line'>    return YES;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Disable toolbar for a ViewController:-</h4>
+
+<p>If you would like to disable <code>Auto Toolbar</code> for a particular ViewController then register ViewController with <code>-(void)disableToolbarInViewControllerClass:(Class)disabledClass</code> method in AppDelegate.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+</span><span class='line'>{
+</span><span class='line'>    [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[ViewController class]];
+</span><span class='line'>    return YES;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Considering Previous/Next buttons for textField inside customViews:-</h4>
+
+<p>If your textFields are on different customView and do not show previous/next to navigate between textField. Then you should create a SpecialView subclass of UIView, then put all customView inside SpecialView, then register SpecialView class using <code>-(void)considerToolbarPreviousNextInViewClass:(Class)toolbarPreviousNextConsideredClass</code> method in AppDelegate.(<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/154">#154</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/179">#179</a>)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+</span><span class='line'>{
+</span><span class='line'>    [[IQKeyboardManager sharedManager] considerToolbarPreviousNextInViewClass:[SpecialView class]];
+</span><span class='line'>    return YES;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Keyboard Return Key Handling:-</h4>
+
+<p>  If you would like to implement keyboard <strong>Return Key</strong> as <strong>Next/Done</strong> button, then you can use <strong>IQKeyboardReturnKeyHandler</strong>.(<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/38">#38</a>, <a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/63">#63</a>)</p>
+
+<p>  1) Create an instance variable of <code>IQKeyboardReturnKeyHandler</code> and instantiate it in <code>viewDidLoad</code> with ViewController object like this:-</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@implementation ViewController
+</span><span class='line'>{
+</span><span class='line'>    IQKeyboardReturnKeyHandler *returnKeyHandler;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)viewDidLoad
+</span><span class='line'>{
+</span><span class='line'>    [super viewDidLoad];
+</span><span class='line'>    
+</span><span class='line'>    returnKeyHandler = [[IQKeyboardReturnKeyHandler alloc] initWithViewController:self];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>   It assign all the responderView delegates to self, and change keybord Return Key to Next key.</p>
+
+<p>2) set instance variable to nil in <code>dealloc</code> method.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)dealloc
+</span><span class='line'>{
+</span><span class='line'>    returnKeyHandler = nil;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>UIToolbar(IQToolbar):-</h4>
+
+<p>1) If you don&rsquo;t want to add automatic toolbar over keyboard for a specific textField then you should add a UIView as it&rsquo;s toolbar like this:-(<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/89">#89</a>)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>textField.inputAccessoryView = [[UIView alloc] init];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2) If you need your own control over the previous/next/done button then you should use the UIView category methods to add toolbar over your textField. The UIView category methods are defined in <code>IQUIView+IQKeyboardToolbar.h</code> file. You can use them like this:-(<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/40">#40</a>)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)viewDidLoad
+</span><span class='line'>{
+</span><span class='line'>    [super viewDidLoad];
+</span><span class='line'>    
+</span><span class='line'>    //Adding done button for textField1
+</span><span class='line'>    [textField1 addDoneOnKeyboardWithTarget:self action:@selector(doneAction:)];
+</span><span class='line'>    
+</span><span class='line'>    //Adding previous/next/done button for textField2
+</span><span class='line'>    [textField2 addPreviousNextDoneOnKeyboardWithTarget:self previousAction:@selector(previousAction:) nextAction:@selector(nextAction:) doneAction:@selector(doneAction:)];
+</span><span class='line'>    
+</span><span class='line'>    //Adding cancel/done button for textField3
+</span><span class='line'>    [textField3 addCancelDoneOnKeyboardWithTarget:self cancelAction:@selector(cancelAction:) doneAction:@selector(doneAction:)];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/*!   previousAction. */
+</span><span class='line'>-(void)previousAction:(id)button
+</span><span class='line'>{
+</span><span class='line'>    //previousAction
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/*!   nextAction. */
+</span><span class='line'>-(void)nextAction:(id)button
+</span><span class='line'>{
+</span><span class='line'>    //nextAction
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/*!   doneAction. */
+</span><span class='line'>-(void)doneAction:(UIBarButtonItem*)barButton
+</span><span class='line'>{
+</span><span class='line'>    //doneAction
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>/*!   cancelAction. */
+</span><span class='line'>-(void)cancelAction:(UIBarButtonItem*)barButton
+</span><span class='line'>{
+</span><span class='line'>    //cancelAction
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Doing custom work on textField with returning NO in <code>textFieldShouldBeginEditing:</code> delegate:-</h4>
+
+<p>Generally if developer need to perform some custom task on a particular textField click, then usually developer write their custom code inside <strong><em>textFieldShouldBeginEditing:</em></strong> and returning NO for that textField. But if you are using IQKeyboardManager, then IQKeyboardManager also asks textField to recognize it can become first responder or not using <strong><em>canBecomeFirstResponder</em></strong> in <code>IQUIView+Hierarchy</code> category, and textField asks it&rsquo;s delegate to respond from <code>textFieldShouldBeginEditing:</code>, so this method is called for each textField everytime when a textField becomeFirstResponder. Unintentionally custom code runs multiple times even when we do not touch the textField to become it as first responder. To overcome this situation please use <strong><em>isAskingCanBecomeFirstResponder</em></strong> BOOL property to check that the delegate is called by IQKeyboardManager or not. (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/88">#88</a>)</p>
+
+<p>1) You may need to import <code>IQUIView+Hierarchy</code> category</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import "IQUIView+Hierarchy.h"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2) check for <strong><em>isAskingCanBecomeFirstResponder</em></strong> in <code>textFieldShouldBeginEditing:</code> delegate.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+</span><span class='line'>{
+</span><span class='line'>    if (textField == customWorkTextField)
+</span><span class='line'>    {
+</span><span class='line'>        if (textField.isAskingCanBecomeFirstResponder == NO)
+</span><span class='line'>        {
+</span><span class='line'>            //Do your work on tapping textField.
+</span><span class='line'>            [[[UIAlertView alloc] initWithTitle:@"IQKeyboardManager" message:@"Do your custom work here" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        return NO;
+</span><span class='line'>    }
+</span><span class='line'>    else    return YES;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Control Flow Diagram</h2>
+
+<p><a href="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/v3.3.0/Screenshot/IQKeyboardManagerCFD.jpg"><img src="https://raw.githubusercontent.com/hackiftekhar/IQKeyboardManager/v3.3.0/Screenshot/IQKeyboardManagerCFD.jpg" alt="IQKeyboardManager CFD" /></a></p>
+
+<h2>Properties and functions usage:-</h2>
+
+<h4>UIKeyboard handling</h4>
+
+<p><strong><em>+(instancetype)sharedManager :</em></strong>
+Returns the default singleton instance.</p>
+
+<p><strong><em>@property BOOL enable :</em></strong>
+Use this to enable/disable managing distance between keyboard &amp; textField/textView).</p>
+
+<p><strong><em>@property CGFloat keyboardDistanceFromTextField :</em></strong>
+Set Distance between keyboard &amp; textField. Can&rsquo;t be less than zero. Default is 10.</p>
+
+<p><strong><em>@property BOOL preventShowingBottomBlankSpace :</em></strong>
+Prevent to show bottom blanck area when keyboard slide up the view. Default is YES. (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/93">#93</a>).</p>
+
+<h4>IQToolbar handling</h4>
+
+<p><strong><em>@property BOOL enableAutoToolbar :</em></strong>
+Enable autoToolbar behaviour. If It is set to NO. You have to manually create UIToolbar for keyboard. Default is YES.</p>
+
+<p><strong><em>@property IQAutoToolbarManageBehaviour toolbarManageBehaviour :</em></strong>
+Setting toolbar behaviour to IQAutoToolbarBySubviews to manage previous/next according to UITextField&rsquo;s hierarchy in it&rsquo;s SuperView. Set it to IQAutoToolbarByTag to manage previous/next according to UITextField&rsquo;s tag property in increasing order. Default is IQAutoToolbarBySubviews.</p>
+
+<p><strong><em>@property  BOOL shouldToolbarUsesTextFieldTintColor :</em></strong>
+If YES, then uses textField&rsquo;s tintColor property for IQToolbar, otherwise tintColor is black. Default is NO. (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/27">#27</a>)</p>
+
+<p><strong><em>@property BOOL shouldShowTextFieldPlaceholder :</em></strong>
+If YES, then it add the textField&rsquo;s placeholder text on IQToolbar. Default is YES. (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/27">#27</a>)</p>
+
+<p><strong><em>@property UIFont </em>placeholderFont :</strong>*
+placeholder Font. Default is nil. (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/27">#27</a>)</p>
+
+<h4>UITextView handling</h4>
+
+<p><strong><em>@property BOOL canAdjustTextView :</em></strong>
+Giving permission to modify TextView&rsquo;s frame. Adjust textView&rsquo;s frame when it is too big in height. Default is NO. (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/30">#30</a>)</p>
+
+<p><strong><em>@property BOOL shouldFixTextViewClip :</em></strong>
+Adjust textView&rsquo;s contentInset to fix fix for iOS 7.0.x -(<a href="http://stackoverflow.com/questions/18966675/uitextview-in-ios7-clips-the-last-line-of-text-string">#Stackoverflow</a>). Default is YES.</p>
+
+<h4>UIKeyboard Appearance overriding</h4>
+
+<p><strong><em>@property BOOL overrideKeyboardAppearance :</em></strong>
+Override the keyboardAppearance for all textField/textView. Default is NO.</p>
+
+<p><strong><em>@property UIKeyboardAppearance keyboardAppearance :</em></strong>
+If overrideKeyboardAppearance is YES, then all the textField keyboardAppearance is set using this property.</p>
+
+<h4>UITextField/UITextView Resign handling</h4>
+
+<p><strong><em>@property BOOL shouldResignOnTouchOutside :</em></strong>
+Resign textField if touched outside of UITextField/UITextView. (<a href="https://github.com/hackiftekhar/IQKeyboardManager/issues/14">#14</a>)</p>
+
+<p><strong><em>-(void)resignFirstResponder :</em></strong>
+Resigns currently first responder field.</p>
+
+<h4>UISound handling</h4>
+
+<p><strong><em>@property BOOL shouldPlayInputClicks :</em></strong>
+If YES, then it plays inputClick sound on next/previous/done click. Default is NO.</p>
+
+<h4>UIAnimation handling</h4>
+
+<p><strong><em>@property BOOL shouldAdoptDefaultKeyboardAnimation :</em></strong>
+If YES, then uses keyboard default animation curve style to move view, otherwise uses UIViewAnimationOptionCurveEaseOut animation style. Default is YES.</p>
+
+<h2>Feature:-</h2>
+
+<p> 1) Support Device Orientation.</p>
+
+<p> 2) Enable/Disable Keyboard Manager when needed with <code>enable</code> boolean.</p>
+
+<p> 3) Easiest integration.</p>
+
+<p> 4) AutoHandle UIToolbar as a accessoryInputView of textField/textView with <code>enableAutoToolbar</code> boolean.</p>
+
+<p> 5) AutoHandle UIToolbar can be manged by superview&rsquo;s hierarchy or can be managed by tag property of textField/textView using <code>toolbarManageBehaviour</code> enum.</p>
+
+<p> 6) <code>UIView</code> Category for easily adding Next/Previous and Done button as Keyboard UIToolBar, even automatic with <code>enableAutoToolbar</code> boolean.</p>
+
+<p> 7) Enable/Disable Next/Previous buttons with Category methods, even automatic with <code>enableAutoToolbar</code> boolean.</p>
+
+<p> 8) Set keyboard distance from textFields using <code>keyboardDistanceFromTextField</code>.</p>
+
+<p> 9) Resign keyboard on touching outside using <code>shouldResignOnTouchOutside</code>.</p>
+
+<p> 10) Manage UITextView&rsquo;s frame when it&rsquo;s hight is too large to fit on screen with <code>canAdjustTextView</code> boolean.</p>
+
+<p> 11) Can manage <code>UITextField/UITextView</code> inside <code>UITableView/UIScrollView</code>.</p>
+
+<p> 12) Can play input sound on Next/Previous/Done click.</p>
+
+<h2>LICENSE</h2>
+
+<p>Distributed under the MIT License.</p>
+
+<h2>Contributions</h2>
+
+<p>Any contribution is more than welcome! You can contribute through pull requests and issues on GitHub.</p>
+
+<h2>Author</h2>
+
+<p>If you wish to contact me, email at: <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#104;&#x61;&#x63;&#x6b;&#x2e;&#105;&#102;&#116;&#101;&#x6b;&#104;&#97;&#114;&#x40;&#x67;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#111;&#x6d;">&#104;&#97;&#x63;&#107;&#x2e;&#x69;&#x66;&#116;&#x65;&#107;&#x68;&#97;&#x72;&#x40;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#99;&#x6f;&#x6d;</a></p>
+
+<p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/hackiftekhar/iqkeyboardmanager/trend.png" alt="Bitdeli Badge" /></a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-12T09:46:22+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:46 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/12/friends/" title="Previous Post: Friends">&laquo; Friends</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/12/irate-introduction/" title="Next Post: iRate Introduction">iRate Introduction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

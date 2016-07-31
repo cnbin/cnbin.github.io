@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Objective-C UIAppearance 协议自定义视图 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在 iOS 5以前，自定义原生控件的外观并没有原生支持，因此开发人员感觉很麻烦。开发人员经常面临的问题是修改一个控件所有实例的外观。解决这个问题的正确方法是重写一遍控件。但由于这么做非常费时，一些开发人员开始覆盖或混写一些方法，如 drawRect:。 从 iOS 5开始，苹果通过两个协议（ &hellip;">
+  <meta name="keywords" content="objective-c,uiappearance">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/10/objective-C-uiappearance-xie-yi-zi-ding-yi-shi-tu/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Objective-C UIAppearance 协议自定义视图</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-10T08:48:37+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:48 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>在 iOS 5以前，自定义原生控件的外观并没有原生支持，因此开发人员感觉很麻烦。开发人员经常面临的问题是修改一个控件所有实例的外观。解决这个问题的正确方法是重写一遍控件。但由于这么做非常费时，一些开发人员开始覆盖或混写一些方法，如 <code>drawRect:</code>。</p>
+
+<p>从 iOS 5开始，苹果通过两个协议（ UIAppearance 和 UIAppearanceContainer ）规范了对许 多UIKit 控件定制的支持。所有遵循 UIAppearance 协议的 UI 控件通过定制都可以呈现各种外观。不仅如此，UIAppearance 协议甚至允许开发者基于控件所属的区域指定不同的外观。也就是说，当某个控件包含在特定视图中时，可以指定它的外观（如 UIBarButtonItem 的 tintColor ）。也可以获取该控件类的外观代理对象，用该代理定制外观来实现，下面来看一个例子。</p>
+
+<p>要定制应用中所有条形按钮的颜色，可以在 UIBarButtonItem 的外观代理中设置 tintColor：</p>
+
+<pre><code>[[UIBarButtonItem appearance]  setTintColor:[UIColor  redColor]];
+</code></pre>
+
+<p>注意，iOS 4 的时候 setTintColor 方法就在 UIBarButtonItem 中了，但它只会作用到某个特定的控件实例，而不是所有的此类控件。借助外观代理对象，我们可以定制使用上述类创建的任意对象的外观。</p>
+
+<p>同样，可以根据内部包含的视图采用如下方法来定制控件的外观：</p>
+
+<pre><code>[[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil]  setTintColor:[UIColor redColor]];
+</code></pre>
+
+<p>第一个参数是以 nil 结尾的所有容器类的列表，包括 UINavigatorBar、UIPopOverController 等遵循 UIAppearanceContainer 协议的类。</p>
+
+<p>从 iOS 5开始，大多数 UI 元素都增加了对 UIAppearance 协议的支持。此外，iOS 5中类似于 UISwitch 的控件允许我们方便地将 on 开关的颜色变成设计师选定的颜色。现在，怎么确定哪些情况下能够通过 UIKit 的外观代理来定制所有元素（以及元素中的哪些属性）呢？有两种方式。老办法是查阅文档，另一个办法是大多数开发人员使用的快捷方式：读头文件。打开对应的 UIKit 元素的头文件，其中所有带有 <code>UI_APPEARANCE_SELECTOR</code> 标记的属性都支持通过外观代理来定制。举个例子，</p>
+
+<p><code>UINavigationBar.h</code> 中的 <code>tintColor</code> 属性带有 <code>UI_APPEARANCE_SELECTOR</code> 标记：</p>
+
+<pre><code>@property(nonatomic,retain) UIColor      *tintColor    UI_APPEARANCE_SELECTOR;
+</code></pre>
+
+<p>意味着可以调用</p>
+
+<pre><code>[[UINavigationBar appearance]  setTintColor:newColor];
+</code></pre>
+
+<p>尽管一开始苹果反对（在 Mac 和 iOS 平台上）使用 UI 定制，但情况慢慢发生了变化。苹果自己的原生应用（比如新的 Reminder 应用）也有了深度定制的、模仿现实的用户界面。有了 UIAppearance 协议，实现同样效果所用的代码要少得多。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-10T08:48:37+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>10</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:48 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/objective-c/'>objective-c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/10/javscript-yu-ju/" title="Previous Post: Javscript 语句">&laquo; Javscript 语句</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/10/updating-raneto/" title="Next Post: Updating Raneto">Updating Raneto &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

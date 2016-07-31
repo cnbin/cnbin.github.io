@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Java中Array与ArrayList的主要区别 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="可以将 ArrayList想象成一种“会自动扩增容量的Array”。 2）Array（[]）：最高效；但是其容量固定且无法动态改变； ArrayList： 容量可动态增长；但牺牲效率； 3）建议：
+基于效率和类型检验，应尽可能使用Array，无法确定数组大小时才使用ArrayList！ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/20/javazhong-arrayyu-arraylistde-zhu-yao-qu-bie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Java中Array与ArrayList的主要区别</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T17:58:10+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:58 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>可以将 ArrayList想象成一种“会自动扩增容量的Array”。</p>
+
+<p>2）Array（[]）：最高效；但是其容量固定且无法动态改变；
+     ArrayList：  容量可动态增长；但牺牲效率；</p>
+
+<p>3）建议：
+基于效率和类型检验，应尽可能使用Array，无法确定数组大小时才使用ArrayList！
+不过当你试着解决更一般化的问题时，Array的功能就可能过于受限。</p>
+
+<p>4）Java中一切皆对象，Array也是对象。不论你所使用得Array型别为何，
+Array名称本身实际上是个reference，指向heap之内得某个实际对象。
+这个对象可经由“Array初始化语法”被自动产生，也可以以new表达式手动产生。</p>
+
+<p>5）Array可做为函数返回值，因为它本身是对象的reference；</p>
+
+<p>6)对象数组与基本类型数组在运用上几乎一模一样，唯一差别在于，前者持有得是reference，后者直接持有基本型别之值；
+例如：</p>
+
+<pre><code>string [] staff=new string[100];
+int [] num=new int[10];
+</code></pre>
+
+<p>7）容器所持有的其实是一个个reference指向Object，进而才能存储任意型别。当然这不包括基本型别，因为基本型别并不继承自任何classes。</p>
+
+<p>8）面对Array，我们可以直接持有基本型别数值的Array（例如：int [] num;),也可以持有reference（指向对象）的Array；但是容器类仅能持有reference（指向对象），若要将基本型别置于容器内，需要使用wrapper类。但是wrapper类使用起来可能不很容易上手，此外，primitives Array的效率比起“容纳基本型别之外覆类（的reference）”的容器好太多了。</p>
+
+<p>当然，如果你的操作对象是基本型别，而且需要在空间不足时自动扩增容量，Array便不适合，此时就得使用外覆类的容器了。</p>
+
+<p>9）某些情况下，容器类即使没有转型至原来的型别，仍然可以运作无误。有一种情况尤其特别：编译器对String class提供了一些额外的支持，使它可以平滑运作。</p>
+
+<p>10）对数组的一些基本操作，像排序、搜索与比较等是很常见的。因此在Java中提供了Arrays类协助这几个操作：sort(),binarySearch(),equals(),fill(),asList().</p>
+
+<p>不过Arrays类没有提供删除方法，而ArrayList中有remove()方法，不知道是否是不需要在Array中做删除等操作的原因（因为此时应该使用链表）。</p>
+
+<p>11）ArrayList的使用也很简单：产生ArrayList，利用add()将对象置入，利用get(i）配合索引值将它们取出。这一切就和Array的使用方式完全相同，只不过少了[]而已。</p>
+
+<p>2.参考资料：</p>
+
+<p>1）效率：</p>
+
+<p>数组扩容是对ArrayList效率影响比较大的一个因素。
+每当执行Add、AddRange、Insert、InsertRange等添加元素的方法，都会检查内部数组的容量是否不够了，如果是，它就会以当前容量的两倍来重新构建一个数组，将旧元素Copy到新数组中，然后丢弃旧数组，在这个临界点的扩容操作，应该来说是比较影响效率的。</p>
+
+<p>ArrayList是Array的复杂版本
+ArrayList内部封装了一个Object类型的数组，从一般的意义来说，它和数组没有本质的差别，甚至于ArrayList的许多方法，如Index、IndexOf、Contains、Sort等都是在内部数组的基础上直接调用Array的对应方法。</p>
+
+<p>2）类型识别：</p>
+
+<p>ArrayList存入对象时，抛弃类型信息，所有对象屏蔽为Object，编译时不检查类型，但是运行时会报错。</p>
+
+<p>ArrayList与数组的区别主要就是由于动态增容的效率问题了</p>
+
+<p>3）ArrayList可以存任何Object，如String等。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-20T17:58:10+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>5:58 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/20/ioshe-androidde-appjie-mian-she-ji-gui-fan/" title="Previous Post: iOS和Android的app界面设计规范">&laquo; iOS和Android的app界面设计规范</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/20/chang-yong-de-androidgong-ju-lei-he-ku/" title="Next Post: 常用的android工具类和库">常用的android工具类和库 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

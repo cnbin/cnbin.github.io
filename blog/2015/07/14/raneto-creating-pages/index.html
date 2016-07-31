@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Raneto - Creating Pages - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Creating pages in Raneto is as simple as creating a Markdown file (.md) with you favourite text editor.
+There are several important aspects to your &hellip;">
+  <meta name="keywords" content="js">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/14/raneto-creating-pages/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Raneto - Creating Pages</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-14T11:01:14+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:01 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Creating pages in Raneto is as simple as creating a Markdown file (<code>.md</code>) with you favourite text editor.
+There are several important aspects to your files that you need to pay attention to when you create pages.</p>
+
+<h2>File Location</h2>
+
+<p>All of your Markdown files must go in the <code>content</code> folder in the root of the application (this can be
+configured in <code>config.js</code>). You can add as many sub-folders as you like in the content folder, but only
+<code>.md</code> files within the <code>content</code> folder (or sub-folders) will be recognised.</p>
+
+<p>You can use sub-folders as a way of creating &ldquo;categories&rdquo; of pages. For example if you create a sub-folder
+called <code>using-my-product</code> all of the pages inside that folder will appear under the <strong>Using My Product</strong>
+category in Raneto. You can create as many levels of sub-folder as you like but they will always appear
+as a top level category.</p>
+
+<p>Sub-folders will also be added to the page URL or &ldquo;slug&rdquo;. See file naming below for more information.</p>
+
+<h2>File Name</h2>
+
+<p>The name of the file defines what URL or &ldquo;slug&rdquo; is used to navigate to that page. For example if you create
+a file called <code>my-example-page.md</code> you would visit that page be navigation to <code>example.com/my-example-page</code>.
+Below is a table of example folder and file names and the URL&rsquo;s they would have in Raneto.</p>
+
+<table>
+<thead>
+<tr>
+<th>File Location </th>
+<th> URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>content/hello.md</code> </td>
+<td> <code>/hello</code></td>
+</tr>
+<tr>
+<td><code>content/my-example-page.md</code> </td>
+<td> <code>/my-example-page</code></td>
+</tr>
+<tr>
+<td><code>content/hello/my-example-page.md</code> </td>
+<td> <code>/hello/my-example-page</code></td>
+</tr>
+<tr>
+<td><code>content/some/sub/folder/page.md</code> </td>
+<td> <code>/some/sub/folder/page</code></td>
+</tr>
+</tbody>
+</table>
+
+
+<p>If a file cannot be found the <code>error.html</code> template will be shown.</p>
+
+<h2>File Markup</h2>
+
+<p>Pages are created using Markdown. If you are new to Markdown please refer to the
+<a href="http://daringfireball.net/projects/markdown/syntax">syntax guide</a> for more information. Pages can also
+contain regular HTML.</p>
+
+<p>At the top of a page you can place a block comment to specify certain attributes of the page. For example
+you can specify the page title or a description to be used by search engines. Specifying page meta is
+optional.</p>
+
+<pre><code>/*
+Title: My Page Title
+Description: Optional description for search engines
+*/
+</code></pre>
+
+<p>Note that if no meta title is specified the filename will be used to generate a page title.</p>
+
+<p>You can also use certain variables in your Markdown pages which will be replaced with the values
+you set in <a href="%base_url%/usage/configuration">your config</a>.</p>
+
+<ul>
+<li><em>&#37;base_url&#37;</em>: The base URL of your site</li>
+<li><em>&#37;image_url&#37;</em>: The base URL of your images folder (<code>public/images</code>)</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-14T11:01:14+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:01 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/js/'>js</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/14/40-best-free-bootstrap-html-website-templates/" title="Previous Post: 40 Best Free Bootstrap HTML Website Templates">&laquo; 40 Best Free Bootstrap HTML Website Templates</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/14/net-kuang-jia/" title="Next Post: NET 框架">NET 框架 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

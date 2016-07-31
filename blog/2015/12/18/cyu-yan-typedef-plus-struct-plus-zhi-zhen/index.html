@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>C语言typedef+struct+指针 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="c语言规范，定义结构体： typedef struct ANSWER_HEADER
+{
+u8 u8Type;
+u8 u8Code;
+u32 u32TimeStamp;
+struct ANSWER_HEADER *pNext;
+}ANSWER_HEADER_T, *PANSWER_HEADER_T &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/18/cyu-yan-typedef-plus-struct-plus-zhi-zhen/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">C语言typedef+struct+指针</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-18T10:00:07+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:00 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>c语言规范，定义结构体：</p>
+
+<pre><code>typedef  struct ANSWER_HEADER
+{
+u8 u8Type;
+u8 u8Code;
+u32 u32TimeStamp;
+struct ANSWER_HEADER *pNext;
+}ANSWER_HEADER_T, *PANSWER_HEADER_T;
+
+ANSWER_HEADER为结构名，这个名字主要是为了在结构体中包含自己为成员变量的时候有用
+ANSWER_HEADER_T为struct  ANSWER_HEADER的别名
+PANSWER_HEADER_T为struct  ANSWER_HEADER*的别名
+</code></pre>
+
+<p>上面的定义方式等价于</p>
+
+<pre><code>struct ANSWER_HEADER
+{
+u8 u8Type;
+u8 u8Code;
+u32 u32TimeStamp;
+struct ANSWER_HEADER *pNext;
+};
+typedef  struct ANSWER_HEADER ANSWER_HEADER_T;
+typedef  struct ANSWER_HEADER *PANSWER_HEADER_T;
+</code></pre>
+
+<hr />
+
+<p>结构的定义：</p>
+
+<pre><code>定义一个结构的一般形式为：
+struct 结构名
+    {成员表列};
+成员列表的形式为：
+ 类型说明符  成员名;
+</code></pre>
+
+<p>例如 ：</p>
+
+<pre><code>struct stu
+{
+ int num;
+ char name[20];
+ char sex;
+ float score;
+};
+</code></pre>
+
+<h2>声明结构变量的三种方法:</h2>
+
+<h3>1.先定义结构类型，再声明:</h3>
+
+<pre><code>    struct stu 
+    { 
+     int num; 
+     char name[20]; 
+     char sex; 
+     float score; 
+    };
+    struct stu boy1, boy2; 
+    也可以用宏定义使一个符号常量来表示
+    一个结构类型。 
+    例如： 
+    #define STU struct stu 
+    STU 
+    { 
+     int num; 
+     char name[20]; 
+     char sex; 
+     float score; 
+    }; 
+    STU boy1, boy2;
+</code></pre>
+
+<h3>2.在定义结构类型的同时说明结构变量</h3>
+
+<pre><code>    例如： 
+    struct stu 
+     { 
+         int num; 
+         char name[20]; 
+         char sex; 
+         float score; 
+    }boy1, boy2; 
+    这种形式的说明的一般形式为： 
+    struct 结构名 
+    { 
+     成员表列 
+    }变量名表列;
+</code></pre>
+
+<h3>3.直接说明结构变量。</h3>
+
+<pre><code>    例如： 
+    struct 
+    { 
+     int num; 
+     char name[20]; 
+     char sex; 
+     float score; 
+    }boy1, boy2; 
+    这种形式的说明的一般形式为：
+
+    struct
+    { 
+         成员表列 
+    }变量名表列;
+
+    结构指针变量说明的一般形式为： 
+    struct 结构名 *结构指针变量名 
+    例如:
+    struct stu *pstu; 
+    当然也可在定义 stu 结构时同时说明 pstu。
+    例如:
+    struct stu 
+    { 
+         int num; 
+         char name[20]; 
+         char sex; 
+         float score; 
+    }boy1, boy2, *pstu;
+</code></pre>
+
+<hr />
+
+<p>下面是谭浩强老师c语言书中typedef一节：</p>
+
+<p>类型定义符typedef</p>
+
+<pre><code>Ｃ语言不仅提供了丰富的数据类型，而且还允许由用户自己定义类型说明符，也就是说
+允许由用户为数据类型取“别名”。类型定义符 typedef 即可用来完成此功能。例如，有整
+型量 a,b,其说明如下： 
+    int a,b; 
+其中 int 是整型变量的类型说明符。int 的完整写法为 integer，为了增加程序的可读性，
+可把整型说明符用 typedef 定义为： 
+typedef int INTEGER 
+这以后就可用 INTEGER 来代替 int 作整型变量的类型说明了。  
+例如： 
+    INTEGER a,b; 
+它等效于： 
+    int a,b; 
+用 typedef 定义数组、指针、结构等类型将带来很大的方便，不仅使程序书写简单而且
+使意义更为明确，因而增强了可读性。 
+例如： 
+    typedef char NAME[20];    表示 NAME 是字符数组类型，数组长度为 20。然后可
+用 NAME 说明变量，如： 
+    NAME a1,a2,s1,s2; 
+完全等效于： 
+    char a1[20],a2[20],s1[20],s2[20] 
+又如： 
+
+typedef struct stu 
+{ 
+    char name[20]; 
+    int age; 
+    char sex; 
+} STU; 
+</code></pre>
+
+<ul>
+<li>定义 STU 表示 stu 的结构类型，然后可用 STU 来说明结构变量：</li>
+<li>STU body1,body2;</li>
+<li>typedef 定义的一般形式为：</li>
+<li>typedef 原类型名  新类型名</li>
+<li>其中原类型名中含有定义部分，新类型名一般用大写表示，以便于区别。</li>
+<li>有时也可用宏定义来代替 typedef 的功能，但是宏定义是由预处理完成的，而 typedef</li>
+<li>则是在编译时完成的，后者更为灵活方便。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-18T10:00:07+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/computer/'>computer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/18/wei-dai-ma-fu-hao-yi-yi-xiang-guan-wen-ti/" title="Previous Post: 伪代码符号意义相关问题">&laquo; 伪代码符号意义相关问题</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/18/zhan-de-ji-ben-cao-zuo-an-li/" title="Next Post: 栈的基本操作案例(原创)">栈的基本操作案例(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

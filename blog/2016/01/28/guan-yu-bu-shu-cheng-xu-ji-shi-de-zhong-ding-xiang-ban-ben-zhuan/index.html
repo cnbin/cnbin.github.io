@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>关于部属程序集时的重定向版本(转) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="转：https://www.mgenware.com/blog/?p=176 1. 单个程序集配置重定向 当单个依赖程序集，比如A，依赖程序集B，比如使用B的1.0版本。现在B从1.0升级到了2.0。那么此时可以在程序集A中手动重定向B的版本，这样在程序集A运行后会自动使用更新的2. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/01/28/guan-yu-bu-shu-cheng-xu-ji-shi-de-zhong-ding-xiang-ban-ben-zhuan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">关于部属程序集时的重定向版本(转)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-01-28T14:28:15+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:28 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>转：<a href="https://www.mgenware.com/blog/?p=176">https://www.mgenware.com/blog/?p=176</a></p>
+
+<h3>1. 单个程序集配置重定向</h3>
+
+<p>当单个依赖程序集，比如A，依赖程序集B，比如使用B的1.0版本。现在B从1.0升级到了2.0。那么此时可以在程序集A中手动重定向B的版本，这样在程序集A运行后会自动使用更新的2.0版本的程序集B。</p>
+
+<p>程序集的版本重定向须写在程序集自己的配置文件中（App.config）。在<code>&lt;configuration&gt; – &lt;runtime&gt; – &lt;assemblyBinding&gt; – &lt;dependentAssembly&gt;</code>元素下。首先必须需要一个<code>&lt;assemblyIdentity&gt;</code>元素来指定依赖的（引用）程序集。包括它的名称，公钥标记等……。接着就是<code>&lt;bindingRedirect&gt;</code>元素代表重定向信息，使用<code>&lt;bindingRedirect&gt;</code>的oldVersion和newVersion属性来指定新旧版本的信息。</p>
+
+<p>比如如下配置文件代码（应用在程序集A的配置文件：a.exe.config中）：</p>
+
+<pre><code>&lt;configuration&gt;
+   &lt;runtime&gt;
+      &lt;assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1"&gt;
+       &lt;dependentAssembly&gt;
+         &lt;!-- 依赖程序集标识 --&gt;
+         &lt;assemblyIdentity name="B"
+                           publicKeyToken="39e0cba45e0a8bc2"/&gt;
+         &lt;!-- 重定向信息 --&gt;
+         &lt;bindingRedirect oldVersion="1.0.0.0"
+                          newVersion="2.0.0.0"/&gt;
+       &lt;/dependentAssembly&gt;
+      &lt;/assemblyBinding&gt;
+   &lt;/runtime&gt;
+&lt;/configuration&gt;
+</code></pre>
+
+<h3>2. 发行者策略程序集</h3>
+
+<p>还是上面的实例，如果用标题1的方法的话，每一个引用B旧版本的程序集，都需要手动配置自己的把依赖的版本1的B程序集重定向成版本2的B程序集。显然不是个好的方法。.NET还提供发行者策略（Publisher Policy）。其实就是把针对某个程序集的配置直接跟随程序集编译，然后在部署时，程序集和发行者策略都会存储在GAC里，这样任何引用该程序集的对象都会受到影响，而不用一个一个慢慢配置了。</p>
+
+<p>创建开发者策略程序集需要使用al.exe的/link参数来制定一个发行者策略文件。具体可以参考MSDN：<a href="http://msdn.microsoft.com/zh-cn/library/dz32563a.aspx">http://msdn.microsoft.com/zh-cn/library/dz32563a.aspx</a></p>
+
+<p>接下来还有一个问题，既然发行者策略程序集创建成功，那么所有使用它的程序集都会根据发行者策略而受到影响，某些时候程序集不需要受到发行者策略影响。则需要在<code>&lt;assemblyBinding&gt;</code>元素下加入，<code>&lt;publisherPolicy&gt;</code>元素，用apply属性来控制是否应用发行者策略配置。</p>
+
+<p>如下代码：</p>
+
+<pre><code>&lt;configuration&gt;
+   &lt;runtime&gt;
+       &lt;assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1"&gt;
+           &lt;!-- 不应用发行者策略配置 --&gt;
+           &lt;publisherPolicy apply="no"/&gt;
+       &lt;/assemblyBinding&gt;
+   &lt;/runtime&gt;
+&lt;/configuration&gt;
+</code></pre>
+
+<h3>3. 开发测试中频繁版本更新</h3>
+
+<p>第三个情景就是在程序集的开发测试中，往往频繁更新版本，此时则需要设置发行者策略配置并将程序集安装到GAC内。那么可以将程序集所在目录设置到Windows环境变量DEVPATH中。然后在machine.config（注意是machine.config，不是app.config）中打开开发模式（通过<code>&lt;developmentMode&gt;</code>节点），这样CLR在寻找程序集时不仅要浏览GAC，还是探索DEVPATH中的目录，程序集就不必总安装到GAC中了。</p>
+
+<p>在machine.config中加入：</p>
+
+<pre><code>&lt;configuration&gt;
+    &lt;runtime&gt;
+        &lt;developmentMode developerInstallation="true"/&gt;
+    &lt;/runtime&gt;
+&lt;/configuration&gt;
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-01-28T14:28:15+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:28 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/01/28/mei-ju-zi-fu-chuan-bing-kao-lu-unicode-surrogate(zhuan-)/" title="Previous Post: 枚举字符串并考虑Unicode Surrogate（转）">&laquo; 枚举字符串并考虑Unicode Surrogate（转）</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/01/28/wang-zhan-gai-nian/" title="Next Post: 网站概念">网站概念 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

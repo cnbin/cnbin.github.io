@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SVProgressHUD - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="SVProgressHUD SVProgressHUD is a clean and easy-to-use HUD meant to display the progress of an ongoing task. Installation From CocoaPods CocoaPods &hellip;">
+  <meta name="keywords" content="svprogresshud">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/26/svprogresshud/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SVProgressHUD</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-26T11:28:03+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:28 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>SVProgressHUD</h2>
+
+<p><img src="https://img.shields.io/cocoapods/v/SVProgressHUD.svg?style=flat" alt="Pod Version" />
+<img src="https://img.shields.io/cocoapods/l/SVProgressHUD.svg?style=flat" alt="Pod License" />
+<img src="https://img.shields.io/cocoapods/p/SVProgressHUD.svg?style=flat" alt="Pod Platform" />
+<a href="https://github.com/Carthage/Carthage"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a></p>
+
+<p><code>SVProgressHUD</code> is a clean and easy-to-use HUD meant to display the progress of an ongoing task.</p>
+
+<h2>Installation</h2>
+
+<h3>From CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like <code>SVProgressHUD</code> in your projects. Simply add the following line to your <a href="http://guides.cocoapods.org/using/using-cocoapods.html">Podfile</a>:</p>
+
+<pre><code>pod 'SVProgressHUD'
+</code></pre>
+
+<p>If you want to use the latest features of <code>SVProgressHUD</code> add <code>:head</code>:</p>
+
+<pre><code>pod 'SVProgressHUD', :head
+</code></pre>
+
+<p>This pulls from the <code>master</code> branch directly. We are usually careful about what we push there and this is the version we use ourselves in all of our projects.</p>
+
+<h3>Carthage</h3>
+
+<p>You can install <code>SVProgressHUD</code> with <a href="https://github.com/Carthage/Carthage">Carthage</a>.</p>
+
+<p><a href="https://github.com/TransitApp/SVProgressHUD"><img src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat" alt="Carthage compatible" /></a></p>
+
+<h3>Manually</h3>
+
+<ul>
+<li>Drag the <code>SVProgressHUD/SVProgressHUD</code> folder into your project.</li>
+<li>Take care that <code>SVProgressHUD.bundle</code> is added to <code>Targets-&gt;Build Phases-&gt;Copy Bundle Resources</code>.</li>
+<li>Add the <strong>QuartzCore</strong> framework to your project.</li>
+</ul>
+
+
+<h2>Usage</h2>
+
+<p>(see sample Xcode project in <code>/Demo</code>)</p>
+
+<p><code>SVProgressHUD</code> is created as a singleton (i.e. it doesn&rsquo;t need to be explicitly allocated and instantiated; you directly call <code>[SVProgressHUD method]</code>).</p>
+
+<p><strong>Use <code>SVProgressHUD</code> wisely! Only use it if you absolutely need to perform a task before taking the user forward. Bad use case examples: pull to refresh, infinite scrolling, sending message.</strong></p>
+
+<p>Using <code>SVProgressHUD</code> in your app will usually look as simple as this (using Grand Central Dispatch):</p>
+
+<pre><code>[SVProgressHUD show];
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    // time-consuming task
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [SVProgressHUD dismiss];
+    });
+});
+</code></pre>
+
+<h3>Showing the HUD</h3>
+
+<p>You can show the status of indeterminate tasks using one of the following:</p>
+
+<pre><code>+ (void)show;
++ (void)showWithStatus:(NSString*)string;
+</code></pre>
+
+<p>If you&rsquo;d like the HUD to reflect the progress of a task, use one of these:</p>
+
+<pre><code>+ (void)showProgress:(CGFloat)progress;
++ (void)showProgress:(CGFloat)progress status:(NSString*)status;
+</code></pre>
+
+<h3>Dismissing the HUD</h3>
+
+<p>The HUD can be dismissed using:</p>
+
+<pre><code>+ (void)dismiss;
++ (void)dismissWithDelay:(NSTimeInterval)delay;
+</code></pre>
+
+<p>If you&rsquo;d like to stack HUDs, you can balance out every show call using:</p>
+
+<pre><code>+ (void)popActivity;
+</code></pre>
+
+<p>The HUD will get dismissed once the <code>popActivity</code> calls will match the number of show calls.</p>
+
+<p>Or show a confirmation glyph before before getting dismissed a little bit later. The display time depends on the length of the given string (between 0.5 and 5 seconds).</p>
+
+<pre><code>+ (void)showInfoWithStatus:(NSString *)string;
++ (void)showSuccessWithStatus:(NSString*)string;
++ (void)showErrorWithStatus:(NSString *)string;
++ (void)showImage:(UIImage*)image status:(NSString*)string;
+</code></pre>
+
+<h2>Customization</h2>
+
+<p><code>SVProgressHUD</code> can be customized via the following methods:</p>
+
+<pre><code>+ (void)setDefaultStyle:(SVProgressHUDStyle)style;                  // default is SVProgressHUDStyleLight
++ (void)setDefaultMaskType:(SVProgressHUDMaskType)maskType;         // default is SVProgressHUDMaskTypeNone
++ (void)setDefaultAnimationType:(SVProgressHUDAnimationType)type;   // default is SVProgressHUDAnimationTypeFlat
++ (void)setRingThickness:(CGFloat)width;                            // default is 2 pt
++ (void)setCornerRadius:(CGFloat)cornerRadius;                      // default is 14 pt
++ (void)setFont:(UIFont*)font;                                      // default is [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline]
++ (void)setForegroundColor:(UIColor*)color;                         // default is [UIColor blackColor], only used for SVProgressHUDStyleCustom
++ (void)setBackgroundColor:(UIColor*)color;                         // default is [UIColor whiteColor], only used for SVProgressHUDStyleCustom
++ (void)setInfoImage:(UIImage*)image;                               // default is the bundled info image provided by Freepik
++ (void)setSuccessImage:(UIImage*)image;                            // default is bundled success image from Freepik
++ (void)setErrorImage:(UIImage*)image;                              // default is bundled error image from Freepik
++ (void)setViewForExtension:(UIView*)view;                          // default is nil, only used if #define SV_APP_EXTENSIONS is set
+</code></pre>
+
+<h2>Notifications</h2>
+
+<p><code>SVProgressHUD</code> posts four notifications via <code>NSNotificationCenter</code> in response to being shown/dismissed:
+* <code>SVProgressHUDWillAppearNotification</code> when the show animation starts
+* <code>SVProgressHUDDidAppearNotification</code> when the show animation completes
+* <code>SVProgressHUDWillDisappearNotification</code> when the dismiss animation starts
+* <code>SVProgressHUDDidDisappearNotification</code> when the dismiss animation completes</p>
+
+<p>Each notification passes a <code>userInfo</code> dictionary holding the HUD&rsquo;s status string (if any), retrievable via <code>SVProgressHUDStatusUserInfoKey</code>.</p>
+
+<p><code>SVProgressHUD</code> also posts <code>SVProgressHUDDidReceiveTouchEventNotification</code> when users touch on the overall screen or <code>SVProgressHUDDidTouchDownInsideNotification</code> when a user touches on the HUD directly. For this notifications <code>userInfo</code> is not passed but the object parameter contains the <code>UIEvent</code> that related to the touch.</p>
+
+<h2>App Extensions</h2>
+
+<p>When using <code>SVProgressHUD</code> in an App Extension, <code>#define SV_APP_EXTENSIONS</code> to avoid using unavailable APIs. Additionally call <code>setViewForExtension:</code> from your extensions view controller with <code>self.view</code>.</p>
+
+<h2>Contributing to this project</h2>
+
+<p>If you have feature requests or bug reports, feel free to help out by sending pull requests or by <a href="https://github.com/TransitApp/SVProgressHUD/issues/new">creating new issues</a>. Please take a moment to
+review the guidelines written by <a href="https://github.com/necolas/">Nicolas Gallagher</a>:</p>
+
+<ul>
+<li><a href="https://github.com/necolas/issue-guidelines/blob/master/CONTRIBUTING.md#bugs">Bug reports</a></li>
+<li><a href="https://github.com/necolas/issue-guidelines/blob/master/CONTRIBUTING.md#features">Feature requests</a></li>
+<li><a href="https://github.com/necolas/issue-guidelines/blob/master/CONTRIBUTING.md#pull-requests">Pull requests</a></li>
+</ul>
+
+
+<h2>Credits</h2>
+
+<p><code>SVProgressHUD</code> is brought to you by <a href="http://samvermette.com">Sam Vermette</a> and <a href="https://github.com/TransitApp/SVProgressHUD/contributors">contributors to the project</a>. If you&rsquo;re using <code>SVProgressHUD</code> in your project, attribution would be very appreciated. The success, error and info icons are made by <a href="http://www.freepik.com">Freepik</a> from <a href="http://www.flaticon.com">Flaticon</a> and are licensed under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons BY 3.0</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-26T11:28:03+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:28 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/26/progresshud-introduction/" title="Previous Post: ProgressHUD Introduction">&laquo; ProgressHUD Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/26/xmppframeworks-tian-jia-autoping/" title="Next Post: XMPPFrameworks 添加 AutoPing">XMPPFrameworks 添加 AutoPing &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

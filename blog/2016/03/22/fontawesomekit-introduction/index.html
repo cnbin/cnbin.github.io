@@ -1,0 +1,457 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>FontAwesomeKit Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Icon font library for iOS. Currently supports Font-Awesome, Foundation icons, Zocial, and ionicons. Version 2.2 Notable Changes Not Just Awesome. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/22/fontawesomekit-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">FontAwesomeKit Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-22T15:43:31+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>3:43 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>Icon font library for iOS. Currently supports Font-Awesome, Foundation icons, Zocial, and ionicons.</p>
+
+<p><img src="http://i.minus.com/i3vNn0fTwcJeI.png" alt="image" /></p>
+
+<p><img src="http://i2.minus.com/ivKqhOLJLVvmJ.png" alt="image" /></p>
+
+<h2>Version 2.2 Notable Changes</h2>
+
+<h3>Not Just Awesome. New Icon Fonts Added</h3>
+
+<p>Currently FontAwesomeKit supports <strong>6</strong> different icon fonts.</p>
+
+<ul>
+<li><a href="http://fontawesome.io">FontAwesome 4.5</a> Our old friend, contains <strong>605</strong> icons</li>
+<li><a href="http://zurb.com/playground/foundation-icon-fonts-3">Foundation icons</a> Contains <strong>283</strong> icons.</li>
+<li><a href="http://zocial.smcllns.com/">Zocial</a> Contains <strong>99</strong> social icons.</li>
+<li><a href="http://ionicons.com/">ionicons 2.0.0</a> Contains <strong>733</strong> icons, lots of iOS 7 style outlined icons.</li>
+<li><a href="https://octicons.github.com/">Octicons 2.4.1</a> Contains <strong>206</strong> icons, built with love by <a href="https://github.com/">Github</a>.</li>
+<li><a href="https://google.github.io/material-design-icons/">Material 2.0.0</a> Contains <strong>743</strong> icons, built by Google for Material design.</li>
+</ul>
+
+
+<h3>API Reforged, Take Advantage of NSAttributedString</h3>
+
+<p>Thanks to <code>NSAttributedString</code> the API is more clean and object oriented. All hail <code>NSAttributedString</code>!</p>
+
+<h3>Notes on FontAwesome</h3>
+
+<p>Please notice that FontAwesome has renamed lots of it&rsquo;s icons in the recent 4.0 release, make sure to change you code accordingly if you&rsquo;re using FontAwesomeKit 2.1 version.</p>
+
+<h2>Installation</h2>
+
+<h3>Requirements</h3>
+
+<ul>
+<li>Xcode 5</li>
+<li>iOS 6.0 +</li>
+<li>tvOS 9.0</li>
+<li>ARC enabled</li>
+<li>CoreText framework</li>
+</ul>
+
+
+<h3>Install with CocoaPods (Strongly Recommended)</h3>
+
+<p>FontAwesomeKit now supports sub spec, only get the fonts you need.</p>
+
+<p>Add <code>pod 'FontAwesomeKit', '~&gt; 2.2.0'</code> to Podfile to install all icon fonts.</p>
+
+<p>Or select icon fonts with:</p>
+
+<p><code>pod 'FontAwesomeKit/FontAwesome'</code><br/>
+<code>pod 'FontAwesomeKit/FoundationIcons'</code><br/>
+<code>pod 'FontAwesomeKit/Zocial'</code><br/>
+<code>pod 'FontAwesomeKit/IonIcons'</code>
+<code>pod 'FontAwesomeKit/Octicons'</code>
+<code>pod 'FontAwesomeKit/Material'</code></p>
+
+<p>Run <code>pod install</code> or <code>pod update</code> to install selected icon fonts.</p>
+
+<h4>Importing Headers</h4>
+
+<p><code>#import FontAwesomeKit/FontAwesomeKit.h</code> If you installed all available icon fonts.</p>
+
+<p>Or import icon fonts you installed with sub specs</p>
+
+<p><code>#import "FontAwesomeKit/FAKFontAwesome.h"</code><br/>
+<code>#import "FontAwesomeKit/FAKFoundationIcons.h"</code><br/>
+<code>#import "FontAwesomeKit/FAKZocial.h"</code><br/>
+<code>#import "FontAwesomeKit/FAKIonIcons.h"</code>
+<code>#import "FontAwesomeKit/FAKOcticons.h"</code>
+<code>#import "FontAwesomeKit/FAKMaterialIcons.h"</code></p>
+
+<h5><em>important:</em></h5>
+
+<p>If you deleted a sub spec in Podfile, please delete Xcode&rsquo;s derived data in organizer(command+shift+2 to bring up). Otherwise Xcode will keep copying font files those supposed to be deleted to the app bundle.</p>
+
+<h3>Install Manually</h3>
+
+<p>Download source code, then drag the folder <code>FontAwesomeKit</code> into your project, add CoreText framework to you project.</p>
+
+<h2>Example Usage</h2>
+
+<h3>Creating Icons</h3>
+
+<pre><code>FAKFontAwesome *starIcon = [FAKFontAwesome starIconWithSize:15];
+FAKFoundationIcons *bookmarkIcon = [FAKFoundationIcons bookmarkIconWithSize:15];
+FAKZocial *twitterIcon = [FAKZocial twitterIconWithSize:15];  
+FAKIonIcons *mailIcon = [FAKIonIcons ios7EmailIconWithSize:48];
+FAKOcticons *repoIcon = [FAKOcticons repoIconWithSize:48];
+FAKMaterialIcons *androidIcon = [FAKMaterialIcons androidIconWithSize:48];
+</code></pre>
+
+<p>Now you can use these class methods and pass in the font size instead of finding an icon with constants. Corresponding icon fonts will automatically setup for you.</p>
+
+<h4>Creating icons using identifiers</h4>
+
+<p>It is now possible to use identifiers to create icons. Check each documentation to get the appropriate identifier. Also, make sure you use an existing identifier, else the method will return nil and an error will be set.</p>
+
+<pre><code>NSError *error;
+FAKFontAwesome *starIcon = [FAKFontAwesome  iconWithIdentifier:@"fa-star" size:15 error:error];
+FAKFoundationIcons *bookmarkIcon = [FAKFoundationIcons iconWithIdentifier:@"fi-bookmark" size:15 error:error];
+FAKZocial *twitterIcon = [FAKZocial iconWithIdentifier:@"zocial.twitter" size:15 error:error];
+FAKIonIcons *mailIcon = [FAKIonIcons iconWithIdentifier:@"ion-ios-email" size:48 error:error];
+</code></pre>
+
+<h3>Setting Attributes for An Icon</h3>
+
+<pre><code>[starIcon addAttribute:NSForegroundColorAttributeName value:[UIColor
+whiteColor]];
+</code></pre>
+
+<p><code>NSAttributedString</code> did all the magics behind the scene. So you can set those attributes supported by <code>NSAttributedString</code> to an icon. For all available attributes, see <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/NSAttributedString_UIKit_Additions/Reference/Reference.html#//apple_ref/doc/uid/TP40011688-CH1-SW16">NSAttributedString UIKit Additions Reference</a></p>
+
+<h5><em>important:</em></h5>
+
+<p>Some attributes apparently makes no sense for icon fonts, like <code>NSLigatureAttributeName</code> and <code>NSKernAttributeName</code>. You should not use these attributes, otherwise you app might crash. And you should not set the value of <code>NSFontAttributeName</code>, if you want to change the size of an icon, set it&rsquo;s <code>iconFontSize</code> property instead.</p>
+
+<h3>Other Methods for Setting or Getting Attributes</h3>
+
+<p>These methods in fact are just shorthand versions for the standard <code>NSAttributedString</code> API, should be pretty straightforward.</p>
+
+<p><code>[starIcon setAttributes:attributes];</code> <em>Sets attributes with a dictionary, will override current attribute if there&rsquo;re different values for a same key.</em></p>
+
+<p><code>[starIcon removeAttribute:NSForegroundColorAttributeName];</code> <em>Removes an attribute by name.</em></p>
+
+<p><code>[starIcon attributes];</code> <em>Returns an dictionary contains the attribute values for the icon.</em></p>
+
+<p><code>[starIcon attribute:NSForegroundColorAttributeName];</code> <em>Returns the attribute value for a given key.</em></p>
+
+<h3>Get The Attributed String</h3>
+
+<p>After you done setting attributes, you can get the attributed string by calling
+<code>[starIcon attributedString]</code>.</p>
+
+<p>So you can use the icon on a label with one line of code:</p>
+
+<p><code>self.label.attributedText = [starIcon attributedString];</code></p>
+
+<p>You don&rsquo;t need to set the label&rsquo;s <code>font</code> property, it&rsquo;s already been taken care of.</p>
+
+<h3>Drawing The Icon on Image</h3>
+
+<h4>Basic Drawing</h4>
+
+<p>Instead of getting the attributed string, you can draw the icon onto an image like this:</p>
+
+<p><code>UIImage *iconImage = [starIcon imageWithSize:CGSizeMake(15, 15)];</code></p>
+
+<p>This will use the attributes you&rsquo;ve set to draw that image, you only need to specify a size for the image.</p>
+
+<h4>Drawing Offset</h4>
+
+<p>By default the icon is centered horizontally and vertically. I believe that&rsquo;s 99% what you want. However, if it&rsquo;s not centered properly, you can set the <code>drawingPositionAdjustment</code> property for the icon, like this:</p>
+
+<p><code>starIcon.drawingPositionAdjustment = UIOffsetMake(2, 2);</code></p>
+
+<h4>Background Color</h4>
+
+<p>You can set the background color for the image like this:</p>
+
+<p><code>starIcon.drawingBackgroundColor = [UIColor blackColor];</code></p>
+
+<p>By default the background is transparent. As the name implies, this property only takes effect while drawing on image. You can specify a gradient color to create a gradient background, check the example project for details.</p>
+
+<h3>Those Controls Doesn&rsquo;t Support Attributed String</h3>
+
+<p>Some UI elements doesn&rsquo;t have an attributed string property, using images might be a better idea. Take UIBarButtonItem as an example.</p>
+
+<pre><code>FAKFontAwesome *cogIcon = [FAKFontAwesome cogIconWithSize:20];
+[cogIcon addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor]];
+UIImage *leftImage = [cogIcon imageWithSize:CGSizeMake(20, 20)];
+cogIcon.iconFontSize = 15;
+UIImage *leftLandscapeImage = [cogIcon imageWithSize:CGSizeMake(15, 15)];
+self.navigationItem.leftBarButtonItem =
+[[UIBarButtonItem alloc] initWithImage:leftImage
+                   landscapeImagePhone:leftLandscapeImage
+                                 style:UIBarButtonItemStylePlain
+                                target:nil
+                                action:nil];
+</code></pre>
+
+<p>Same idea can be applied to tab bar or segmented control.</p>
+
+<h3>Generating Image with Stacked Icons (Since V2.1.5)</h3>
+
+<p><a href="http://fortawesome.github.io/Font-Awesome/examples/#stacked">Stacked icons is a feature of Font-Awesome</a> and now has been ported to FontAwesomeKit. You can generate an image with multiple icons stacked together.</p>
+
+<pre><code>[UIImage imageWithStackedIcons:@[[FAKFontAwesome twitterIconWithSize:35], [FAKFontAwesome squareOIconWithSize:70]],
+                     imageSize:CGSizeMake(80, 80)];
+</code></pre>
+
+<p>The first icon in the array will be draw on the bottom.</p>
+
+<h3>More Examples</h3>
+
+<p>Please clone the master repo and take a look at the example project, everything is in it, all public methods and properties are documented. Feel free to open an issue if you went into trouble.</p>
+
+<h2>Using Custom Icon Font</h2>
+
+<p>You can use some web applications like <a href="https://fontastic.me">fontastic.me</a> to generate your own icon font to reduce font file size. In this case, you need to implement your own <code>FAKIcon</code> subclass, here&rsquo;s a complete demo: <a href="https://github.com/PrideChung/FontAwesomeKitCustomFont">PrideChung / FontAwesomeKitCustomFont</a></p>
+
+<h2>Known Issues</h2>
+
+<p>Check <a href="https://github.com/PrideChung/FontAwesomeKit/blob/master/KnownIssues.md">Known Issuses</a> if you ran into strange crashes.</p>
+
+<h2>Changelog</h2>
+
+<p>See <a href="https://github.com/PrideChung/FontAwesomeKit/blob/master/CHANGES.md">CHANGES.md</a></p>
+
+<h2>Contributors</h2>
+
+<ul>
+<li><a href="https://github.com/alladinian">Vasilis Akoinoglou</a></li>
+<li><a href="https://github.com/isaksky">Isak Sky</a></li>
+<li><a href="https://github.com/dominikgrygiel">Dominik Grygiel</a></li>
+<li><a href="https://github.com/PrideChung/FontAwesomeKit/pull/12">Alex Shepard</a></li>
+</ul>
+
+
+<h2>License</h2>
+
+<p>FontAwesomeKit is available under the MIT license. See the LICENSE file for more information. Attribution isn&rsquo;t required but is much appreciated.</p>
+
+<p><strong>Please notice that each icon font has it&rsquo;s own license agreement.</strong></p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="https://github.com/PrideChung/FontAwesomeKit">https://github.com/PrideChung/FontAwesomeKit</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-22T15:43:31+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2016</span></span> <span class='time'>3:43 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/22/uuid-shortener/" title="Previous Post: UUID Shortener">&laquo; UUID Shortener</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/22/ios-guan-yu-qu-xiao-yan-chi-zhi-xing-han-shu-performselectoryu-cancelpreviousperformrequestswithtarget/" title="Next Post: iOS 关于取消延迟执行函数performSelector与cancelPreviousPerformRequestsWithTarget">iOS 关于取消延迟执行函数performSelector与cancelPreviousPerformRequestsWithTarget &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

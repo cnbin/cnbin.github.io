@@ -1,0 +1,477 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Getting Started With ASP.NET Web API2(原创) - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Create a Web API Project In this tutorial, you will use ASP.NET Web API to create a web API that returns a list of products. The front-end web page &hellip;">
+  <meta name="keywords" content="api">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/28/getting-started-with-asp-dot-net-web-api2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Getting Started With ASP.NET Web API2(原创)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-28T09:02:47+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:02 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>Create a Web API Project</h2>
+
+<p>In this tutorial, you will use ASP.NET Web API to create a web API that returns a list of products. The front-end web page uses jQuery to display the results.</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eviflkrkwgj20dk0as0tn.jpg" alt="img" /></p>
+
+<p>Start Visual Studio and select New Project from the Start page. Or, from the File menu, select New and then Project.</p>
+
+<p>In the Templates pane, select Installed Templates and expand the Visual C# node. Under Visual C#, select Web. In the list of project templates, select ASP.NET Web Application. Name the project &ldquo;ProductsApp&rdquo; and click OK.</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eviflfdz71j20mk0fzae6.jpg" alt="img" /></p>
+
+<p>In the New ASP.NET Project dialog, select the Empty template. Under &ldquo;Add folders and core references for&rdquo;, check Web API. Click OK.</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eviflgn3ulj20kx0fu0vi.jpg" alt="img" /></p>
+
+<p>You can also create a Web API project using the &ldquo;Web API&rdquo; template. The Web API template uses ASP.NET MVC to provide API help pages. I&rsquo;m using the Empty template for this tutorial because I want to show Web API without MVC. In general, you don&rsquo;t need to know ASP.NET MVC to use Web API.</p>
+
+<h2>Adding a Model</h2>
+
+<p>A model is an object that represents the data in your application. ASP.NET Web API can automatically serialize your model to JSON, XML, or some other format, and then write the serialized data into the body of the HTTP response message. As long as a client can read the serialization format, it can deserialize the object. Most clients can parse either XML or JSON. Moreover, the client can indicate which format it wants by setting the Accept header in the HTTP request message.</p>
+
+<p>Let&rsquo;s start by creating a simple model that represents a product.</p>
+
+<p>If Solution Explorer is not already visible, click the View menu and select Solution Explorer. In Solution Explorer, right-click the Models folder. From the context menu, select Add then select Class.</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eviflh1jf6j20ny0bs77s.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eviflhg70ej20me0fwdj6.jpg" alt="img" /></p>
+
+<p>Name the class &ldquo;Product&rdquo;. Add the following properties to the Product class.</p>
+
+<pre><code>namespace ProductsApp.Models
+{
+    public class Product
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public decimal Price { get; set; }
+    }
+}
+</code></pre>
+
+<h2>Adding a Controller</h2>
+
+<p>In Web API, a controller is an object that handles HTTP requests. We&rsquo;ll add a controller that can return either a list of products or a single product specified by ID.</p>
+
+<p>Note  If you have used ASP.NET MVC, you are already familiar with controllers. Web API controllers are similar to MVC controllers, but inherit the ApiController class instead of the Controller class.</p>
+
+<p>In Solution Explorer, right-click the Controllers folder. Select Add and then select Controller.</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eviflhzdywj20md0clgpv.jpg" alt="img" /></p>
+
+<p>In the Add Scaffold dialog, select Web API Controller - Empty. Click Add.</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1eviflic9amj20ip0cj40v.jpg" alt="img" /></p>
+
+<p>In the Add Controller dialog, name the controller &ldquo;ProductsController&rdquo;. Click Add.</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1eviflito64j20gb03b74m.jpg" alt="img" /></p>
+
+<p>The scaffolding creates a file named ProductsController.cs in the Controllers folder.</p>
+
+<p>You don&rsquo;t need to put your contollers into a folder named Controllers. The folder name is just a convenient way to organize your source files.</p>
+
+<p>If this file is not open already, double-click the file to open it. Replace the code in this file with the following:</p>
+
+<pre><code>using ProductsApp.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Web.Http;
+
+namespace ProductsApp.Controllers
+{
+    public class ProductsController : ApiController
+    {
+        Product[] products = new Product[] 
+        { 
+            new Product { Id = 1, Name = "Tomato Soup", Category = "Groceries", Price = 1 }, 
+            new Product { Id = 2, Name = "Yo-yo", Category = "Toys", Price = 3.75M }, 
+            new Product { Id = 3, Name = "Hammer", Category = "Hardware", Price = 16.99M } 
+        };
+
+        public IEnumerable&lt;Product&gt; GetAllProducts()
+        {
+            return products;
+        }
+
+        public IHttpActionResult GetProduct(int id)
+        {
+            var product = products.FirstOrDefault((p) =&gt; p.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+        }
+    }
+}
+</code></pre>
+
+<p>To keep the example simple, products are stored in a fixed array inside the controller class. Of course, in a real application, you would query a database or use some other external data source.</p>
+
+<p>The controller defines two methods that return products:</p>
+
+<ul>
+<li>The GetAllProducts method returns the entire list of products as an IEnumerable<Product> type.</li>
+<li>The  GetProduct method looks up a single product by its ID.</li>
+</ul>
+
+
+<p>That&rsquo;s it! You have a working web API.  Each method on the controller corresponds to one or more URIs:</p>
+
+<pre><code>Controller Method          URI
+GetAllProducts            /api/products
+GetProduct                /api/products/id
+</code></pre>
+
+<p>For the GetProduct method, the id in the URI is a placeholder. For example, to get the product with ID of 5, the URI is api/products/5.</p>
+
+<p>For more information about how Web API routes HTTP requests to controller methods, see <a href="http://www.asp.net/web-api/overview/web-api-routing-and-actions/routing-in-aspnet-web-api">Routing in ASP.NET Web API</a>.</p>
+
+<h2>Calling the Web API with Javascript and jQuery</h2>
+
+<p>In this section, we&rsquo;ll add an HTML page that uses AJAX to call the web API. We&rsquo;ll use jQuery to make the AJAX calls and also to update the page with the results.</p>
+
+<p>In Solution Explorer, right-click the project and select Add, then select New Item.</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1evifqglhgcj20mp0d9790.jpg" alt="img" /></p>
+
+<p>In the Add New Item dialog, select the Web node under Visual C#, and then select the HTML Page item. Name the page &ldquo;index.html&rdquo;.</p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eviflk2iltj20mb0fngp5.jpg" alt="img" /></p>
+
+<p>Replace everything in this file with the following:</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head&gt;
+  &lt;title&gt;Product App&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;div&gt;
+    &lt;h2&gt;All Products&lt;/h2&gt;
+    &lt;ul id="products" /&gt;
+  &lt;/div&gt;
+  &lt;div&gt;
+    &lt;h2&gt;Search by ID&lt;/h2&gt;
+    &lt;input type="text" id="prodId" size="5" /&gt;
+    &lt;input type="button" value="Search" onclick="find();" /&gt;
+    &lt;p id="product" /&gt;
+  &lt;/div&gt;
+
+  &lt;script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    var uri = 'api/products';
+
+    $(document).ready(function () {
+      // Send an AJAX request
+      $.getJSON(uri)
+          .done(function (data) {
+            // On success, 'data' contains a list of products.
+            $.each(data, function (key, item) {
+              // Add a list item for the product.
+              $('&lt;li&gt;', { text: formatItem(item) }).appendTo($('#products'));
+            });
+          });
+    });
+
+    function formatItem(item) {
+      return item.Name + ': $' + item.Price;
+    }
+
+    function find() {
+      var id = $('#prodId').val();
+      $.getJSON(uri + '/' + id)
+          .done(function (data) {
+            $('#product').text(formatItem(data));
+          })
+          .fail(function (jqXHR, textStatus, err) {
+            $('#product').text('Error: ' + err);
+          });
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>There are several ways to get jQuery. In this example, I used the <a href="http://www.asp.net/ajaxlibrary/cdn.ashx">Microsoft Ajax CDN</a>. You can also download it from <a href="http://jquery.com/">http://jquery.com/</a>, and the ASP.NET &ldquo;Web API&rdquo; project template includes jQuery as well.</p>
+
+<h2>Getting a List of Products</h2>
+
+<p>To get a list of products, send an HTTP GET request to &ldquo;/api/products&rdquo;.</p>
+
+<p>The jQuery <a href="http://api.jquery.com/jQuery.getJSON/">getJSON</a> function sends an AJAX request. For response contains array of JSON objects. The done function specifies a callback that is called if the request succeeds. In the callback, we update the DOM with the product information.</p>
+
+<pre><code>$(document).ready(function () {
+    // Send an AJAX request
+    $.getJSON(apiUrl)
+        .done(function (data) {
+            // On success, 'data' contains a list of products.
+            $.each(data, function (key, item) {
+                // Add a list item for the product.
+                $('&lt;li&gt;', { text: formatItem(item) }).appendTo($('#products'));
+            });
+        });
+});
+</code></pre>
+
+<h2>Getting a Product By ID</h2>
+
+<p>To get a product by ID, send an HTTP GET  request to &ldquo;/api/products/id&rdquo;, where id is the product ID.</p>
+
+<pre><code>function find() {
+    var id = $('#prodId').val();
+    $.getJSON(apiUrl + '/' + id)
+        .done(function (data) {
+            $('#product').text(formatItem(data));
+        })
+        .fail(function (jqXHR, textStatus, err) {
+            $('#product').text('Error: ' + err);
+        });
+}
+</code></pre>
+
+<p>We still call getJSON to send the AJAX request, but this time we put the ID in the request URI. The response from this request is a JSON representation of a single product.</p>
+
+<h2>Running the Application</h2>
+
+<p>Press F5 to start debugging the application. The web page should look like the following:</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eviflkrkwgj20dk0as0tn.jpg" alt="img" /></p>
+
+<p>To get a product by ID, enter the ID and click Search:</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1evifll5e9cj20ct0avt9o.jpg" alt="img" /></p>
+
+<p>If you enter an invalid ID, the server returns an HTTP error:</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1evifll5e9cj20ct0avt9o.jpg" alt="img" /></p>
+
+<h2>Resource Reference</h2>
+
+<ul>
+<li><a href="http://www.asp.net/web-api/overview/getting-started-with-aspnet-web-api/tutorial-your-first-web-api">http://www.asp.net/web-api/overview/getting-started-with-aspnet-web-api/tutorial-your-first-web-api</a></li>
+<li><a href="http://www.asp.net/">http://www.asp.net/</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-28T09:02:47+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:02 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/28/ytknetwork-introduction/" title="Previous Post: YTKNetwork Introduction">&laquo; YTKNetwork Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/28/c-number-string-zong-jie/" title="Next Post: C# String 总结">C# String 总结 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

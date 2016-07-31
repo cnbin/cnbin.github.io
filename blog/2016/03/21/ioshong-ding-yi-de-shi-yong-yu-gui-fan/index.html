@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS宏定义的使用与规范 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="宏定义在很多方面都会使用，例如定义高度、判断iOS系统、工具类，还有诸如文件路径、服务端api接口文档。为了对宏能够快速定位和了解其功能，我们最好在定义的时候将其放入特定的头文件中，下面我抛砖引玉，对一些常用的宏进行分类、分文件定义，希望对大家有所帮助。 1.定义尺寸类的宏 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/21/ioshong-ding-yi-de-shi-yong-yu-gui-fan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS宏定义的使用与规范</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-21T09:22:45+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>9:22 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>宏定义在很多方面都会使用，例如定义高度、判断iOS系统、工具类，还有诸如文件路径、服务端api接口文档。为了对宏能够快速定位和了解其功能，我们最好在定义的时候将其放入特定的头文件中，下面我抛砖引玉，对一些常用的宏进行分类、分文件定义，希望对大家有所帮助。</p>
+
+<h3>1.定义尺寸类的宏</h3>
+
+<pre><code>DimensMacros.h
+//状态栏高度
+#define STATUS_BAR_HEIGHT 20
+//NavBar高度
+#define NAVIGATION_BAR_HEIGHT 44
+//状态栏 ＋ 导航栏 高度
+#define STATUS_AND_NAVIGATION_HEIGHT ((STATUS_BAR_HEIGHT) + (NAVIGATION_BAR_HEIGHT))
+
+//屏幕 rect
+#define SCREEN_RECT ([UIScreen mainScreen].bounds)
+
+#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+
+#define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+
+#define CONTENT_HEIGHT (SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT - STATUS_BAR_HEIGHT)
+
+//屏幕分辨率
+#define SCREEN_RESOLUTION (SCREEN_WIDTH * SCREEN_HEIGHT * ([UIScreen mainScreen].scale))
+
+
+//广告栏高度
+#define BANNER_HEIGHT 215
+
+#define STYLEPAGE_HEIGHT 21
+
+#define SMALLTV_HEIGHT 77
+
+#define SMALLTV_WIDTH 110
+
+#define FOLLOW_HEIGHT 220
+
+#define SUBCHANNEL_HEIGHT 62
+</code></pre>
+
+<h3>2.定义沙盒目录文件的宏</h3>
+
+<pre><code>PathMacros.h
+//文件目录
+#define kPathTemp                   NSTemporaryDirectory()
+#define kPathDocument               [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+#define kPathCache                  [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+#define kPathSearch                 [kPathDocument stringByAppendingPathComponent:@"Search.plist"]
+
+#define kPathMagazine               [kPathDocument stringByAppendingPathComponent:@"Magazine"]
+#define kPathDownloadedMgzs         [kPathMagazine stringByAppendingPathComponent:@"DownloadedMgz.plist"]
+#define kPathDownloadURLs           [kPathMagazine stringByAppendingPathComponent:@"DownloadURLs.plist"]
+#define kPathOperation              [kPathMagazine stringByAppendingPathComponent:@"Operation.plist"]
+
+#define kPathSplashScreen           [kPathCache stringByAppendingPathComponent:@"splashScreen"]
+#endif
+</code></pre>
+
+<h3>3.工具类的宏</h3>
+
+<pre><code>UtilsMacros.h
+//Log utils marco
+
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+#ifdef DEBUG
+#define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define DLog(...)
+#endif
+
+#ifdef DEBUG
+#define ULog(...)
+//#define ULog(fmt, ...)  { UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%s\n [Line %d] ", __PRETTY_FUNCTION__, __LINE__] message:[NSString stringWithFormat:fmt, ##__VA_ARGS__]  delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil]; [alert show]; }
+#else
+#define ULog(...)
+#endif
+
+
+//System version utils
+
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+
+
+// 获取RGB颜色
+#define RGBA(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+#define RGB(r,g,b) RGBA(r,g,b,1.0f)
+
+
+#define IsPortrait ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortraitUpsideDown)
+
+
+#define IsNilOrNull(_ref)   (((_ref) == nil) || ([(_ref) isEqual:[NSNull null]]))
+
+
+//角度转弧度
+#define DEGREES_TO_RADIANS(d) (d * M_PI / 180)
+
+//大于等于7.0的ios版本
+#define iOS7_OR_LATER SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")
+
+//大于等于8.0的ios版本
+#define iOS8_OR_LATER SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")
+
+//iOS6时，导航VC中view的起始高度
+#define YH_HEIGHT (iOS7_OR_LATER ? 64:0)
+
+//获取系统时间戳
+#define getCurentTime [NSString stringWithFormat:@"%ld", (long)[[NSDate date] timeIntervalSince1970]]
+</code></pre>
+
+<h3>4.通知Notification相关的宏</h3>
+
+<pre><code>NotificationMacros.h
+//系统Notification定义
+
+#define TNCancelFavoriteProductNotification     @"TNCancelFavoriteProductNotification"      //取消收藏时
+#define TNMarkFavoriteProductNotification       @"TNMarkFavoriteProductNotification"        //标记收藏时
+
+#define kNotficationDownloadProgressChanged     @"kNotficationDownloadProgressChanged"      //下载进度变化
+#define kNotificationPauseDownload              @"kNotificationPauseDownload"               //暂停下载
+#define kNotificationStartDownload              @"kNotificationStartDownload"               //开始下载
+
+#define kNotificationDownloadSuccess            @"kNotificationDownloadSuccess"             //下载成功
+#define kNotificationDownloadFailed             @"kNotificationDownloadFailed"              //下载失败
+#define kNotificationDownloadNewMagazine        @"kNotificationDownloadNewMagazine"
+</code></pre>
+
+<h3>5.服务端API接口的宏</h3>
+
+<pre><code>APIStringMacros.h
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//接口名称相关
+
+#ifdef DEBUG
+//Debug状态下的测试API
+#define API_BASE_URL_STRING     @"http://boys.test.companydomain.com/api/"
+
+#else
+//Release状态下的线上API
+#define API_BASE_URL_STRING     @"http://www.companydomain.com/api/"
+
+#endif
+
+//接口
+#define GET_CONTENT_DETAIL      @"channel/getContentDetail" //获取内容详情(含上一个和下一个)
+
+#define GET_COMMENT_LIST        @"comment/getCommentList"   //获取评论列表
+
+#define COMMENT_LOGIN           @"comment/login"            //获取评论列表
+
+#define COMMENT_PUBLISH         @"comment/publish"          //发布评论
+
+#define COMMENT_DELETE          @"comment/delComment"       //删除评论
+
+#define LOGINOUT                @"common/logout"            //登出
+</code></pre>
+
+<p>还有很多其他类型的宏，此处不一一列举</p>
+
+<p>创建一个import所有宏相关的文件Macros.h</p>
+
+<pre><code>Macros.h
+#import "UtilsMacros.h"
+#import "APIStringMacros.h"
+#import "DimensMacros.h"
+#import "NotificationMacros.h"
+#import "SharePlatformMacros.h"
+#import "StringMacros.h"
+#import "UserBehaviorMacros.h"
+#import "PathMacros.h"
+</code></pre>
+
+<p>在xcode项目的pch文件中，导入Macros.h文件</p>
+
+<p>XcodeProjectName-Prefix.pch</p>
+
+<pre><code>#ifdef __OBJC__
+    #import &lt;UIKit/UIKit.h&gt;
+    #import &lt;Foundation/Foundation.h&gt;
+    #import "Macros.h"
+#endif
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://my.oschina.net/leejan97/blog/354904">http://my.oschina.net/leejan97/blog/354904</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-21T09:22:45+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2016</span></span> <span class='time'>9:22 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/21/ios-hong-define-yu-chang-liang-const-de-zheng-que-shi-yong/" title="Previous Post: iOS 宏(define)与常量(const)的正确使用">&laquo; iOS 宏(define)与常量(const)的正确使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/21/iosshen-ru-xue-xi-(nsnotificationcenterxiao-xi-zhuan-fa-shi-tong-bu-cao-zuo-)/" title="Next Post: iOS深入学习（NSNotificationCenter消息转发是同步操作）">iOS深入学习（NSNotificationCenter消息转发是同步操作） &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

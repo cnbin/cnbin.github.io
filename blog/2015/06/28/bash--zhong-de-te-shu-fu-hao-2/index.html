@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Bash 中的特殊符号-2 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、小括号（( )） 1.命令组 在括号中的命令列表，将会作为一个子 shell 来运行。 在括号中的变量，由于是在子 shell 中，所以对于脚本剩下的部分是不可用的。父进程，也就是脚本本身，将不能够读取在子进程中创建的变量，也就是在子 shell 中创建的变量。如： $ vim test. &hellip;">
+  <meta name="keywords" content="bash">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/28/bash--zhong-de-te-shu-fu-hao-2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Bash 中的特殊符号-2</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-28T19:19:07+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:19 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>一、小括号（( )）</h2>
+
+<h3>1.命令组</h3>
+
+<p>在括号中的命令列表，将会作为一个子 shell 来运行。</p>
+
+<p>在括号中的变量，由于是在子 shell 中，所以对于脚本剩下的部分是不可用的。父进程，也就是脚本本身，将不能够读取在子进程中创建的变量，也就是在子 shell 中创建的变量。如：</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码：</p>
+
+<pre><code>#!/bin/bash
+
+a=123
+( a=321; )
+
+echo "a = $a"
+</code></pre>
+
+<p>运行代码：</p>
+
+<pre><code>$ bash test.sh
+a = 123
+</code></pre>
+
+<p>在圆括号中 a 变量，更像是一个局部变量。</p>
+
+<h3>2.初始化数组</h3>
+
+<p>创建数组</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码：</p>
+
+<pre><code>#!/bin/bash
+
+arr=(1 4 5 7 9 21)
+echo ${arr[3]} # get a value of arr
+</code></pre>
+
+<p>运行代码：</p>
+
+<pre><code>$ bash test.sh
+7
+</code></pre>
+
+<h2>二、大括号（{ }）</h2>
+
+<h3>1.文件名扩展</h3>
+
+<p>复制 t.txt 的内容到 t.back 中</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码：</p>
+
+<pre><code>#!/bin/bash
+
+if [ ! -w 't.txt' ];
+then
+    touch t.txt
+fi
+echo 'test text' &gt;&gt; t.txt
+cp t.{txt,back}
+</code></pre>
+
+<p>运行代码：</p>
+
+<pre><code>$ bash test.sh
+</code></pre>
+
+<p>查看运行结果：</p>
+
+<pre><code>$ ls
+$ cat t.txt
+$ cat t.back
+</code></pre>
+
+<p>注意： 在大括号中，不允许有空白，除非这个空白被引用或转义。</p>
+
+<h3>2.代码块</h3>
+
+<p>代码块，又被称为内部组，这个结构事实上创建了一个匿名函数（一个没有名字的函数）。然而，与“标准”函数不同的是，在其中声明的变量，对于脚本其他部分的代码来说还是可见的。</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码：</p>
+
+<pre><code>#!/bin/bash
+
+a=123
+{ a=321; }
+echo "a = $a"
+</code></pre>
+
+<p>运行代码：</p>
+
+<pre><code>$ bash test.sh
+a = 321
+</code></pre>
+
+<p>变量 a 的值被更改了。</p>
+
+<h2>三、中括号（[]）</h2>
+
+<h3>1.条件测试</h3>
+
+<p>条件测试表达式放在 <code>[ ]</code> 中。值得注意的是 <code>[</code> 是 shell 内建 test 命令的一部分，并不是 <code>/usr/bin/test</code> 中的外部命令的一个链接。下列练习中的 <code>-lt</code> (less than)表示小于号。</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码：</p>
+
+<pre><code>#!/bin/bash
+
+a=5
+if [ $a -lt 10 ]
+then
+    echo "a: $a"
+else
+    echo 'a&gt;10'
+fi
+</code></pre>
+
+<p>运行代码：</p>
+
+<pre><code>$ bash test.sh
+a: 5
+$
+</code></pre>
+
+<p>双中括号 <code>（[[ ]]）</code> 也用作条件测试（判断）。</p>
+
+<h3>2.数组元素</h3>
+
+<p>在一个 array 结构的上下文中，中括号用来引用数组中每个元素的编号。</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码：</p>
+
+<pre><code>#!/bin/bash
+
+arr=(12 22 32)
+arr[0]=10
+echo ${arr[0]}
+</code></pre>
+
+<p>运行代码：</p>
+
+<pre><code>$ bash test.sh
+10
+</code></pre>
+
+<h2>四、尖括号（&lt; 和 >））</h2>
+
+<h3>1.重定向</h3>
+
+<ul>
+<li>test.sh > filename 重定向test.sh的输出到文件 filename 中。如果 filename 存在的话，那么将会被覆盖。</li>
+<li>test.sh &amp;> filename 重定向 test.sh 的 stdout（标准输出）和 stderr（标准错误）到 filename 中。</li>
+<li>test.sh >&amp;2 重定向 test.sh 的 stdout 到 stderr 中。</li>
+<li>test.sh >> filename 把 test.sh 的输出追加到文件 filename 中。如果filename 不存在的话，将会被创建。</li>
+</ul>
+
+
+<h2>五、竖线（|）</h2>
+
+<p>管道</p>
+
+<p>分析前边命令的输出，并将输出作为后边命令的输入。这是一种产生命令链的好方法。</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码：</p>
+
+<pre><code>#!/bin/bash
+
+tr 'a-z' 'A-Z'
+exit 0
+</code></pre>
+
+<p>现在让我们输送 <code>ls -l</code> 的输出到一个脚本中：</p>
+
+<pre><code>$ chmod 755 test.sh
+$ ls -l | ./test.sh
+</code></pre>
+
+<p>输出的内容均变为了大写字母。</p>
+
+<h2>六、破折号（-）</h2>
+
+<h3>1.选项，前缀</h3>
+
+<p>在所有的命令内如果想使用选项参数的话,前边都要加上 <code>-</code>。</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码：</p>
+
+<pre><code>#!/bin/bash
+
+a=5
+b=5
+if [ "$a" -eq "$b" ]
+then
+    echo "a is equal to b."
+fi
+</code></pre>
+
+<p>运行代码：</p>
+
+<pre><code>$ bash test.sh
+a is equal to b.
+</code></pre>
+
+<h3>2.用于重定向stdin或stdout</h3>
+
+<p>下面脚本用于备份最后24小时当前目录下所有修改的文件.</p>
+
+<pre><code>$ vim test.sh
+</code></pre>
+
+<p>输入代码：</p>
+
+<pre><code>#!/bin/bash
+
+BACKUPFILE=backup-$(date +%m-%d-%Y)
+# 在备份文件中嵌入时间.
+archive=${1:-$BACKUPFILE}
+#  如果在命令行中没有指定备份文件的文件名,
+#+ 那么将默认使用"backup-MM-DD-YYYY.tar.gz".
+
+tar cvf - `find . -mtime -1 -type f -print` &gt; $archive.tar
+gzip $archive.tar
+echo "Directory $PWD backed up in archive file \"$archive.tar.gz\"."
+
+exit 0
+</code></pre>
+
+<p>运行代码：</p>
+
+<pre><code>$ bash test.sh
+$ ls
+</code></pre>
+
+<h2>七、波浪号（~）</h2>
+
+<h3>1.目录</h3>
+
+<p><code>~</code> 表示 home 目录。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-28T19:19:07+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>7:19 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/28/bash-zhong-de-te-shu-fu-hao-1/" title="Previous Post: Bash 中的特殊符号-1">&laquo; Bash 中的特殊符号-1</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/28/bash-bian-liang-ti-huan/" title="Next Post: Bash - 变量替换">Bash - 变量替换 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

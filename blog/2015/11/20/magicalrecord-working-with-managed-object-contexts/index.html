@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MagicalRecord-Working With Managed Object Contexts - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Working with Managed Object Contexts Creating New Contexts A variety of simple class methods are provided to help you create new contexts: + [ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/20/magicalrecord-working-with-managed-object-contexts/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MagicalRecord-Working With Managed Object Contexts</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-20T15:32:36+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:32 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>Working with Managed Object Contexts</h1>
+
+<h2>Creating New Contexts</h2>
+
+<p>A variety of simple class methods are provided to help you create new contexts:</p>
+
+<ul>
+<li><code>+ [NSManagedObjectContext MR_newContext]</code>: Sets the default context as it&rsquo;s parent context. Has a concurrency type of <strong>NSPrivateQueueConcurrencyType</strong>.</li>
+<li><code>+ [NSManagedObjectContext MR_newMainQueueContext]</code>: Has a concurrency type of <strong>NSMainQueueConcurrencyType</strong>.</li>
+<li><code>+ [NSManagedObjectContext MR_newPrivateQueueContext]</code>: Has a concurrency type of <strong>NSPrivateQueueConcurrencyType</strong>.</li>
+<li><code>+ [NSManagedObjectContext MR_newContextWithParent:…]</code>: Allows you to specify the parent context that will be set. Has a concurrency type of <strong>NSPrivateQueueConcurrencyType</strong>.</li>
+<li><code>+ [NSManagedObjectContext MR_newContextWithStoreCoordinator:…]</code>: Allows you to specify the persistent store coordinator for the new context. Has a concurrency type of <strong>NSPrivateQueueConcurrencyType</strong>.</li>
+</ul>
+
+
+<h2>The Default Context</h2>
+
+<p>When working with Core Data, you will regularly deal with two main objects: <code>NSManagedObject</code> and <code>NSManagedObjectContext</code>.</p>
+
+<p>MagicalRecord provides a simple class method to retrieve a default <code>NSManagedObjectContext</code> that can be used throughout your app. This context operates on the main thread, and is great for simple, single-threaded apps.</p>
+
+<p>To access the default context, call:</p>
+
+<pre><code>NSManagedObjectContext *defaultContext = [NSManagedObjectContext MR_defaultContext];
+</code></pre>
+
+<p>This context will be used throughout MagicalRecord in any method that uses a context, but does not provde a specific managed object context parameter.</p>
+
+<p>If you need to create a new managed object context for use in non-main threads, use the following method:</p>
+
+<pre><code>NSManagedObjectContext *myNewContext = [NSManagedObjectContext MR_newContext];
+</code></pre>
+
+<p>This will create a new managed object context which has the same object model and persistent store as the default context, but is safe for use on another thread. It automatically sets the default context as it&rsquo;s parent context.</p>
+
+<p>If you&rsquo;d like to make your <code>myNewContext</code> instance the default for all fetch requests, use the following class method:</p>
+
+<pre><code>[NSManagedObjectContext MR_setDefaultContext:myNewContext];
+</code></pre>
+
+<blockquote><p><strong>NOTE:</strong> It is <em>highly</em> recommended that the default context is created and set on the main thread using a managed object context with a concurrency type of <code>NSMainQueueConcurrencyType</code>.</p></blockquote>
+
+<h2>Performing Work on Background Threads</h2>
+
+<p>MagicalRecord provides methods to set up and work with contexts for use in background threads. The background saving operations are inspired by the UIView animation block methods, with a few minor differences:</p>
+
+<ul>
+<li>The block in which you make changes to your entities will never be executed on the main thread.</li>
+<li>A single <strong>NSManagedObjectContext</strong> is provided for you within these blocks.</li>
+</ul>
+
+
+<p>For example, if we have Person entity, and we need to set the firstName and lastName fields, this is how you would use MagicalRecord to setup a background context for your use:</p>
+
+<pre><code>Person *person = ...;
+
+[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext){
+
+  Person *localPerson = [person MR_inContext:localContext];
+  localPerson.firstName = @"John";
+  localPerson.lastName = @"Appleseed";
+
+}];
+</code></pre>
+
+<p>In this method, the specified block provides you with the proper context in which to perform your operations, you don&rsquo;t need to worry about setting up the context so that it tells the Default Context that it&rsquo;s done, and should update because changes were performed on another thread.</p>
+
+<p>To perform an action after this save block is completed, you can fill in a completion block:</p>
+
+<pre><code>Person *person = ...;
+
+[MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext){
+
+  Person *localPerson = [person MR_inContext:localContext];
+  localPerson.firstName = @"John";
+  localPerson.lastName = @"Appleseed";
+
+} completion:^(BOOL success, NSError *error) {
+
+  self.everyoneInTheDepartment = [Person findAll];
+
+}];
+</code></pre>
+
+<p>This completion block is called on the main thread (queue), so this is also safe for triggering UI updates.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-20T15:32:36+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:32 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/20/magicalrecord-performing-core-data-operations-on-threads/" title="Previous Post: MagicalRecord-Performing Core Data operations on Threads">&laquo; MagicalRecord-Performing Core Data operations on Threads</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/20/aranalytics/" title="Next Post: ARAnalytics">ARAnalytics &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

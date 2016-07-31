@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PushSharp - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="PushSharp A server-side library for sending Push Notifications to iOS (iPhone/iPad APNS), OSX (APNS 10.8+) Android (C2DM and GCM - Google Cloud &hellip;">
+  <meta name="keywords" content="pushsharp">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/22/pushsharp/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">PushSharp</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-22T09:17:08+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:17 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h1>PushSharp <a href="http://teamcity.codebetter.com/project.html?projectId=project338&amp;tab=projectOverview&amp;guest=1"><img src="http://teamcity.codebetter.com/app/rest/builds/buildType:(id:bt990)/statusIcon" alt="Build Status" /></a></h1>
+
+<p>A server-side library for sending Push Notifications to iOS (iPhone/iPad APNS), OSX (APNS 10.8+) Android (C2DM and GCM - Google Cloud Message), Chrome (GCM) Windows Phone, Windows 8, Blackberry (PAP), and Amazon (ADM) devices!</p>
+
+<p><img src="https://github.com/Redth/PushSharp/raw/master/Resources/PushSharp-Diagram.png" alt="PushSharp Diagram" /></p>
+
+<hr />
+
+<h3>PushSharp was at Evolve 2013!</h3>
+
+<p>I was fortunate enough to attend and present at Evolve 2013 in Austin, and the video is now online! <a href="http://xamarin.com/evolve/2013#session-b8fz8gfsnf">http://xamarin.com/evolve/2013#session-b8fz8gfsnf</a></p>
+
+<h2>News</h2>
+
+<p><strong>August 8, 2013</strong> 2.1.2-beta released, release notes below&hellip;</p>
+
+<p><strong>June 3, 2013</strong> Xamarin Evolve video on PushSharp is now online! <a href="http://xamarin.com/evolve/2013#session-b8fz8gfsnf">http://xamarin.com/evolve/2013#session-b8fz8gfsnf</a></p>
+
+<p><strong>May 31, 2013</strong> 2.1.1-beta is released!  See the release notes below&hellip;</p>
+
+<p><strong>March 19, 2013</strong> 2.0 is released! See the release notes below&hellip;</p>
+
+<hr />
+
+<p><strong>PushSharp Jabbr Channel!</strong>  <a href="http://jabbr.net/#/rooms/PushSharp">http://jabbr.net/#/rooms/PushSharp</a></p>
+
+<hr />
+
+<h2>Features</h2>
+
+<ul>
+<li>Supports sending push notifications for many platforms:
+
+<ul>
+<li>Apple (APNS - iPhone, iPad, Mountain Lion)</li>
+<li>Android (GCM/C2DM - Phones/Tablets)</li>
+<li>Chrome (GCM)</li>
+<li>Amazon (ADM - Amazon Device Messaging)</li>
+<li>Windows Phone 7 / 7.5 / 8 (including FlipTile, CycleTile, and IconicTile Templates!)</li>
+<li>Windows 8</li>
+<li>Blackberry (BIS and BES via PAP)</li>
+<li>Firefox OS (Coming soon)</li>
+</ul>
+</li>
+<li>Fluent API for constructing Notifications for each platform</li>
+<li>Auto Scaling of notification channels (more workers/connections are added as demand increases, and scaled down as it decreases)</li>
+<li>100% managed code awesomeness for Mono compatibility!</li>
+<li>Unit Tests</li>
+</ul>
+
+
+<hr />
+
+<h2>Documentation</h2>
+
+<p>Head over to the <a href="https://github.com/Redth/PushSharp/wiki">Wiki</a> for some documentation, guides, etc.
+ - <a href="https://github.com/Redth/PushSharp/wiki/How-to-Configure-&amp;-Send-Apple-Push-Notifications-using-PushSharp">How to Configure &amp; Send Apple Push Notifications using PushSharp</a>
+ - <a href="https://github.com/Redth/PushSharp/wiki/How-to-Configure-&amp;-Send-GCM-Google-Cloud-Messaging-Push-Notifications-using-PushSharp">How to Configure &amp; Send Android GCM Google Cloud Messaging Push Notifications using PushSharp</a></p>
+
+<hr />
+
+<h2>PushSharp Featured in Xamarin Seminar!</h2>
+
+<p>On August 9th, 2012, I had the great honor of hosting a Xamarin Seminar on Push Notifications, and introducing PushSharp.  If you missed it, the video and slides are all online now!
+ - <a href="http://www.youtube.com/watch?v=MytQ6vqrE5g">Push Notifications - Introduction to PushSharp - Video</a>
+ - <a href="http://www.slideshare.net/Xamarin/push-notifications-introduction-to-pushsharp-seminar">Push Notifications - Introduction to PushSharp - Slides</a></p>
+
+<hr />
+
+<h2>Sample Code</h2>
+
+<p>Using the library to send push notifications should be easy, and the platform fairly abstracted away&hellip; Here&rsquo;s some sample code:</p>
+
+<pre><code>//Create our push services broker
+var push = new PushBroker();
+
+//Registering the Apple Service and sending an iOS Notification
+var appleCert = File.ReadAllBytes("ApnsSandboxCert.p12"));
+push.RegisterAppleService(new ApplePushChannelSettings(appleCert, "pwd"));
+push.QueueNotification(new AppleNotification()
+                           .ForDeviceToken("DEVICE TOKEN HERE")
+                           .WithAlert("Hello World!")
+                           .WithBadge(7)
+                           .WithSound("sound.caf"));
+
+
+//Registering the GCM Service and sending an Android Notification
+push.RegisterGcmService(new GcmPushChannelSettings("theauthorizationtokenhere"));
+//Fluent construction of an Android GCM Notification
+//IMPORTANT: For Android you MUST use your own RegistrationId here that gets generated within your Android app itself!
+push.QueueNotification(new GcmNotification().ForDeviceRegistrationId("DEVICE REGISTRATION ID HERE")
+                      .WithJson("{\"alert\":\"Hello World!\",\"badge\":7,\"sound\":\"sound.caf\"}"));
+</code></pre>
+
+<p>Please see the PushSharp.Sample project for a more thorough example!</p>
+
+<hr />
+
+<h2>v2.1.2 BETA Release Notes</h2>
+
+<p>v2.1.x is still BETA.  For iOS, Android, Windows, and Windows phone it should be quite stable still, however this is a first release of Blackberry and Amazon support!</p>
+
+<p><strong>Changes</strong></p>
+
+<ul>
+<li>Amazon Device Messaging support</li>
+<li>Chrome GCM support</li>
+<li>Blackberry BIS (and BES in theory) support</li>
+<li>Performance enhancements</li>
+<li>APNS Stability Improvements</li>
+<li>Other bugfixes</li>
+</ul>
+
+
+<h2>v2.0 Release Notes</h2>
+
+<p>PushSharp v2.0 has finally arrived.  It is the culmination of hours of refactoring, decoupling, simplifying, and testing.  The main emphasis on this release was to refactor the code to decouple various classes so that Unit Tests could finally be written.</p>
+
+<p><strong>Changes</strong></p>
+
+<ul>
+<li>PushService was renamed to PushBroker</li>
+<li>PushSharp.Common is now PushSharp.Core</li>
+<li>PushSharp assembly was merged with PushSharp.Core</li>
+<li>PushSharp.Core no longer depends on each specific platform, but each specific platform depends on PushSharp.Core</li>
+<li>Unit Tests are now available using NUnit and Moq</li>
+<li>Push &lsquo;Channels&rsquo; are now less sophisticated and not responsible for handling their own queues, which should result in fewer possible points of failure</li>
+<li>Each specific platform assembly is now dependant on PushSharp.Core</li>
+<li>Scaling logic was greatly improved</li>
+<li>Apple (APNS) more stable and resilient to connection failures</li>
+<li>Various other bugfixes</li>
+</ul>
+
+
+<p><strong>PushBroker - Registering Services</strong></p>
+
+<p>Since PushSharp.Core no longer references individual platform assemblies, it was not practical to keep the same pattern of pushSharpInstance.StartApplePushService(&hellip;).  Instead, PushBroker contains a .RegisterService<TNotification>(TPushService svc) method.</p>
+
+<p>In addition, each platform also includes extension methods to assist in registering the platform specific services.  If you are using the PushSharp namespace, for example, you could call pushBrokerInstance.RegisterAppleService(&hellip;) which works very similarly to how the old PushService methods worked!</p>
+
+<p>See the sample for more info!</p>
+
+<p><strong>Thanks!</strong>
+Special thanks goes out to the MvvmCross room on Jabbr, and especially Greg Shackles for his helpful suggestions and feedback during the refactoring process!</p>
+
+<hr />
+
+<h2>FAQ&rsquo;s</h2>
+
+<h5>How do I use PushSharp in my ASP.NET Web Application?</h5>
+
+<p>An ASP.NET application is NOT the ideal place to use PushSharp.  You&rsquo;d be better off using a Windows Service, or some other infrastructure if at all possible.  The reason is that in an ASP.NET application, the Application Pool (AppPool) can be restarted on you and is usually not under your direct control, which means all the Queued notifications that PushSharp may be in the process of sending could be lost if PushSharp is not cleaned up gracefully.</p>
+
+<p>If you MUST run PushSharp in an ASP.NET application, the best way is to create a <strong><em>singleton PushBroker instance</em></strong> in your Global.asax file.  You should keep this singleton instance around for the lifespan of your web application, including a call to pushBroker.StopAllServices() when your Application is ending (Application_End in global.asax).</p>
+
+<p>You can help mitigate losing messages due to unforeseen App Pool terminations or restarts by persisting notifications you want to send in some other way, and only removing them from that persistent storage once the OnNotificationSent event has fired.  This is still not perfect (you may risk multiple notification deliveries), but it&rsquo;s probably adequate for most.</p>
+
+<p>You should not be creating and destroying instances of PushBroker each time you send a notification, as this uses unnecessary resources and if you&rsquo;re using Apple APNS, they require you to keep the connection to their servers open as long as possible when sending notifications.  You should also call pushBroker.StopAllServices() in your Application_Ended event in your Global.asax.  Keep in mind that PushSharp works.</p>
+
+<h5>How do I support multiple applications with PushSharp?</h5>
+
+<p><strong>NOTE:</strong> as of version 2.1.2 PushSharp now supports the concept of an arbitrary ApplicationId when you Start or Register push services, for example:</p>
+
+<pre><code>//Specify your application id when registering the service
+pushBroker.RegisterAppleService(channelSettings, "MY-APP-ID-HERE");
+
+//Specify the application id for which the notification is intended when queueing
+pushBroker.QueueNotification(notification, "MY-APP-ID"))
+</code></pre>
+
+<p>The alternative (old) way is to create an instance of PushBroker for each application you need.</p>
+
+<hr />
+
+<h2>MonoTouch and Mono for Android Client Application Integration</h2>
+
+<p>Given that PushSharp is written in C#, you probably thought there was a good chance that it&rsquo;s being used somewhere with MonoTouch or Mono for Android&hellip; and you would be correct!  There are samples of how to setup the client app push notification end of things included in the PushSharp project source!  There&rsquo;s even a Windows Phone 7.5 project to show how to register for notifications!</p>
+
+<p>All client samples can be found in the <strong>/Client.Samples/</strong> folder.</p>
+
+<h2>PushSharp.ClientSample.MonoForAndroid</h2>
+
+<p>There are two projects for Mono For Android:</p>
+
+<ol>
+<li>PushSharp.ClientSample.C2dm</li>
+<li>PushSharp.ClientSample.Gcm</li>
+</ol>
+
+
+<p>C2DM is now deprecated by Google, and you can ignore it unless you are working with an application that already uses it.  Otherwise, focus on the <em>GCM</em> project.</p>
+
+<p>The GCM project also references the <strong><em>/PushSharp.Client/PushSharp.Client.MonoForAndroid.Gcm</em></strong> project which is a client library (ported from the java gcm-client library).  It is a helper library for managing GCM registrations on the client side, within your Android app.  You don&rsquo;t necessarily need to understand the code in this library, but just know that this Client Sample project references it for its own use!</p>
+
+<p><strong>VERY IMPORTANT NOTE:</strong> Make sure your package name does not start with an uppercase character.  If it does, you will get cryptic errors in logcat and things will not work, because your package name is used in defining some permissions required by GCM.
+Eg: my.package.name is ok, but My.package.name is NOT</p>
+
+<p>Next, take a look at the PushService.cs file in the sample project.  You can copy much of this class into your own App, but again be sure to substitute your own package name in where applicable (the BroadcastReceiver attributes need to be changed).  You will also need to change the SENDER_ID constant to your own (see the documentation for Configuring GCM with PushSharp in the wiki).  Finally, in this class, you will probably want to change what happens in some of the GCMIntentService methods.  In the OnRegistered, you would want to send the registration ID to your server, so that you can use it to send the device notifications.  You get the point.</p>
+
+<h2>PushSharp.ClientSample.MonoTouch</h2>
+
+<p>Registering for remote notifications in MonoTouch is fairly trivial.  The only real tricky part is figuring out how to get the deviceToken into a nice string that you can send to your server.  Check out <em>AppDelegate.cs</em> for details on how this is done in MonoTouch!</p>
+
+<hr />
+
+<h2>License</h2>
+
+<p>Apache PushSharp</p>
+
+<p>Copyright 2012 The Apache Software Foundation</p>
+
+<p>This product includes software developed at</p>
+
+<p>The Apache Software Foundation (<a href="http://www.apache.org/">http://www.apache.org/</a>).</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-22T09:17:08+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>9:17 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/22/pptp/" title="Previous Post: PPTP">&laquo; PPTP</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/22/dot-netzhong-number-regionshi-shi-yao-yi-si/" title="Next Post: .NET中#region是什么意思">.NET中#region是什么意思 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>IP 协议 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="IP 协议位于网络层，它是 TCP/IP 协议族中最为核心的协议，所有的 TCP、UDP、ICMP 及 IGMP 数据都以 IP 数据报格式传输。IP 协议提供的是 不可靠 、 无连接 的数据报传送服务。 不可靠（unreliable）：IP 协议不能保证数据报能成功地到达目的地， &hellip;">
+  <meta name="keywords" content="ip">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/01/ip-guo-ji-xie-yi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">IP 协议</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-01T08:59:12+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>8:59 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>IP 协议位于网络层，它是 TCP/IP 协议族中最为核心的协议，所有的 TCP、UDP、ICMP 及 IGMP 数据都以 IP 数据报格式传输。IP 协议提供的是 不可靠 、 无连接 的数据报传送服务。</p>
+
+<p>不可靠（unreliable）：IP 协议不能保证数据报能成功地到达目的地，它仅提供传输服务。当发生某种错误时，IP 协议会丢弃该数据报。传输的可靠性全由上层协议来提供。</p>
+
+<p>无连接（connectionless）：IP 协议对每个数据报的处理是相互独立的。这也说明， IP 数据报可以不按发送顺序接收。如果发送方向接收方发送了两个连续的数据报（先是 A，然后是 B），每个数据报可以选择不同的路线，因此 B 可能在 A 到达之前先到达。</p>
+
+<h2>一、IP 数据报</h2>
+
+<p>首先看一下 IP 数据报的格式，其中没有一个字段是多余的，学习 IP 协议就应从学习它的报文字段意义和作用开始。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etgkmju1k9j20gx0b2gn6.jpg" alt="img" /></p>
+
+<p>如上图所示，普通的 IP 数据报的报头长度 20 字节(除非有选项字段)，各个部分的作用：</p>
+
+<p>版本号 ：4 位，用于标明 IP 版本号，0100 表示 IPv4，0110 表示 IPv6。目前常见的是 IPv4。</p>
+
+<p>首部长度 ：4 位，表示 IP 报头长度，包括选项字段。</p>
+
+<p>服务类型(TOS) ：分别有：最小时延、最大吞吐量、最高可靠性、最小花费 4 种服务，如下图所示。4 个标识位只能有一个被置为 1 ：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1etgkn7q5ugj20ic0503yy.jpg" alt="img" /></p>
+
+<p>总长度 ：16 位，报头长度加上数据部分长度，便是数据报的总长度。IP 数据报最长可达 65535 字节。</p>
+
+<p>标识 ：16 位，接收方根据分片中的标识字段相不相同来判断这些分片是不是同一个数据报的分片，从而进行分片的重组。通常每发送一份报文它的值就会加 1。</p>
+
+<p>标志 ：3 位，用于标识数据报是否分片。其中的第 2 位是不分段（DF）位。当 DF 位被设置为 1 时，则不对数据包进行分段处理；第 3 位是分段（MF）位，除了最后一个分段的 MF 位被设置为 0 外，其他的分段的 MF 位均设置为 1。</p>
+
+<p>偏移 ：13 位，在接收方进行数据报重组时用来标识分片的顺序。</p>
+
+<p>生存时间(TTL) ：8 位，用于设置数据报可以经过的最多的路由器个数。TTL 的初始值由源主机设置（通常为 32 或 64），每经过一个处理它的路由器，TTL 值减 1。如果一个数据报的 TTL 值被减至 0，它将被丢弃。</p>
+
+<p>协议 ：8 位，用来标识是哪个协议向 IP 传送数据。ICMP 为 1，IGMP 为 2，TCP 为 6，UDP 为 17，GRE 为 47，ESP 为 50。</p>
+
+<h2>二、IP 地址分类</h2>
+
+<p>为了便于寻址以及层次化构造网络，每个 IP 地址可被看作是分为两部分，即 网络号 和 主机号 。同一个区域的所有主机有相同的网络号(即 IP 地址的前半部分相同)，区域内的每个主机（包括路由器）都有一个主机号与其对应。</p>
+
+<p>IP 地址被分为 A,B,C,D,E 五类，其中 A 类给大型网络或政府机构等，B 类分配给中型网络、跨国企业等，C 类分配给小型网络，D 类用于多播，E 类用于实验，各类可容纳的地址数目不同。其中我们最常见的为 A,B,C 这三类。</p>
+
+<p>IP 地址用 32 位二进制数字表示的时候，A,B,C 类 IP 的网络号长度分别为 8 位、16 位、24 位。</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etgkotjo59j20hl0azjsh.jpg" alt="img" /></p>
+
+<h3>A 类地址</h3>
+
+<p>A 类地址网络号范围：1.0.0.0&mdash;127.0.0.0</p>
+
+<p>A 类 IP 地址范围：1.0.0.0&mdash;127.255.255.255</p>
+
+<p>A 类 IP 的私有地址范围：10.0.0.0&mdash;10.255.255.255 （所谓的私有地址就是在互联网上不使用，而被用在局域网络中的地址）</p>
+
+<p>127.X.X.X 是保留地址，用做循环测试用的</p>
+
+<p>因为主机号有 24 位，所以一个 A 类网络号可以容纳 2<sup>24</sup>-2=16777214 个主机号</p>
+
+<h3>B 类地址</h3>
+
+<p>B 类地址网络号范围：128.0.0.0&mdash;191.255.0.0</p>
+
+<p>B 类 IP 地址范围：128.0.0.0&mdash;191.255.255.255</p>
+
+<p>B 类 IP 的私有地址范围：172.16.0.0&mdash;172.31.255.255</p>
+
+<p>169.254.X.X 是保留地址；191.255.255.255 是广播地址</p>
+
+<p>因为主机号有 16 位，所以一个 B 类网络号可以容纳 2<sup>16</sup>-2=65534 个主机号</p>
+
+<h3>C 类地址</h3>
+
+<p>C 类地址网络号范围：192.0.0.0&mdash;223.255.255.0</p>
+
+<p>C 类 IP 地址范围：192.0.0.0&mdash;223.255.255.255</p>
+
+<p>C 类 IP 的私有地址范围：192.168.0.0&mdash;192.168.255.255</p>
+
+<p>因为主机号有 8 位，所以一个 C 类网络号可以容纳 2<sup>8</sup>-2=254 个主机号</p>
+
+<h2>三、子网划分</h2>
+
+<p>IP 地址如果只使用 ABCDE 类来划分，会造成大量的浪费：一个有 500 台主机的网络，无法使用 C 类地址。但如果使用一个 B 类地址，6 万多个主机地址只有 500 个被使用，造成 IP 地址的大量浪费。</p>
+
+<p>因此，可以在 ABC 类网络的基础上，进一步划分子网：占用主机号的前几个位，用于表示子网号 。</p>
+
+<p>这样 IP 地址就可看作 IP = 网络号 + 子网号 + 主机号</p>
+
+<p>子网号的位数没有硬性规定，于是我们用 子网掩码 来确定一个 IP 地址中哪几位是主机号，具体使用方法如图：</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1etgkq6oou5j20mi07hwf9.jpg" alt="img" /></p>
+
+<p>子网掩码中的 1 标识了 IP 地址中相应的网络号，0 标识了主机号。将 IP 地址和子网掩码进行 逻辑与运算 ，结果就能得到网络号和子网号。</p>
+
+<h2>四、IP 路由选择</h2>
+
+<p>如果发送方与接收方直接相连（点对点）或都在一个共享网络上（以太网），那么 IP 数据报就能直接送达。 而大多数情况则是发送方与接收方通过若干个路由器(router)连接，那么数据报就需要经过若干个路由器的转发才能送达，它是怎么选择一个合适的路径来"送货"的呢？</p>
+
+<p>IP 层在内存中有一个路由表（输入命令 route -n 可以查看路由表），当收到一份数据报并进行发送时，都要对该表进行搜索：</p>
+
+<p>1、搜索路由表，如果能找到和目的 IP 地址完全一致的主机，则将 IP 数据报发向该主机；</p>
+
+<p>2、搜索路由表，如果匹配主机失败，则匹配同子网的路由器(这需要子网掩码的协助)。如果找到路由器，则将 IP 该数据报发向该路由器；</p>
+
+<p>3、搜索路由表，如果匹配同子网路由器失败，则匹配同网络号路由器，如果找到路由器，则将该 IP 数据报发向该路由器；</p>
+
+<p>4、如果以上都失败了，就搜索默认路由，如果默认路由存在，则发报；</p>
+
+<p>6、如果都失败了，就丢掉这个包；</p>
+
+<p>7、接收到数据报的路由器再按照它自己的路由表继续转发，直到数据报被转发到目的主机；</p>
+
+<p>8、如果在转发过程中，IP 数据报的 TTL（生命周期）已经被减为 0，则该 IP 数据报就被抛弃。</p>
+
+<h2>五、NAT 技术</h2>
+
+<p>当你用 ifconfig 查看 IP 地址时，有时你会发现自己的 IP 地址是这样的———192.186.X.X 或 172.16.X.X
+这是 C 类网和 B 类网的私有地址，这就是俗称的内网 IP。这是因为你的路由器采用了 NAT 技术。</p>
+
+<p>NAT（Network Address Translation，网络地址转换）是 1994 年提出的。当在专用网内部的一些主机本来已经分配到了内网 IP 地址，但现在又想和因特网上的主机通信时，NAT 技术将其内网 IP 地址转换成全球 IP 地址，然后与因特网连接，也就是说，内网的数台主机使用了同一个全球 IP 地址在上网。</p>
+
+<p>NAT 技术实现了宽带共享，而且有助于缓解 IP 地址空间枯竭的问题。</p>
+
+<h2>六、IP 的未来</h2>
+
+<p>我们现在使用的 IPv4 协议版本从理论上讲，可以编址 1600 万个网络、40 亿台主机。但采用 A、B、C 三类编址方式后，可用的网络地址和主机地址的数目大打折扣，以至 IP 地址 已于 2011 年 2 月 3 日分配完毕 。 其中北美占有 3/4，约 30 亿个，而人口最多的亚洲只有不到 4 亿个，中国截止 2010 年 6 月 IPv4 地址数量达到 2.5 亿，落后于 4.2 亿网民的需求。地址不足，严重地制约了中国及其他国家互联网的应用和发展。</p>
+
+<p>随着网络技术的发展，计算机网络将进入人们的日常生活，可能身边的每一样东西都需要连入全球因特网，在这样的环境下，IPv6 应运而生。</p>
+
+<p>IPv6 的地址长度是 128 位，通常将这 128 位的地址按每 16 位划分为一个段，将每个段转换成十六进制数字，并用冒号隔开，比如：2000:0000:0000:0000:0001:2345:6789:abcd 就是一个 IPv6 地址。</p>
+
+<p>单从数量级上来说，IPv6 所拥有的地址容量是 IPv4 的约 8×10<sup>28</sup> 倍，达到 2<sup>128</sup>（算上全零的）个。这不但解决了网络地址资源数量的问题，同时也为除电脑外的设备连入互联网在数量限制上扫清了障碍。</p>
+
+<p>随着 IPv4 不足，支持 IPv6 的网络迅速增长，现在全球已经有 5%的网络使用 IPv6</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-01T08:59:12+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>8:59 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/01/lian-lu-ceng-jian-jie/" title="Previous Post: 链路层简介">&laquo; 链路层简介</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/01/chuan-shu-ceng-:tcp-xie-yi/" title="Next Post: 传输层:TCP 协议">传输层:TCP 协议 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

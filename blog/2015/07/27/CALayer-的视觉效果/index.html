@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>CALayer 的视觉效果 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="稍微写过一些Web网站的开发者可能就明白，我要描述什么东西了，iOS里的“CSS”，其实UIView也有对应的东西，知道一点很重要，CALayer需要的属性都是以CG开头，Ref结尾的“东西”，只要做相应的转换即可。那么，这些“东西”是什么呢？它们有些属于C函数指针，有些是C结构体指针。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/07/27/CALayer-%E7%9A%84%E8%A7%86%E8%A7%89%E6%95%88%E6%9E%9C/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">CALayer 的视觉效果</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-27T10:20:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:20 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>稍微写过一些Web网站的开发者可能就明白，我要描述什么东西了，iOS里的“CSS”，其实UIView也有对应的东西，知道一点很重要，CALayer需要的属性都是以CG开头，Ref结尾的“东西”，只要做相应的转换即可。那么，这些“东西”是什么呢？它们有些属于C函数指针，有些是C结构体指针。</p>
+
+<p>让我们先创建一个CALayer</p>
+
+<pre><code>CALayer *calayer = [CALayer layer];
+calayer.frame = CGRectMake(50, 50, 100, 100);
+</code></pre>
+
+<p>然后，创建一个背景颜色</p>
+
+<pre><code>calayer.backgroundColor = [UIColor colorWithRed:1.000 green:0.400 blue:0.400 alpha:1.000].CGColor;
+</code></pre>
+
+<p>CALayer有一对属性非常有用，它们分别是borderWidth和borderColor，它们共同定义了图层边的绘制样式，这条线是沿着bounds绘制的，同时也包含了图层的角。</p>
+
+<pre><code>calayer.borderWidth = 2;
+calayer.borderColor = [UIColor colorWithRed:0.000 green:0.502 blue:0.251 alpha:1.000].CGColor;
+</code></pre>
+
+<p>那么，此刻我画了一个矩阵出来，我在想，要是添加些圆角，是不是会更好看？
+是的，你可以这么想，CALayer也提供了一个属性来绘制圆角，它就是conrnerRadius，默认情况下，它不会影响背景图片和子图层，如果我想把凸出图层的东西干掉，怎么办？</p>
+
+<p>没错，你可以把masksToBounds设置为YES，此时图层内所有的东西会被裁剪。</p>
+
+<pre><code>calayer.cornerRadius = 20;
+calayer.masksToBounds = YES;
+</code></pre>
+
+<p>此刻，我想我们拥有了一个看起来还不错的矩阵圆角，也许添加点阴影，会更有立体感。</p>
+
+<p>CALayer提供了五个属性来控制阴影的绘制，它们分别是<code>shadowColor，shadowOpacity，shadowOffset，shadowPath，shadowRadius</code>。</p>
+
+<p>第一个shadowColor，顾名思义，这是设置颜色的</p>
+
+<pre><code>calayer.shadowColor = [UIColor colorWithWhite:0.498 alpha:1.000].CGColor;
+</code></pre>
+
+<p>shadowOpacity可以设置一个0-1的浮点数，也就是从不可见到完全不透明。</p>
+
+<pre><code>calayer.shadowOpacity = 0.6;
+</code></pre>
+
+<p>shadowOffset这个属性可能有时候会更有用些，它能控制阴影的展示方向，它接收一个CGSize，x轴表示左右，y轴表示上下。唯一，一点不同的是，正数表示方向，向下，负数刚好相反。</p>
+
+<pre><code>calayer.shadowOffset = CGSizeMake(0, 3);
+</code></pre>
+
+<p>shadowRadius可以控制阴影的模糊度，当它的值为0的时候，阴影与图层会有一个明显的边界，当值越来越大的时候，边界会越来越模糊与自然。</p>
+
+<pre><code>calayer.shadowRadius = 100;
+</code></pre>
+
+<p>有时候阴影并不一定是方型的，shadowPath就能派上用场了。</p>
+
+<pre><code>CGMutablePathRef circlePath = CGPathCreateMutable();
+CGPathAddEllipseInRect(circlePath, NULL, self.layerView2.bounds);
+</code></pre>
+
+<p>现在我的矩阵圆角阴影也有了，我把整个view设置成了黑色背景，我想看看透明效果，好不好看。UIView我们都知道可以通过alpha属性来设置，那么CALayer也有一个对应的属性opacity，它的子图层也会受影响喔。</p>
+
+<p>看起来好像跟给一个div设置透明的效果类似，是不是？名字都一样。</p>
+
+<pre><code>calayer.opacity = 0.6;
+</code></pre>
+
+<p>其实透明，也会出现一些问题，比如我两个图层是父子关系，父和子的透明会有明显的差别，为什么会这样？因为图层只会显示自己的颜色，然后才显示图层下面的颜色。
+如果我们设置一个透明50%的图层，我们看见的父子图层可能是这样的，父的颜色是透明的，这个透明色来自25%父图层的颜色，50%子图层，25%背景颜色的综合体，看起来好像不是我想要的。</p>
+
+<p>那么我只能使用shouldRasterize和rasterizationScale属性来解决这个问题了。PS(iOS 6 本人不想玩)</p>
+
+<pre><code>layer.shouldRasterize = YES;
+layer.rasterizationScale = [UIScreen mainScreen].scale;
+</code></pre>
+
+<p>到目前，为止画的都是一个矩阵，然后给矩阵添加圆角，阴影。
+搞张图片看看</p>
+
+<pre><code>calayer.contents = (__bridge id)[UIImage imageNamed:@"mockingbird.png"].CGImage;
+</code></pre>
+
+<p>现在我们可以尝试对这个图片拉伸或过滤一下，这里就可以用到minificationFilter和magnificationFilter属性了。</p>
+
+<p>而CALayer也提供了三种</p>
+
+<ul>
+<li>kCAFilterLinear</li>
+<li>kCAFilterNearest</li>
+<li>kCAFilterTrilinear</li>
+</ul>
+
+
+<p>从前面的两个属性名字，不难看出作用在哪里，分别是缩小图片和放大图片。</p>
+
+<p>它们的默认过滤器就是<code>kCAFilterLinear</code>了，算法什么的知道有这么回事就好，其实<code>kCAFilterTrilinear</code>跟<code>kCAFilterLinear</code>看起没啥区别咧，前一个是三线性滤波算法，后一个是双线性滤波算法，说实在的这个算法内部怎么实现，我也不知道，我只是知道，如果图片有多张，它们采样不同。</p>
+
+<p>但是<code>kCAFilterTrilinear</code>有一个好处，这个方法在于算法能够从一系列已经接近于最终大小的图片中得到想要的结果，也就是说不要对很多像素同步取样。这不仅提高了性能，也避免了小概率因舍入错误引起的取样失灵的问题</p>
+
+<p><code>kCAFilterNearest</code>则是一种比较武断的算法，从名字上来看，是最近过滤。怎么玩呢？就是就近取样本，不管其它的样本，不过它也有好处，就是很快。坏处呢，可想而知，压缩或者放大后的情况很糟糕。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-27T10:20:32+08:00'><span class='date'><span class='date-month'>Jul</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:20 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/07/27/Bower-%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB/" title="Previous Post: Bower - 管理你的客户端依赖关系">&laquo; Bower - 管理你的客户端依赖关系</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/07/27/HTML-head-%E5%A4%B4%E6%A0%87%E7%AD%BE/" title="Next Post: HTML head 头标签">HTML head 头标签 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

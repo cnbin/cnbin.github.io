@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 类别和扩展（Categories和Extensions） - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="分类（Category） 分类能够做到的事情主要是：即使在你不知道一个类的源码情况下，向这个类添加扩展的方法。 此外，分类能够保证你的实现类和其他的文件区分开。 #import “UIViewController.h”
+@interface UIViewController（CustomView &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/03/16/ios-lei-bie-he-kuo-zhan-(categorieshe-extensions)/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 类别和扩展（Categories和Extensions）</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-03-16T14:29:05+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:29 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>分类（Category）</h3>
+
+<p>分类能够做到的事情主要是：即使在你不知道一个类的源码情况下，向这个类添加扩展的方法。</p>
+
+<p>此外，分类能够保证你的实现类和其他的文件区分开。</p>
+
+<pre><code>#import “UIViewController.h”
+@interface UIViewController（CustomView）
+-（void）extMethod；
+@end
+</code></pre>
+
+<p>使用分类为类添加方法（Add Methods to Classes）</p>
+
+<p>通过在interface中声明一个额外的方法并且在implementation 中定义相同名字的方法即可。分类的名字（也就是括号括起来的CustomView）表示的是：对于声明于其他地方的这个类（UIViewController），在此处添加的方法是额外的，而不是表示这是一个新的类。你不可以通过分类为一个类添加额外的成员变量。</p>
+
+<p>在implementation中，引入头文件的时候主要引用的方式是：</p>
+
+<pre><code> #import “UIViewController+CustomView.h”
+ @implementation UIViewController（CustomView）
+ -（void）extMethod；
+ @end
+</code></pre>
+
+<p>另外，虽然Category<strong>不能够为类添加新的成员变量</strong>，但是Category包含类的所有成员变量，即使是@private的。Category可以重新定义新方法，也可以override继承过来的方法。</p>
+
+<h3>类扩展（Class Extensions）</h3>
+
+<p>类扩展就像匿名（也就是没有那个括号里面的名字CustomView）的分类一样，除了一样不同的是，类扩展声明必须在@implementation在实现。</p>
+
+<p>先看一段代码：</p>
+
+<pre><code> @interface MyObject:NSObject
+ {
+  NSNumber* number;
+ }
+  -(NSNumber*)getNum;
+  @end
+
+  @interface MyObject(Setter)
+  -(void)setNum:(NSNumber*)num;
+  @end
+
+  @implementation MyObject
+  -(NSNumber*)getNum
+  {
+  return number;
+  }
+</code></pre>
+
+<p>看上面这段代码，有没有问题？编译器编译的时候，这段代码是可以编译通过，但当运行时，就会报错。为什么？</p>
+
+<p>因为没有实现Category中的setNum方法。而用类扩展去实现，请看：</p>
+
+<pre><code>  @interface MyObject:NSObject
+  {
+  NSNumber* number;
+  }
+  -(NSNumber*)getNum;
+  @end
+
+  @interface MyObject() //注意这里的括号里面是没有名字的
+  -(void)setNum:(NSNumber*)num;
+ @end
+
+ @implementation MyObject
+ -(NSNumber*)getNum
+ {
+ return number;
+ }
+
+ -(void)setNum:(NSNumber*)num
+ {
+ number = num;
+ }
+ @end
+</code></pre>
+
+<p>setNum是必须要实现，不然编译器会提出警告。</p>
+
+<p>从上面看出，分类和类扩展的相似之处是：都可以为类添加一个额外的方法；</p>
+
+<p>不同之处在于：要添加额外方法，分类必须在第一个@interface中声明方法，并且在@implementation中提供实现，不然运行时出错。而类扩展，你添加的方法是一个required API，如果不去实现，编译器会警告，而且这个方法的声明可以不在第一个@interface中去声明。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-03-16T14:29:05+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:29 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/03/16/initwithnibname,-initwithcoder,-awakefromnibhe-loadnibnamedxiang-jie/" title="Previous Post: initWithNibName、initWithCoder、awakeFromNib和 loadNibNamed详解">&laquo; initWithNibName、initWithCoder、awakeFromNib和 loadNibNamed详解</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/03/16/uibutton-plus-blockde-shi-yong/" title="Next Post: UIButton+Block的使用">UIButton+Block的使用 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

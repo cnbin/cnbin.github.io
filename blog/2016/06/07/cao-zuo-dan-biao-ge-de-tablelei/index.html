@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>操作单一表格的Table<TEntity>类 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="前面介绍了DataContext类，它可以用来映射和连接数据库，执行SQL命令，跟踪实体对象的状态。
+下面介绍Table表示表格记录，它是一个泛型集合类，它的元素就是表格实体对象。它提供一组方法，对元素进行添加删除操作，并可以通过DataContext将这些操作保存到数据库。
+表还是前面的那张表 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/06/07/cao-zuo-dan-biao-ge-de-tablelei/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">操作单一表格的Table<TEntity>类</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-06-07T19:34:50+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>7:34 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>前面介绍了DataContext类，它可以用来映射和连接数据库，执行SQL命令，跟踪实体对象的状态。
+下面介绍Table<TEntity>表示表格记录，它是一个泛型集合类，它的元素就是表格实体对象。它提供一组方法，对元素进行添加删除操作，并可以通过DataContext将这些操作保存到数据库。
+表还是前面的那张表，在项目中添加了一个LINQ to SQL类。重点是InsertOnSubmit、DeleteOnSubmit等方法。</p>
+
+<pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace LINQ_to_SQL_Table
+{
+  /// &lt;summary&gt;
+  /// 操作单一表格的Table&lt;TEntity&gt;类
+  /// &lt;/summary&gt;
+  class Program
+  {
+    static void Main(string[] args)
+    {
+      //1.a.Attach附加实体
+      DataClasses1DataContext dc1 = new DataClasses1DataContext();
+      tb_GuestInfo guset = new tb_GuestInfo() { Id=1, Name = "DebugLZQ", Age = 35, Tel = "138****8888" };
+
+  dc1.tb_GuestInfo.Attach(guset);//这样的Attach仅仅附加实体，数据库没有更新
+  dc1.SubmitChanges();
+  //显示附加成功
+  foreach (var g in dc1.tb_GuestInfo)
+  {
+    Console.WriteLine("{0} {1} {2} {3}", g.Id, g.Name, g.Age, g.Tel);
+  }
+  Console.WriteLine("---------");
+  //显示数据库没有更新
+  DataClasses1DataContext dc2 = new DataClasses1DataContext();
+  foreach (var g in dc2.tb_GuestInfo)
+  {
+    Console.WriteLine("{0} {1} {2} {3}", g.Id, g.Name, g.Age, g.Tel);
+  }
+  Console.WriteLine("------------------------");
+  Console.ReadKey();
+
+  //2.InsertOnSubmit
+  dc2.tb_GuestInfo.InsertOnSubmit(guset);
+  dc2.SubmitChanges();
+
+  foreach (var g in dc2.tb_GuestInfo)
+  {
+    Console.WriteLine("{0} {1} {2} {3}", g.Id, g.Name, g.Age, g.Tel);
+  }
+  Console.WriteLine("------------------------");
+  Console.ReadKey();
+  //2b.InsertAllOnSubmit 插入集合
+  List&lt;tb_GuestInfo&gt; lst = new List&lt;tb_GuestInfo&gt;() 
+  {
+    new tb_GuestInfo(){ Name="AA", Age=25,Tel="133****3333"},
+    new tb_GuestInfo(){ Name="BB", Age=25,Tel="135****5555"}
+  };
+  dc2.tb_GuestInfo.InsertAllOnSubmit(lst);
+  dc2.SubmitChanges();
+
+  foreach (var g in dc2.tb_GuestInfo)
+  {
+    Console.WriteLine("{0} {1} {2} {3}", g.Id, g.Name, g.Age, g.Tel);
+  }
+  Console.WriteLine("------------------------");
+  Console.ReadKey();
+  //
+  //3.DeleteOnSubmit
+  tb_GuestInfo entity = (from g in dc2.tb_GuestInfo
+              where g.Name == "AA"
+              select g).Single();
+  dc2.tb_GuestInfo.DeleteOnSubmit(entity);//
+  dc2.SubmitChanges();
+
+  foreach (var g in dc2.tb_GuestInfo)
+  {
+    Console.WriteLine("{0} {1} {2} {3}", g.Id, g.Name, g.Age, g.Tel);
+  }
+  Console.WriteLine("------------------------");
+  Console.ReadKey();
+  //3b.DeleteAllOnSubmit
+  IEnumerable&lt;tb_GuestInfo&gt; entitys = from g in dc2.tb_GuestInfo
+                    where g.Name == "AA" || g.Name == "BB"
+                    select g;
+  dc2.tb_GuestInfo.DeleteAllOnSubmit(entitys);
+  dc2.SubmitChanges();
+
+  foreach (var g in dc2.tb_GuestInfo)
+  {
+    Console.WriteLine("{0} {1} {2} {3}", g.Id, g.Name, g.Age, g.Tel);
+  }
+  Console.WriteLine("------------------------");
+  Console.ReadKey();      
+
+}
+  }
+}
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.jb51.net/article/80590.htm">http://www.jb51.net/article/80590.htm</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-06-07T19:34:50+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>7:34 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/06/07/li-yong-dbmlxiang-sqlcha-ru-shu-ju/" title="Previous Post: 利用dbml向sql插入数据">&laquo; 利用dbml向sql插入数据</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/06/07/iqueryable-dot-wherezen-yao-shi-xian-zu-he-tiao-jian-cha-xun/" title="Next Post: IQueryable.Where怎么实现组合条件查询">IQueryable.Where怎么实现组合条件查询 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

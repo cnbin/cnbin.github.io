@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Java设计模式-桥接模式 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="生活中的一个例子: 拿汽车在路上行驶的来说。既有小汽车又有公共汽车，它们都不但能在市区中的公路上行驶，也能在高速公路上行驶。这你会发现，对于交通工具（汽车）有不同的类型，它们所行驶的环境（路）也有不同类型，在软件系统中就要适应两个方面（不同车型，不同道路）的变化，怎样实现才能应对这种变化呢？ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/12/11/javashe-ji-mo-shi-chu-tan-zhi-qiao-jie-mo-shi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Java设计模式-桥接模式</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-12-11T09:40:50+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:40 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>生活中的一个例子:</p>
+
+<p>拿汽车在路上行驶的来说。既有小汽车又有公共汽车，它们都不但能在市区中的公路上行驶，也能在高速公路上行驶。这你会发现，对于交通工具（汽车）有不同的类型，它们所行驶的环境（路）也有不同类型，在软件系统中就要适应两个方面（不同车型，不同道路）的变化，怎样实现才能应对这种变化呢？</p>
+
+<h4>概述:</h4>
+
+<p>在软件系统中，某些类型由于自身的逻辑，它具有两个或多个维度的变化，那么如何应对这种“多维度的变化”？如何利用面向对象的技术来使得该类型能够轻松的沿着多个方向进行变化，而又不引入额外的复杂度？这就要使用Bridge模式。</p>
+
+<h4>意图:</h4>
+
+<blockquote><p>将抽象部分与实现部分分离，使它们都可以独立的变化。——《设计模式》GOF</p></blockquote>
+
+<h3>结构图:</h3>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eyvhh0680ej20da088q3h.jpg" alt="img" /></p>
+
+<h3>传统的做法:</h3>
+
+<p>通过类继承的方式来做,先看一下类结构图:</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyvh7m88sdj20jc0biq4l.jpg" alt="img" /></p>
+
+<p>代码实现：</p>
+
+<pre><code> //基类 路  
+class Road {  
+    void run() {  
+        System.out.println("路");  
+    }  
+}  
+
+//市区街道  
+class Street extends Road {  
+    void run() {  
+        System.out.println("市区街道");  
+    }  
+}  
+
+//高速公路  
+class SpeedWay extends Road {  
+    void run() {  
+        System.out.println("高速公路");  
+    }  
+}  
+//小汽车在市区街道行驶  
+class CarOnStreet extends Street {  
+    void run() {  
+        System.out.println("小汽车在市区街道行驶");  
+    }  
+}  
+//小汽车在高速公路行驶  
+class CarOnSpeedWay extends SpeedWay {  
+    void run() {  
+        System.out.println("小汽车在高速公路行驶");  
+    }  
+}  
+//公交车在市区街道行驶  
+class BusOnStreet extends Street {  
+    void run() {  
+        System.out.println("公交车在市区街道行驶");  
+    }  
+}  
+//公交车在高速公路行驶  
+class BusOnSpeedWay extends SpeedWay {  
+    void run() {  
+        System.out.println("公交车在高速公路行驶");  
+    }  
+}  
+//测试  
+public static void main(String[] args) {  
+
+    //小汽车在高速公路行驶  
+    CarOnSpeedWay carOnSpeedWay = new CarOnSpeedWay();  
+    carOnSpeedWay.run();  
+    //公交车在市区街道行驶  
+    BusOnStreet busOnStreet = new BusOnStreet();  
+    busOnStreet.run();  
+
+}  
+</code></pre>
+
+<p>缺点:</p>
+
+<p>但是我们说这样的设计是脆弱的，仔细分析就可以发现，它还是存在很多问题，首先它在遵循开放-封闭原则的同时，违背了类的单一职责原则，即一个类只有一个引起它变化的原因，而这里引起变化的原因却有两个，即路类型的变化和汽车类型的变化；其次是重复代码会很多，不同的汽车在不同的路上行驶也会有一部分的代码是相同的；</p>
+
+<p>再次是类的结构过于复杂，继承关系太多，难于维护，最后最致命的一点是扩展性太差。如果变化沿着汽车的类型和不同的道路两个方向变化，我们会看到这个类的结构会迅速的变庞大。</p>
+
+<h3>应用设计模式-桥接模式（Bridge）来做;</h3>
+
+<p>先看一下类结构图:</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1eyvh7mry2yj20gg0h1jsz.jpg" alt="img" /></p>
+
+<p>代码实现：</p>
+
+<pre><code>abstract class AbstractRoad{  
+    AbstractCar aCar;  
+    void run(){};  
+}  
+abstract class AbstractCar{  
+    void run(){};  
+}  
+
+class Street extends AbstractRoad{  
+    @Override  
+    void run() {  
+        // TODO Auto-generated method stub  
+        super.run();  
+        aCar.run();  
+        System.out.println("在市区街道行驶");  
+    }  
+}  
+class SpeedWay extends AbstractRoad{  
+    @Override  
+    void run() {  
+        // TODO Auto-generated method stub  
+        super.run();  
+        aCar.run();  
+        System.out.println("在高速公路行驶");  
+    }  
+}  
+class Car extends AbstractCar{  
+    @Override  
+    void run() {  
+        // TODO Auto-generated method stub  
+        super.run();  
+        System.out.print("小汽车");  
+    }  
+}  
+class Bus extends AbstractCar{  
+    @Override  
+    void run() {  
+        // TODO Auto-generated method stub  
+        super.run();  
+        System.out.print("公交车");  
+    }  
+}  
+
+public static void main(String[] args){  
+
+    AbstractRoad speedWay = new SpeedWay();  
+    speedWay.aCar = new Car();  
+    speedWay.run();  
+
+    AbstractRoad street = new Street();  
+    street.aCar = new Bus();  
+    street.run();  
+}  
+</code></pre>
+
+<p> 可以看到，通过对象组合的方式，Bridge 模式把两个角色之间的继承关系改为了耦合的关系，从而使这两者可以从容自若的各自独立的变化，这也是Bridge模式的本意。</p>
+
+<p>这样增加了客户程序与路与汽车的耦合。其实这样的担心是没有必要的，因为这种耦合性是由于对象的创建所带来的，完全可以用创建型模式去解决。在应用时结合创建型设计模式来处理具体的问题。</p>
+
+<p>应用设计模式:</p>
+
+<ul>
+<li>桥接模式（Bridge）来做(多维度变化);</li>
+<li>结合上面的例子,增加一个维度"人",不同的人开着不同的汽车在不同的路上行驶(三个维度);</li>
+<li>结合上面增加一个类"人",并重新调用.</li>
+</ul>
+
+
+<p>代码实现:</p>
+
+<pre><code>    abstract class People {  
+    AbstractRoad road;  
+
+    void run() {}  
+}  
+
+class Man extends People{  
+    @Override  
+    void run() {  
+        // TODO Auto-generated method stub  
+        super.run();  
+        System.out.print("男人开着");  
+        road.run();  
+    }  
+}  
+class Woman extends People{  
+    @Override  
+    void run() {  
+        // TODO Auto-generated method stub  
+        super.run();  
+        System.out.print("女人开着");  
+        road.run();  
+    }  
+}  
+
+public static void main(String[] args) {  
+
+    AbstractRoad speedWay = new SpeedWay();  
+    speedWay.aCar = new Car();  
+
+    People man = new Man();  
+    man.road = speedWay;  
+    man.run();  
+}  
+</code></pre>
+
+<h3>效果及实现要点：</h3>
+
+<ol>
+<li>Bridge模式使用“对象间的组合关系”解耦了抽象和实现之间固有的绑定关系，使得抽象和实现可以沿着各自的维度来变化。</li>
+<li>所谓抽象和实现沿着各自维度的变化，即“子类化”它们，得到各个子类之后，便可以任意它们，从而获得不同路上的不同汽车。</li>
+<li>Bridge模式有时候类似于多继承方案，但是多继承方案往往违背了类的单一职责原则（即一个类只有一个变化的原因），复用性比较差。Bridge模式是比多继承方案更好的解决方法。</li>
+<li>Bridge模式的应用一般在“两个非常强的变化维度”，有时候即使有两个变化的维度，但是某个方向的变化维度并不剧烈——换言之两个变化不会导致纵横交错的结果，并不一定要使用Bridge模式。</li>
+</ol>
+
+
+<h3>适用性：</h3>
+
+<p>在以下的情况下应当使用桥梁模式：</p>
+
+<ol>
+<li>如果一个系统需要在构件的抽象化角色和具体化角色之间增加更多的灵活性，避免在两个层次之间建立静态的联系。</li>
+<li>设计要求实现化角色的任何改变不应当影响客户端，或者说实现化角色的改变对客户端是完全透明的。</li>
+<li>一个构件有多于一个的抽象化角色和实现化角色，系统需要它们之间进行动态耦合。</li>
+<li>虽然在系统中使用继承是没有问题的，但是由于抽象化角色和具体化角色需要独立变化，设计要求需要独立管理这两者。</li>
+</ol>
+
+
+<h3>总结：</h3>
+
+<p>Bridge模式是一个非常有用的模式，也非常复杂，它很好的符合了开放-封闭原则和优先使用对象，而不是继承这两个面向对象原则。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-12-11T09:40:50+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:40 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/12/11/5chong-ji-ben-de-guan-xi-dai-shu-yun-suan/" title="Previous Post: 5种基本的关系代数运算">&laquo; 5种基本的关系代数运算</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/12/11/umlguan-xi-fan-hua/" title="Next Post: UML关系">UML关系 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

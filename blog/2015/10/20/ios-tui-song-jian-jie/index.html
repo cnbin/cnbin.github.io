@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS 推送简介 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在移动应用中，推送已经成为不可缺少的重要功能。本文档主要介绍有关 iOS 推送的基础知识，并从几个典型问题出发，分析如何解决在实现推送中出现的一些问题。 1 本地通知和远程通知简介 在 iOS 设备上（模拟器无法使用推送），系统收到通知后这样处理： 在屏幕上弹出一些选项，或者在屏幕顶部显示横幅（ &hellip;">
+  <meta name="keywords" content="push">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/10/20/ios-tui-song-jian-jie/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS 推送简介</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-20T09:43:25+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>在移动应用中，推送已经成为不可缺少的重要功能。本文档主要介绍有关 iOS 推送的基础知识，并从几个典型问题出发，分析如何解决在实现推送中出现的一些问题。</p>
+
+<h3>1 本地通知和远程通知简介</h3>
+
+<p>在 iOS 设备上（模拟器无法使用推送），系统收到通知后这样处理：</p>
+
+<ul>
+<li>在屏幕上弹出一些选项，或者在屏幕顶部显示横幅（banner）如下图左</li>
+<li>App 的角标数值发生变化，具体表现为 App icon 右上角的小红点及数字，如邮件中的红点</li>
+<li>伴随推送消息的提示声音</li>
+</ul>
+
+
+<p>当应用处于前台运行时，系统是不会在屏幕上显示通知，但是仍会调用相应的 API。</p>
+
+<p>只有真机可以使用推送功能。</p>
+
+<p>用户可以设置每一个 App 的通知权限，如下图最后一个：</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1ex7d5vc3tzj21hc0u0wgq.jpg" alt="img" /></p>
+
+<p>用户可以选择关闭某个应用的推送功能。还可以设置通知是否在通知中心显示、通知到达时是否发出声音、通知能否改变 App 角标以及锁屏时是否显示该 App 的通知，还可以设置通知到达时的提醒样式。当然，这些都可以分别对每一个应用进行单独设置。</p>
+
+<h4>1.1 本地通知</h4>
+
+<p>本地通知是一种基于时间的提醒方式。</p>
+
+<p>本地通知最多向系统注册 64 个，当超过这个数量后，最早注册的本地通知会被丢弃。</p>
+
+<p>本地通知在 iOS 设备上的显示与远程推送通知一样。</p>
+
+<h4>1.2 远程通知</h4>
+
+<p>iOS App 运行在后台时，无法主动进行网络连接。</p>
+
+<p>远程通知可以用来提醒用户。发送远程通知时，服务器首先需要使用推送证书与 APNs（Apple Push Notification service）建立安全连接，然后将消息传递给它。当 APNs 收到消息后，会通过与手机之间的长连接下发到对应的手机上，然后 iOS 弹出这条消息来提醒用户。</p>
+
+<p>用户看通过点击或滑动通知来运行 App。可通过程序中相应的方法可以获取通知信息，然后做相应的逻辑处理。</p>
+
+<p>如果不是通过通知启动 App，那么无法在程序中获取通知信息。例如通过点击应用图标启动 App。</p>
+
+<p>推送通知都包含 Payload：一个 Apple 已经定义好的属性列表，操作系统根据它决定使用哪一种方式来提醒用户。还可以在 Payload 中加入一些自定义数据。</p>
+
+<p>通知并不能一定到达。如果在用户无法收到推送通知时（关机或网络不可用），这种情况下 APNs 收到了多条发往这台设备的通知，那么只会保留最后一条，最早的会被丢弃。</p>
+
+<p>APNs 首先通过移动蜂窝网络发送通知，只有当移动蜂窝网络不可用时才使用 Wi-Fi。</p>
+
+<h3>2 通知的两种推送环境</h3>
+
+<p>在使用 iOS 远程推送功能时，有两种不同的环境。开发环境（Development）以及生产环境（Production）。</p>
+
+<p>App 当前使用的推送环境与 <code>Xcode - Build Settings - Code Signing - Provisioning Profile</code> 文件的模式一致。</p>
+
+<h4>2.1 证书与证书校验</h4>
+
+<p>与 APNs 之间是加密的连接，因此需要使用证书来加密连接。每个的推送环境有自己单独的推送证书，即开发证书和生产证书。</p>
+
+<p>在将证书最终转为 pem 格式后，可通过与 APNs 连接来测试证书是否有效。</p>
+
+<p>开发环境：</p>
+
+<pre><code>openssl s_client -connect gateway.sandbox.push.apple.com:2195 -cert MyApnsDev.pem
+</code></pre>
+
+<p>生产环境：</p>
+
+<pre><code>openssl s_client -connect gateway.push.apple.com:2195 -cert MyApnsPro.pem
+</code></pre>
+
+<p>当输入完命令回车后，终端首先会输出很多相关信息。</p>
+
+<p>当连接建立失败时，会直接 close 掉。</p>
+
+<p>当连接建立成功时，终端会停止输出，并等待你输入，你可以随便输入一些字符后摁回车，然后连接才会关闭。</p>
+
+<p>以上命令在 Mac 下没有问题，在其他操作系统下需要指定服务器当前的 CA 根证书，具体可以从网站上下载：</p>
+
+<p><a href="http://push.baidu.com/doc/ios/[https://www.entrust.net/downloads/binary/entrust_2048_ca.cer](https://www.entrust.net/downloads/binary/entrust_2048_ca.cer">entrust_2048_ca.cer 下载</a></p>
+
+<p>下载完成之后，在以上命令后面加上 -CAfile entrust2048ca.cer 即可</p>
+
+<h4>2.2 DeviceToken</h4>
+
+<p>通知需推送到具体某一台设备，而 DeviceToken 就是这台设备的标识符。在向 APNs 发送推送通知时，需要使用 DeviceToken 来指定这条通知将要到达的设备 。</p>
+
+<p>每一台设备，不同的推送环境下分别有一个 DeviceToken。即 DeviceToken 也分开发环境和生产环境。</p>
+
+<p>应用在向 APNs 注册推送通知时，会根据当前 Xcode 工程中 target 对应的 Provisioning Profile 决定请求对应环境的 DeviceToken。即系统返回的 DeviceToken 其环境与 Provisioning Profile 的环境对应。</p>
+
+<p>一般在使用 Xcode 开发时，Provisioning Profile 为 Development ，因此获取的 DeviceToken 也是开发模式。</p>
+
+<p>在 App 需要打包为 ipa 文件或者需要上传到 AppStore 时，会将 Provisioning Profile 文件修改为 Distribution，这时获取到的 DeviceToken 是生产模式。</p>
+
+<h3>3 在应用程序中注册远程推送功能</h3>
+
+<p>App 必须要向 APNs 请求注册以实现推送功能，在请求成功后，APNs 会返回一个设备的标识符即 DeviceToken 给 App，服务器在推送通知的时候需要指定推送通知目的设备的 DeviceToken。在 iOS 8 以及之后，注册推送服务主要分为四个步骤：</p>
+
+<ol>
+<li>使用 registerUserNotificationSettings:注册应用程序想要支持的推送类型</li>
+<li>通过调用 registerForRemoteNotifications方法向 APNs 注册推送功能</li>
+<li>请求成功时，系统会在应用程序委托方法中返回 DeviceToken，请求失败时，也会在对应的委托方法中给出请求失败的原因。</li>
+<li>将 DeviceToken 上传到服务器，服务器在推送时使用。</li>
+</ol>
+
+
+<p>上述第一个步骤注册的 API 是 iOS 8 新增的，因此在 iOS 7，前两个步骤需更改为 iOS 7 中的 API。</p>
+
+<p>DeviceToken 有可能会更改，因此需要在程序每次启动时都去注册并且上传到你的服务器端。</p>
+
+<blockquote><p>注意：iOS 设备与 APNs 需要建立一条长连接，之后的推送注册以及推送获取都需要通过这条长连接。</p>
+
+<p>当 iOS 设备无网络可用时，在向 APNs 请求注册后，既不会有注册成功的回调，也不会有注册失败的回调。如果发生这种情况，需要检查设备的网络连接。</p>
+
+<p>开发环境和生产环境建立不同的长连接，且设备上要至少有一个开发环境的 App 并且注册推送，才会建立开发环境下的长连接。</p>
+
+<p>当已经注册过推送服务后，以后系统会立刻返回给你 DeviceToken。还有一点是，返回 DeviceToken 的回调方法并不一定是只有在你注册或者再次注册时才被系统调用，当DeviceToken 改变时也会被系统直接调用。</p></blockquote>
+
+<h3>4 在程序中处理通知</h3>
+
+<p>我们来看一下当系统传递本地或远程通知的时候都有哪些情况。</p>
+
+<h5>通知到达时，应用不在前台。</h5>
+
+<p>这种情况下，操作系统将呈现通知，弹出一个选项或者在屏幕上部显示 banner 提醒，给 App 角标设置对应的数字，可能播放提示音，当用户稍微往下滑动通知时显示更多的 action 按钮（如果有设置）。</p>
+
+<h5>通知到达时，应用在前台运行。</h5>
+
+<p>这种情况下，不会弹出 banner。系统会根据当前的通知是本地通知还是远程通知，调用不同的方法，并且在方法中传递通知的 Payload 数据。</p>
+
+<h5>在 iOS8 的通知中，用户点击通知上的自定义 action 按钮进入应用。</h5>
+
+<p>这种情况下，系统会调用 iOS8 中对 action 按钮新增的处理方法。</p>
+
+<h5>用户点击通知进入应用。</h5>
+
+<p>系统会根据当前的通知是本地通知还是远程通知，调用不同的方法，并且在方法中传递通知的 Payload 数据。</p>
+
+<blockquote><p>注意：只有当通过通知进入到 App 时，才可以获取到通知信息。</p></blockquote>
+
+<h4>4.1 自定义通知提示音</h4>
+
+<p>你可以在 App 的 Bundle 中加入一段自定义提示音文件。然后当通知到达时可以指定播放这个文件。必须为以下几种数据格式：</p>
+
+<ul>
+<li>Linear PCM</li>
+<li>MA4（IMA/ADPCM）</li>
+<li>μLaw</li>
+<li>aLaw</li>
+</ul>
+
+
+<p>你可以将它们打包为 aiff、wav 或caf文件。自定义的声音文件时间必须小于 30 秒，如果超过了这个时间，将被系统声音代替。</p>
+
+<h4>4.2 Payload</h4>
+
+<p>Payload 是通知的一部分，每一条推送通知都包含一个 Payload。它包含了系统提醒用户通知到达的方式，还可以添加自定义的数据。即通知主要传递的数据为 Payload。</p>
+
+<p>Payload 本身为 JSON 格式的字符串，它内部必须要包含一个键为 aps 的字典。aps 中可以包含以下字段中的一个或多个：</p>
+
+<ul>
+<li>alert：其内容可以为字符串或者字典，如果是字符串，那么将会在通知中显示这条内容</li>
+<li>badge：其值为数字，表示当通知到达设备时，应用的角标变为多少。如果没有使用这个字段，那么应用的角标将不会改变。设置为 0 时，会清除应用的角标。</li>
+<li>sound：指定通知展现时伴随的提醒音文件名。如果找不到指定的文件或者值为 default，那么默认的系统音将会被使用。如果为空，那么将没有声音。</li>
+<li>content-available：此字段为 iOS 7 silent remote notification 使用。不使用此功能时无需包含此字段。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-10-20T09:43:25+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>9:43 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/10/20/xcodebeng-kui-ri-zhi-fen-xi-gong-ju-symbolicatecrashyong-fa/" title="Previous Post: Xcode崩溃日志分析工具symbolicatecrash用法">&laquo; Xcode崩溃日志分析工具symbolicatecrash用法</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/10/20/bai-du-yun-tui-song-gu-zhang-pai-cha-zhi-nan/" title="Next Post: 百度云推送故障排查指南">百度云推送故障排查指南 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

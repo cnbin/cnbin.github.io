@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Coredata 实体间的关系 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="问题 如果多个实体之间有关联，比如Student拥有多本书（Book），怎么像数据库一样的能够表示这种关系？ 解决方法 Core Data提供了relationship来表示实体（Entity）之间的这种关系，包括一对一、一对多等。 1 .打开Core Data的模型文件， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/11/19/coredata-shi-ti-jian-de-guan-xi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Coredata 实体间的关系</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-11-19T08:25:51+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>问题</h2>
+
+<p>如果多个实体之间有关联，比如Student拥有多本书（Book），怎么像数据库一样的能够表示这种关系？</p>
+
+<h3>解决方法</h3>
+
+<p>Core Data提供了relationship来表示实体（Entity）之间的这种关系，包括一对一、一对多等。</p>
+
+<h3>1 .打开Core Data的模型文件，可以看到每个Entity都有一个Relationships可以设置。我们在Student里面添加一个books属性，并将它的类型（Type）设置为To Many（一对多）。</h3>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1ey5i549rckj21kc0fqafb.jpg" alt="img" /></p>
+
+<h3>2 .给Books添加一个owner属性，并将Inverse设为books。这样的话，只要将book对象添加到Student的books中，就会自动将owner属性指向该Student对象。通过改变实体的展示样式能够让我们看的更加清楚。</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1ey5i50oahfj20z60leaer.jpg" alt="img" /></p>
+
+<p>3 .通过“Editor > NSManagedObject Subclass&hellip;”创建两个实体所对应的类。</p>
+
+<h4>Book:</h4>
+
+<pre><code>@interface Book : NSManagedObject
+
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic) float price;
+@property (nonatomic, retain) Student *owner;
+
+@end
+</code></pre>
+
+<h4>Student:</h4>
+
+<pre><code>@interface Student : NSManagedObject
+
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic) int32_t age;
+@property (nonatomic, retain) NSOrderedSet *books;
+@end
+
+@interface Student (CoreDataGeneratedAccessors)
+
+//没有实现
+- (void)insertObject:(Book *)value inBooksAtIndex:(NSUInteger)idx;
+- (void)removeObjectFromBooksAtIndex:(NSUInteger)idx;
+- (void)insertBooks:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
+- (void)removeBooksAtIndexes:(NSIndexSet *)indexes;
+- (void)replaceObjectInBooksAtIndex:(NSUInteger)idx withObject:(Book *)value;
+- (void)replaceBooksAtIndexes:(NSIndexSet *)indexes withBooks:(NSArray *)values;
+- (void)addBooksObject:(Book *)value;
+- (void)removeBooksObject:(Book *)value;
+- (void)addBooks:(NSOrderedSet *)values;
+- (void)removeBooks:(NSOrderedSet *)values;
+@end
+</code></pre>
+
+<p>在Student是通过一个NSOrderdSet来表示一对多的关系的。这里之所以没有使用数组是因为需要保证数据的唯一性。我们还需要注意的是，在Student类中生成了许多管理Book的方法，但是这些方法都是没有实现的。比如我们需要添加一个增加Book的功能，就需要实现addBooksObject:。</p>
+
+<pre><code>- (void)addBooksObject:(Book *)value {
+    NSMutableOrderedSet *books = [self.books mutableCopy];
+    [books addObject:value];
+    self.books = books;
+}
+</code></pre>
+
+<h3>4 .保存Student对象与Book对象。</h3>
+
+<pre><code>NSManagedObjectContext *context = [AppDelegate appDelegate].managedObjectContext;
+
+NSEntityDescription *entity = [NSEntityDescription entityForName:@"Student" inManagedObjectContext:context];
+//创建Student对象
+Student *stu = [[Student alloc] initWithEntity:entity insertIntoManagedObjectContext:context];
+
+int r = arc4random_uniform(1000);
+stu.name = [NSString stringWithFormat:@"Zhangsan: %d", r];
+
+NSEntityDescription *bEntity = [NSEntityDescription entityForName:@"Book" inManagedObjectContext:context];
+//创建Book对象
+Book *book = [[Book alloc] initWithEntity:bEntity insertIntoManagedObjectContext:context];
+book.title = @"红楼梦";
+//添加Book对象
+[stu addBooksObject:book];
+
+//保存Student对象
+[context insertObject:stu];
+[context save:nil];
+</code></pre>
+
+<h3>5 .查询Student对象，并通过打印查看是否保存了Book，并且能否通过book.owner得到它与Student对象的关系。</h3>
+
+<pre><code>NSManagedObjectContext *context = [AppDelegate appDelegate].managedObjectContext;
+
+NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Student"];
+NSArray *arr = [context executeFetchRequest:request error:nil];
+for (Student *stu in arr) {
+    NSLog(@"Name: %@", stu.name);
+    for (Book *b in stu.books) {
+        NSLog(@"Book: %@ -&gt; %@", b.title, b.owner);
+    }
+}
+</code></pre>
+
+<h3>6 .从结果可以看到，b.owner确实指向了一个Student对象。</h3>
+
+<pre><code>2015-02-04 09:07:43.391 02-03-CoreDataRelationship[5169:235934] Name: Zhangsan: 333
+2015-02-04 09:07:43.394 02-03-CoreDataRelationship[5169:235934] Book: 红楼梦 -&gt; &lt;Student: 0x7f9720d48bd0&gt; (entity: Student; id: 0xd000000000040000 &lt;x-coredata://C07E5BAC-C3F6-44B6-B21C-C3D3FBFA4ED1/Student/p1&gt; ; data: {
+    age = 0;
+    books =     (
+        "0xd000000000040002 &lt;x-coredata://C07E5BAC-C3F6-44B6-B21C-C3D3FBFA4ED1/Book/p1&gt;"
+    );
+    name = "Zhangsan: 333";
+})
+</code></pre>
+
+<p>7 .总的来说Core Data自动替我们管理了实体（对象）之间的依赖关系，能够省去不少代码。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-11-19T08:25:51+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:25 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/11/19/zeng-jia-bitcodezhi-chi-bian-yi-di-san-fang-kuang-jia/" title="Previous Post: 增加bitcode支持编译第三方框架">&laquo; 增加bitcode支持编译第三方框架</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/11/19/coredatashu-ju-cha-xun/" title="Next Post: Coredata 数据查询">Coredata 数据查询 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

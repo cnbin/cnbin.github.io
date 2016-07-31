@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>私有地址 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在现在的网络中，IP地址分为公网IP地址和私有IP地址。公网IP是在Internet使用的IP地址，而私有IP地址则是在局域网中使用的IP地址。 私有IP地址是一段保留的IP地址。只使用在局域网中，无法在Internet上使用。 简介 私有地址有公网地址的转换 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/01/si-you-di-zhi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">私有地址</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-01T11:10:42+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:10 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>在现在的网络中，IP地址分为公网IP地址和私有IP地址。公网IP是在Internet使用的IP地址，而私有IP地址则是在局域网中使用的IP地址。</p>
+
+<p>私有IP地址是一段保留的IP地址。只使用在局域网中，无法在Internet上使用。</p>
+
+<h2>简介</h2>
+
+<p>私有地址有公网地址的转换</p>
+
+<p>当私有网络内的主机要与位于公网上的主机进行通讯时必须经过地址转换，将其私有地址转换为合法公网地址才能对外访问。</p>
+
+<p>NAT－Network Address Translation 网络地址转换</p>
+
+<p>设局域网内部网络的地址是10.0.0.0网段，而对外的正式IP地址是202.196.3.23 。内部的主机10.1.1.48以www方式访问网外的服务器202.18.245.251。主机10.1.1.48发出一个数据报文，选择一个源端口6084，目的端口为80。</p>
+
+<p>在通过代理服务器后，该报文的源地址和端口可能改为202.196.3.23:32814，目的地址与端口不做改变。在代理服务器中维护着一张地址端口对应表。当外部网络的WWW服务器返回结果时，代理服务器会将结果数据报文中的目的IP地址及端口转化为10.1.1.48:6084。这样，内部主机10.1.1.48就可以访问外部的服务器了。</p>
+
+<h2>属于A类地址的私有地址</h2>
+
+<h3>A类地址简介</h3>
+
+<ol>
+<li>A类地址第1字节为网络地址，其它3个字节为主机地址。另外第1个字节的最高位固定为0。</li>
+<li>A类地址范围：1.0.0.0到126.255.255.255。</li>
+<li>A类地址中的保留地址：</li>
+</ol>
+
+
+<p>127.0.0.0到127.255.255.255是保留地址，用做循环测试用的。</p>
+
+<h3>A类私有地址</h3>
+
+<p>在A类地址中，10.0.0.0到10.255.255.255是私有地址（所谓的私有地址就是在互联网上不使用，而被用在局域网络中的地址）。</p>
+
+<h2>属于B类地址的私有地址</h2>
+
+<h3>B类地址简介</h3>
+
+<ol>
+<li>B类地址第1字节和第2字节为网络地址，其他2个字节为主机地址。另外1个字节的前2为固定为10.</li>
+<li>B类地址范围：128.0.0.0到191.255.255.255。</li>
+<li>B类地址中的保留地址</li>
+</ol>
+
+
+<p>169.254.0.0到169.254.255.255是保留地址。如果你的IP地址是自动获取IP地址，而你在网络上又没有找到可用的DHCP服务器，这时你将会从169.254.0.1到169.254.255.254中临时获得一个IP地址。</p>
+
+<h3>B类私有地址</h3>
+
+<p>在B类地址中，172.16.0.0到172.31.255.255是私有地址。</p>
+
+<h2>属于C类地址的私有地址</h2>
+
+<h3>C类地址简介</h3>
+
+<ol>
+<li>C类地址第1字节、第2字节和第3个字节为网络地址，第4个个字节为主机地址。另外第1个字节的前三位固定为110。</li>
+<li>C类地址范围：192.0.0.0到223.255.255.255。</li>
+</ol>
+
+
+<h3>C类私有地址</h3>
+
+<p>在C类地址中，192.168.0.0到192.168.255.255是私有地址</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-01T11:10:42+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2015</span></span> <span class='time'>11:10 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/01/vmwarexu-ni-ji-ti-gong-de-qiao-jie-,-nathe-zhu-ji-mo-shi-de-qu-bie/" title="Previous Post: VMWare虚拟机提供的桥接、nat和主机模式的区别">&laquo; VMWare虚拟机提供的桥接、nat和主机模式的区别</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/01/http-cuo-wu-404-dot-3-not-found-you-yu-kuo-zhan-pei-zhi-wen-ti-er-wu-fa-ti-gong-nin-qing-qiu-de-ye-mian/" title="Next Post:  HTTP 错误 404.3 - Not Found 由于扩展配置问题而无法提供您请求的页面"> HTTP 错误 404.3 - Not Found 由于扩展配置问题而无法提供您请求的页面 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

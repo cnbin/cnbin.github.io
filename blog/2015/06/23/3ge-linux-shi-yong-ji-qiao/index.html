@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>3个 Linux 使用技巧 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="1.如何在不使用 Cron 的情况调度 Linux 下的任务 在 Linux 下，调度一个任务/命令称之为 Cron。当我们需要调度一个任务时，我们会使用Cron，但你知道我们在不使用 Cron 的情况也可以调度一个在将来时间运行的任务吗？你可以按照如下建议操作…… 每5秒钟运行一个命令（ &hellip;">
+  <meta name="keywords" content="linux,sheel">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/23/3ge-linux-shi-yong-ji-qiao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">3个 Linux 使用技巧</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-23T14:44:40+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:44 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etasg34lg6j20fw08xweo.jpg" alt="img" /></p>
+
+<h3>1.如何在不使用 Cron 的情况调度 Linux 下的任务</h3>
+
+<p>在 Linux 下，调度一个任务/命令称之为 Cron。当我们需要调度一个任务时，我们会使用Cron，但你知道我们在不使用 Cron 的情况也可以调度一个在将来时间运行的任务吗？你可以按照如下建议操作……</p>
+
+<p>每5秒钟运行一个命令（date）然后将结果写入到一个文件（data.txt）。为了实现这一点，我们可以直接在命令提示符运行如下单行脚本。</p>
+
+<pre><code>$ while true;do date &gt;&gt; date.txt ; sleep 5;done&amp;
+</code></pre>
+
+<p>上述脚本的解释：</p>
+
+<ul>
+<li><code>while true</code> ：让脚本进入一个条件总为真的循环中，也就是制造一个死循环，将里边的命令一遍遍地重复运行。</li>
+<li><code>do</code> ：<code>do</code> 是 <code>while</code> 语句中的关键字，它之后的命令会被执行，在它后边可以放置一个或一系列命令。</li>
+<li><code>date &gt;&gt; date.txt</code> ：运行 <code>date</code> 命令，并将其输出写入到 <code>data.txt</code> 文件中。注意我们使用<code>&gt;&gt;</code>，而不是 <code>&gt;</code>。</li>
+<li><code>&gt;&gt;</code> ：对文件 <code>（date.txt）</code> 进行追加写的操作，这样每次运行命令后，输出内容会被追加到文件中。如果使用>的话，则会一遍遍地覆盖之前的内容。</li>
+<li><code>sleep 5</code> ：让脚本处于5秒睡眠状态，然后再运行之后的命令。注意这里的时间单位只能用秒。也就是说如果你想让命令每6分钟运行一次，你应该使用 <code>sleep 360</code>。</li>
+<li><code>done</code> ：<code>while</code> 循环语句块结束的标记。</li>
+<li><code>&amp;</code> ：将整个进程放到后台运行。</li>
+</ul>
+
+
+<p>类似地，我们可以这样运行任何脚本。下边的例子是每100秒运行一个名为 <code>script_name.sh</code> 的脚本。</p>
+
+<p>另外值得一提的是上面提到的脚本文件必须处于当前目录中，否则需要使用完整路径 <code>（/home/$USER/…/script_name.sh）</code>。实现如上功能的单行脚本如下：</p>
+
+<pre><code>$ while true;do/bin/sh script_name.sh ; sleep 100;done&amp;
+</code></pre>
+
+<p>总结：上述的单行脚本并不是 Cron 的替代品，因为 Cron 工具支持众多选项，更加灵活，可定制性也更高。然而如果我们想运行某些测试，比如 I/O 评测，上述的单行脚本也管用。</p>
+
+<h3>2.如何不使用 clear 命令清空终端的内容</h3>
+
+<p>你如何清空终端的内容？你可能会认为这是一个傻问题。好吧，大家都清楚可以使用 clear 命令。如果养成使用 <code>ctrl + l</code> 快捷键的习惯，我们会节省大量时间。</p>
+
+<p><code>Ctrl + l</code> 快捷键的效果和 clear 命令一样。所以下一次你就可以使用 <code>ctrl + l</code> 来清空终端的内容了。</p>
+
+<p>总结：因为 <code>ctrl + l</code> 是一个快捷键，我们不可以在脚本中使用。所以如果我们需要在脚本中清空屏幕内容，还是需要使用 clear 命令。但我能想到的所有其他情况，<code>ctrl + l</code> 都更加有效。</p>
+
+<h3>3.在其它目录运行一个命令，然后自动返回当前工作目录</h3>
+
+<p>这是一个很多人可能不知道的令人吃惊的技巧。你可能想在其它目录运行任何一个命令，然后再回到当前目录。要实现这样的目的，你只需要将命令放在一个圆括号里。</p>
+
+<p>我们来看一个例子：</p>
+
+<pre><code>apple@ubuntu:~$ (cd ~/Downloads)
+</code></pre>
+
+<p>示例输出：</p>
+
+<pre><code>apple@ubuntu:~$ 
+</code></pre>
+
+<p>它首先会 <code>cd</code> 到 <code>Downloads</code> 目录，然后又回到了之前的家目录。也许你认为里边的命令根本没有执行，或者是出了某种错误，因为从命令提示符看不出任何变化。让我们简单修改一下这个命令：</p>
+
+<pre><code>apple@ubuntu:~$ (cd ~/Downloads/&amp;&amp; ls -l)
+</code></pre>
+
+<p>示例输出：</p>
+
+<pre><code>apple@ubuntu:~/Downloads$ (cd ~/Downloads/&amp;&amp; ls -l)
+total 8
+-rw-rw-r-- 1 apple apple 2 Jun 22 00:13 1.txt
+-rw-rw-r-- 1 apple apple 2 Jun 22 00:13 2.txt
+</code></pre>
+
+<p>在上述命令中，它首先进入 <code>Downloads</code> 目录，然后列出文件内容，最后又回到了当前目录。并且它证明了命令成功执行了。你可以在括号中包含任何命令，执行完都会顺利返回到当前目录。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-23T14:44:40+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2015</span></span> <span class='time'>2:44 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/23/linux-wen-jian-quan-xian-jian-dan-shuo-ming/" title="Previous Post: Linux 文件权限简单说明">&laquo; Linux 文件权限简单说明</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/23/linux-xue-xi-lu-xian/" title="Next Post: Linux 学习路线">Linux 学习路线 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

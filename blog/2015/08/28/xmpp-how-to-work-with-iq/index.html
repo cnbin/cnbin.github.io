@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>XMPP -How to Work With IQ, Message, & Presence Elements - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="Where is the API? The 3 primary XMPP elements (IQ, Message, &amp; Presence) all extend the XMPPElement class. If you take a look at the XMPPElement &hellip;">
+  <meta name="keywords" content="xmpp,iq">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/08/28/xmpp-how-to-work-with-iq/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">XMPP -How to Work With IQ, Message, & Presence Elements</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-08-28T11:19:03+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:19 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2>Where is the API?</h2>
+
+<p>The 3 primary XMPP elements (IQ, Message, &amp; Presence) all extend the XMPPElement class. If you take a look at the XMPPElement class, you&rsquo;ll see that it extends NSXMLElement.</p>
+
+<p><a href="http://developer.apple.com/mac/library/documentation/cocoa/reference/Foundation/Classes/NSXMLElement_Class/Reference/Reference.html">Apple&rsquo;s documentation for NSXMLElement</a></p>
+
+<p>NSXMLElement extends NSXMLNode.<br/>
+<a href="http://developer.apple.com/mac/library/documentation/cocoa/reference/Foundation/Classes/NSXMLNode_Class/Reference/Reference.html">Apple&rsquo;s documentation for NSXMLNode</a></p>
+
+<p>With these powerful XML libraries, you should have everything you need to quickly extract information from any XML element.</p>
+
+<h3><em>But why isn&rsquo;t there a method to do X, which I believe should exist in any chat framework?</em></h3>
+
+<p>Because XMPPFramework is not a chat framework. (Although it can certainly be used as such.) XMPP stands for &ldquo;eXtensible Messaging and Presence Protocol&rdquo;. XMPP can be used for a ton of different things. In fact, there are a ton of companies that are using XMPP for functionality unrelated to chat. One example is a company that is using XMPP in health care to deliver patient monitoring alarms to devices that nurses carry around.</p>
+
+<p>Now, there are literally hundreds of extensions to XMPP. (<a href="http://xmpp.org/extensions/">Official List</a>) In addition to this, XMPP was designed to be extensible enough to allow <strong>you</strong> to extend the protocol in any way you want for your application. If the XMPP framework shielded the developer from all the &ldquo;nasty details&rdquo; of the XML, the framework itself would be less extensible for you. The fact of the matter is that XMPP <strong>is</strong> XML. Let&rsquo;s look at a concrete example:</p>
+
+<p>You write an application called &ldquo;political debate&rdquo;, and your users want to be able to express their mood with each chat message they send. The mood will be reflected in other people&rsquo;s chat window by the background color of the chat bubble. This way, when the debate participants start to get heated up, their chat bubbles start to get red. It&rsquo;s <strong>the</strong> biggest feature request for version 2.0. So how do you implement it?</p>
+
+<p>Very easily! You recall that with XMPP, you can add any custom elements you want to a message. So you add something like this:</p>
+
+<pre><code>&lt;message to="group_chat@political_debate.com/obama_healthcare"&gt;
+    &lt;body&gt;I disagree with you sir!&lt;/body&gt;
+    &lt;mood&gt;hot&lt;/mood&gt;
+&lt;/message&gt;
+</code></pre>
+
+<p>Now on the receiving side, you&rsquo;ll need to access the XML in order to check for <code>&lt;mood/&gt;</code> elements.</p>
+
+<p>How do you get the body of the message?</p>
+
+<pre><code>NSString *body = [[message elementForName:@"body"] stringValue];
+</code></pre>
+
+<p>How do you get the mood of the message?</p>
+
+<pre><code>NSString *mood = [[message elementForName:@"mood"] stringValue];
+</code></pre>
+
+<h3><em>But I want all of the XML logic separated from my GUI code!</em></h3>
+
+<p>Great idea. Which is why we&rsquo;ve separated the various XML types into separate classes (XMPPIQ, XMPPMessage, XMPPPresence). All you have to do is add your own custom categories to those classes. (Categories are an objective-c feature that allow you to add methods to an existing class).</p>
+
+<p>Here&rsquo;s an example of how you might add a &ldquo;mood&rdquo; method to the XMPPMessage class:</p>
+
+<pre><code>@interface XMPPMessage (PoliticalDebate)
+
+- (NSString *)mood;
+
+@end
+
+@implementation XMPPMessage (PoliticalDebate)
+
+- (NSString *)mood
+{
+    return [[self elementForName:@"mood"] stringValue];
+}
+
+@end
+</code></pre>
+
+<p>So with categories, you can add any methods you want to the element subclasses, and keep your XML logic separate from your GUI logic.</p>
+
+<h3>Side Note:</h3>
+
+<p>The XMPP Framework was developed before the iPhone SDK was even released. When Apple released the iPhone SDK they decided not to include NSXMLElement and NSXMLNode. This means the iPhone didn&rsquo;t include any simple objective-c libraries for working with XML DOM. <a href="http://code.google.com/p/kissxml/">KissXML</a> was created as a drop-in replacement. So you can still refer to the NSXML documentation, and the API should be exactly the same, and the methods should work exactly the same.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-08-28T11:19:03+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>28</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>11:19 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/08/28/xmpp-extension-protocols/" title="Previous Post: XMPP Extension Protocols">&laquo; XMPP Extension Protocols</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/08/28/ping-guo-mac-dian-nao-vmware-gong-xiang-wen-jian-jia-she-zhi-jiao-cheng/" title="Next Post: 苹果 Mac 电脑 Vmware 共享文件夹设置教程(原创)">苹果 Mac 电脑 Vmware 共享文件夹设置教程(原创) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

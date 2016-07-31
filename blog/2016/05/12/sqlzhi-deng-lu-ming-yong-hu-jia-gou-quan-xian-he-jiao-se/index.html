@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Sql之登录名、用户、架构、权限和角色 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="有关数据库的安全性、权限等方面的东西，那就是先说一下数据库安全性和权限的问题，首先是对数据库的登录名、用户和架构做一个简单的介绍。登录名大家都知道就是登录数据库时用的名称，比如数据库默认的登录名sa，如果不对sa登录名的权限做改动的话，sa登录后对数据库所有功能有完全的访问管理权限。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/05/12/sqlzhi-deng-lu-ming-yong-hu-jia-gou-quan-xian-he-jiao-se/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Sql之登录名、用户、架构、权限和角色</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-05-12T15:52:44+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:52 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>有关数据库的安全性、权限等方面的东西，那就是先说一下数据库安全性和权限的问题，首先是对数据库的登录名、用户和架构做一个简单的介绍。登录名大家都知道就是登录数据库时用的名称，比如数据库默认的登录名sa，如果不对sa登录名的权限做改动的话，sa登录后对数据库所有功能有完全的访问管理权限。那么什么是用户名呢？拿sa登录名来说，当用sa登录数据库后新建一个数据库，展开数据库下面的安全性-用户，可以看到有dbo、sys、guest等用户名，而sa登录后所有的操作的用户就是dbo,这个也是数据库默认的。也就是说sa是登录名，登陆后的用户名是dbo。那么架构呢？大家都知道当我们用sa登录数据库后创建一个表UserInfor，那么当展开数据库后可以看到dbo.UserInfor，这个dbo是架构名，而非用户名，一开始我也不明白在网上查了一些资料，有的说dbo.UserInfor是用户名，到底是什么呢？下面我们做一个测试。</p>
+
+<p>对权限的限制可以使用登录名结合用户来实现，就先创建一个登录名，命名为me。首先我们先看一下数据库“安全性”节点。</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f3snmdq8k4j208l06rt94.jpg" alt="img" /></p>
+
+<p>我们可以看到有我们登录的sa登录名，接着我们在登录名上右键创建一个新登录名me。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f3snmys543j207704ht8t.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f3snmz6982j20df07u3z0.jpg" alt="img" /></p>
+
+<p>这个地方，我们用Sql Server身份验证登录，在服务器角色栏只勾选public，状态栏选择授予和启用，具体的设置后面说。确定即可。这时再看登录名节点可以看到新创建的登录名me。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f3snnts6xmj201h01q742.jpg" alt="img" /></p>
+
+<p>然后我们再创建一个数据库UserData，接着针对这个数据库我们在数据库的安全性节点的架构中新建一个架构medbo。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f3snnuiuxqj2084074weo.jpg" alt="img" /></p>
+
+<p>填写一个架构名即可，如下：</p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f3snozuy64j208x07nwel.jpg" alt="img" /></p>
+
+<p>确定即可，然后再针对数据库在用户节点创建一个用户名mename，这里主要是和架构做区分。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f3snp07aq0j207w05yt8t.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f3snp0k1osj209i0hjq3v.jpg" alt="img" /></p>
+
+<p>这里需要注意一下，登录名要选me，默认架构medbo，用户拥有的架构要勾选刚刚创建的架构，角色成员选db_owner。确定即可，这时就可以看到刚才创建的用户名和架构了。
+　
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f3snqcwdesj203w0cq0t4.jpg" alt="img" /></p>
+
+<p>然后去安全性节点，展开用户名找到me用户右键属性，用户映射选项，可以看到
+　
+<img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f3snqdiydoj20mg09v75n.jpg" alt="img" /></p>
+
+<p>到这里登录名和用户名以及架构都创建了好，那么怎么用呢，我们可以用刚刚创建的登录名me重新登录一下数据库，在UserData数据库中创建一张表UserInfor。</p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f3snrlqdf2j205502z3yg.jpg" alt="img" /></p>
+
+<p>可以看到新建的表是medbo.UserInfor，而不是mename.UserInfor。由此可见，用sa登录后创建的表代表dbo.Table这dbo是架构，而非用户名。</p>
+
+<p>那么权限和角色怎么设置呢？接着我们回到me登录名的属性那，查看服务器角色选项，
+　　
+<img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f3snrso983j20ct08j3z8.jpg" alt="img" /></p>
+
+<p>可以看到有多个服务期角色，而刚才我们创建me登录名的时候只勾选了public，每一角色代表什么呢？下面介绍一下。</p>
+
+<pre><code>bulkadmin：这个服务器角色的成员可以运行bulk insert语句
+dbcreater：可以创建、更改、删除和还原任何数据库
+diskadmin：管理磁盘文件，比如镜像数据库和添加备份设备
+prosessadmin：多任务化可以通过执行多个进程执行多件事
+securityadmin：管理登录名和属性
+serveradmin：可以更改服务器范围内的配置选项和关闭服务器
+setupadmin：为需要管理链接服务器和空值启动的存储过程的用户设定，能增加、配置和删除链接服务器，并能空值启动过程
+sysadmin：执行任何任务
+public：初始状态时没有权限，所有数据库都有他的成员
+</code></pre>
+
+<p>接着看一下用户映射选项</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f3snx5p54aj205z05h74g.jpg" alt="img" /></p>
+
+<p>也有多个角色，每一个角色如下：</p>
+
+<pre><code>db_owner：在数据库中执行任何操作
+db_accessadmin：从数据库中增加或删除用户
+db_backupopperator：允许备份数据库
+db_datareader：允许从任何表中读取数据
+db_datawriter：允许网任何表中写入数据
+db_ddladmin：允许增加、修改和删除任何对象
+db_denydatareader：拒绝查看任何数据，但可以通过存储过程查看
+db_denydatawriter：拒绝修改任何数据，但可以通过存储过程修改
+db_securityadmin：可以更改数据库中的权限和角色
+public：每个数据库角色都属于public角色，当尚未对某个用户授予或拒绝对安全对象的特定权限时，该用户将授予该安全对象的public角色权限，且不能删除。
+</code></pre>
+
+<p>还有一点，就是me登录名属性的用户映射中我们只勾选了UserData数据库，其他的没有勾选，如果我们用me登录名登录数据库然后访问sa登录名下创建的数据，这时是无法访问的：
+　　
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f3snx6bb5uj20jx04iaab.jpg" alt="img" /></p>
+
+<p>由此可以看出，登录名和权限的作用了。</p>
+
+<p>到此，新建登录名和用户名，以及配置权限角色就结束了，这里只是简单的对数据的登录名，用户名及架构和权限做了简单是介绍和使用。具体的项目中大家可以根据不同所需来选择创建不同的登录名和用户名以及权限和角色就可以了。</p>
+
+<p>数据库中的每个用户都有自己的默认架构，默认架构可以再创建数据库时由创建着设定，系统默认架构为“dbo”</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.shaoqun.com/a/106188.aspx">http://www.shaoqun.com/a/106188.aspx</a></li>
+<li><a href="http://jingyan.baidu.com/article/0f5fb099f48b556d8334eac6.html">http://jingyan.baidu.com/article/0f5fb099f48b556d8334eac6.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-05-12T15:52:44+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>12</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>3:52 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/net/'>net</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/05/12/vs-cha-kan-net-ban-ben/" title="Previous Post: vs 查看 net 版本">&laquo; vs 查看 net 版本</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/05/12/sqlzi-fu-chuan-han-shu-da-quan-he-shi-yong-fang-fa-shi-li/" title="Next Post: sql字符串函数大全和使用方法示例">sql字符串函数大全和使用方法示例 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,626 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MJRefresh Introduction - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="MJRefresh The easiest way to use pull-to-refresh
+用法最简单的下拉刷新框架：一行代码搞定 Contents Getting Started Features【支持哪些控件的刷新】
+Installation【如何使用MJRefresh】
+Who& &hellip;">
+  <meta name="keywords" content="mjrefresh">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/09/07/mjrefresh-introduction/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MJRefresh Introduction</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-07T16:10:33+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:10 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h2><img src="http://images.cnitblog.com/blog2015/497279/201505/051004492043385.png" alt="(logo)" /></h2>
+
+<h2>MJRefresh</h2>
+
+<ul>
+<li>The easiest way to use pull-to-refresh</li>
+<li>用法最简单的下拉刷新框架：一行代码搞定</li>
+</ul>
+
+
+<h2>Contents</h2>
+
+<ul>
+<li>Getting Started
+
+<ul>
+<li><a href="#%E6%94%AF%E6%8C%81%E5%93%AA%E4%BA%9B%E6%8E%A7%E4%BB%B6%E7%9A%84%E5%88%B7%E6%96%B0">Features【支持哪些控件的刷新】</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8MJRefresh">Installation【如何使用MJRefresh】</a></li>
+<li><a href="#%E5%B7%B2%E7%BB%8F%E8%B6%85%E8%BF%87%E4%B8%8A%E7%99%BE%E4%B8%AAApp%E6%AD%A3%E5%9C%A8%E4%BD%BF%E7%94%A8MJRefresh">Who&rsquo;s using【已经超过上百个App正在使用MJRefresh】</a></li>
+<li><a href="#MJRefresh%E7%B1%BB%E7%BB%93%E6%9E%84%E5%9B%BE">Classes【MJRefresh类结构图】</a></li>
+</ul>
+</li>
+<li>常见API
+
+<ul>
+<li><a href="#MJRefreshComponent.h">MJRefreshComponent.h</a></li>
+<li><a href="#MJRefreshHeader.h">MJRefreshHeader.h</a></li>
+<li><a href="#MJRefreshFooter.h">MJRefreshFooter.h</a></li>
+<li><a href="#MJRefreshAutoFooter.h">MJRefreshAutoFooter.h</a></li>
+</ul>
+</li>
+<li>Examples
+
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">Reference【参考】</a></li>
+<li><a href="#%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B001-%E9%BB%98%E8%AE%A4">下拉刷新01-默认</a></li>
+<li><a href="#%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B002-%E5%8A%A8%E7%94%BB%E5%9B%BE%E7%89%87">下拉刷新02-动画图片</a></li>
+<li><a href="#%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B003-%E9%9A%90%E8%97%8F%E6%97%B6%E9%97%B4">下拉刷新03-隐藏时间</a></li>
+<li><a href="#%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B004-%E9%9A%90%E8%97%8F%E7%8A%B6%E6%80%81%E5%92%8C%E6%97%B6%E9%97%B4">下拉刷新04-隐藏状态和时间</a></li>
+<li><a href="#%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B005-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%87%E5%AD%97">下拉刷新05-自定义文字</a></li>
+<li><a href="#%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B006-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%B7%E6%96%B0%E6%8E%A7%E4%BB%B6">下拉刷新06-自定义刷新控件</a></li>
+<li><a href="#%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B001-%E9%BB%98%E8%AE%A4">上拉刷新01-默认</a></li>
+<li><a href="#%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B002-%E5%8A%A8%E7%94%BB%E5%9B%BE%E7%89%87">上拉刷新02-动画图片</a></li>
+<li><a href="#%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B003-%E9%9A%90%E8%97%8F%E5%88%B7%E6%96%B0%E7%8A%B6%E6%80%81%E7%9A%84%E6%96%87%E5%AD%97">上拉刷新03-隐藏刷新状态的文字</a></li>
+<li><a href="#%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B004-%E5%85%A8%E9%83%A8%E5%8A%A0%E8%BD%BD%E5%AE%8C%E6%AF%95">上拉刷新04-全部加载完毕</a></li>
+<li><a href="#%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B005-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%87%E5%AD%97">上拉刷新05-自定义文字</a></li>
+<li><a href="#%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B006-%E5%8A%A0%E8%BD%BD%E5%90%8E%E9%9A%90%E8%97%8F">上拉刷新06-加载后隐藏</a></li>
+<li><a href="#%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B007-%E8%87%AA%E5%8A%A8%E5%9B%9E%E5%BC%B9%E7%9A%84%E4%B8%8A%E6%8B%8901">上拉刷新07-自动回弹的上拉01</a></li>
+<li><a href="#%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B008-%E8%87%AA%E5%8A%A8%E5%9B%9E%E5%BC%B9%E7%9A%84%E4%B8%8A%E6%8B%8902">上拉刷新08-自动回弹的上拉02</a></li>
+<li><a href="#%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B009-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%B7%E6%96%B0%E6%8E%A7%E4%BB%B6(%E8%87%AA%E5%8A%A8%E5%88%B7%E6%96%B0">上拉刷新09-自定义刷新控件(自动刷新)</a>)</li>
+<li><a href="#%E4%B8%8A%E6%8B%89%E5%88%B7%E6%96%B010-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%B7%E6%96%B0%E6%8E%A7%E4%BB%B6(%E8%87%AA%E5%8A%A8%E5%9B%9E%E5%BC%B9">上拉刷新10-自定义刷新控件(自动回弹)</a>)</li>
+<li><a href="#UICollectionView01-%E4%B8%8A%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0">UICollectionView01-上下拉刷新</a></li>
+<li><a href="#UIWebView01-%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0">UIWebView01-下拉刷新</a></li>
+</ul>
+</li>
+<li><a href="#%E6%9C%9F%E5%BE%85">期待</a></li>
+</ul>
+
+
+<h2><code>&lt;a id="支持哪些控件的刷新"&gt;&lt;/a&gt;</code>支持哪些控件的刷新</h2>
+
+<ul>
+<li><code>UIScrollView</code>、<code>UITableView</code>、<code>UICollectionView</code>、<code>UIWebView</code></li>
+</ul>
+
+
+<h2><code>&lt;a id="如何使用MJRefresh"&gt;&lt;/a&gt;</code>如何使用MJRefresh</h2>
+
+<ul>
+<li>cocoapods导入：<code>pod 'MJRefresh'</code></li>
+<li>手动导入：
+
+<ul>
+<li>将<code>MJRefresh</code>文件夹中的所有文件拽入项目中</li>
+<li>导入主头文件：<code>#import "MJRefresh.h"</code></li>
+</ul>
+
+
+<p>  Base                        Custom
+  MJRefresh.bundle            MJRefresh.h
+  MJRefreshConst.h            MJRefreshConst.m
+  UIScrollView+MJExtension.h  UIScrollView+MJExtension.m
+  UIScrollView+MJRefresh.h    UIScrollView+MJRefresh.m
+  UIView+MJExtension.h        UIView+MJExtension.m</p></li>
+</ul>
+
+
+<h2><a id="已经超过上百个App正在使用MJRefresh"></a>已经超过上百个App正在使用MJRefresh</h2>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141212365041650.png" width="200" height="300">
+* 更多App信息可以关注：<a href="http://www.cnblogs.com/mjios/p/4409853.html">M了个J-博客园</a></p>
+
+<h2><a id="MJRefresh类结构图"></a>MJRefresh类结构图</h2>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/132232456139177.png" alt="" /></p>
+
+<pre><code>- 图中`红色文字的类`：可以直接拿来用
+    - 下拉刷新控件的种类
+        - 默认（Normal）：`MJRefreshNormalHeader`
+        - 动图（Gif）：`MJRefreshGifHeader`
+    - 上拉刷新控件的种类
+        - 自动刷新（Auto）
+            - 默认（Normal）：`MJRefreshAutoNormalFooter`
+            - 动图（Gif）：`MJRefreshAutoGifFooter`
+        - 自动回弹（Back）
+            - 默认（Normal）：`MJRefreshBackNormalFooter`
+            - 动图（Gif）：`MJRefreshBackGifFooter`
+- 图中`非红色文字的类`：拿来继承，用于自定义刷新控件
+- 关于如何自定义刷新控件，可以参考下图的类&lt;br&gt;
+&lt;img src="http://images0.cnblogs.com/blog2015/497279/201506/141358159107893.png" width="30%" height="30%"&gt;
+</code></pre>
+
+<h2><code>&lt;a id="MJRefreshComponent.h"&gt;&lt;/a&gt;</code>MJRefreshComponent.h</h2>
+
+<pre><code>/** 刷新控件的基类 */
+@interface MJRefreshComponent : UIView
+#pragma mark - 刷新状态控制
+/** 进入刷新状态 */
+- (void)beginRefreshing;
+/** 结束刷新状态 */
+- (void)endRefreshing;
+/** 是否正在刷新 */
+- (BOOL)isRefreshing;
+
+#pragma mark - 其他
+/** 根据拖拽比例自动切换透明度 */
+@property (assign, nonatomic, getter=isAutomaticallyChangeAlpha) BOOL automaticallyChangeAlpha;
+@end
+</code></pre>
+
+<h2><code>&lt;a id="MJRefreshHeader.h"&gt;&lt;/a&gt;</code>MJRefreshHeader.h</h2>
+
+<pre><code>@interface MJRefreshHeader : MJRefreshComponent
+/** 创建header */
++ (instancetype)headerWithRefreshingBlock:(MJRefreshComponentRefreshingBlock)refreshingBlock;
+/** 创建header */
++ (instancetype)headerWithRefreshingTarget:(id)target refreshingAction:(SEL)action;
+
+/** 这个key用来存储上一次下拉刷新成功的时间 */
+@property (copy, nonatomic) NSString *lastUpdatedTimeKey;
+/** 上一次下拉刷新成功的时间 */
+@property (strong, nonatomic, readonly) NSDate *lastUpdatedTime;
+
+/** 忽略多少scrollView的contentInset的top */
+@property (assign, nonatomic) CGFloat ignoredScrollViewContentInsetTop;
+@end
+</code></pre>
+
+<h2><code>&lt;a id="MJRefreshFooter.h"&gt;&lt;/a&gt;</code>MJRefreshFooter.h</h2>
+
+<pre><code>@interface MJRefreshFooter : MJRefreshComponent
+/** 创建footer */
++ (instancetype)footerWithRefreshingBlock:(MJRefreshComponentRefreshingBlock)refreshingBlock;
+/** 创建footer */
++ (instancetype)footerWithRefreshingTarget:(id)target refreshingAction:(SEL)action;
+
+/** 提示没有更多的数据 */
+- (void)noticeNoMoreData;
+/** 重置没有更多的数据（消除没有更多数据的状态） */
+- (void)resetNoMoreData;
+
+/** 忽略多少scrollView的contentInset的bottom */
+@property (assign, nonatomic) CGFloat ignoredScrollViewContentInsetBottom;
+
+/** 自动根据有无数据来显示和隐藏（有数据就显示，没有数据隐藏） */
+@property (assign, nonatomic) BOOL automaticallyHidden;
+@end
+</code></pre>
+
+<h2><code>&lt;a id="MJRefreshAutoFooter.h"&gt;&lt;/a&gt;MJRefreshAutoFooter.h</code></h2>
+
+<pre><code>@interface MJRefreshAutoFooter : MJRefreshFooter
+/** 是否自动刷新(默认为YES) */
+@property (assign, nonatomic, getter=isAutomaticallyRefresh) BOOL automaticallyRefresh;
+
+/** 当底部控件出现多少时就自动刷新(默认为1.0，也就是底部控件完全出现时，才会自动刷新) */
+@property (assign, nonatomic) CGFloat appearencePercentTriggerAutoRefresh;
+@end
+</code></pre>
+
+<h2><code>&lt;a id="参考"&gt;&lt;/a&gt;</code>参考</h2>
+
+<p>由于这个框架的功能较多，就不写具体文字描述其用法</p>
+
+<p>大家可以直接参考示例中的MJTableViewController、MJCollectionViewController、MJWebViewController，更为直观快速</p>
+
+<p><code>&lt;img src="http://images0.cnblogs.com/blog2015/497279/201506/141345470048120.png" width="30%" height="30%"&gt;</code></p>
+
+<h2><code>&lt;a id="下拉刷新01-默认"&gt;&lt;/a&gt;</code>下拉刷新01-默认</h2>
+
+<pre><code>self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+   // 进入刷新状态后会自动调用这个block
+}];
+或
+// 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+
+// 马上进入刷新状态
+[self.tableView.header beginRefreshing];
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141204343486151.gif" alt="(下拉刷新01-普通)" /></p>
+
+<h2><a id="下拉刷新02-动画图片"></a>下拉刷新02-动画图片</h2>
+
+<pre><code>// 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadNewData方法）
+MJRefreshGifHeader *header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+// 设置普通状态的动画图片
+[header setImages:idleImages forState:MJRefreshStateIdle];
+// 设置即将刷新状态的动画图片（一松开就会刷新的状态）
+[header setImages:pullingImages forState:MJRefreshStatePulling];
+// 设置正在刷新状态的动画图片
+[header setImages:refreshingImages forState:MJRefreshStateRefreshing];
+// 设置header
+self.tableView.header = header;
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141204402238389.gif" alt="(下拉刷新02-动画图片)" /></p>
+
+<h2><a id="下拉刷新03-隐藏时间"></a>下拉刷新03-隐藏时间</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// 隐藏时间</span>
+</span><span class='line'><span class="n">header</span><span class="p">.</span><span class="n">lastUpdatedTimeLabel</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141204456132944.gif" alt="(下拉刷新03-隐藏时间)" /></p>
+
+<h2><code>&lt;a id="下拉刷新04-隐藏状态和时间"&gt;&lt;/a&gt;</code>下拉刷新04-隐藏状态和时间</h2>
+
+<pre><code>// 隐藏时间
+header.lastUpdatedTimeLabel.hidden = YES;
+
+// 隐藏状态
+header.stateLabel.hidden = YES;
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141204508639539.gif" alt="(下拉刷新04-隐藏状态和时间0)" /></p>
+
+<h2><code>&lt;a id="下拉刷新05-自定义文字"&gt;&lt;/a&gt;</code>下拉刷新05-自定义文字</h2>
+
+<pre><code>// 设置文字
+[header setTitle:@"Pull down to refresh" forState:MJRefreshStateIdle];
+[header setTitle:@"Release to refresh" forState:MJRefreshStatePulling];
+[header setTitle:@"Loading ..." forState:MJRefreshStateRefreshing];
+
+// 设置字体
+header.stateLabel.font = [UIFont systemFontOfSize:15];
+header.lastUpdatedTimeLabel.font = [UIFont systemFontOfSize:14];
+
+// 设置颜色
+header.stateLabel.textColor = [UIColor redColor];
+header.lastUpdatedTimeLabel.textColor = [UIColor blueColor];
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141204563633593.gif" alt="(下拉刷新05-自定义文字)" /></p>
+
+<h2><code>&lt;a id="下拉刷新06-自定义刷新控件"&gt;&lt;/a&gt;</code>下拉刷新06-自定义刷新控件</h2>
+
+<pre><code>self.tableView.header = [MJDIYHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+// 具体实现参考MJDIYHeader.h和MJDIYHeader.m
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205019261159.gif" alt="(下拉刷新06-自定义刷新控件)" /></p>
+
+<h2><code>&lt;a id="上拉刷新01-默认"&gt;&lt;/a&gt;</code>上拉刷新01-默认</h2>
+
+<pre><code>self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+   // 进入刷新状态后会自动调用这个block
+}];
+或
+// 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
+self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205090047696.gif" alt="(上拉刷新01-默认)" /></p>
+
+<h2><code>&lt;a id="上拉刷新02-动画图片"&gt;&lt;/a&gt;</code>上拉刷新02-动画图片</h2>
+
+<pre><code>// 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
+MJRefreshAutoGifFooter *footer = [MJRefreshAutoGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+
+// 设置刷新图片
+[footer setImages:refreshingImages forState:MJRefreshStateRefreshing];
+
+// 设置尾部
+self.tableView.footer = footer;
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205141445793.gif" alt="(上拉刷新02-动画图片)" /></p>
+
+<h2><code>&lt;a id="上拉刷新03-隐藏刷新状态的文字"&gt;&lt;/a&gt;</code>上拉刷新03-隐藏刷新状态的文字</h2>
+
+<pre><code>// 隐藏刷新状态的文字
+footer.refreshingTitleHidden = YES;
+// 如果没有上面的方法，就用footer.stateLabel.hidden = YES;
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205200985774.gif" alt="(上拉刷新03-隐藏刷新状态的文字)" /></p>
+
+<h2><code>&lt;a id="上拉刷新04-全部加载完毕"&gt;&lt;/a&gt;</code>上拉刷新04-全部加载完毕</h2>
+
+<pre><code>// 变为没有更多数据的状态
+[footer noticeNoMoreData];
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205248634686.gif" alt="(上拉刷新04-全部加载完毕)" /></p>
+
+<h2><code>&lt;a id="上拉刷新05-自定义文字"&gt;&lt;/a&gt;</code>上拉刷新05-自定义文字</h2>
+
+<pre><code>// 设置文字
+[footer setTitle:@"Click or drag up to refresh" forState:MJRefreshStateIdle];
+[footer setTitle:@"Loading more ..." forState:MJRefreshStateRefreshing];
+[footer setTitle:@"No more data" forState:MJRefreshStateNoMoreData];
+
+// 设置字体
+footer.stateLabel.font = [UIFont systemFontOfSize:17];
+
+// 设置颜色
+footer.stateLabel.textColor = [UIColor blueColor];
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205295511153.gif" alt="(上拉刷新05-自定义文字)" /></p>
+
+<h2><code>&lt;a id="上拉刷新06-加载后隐藏"&gt;&lt;/a&gt;</code>上拉刷新06-加载后隐藏</h2>
+
+<pre><code>// 隐藏当前的上拉刷新控件
+self.tableView.footer.hidden = YES;
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205343481821.gif" alt="(上拉刷新06-加载后隐藏)" /></p>
+
+<h2><code>&lt;a id="上拉刷新07-自动回弹的上拉01"&gt;&lt;/a&gt;</code>上拉刷新07-自动回弹的上拉01</h2>
+
+<pre><code>self.tableView.footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205392239231.gif" alt="(上拉刷新07-自动回弹的上拉01)" /></p>
+
+<h2><code>&lt;a id="上拉刷新08-自动回弹的上拉02"&gt;&lt;/a&gt;</code>上拉刷新08-自动回弹的上拉02</h2>
+
+<pre><code>MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+
+// 设置普通状态的动画图片
+[footer setImages:idleImages forState:MJRefreshStateIdle];
+// 设置即将刷新状态的动画图片（一松开就会刷新的状态）
+[footer setImages:pullingImages forState:MJRefreshStatePulling];
+// 设置正在刷新状态的动画图片
+[footer setImages:refreshingImages forState:MJRefreshStateRefreshing];
+
+// 设置尾部
+self.tableView.footer = footer;
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205441443628.gif" alt="(上拉刷新07-自动回弹的上拉02)" /></p>
+
+<h2><code>&lt;a id="上拉刷新09-自定义刷新控件(自动刷新)"&gt;&lt;/a&gt;</code>上拉刷新09-自定义刷新控件(自动刷新)</h2>
+
+<pre><code>self.tableView.footer = [MJDIYAutoFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+// 具体实现参考MJDIYAutoFooter.h和MJDIYAutoFooter.m
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205500195866.gif" alt="(上拉刷新09-自定义刷新控件(自动刷新))" /></p>
+
+<h2><code>&lt;a id="上拉刷新10-自定义刷新控件(自动回弹)"&gt;&lt;/a&gt;</code>上拉刷新10-自定义刷新控件(自动回弹)</h2>
+
+<pre><code>self.tableView.footer = [MJDIYBackFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+// 具体实现参考MJDIYBackFooter.h和MJDIYBackFooter.m
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141205560666819.gif" alt="(上拉刷新10-自定义刷新控件(自动回弹))" /></p>
+
+<h2><code>&lt;a id="UICollectionView01-上下拉刷新"&gt;&lt;/a&gt;</code>UICollectionView01-上下拉刷新</h2>
+
+<pre><code>// 下拉刷新
+self.collectionView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+   // 进入刷新状态后会自动调用这个block
+}];
+
+// 上拉刷新
+self.collectionView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+   // 进入刷新状态后会自动调用这个block
+}];
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141206021603758.gif" alt="(UICollectionView01-上下拉刷新)" /></p>
+
+<h2><code>&lt;a id="UIWebView01-下拉刷新"&gt;&lt;/a&gt;</code>UIWebView01-下拉刷新</h2>
+
+<pre><code>// 添加下拉刷新控件
+self.webView.scrollView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+   // 进入刷新状态后会自动调用这个block
+}];
+</code></pre>
+
+<p><img src="http://images0.cnblogs.com/blog2015/497279/201506/141206080514524.gif" alt="(UICollectionView01-上下拉刷新)" /></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-09-07T16:10:33+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>4:10 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/09/07/magicalrecord-introduction/" title="Previous Post: MagicalRecord Introduction">&laquo; MagicalRecord Introduction</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/09/07/nimbus/" title="Next Post: Nimbus">Nimbus &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

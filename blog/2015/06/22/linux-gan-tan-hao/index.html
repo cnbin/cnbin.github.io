@@ -1,0 +1,309 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux - 感叹号 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="在Linux命令行下令人惊叹的惊叹号（!） ! 符号在 Linux 中不但可以用作否定符号，还可以用来从历史命令记录中取出命令或不加修改的执行之前运行的命令。下面的所有命令都已经在 Bash Shell 中经过确切地检验。尽管我没有试过，但大多都不能在别的 Shell 中运行。这里我们介绍下 &hellip;">
+  <meta name="keywords" content="linux">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2015/06/22/linux-gan-tan-hao/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Linux - 感叹号</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-06-22T10:22:02+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:22 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<h3>在Linux命令行下令人惊叹的惊叹号（!）</h3>
+
+<p><code>!</code> 符号在 Linux 中不但可以用作否定符号，还可以用来从历史命令记录中取出命令或不加修改的执行之前运行的命令。下面的所有命令都已经在 Bash Shell 中经过确切地检验。尽管我没有试过，但大多都不能在别的 Shell 中运行。这里我们介绍下 Linux 命令行中符号 <code>!</code> 那惊人和奇妙的用法。</p>
+
+<ol>
+<li>使用数字从历史命令列表中找一条命令来执行</li>
+</ol>
+
+
+<p>您也许没有意识到您可以从历史命令列表（之前已经执行的命令集）中找出一条来运行。首先，通过 <code>history</code> 命令查找之前命令的序号。</p>
+
+<pre><code>$ history
+</code></pre>
+
+<p>使用 <code>history</code> 命令找到最后执行的命令
+<img src="http://ww1.sinaimg.cn/mw690/78f9859egw1etcnkpev1zj20jz0bk0xl.jpg" alt="img" /></p>
+
+<p>现在，只需要使用历史命令输出中显示在该命令前面的数字便可以运行这个命令。例如，运行一个在history 输出中编号是 6 的命令。</p>
+
+<pre><code>$ !6
+</code></pre>
+
+<p>使用命令 ID 来执行最后运行的命令</p>
+
+<p>这样，编号为 6 的命令（上面的例子是 <a href="http://www.tecmint.com/12-top-command-examples-in-linux/">top命令</a>）便运行了。这种通过 ID 号来执行之前的命令的方式很有用，尤其是在这些命令都很长的情况下。您只需要使用 <strong>![history命令输出的序号]</strong> 便可以调用它。</p>
+
+<ol>
+<li>运行之前的倒数第二个、第七个命令等</li>
+</ol>
+
+
+<p>您可以以另一种方式来运行之前执行的命令，通过使用 <code>-1</code> 代表最后的命令，<code>-2</code> 代表倒数第二个命令，<code>-7</code> 代表倒数第七个命令等。</p>
+
+<p>首先使用 history 命令来获得执行过的命令的列表。history 命令的执行很有必要，因为您可以通过它来确保没有 <code>rm command &gt; file</code> 或其他会导致危险的命令。接下来执行倒数第六个、第八个、第十个命令。</p>
+
+<pre><code>$ history
+$ !-6
+$ !-8
+$ !-10
+</code></pre>
+
+<ol>
+<li>传递最后执行的命令的参数，以方便的运行新的命令</li>
+</ol>
+
+
+<p>我需要显示 <code>~/app</code> 文件夹的内容，因此我执行：</p>
+
+<pre><code>$ ls ~/app
+</code></pre>
+
+<p>接下来，我意识到我应该执行 <code>ls -l</code> 来查看哪个文件是可执行文件。因此我应该重新输入整个命令么？不，我不需要。我仅需要在新的命令中带上最后的参数，类似：</p>
+
+<pre><code>$ ls -l !$
+</code></pre>
+
+<p>这里 <code>!$</code>  将把最后执行的命令的参数传递到这个新的命令中。</p>
+
+<ol>
+<li>如何使用 <code>!</code> 来处理两个或更多的参数</li>
+</ol>
+
+
+<p>比如说我在桌面创建了一个文本文件 file1.txt。</p>
+
+<pre><code>$ touch 1.txt
+</code></pre>
+
+<p>然后在 <code>cp</code> 命令中使用绝对路径将它拷贝到 <code>~/Desktop</code>。</p>
+
+<pre><code>cp 1.txt ~/Desktop
+</code></pre>
+
+<p>这里，我们给 cp 命令传递了两个参数。第一个是 <code>1.txt</code>，第二个是 <code>~/Desktop</code>。让我们分别处理他们，使用 <code>echo [参数]</code> 来打印两个不同的参数。</p>
+
+<pre><code>$ echo "1st Argument is : !^"
+$ echo "2nd Argument is : !cp:2"
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1etcnwknguxj20bm0300t8.jpg" alt="img" /></p>
+
+<p>注意第一个参数可以使用 <code>!^</code> 进行打印，其余的命令可以通过 <code>![命令名]:[参数编号]</code> 打印。</p>
+
+<p>在上面的例子中，第一个命令是 <code>cp</code>，第二个参数也需要被打印。因此是 <code>!cp:2</code>，如果任何命令比如 <code>xyz</code> 运行时有5个参数，而您需要获得第四个参数，您可以使用 <code>!xyz:4</code>。所有的参数都可以通过 <code>!*</code> 来获得。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-06-22T10:22:02+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2015</span></span> <span class='time'>10:22 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/22/ubuntu-zi-dong-jie-chu-suo-ping/" title="Previous Post: Ubuntu 自动解除锁屏">&laquo; Ubuntu 自动解除锁屏</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/06/22/linux-shell-jiao-ben-ru-men/" title="Next Post: Linux - shell 脚本入门">Linux - shell 脚本入门 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (725)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (141)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (69)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ba-mac-shang-de-bash-huan-cheng-zsh/">把 Mac 上的 Bash 换成 Zsh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/">OX10.11安装homebrew和cocoapods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/">iOS关于微信支付</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/tools-context/">Tools:context</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/09/java-huo-qu-dang-qian-nian-fen-yue-fen-ri-qi/">Java 获取当前年份 月份 日期</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
