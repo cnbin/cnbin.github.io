@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Js | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/js/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-07-26T08:18:43+08:00</updated>
+  <updated>2016-08-08T19:07:01+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS使用Controller实现URL跳转]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/08/angularjsshi-yong-controllershi-xian-urltiao-zhuan/"/>
+    <updated>2016-08-08T17:04:06+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/08/angularjsshi-yong-controllershi-xian-urltiao-zhuan</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>1.js定义一个controller</p>
+
+<pre><code>function MyCtrl($scope, $location) {
+
+    $scope.jumpToUrl = function(path) {
+
+        //TODO:add code here
+
+    };
+
+}
+</code></pre>
+
+<p>2.html里面应用controller</p>
+
+<pre><code>&lt;div ng-controller=‘MyCtrl’&gt;
+
+    &lt;button ng-click="jumpToUrl('/signin')"&gt;signin&lt;/button&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<p>3.controller里面TODO的位置填入</p>
+
+<pre><code>$location.path(path);
+</code></pre>
+
+<p>然后运行起来就可以看效果了。</p>
+
+<p>假设当前页面的url是<code>http://127.0.0.1:8080/#/home</code></p>
+
+<pre><code>$location.path(path);执行后就会跳到http://127.0.0.1:8080/#/signin
+</code></pre>
+
+<p>如果你发现页面不能正常跳转，可以在$location.path(path);后面再加上一句</p>
+
+<pre><code>var curUrl = $location.absUrl(); //用来显示url全路径
+</code></pre>
+
+<p>调试跟踪页面时查看curUrl的值到底变成多少，大概就能猜出问题出在哪了。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/rockwill/article/details/25196127">http://blog.csdn.net/rockwill/article/details/25196127</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Graceful-fs Warning When Running Grunt Task]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/08/graceful-fs-warning-when-running-grunt-task/"/>
+    <updated>2016-08-08T07:06:43+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/08/graceful-fs-warning-when-running-grunt-task</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>Warning: (node:2771) fs: re-evaluating native module sources is not supported. If you are using the graceful-fs module, please update it to a more recent version.</p>
+
+<p>If you&rsquo;re using homebrew here is how you can downgrade to v5.11.0</p>
+
+<pre><code>brew tap homebrew/versions
+brew unlink node
+brew install homebrew/versions/node5
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[TreeView,TreeNode,TreeNodeCollection]]></title>
@@ -148,31 +225,6 @@ break;
 
 
 <p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1875hv9l7j20sd0cvjv2.jpg" alt="img" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ExtJS-get函数]]></title>
-    <link href="http://cnbin.github.io/blog/2016/02/23/extjs-gethan-shu/"/>
-    <updated>2016-02-23T10:24:40+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/02/23/extjs-gethan-shu</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f18yzzia5ij20mq0ggte4.jpg" alt="img" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[ExtJS目录结构]]></title>
-    <link href="http://cnbin.github.io/blog/2016/02/23/extjsmu-lu-jie-gou/"/>
-    <updated>2016-02-23T10:23:53+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/02/23/extjsmu-lu-jie-gou</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1841xdobuj20io0c942i.jpg" alt="img" />
-<img src="http://ww2.sinaimg.cn/mw690/78f9859ejw1f18422q9vjj20wc0j2afi.jpg" alt="img" /></p>
 ]]></content>
   </entry>
   

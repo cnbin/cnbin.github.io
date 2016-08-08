@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>UIWebview 的缓存策略和验证，以及 Web 相关 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="缓存策略 NSURLRequestCachePolicy NSURLRequestUseProtocolCachePolicy
+缓存策略定义在 web 协议实现中，用于请求特定的URL。是默认的URL缓存策略
+Specifies that the caching logic defined in &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/08/08/uiwebview-de-huan-cun-ce-lue-he-yan-zheng-,yi-ji-web-xiang-guan/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">UIWebview 的缓存策略和验证，以及 Web 相关</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-08T08:25:11+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>缓存策略 NSURLRequestCachePolicy</p>
+
+<p>NSURLRequestUseProtocolCachePolicy
+缓存策略定义在 web 协议实现中，用于请求特定的URL。是默认的URL缓存策略
+Specifies that the caching logic defined in the protocol implementation, if any, is used for a particular URL load request. This is the default policy for URL load requests.</p>
+
+<p>NSURLRequestReloadIgnoringLocalCacheData
+从服务端获取数据，忽略本地缓存</p>
+
+<p>Specifies that the data for the URL load should be loaded from the originating source. No existing cache data should be used to satisfy a URL load request.</p>
+
+<p>NSURLRequestReloadIgnoringLocalAndRemoteCacheData</p>
+
+<p>不仅忽略本地的缓存数据，还忽略中间网络媒介（如代理服务器）忽略缓存。直接从最原始的服务器拿取
+Specifies that not only should the local cache data be ignored, but that proxies and other intermediates should be instructed to disregard their caches so far as the protocol allows.</p>
+
+<p>NSURLRequestReloadIgnoringCacheData
+被NSURLRequestReloadIgnoringLocalCacheData替换了</p>
+
+<p>Replaced by NSURLRequestReloadIgnoringLocalCacheData.</p>
+
+<p>NSURLRequestReturnCacheDataElseLoad</p>
+
+<p>已经存在的缓存数据用于请求返回，不管它的过期日期和已经存在了多久。如果没有请求对应的缓存数据，从数据源读取
+Specifies that the existing cached data should be used to satisfy the request, regardless of its age or expiration date. If there is no existing data in the cache corresponding the request, the data is loaded from the originating source.</p>
+
+<p>NSURLRequestReturnCacheDataDontLoad</p>
+
+<p>已经存在的缓存数据用于请求返回，不管它的过期日期和已经存在了多久。如果没有请求对应的缓存数据，不要去数据源读取，该请求被设置为失败，这种情况多用于离线模式</p>
+
+<p>Specifies that the existing cache data should be used to satisfy a request, regardless of its age or expiration date. If there is no existing data in the cache corresponding to a URL load request, no attempt is made to load the data from the originating source, and the load is considered to have failed. This constant specifies a behavior that is similar to an “offline” mode.</p>
+
+<p>NSURLRequestReloadRevalidatingCacheData</p>
+
+<p>已经存在的缓存数据先去数据源验证有效性，如果无效，将从数据源获取
+Specifies that the existing cache data may be used provided the origin source confirms its validity, otherwise the URL is loaded from the origin source.</p>
+
+<p>NSURLRequestUseProtocolCachePolicy 和 NSURLRequestReloadRevalidatingCacheData 区别</p>
+
+<p>个人意见，仅供参考，如有错误，请指出来，这对我很重要，谢谢</p>
+
+<p>NSURLRequestReloadRevalidatingCacheData 是一定要和原始的数据源验证 cache 是否有效。
+而NSURLRequestUseProtocolCachePolicy 是根据 web 的协议来控制缓存，服务端返回数据的 head 有相关的信息。它可能会返回中间网络媒介（如代理服务器中的数据）</p>
+
+<p>针对缓存策略做一下本地测试，这是非常有必要的</p>
+
+<pre><code>NSURL *webUrl = [NSURL URLWithString:@"http://localhost/test.txt"];       
+NSURLRequest *request =[NSURLRequest requestWithURL:webUrl cachePolicy:NSURLRequestReloadRevalidatingCacheData timeoutInterval:60];       
+[self.mainWebView loadRequest:request];  
+</code></pre>
+
+<p>这里使用NSURLRequestReloadRevalidatingCacheData， 返回cache数据一定要先验证数据有效。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/mangosnow/article/details/37831529">http://blog.csdn.net/mangosnow/article/details/37831529</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-08-08T08:25:11+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>8:25 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/08/08/graceful-fs-warning-when-running-grunt-task/" title="Previous Post: graceful-fs warning when running Grunt task">&laquo; graceful-fs warning when running Grunt task</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/08/08/macxia-ionicdiao-shi/" title="Next Post: Mac下ionic调试">Mac下ionic调试 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (733)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (143)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (70)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (38)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (184)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/08/angularjsshi-yong-controllershi-xian-urltiao-zhuan/">AngularJS使用Controller实现URL跳转</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/08/macxia-ionicdiao-shi/">Mac下ionic调试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/08/uiwebview-de-huan-cun-ce-lue-he-yan-zheng-,yi-ji-web-xiang-guan/">UIWebview 的缓存策略和验证，以及 Web 相关</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/08/graceful-fs-warning-when-running-grunt-task/">Graceful-fs Warning When Running Grunt Task</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/04/fkconsole-xcodekong-zhi-tai-zhong-wen-xian-shi-diao-zheng-cha-jian/">FKConsole - Xcode控制台中文显示调整插件</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -4,7 +4,7 @@
   <title><![CDATA[陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-07-26T08:12:52+08:00</updated>
+  <updated>2016-08-08T19:02:39+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,347 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AngularJS使用Controller实现URL跳转]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/08/angularjsshi-yong-controllershi-xian-urltiao-zhuan/"/>
+    <updated>2016-08-08T17:04:06+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/08/angularjsshi-yong-controllershi-xian-urltiao-zhuan</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>1.js定义一个controller</p>
+
+<pre><code>function MyCtrl($scope, $location) {
+
+    $scope.jumpToUrl = function(path) {
+
+        //TODO:add code here
+
+    };
+
+}
+</code></pre>
+
+<p>2.html里面应用controller</p>
+
+<pre><code>&lt;div ng-controller=‘MyCtrl’&gt;
+
+    &lt;button ng-click="jumpToUrl('/signin')"&gt;signin&lt;/button&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<p>3.controller里面TODO的位置填入</p>
+
+<pre><code>$location.path(path);
+</code></pre>
+
+<p>然后运行起来就可以看效果了。</p>
+
+<p>假设当前页面的url是<code>http://127.0.0.1:8080/#/home</code></p>
+
+<pre><code>$location.path(path);执行后就会跳到http://127.0.0.1:8080/#/signin
+</code></pre>
+
+<p>如果你发现页面不能正常跳转，可以在$location.path(path);后面再加上一句</p>
+
+<pre><code>var curUrl = $location.absUrl(); //用来显示url全路径
+</code></pre>
+
+<p>调试跟踪页面时查看curUrl的值到底变成多少，大概就能猜出问题出在哪了。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/rockwill/article/details/25196127">http://blog.csdn.net/rockwill/article/details/25196127</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac下ionic调试]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/08/macxia-ionicdiao-shi/"/>
+    <updated>2016-08-08T15:36:54+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/08/macxia-ionicdiao-shi</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://my.oschina.net/twinkling/blog/504824?p=">http://my.oschina.net/twinkling/blog/504824?p=</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[UIWebview 的缓存策略和验证，以及 Web 相关]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/08/uiwebview-de-huan-cun-ce-lue-he-yan-zheng-,yi-ji-web-xiang-guan/"/>
+    <updated>2016-08-08T08:25:11+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/08/uiwebview-de-huan-cun-ce-lue-he-yan-zheng-,yi-ji-web-xiang-guan</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>缓存策略 NSURLRequestCachePolicy</p>
+
+<p>NSURLRequestUseProtocolCachePolicy
+缓存策略定义在 web 协议实现中，用于请求特定的URL。是默认的URL缓存策略
+Specifies that the caching logic defined in the protocol implementation, if any, is used for a particular URL load request. This is the default policy for URL load requests.</p>
+
+<p>NSURLRequestReloadIgnoringLocalCacheData
+从服务端获取数据，忽略本地缓存</p>
+
+<p>Specifies that the data for the URL load should be loaded from the originating source. No existing cache data should be used to satisfy a URL load request.</p>
+
+<p>NSURLRequestReloadIgnoringLocalAndRemoteCacheData</p>
+
+<p>不仅忽略本地的缓存数据，还忽略中间网络媒介（如代理服务器）忽略缓存。直接从最原始的服务器拿取
+Specifies that not only should the local cache data be ignored, but that proxies and other intermediates should be instructed to disregard their caches so far as the protocol allows.</p>
+
+<p>NSURLRequestReloadIgnoringCacheData
+被NSURLRequestReloadIgnoringLocalCacheData替换了</p>
+
+<p>Replaced by NSURLRequestReloadIgnoringLocalCacheData.</p>
+
+<p>NSURLRequestReturnCacheDataElseLoad</p>
+
+<p>已经存在的缓存数据用于请求返回，不管它的过期日期和已经存在了多久。如果没有请求对应的缓存数据，从数据源读取
+Specifies that the existing cached data should be used to satisfy the request, regardless of its age or expiration date. If there is no existing data in the cache corresponding the request, the data is loaded from the originating source.</p>
+
+<p>NSURLRequestReturnCacheDataDontLoad</p>
+
+<p>已经存在的缓存数据用于请求返回，不管它的过期日期和已经存在了多久。如果没有请求对应的缓存数据，不要去数据源读取，该请求被设置为失败，这种情况多用于离线模式</p>
+
+<p>Specifies that the existing cache data should be used to satisfy a request, regardless of its age or expiration date. If there is no existing data in the cache corresponding to a URL load request, no attempt is made to load the data from the originating source, and the load is considered to have failed. This constant specifies a behavior that is similar to an “offline” mode.</p>
+
+<p>NSURLRequestReloadRevalidatingCacheData</p>
+
+<p>已经存在的缓存数据先去数据源验证有效性，如果无效，将从数据源获取
+Specifies that the existing cache data may be used provided the origin source confirms its validity, otherwise the URL is loaded from the origin source.</p>
+
+<p>NSURLRequestUseProtocolCachePolicy 和 NSURLRequestReloadRevalidatingCacheData 区别</p>
+
+<p>个人意见，仅供参考，如有错误，请指出来，这对我很重要，谢谢</p>
+
+<p>NSURLRequestReloadRevalidatingCacheData 是一定要和原始的数据源验证 cache 是否有效。
+而NSURLRequestUseProtocolCachePolicy 是根据 web 的协议来控制缓存，服务端返回数据的 head 有相关的信息。它可能会返回中间网络媒介（如代理服务器中的数据）</p>
+
+<p>针对缓存策略做一下本地测试，这是非常有必要的</p>
+
+<pre><code>NSURL *webUrl = [NSURL URLWithString:@"http://localhost/test.txt"];       
+NSURLRequest *request =[NSURLRequest requestWithURL:webUrl cachePolicy:NSURLRequestReloadRevalidatingCacheData timeoutInterval:60];       
+[self.mainWebView loadRequest:request];  
+</code></pre>
+
+<p>这里使用NSURLRequestReloadRevalidatingCacheData， 返回cache数据一定要先验证数据有效。</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/mangosnow/article/details/37831529">http://blog.csdn.net/mangosnow/article/details/37831529</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Graceful-fs Warning When Running Grunt Task]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/08/graceful-fs-warning-when-running-grunt-task/"/>
+    <updated>2016-08-08T07:06:43+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/08/graceful-fs-warning-when-running-grunt-task</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>Warning: (node:2771) fs: re-evaluating native module sources is not supported. If you are using the graceful-fs module, please update it to a more recent version.</p>
+
+<p>If you&rsquo;re using homebrew here is how you can downgrade to v5.11.0</p>
+
+<pre><code>brew tap homebrew/versions
+brew unlink node
+brew install homebrew/versions/node5
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[FKConsole - Xcode控制台中文显示调整插件]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/04/fkconsole-xcodekong-zhi-tai-zhong-wen-xian-shi-diao-zheng-cha-jian/"/>
+    <updated>2016-08-04T08:13:32+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/04/fkconsole-xcodekong-zhi-tai-zhong-wen-xian-shi-diao-zheng-cha-jian</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://www.tuicool.com/articles/yUjaYv">http://www.tuicool.com/articles/yUjaYv</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac查看Http请求分析-httpie]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/04/httpie/"/>
+    <updated>2016-08-04T08:05:55+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/04/httpie</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="https://github.com/cnbin/httpie">https://github.com/cnbin/httpie</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CocoaPods升级后（最新版本1.0.1），安装第三方库的时候会报如下错误]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/27/cocoapodssheng-ji-hou-(zui-xin-ban-ben-1-dot-0-1),an-zhuang-di-san-fang-ku-de-shi-hou-hui-bao-ru-xia-cuo-wu/"/>
+    <updated>2016-07-27T17:39:05+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/27/cocoapodssheng-ji-hou-(zui-xin-ban-ben-1-dot-0-1),an-zhuang-di-san-fang-ku-de-shi-hou-hui-bao-ru-xia-cuo-wu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>CocoaPods升级后（最新版本1.0.1），安装第三方库的时候会报如下错误：</p>
+
+<p>　　The dependency <code>AFNetworking (~&gt; 3.1.0)</code> is not used in any concrete target.</p>
+
+<p>原因：CocoaPods升级后，Podfile文件的内容格式要求发生了变化，必须指出指出所用第三方库的target。</p>
+
+<p>解决步骤：</p>
+
+<p>1）检查CocoaPods的版本</p>
+
+<pre><code>        pod --version
+</code></pre>
+
+<p>2) 升级或安装最新版本（目前版本1.0.1）</p>
+
+<p>注意：如果cocoapods已经是1.0.1版本，则跳过该步骤直接进入第三个步骤。</p>
+
+<pre><code>升级命令：sudo gem update -n /usr/local/bin --system
+
+
+
+安装命令：sudo gem install -n /usr/local/bin cocoapods
+</code></pre>
+
+<p>(3)修改Podfile的内容</p>
+
+<p>修改前的Podfile文件的内容：</p>
+
+<pre><code>platform:ios,'7.0'
+pod 'MJRefresh', '~&gt; 3.1.0'
+pod 'SDWebImage', '~&gt; 3.7.6'
+pod 'SVProgressHUD', '~&gt; 2.0.3'
+pod 'AFNetworking', '~&gt; 3.1.0'
+</code></pre>
+
+<p>修改后的Podfile文件的内容：</p>
+
+<pre><code>platform:ios,'7.0'
+target "MyProject" do
+pod 'MJRefresh', '~&gt; 3.1.0'
+pod 'SDWebImage', '~&gt; 3.7.6'
+pod 'SVProgressHUD', '~&gt; 2.0.3'
+pod 'AFNetworking', '~&gt; 3.1.0'
+end
+</code></pre>
+
+<p>　　在Podfile文件中需要明确指出使用第三方库的target,这里target后面跟的就是自己项目本身的Target;也就是项目中的tagrets中的那个项目名称。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Too Many Arguments Provided to Function-like Macro Invocation]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/27/too-many-arguments-provided-to-function-like-macro-invocation/"/>
+    <updated>2016-07-27T16:55:40+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/27/too-many-arguments-provided-to-function-like-macro-invocation</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://www.jianshu.com/p/8e55f6de1150">http://www.jianshu.com/p/8e55f6de1150</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cocoapods降低版本及卸载]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/27/cocoapodsjiang-di-ban-ben-ji-xie-zai/"/>
+    <updated>2016-07-27T16:54:54+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/27/cocoapodsjiang-di-ban-ben-ji-xie-zai</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://www.meetrue.com/archives/133">http://www.meetrue.com/archives/133</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[导入FaceBook POP报错]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/27/dao-ru-facebook-popbao-cuo/"/>
+    <updated>2016-07-27T16:53:37+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/27/dao-ru-facebook-popbao-cuo</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>使用cocoaPods下载下来POP动画库，想手动导入到原来的工程，但是到了一堆错，什么文件没找到之类的。最后索性修改了所有的报错头文件：
+修改POP.h后 :</p>
+
+<pre><code>#import "POPAnimatableProperty.h"
+#import "POPAnimation.h"
+#import "POPAnimationEvent.h"
+#import "POPAnimationExtras.h"
+#import "POPAnimationTracer.h"
+#import "POPAnimator.h"
+#import "POPBasicAnimation.h"
+#import "POPCustomAnimation.h"
+#import "POPDecayAnimation.h"
+#import "POPDefines.h"
+#import "POPGeometry.h"
+#import "POPLayerExtras.h"
+#import "POPPropertyAnimation.h"
+#import "POPSpringAnimation.h"
+</code></pre>
+
+<p>在其他的文件里边将<code>&lt;pop/xxx.h&gt;</code> 全部修改成xxx.h.
+我使用的方法比较笨，只能解决燃眉之急，如果有更好的方法，希望能共享下。
+顶</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用CocoaPods遇到的几个坑]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/26/shi-yong-cocoapodsyu-dao-de-ji-ge-keng/"/>
+    <updated>2016-07-26T17:19:45+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/26/shi-yong-cocoapodsyu-dao-de-ji-ge-keng</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>首先是CocoaPods报错：The dependency `` is not used in any concrete target</p>
+
+<p>错误内容</p>
+
+<pre><code>/System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/universal-darwin14/rbconfig.rb:213: warning: Insecure world writable dir /Applications/Cocos/tools/ant/bin in PATH, mode 040777 Re-creating CocoaPods due to major version update. Updating local specs repositories Analyzing dependencies
+
+[!] The dependency `ReactiveCocoa (= 2.1.8)` is not used in any concrete target.
+
+The dependency `objectiveflickr (= 2.0.4)` is not used in any concrete target.
+
+The dependency `LinqToObjectiveC (= 2.0.0)` is not used in any concrete target.
+
+The dependency `SDWebImage (= 3.6)` is not used in any concrete target.
+</code></pre>
+
+<p>查了查好像是配置podfile文件的问题</p>
+
+<p>作如下修改</p>
+
+<pre><code>platform :ios, ‘7.0‘
+
+target "RWTFlickrSearch" do
+pod ‘ReactiveCocoa‘, ‘2.1.8‘
+pod ‘objectiveflickr‘, ‘2.0.4‘
+pod ‘LinqToObjectiveC‘, ‘2.0.0‘
+pod ‘SDWebImage‘, ‘3.6‘
+end
+</code></pre>
+
+<p>这样再运行pod install，就会成功了。</p>
+
+<p>原因是podfile升级到最新版本，pod里的内容必须明确指出所用第三方库的target</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[把 Mac 上的 Bash 换成 Zsh]]></title>
@@ -346,679 +687,6 @@ public static List&lt;Person&gt; readXML(InputStream inStream) {
 <p>webxml地址：<a href="http://ws.webxml.com.cn/WebServices/WeatherWS.asmx">http://ws.webxml.com.cn/WebServices/WeatherWS.asmx</a></p>
 
 <p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f5j29y3ae8j208v0g8aan.jpg" alt="img" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android中Parcelable接口用法]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/05/androidzhong-parcelablejie-kou-yong-fa/"/>
-    <updated>2016-07-05T11:12:43+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/05/androidzhong-parcelablejie-kou-yong-fa</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<ol>
-<li>Parcelable接口</li>
-</ol>
-
-
-<p>Interface for classes whose instances can be written to and restored from a Parcel。 Classes implementing the Parcelable interface must also have a static field called CREATOR， which is an object implementing the Parcelable.Creator interface。</p>
-
-<p>2.实现Parcelable就是为了进行序列化，那么，为什么要序列化？</p>
-
-<p>1）永久性保存对象，保存对象的字节序列到本地文件中；</p>
-
-<p>2）通过序列化对象在网络中传递对象；</p>
-
-<p>3）通过序列化在进程间传递对象。</p>
-
-<p>3.实现序列化的方法</p>
-
-<p>Android中实现序列化有两个选择：一是实现Serializable接口（是JavaSE本身就支持的），一是实现Parcelable接口（是Android特有功能，效率比实现Serializable接口高效，可用于Intent数据传递，也可以用于进程间通信（IPC））。实现Serializable接口非常简单，声明一下就可以了，而实现Parcelable接口稍微复杂一些，但效率更高，推荐用这种方法提高性能。</p>
-
-<p>注：Android中Intent传递对象有两种方法：一是Bundle.putSerializable(Key，Object)，另一种是Bundle.putParcelable(Key，Object)。当然这些Object是有一定的条件的，前者是实现了Serializable接口，而后者是实现了Parcelable接口。</p>
-
-<p>4.选择序列化方法的原则</p>
-
-<p>1）在使用内存的时候，Parcelable比Serializable性能高，所以推荐使用Parcelable。</p>
-
-<p>2）Serializable在序列化的时候会产生大量的临时变量，从而引起频繁的GC。</p>
-
-<p>3）Parcelable不能使用在要将数据存储在磁盘上的情况，因为Parcelable不能很好的保证数据的持续性在外界有变化的情况下。尽管Serializable效率低点，但此时还是建议使用Serializable 。</p>
-
-<p>5.应用场景</p>
-
-<p>需要在多个部件(Activity或Service)之间通过Intent传递一些数据，简单类型（如：数字、字符串）的可以直接放入Intent。复杂类型必须实现Parcelable接口。</p>
-
-<p>6、Parcelable接口定义</p>
-
-<pre><code>public interface Parcelable 
-{
-    //内容描述接口，基本不用管
-    public int describeContents();
-    //写入接口函数，打包
-    public void writeToParcel(Parcel dest, int flags);
-    //读取接口，目的是要从Parcel中构造一个实现了Parcelable的类的实例处理。因为实现类在这里还是不可知的，所以需要用到模板的方式，继承类名通过模板参数传入
-    //为了能够实现模板参数的传入，这里定义Creator嵌入接口,内含两个接口函数分别返回单个和多个继承类实例
-    public interface Creator&lt;T&gt; 
-    {
-           public T createFromParcel(Parcel source);
-           public T[] newArray(int size);
-    }
-}
-</code></pre>
-
-<p>7、实现Parcelable步骤</p>
-
-<p>1）implements Parcelable</p>
-
-<p>2）重写writeToParcel方法，将你的对象序列化为一个Parcel对象，即：将类的数据写入外部提供的Parcel中，打包需要传递的数据到Parcel容器保存，以便从 Parcel容器获取数据</p>
-
-<p>3）重写describeContents方法，内容接口描述，默认返回0就可以</p>
-
-<p>4）实例化静态内部对象CREATOR实现接口Parcelable.Creator</p>
-
-<p>public static final Parcelable.Creator<T> CREATOR
-注：其中public static final一个都不能少，内部对象CREATOR的名称也不能改变，必须全部大写。需重写本接口中的两个方法：createFromParcel(Parcel in) 实现从Parcel容器中读取传递数据值，封装成Parcelable对象返回逻辑层，newArray(int size) 创建一个类型为T，长度为size的数组，仅一句话即可（return new T[size]），供外部类反序列化本类数组使用。</p>
-
-<p>简而言之：通过writeToParcel将你的对象映射成Parcel对象，再通过createFromParcel将Parcel对象映射成你的对象。也可以将Parcel看成是一个流，通过writeToParcel把对象写到流里面，在通过createFromParcel从流里读取对象，只不过这个过程需要你来实现，因此写的顺序和读的顺序必须一致。</p>
-
-<p>代码如下：</p>
-
-<pre><code>public class MyParcelable implements Parcelable 
-{
-     private int mData;
-
-     public int describeContents() 
-     {
-         return 0;
-     }
-
-     public void writeToParcel(Parcel out, int flags) 
-     {
-         out.writeInt(mData);
-     }
-
-     public static final Parcelable.Creator&lt;MyParcelable&gt; CREATOR = new Parcelable.Creator&lt;MyParcelable&gt;() 
-     {
-         public MyParcelable createFromParcel(Parcel in) 
-         {
-             return new MyParcelable(in);
-         }
-
-         public MyParcelable[] newArray(int size) 
-         {
-             return new MyParcelable[size];
-         }
-     };
-
-     private MyParcelable(Parcel in) 
-     {
-         mData = in.readInt();
-     }
- }
-</code></pre>
-
-<p>8、Serializable实现与Parcelabel实现的区别</p>
-
-<p>1）Serializable的实现，只需要implements  Serializable 即可。这只是给对象打了一个标记，系统会自动将其序列化。</p>
-
-<p>2）Parcelabel的实现，不仅需要implements  Parcelabel，还需要在类中添加一个静态成员变量CREATOR，这个变量需要实现 Parcelable.Creator 接口。</p>
-
-<p>两者代码比较：</p>
-
-<p>1）创建Person类，实现Serializable</p>
-
-<pre><code>public class Person implements Serializable
-{
-    private static final long serialVersionUID = -7060210544600464481L;
-    private String name;
-    private int age;
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public int getAge()
-    {
-        return age;
-    }
-
-    public void setAge(int age)
-    {
-        this.age = age;
-    }
-}
-</code></pre>
-
-<p>2）创建Book类，实现Parcelable</p>
-
-<pre><code>public class Book implements Parcelable
-{
-    private String bookName;
-    private String author;
-    private int publishDate;
-
-    public Book()
-    {
-
-    }
-
-    public String getBookName()
-    {
-        return bookName;
-    }
-
-    public void setBookName(String bookName)
-    {
-        this.bookName = bookName;
-    }
-
-    public String getAuthor()
-    {
-        return author;
-    }
-
-    public void setAuthor(String author)
-    {
-        this.author = author;
-    }
-
-    public int getPublishDate()
-    {
-        return publishDate;
-    }
-
-    public void setPublishDate(int publishDate)
-    {
-        this.publishDate = publishDate;
-    }
-
-    @Override
-    public int describeContents()
-    {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel out, int flags)
-    {
-        out.writeString(bookName);
-        out.writeString(author);
-        out.writeInt(publishDate);
-    }
-
-    public static final Parcelable.Creator&lt;Book&gt; CREATOR = new Creator&lt;Book&gt;()
-    {
-        @Override
-        public Book[] newArray(int size)
-        {
-            return new Book[size];
-        }
-
-        @Override
-        public Book createFromParcel(Parcel in)
-        {
-            return new Book(in);
-        }
-    };
-
-    public Book(Parcel in)
-    {
-        bookName = in.readString();
-        author = in.readString();
-        publishDate = in.readInt();
-    }
-}
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[@SuppressLint]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/05/at-suppresslint/"/>
-    <updated>2016-07-05T11:11:55+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/05/at-suppresslint</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>java android 开发，这个注解是什么意思？ @SuppressLint(&ldquo;InlinedApi&rdquo;)</p>
-
-<pre><code>@SuppressLint标注忽略指定的警告。
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[BigDecimal]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/05/bigdecimal/"/>
-    <updated>2016-07-05T11:11:17+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/05/bigdecimal</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>Java在java.math包中提供的API类BigDecimal，用来对超过16位有效位的数进行精确的运算。双精度浮点型变量double可以处理16位有效数。在实际应用中，需要对更大或者更小的数进行运算和处理。float和double只能用来做科学计算或者是工程计算，在商业计算中要用java.math.BigDecimal。BigDecimal所创建的是对象，我们不能使用传统的+、-、*、/等算术运算符直接对其对象进行数学运算，而必须调用其相对应的方法。方法中的参数也必须是BigDecimal的对象。构造器是类的特殊方法，专门用来创建对象，特别是带有参数的对象。</p>
-
-<pre><code>BigDecimal一共有4个构造方法
-BigDecimal(int) 创建一个具有参数所指定整数值的对象。
-BigDecimal(double) 创建一个具有参数所指定双精度值的对象。
-BigDecimal(long) 创建一个具有参数所指定长整数值的对象。
-BigDecimal(String) 创建一个具有参数所指定以字符串表示的数值的对象。
-BigDecimal 的运算方式 不支持 + - * / 这类的运算 它有自己的运算方法
-BigDecimal add(BigDecimal augend) 加法运算
-BigDecimal subtract(BigDecimal subtrahend) 减法运算
-BigDecimal multiply(BigDecimal multiplicand) 乘法运算
-BigDecimal divide(BigDecimal divisor) 除法运算
-</code></pre>
-
-<p>例子：</p>
-
-<pre><code>BigDecimal volumn = new BigDecimal("1");
-volumn = volumn.add(new BigDecimal("2"));
-</code></pre>
-
-<p>输出结果：3</p>
-
-<pre><code>int decimalPoint = new BigDecimal(entitySymbol.decimalPoint).setScale(0, RoundingMode.HALF_UP).intValue();
-</code></pre>
-
-<p>java.math.BigDecimal
-是java.math包中提供的类，用来对超过16位有效位的数进行精确的运算。</p>
-
-<pre><code>new BigDecimal(entitySymbol.decimalPoint).setScale(0, RoundingMode.HALF_UP).intValue();
-</code></pre>
-
-<p>.setScale(0, RoundingMode.HALF_UP);//第一个参数是：保留多少位小数，第二个是四舍五入。
-.intValue();//是将BigDecimal转为Int类型。</p>
-
-<p>EG：</p>
-
-<pre><code>BigDecimal.setScale();//用于格式化小数点 
-setScale(1);//表示保留以为小数，默认用四舍五入方式 
-setScale(1,BigDecimal.ROUND_DOWN);//直接删除多余的小数位，如2.35会变成2.3 
-setScale(1,BigDecimal.ROUND_UP);//进位处理，2.35变成2.4 
-setScale(1,BigDecimal.ROUND_HALF_UP);//四舍五入，2.35变成2.4
-setScaler(1,BigDecimal.ROUND_HALF_DOWN);//四舍五入，2.35变成2.3，如果是5则向下舍
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 应用之间调用]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/05/ios-ying-yong-zhi-jian-diao-yong/"/>
-    <updated>2016-07-05T10:43:15+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/05/ios-ying-yong-zhi-jian-diao-yong</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>1.在appA的info.plist中定义URL，就是在文件中添加URL types一项。可按下图进行添加</p>
-
-<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f5iu4e81kgj20j704kwez.jpg" alt="img" /></p>
-
-<p>2.在appB的代码中打开刚才定义的URL，代码如下</p>
-
-<pre><code>NSURL *url = [NSURL URLWithString:@"myapp:"];  
-
-[[UIApplication sharedApplication] openURL:url];  
-</code></pre>
-
-<p>3.打开之后，会调用appA的AppDelegate的</p>
-
-<pre><code>- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation ｛｝
-</code></pre>
-
-<p>4.判断是否能打开应用</p>
-
-<pre><code>[[UIApplication sharedApplication] canOpenURL:[NSURLURLWithString:@"myapp://"]];
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android LayoutInflater 动态地添加删除View]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/02/android-layoutinflater-dong-tai-di-tian-jia-shan-chu-view/"/>
-    <updated>2016-07-02T15:44:15+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/02/android-layoutinflater-dong-tai-di-tian-jia-shan-chu-view</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>我想实现点击一个按钮（或其他的事件）添加或删除View，网上找到了LayoutInflater这个类。</p>
-
-<p>下面是我自己一些经验：</p>
-
-<p>android官网上LayoutInflater的API：<a href="http://developer.android.com/reference/android/view/LayoutInflater.html">http://developer.android.com/reference/android/view/LayoutInflater.html</a></p>
-
-<p>1、添加View</p>
-
-<pre><code>LinearLayout myLayout = ( LinearLayout ) findViewById ( R.id.my_layout) ; // myLayout是我这个activity的界面的root layout
-View hiddenView = getLayoutInflater().inflate( R.layout.hidden_view, myLayout, false ) ; //hiddenView是隐藏的View，
-                                                                                                                                        //从hidden_view.xml文件导入
-myLayout.addView ( hiddenView ) ;
-</code></pre>
-
-<p>2、删除View</p>
-
-<pre><code>View hiddenView = findViewById ( R.id.hidden_layout ) ;  //在hidden_view.xml中hidden_layout是root layout
-if ( null != hiddenView ) {
-      ViewGroup parent = ( ViewGroup ) hiddenView.getPatent() ;
-      parent.remove ( hiddenView ) ;
-}
-</code></pre>
-
-<p>如果有什么不懂的，可以看参考链接。</p>
-
-<p>参考链接：<a href="http://www.mysamplecode.com/2011/10/android-dynamic-layout-using-xml-add.html">Android LayoutInflater - Dynamically Add and Remove Views using Java code</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[android程序在Layout中设置控件水平或垂直居中]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/02/androidcheng-xu-zai-layoutzhong-she-zhi-kong-jian-shui-ping-huo-chui-zhi-ju-zhong/"/>
-    <updated>2016-07-02T15:21:49+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/02/androidcheng-xu-zai-layoutzhong-she-zhi-kong-jian-shui-ping-huo-chui-zhi-ju-zhong</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>要想让您的控件水平居中或垂直居中其实很简单，只要在控件的上一级中设置【android:gravity=&ldquo;center"】属性即可</p>
-
-<p>如：</p>
-
-<pre><code>&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="#000000"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    &gt;
-    &lt;ImageView
-    android:id="@+id/logo"
-    android:src="@drawable/logo"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    /&gt;
-&lt;/LinearLayout&gt;
-</code></pre>
-
-<p>这样一个ImageView控件就乖乖的待在你选定区域的正中间了。 gravity的属性值还有很多，可以单独设置水平或垂直居中。大家可以查看相应的文档，或使用Eclipse的提示功能快速查看。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[onPostCreate]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/01/onpostcreate/"/>
-    <updated>2016-07-01T16:21:13+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/01/onpostcreate</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3>android onpostcreate()什么情况下执行</h3>
-
-<p>当Activity彻底运行起来之后回调onPostCreate方法，从官方解释可以看出 &ldquo;Called when activity start-up is complete (after onStart() and onRestoreInstanceState(Bundle) have been called).&rdquo;</p>
-
-<p>一个正常的Activity生命周期如下： onPause onStop onDestory onCreate onStart onPostCreate onResume onPostResume</p>
-
-<p>不过这些理论的东西，需要实践，可以写一个类继承Activity，然后重写里面的所有方法，里面可以写上一个System.out.println()，这样运行之后，查看控制台的信息，就可以直观的看到activity的生命周期。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS :聚光灯效果的功能引导]]></title>
-    <link href="http://cnbin.github.io/blog/2016/06/30/ios-ju-guang-deng-xiao-guo-de-gong-neng-yin-dao/"/>
-    <updated>2016-06-30T16:49:07+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/06/30/ios-ju-guang-deng-xiao-guo-de-gong-neng-yin-dao</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://www.jianshu.com/p/e6db182ce76e">http://www.jianshu.com/p/e6db182ce76e</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android（安卓） 左边图片右边文字的button]]></title>
-    <link href="http://cnbin.github.io/blog/2016/06/27/android-an-zhuo-zuo-bian-tu-pian-you-bian-wen-zi-de-button/"/>
-    <updated>2016-06-27T18:40:24+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/06/27/android-an-zhuo-zuo-bian-tu-pian-you-bian-wen-zi-de-button</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<pre><code>&lt;Button
-      android:id = "@+id/delete"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="@drawable/common_button"
-      android:paddingLeft="20dp"
-      android:drawableLeft="@drawable/common_save_button"
-      android:text="@string/delete"
-      android:textColor="@drawable/text_color_selector"/&gt;
-</code></pre>
-
-<p>留意上述代码中的drawableLeft属性，会把图片放在按钮的最左侧，使用paddingLeft即可调整到想要的位置。</p>
-
-<p>当然，如果需要右图左文字，上图下文字，下图上文字，也可以的，分别使用drawableRight, drawableTop, drawableBottom属性即可啦。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[EditText所有属性]]></title>
-    <link href="http://cnbin.github.io/blog/2016/06/27/edittextsuo-you-shu-xing/"/>
-    <updated>2016-06-27T14:29:02+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/06/27/edittextsuo-you-shu-xing</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<pre><code>android:digits="1234567890.+-*/%\n()"
-限制输入框中只能输入自己定义的这些字符串 如果输入其它将不予以显示
-android:phoneNumber="true"
-限制输入框中只能输入手机号码
-android:password="true"
-限制输入框中输入的任何内容将以"*"符号来显示
-android:hint="默认文字"
-输入内容前默认显示在输入框中的文字
-android:textColorHint="#FF0000"
-设置文字内容颜色
-android:enabled="false"
-设置输入框不能被编辑
-
-
-
-EditText继承关系：View--&gt;TextView--&gt;EditText
-EditText的属性很多，这里介绍几个：
-android:hint="请输入数字！"//设置显示在空间上的提示信息
-android:numeric="integer"//设置只能输入整数，如果是小数则是：decimal
-android:singleLine="true"//设置单行输入，一旦设置为true，则文字不会自动换行。
-android:password="true"//设置只能输入密码
-android:textColor = "#ff8c00"//字体颜色
-android:textStyle="bold"//字体，bold, italic, bolditalic
-android:textSize="20dip"//大小
-android:capitalize = "characters"//以大写字母写
-android:textAlign="center"//EditText没有这个属性，但TextView有，居中
-android:textColorHighlight="#cccccc"//被选中文字的底色，默认为蓝色
-android:textColorHint="#ffff00"//设置提示信息文字的颜色，默认为灰色android:textScaleX="1.5"//控制字与字之间的间距
-android:typeface="monospace"//字型，normal, sans, serif, monospace
-android:background="@null"//背景，这里没有，指透明
-android:layout_weight="1"//权重，控制控件之间的地位,在控制控件显示的大小时蛮有用的。
-android:textAppearance="?android:attr/textAppearanceLargeInverse"//文字外观
-android:layout_gravity="center_vertical"//设置控件显示的位置：默认top，这里居中显示，还有bottom
-
-android:gray="top" //多行中指针在第一行第一位置
-
-et.setSelection(et.length());//调整光标到最后一行
-
-android:autoText //自动拼写帮助
-
-android:capitalize //首字母大写
-
-android:digits //设置只接受某些数字
-
-Android：singleLine//是否单行或者多行，回车是离开文本框还是文本框增加新行
-
-android：numeric //只接受数字
-
-android：phoneNumber //输入电话号码
-
-android：editable //是否可编辑
-
-android:autoLink=”all” //设置文本超链接样式当点击网址时，跳向该网址 
-
-android:textAppearance="?android:attr/textAppearanceLargeInverse"//文字外观，这里引用的是系统自带的一个外观，？表示系统是否有这种外观，否则使用默认的外观。不知道这样理解对不对？ 
-
-
-　属性名称描述
-
-　　android:autoLink设置是否当文本为URL链接/email/电话号码/map时，文本显示为可点击的链接。可选值(none/web/email/phone/map/all)
-
-　　android:autoText如果设置，将自动执行输入值的拼写纠正。此处无效果，在显示输入法并输入的时候起作用。
-
-　　android:bufferType指定getText()方式取得的文本类别。选项editable 类似于StringBuilder可追加字符，
-
-　　也就是说getText后可调用append方法设置文本内容。spannable 则可在给定的字符区域使用样式，参见这里1、这里2。
-
-　　android:capitalize设置英文字母大写类型。此处无效果，需要弹出输入法才能看得到，参见EditView此属性说明。
-
-　　android:cursorVisible设定光标为显示/隐藏，默认显示。
-
-　　android:digits设置允许输入哪些字符。如“1234567890.+-*/% ()”
-
-　　android:drawableBottom在text的下方输出一个drawable，如图片。如果指定一个颜色的话会把text的背景设为该颜色，并且同时和background使用时覆盖后者。
-
-　　android:drawableLeft在text的左边输出一个drawable，如图片。
-
-　　android:drawablePadding设置text与drawable(图片)的间隔，与drawableLeft、drawableRight、drawableTop、drawableBottom一起使用，可设置为负数，单独使用没有效果。 
-
-android:drawableRight在text的右边输出一个drawable，如图片。
-
-android:drawableTop在text的正上方输出一个drawable，如图片。
-
-android:editable设置是否可编辑。这里无效果，参见EditView。
-
-android:editorExtras设置文本的额外的输入数据。在EditView再讨论。
-
-android:ellipsize设置当文字过长时,该控件该如何显示。有如下值设置：”start”—?省略号显示在开头;”end”——省略号显示在结尾;”middle”—-省略号显示在中间;”marquee” ——以跑马灯的方式显示(动画横向移动)
-
-android:freezesText设置保存文本的内容以及光标的位置。参见：这里。
-
-android:gravity设置文本位置，如设置成“center”，文本将居中显示。
-
-android:hintText为空时显示的文字提示信息，可通过textColorHint设置提示信息的颜色。此属性在EditView中使用，但是这里也可以用。
-
-android:imeOptions附加功能，设置右下角IME动作与编辑框相关的动作，如actionDone右下角将显示一个“完成”，而不设置默认是一个回车符号。这个在EditView中再详细说明，此处无用。
-
-android:imeActionId设置IME动作ID。在EditView再做说明，可以先看这篇帖子：这里。
-
-　　android:imeActionLabel设置IME动作标签。在EditView再做说明。
-
-　　android:includeFontPadding设置文本是否包含顶部和底部额外空白，默认为true。
-
-　　android:inputMethod为文本指定输入法，需要完全限定名(完整的包名)。例如：com.google.android.inputmethod.pinyin，但是这里报错找不到。
-
-　　android:inputType设置文本的类型，用于帮助输入法显示合适的键盘类型。在EditView中再详细说明，这里无效果。
-
-　　android:linksClickable设置链接是否点击连接，即使设置了autoLink。
-
-　　android:marqueeRepeatLimit在ellipsize指定marquee的情况下，设置重复滚动的次数，当设置为marquee_forever时表示无限次。
-
-　　android:ems设置TextView的宽度为N个字符的宽度。这里测试为一个汉字字符宽度，如图：
-
-android:maxEms设置TextView的宽度为最长为N个字符的宽度。与ems同时使用时覆盖ems选项。
-
-android:minEms设置TextView的宽度为最短为N个字符的宽度。与ems同时使用时覆盖ems选项。
-
-　　android:maxLength限制显示的文本长度，超出部分不显示。
-
-　　android:lines设置文本的行数，设置两行就显示两行，即使第二行没有数据。
-
-　　android:maxLines设置文本的最大显示行数，与width或者layout_width结合使用，超出部分自动换行，超出行数将不显示。
-
-　　android:minLines设置文本的最小行数，与lines类似。
-
-　　android:lineSpacingExtra设置行间距。
-
-　　android:lineSpacingMultiplier设置行间距的倍数。如”1.2”
-
-　　android:numeric如果被设置，该TextView有一个数字输入法。此处无用，设置后唯一效果是TextView有点击效果，此属性在EdtiView将详细说明。
-
-　　android:password以小点”.”显示文本
-
-　　android:phoneNumber设置为电话号码的输入方式。
-
-　　android:privateImeOptions设置输入法选项，此处无用，在EditText将进一步讨论。
-
-　　android:scrollHorizontally设置文本超出TextView的宽度的情况下，是否出现横拉条。
-
-　　android:selectAllOnFocus如果文本是可选择的，让他获取焦点而不是将光标移动为文本的开始位置或者末尾位置。TextView中设置后无效果。
-
-　　android:shadowColor指定文本阴影的颜色，需要与shadowRadius一起使用。效果：
-
-android:shadowDx设置阴影横向坐标开始位置。
-
-　　android:shadowDy设置阴影纵向坐标开始位置。
-
-　　android:shadowRadius设置阴影的半径。设置为0.1就变成字体的颜色了，一般设置为3.0的效果比较好。
-
-　　android:singleLine设置单行显示。如果和layout_width一起使用，当文本不能全部显示时，后面用“…”来表示。如android:text="test_ singleLine " android:singleLine="true" android:layout_width="20dp"将只显示“t…”。如果不设置singleLine或者设置为false，文本将自动换行
-
-android:shadowDx设置阴影横向坐标开始位置。
-
-　　android:shadowDy设置阴影纵向坐标开始位置。
-
-　　android:shadowRadius设置阴影的半径。设置为0.1就变成字体的颜色了，一般设置为3.0的效果比较好。
-
-　　android:singleLine设置单行显示。如果和layout_width一起使用，当文本不能全部显示时，后面用“…”来表示。如android:text="test_ singleLine " android:singleLine="true" android:layout_width="20dp"将只显示“t…”。如果不设置singleLine或者设置为false，文本将自动换行
-
-　　android:text设置显示文本.
-
-　android:textSize设置文字大小，推荐度量单位”sp”，如”15sp”
-
-　　android:textStyle设置字形[bold(粗体) 0, italic(斜体) 1, bolditalic(又粗又斜) 2] 可以设置一个或多个，用“|”隔开
-
-　　android:typeface设置文本字体，必须是以下常量值之一：normal 0, sans 1, serif 2, monospace(等宽字体) 3]
-
-　　android:height设置文本区域的高度，支持度量单位：px(像素)/dp/sp/in/mm(毫米)
-
-　　android:maxHeight设置文本区域的最大高度
-
-　　android:minHeight设置文本区域的最小高度
-
-　　android:width设置文本区域的宽度，支持度量单位：px(像素)/dp/sp/in/mm(毫米)，与layout_width的区别看这里。
-
-　　android:maxWidth设置文本区域的最大宽度
-
-　　android:minWidth设置文本区域的最小宽度
-
-　　android:textAppearance设置文字外观。如“?android:attr/textAppearanceLargeInverse
-
-　　”这里引用的是系统自带的一个外观，?表示系统是否有这种外观，否则使用默认的外观。可设置的值如下：textAppearanceButton/textAppearanceInverse/textAppearanceLarge/textAppearanceLargeInverse/textAppearanceMedium/textAppearanceMediumInverse/textAppearanceSmall/textAppearanceSmallInverse
-
-　　android:textAppearance设置文字外观。如“?android:attr/textAppearanceLargeInverse
-
-”这里引用的是系统自带的一个外观，?表示系统是否有这种外观，否则使用默认的外观。可设置的值如下：textAppearanceButton/textAppearanceInverse/textAppearanceLarge/textAppearanceLargeInverse
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[java中怎样比较String和字符串是否相等]]></title>
-    <link href="http://cnbin.github.io/blog/2016/06/25/javazhong-zen-yang-bi-jiao-stringhe-zi-fu-chuan-shi-fou-xiang-deng/"/>
-    <updated>2016-06-25T11:18:01+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/06/25/javazhong-zen-yang-bi-jiao-stringhe-zi-fu-chuan-shi-fou-xiang-deng</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>在java中如果想要比较两String类型变量是否相等，可以使用equals函数，函数写法如下：</p>
-
-<pre><code>String a;String b;
-a.equals(b)返回boolean类型。
-</code></pre>
-
-<p>如果比较String和字符串是否相等，如下写法。"abc".equals(a);</p>
-
-<p>这里字符串使用"&ldquo;括起来，不可以使用'&lsquo;。java中&rsquo;&lsquo;表示的char型，所以&rsquo;&lsquo;中只可以有一个字符。</p>
 ]]></content>
   </entry>
   

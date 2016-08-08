@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-07-26T08:18:43+08:00</updated>
+  <updated>2016-08-08T19:07:01+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -14,103 +14,166 @@
 
   
   <entry>
-    <title type="html"><![CDATA[OX10.11安装homebrew和cocoapods]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods/"/>
-    <updated>2016-07-26T07:27:40+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/26/ox10-dot-11an-zhuang-homebrewhe-cocoapods</id>
+    <title type="html"><![CDATA[Mac下ionic调试]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/08/macxia-ionicdiao-shi/"/>
+    <updated>2016-08-08T15:36:54+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/08/macxia-ionicdiao-shi</id>
     <content type="html"><![CDATA[<!--More-->
 
 
-<p>rvm pkg install libyaml</p>
-
-<p><a href="http://serverfault.com/questions/442150/how-to-fix-ruby-installation-is-missing-psych-for-yaml-output-on-centos">http://serverfault.com/questions/442150/how-to-fix-ruby-installation-is-missing-psych-for-yaml-output-on-centos</a></p>
-
-<p>下面这句话输入后
-/usr/bin/ruby -e &ldquo;$(curl -fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/master/install">https://raw.githubusercontent.com/Homebrew/install/master/install</a>)&rdquo;</p>
-
-<p>cmd+shift+g 打开/usr 文件夹后，点击local文件夹，右击简介，选择权限为可读写。
-然后修改/usr/local文件夹下面Library和share文件夹的权限为可读写。</p>
-
-<p>因为cocoapod需要ruby>=2.2，所以
-brew update
-rvm install 2.2</p>
-
-<p>然后
-sudo gem install cocoapods</p>
-
-<p>gem sources -a <a href="https://ruby.taob.org/">https://ruby.taob.org/</a></p>
-
-<p>获取ruby已安装列表
-rvm list</p>
+<h3><a href="http://my.oschina.net/twinkling/blog/504824?p={{totalPage}}">http://my.oschina.net/twinkling/blog/504824?p={{totalPage}}</a></h3>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[iOS关于微信支付]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu/"/>
-    <updated>2016-07-11T17:38:42+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/11/iosguan-yu-wei-xin-zhi-fu</id>
+    <title type="html"><![CDATA[UIWebview 的缓存策略和验证，以及 Web 相关]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/08/uiwebview-de-huan-cun-ce-lue-he-yan-zheng-,yi-ji-web-xiang-guan/"/>
+    <updated>2016-08-08T08:25:11+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/08/uiwebview-de-huan-cun-ce-lue-he-yan-zheng-,yi-ji-web-xiang-guan</id>
     <content type="html"><![CDATA[<!--More-->
 
 
-<h3><a href="http://blog.csdn.net/wwmusic/article/details/46727663">http://blog.csdn.net/wwmusic/article/details/46727663</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS解析XML Demo]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/05/iosjie-xi-xml-demo/"/>
-    <updated>2016-07-05T15:26:02+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/05/iosjie-xi-xml-demo</id>
-    <content type="html"><![CDATA[<!--More-->
+<p>缓存策略 NSURLRequestCachePolicy</p>
 
+<p>NSURLRequestUseProtocolCachePolicy
+缓存策略定义在 web 协议实现中，用于请求特定的URL。是默认的URL缓存策略
+Specifies that the caching logic defined in the protocol implementation, if any, is used for a particular URL load request. This is the default policy for URL load requests.</p>
 
-<p>webxml地址：<a href="http://ws.webxml.com.cn/WebServices/WeatherWS.asmx">http://ws.webxml.com.cn/WebServices/WeatherWS.asmx</a></p>
+<p>NSURLRequestReloadIgnoringLocalCacheData
+从服务端获取数据，忽略本地缓存</p>
 
-<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f5j29y3ae8j208v0g8aan.jpg" alt="img" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS 应用之间调用]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/05/ios-ying-yong-zhi-jian-diao-yong/"/>
-    <updated>2016-07-05T10:43:15+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/05/ios-ying-yong-zhi-jian-diao-yong</id>
-    <content type="html"><![CDATA[<!--More-->
+<p>Specifies that the data for the URL load should be loaded from the originating source. No existing cache data should be used to satisfy a URL load request.</p>
 
+<p>NSURLRequestReloadIgnoringLocalAndRemoteCacheData</p>
 
-<p>1.在appA的info.plist中定义URL，就是在文件中添加URL types一项。可按下图进行添加</p>
+<p>不仅忽略本地的缓存数据，还忽略中间网络媒介（如代理服务器）忽略缓存。直接从最原始的服务器拿取
+Specifies that not only should the local cache data be ignored, but that proxies and other intermediates should be instructed to disregard their caches so far as the protocol allows.</p>
 
-<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f5iu4e81kgj20j704kwez.jpg" alt="img" /></p>
+<p>NSURLRequestReloadIgnoringCacheData
+被NSURLRequestReloadIgnoringLocalCacheData替换了</p>
 
-<p>2.在appB的代码中打开刚才定义的URL，代码如下</p>
+<p>Replaced by NSURLRequestReloadIgnoringLocalCacheData.</p>
 
-<pre><code>NSURL *url = [NSURL URLWithString:@"myapp:"];  
+<p>NSURLRequestReturnCacheDataElseLoad</p>
 
-[[UIApplication sharedApplication] openURL:url];  
+<p>已经存在的缓存数据用于请求返回，不管它的过期日期和已经存在了多久。如果没有请求对应的缓存数据，从数据源读取
+Specifies that the existing cached data should be used to satisfy the request, regardless of its age or expiration date. If there is no existing data in the cache corresponding the request, the data is loaded from the originating source.</p>
+
+<p>NSURLRequestReturnCacheDataDontLoad</p>
+
+<p>已经存在的缓存数据用于请求返回，不管它的过期日期和已经存在了多久。如果没有请求对应的缓存数据，不要去数据源读取，该请求被设置为失败，这种情况多用于离线模式</p>
+
+<p>Specifies that the existing cache data should be used to satisfy a request, regardless of its age or expiration date. If there is no existing data in the cache corresponding to a URL load request, no attempt is made to load the data from the originating source, and the load is considered to have failed. This constant specifies a behavior that is similar to an “offline” mode.</p>
+
+<p>NSURLRequestReloadRevalidatingCacheData</p>
+
+<p>已经存在的缓存数据先去数据源验证有效性，如果无效，将从数据源获取
+Specifies that the existing cache data may be used provided the origin source confirms its validity, otherwise the URL is loaded from the origin source.</p>
+
+<p>NSURLRequestUseProtocolCachePolicy 和 NSURLRequestReloadRevalidatingCacheData 区别</p>
+
+<p>个人意见，仅供参考，如有错误，请指出来，这对我很重要，谢谢</p>
+
+<p>NSURLRequestReloadRevalidatingCacheData 是一定要和原始的数据源验证 cache 是否有效。
+而NSURLRequestUseProtocolCachePolicy 是根据 web 的协议来控制缓存，服务端返回数据的 head 有相关的信息。它可能会返回中间网络媒介（如代理服务器中的数据）</p>
+
+<p>针对缓存策略做一下本地测试，这是非常有必要的</p>
+
+<pre><code>NSURL *webUrl = [NSURL URLWithString:@"http://localhost/test.txt"];       
+NSURLRequest *request =[NSURLRequest requestWithURL:webUrl cachePolicy:NSURLRequestReloadRevalidatingCacheData timeoutInterval:60];       
+[self.mainWebView loadRequest:request];  
 </code></pre>
 
-<p>3.打开之后，会调用appA的AppDelegate的</p>
+<p>这里使用NSURLRequestReloadRevalidatingCacheData， 返回cache数据一定要先验证数据有效。</p>
 
-<pre><code>- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation ｛｝
-</code></pre>
+<h3>Resource Reference</h3>
 
-<p>4.判断是否能打开应用</p>
+<ul>
+<li><a href="http://blog.csdn.net/mangosnow/article/details/37831529">http://blog.csdn.net/mangosnow/article/details/37831529</a></li>
+</ul>
 
-<pre><code>[[UIApplication sharedApplication] canOpenURL:[NSURLURLWithString:@"myapp://"]];
-</code></pre>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[iOS :聚光灯效果的功能引导]]></title>
-    <link href="http://cnbin.github.io/blog/2016/06/30/ios-ju-guang-deng-xiao-guo-de-gong-neng-yin-dao/"/>
-    <updated>2016-06-30T16:49:07+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/06/30/ios-ju-guang-deng-xiao-guo-de-gong-neng-yin-dao</id>
+    <title type="html"><![CDATA[FKConsole - Xcode控制台中文显示调整插件]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/04/fkconsole-xcodekong-zhi-tai-zhong-wen-xian-shi-diao-zheng-cha-jian/"/>
+    <updated>2016-08-04T08:13:32+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/04/fkconsole-xcodekong-zhi-tai-zhong-wen-xian-shi-diao-zheng-cha-jian</id>
     <content type="html"><![CDATA[<!--More-->
 
 
-<h3><a href="http://www.jianshu.com/p/e6db182ce76e">http://www.jianshu.com/p/e6db182ce76e</a></h3>
+<h3><a href="http://www.tuicool.com/articles/yUjaYv">http://www.tuicool.com/articles/yUjaYv</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CocoaPods升级后（最新版本1.0.1），安装第三方库的时候会报如下错误]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/27/cocoapodssheng-ji-hou-(zui-xin-ban-ben-1-dot-0-1),an-zhuang-di-san-fang-ku-de-shi-hou-hui-bao-ru-xia-cuo-wu/"/>
+    <updated>2016-07-27T17:39:05+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/27/cocoapodssheng-ji-hou-(zui-xin-ban-ben-1-dot-0-1),an-zhuang-di-san-fang-ku-de-shi-hou-hui-bao-ru-xia-cuo-wu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>CocoaPods升级后（最新版本1.0.1），安装第三方库的时候会报如下错误：</p>
+
+<p>　　The dependency <code>AFNetworking (~&gt; 3.1.0)</code> is not used in any concrete target.</p>
+
+<p>原因：CocoaPods升级后，Podfile文件的内容格式要求发生了变化，必须指出指出所用第三方库的target。</p>
+
+<p>解决步骤：</p>
+
+<p>1）检查CocoaPods的版本</p>
+
+<pre><code>        pod --version
+</code></pre>
+
+<p>2) 升级或安装最新版本（目前版本1.0.1）</p>
+
+<p>注意：如果cocoapods已经是1.0.1版本，则跳过该步骤直接进入第三个步骤。</p>
+
+<pre><code>升级命令：sudo gem update -n /usr/local/bin --system
+
+
+
+安装命令：sudo gem install -n /usr/local/bin cocoapods
+</code></pre>
+
+<p>(3)修改Podfile的内容</p>
+
+<p>修改前的Podfile文件的内容：</p>
+
+<pre><code>platform:ios,'7.0'
+pod 'MJRefresh', '~&gt; 3.1.0'
+pod 'SDWebImage', '~&gt; 3.7.6'
+pod 'SVProgressHUD', '~&gt; 2.0.3'
+pod 'AFNetworking', '~&gt; 3.1.0'
+</code></pre>
+
+<p>修改后的Podfile文件的内容：</p>
+
+<pre><code>platform:ios,'7.0'
+target "MyProject" do
+pod 'MJRefresh', '~&gt; 3.1.0'
+pod 'SDWebImage', '~&gt; 3.7.6'
+pod 'SVProgressHUD', '~&gt; 2.0.3'
+pod 'AFNetworking', '~&gt; 3.1.0'
+end
+</code></pre>
+
+<p>　　在Podfile文件中需要明确指出使用第三方库的target,这里target后面跟的就是自己项目本身的Target;也就是项目中的tagrets中的那个项目名称。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Too Many Arguments Provided to Function-like Macro Invocation]]></title>
+    <link href="http://cnbin.github.io/blog/2016/07/27/too-many-arguments-provided-to-function-like-macro-invocation/"/>
+    <updated>2016-07-27T16:55:40+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/07/27/too-many-arguments-provided-to-function-like-macro-invocation</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://www.jianshu.com/p/8e55f6de1150">http://www.jianshu.com/p/8e55f6de1150</a></h3>
 ]]></content>
   </entry>
   

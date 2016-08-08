@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mac | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-07-26T08:18:43+08:00</updated>
+  <updated>2016-08-08T19:07:01+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac查看Http请求分析-httpie]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/04/httpie/"/>
+    <updated>2016-08-04T08:05:55+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/04/httpie</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="https://github.com/cnbin/httpie">https://github.com/cnbin/httpie</a></h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[把 Mac 上的 Bash 换成 Zsh]]></title>
@@ -83,48 +95,6 @@ cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 
 
 <h3><a href="http://jingyan.baidu.com/article/9c69d48f402c6013c9024e3c.html">http://jingyan.baidu.com/article/9c69d48f402c6013c9024e3c.html</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac-Charles破解]]></title>
-    <link href="http://cnbin.github.io/blog/2016/02/25/mac-charlespo-jie/"/>
-    <updated>2016-02-25T14:54:37+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/02/25/mac-charlespo-jie</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3>一、安装Charles</h3>
-
-<p>下载路径：</p>
-
-<p><a href="http://www.charlesproxy.com/download/">http://www.charlesproxy.com/download/</a></p>
-
-<p>傻瓜式的安装步骤，不详解了。</p>
-
-<h3>二、下载破解包</h3>
-
-<p>网上也有不少破解包，注意版本一致。我这里提供的破解包是3.10.1的，也就是现在的最新版本。</p>
-
-<p><a href="http://pan.baidu.com/s/1eQyC9Wm">http://pan.baidu.com/s/1eQyC9Wm</a></p>
-
-<h3>三、替换文件</h3>
-
-<p>下载下来后，可以看到是一个charles.jar的包</p>
-
-<h4>1. 显示Charles的包内容</h4>
-
-<p><img src="http://ww3.sinaimg.cn/mw690/78f9859ejw1f1bl7y9carj216q0hoah9.jpg" alt="img" /></p>
-
-<h4>2. 替换charles.jar</h4>
-
-<p><img src="http://ww3.sinaimg.cn/mw690/78f9859ejw1f1bl7z0n7bj21d00uiakk.jpg" alt="img" /></p>
-
-<h3>四、Charles相关运用</h3>
-
-<p>使用Charles抓取App网络请求</p>
-
-<p><a href="http://www.brighttj.com/ios/ios-use-charles-fetch-web-request-in-app.html">http://www.brighttj.com/ios/ios-use-charles-fetch-web-request-in-app.html</a></p>
 ]]></content>
   </entry>
   
