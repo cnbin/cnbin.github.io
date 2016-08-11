@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://cnbin.github.io/blog/2016/08/10/ru-he-wei-swiftjin-xing-hong-ding-yi/</loc>
+<lastmod>2016-08-10T07:50:39+08:00</lastmod>
+</url>
+<url>
+<loc>http://cnbin.github.io/blog/2016/08/10/oc-diao-yong-swift/</loc>
+<lastmod>2016-08-10T07:06:09+08:00</lastmod>
+</url>
+<url>
+<loc>http://cnbin.github.io/blog/2016/08/09/ocyu-swiftxiang-hu-diao-yong/</loc>
+<lastmod>2016-08-09T14:47:51+08:00</lastmod>
+</url>
+<url>
+<loc>http://cnbin.github.io/blog/2016/08/09/ionic-slash-cordova-zhen-ji-diao-shi/</loc>
+<lastmod>2016-08-09T11:24:36+08:00</lastmod>
+</url>
+<url>
+<loc>http://cnbin.github.io/blog/2016/08/09/ionicxiang-mu-shi-li-oniczhong-wen-she-qu/</loc>
+<lastmod>2016-08-09T11:22:03+08:00</lastmod>
+</url>
+<url>
+<loc>http://cnbin.github.io/blog/2016/08/09/tomcatde-managerxian-shi-403-access-denied/</loc>
+<lastmod>2016-08-09T10:25:16+08:00</lastmod>
+</url>
+<url>
+<loc>http://cnbin.github.io/blog/2016/08/09/brew-install-tomcat/</loc>
+<lastmod>2016-08-09T10:12:29+08:00</lastmod>
+</url>
+<url>
 <loc>http://cnbin.github.io/blog/2016/08/08/angularjsshi-yong-controllershi-xian-urltiao-zhuan/</loc>
 <lastmod>2016-08-08T17:04:06+08:00</lastmod>
 </url>

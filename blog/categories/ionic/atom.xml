@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ionic | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/ionic/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-08T19:07:01+08:00</updated>
+  <updated>2016-08-11T11:53:20+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ionic/cordova 真机调试]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/09/ionic-slash-cordova-zhen-ji-diao-shi/"/>
+    <updated>2016-08-09T11:24:36+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/09/ionic-slash-cordova-zhen-ji-diao-shi</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>android下简单，连接手机后，直接：</p>
+
+<pre><code>﻿​$ ionic run android
+</code></pre>
+
+<p>ios下比较麻烦点，要先装ios-deploy：</p>
+
+<pre><code>﻿​sudo npm install -g ios-deploy
+</code></pre>
+
+<p>然后：</p>
+
+<pre><code>﻿​ionic run ios --device
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ionic项目实例《Ionic中文社区》]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/09/ionicxiang-mu-shi-li-oniczhong-wen-she-qu/"/>
+    <updated>2016-08-09T11:22:03+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/09/ionicxiang-mu-shi-li-oniczhong-wen-she-qu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://www.cnblogs.com/zxj159/p/4788703.html">http://www.cnblogs.com/zxj159/p/4788703.html</a></h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[将网页设置为允许 XMLHttpRequest 跨域访问]]></title>
@@ -125,152 +162,6 @@ npm start
 
 
 <p>域(Domain)是Windows网络中独立运行的单位，域之间相互访问则需要建立信任关系(即Trust Relation)。信任关系是连接在域与域之间的桥梁。当一个域与其他域建立了信任关系后，2个域之间不但可以按需要相互进行管理，还可以跨网分配文件和打印机等设备资源，使不同的域之间实现网络资源的共享与管理。 有一种简明的说法来解释广域跨域：跨域访问，简单来说就是 A 网站的 javascript 代码试图访问 B 网站，包括提交内容和获取内容。由于安全原因，跨域访问是被各大浏览器所默认禁止的。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AngularJS实现跨域请求]]></title>
-    <link href="http://cnbin.github.io/blog/2016/06/24/angularjsshi-xian-kua-yu-qing-qiu/"/>
-    <updated>2016-06-24T09:02:19+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/06/24/angularjsshi-xian-kua-yu-qing-qiu</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>跨域，前端开发中经常遇到的问题，AngularJS实现跨域方式类似于Ajax，使用CORS机制。</p>
-
-<p>下面阐述一下AngularJS中使用$http实现跨域请求数据。</p>
-
-<p>AngularJS XMLHttpRequest：$http用于读取远程服务器的数据</p>
-
-<pre><code>$http.post(url, data, [config]).success(function(){ ... });
-$http.get(url, [config]).success(function(){ ... });
-$http.get(url, [config]).success(function(){ ... });
-</code></pre>
-
-<p>一、$http.jsonp【实现跨域】</p>
-
-<p>1.指定callback和回调函数名，函数名为JSON_CALLBACK时，会调用success回调函数，JSON_CALLBACK必须全为大写。</p>
-
-<p>2.指定其它回调函数，但必须是定义在window下的全局函数。url中必须加上callback。</p>
-
-<p>二、$http.get【实现跨域】</p>
-
-<p>1.在服务器端设置允许在其他域名下访问</p>
-
-<pre><code>response.setHeader("Access-Control-Allow-Origin", "*"); //允许所有域名访问
-response.setHeader("Access-Control-Allow-Origin", "http://www.123.com"); //允许www.123.com访问
-</code></pre>
-
-<p>2.AngularJS端使用$http.get()</p>
-
-<p>三、$http.post【实现跨域】</p>
-
-<p>1.在服务器端设置允许在其他域名下访问，及响应类型、响应头设置</p>
-
-<pre><code>response.setHeader("Access-Control-Allow-Origin", "*");
-response.setHeader("Access-Control-Allow-Methods","POST");
-response.setHeader("Access-Control-Allow-Headers","x-requested-with,content-type");
-</code></pre>
-
-<p>2.AngularJS端使用$http.post()，同时设置请求头信息</p>
-
-<pre><code>$http.post('http://localhost/ajax/getAllIndustryCategoty.pt',{languageColumn:'name_eu'},{'Content-Type':'application/x-www-form-urlencoded'}).success(function(data){
-        $scope.industries = data;
-    });
-</code></pre>
-
-<p>四、实现方式</p>
-
-<p>跨域方式一【JSONP】：</p>
-
-<pre><code>方法一：
-
-$http.jsonp("http://localhost/sitesettings/getBadgeInfo.pt?jsonp=JSON_CALLBACK&amp;siteid=137bd406").success(function(data){ ... });
-//  The name of the callback should be the string JSON_CALLBACK.
-</code></pre>
-
-<p>方法二【返回值，需要使用对应callback方法接收，但如何置于$scope???】：</p>
-
-<pre><code>$http.jsonp("http://localhost/sitesettings/getBadgeInfo.pt?jsonp=badgeabc&amp;siteid=137bd406");
-function badgeabc(data){ ... }
-
-public String execute() throws Exception {  
-    String result = FAIL;
-    response.setHeader("", "");
-    SiteHandlerAction siteHandlerAction = (SiteHandlerAction)BeansFactory.getBean(SiteHandlerAction.class);
-    BadgeHandlerAction badgeHandlerAction = (BadgeHandlerAction)BeansFactory.getBean(BadgeHandlerAction.class);
-    if("".equals(siteid) || siteid == null || StringUtils.isBlank("jsonp")){
-        result = FAIL;
-    }else{
-        Site site = siteHandlerAction.find(siteid);
-        UserBadgeStatus userBadgeStatus = badgeHandlerAction.getUserBadgeStatus(site.getId());
-        if(userBadgeStatus != null){
-            result = "{\"t\":"+userBadgeStatus.getStyle()+",\"l\":"+userBadgeStatus.getSuspend_location()+",\"s\":"+site.getId()+"}";
-            JSONObject jsonObj = JSONObject.fromObject(result);
-            String json = jsonObj.toString();
-            result = jsonp + "(" + json + ")";
-        }
-    }
-    PrintWriter write = response.getWriter();
-    write.print(result);
-    write.flush();
-    write.close();
-    return NONE;
-}
-</code></pre>
-
-<p>跨域方式二【$http.get()】：</p>
-
-<pre><code>function getAdustryController($scope,$http){
-    $http.get('http://localhost/ajax/getAllIndustryCategoty.pt?languageColumn=name_eu').success(function(data){
-        $scope.industries = data;
-    });
-}
-</code></pre>
-
-<p>跨域方式三【$http.post()】：</p>
-
-<pre><code>function getAdustryController($scope,$http){
-    $http.post('http://localhost/ajax/getAllIndustryCategoty.pt',{languageColumn:'name_eu'},{'Content-Type':'application/x-www-form-urlencoded'}).success(function(data){
-        $scope.industries = data;
-    });
-}
-
-// java端支持跨域请求
-public String execute(){
-    response.setHeader("Access-Control-Allow-Origin", "*"); //允许哪些url可以跨域请求到本域
-    response.setHeader("Access-Control-Allow-Methods","POST"); //允许的请求方法，一般是GET,POST,PUT,DELETE,OPTIONS
-    response.setHeader("Access-Control-Allow-Headers","x-requested-with,content-type"); //允许哪些请求头
-</code></pre>
-
-<p>可以跨域</p>
-
-<pre><code>SiteHandlerAction SiteHandler = (SiteHandlerAction) BeansFactory.getBean(SiteHandlerAction.class);
-List list = SiteHandler.getAllIndustryCategory(); //所有的分类集合
-JSONArray jsonArray = JSONArray.fromObject(list); //将list转为json
-String json = jsonArray.toString(); //转为json字符串
-try {
-    PrintWriter write = response.getWriter();
-    write.print(json);
-    write.close();
-} catch (IOException e) {
-    e.printStackTrace();
-}
-return NONE;
-}
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ionic Market]]></title>
-    <link href="http://cnbin.github.io/blog/2016/06/23/ionic-market/"/>
-    <updated>2016-06-23T18:20:10+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/06/23/ionic-market</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://market.ionic.io/">http://market.ionic.io/</a></h3>
 ]]></content>
   </entry>
   

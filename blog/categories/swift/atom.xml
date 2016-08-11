@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Swift | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-08T19:07:01+08:00</updated>
+  <updated>2016-08-11T11:53:20+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何为Swift进行宏定义]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/10/ru-he-wei-swiftjin-xing-hong-ding-yi/"/>
+    <updated>2016-08-10T07:50:39+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/10/ru-he-wei-swiftjin-xing-hong-ding-yi</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<ul>
+<li><a href="http://www.cnblogs.com/JianweiWang/p/5142306.html">http://www.cnblogs.com/JianweiWang/p/5142306.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Oc 调用 Swift（原创）]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/10/oc-diao-yong-swift/"/>
+    <updated>2016-08-10T07:06:09+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/10/oc-diao-yong-swift</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>OC调用Swift的时候，Xcode会自动生成一个xxx-Swfit.h文件。只需要导入这个文件到项目里面就行了。</p>
+
+<p>执行命令：</p>
+
+<pre><code>~find ~/Library/Developer/Xcode/DerivedData -name "*Swift.h"
+</code></pre>
+
+<p>找到所有出现的xxx-Swift.h文件，找到项目的xxx-Swift.h文件.然后<code>#import xxx-Swfit.h</code></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6oag7lxkyj21da09kk80.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f6oag6v0zlj20hm0be42i.jpg" alt="img" /></p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/huangchentao/article/details/35278663">http://blog.csdn.net/huangchentao/article/details/35278663</a></li>
+<li><a href="http://www.th7.cn/Program/IOS/201501/377155.shtml">http://www.th7.cn/Program/IOS/201501/377155.shtml</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Swift问题汇总]]></title>
@@ -138,103 +184,6 @@ struct MyCar: Vehicle {
 <p>如果把 protocol 定义中的 mutating 去掉的话，MyCar 就怎么都过不了编译了：保持现有代码不变的话，会报错说没有实现接口；如果去掉 mutating 的话，会报错说不能改变结构体成员。这个接口的使用者的忧伤的眼神，相信你能想象得出。</p>
 
 <p>另外，在使用 class 来实现带有 mutating 的方法的接口时，具体实现的前面是不需要加 mutating 修饰的，因为 class 可以随意更改自己的成员变量。所以说在接口里用 mutating 修饰方法，对于 class 的实现是完全透明，可以当作不存在的。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift-优雅的 NSStringFromClass 替代方案]]></title>
-    <link href="http://cnbin.github.io/blog/2016/02/25/swift-you-ya-de-nsstringfromclass-ti-dai-fang-an/"/>
-    <updated>2016-02-25T15:50:10+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/02/25/swift-you-ya-de-nsstringfromclass-ti-dai-fang-an</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>使用 Swift 过程中，我意识到的第一个问题就是没有 <code>NSStringFromClass</code> 的替代方案。在自定义 <code>TableViewCell</code> 时，我喜欢用类名作为 cell 的 identifier，然后在重用队列中，通过 <code>NSStringFromClass</code> 来获得 identifier，从而避免拼写错误。</p>
-
-<p>然而，在 Swift 中，我不得不写一个丑陋的 extension 来达到这一目的。（<a href="http://stackoverflow.com/questions/24107658/get-a-user-readable-version-of-the-class-name-in-swift-in-objc-nsstringfromclas">参考 StackOverflow 的回答</a>）</p>
-
-<pre><code>public extension NSObject{
-    public class var nameOfClass: String{
-        return NSStringFromClass(self).componentsSeparatedByString(".").last!
-    }
-
-    public var nameOfClass: String{
-        return NSStringFromClass(self.dynamicType).componentsSeparatedByString(".").last!
-    }
-}
-</code></pre>
-
-<p>不知道以下写法是什么时候出现的，但我确实在 @aligatr 发表的文章中看到了：</p>
-
-<pre><code>// This now works!!!
-String(MyTableViewCell)
-</code></pre>
-
-<p>为确保这个方案可行，我在自己的工程中试了试，没想到真的成功了！！</p>
-
-<p><img src="http://ww4.sinaimg.cn/mw690/78f9859ejw1f1bmu03sh6j20ec04gaag.jpg" alt="img" /></p>
-
-<pre><code>// BlueTableViewController
-override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -&gt; UITableViewCell {
-
-    // 从重用队列中取出 cell!!!
-    let cell = tableView.dequeueReusableCellWithIdentifier(String(BlueTableViewCell), forIndexPath: indexPath)
-
-    return cell
-}
-</code></pre>
-
-<p>超级赞赞赞，我终于可以删掉丑陋的 extension 了。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Swift-公开 Getter，隐藏 Setter]]></title>
-    <link href="http://cnbin.github.io/blog/2016/02/25/swift-gong-kai-getter,yin-cang-setter/"/>
-    <updated>2016-02-25T15:46:22+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/02/25/swift-gong-kai-getter,yin-cang-setter</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>在 struct 中有一个属性，这属性需要在外部读，并只能在内部进行写。当时的实现方式是：</p>
-
-<pre><code>struct Counter {
-    // `count` 在这里必须是一个 var 
-    // 但我并不想将 `count` 设为公开的，
-    // 所以加了 private 定为私有的
-    private var count: Int
-
-    // 现在就只能通过这种方式在外部访问 `count` 了
-    func getCount() {
-        return count
-    }
-}
-</code></pre>
-
-<p>这种方式并不优雅，但却是我唯一能想到的解决方案。幸运的是，现在我找到了一个更好的方式！</p>
-
-<p>Twitter 上 @mipstian 指出可以通过设置私有的 Setter 方法来达到效果，就像这样：</p>
-
-<pre><code>struct Counter {
-    // 现在就只有setter是private的了！
-    private(set) var count: Int
-}
-</code></pre>
-
-<p>对当前案例来说，将 Counter 设置为模块内公开(也就是internal)。但如果你是要做 SDK，你可以像下面这样公开 Getter ，同时隐藏 Setter：</p>
-
-<pre><code>public struct Counter {
-    // 现在就只有setter是private的了！
-    public private(set) var count: Int
-}
-</code></pre>
-
-<h3>Resource Reference</h3>
-
-<ul>
-<li><a href="http://www.saitjr.com/ios/swift-magic-public-getter-private-setter.html">http://www.saitjr.com/ios/swift-magic-public-getter-private-setter.html</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

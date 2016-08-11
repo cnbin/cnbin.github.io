@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-08T19:07:01+08:00</updated>
+  <updated>2016-08-11T11:53:20+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,149 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[OC与swift相互调用]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/09/ocyu-swiftxiang-hu-diao-yong/"/>
+    <updated>2016-08-09T14:47:51+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/09/ocyu-swiftxiang-hu-diao-yong</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>一、OC调用swift文件</p>
+
+<p>二、swift调用OC文件</p>
+
+<p>三、注意和总结</p>
+
+<p>添加：</p>
+
+<p>四、自定义桥接文件</p>
+
+<p>一、OC调用swift文件</p>
+
+<p>在OC项目中创建一个swift文件的时候，Xcode 会提示 需要创建一个桥接文件，点确定创建桥接文件，Xcode会自动创建一个桥接文件</p>
+
+<p>名字：工程名-Bridging-Header.h</p>
+
+<p>这个桥接文件是 swift 调用OC文件的时候用的</p>
+
+<p>1、
+进入TARGETS ->Build Settings -> Packaging 中</p>
+
+<p>设置Defines Module为YES</p>
+
+<p>设置 Product Module Name ，也可以不设置，默认为工程的名字。这个在后面会用到</p>
+
+<p>2、
+在swift写一个类</p>
+
+<p>注意这个类一定要继承NSObject，不然在OC中没法用</p>
+
+<p>class hello: NSObject {</p>
+
+<pre><code>var address : String
+var gender: String
+
+init(address:String,gender:String){
+    self.address = address
+    self.gender = gender
+}
+
+func method() {
+    print("message \(self.address + self.gender)")
+}
+}
+</code></pre>
+
+<p>3、
+　　在OC需要用到的swift文件中 导入文件 &ldquo;Product Module Name -Swift.h&rdquo;  因为 Product Module Name 默认是工程的名字</p>
+
+<p>所以直接导入 #import &ldquo;工程名-Swift.h&rdquo;</p>
+
+<p>4、
+　　记着写完先command +B编译一下，如果没有报错就可以在OC文件调用swift中的类了</p>
+
+<p>hello *helloss = [[helloalloc]initWithAddress:@&ldquo;上海"gender:@"男&rdquo;];
+[helloss method];</p>
+
+<p>二、swift调用OC文件
+　　在swift项目中创建一个OC文件的时候，Xcode 会提示创建一个桥接文件 点确定创建桥接文件，Xcode会自动创建一个桥接文件</p>
+
+<p>名字：工程名-Bridging-Header.h</p>
+
+<p>　　把swift需要用到的OC文件的头文件放到桥接文件里 工程名-Bridging-Header.h</p>
+
+<p>例如：</p>
+
+<p>1、
+这个就是一个OC文件</p>
+
+<pre><code>//#import "sec.h"
+#import &lt;UIKit/UIKit.h&gt;
+@interface sec : UIViewController
+-(void)actionMake;
+@end
+</code></pre>
+
+<p>2、
+在桥接文件中把需要用到OC的头文件导入进去</p>
+
+<pre><code>#import "sec.h"
+</code></pre>
+
+<p>3、
+编译一下，就可以在swift中用swift的语法调用OC文件的方法了</p>
+
+<pre><code>let second = sec()
+second.actionMake()
+</code></pre>
+
+<p>三、注意和总结</p>
+
+<p>注意：
+1、OC项目在导入swift文件前 先按照系统提示创建桥接文件，</p>
+
+<p>2、在 targets -> Build Settings -> Packaging  中设置Defines Module 为YES</p>
+
+<p>3、在OC中调用swift文件的时候，swift中的类 要继承NSObject</p>
+
+<p>不然没办法在OC中调用</p>
+
+<p>4、OC中调用swift文件需要导入”工程名 -Swift.h"</p>
+
+<p>（这个是build Setting -> Packaging->Product Module Name 的名字，而这个属性默认是工程的名字）</p>
+
+<p>5、写完记得command + B 编译 一下</p>
+
+<p>6、swift项目 引用OC文件也需要创建 桥接文件，在这个桥接文件中导入OC文件的头文件</p>
+
+<p>7、桥接文件只有一个，作用只是为了 swift 引用OC文件，OC引用swift 文件虽然也需要创建桥接文件
+        但是不需要在桥接文件中 导入swift文件</p>
+
+<p>8、如果一个项目既有OC引用swift 也有swift引用OC ,就先设置OC调用swift文件
+     在桥接文件 导入OC文件，OC可以定义PCH文件导入”工程名 -Swift.h"</p>
+
+<p>四、自定义桥接文件</p>
+
+<p>如果不用Xcode提示创建桥接文件也可以自定义一个桥接文件</p>
+
+<p>1  使用 Header File  把里面的内容清空。</p>
+
+<p>2、 这文件名可以自定义， 一般还是用 工程名-Bridging-Header.h   例如app - file.h</p>
+
+<p>3    然后在 Build Setting -> Swift Compiler - Code Generation中</p>
+
+<p>4、设置Objective-C Bridging Header 为自定义的桥接文件相对于工程的绝对路径，也就是项目总文件夹的路径，如果在第一层，就直接写自定义的桥接文件的名file.h，如果在下一层，文件夹/桥接文件 app/file.h</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.cnblogs.com/mazhiqiang/p/5557002.html">http://www.cnblogs.com/mazhiqiang/p/5557002.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac下ionic调试]]></title>
@@ -162,18 +305,6 @@ end
 </code></pre>
 
 <p>　　在Podfile文件中需要明确指出使用第三方库的target,这里target后面跟的就是自己项目本身的Target;也就是项目中的tagrets中的那个项目名称。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Too Many Arguments Provided to Function-like Macro Invocation]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/27/too-many-arguments-provided-to-function-like-macro-invocation/"/>
-    <updated>2016-07-27T16:55:40+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/27/too-many-arguments-provided-to-function-like-macro-invocation</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://www.jianshu.com/p/8e55f6de1150">http://www.jianshu.com/p/8e55f6de1150</a></h3>
 ]]></content>
   </entry>
   

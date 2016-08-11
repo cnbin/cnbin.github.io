@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tomcat的Manager显示403 Access Denied - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="管理tomcat的时候遇到了以下问题： 1.刚开始需要用户名密码，不知道用户名和密码是什么，但是输入什么都不正确。 解决办法： 自己在tomcat-users.xml中按格式添加用户 conf文件夹里面 默认是注释掉了的，这主要是考虑到服务器的安全，如果是本地测试，去掉以下这段注释， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/08/09/tomcatde-managerxian-shi-403-access-denied/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Tomcat的Manager显示403 Access Denied</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-09T10:25:16+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:25 am</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>管理tomcat的时候遇到了以下问题：</p>
+
+<p>1.刚开始需要用户名密码，不知道用户名和密码是什么，但是输入什么都不正确。</p>
+
+<p>解决办法：</p>
+
+<p>自己在tomcat-users.xml中按格式添加用户 conf文件夹里面</p>
+
+<p>默认是注释掉了的，这主要是考虑到服务器的安全，如果是本地测试，去掉以下这段注释，然后重启动服务器，再输入</p>
+
+<pre><code>&lt;role rolename="tomcat"/&gt;
+&lt;role rolename="role1"/&gt;
+&lt;user username="tomcat" password="tomcat" roles="tomcat"/&gt;
+&lt;user username="both" password="tomcat" roles="tomcat,role1"/&gt;
+&lt;user username="role1" password="tomcat" roles="role1"/&gt;
+</code></pre>
+
+<p>　　<br/>
+　　用户和密码都一目了然了。</p>
+
+<p>2.进入manager界面之后，显示的是403 Access Denied。</p>
+
+<p>解决办法：</p>
+
+<p>在conf/tomcat-users.xml文件中看到这么一段话：</p>
+
+<p>NOTE:  By default, no user is included in the &ldquo;manager-gui&rdquo; role required
+to operate the &ldquo;/manager/html&rdquo; web application.  If you wish to use this app,
+you must define such a user - the username and password are arbitrary.</p>
+
+<p>也就是说，为了考虑安全，tomcat默认还是没有manager-gui的管理权限的，如果想要使用manager
+的话，需要自行加入管理权限（角色）。</p>
+
+<p>需要加一个这样的权限（角色)</p>
+
+<pre><code>&lt;role rolename="manager-gui"/&gt;
+</code></pre>
+
+<p>然后再加到需要的用户名中去</p>
+
+<pre><code>&lt;user username="tomcat" password="tomcat" roles="tomcat,manager-gui"/&gt;
+　　这样OK了。
+
+&lt;?xml version='1.0' encoding='utf-8'?&gt;
+&lt;!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--&gt;
+&lt;tomcat-users&gt;
+&lt;!--
+NOTE:  By default, no user is included in the "manager-gui" role required
+to operate the "/manager/html" web application.  If you wish to use this app,
+you must define such a user - the username and password are arbitrary.
+--&gt;
+&lt;!--
+NOTE:  The sample user and role entries below are wrapped in a comment
+and thus are ignored when reading this file. Do not forget to remove
+&lt;!.. ..&gt; that surrounds them.
+--&gt;
+
+&lt;!--
+&lt;role rolename="tomcat"/&gt;
+&lt;role rolename="role1"/&gt;
+&lt;user username="tomcat" password="tomcat" roles="tomcat"/&gt;
+&lt;user username="both" password="tomcat" roles="tomcat,role1"/&gt;
+&lt;user username="role1" password="tomcat" roles="role1"/&gt;
+--&gt;
+&lt;role rolename="manager-gui"/&gt;
+&lt;role rolename="admin-gui"/&gt;
+&lt;user username="ming" password="064417" roles="manager-gui,admin-gui"/&gt;
+
+&lt;/tomcat-users&gt;
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.cnblogs.com/mingforyou/archive/2013/03/31/2991543.html">http://www.cnblogs.com/mingforyou/archive/2013/03/31/2991543.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-08-09T10:25:16+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>10:25 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/web/'>web</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/08/09/brew-install-tomcat/" title="Previous Post: brew install tomcat">&laquo; brew install tomcat</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/08/09/ionicxiang-mu-shi-li-oniczhong-wen-she-qu/" title="Next Post: Ionic项目实例《Ionic中文社区》">Ionic项目实例《Ionic中文社区》 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (15)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (734)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (143)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (71)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (40)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (185)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/10/ru-he-wei-swiftjin-xing-hong-ding-yi/">如何为Swift进行宏定义</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/10/oc-diao-yong-swift/">Oc 调用 Swift（原创）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/09/ocyu-swiftxiang-hu-diao-yong/">OC与swift相互调用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/09/ionic-slash-cordova-zhen-ji-diao-shi/">Ionic/cordova 真机调试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/09/ionicxiang-mu-shi-li-oniczhong-wen-she-qu/">Ionic项目实例《Ionic中文社区》</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

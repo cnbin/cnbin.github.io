@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OC与swift相互调用 - 陈斌彬的技术博客</title>
+  <meta name="author" content="陈斌彬">
+
+  
+  <meta name="description" content="一、OC调用swift文件 二、swift调用OC文件 三、注意和总结 添加： 四、自定义桥接文件 一、OC调用swift文件 在OC项目中创建一个swift文件的时候，Xcode 会提示 需要创建一个桥接文件，点确定创建桥接文件，Xcode会自动创建一个桥接文件 名字：工程名-Bridging &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://cnbin.github.io/blog/2016/08/09/ocyu-swiftxiang-hu-diao-yong/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="陈斌彬的技术博客" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">陈斌彬的技术博客</a></h1>
+  
+    <h2>Stay foolish,stay hungry</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="cnbin.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation"> 
+  <li><a href="/">首页</a></li> 
+  <li><a href="/blog/archives">归档</a></li> 
+  <li><a href="/about">关于</a></li> 
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">OC与swift相互调用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-09T14:47:51+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:47 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--More-->
+
+
+<p>一、OC调用swift文件</p>
+
+<p>二、swift调用OC文件</p>
+
+<p>三、注意和总结</p>
+
+<p>添加：</p>
+
+<p>四、自定义桥接文件</p>
+
+<p>一、OC调用swift文件</p>
+
+<p>在OC项目中创建一个swift文件的时候，Xcode 会提示 需要创建一个桥接文件，点确定创建桥接文件，Xcode会自动创建一个桥接文件</p>
+
+<p>名字：工程名-Bridging-Header.h</p>
+
+<p>这个桥接文件是 swift 调用OC文件的时候用的</p>
+
+<p>1、
+进入TARGETS ->Build Settings -> Packaging 中</p>
+
+<p>设置Defines Module为YES</p>
+
+<p>设置 Product Module Name ，也可以不设置，默认为工程的名字。这个在后面会用到</p>
+
+<p>2、
+在swift写一个类</p>
+
+<p>注意这个类一定要继承NSObject，不然在OC中没法用</p>
+
+<p>class hello: NSObject {</p>
+
+<pre><code>var address : String
+var gender: String
+
+init(address:String,gender:String){
+    self.address = address
+    self.gender = gender
+}
+
+func method() {
+    print("message \(self.address + self.gender)")
+}
+}
+</code></pre>
+
+<p>3、
+　　在OC需要用到的swift文件中 导入文件 &ldquo;Product Module Name -Swift.h&rdquo;  因为 Product Module Name 默认是工程的名字</p>
+
+<p>所以直接导入 #import &ldquo;工程名-Swift.h&rdquo;</p>
+
+<p>4、
+　　记着写完先command +B编译一下，如果没有报错就可以在OC文件调用swift中的类了</p>
+
+<p>hello *helloss = [[helloalloc]initWithAddress:@&ldquo;上海"gender:@"男&rdquo;];
+[helloss method];</p>
+
+<p>二、swift调用OC文件
+　　在swift项目中创建一个OC文件的时候，Xcode 会提示创建一个桥接文件 点确定创建桥接文件，Xcode会自动创建一个桥接文件</p>
+
+<p>名字：工程名-Bridging-Header.h</p>
+
+<p>　　把swift需要用到的OC文件的头文件放到桥接文件里 工程名-Bridging-Header.h</p>
+
+<p>例如：</p>
+
+<p>1、
+这个就是一个OC文件</p>
+
+<pre><code>//#import "sec.h"
+#import &lt;UIKit/UIKit.h&gt;
+@interface sec : UIViewController
+-(void)actionMake;
+@end
+</code></pre>
+
+<p>2、
+在桥接文件中把需要用到OC的头文件导入进去</p>
+
+<pre><code>#import "sec.h"
+</code></pre>
+
+<p>3、
+编译一下，就可以在swift中用swift的语法调用OC文件的方法了</p>
+
+<pre><code>let second = sec()
+second.actionMake()
+</code></pre>
+
+<p>三、注意和总结</p>
+
+<p>注意：
+1、OC项目在导入swift文件前 先按照系统提示创建桥接文件，</p>
+
+<p>2、在 targets -> Build Settings -> Packaging  中设置Defines Module 为YES</p>
+
+<p>3、在OC中调用swift文件的时候，swift中的类 要继承NSObject</p>
+
+<p>不然没办法在OC中调用</p>
+
+<p>4、OC中调用swift文件需要导入”工程名 -Swift.h"</p>
+
+<p>（这个是build Setting -> Packaging->Product Module Name 的名字，而这个属性默认是工程的名字）</p>
+
+<p>5、写完记得command + B 编译 一下</p>
+
+<p>6、swift项目 引用OC文件也需要创建 桥接文件，在这个桥接文件中导入OC文件的头文件</p>
+
+<p>7、桥接文件只有一个，作用只是为了 swift 引用OC文件，OC引用swift 文件虽然也需要创建桥接文件
+        但是不需要在桥接文件中 导入swift文件</p>
+
+<p>8、如果一个项目既有OC引用swift 也有swift引用OC ,就先设置OC调用swift文件
+     在桥接文件 导入OC文件，OC可以定义PCH文件导入”工程名 -Swift.h"</p>
+
+<p>四、自定义桥接文件</p>
+
+<p>如果不用Xcode提示创建桥接文件也可以自定义一个桥接文件</p>
+
+<p>1  使用 Header File  把里面的内容清空。</p>
+
+<p>2、 这文件名可以自定义， 一般还是用 工程名-Bridging-Header.h   例如app - file.h</p>
+
+<p>3    然后在 Build Setting -> Swift Compiler - Code Generation中</p>
+
+<p>4、设置Objective-C Bridging Header 为自定义的桥接文件相对于工程的绝对路径，也就是项目总文件夹的路径，如果在第一层，就直接写自定义的桥接文件的名file.h，如果在下一层，文件夹/桥接文件 app/file.h</p>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.cnblogs.com/mazhiqiang/p/5557002.html">http://www.cnblogs.com/mazhiqiang/p/5557002.html</a></li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">陈斌彬</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-08-09T14:47:51+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>2:47 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/08/09/ionic-slash-cordova-zhen-ji-diao-shi/" title="Previous Post: ionic/cordova 真机调试">&laquo; ionic/cordova 真机调试</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/08/10/oc-diao-yong-swift/" title="Next Post: oc 调用 swift（原创）">oc 调用 swift（原创） &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section> 
+  <h1>文章分类</h1> 
+  <ul id="categories"> 
+    <li class='category'><a href='/blog/categories/android/'>android (126)</a></li>
+<li class='category'><a href='/blog/categories/computer/'>computer (158)</a></li>
+<li class='category'><a href='/blog/categories/csharp/'>csharp (56)</a></li>
+<li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (15)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (734)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
+<li class='category'><a href='/blog/categories/js/'>js (143)</a></li>
+<li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (63)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (71)</a></li>
+<li class='category'><a href='/blog/categories/net/'>net (417)</a></li>
+<li class='category'><a href='/blog/categories/network/'>network (2)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective-c (78)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>php (24)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (5)</a></li>
+<li class='category'><a href='/blog/categories/react/'>react (5)</a></li>
+<li class='category'><a href='/blog/categories/ruby/'>ruby (23)</a></li>
+<li class='category'><a href='/blog/categories/sql/'>sql (8)</a></li>
+<li class='category'><a href='/blog/categories/swift/'>swift (40)</a></li>
+<li class='category'><a href='/blog/categories/video/'>video (1)</a></li>
+<li class='category'><a href='/blog/categories/web/'>web (185)</a></li>
+  
+    </ul> 
+</section><section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/10/ru-he-wei-swiftjin-xing-hong-ding-yi/">如何为Swift进行宏定义</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/10/oc-diao-yong-swift/">Oc 调用 Swift（原创）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/09/ocyu-swiftxiang-hu-diao-yong/">OC与swift相互调用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/09/ionic-slash-cordova-zhen-ji-diao-shi/">Ionic/cordova 真机调试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/09/ionicxiang-mu-shi-li-oniczhong-wen-she-qu/">Ionic项目实例《Ionic中文社区》</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - 陈斌彬 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

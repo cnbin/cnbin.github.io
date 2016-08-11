@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Web | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/web/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-08T19:07:01+08:00</updated>
+  <updated>2016-08-11T11:53:20+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,109 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Tomcat的Manager显示403 Access Denied]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/09/tomcatde-managerxian-shi-403-access-denied/"/>
+    <updated>2016-08-09T10:25:16+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/09/tomcatde-managerxian-shi-403-access-denied</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>管理tomcat的时候遇到了以下问题：</p>
+
+<p>1.刚开始需要用户名密码，不知道用户名和密码是什么，但是输入什么都不正确。</p>
+
+<p>解决办法：</p>
+
+<p>自己在tomcat-users.xml中按格式添加用户 conf文件夹里面</p>
+
+<p>默认是注释掉了的，这主要是考虑到服务器的安全，如果是本地测试，去掉以下这段注释，然后重启动服务器，再输入</p>
+
+<pre><code>&lt;role rolename="tomcat"/&gt;
+&lt;role rolename="role1"/&gt;
+&lt;user username="tomcat" password="tomcat" roles="tomcat"/&gt;
+&lt;user username="both" password="tomcat" roles="tomcat,role1"/&gt;
+&lt;user username="role1" password="tomcat" roles="role1"/&gt;
+</code></pre>
+
+<p>　　<br/>
+　　用户和密码都一目了然了。</p>
+
+<p>2.进入manager界面之后，显示的是403 Access Denied。</p>
+
+<p>解决办法：</p>
+
+<p>在conf/tomcat-users.xml文件中看到这么一段话：</p>
+
+<p>NOTE:  By default, no user is included in the &ldquo;manager-gui&rdquo; role required
+to operate the &ldquo;/manager/html&rdquo; web application.  If you wish to use this app,
+you must define such a user - the username and password are arbitrary.</p>
+
+<p>也就是说，为了考虑安全，tomcat默认还是没有manager-gui的管理权限的，如果想要使用manager
+的话，需要自行加入管理权限（角色）。</p>
+
+<p>需要加一个这样的权限（角色)</p>
+
+<pre><code>&lt;role rolename="manager-gui"/&gt;
+</code></pre>
+
+<p>然后再加到需要的用户名中去</p>
+
+<pre><code>&lt;user username="tomcat" password="tomcat" roles="tomcat,manager-gui"/&gt;
+　　这样OK了。
+
+&lt;?xml version='1.0' encoding='utf-8'?&gt;
+&lt;!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+--&gt;
+&lt;tomcat-users&gt;
+&lt;!--
+NOTE:  By default, no user is included in the "manager-gui" role required
+to operate the "/manager/html" web application.  If you wish to use this app,
+you must define such a user - the username and password are arbitrary.
+--&gt;
+&lt;!--
+NOTE:  The sample user and role entries below are wrapped in a comment
+and thus are ignored when reading this file. Do not forget to remove
+&lt;!.. ..&gt; that surrounds them.
+--&gt;
+
+&lt;!--
+&lt;role rolename="tomcat"/&gt;
+&lt;role rolename="role1"/&gt;
+&lt;user username="tomcat" password="tomcat" roles="tomcat"/&gt;
+&lt;user username="both" password="tomcat" roles="tomcat,role1"/&gt;
+&lt;user username="role1" password="tomcat" roles="role1"/&gt;
+--&gt;
+&lt;role rolename="manager-gui"/&gt;
+&lt;role rolename="admin-gui"/&gt;
+&lt;user username="ming" password="064417" roles="manager-gui,admin-gui"/&gt;
+
+&lt;/tomcat-users&gt;
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://www.cnblogs.com/mingforyou/archive/2013/03/31/2991543.html">http://www.cnblogs.com/mingforyou/archive/2013/03/31/2991543.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Webstorm 10 for Mac Osx 注册机]]></title>
@@ -75,18 +178,6 @@
 
 
 <h3><a href="https://www.draw.io/">https://www.draw.io/</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Can I Use]]></title>
-    <link href="http://cnbin.github.io/blog/2016/05/20/can-i-use/"/>
-    <updated>2016-05-20T15:25:30+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/05/20/can-i-use</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://caniuse.com/">http://caniuse.com/</a></h3>
 ]]></content>
   </entry>
   

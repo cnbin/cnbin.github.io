@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mac | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-08T19:07:01+08:00</updated>
+  <updated>2016-08-11T11:53:20+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,77 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Brew Install Tomcat]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/09/brew-install-tomcat/"/>
+    <updated>2016-08-09T10:12:29+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/09/brew-install-tomcat</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>I recently installed Tomcat 7 and got it working with Eclipse Helios on Mac OSX Lion.</p>
+
+<p>Install Homebrew:</p>
+
+<p>/usr/bin/ruby -e &ldquo;$(curl -fsSL <a href="https://raw.github.com/gist/323731">https://raw.github.com/gist/323731</a>)&rdquo;</p>
+
+<p>Install Tomcat:</p>
+
+<p>sudo brew install tomcat</p>
+
+<p>Test the Tomcat install by starting the server:</p>
+
+<p>sudo catalina start</p>
+
+<p>Set it so that you can start it without using sudo:</p>
+
+<p>sudo chgrp -R your_user_name</p>
+
+<p>sudo chmod -R g+rw /usr/local/Cellar/tomcat/</p>
+
+<p>Stop the Tomcat server (if you have not already):</p>
+
+<p>sudo catalina stop</p>
+
+<p>Test the change to the file permissions for Tomcat by starting the server as yourself without sudo:</p>
+
+<p>catalina start</p>
+
+<p>Stop the Tomcat server (we want Eclipse to do the starting and stopping):
+catalina stop</p>
+
+<p>In Eclipse, open the &lsquo;Servers&rsquo; view and add a new Tomcat server. Key point is to make sure to change the name of the server so that it does not contain any spaces! If you don&rsquo;t have a &lsquo;Servers&rsquo; view, you need to go download &lsquo;Eclipse IDE for Java EE Developers&rsquo;.</p>
+
+<p>All done! You should now be able to start and stop Tomcat from Eclipse. :)</p>
+
+<p>首先保证brew命令能够正常使用；</p>
+
+<p>1.搜索tomcat是否存在：</p>
+
+<pre><code>brew search tomcat
+</code></pre>
+
+<p>2.安装tomcat：</p>
+
+<pre><code>brew install tomcat
+</code></pre>
+
+<p>3.检查是否安装成功：</p>
+
+<pre><code>catalina -h
+</code></pre>
+
+<p>4.运行tomcat：</p>
+
+<pre><code>catalina run
+</code></pre>
+
+<p>Tomcat的默认端口是8080，如果运行成功可通过<code>http://localhost:8080</code>访问</p>
+
+<p>webapp的根目录(CATALINA_HOME)为:<code>/usr/local/Cellar/tomcat/7.0.33/libexec/webapps/ROOT/</code></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac查看Http请求分析-httpie]]></title>
@@ -83,18 +154,6 @@ cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 <h3>其他方法参考</h3>
 
 <h4><a href="http://jingyan.baidu.com/article/495ba84107f25538b30ede04.html">http://jingyan.baidu.com/article/495ba84107f25538b30ede04.html</a></h4>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac怎么格式化U盘 Mac下如何格式化U盘]]></title>
-    <link href="http://cnbin.github.io/blog/2016/03/15/maczen-yao-ge-shi-hua-upan/"/>
-    <updated>2016-03-15T11:37:49+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/03/15/maczen-yao-ge-shi-hua-upan</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://jingyan.baidu.com/article/9c69d48f402c6013c9024e3c.html">http://jingyan.baidu.com/article/9c69d48f402c6013c9024e3c.html</a></h3>
 ]]></content>
   </entry>
   
