@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ionic | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/ionic/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-11T11:53:20+08:00</updated>
+  <updated>2016-08-11T14:52:44+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ionic上传 Www]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/11/ionishang-chuan-www/"/>
+    <updated>2016-08-11T14:39:13+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/11/ionishang-chuan-www</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>ionic框架可以直接上传www文件夹，不使用cordova内容</p>
+
+<pre><code>/usr/local/Cellar/tomcat/8.5.4/
+</code></pre>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f6psxelzexj20cq0a2gmy.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f6psxdtlg8j209u09yq3m.jpg" alt="img" />
+执行命令</p>
+
+<pre><code>catalina run
+</code></pre>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6pszmzwafj20tu06wwgy.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f6pszmasofj20r00htdjb.jpg" alt="img" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ionic/cordova 真机调试]]></title>
@@ -150,18 +177,6 @@ npm start
 
 <pre><code>npm run protractor
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[跨域访问]]></title>
-    <link href="http://cnbin.github.io/blog/2016/06/24/kua-yu-fang-wen/"/>
-    <updated>2016-06-24T09:21:32+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/06/24/kua-yu-fang-wen</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>域(Domain)是Windows网络中独立运行的单位，域之间相互访问则需要建立信任关系(即Trust Relation)。信任关系是连接在域与域之间的桥梁。当一个域与其他域建立了信任关系后，2个域之间不但可以按需要相互进行管理，还可以跨网分配文件和打印机等设备资源，使不同的域之间实现网络资源的共享与管理。 有一种简明的说法来解释广域跨域：跨域访问，简单来说就是 A 网站的 javascript 代码试图访问 B 网站，包括提交内容和获取内容。由于安全原因，跨域访问是被各大浏览器所默认禁止的。</p>
 ]]></content>
   </entry>
   

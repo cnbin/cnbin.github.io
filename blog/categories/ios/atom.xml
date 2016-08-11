@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-11T11:53:20+08:00</updated>
+  <updated>2016-08-11T14:52:44+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,124 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ios与web交互]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/11/iosyu-webjiao-hu/"/>
+    <updated>2016-08-11T14:48:11+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/11/iosyu-webjiao-hu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>web html文件加上scipt</p>
+
+<pre><code> &lt;script&gt;
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='https://www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+        &lt;/script&gt;
+        &lt;script&gt;
+
+            function pushSubViewController () {
+                setupWebViewJavascriptBridge(function(bridge) {
+                    bridge.callHandler('push',
+                        {
+                            'detailID': '斌彬哥哥',
+                            'actionName':'push'
+                        },
+                        function responseCallback(responseData) {
+                            console.log("JS received response:", responseData)
+                        })
+                })
+            }
+
+        &lt;/script&gt;
+        &lt;script&gt;
+            //        init JS  //固定写法
+            window.onerror = function(err) {
+                log('window.onerror: ' + err)
+            }
+
+            function setupWebViewJavascriptBridge(callback) {
+                if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+                if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+                window.WVJBCallbacks = [callback];
+                var WVJBIframe = document.createElement('iframe');
+                WVJBIframe.style.display = 'none';
+                WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+                document.documentElement.appendChild(WVJBIframe);
+                setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+            }
+        &lt;/script&gt;
+
+            &lt;p&gt;3.跳转到某些子界面&lt;/p&gt;
+        &lt;button id="push" onclick="pushSubViewController()"&gt;pushSubViewController&lt;/button&gt;
+</code></pre>
+
+<p>ios端导入</p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f6pt4darjoj207706saaz.jpg" alt="img" /></p>
+
+<p>导入</p>
+
+<pre><code>#import "WebViewJavascriptBridge.h"
+#import "HybirdUrlHandler.h"
+#import "HyBridBridge.h"
+</code></pre>
+
+<p>添加</p>
+
+<pre><code>@property WebViewJavascriptBridge *bridge;
+@property (strong, nonatomic) HyBridBridge *hybridBridge;
+</code></pre>
+
+<p>使用</p>
+
+<pre><code>[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://localhost:8080/src/"]]]];
+
+//http://localhost:8080/src/
+//http://ionic-person-6e53.coding.io/
+_bridge = [WebViewJavascriptBridge bridgeForWebView:webView];
+[self.hybridBridge registerHybridUrlHanlder:self andBridge:self.bridge];
+</code></pre>
+
+<p>回调</p>
+
+<pre><code>//懒加载
+- (HyBridBridge *)hybridBridge {
+    if (!_hybridBridge) {
+        _hybridBridge = [[HyBridBridge alloc] init];
+    }
+    return _hybridBridge;
+}
+
+- (NSArray *)actionNames {  //定义可支持的方法名称
+    return @[@"push"];
+}
+
+//HTML 部分 需要定义 方法名称
+//传参的时候 带上方法名字  我这里写的是actionName
+- (BOOL)handleDictionAry:(NSDictionary *)dictionary callback:(HybridCallbackBlock)callbackBlock {
+    NSString *actionTag = dictionary[@"actionName"];
+
+    if ([actionTag isEqualToString:@"push"]) {
+
+        NSString *detailID = dictionary[@"detailID"];
+        NSLog(@"detailID is %@",detailID);
+        NSLog(@"push view controller");
+        BBZhiFuViewController *vc = [[BBZhiFuViewController alloc]init];
+        vc.detailID = detailID;
+        [self.navigationController pushViewController:vc animated:YES];
+        return YES;
+    }
+    return NO;
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[OC与swift相互调用]]></title>
@@ -164,7 +282,7 @@ second.actionMake()
     <content type="html"><![CDATA[<!--More-->
 
 
-<h3><a href="http://my.oschina.net/twinkling/blog/504824?p={{totalPage}}">http://my.oschina.net/twinkling/blog/504824?p={{totalPage}}</a></h3>
+<h3><a href="http://my.oschina.net/twinkling/blog/504824?p=">http://my.oschina.net/twinkling/blog/504824?p=</a></h3>
 ]]></content>
   </entry>
   
@@ -247,64 +365,6 @@ NSURLRequest *request =[NSURLRequest requestWithURL:webUrl cachePolicy:NSURLRequ
 
 
 <h3><a href="http://www.tuicool.com/articles/yUjaYv">http://www.tuicool.com/articles/yUjaYv</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CocoaPods升级后（最新版本1.0.1），安装第三方库的时候会报如下错误]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/27/cocoapodssheng-ji-hou-(zui-xin-ban-ben-1-dot-0-1),an-zhuang-di-san-fang-ku-de-shi-hou-hui-bao-ru-xia-cuo-wu/"/>
-    <updated>2016-07-27T17:39:05+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/27/cocoapodssheng-ji-hou-(zui-xin-ban-ben-1-dot-0-1),an-zhuang-di-san-fang-ku-de-shi-hou-hui-bao-ru-xia-cuo-wu</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>CocoaPods升级后（最新版本1.0.1），安装第三方库的时候会报如下错误：</p>
-
-<p>　　The dependency <code>AFNetworking (~&gt; 3.1.0)</code> is not used in any concrete target.</p>
-
-<p>原因：CocoaPods升级后，Podfile文件的内容格式要求发生了变化，必须指出指出所用第三方库的target。</p>
-
-<p>解决步骤：</p>
-
-<p>1）检查CocoaPods的版本</p>
-
-<pre><code>        pod --version
-</code></pre>
-
-<p>2) 升级或安装最新版本（目前版本1.0.1）</p>
-
-<p>注意：如果cocoapods已经是1.0.1版本，则跳过该步骤直接进入第三个步骤。</p>
-
-<pre><code>升级命令：sudo gem update -n /usr/local/bin --system
-
-
-
-安装命令：sudo gem install -n /usr/local/bin cocoapods
-</code></pre>
-
-<p>(3)修改Podfile的内容</p>
-
-<p>修改前的Podfile文件的内容：</p>
-
-<pre><code>platform:ios,'7.0'
-pod 'MJRefresh', '~&gt; 3.1.0'
-pod 'SDWebImage', '~&gt; 3.7.6'
-pod 'SVProgressHUD', '~&gt; 2.0.3'
-pod 'AFNetworking', '~&gt; 3.1.0'
-</code></pre>
-
-<p>修改后的Podfile文件的内容：</p>
-
-<pre><code>platform:ios,'7.0'
-target "MyProject" do
-pod 'MJRefresh', '~&gt; 3.1.0'
-pod 'SDWebImage', '~&gt; 3.7.6'
-pod 'SVProgressHUD', '~&gt; 2.0.3'
-pod 'AFNetworking', '~&gt; 3.1.0'
-end
-</code></pre>
-
-<p>　　在Podfile文件中需要明确指出使用第三方库的target,这里target后面跟的就是自己项目本身的Target;也就是项目中的tagrets中的那个项目名称。</p>
 ]]></content>
   </entry>
   
