@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ionic | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/ionic/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-11T14:52:44+08:00</updated>
+  <updated>2016-08-18T18:05:24+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Getting Started With ngCordova]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/18/getting-started-with-ngcordova/"/>
+    <updated>2016-08-18T07:14:12+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/18/getting-started-with-ngcordova</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://thejackalofjavascript.com/getting-started-with-ngcordova/">http://thejackalofjavascript.com/getting-started-with-ngcordova/</a></h3>
+
+<h3><a href="https://www.npmjs.com/package/xenious-cordova-plugin-x-toast">https://www.npmjs.com/package/xenious-cordova-plugin-x-toast</a></h3>
+
+<h3><a href="http://ngcordova.com/docs/plugins/device/">http://ngcordova.com/docs/plugins/device/</a></h3>
+
+<h3><a href="http://www.ionic-china.com/ngCordova/Flashlight.html">http://www.ionic-china.com/ngCordova/Flashlight.html</a></h3>
+
+<h3><a href="http://www.phonegapcn.com/camera">http://www.phonegapcn.com/camera</a></h3>
+
+<h3><a href="http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html">http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html</a></h3>
+
+<h3><a href="http://www.haomou.net/2015/01/05/2015_ionic_ngCordova/">http://www.haomou.net/2015/01/05/2015_ionic_ngCordova/</a></h3>
+
+<h3><a href="https://www.npmjs.com/package/cordova-plugin-flashlight">https://www.npmjs.com/package/cordova-plugin-flashlight</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cordova]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/17/cordova/"/>
+    <updated>2016-08-17T19:48:05+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/17/cordova</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<pre><code>npm install -g cordova
+cd my_project
+cordova platform update ios@4.0.0
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html">http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ionic上传 Www]]></title>
@@ -74,109 +122,6 @@
 
 
 <h3><a href="http://www.cnblogs.com/zxj159/p/4788703.html">http://www.cnblogs.com/zxj159/p/4788703.html</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[将网页设置为允许 XMLHttpRequest 跨域访问]]></title>
-    <link href="http://cnbin.github.io/blog/2016/06/24/jiang-wang-ye-she-zhi-wei-yun-xu-xmlhttprequest-kua-yu-fang-wen/"/>
-    <updated>2016-06-24T10:06:41+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/06/24/jiang-wang-ye-she-zhi-wei-yun-xu-xmlhttprequest-kua-yu-fang-wen</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>在非IE下，使用XMLHttpRequest 不能跨域访问，</p>
-
-<p>除非要访问的网页设置为允许跨域访问。</p>
-
-<p>将网页设置为允许跨域访问的方法如下：</p>
-
-<pre><code>Response.AddHeader("Access-Control-Allow-Origin", "*");
-</code></pre>
-
-<p>或指定域名下可以访问：</p>
-
-<pre><code>Response.AddHeader("Access-Control-Allow-Origin", "http://www.163.com:80");
-</code></pre>
-
-<p>在返回的响应信息中，使用 Access-Control-Allow-Origin 头来控制哪些域名的脚本可以访问该资源。如果设置 Access-Control-Allow-Origin:*，则允许所有域名的脚本访问该资源。如果有多个，则只需要使用逗号分隔开即可。</p>
-
-<p>注意：在服务器端，Access-Control-Allow-Origin 响应头中的端口信息不能省略。</p>
-
-<p>参考：<a href="http://www.chinaz.com/program/2010/0111/103511_2.shtml">http://www.chinaz.com/program/2010/0111/103511_2.shtml</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AngularJS初探：搭建PhoneCat项目的开发与测试环境]]></title>
-    <link href="http://cnbin.github.io/blog/2016/06/24/angularjschu-tan-:da-jian-phonecatxiang-mu-de-kai-fa-yu-ce-shi-huan-jing/"/>
-    <updated>2016-06-24T09:41:31+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/06/24/angularjschu-tan-:da-jian-phonecatxiang-mu-de-kai-fa-yu-ce-shi-huan-jing</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>AngularJS官方网站提供了一个用于学习的示例项目：PhoneCat。这是一个Web应用，用户可以浏览一些Android手机，了解它们的详细信息，并进行搜索和排序操作。</p>
-
-<p>对于PhoneCat项目的开发环境和测试环境的搭建，官方网站上提供了详细的指导： <a href="http://docs.angularjs.org/tutorial">http://docs.angularjs.org/tutorial</a> 。</p>
-
-<p>获取源代码</p>
-
-<p>PhoneCat项目的源代码托管在GitHub上，因此获取源代码之前需要安装Git ( <a href="http://git-scm.com/download">http://git-scm.com/download</a> )。安装Git后，可以通过git clone来下载源代码：</p>
-
-<pre><code>git clone --depth=14 https://github.com/angular/angular-phonecat.git
-</code></pre>
-
-<p>–depth=14选项的意思为：仅下载最近14次的代码提交版本；这么做可以减少下载的文件大小，加快下载。</p>
-
-<p>安装依赖包</p>
-
-<p>PhoneCat是一个Web应用程序，因此最好在Web服务器中运行，以期获得最佳结果。官方推荐安装Node.js ( <a href="http://nodejs.org/download/">http://nodejs.org/download/</a> )。</p>
-
-<p>PhoneCat项目的运行与测试依赖一些别的工具，可以在安装Node.js后通过npm命令来安装这些依赖包。以下命令需在angular-phonecat项目路径下运行：</p>
-
-<pre><code>npm install
-</code></pre>
-
-<p>运行该命令后，会在angular-phonecat项目路径下安装以下依赖包：</p>
-
-<ul>
-<li>Bower . 包管理器</li>
-<li>Http-Server . 轻量级Web服务器</li>
-<li>Karma . 用于运行单元测试</li>
-<li>Protractor . 用于运行端到端测试</li>
-</ul>
-
-
-<p>运行PhoneCat项目</p>
-
-<p>完成上述工作后，运行PhoneCat项目很简单，在angular-phonecat项目路径下运行以下命令即可：</p>
-
-<p>npm start
-PhoneCat运行后，可以在浏览器中打开<code>http://localhost:8000/app/index.html</code>来访问该Web应用。</p>
-
-<p>运行单元测试</p>
-
-<p>PhoneCat项目中的单元测试是使用Karma来完成的，所有的单元测试用例都存放在test/unit目录下。可以通过执行以下命令来运行单元测试：</p>
-
-<pre><code>npm test
-</code></pre>
-
-<p>值得一提的是，在运行单元测试前，计算机上必须安装Google Chrome浏览器。</p>
-
-<p>运行端到端测试</p>
-
-<p>PhoneCat项目使用端到端测试来保证Web应用的可操作性，而这个端到端测试是通过使用Protractor来实现的，所有的端到端测试用例都存放在test/e2e目录下。可以通过执行以下步骤来运行端到端测试：</p>
-
-<pre><code>//更新webdriver，此命令只需运行一次
-npm run update-webdriver
-//运行PhoneCat
-npm start
-</code></pre>
-
-<p>打开另一个命令行窗口，在其中运行：</p>
-
-<pre><code>npm run protractor
-</code></pre>
 ]]></content>
   </entry>
   

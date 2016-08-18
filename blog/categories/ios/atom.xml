@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-11T14:52:44+08:00</updated>
+  <updated>2016-08-18T18:05:24+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,36 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode 插件]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/16/xcode-cha-jian/"/>
+    <updated>2016-08-16T06:58:29+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/16/xcode-cha-jian</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>MLAutoReplace <a href="https://github.com/molon/MLAutoReplace">https://github.com/molon/MLAutoReplace</a></p>
+
+<p>Auto-Importer-for-Xcode <a href="https://github.com/citrusbyte/Auto-Importer-for-Xcode">https://github.com/citrusbyte/Auto-Importer-for-Xcode</a></p>
+
+<p>Cichlid <a href="https://github.com/dealforest/Cichlid">https://github.com/dealforest/Cichlid</a></p>
+
+<p>CleanHeaders-Xcode <a href="https://github.com/insanoid/CleanHeaders-Xcode">https://github.com/insanoid/CleanHeaders-Xcode</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[项目适配iOS9遇到的一些问题及解决办法（更新两个小问题）]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/15/xiang-mu-gua-pei-ios9yu-dao-de-xie-wen-ti-ji-jie-jue-ban-fa-geng-xin-liang-ge-xiao-wen-ti/"/>
+    <updated>2016-08-15T08:57:28+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/15/xiang-mu-gua-pei-ios9yu-dao-de-xie-wen-ti-ji-jie-jue-ban-fa-geng-xin-liang-ge-xiao-wen-ti</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://www.jianshu.com/p/631bd7f12a38">http://www.jianshu.com/p/631bd7f12a38</a></h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ios与web交互]]></title>
@@ -282,89 +312,7 @@ second.actionMake()
     <content type="html"><![CDATA[<!--More-->
 
 
-<h3><a href="http://my.oschina.net/twinkling/blog/504824?p=">http://my.oschina.net/twinkling/blog/504824?p=</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UIWebview 的缓存策略和验证，以及 Web 相关]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/08/uiwebview-de-huan-cun-ce-lue-he-yan-zheng-,yi-ji-web-xiang-guan/"/>
-    <updated>2016-08-08T08:25:11+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/08/uiwebview-de-huan-cun-ce-lue-he-yan-zheng-,yi-ji-web-xiang-guan</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>缓存策略 NSURLRequestCachePolicy</p>
-
-<p>NSURLRequestUseProtocolCachePolicy
-缓存策略定义在 web 协议实现中，用于请求特定的URL。是默认的URL缓存策略
-Specifies that the caching logic defined in the protocol implementation, if any, is used for a particular URL load request. This is the default policy for URL load requests.</p>
-
-<p>NSURLRequestReloadIgnoringLocalCacheData
-从服务端获取数据，忽略本地缓存</p>
-
-<p>Specifies that the data for the URL load should be loaded from the originating source. No existing cache data should be used to satisfy a URL load request.</p>
-
-<p>NSURLRequestReloadIgnoringLocalAndRemoteCacheData</p>
-
-<p>不仅忽略本地的缓存数据，还忽略中间网络媒介（如代理服务器）忽略缓存。直接从最原始的服务器拿取
-Specifies that not only should the local cache data be ignored, but that proxies and other intermediates should be instructed to disregard their caches so far as the protocol allows.</p>
-
-<p>NSURLRequestReloadIgnoringCacheData
-被NSURLRequestReloadIgnoringLocalCacheData替换了</p>
-
-<p>Replaced by NSURLRequestReloadIgnoringLocalCacheData.</p>
-
-<p>NSURLRequestReturnCacheDataElseLoad</p>
-
-<p>已经存在的缓存数据用于请求返回，不管它的过期日期和已经存在了多久。如果没有请求对应的缓存数据，从数据源读取
-Specifies that the existing cached data should be used to satisfy the request, regardless of its age or expiration date. If there is no existing data in the cache corresponding the request, the data is loaded from the originating source.</p>
-
-<p>NSURLRequestReturnCacheDataDontLoad</p>
-
-<p>已经存在的缓存数据用于请求返回，不管它的过期日期和已经存在了多久。如果没有请求对应的缓存数据，不要去数据源读取，该请求被设置为失败，这种情况多用于离线模式</p>
-
-<p>Specifies that the existing cache data should be used to satisfy a request, regardless of its age or expiration date. If there is no existing data in the cache corresponding to a URL load request, no attempt is made to load the data from the originating source, and the load is considered to have failed. This constant specifies a behavior that is similar to an “offline” mode.</p>
-
-<p>NSURLRequestReloadRevalidatingCacheData</p>
-
-<p>已经存在的缓存数据先去数据源验证有效性，如果无效，将从数据源获取
-Specifies that the existing cache data may be used provided the origin source confirms its validity, otherwise the URL is loaded from the origin source.</p>
-
-<p>NSURLRequestUseProtocolCachePolicy 和 NSURLRequestReloadRevalidatingCacheData 区别</p>
-
-<p>个人意见，仅供参考，如有错误，请指出来，这对我很重要，谢谢</p>
-
-<p>NSURLRequestReloadRevalidatingCacheData 是一定要和原始的数据源验证 cache 是否有效。
-而NSURLRequestUseProtocolCachePolicy 是根据 web 的协议来控制缓存，服务端返回数据的 head 有相关的信息。它可能会返回中间网络媒介（如代理服务器中的数据）</p>
-
-<p>针对缓存策略做一下本地测试，这是非常有必要的</p>
-
-<pre><code>NSURL *webUrl = [NSURL URLWithString:@"http://localhost/test.txt"];       
-NSURLRequest *request =[NSURLRequest requestWithURL:webUrl cachePolicy:NSURLRequestReloadRevalidatingCacheData timeoutInterval:60];       
-[self.mainWebView loadRequest:request];  
-</code></pre>
-
-<p>这里使用NSURLRequestReloadRevalidatingCacheData， 返回cache数据一定要先验证数据有效。</p>
-
-<h3>Resource Reference</h3>
-
-<ul>
-<li><a href="http://blog.csdn.net/mangosnow/article/details/37831529">http://blog.csdn.net/mangosnow/article/details/37831529</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[FKConsole - Xcode控制台中文显示调整插件]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/04/fkconsole-xcodekong-zhi-tai-zhong-wen-xian-shi-diao-zheng-cha-jian/"/>
-    <updated>2016-08-04T08:13:32+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/04/fkconsole-xcodekong-zhi-tai-zhong-wen-xian-shi-diao-zheng-cha-jian</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://www.tuicool.com/articles/yUjaYv">http://www.tuicool.com/articles/yUjaYv</a></h3>
+<h3><a href="http://my.oschina.net/twinkling/blog/504824?p={{totalPage}}">http://my.oschina.net/twinkling/blog/504824?p={{totalPage}}</a></h3>
 ]]></content>
   </entry>
   

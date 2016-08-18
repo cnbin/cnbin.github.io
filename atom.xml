@@ -4,7 +4,7 @@
   <title><![CDATA[陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-11T14:52:44+08:00</updated>
+  <updated>2016-08-18T17:55:05+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,84 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Getting Started With ngCordova]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/18/getting-started-with-ngcordova/"/>
+    <updated>2016-08-18T07:14:12+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/18/getting-started-with-ngcordova</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://thejackalofjavascript.com/getting-started-with-ngcordova/">http://thejackalofjavascript.com/getting-started-with-ngcordova/</a></h3>
+
+<h3><a href="https://www.npmjs.com/package/xenious-cordova-plugin-x-toast">https://www.npmjs.com/package/xenious-cordova-plugin-x-toast</a></h3>
+
+<h3><a href="http://ngcordova.com/docs/plugins/device/">http://ngcordova.com/docs/plugins/device/</a></h3>
+
+<h3><a href="http://www.ionic-china.com/ngCordova/Flashlight.html">http://www.ionic-china.com/ngCordova/Flashlight.html</a></h3>
+
+<h3><a href="http://www.phonegapcn.com/camera">http://www.phonegapcn.com/camera</a></h3>
+
+<h3><a href="http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html">http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html</a></h3>
+
+<h3><a href="http://www.haomou.net/2015/01/05/2015_ionic_ngCordova/">http://www.haomou.net/2015/01/05/2015_ionic_ngCordova/</a></h3>
+
+<h3><a href="https://www.npmjs.com/package/cordova-plugin-flashlight">https://www.npmjs.com/package/cordova-plugin-flashlight</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cordova]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/17/cordova/"/>
+    <updated>2016-08-17T19:48:05+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/17/cordova</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<pre><code>npm install -g cordova
+cd my_project
+cordova platform update ios@4.0.0
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html">http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode 插件]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/16/xcode-cha-jian/"/>
+    <updated>2016-08-16T06:58:29+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/16/xcode-cha-jian</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>MLAutoReplace <a href="https://github.com/molon/MLAutoReplace">https://github.com/molon/MLAutoReplace</a></p>
+
+<p>Auto-Importer-for-Xcode <a href="https://github.com/citrusbyte/Auto-Importer-for-Xcode">https://github.com/citrusbyte/Auto-Importer-for-Xcode</a></p>
+
+<p>Cichlid <a href="https://github.com/dealforest/Cichlid">https://github.com/dealforest/Cichlid</a></p>
+
+<p>CleanHeaders-Xcode <a href="https://github.com/insanoid/CleanHeaders-Xcode">https://github.com/insanoid/CleanHeaders-Xcode</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[项目适配iOS9遇到的一些问题及解决办法（更新两个小问题）]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/15/xiang-mu-gua-pei-ios9yu-dao-de-xie-wen-ti-ji-jie-jue-ban-fa-geng-xin-liang-ge-xiao-wen-ti/"/>
+    <updated>2016-08-15T08:57:28+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/15/xiang-mu-gua-pei-ios9yu-dao-de-xie-wen-ti-ji-jie-jue-ban-fa-geng-xin-liang-ge-xiao-wen-ti</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://www.jianshu.com/p/631bd7f12a38">http://www.jianshu.com/p/631bd7f12a38</a></h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ios与web交互]]></title>
@@ -796,106 +874,6 @@ end
 </code></pre>
 
 <p>　　在Podfile文件中需要明确指出使用第三方库的target,这里target后面跟的就是自己项目本身的Target;也就是项目中的tagrets中的那个项目名称。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Too Many Arguments Provided to Function-like Macro Invocation]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/27/too-many-arguments-provided-to-function-like-macro-invocation/"/>
-    <updated>2016-07-27T16:55:40+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/27/too-many-arguments-provided-to-function-like-macro-invocation</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://www.jianshu.com/p/8e55f6de1150">http://www.jianshu.com/p/8e55f6de1150</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cocoapods降低版本及卸载]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/27/cocoapodsjiang-di-ban-ben-ji-xie-zai/"/>
-    <updated>2016-07-27T16:54:54+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/27/cocoapodsjiang-di-ban-ben-ji-xie-zai</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://www.meetrue.com/archives/133">http://www.meetrue.com/archives/133</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[导入FaceBook POP报错]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/27/dao-ru-facebook-popbao-cuo/"/>
-    <updated>2016-07-27T16:53:37+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/27/dao-ru-facebook-popbao-cuo</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>使用cocoaPods下载下来POP动画库，想手动导入到原来的工程，但是到了一堆错，什么文件没找到之类的。最后索性修改了所有的报错头文件：
-修改POP.h后 :</p>
-
-<pre><code>#import "POPAnimatableProperty.h"
-#import "POPAnimation.h"
-#import "POPAnimationEvent.h"
-#import "POPAnimationExtras.h"
-#import "POPAnimationTracer.h"
-#import "POPAnimator.h"
-#import "POPBasicAnimation.h"
-#import "POPCustomAnimation.h"
-#import "POPDecayAnimation.h"
-#import "POPDefines.h"
-#import "POPGeometry.h"
-#import "POPLayerExtras.h"
-#import "POPPropertyAnimation.h"
-#import "POPSpringAnimation.h"
-</code></pre>
-
-<p>在其他的文件里边将<code>&lt;pop/xxx.h&gt;</code> 全部修改成xxx.h.
-我使用的方法比较笨，只能解决燃眉之急，如果有更好的方法，希望能共享下。
-顶</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用CocoaPods遇到的几个坑]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/26/shi-yong-cocoapodsyu-dao-de-ji-ge-keng/"/>
-    <updated>2016-07-26T17:19:45+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/26/shi-yong-cocoapodsyu-dao-de-ji-ge-keng</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>首先是CocoaPods报错：The dependency `` is not used in any concrete target</p>
-
-<p>错误内容</p>
-
-<pre><code>/System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/ruby/2.0.0/universal-darwin14/rbconfig.rb:213: warning: Insecure world writable dir /Applications/Cocos/tools/ant/bin in PATH, mode 040777 Re-creating CocoaPods due to major version update. Updating local specs repositories Analyzing dependencies
-
-[!] The dependency `ReactiveCocoa (= 2.1.8)` is not used in any concrete target.
-
-The dependency `objectiveflickr (= 2.0.4)` is not used in any concrete target.
-
-The dependency `LinqToObjectiveC (= 2.0.0)` is not used in any concrete target.
-
-The dependency `SDWebImage (= 3.6)` is not used in any concrete target.
-</code></pre>
-
-<p>查了查好像是配置podfile文件的问题</p>
-
-<p>作如下修改</p>
-
-<pre><code>platform :ios, ‘7.0‘
-
-target "RWTFlickrSearch" do
-pod ‘ReactiveCocoa‘, ‘2.1.8‘
-pod ‘objectiveflickr‘, ‘2.0.4‘
-pod ‘LinqToObjectiveC‘, ‘2.0.0‘
-pod ‘SDWebImage‘, ‘3.6‘
-end
-</code></pre>
-
-<p>这样再运行pod install，就会成功了。</p>
-
-<p>原因是podfile升级到最新版本，pod里的内容必须明确指出所用第三方库的target</p>
 ]]></content>
   </entry>
   
