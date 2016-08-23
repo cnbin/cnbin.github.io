@@ -114,13 +114,13 @@
 <p>iphone4以上，系统找图片时，会直接在后面加上@2x，那么这个的问题是，系统加image@2x.png找不到图片，就直接用image.png，用一倍图来做处理。（也有可能，设备找不到图片而无法显示的，这个是听说的，我没碰到过）
 so，大家可以看出效果来！所以大家在用系统控件时，设置图片时考虑一下图片的问题，看你是不是也犯这个错误了。</p>
 
-<p>第二种情况：项目中只有带@2x的图片，<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#105;&#109;&#x61;&#103;&#x65;&#x40;&#x32;&#120;&#x2e;&#112;&#110;&#x67;">&#105;&#109;&#97;&#103;&#x65;&#x40;&#50;&#x78;&#46;&#x70;&#110;&#103;</a>(640*960)图片，在项目中所有的图片后面都加上了@2x，那么你会怎么用，我猜，你会这么用：</p>
+<p>第二种情况：项目中只有带@2x的图片，<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x69;&#x6d;&#97;&#103;&#101;&#x40;&#50;&#120;&#x2e;&#x70;&#110;&#103;">&#105;&#109;&#x61;&#103;&#x65;&#x40;&#50;&#x78;&#46;&#x70;&#110;&#103;</a>(640*960)图片，在项目中所有的图片后面都加上了@2x，那么你会怎么用，我猜，你会这么用：</p>
 
 <pre><code>UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:self.viewController];  
 [nav.navigationBar setBackgroundImage:[UIImage imageNamed:@"image@2x.png"] forBarMetrics:UIBarMetricsDefault];  
 </code></pre>
 
-<p>同样是处理系统的控件，图片你这样用了[UIImage imageNamed:@&ldquo;<a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#105;&#x6d;&#97;&#103;&#101;&#64;&#50;&#120;&#x2e;&#112;&#110;&#x67;">&#105;&#109;&#x61;&#x67;&#x65;&#64;&#x32;&#120;&#46;&#112;&#110;&#103;</a>&rdquo;]，导致的情况跟上面第一种情况是一样的。</p>
+<p>同样是处理系统的控件，图片你这样用了[UIImage imageNamed:@&ldquo;<a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x69;&#109;&#97;&#x67;&#101;&#x40;&#x32;&#x78;&#46;&#x70;&#x6e;&#103;">&#x69;&#109;&#x61;&#x67;&#x65;&#64;&#x32;&#120;&#x2e;&#112;&#110;&#x67;</a>&rdquo;]，导致的情况跟上面第一种情况是一样的。</p>
 
 <p>正确的用法[UIImage imageNamed:@&ldquo;image.png&rdquo;]，即使你的图片后面跟@2x你也不要这么用，直接image.png就行了，因为系统
 会帮你加上@2x。这样系统在找这张图的时候是image@2x.png在项目中能够找到，如果你直接用image@2x.png,系统会找
@@ -196,8 +196,8 @@ image@2x@2x.png这样的图片，那么在系统找不到的情况下，就直�
 <li class='category'><a href='/blog/categories/energy/'>energy (17)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (15)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (2)</a></li>
-<li class='category'><a href='/blog/categories/ionic/'>ionic (18)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (737)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (22)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (740)</a></li>
 <li class='category'><a href='/blog/categories/java/'>java (23)</a></li>
 <li class='category'><a href='/blog/categories/js/'>js (143)</a></li>
 <li class='category'><a href='/blog/categories/life/'>life (126)</a></li>
@@ -222,23 +222,23 @@ image@2x@2x.png这样的图片，那么在系统找不到的情况下，就直�
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/08/18/getting-started-with-ngcordova/">Getting Started With ngCordova</a>
+        <a href="/blog/2016/08/23/webviewchu-shi-hua/">Webview初始化</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/08/17/cordova/">Cordova</a>
+        <a href="/blog/2016/08/22/tong-ji-zheng-ge-xcodegong-cheng-dai-ma-xing-shu/">统计整个Xcode工程代码行数</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/08/16/xcode-cha-jian/">Xcode 插件</a>
+        <a href="/blog/2016/08/22/ionic-zi-ding-yi-serviceswen-jian/">Ionic 自定义services文件</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/08/15/xiang-mu-gua-pei-ios9yu-dao-de-xie-wen-ti-ji-jie-jue-ban-fa-geng-xin-liang-ge-xiao-wen-ti/">项目适配iOS9遇到的一些问题及解决办法（更新两个小问题）</a>
+        <a href="/blog/2016/08/19/ioskai-fa-xiao-ji-dai-shu-ru-kuang-(textfield)de-uialertview/">iOS开发小记：带输入框（TextField）的UIAlertView</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/08/11/iosyu-webjiao-hu/">Ios与web交互</a>
+        <a href="/blog/2016/08/19/uilabelzhi-ding-wei-zhi-gai-bian-zi-ti-yan-se/">Uilabel指定位置改变字体颜色</a>
       </li>
     
   </ul>

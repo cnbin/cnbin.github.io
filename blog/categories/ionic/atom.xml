@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ionic | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/ionic/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-18T18:05:24+08:00</updated>
+  <updated>2016-08-23T10:12:51+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,155 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ionic 自定义services文件]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/22/ionic-zi-ding-yi-serviceswen-jian/"/>
+    <updated>2016-08-22T07:45:06+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/22/ionic-zi-ding-yi-serviceswen-jian</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3>1.创建cbbservices.js文件</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f726kp5f6kj20b30j040i.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f726knt3xoj20k209ewg2.jpg" alt="img" /></p>
+
+<h3>2.声明添加到app.js中</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f726kokdtsj20t20f87aq.jpg" alt="img" /></p>
+
+<h3>3.添加到index.html文件中</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f726ko22xxj20qe0ecwke.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cordova调试工具Debug]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/19/cordovadiao-shi-gong-ju-debug/"/>
+    <updated>2016-08-19T09:22:07+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/19/cordovadiao-shi-gong-ju-debug</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://rensanning.iteye.com/blog/2018417">http://rensanning.iteye.com/blog/2018417</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cordova 添加plugin]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/19/cordova-tian-jia-plugin/"/>
+    <updated>2016-08-19T09:14:10+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/19/cordova-tian-jia-plugin</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://cordova.apache.org/plugins/">http://cordova.apache.org/plugins/</a></h3>
+
+<h3><a href="https://www.npmjs.com/package/cordova-plugin-progress">https://www.npmjs.com/package/cordova-plugin-progress</a></h3>
+
+<h3><a href="https://github.com/apache?page=3&amp;query=cordova&amp;utf8=%E2%9C%93">https://github.com/apache?page=3&amp;query=cordova&amp;utf8=%E2%9C%93</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ngCordova-demo]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/19/ngcordova-demo/"/>
+    <updated>2016-08-19T07:57:56+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/19/ngcordova-demo</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f6yqame8igj208m0i40vj.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f6yqam996pj20o20hf7ac.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6yqam17msj20te0bvgr0.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6yqalarpfj20n90cfdjr.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f6yqcktwjdj20ku112gnj.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6yqk89kb7j20ku11276h.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f6yqk8ds8jj20ku112js8.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f6yqk8fs25j20ku112gmb.jpg" alt="img" /></p>
+
+<h3>dialogs</h3>
+
+<pre><code>.controller('DashCtrl', function($scope, $cordovaDialogs) {
+
+   $cordovaDialogs.alert('message', 'title', 'button name')
+    .then(function() {
+      // callback success
+    });
+
+  $cordovaDialogs.confirm('message', 'title', ['button 1','button 2'])
+    .then(function(buttonIndex) {
+      // no button = 0, 'OK' = 1, 'Cancel' = 2
+      var btnIndex = buttonIndex;
+    });
+
+  $cordovaDialogs.prompt('msg', 'title', ['btn 1','btn 2'], 'default text')
+    .then(function(result) {
+      var input = result.input1;
+      // no button = 0, 'OK' = 1, 'Cancel' = 2
+      var btnIndex = result.buttonIndex;
+    });
+
+  // beep 3 times
+  $cordovaDialogs.beep(3);
+
+})
+</code></pre>
+
+<h3>actionsheet</h3>
+
+<pre><code>  .controller('DashCtrl', function($ionicPlatform, $scope, $cordovaActionSheet) {
+    $ionicPlatform.ready(function() {
+
+      var options = {
+        title: '你要做什么?',
+        buttonLabels: ['分享到陈斌彬的技术博客', '分享到朋友圈'],
+        addCancelButtonWithLabel: '取消',
+        androidEnableCancelButton: true,
+        winphoneEnableCancelButton: true,
+        addDestructiveButtonWithLabel: '删除这个'
+      };
+
+      $scope.showToast = function() {
+
+        // $cordovaToast.show(uuid, 'long', 'center');
+        $cordovaActionSheet.show(options)
+            .then(function(btnIndex) {
+              var index = btnIndex;
+            });
+     }
+
+
+ });
+
+})
+</code></pre>
+
+<h3>toast</h3>
+
+<pre><code>  .controller('DashCtrl', function($ionicPlatform, $scope, $cordovaToast) {
+    $ionicPlatform.ready(function() {
+      $cordovaToast.showShortTop('Hello World!!');
+
+      $scope.showToast = function() {
+        $cordovaToast
+            .show('You clicked a button!!', 'long', 'center');
+      }
+    });
+  })
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Getting Started With ngCordova]]></title>
@@ -36,92 +185,6 @@
 <h3><a href="http://www.haomou.net/2015/01/05/2015_ionic_ngCordova/">http://www.haomou.net/2015/01/05/2015_ionic_ngCordova/</a></h3>
 
 <h3><a href="https://www.npmjs.com/package/cordova-plugin-flashlight">https://www.npmjs.com/package/cordova-plugin-flashlight</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cordova]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/17/cordova/"/>
-    <updated>2016-08-17T19:48:05+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/17/cordova</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<pre><code>npm install -g cordova
-cd my_project
-cordova platform update ios@4.0.0
-</code></pre>
-
-<h3>Resource Reference</h3>
-
-<ul>
-<li><a href="http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html">http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ionic上传 Www]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/11/ionishang-chuan-www/"/>
-    <updated>2016-08-11T14:39:13+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/11/ionishang-chuan-www</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>ionic框架可以直接上传www文件夹，不使用cordova内容</p>
-
-<pre><code>/usr/local/Cellar/tomcat/8.5.4/
-</code></pre>
-
-<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f6psxelzexj20cq0a2gmy.jpg" alt="img" /></p>
-
-<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f6psxdtlg8j209u09yq3m.jpg" alt="img" />
-执行命令</p>
-
-<pre><code>catalina run
-</code></pre>
-
-<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6pszmzwafj20tu06wwgy.jpg" alt="img" /></p>
-
-<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f6pszmasofj20r00htdjb.jpg" alt="img" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ionic/cordova 真机调试]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/09/ionic-slash-cordova-zhen-ji-diao-shi/"/>
-    <updated>2016-08-09T11:24:36+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/09/ionic-slash-cordova-zhen-ji-diao-shi</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>android下简单，连接手机后，直接：</p>
-
-<pre><code>﻿​$ ionic run android
-</code></pre>
-
-<p>ios下比较麻烦点，要先装ios-deploy：</p>
-
-<pre><code>﻿​sudo npm install -g ios-deploy
-</code></pre>
-
-<p>然后：</p>
-
-<pre><code>﻿​ionic run ios --device
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ionic项目实例《Ionic中文社区》]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/09/ionicxiang-mu-shi-li-oniczhong-wen-she-qu/"/>
-    <updated>2016-08-09T11:22:03+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/09/ionicxiang-mu-shi-li-oniczhong-wen-she-qu</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://www.cnblogs.com/zxj159/p/4788703.html">http://www.cnblogs.com/zxj159/p/4788703.html</a></h3>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-18T17:55:05+08:00</updated>
+  <updated>2016-08-23T10:06:13+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,388 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Webview初始化]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/23/webviewchu-shi-hua/"/>
+    <updated>2016-08-23T10:05:19+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/23/webviewchu-shi-hua</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<pre><code>//
+//  BBPeiZhenFuWuVC.m
+//  HangyuHealth
+//
+//  Created by lwj on 16/8/23.
+//  Copyright © 2016年 AntWork. All rights reserved.
+//
+
+#import "BBPeiZhenFuWuVC.h"
+
+@interface BBPeiZhenFuWuVC () &lt;UITableViewDataSource, UITableViewDelegate,UIWebViewDelegate&gt;
+{
+    UITableView *_mTableView;
+    UIBarButtonItem *_rightItem;
+    BOOL bFirstLoad;
+}
+
+@property (strong, nonatomic) UIWebView *webView;
+@property WebViewJavascriptBridge* bridge;
+
+@end
+
+@implementation BBPeiZhenFuWuVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"陪诊服务";
+    [self initTableView];
+    [self initUI];
+
+}
+
+- (void) initUI {
+
+    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    [rightButton setTitle:@"提交" forState:UIControlStateNormal];
+    rightButton.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    [rightButton setTitleColor:[UIColor colorWithRed:32 / 255.0 green:134 / 255.0 blue:158 / 255.0 alpha:1.0] forState:UIControlStateNormal];
+    [rightButton setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [rightButton addTarget:self action:@selector(addBind) forControlEvents:UIControlEventTouchUpInside];
+    _rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+}
+
+- (void)addBind {
+    [_bridge callHandler:@"save" data:nil];
+}
+
+- (void)returnToPreviosView {
+    if(_webView.canGoBack){
+        [_webView goBack];
+    } else{
+        [super returnToPreviosView];
+    }
+}
+
+#pragma mark - UITableViewDelegate
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *cellIdentifier = [NSString stringWithFormat:@"%@Identify", NSStringFromClass([self class])];
+    UITableViewCell *returnCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if(returnCell == nil)
+    {
+        returnCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+    }
+
+    //清除UIWebView的缓存
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    _webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:_webView];
+
+    [WebViewJavascriptBridge enableLogging];
+    _bridge = [WebViewJavascriptBridge bridgeForWebView:_webView];
+    [_bridge setWebViewDelegate:self];
+    [_bridge registerHandler:@"finishLoading" handler:^(id data, WVJBResponseCallback responseCallback) {
+
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+    }];
+//    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.baidu.com"]]];
+    UserDataCenter *udc = [UserDataCenter sharedInstance];
+    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://yikangbao.yucanlin.cn:9081/registration/views/query-inventory.html?access_token=%@", udc.userInfo.strAccessToken]]]];
+    [returnCell.contentView addSubview:_webView];
+    returnCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return returnCell;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    NSInteger num = 1;
+    return num;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return _mTableView.frame.size.height;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    CGFloat height = 0.01;
+    return height;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *view=[[UIView alloc] init];
+    view.backgroundColor = color_ffffff;
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    CGFloat height = 0.01;
+    return height;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *view=[[UIView alloc] init];
+    view.backgroundColor = color_ffffff;
+    return view;
+}
+
+
+- (void)initTableView {
+    _mTableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:(CGRect) {0, 0, screenWidth, self.mViewContentHeight}];
+    _mTableView.backgroundColor = color_f7f7f9;
+    _mTableView.delegate = self;
+    _mTableView.dataSource = self;
+    _mTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    [_mTableView reloadData];
+    [self.view addSubview:_mTableView];
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [_bridge callHandler:@"reload" data:nil];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error {
+    [MBProgressHUD showHUD:self text:[error localizedDescription]];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+@end
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[统计整个Xcode工程代码行数]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/22/tong-ji-zheng-ge-xcodegong-cheng-dai-ma-xing-shu/"/>
+    <updated>2016-08-22T09:27:11+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/22/tong-ji-zheng-ge-xcodegong-cheng-dai-ma-xing-shu</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>打开终端，用cd命令 定位到工程所在的目录，然后调用以下命名即可把每个源代码文件行数及总数统计出来：</p>
+
+<pre><code>find . "(" -name "*.m" -or -name "*.mm" -or -name "*.cpp" -or -name "*.h" -or -name "*.rss" ")" -print | xargs wc -l
+</code></pre>
+
+<p>其中，-name  &ldquo;*.m&rdquo; 就表示扩展名为.m的文件。同时要统计java文件和xml文件的命令分别是：</p>
+
+<pre><code>find . "(" -name "*.java"  ")" -print | xargs wc -l
+
+find . "(" -name "*.xml"  ")" -print | xargs wc -l
+</code></pre>
+
+<p>参考：</p>
+
+<p><a href="http://blog.csdn.net/studyrecord/article/details/7633365">http://blog.csdn.net/studyrecord/article/details/7633365</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ionic 自定义services文件]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/22/ionic-zi-ding-yi-serviceswen-jian/"/>
+    <updated>2016-08-22T07:45:06+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/22/ionic-zi-ding-yi-serviceswen-jian</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3>1.创建cbbservices.js文件</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f726kp5f6kj20b30j040i.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f726knt3xoj20k209ewg2.jpg" alt="img" /></p>
+
+<h3>2.声明添加到app.js中</h3>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f726kokdtsj20t20f87aq.jpg" alt="img" /></p>
+
+<h3>3.添加到index.html文件中</h3>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f726ko22xxj20qe0ecwke.jpg" alt="img" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发小记：带输入框（TextField）的UIAlertView]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/19/ioskai-fa-xiao-ji-dai-shu-ru-kuang-(textfield)de-uialertview/"/>
+    <updated>2016-08-19T11:07:32+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/19/ioskai-fa-xiao-ji-dai-shu-ru-kuang-(textfield)de-uialertview</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Uilabel指定位置改变字体颜色]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/19/uilabelzhi-ding-wei-zhi-gai-bian-zi-ti-yan-se/"/>
+    <updated>2016-08-19T10:41:55+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/19/uilabelzhi-ding-wei-zhi-gai-bian-zi-ti-yan-se</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<pre><code>UILabel *myLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 60, 250, 30)];
+[self.view addSubview:myLabel];
+//这是我们的测试用的文本字符串数据
+NSString *content = @"abc123a1b2c3你懂得888";
+NSMutableAttributedString *attributeString  = [[NSMutableAttributedString alloc]initWithString:content];
+[attributeString setAttributes:@{NSForegroundColorAttributeName:[UIColor blueColor],NSFontAttributeName:[UIFont systemFontOfSize:25]} range:NSMakeRange(0, 10)];
+myLabel.attributedText = attributeString;
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://blog.csdn.net/msyqmsyq/article/details/50788003">http://blog.csdn.net/msyqmsyq/article/details/50788003</a></li>
+<li><a href="http://www.cnblogs.com/taintain1984/p/3550525.html">http://www.cnblogs.com/taintain1984/p/3550525.html</a></li>
+<li><a href="http://www.isaced.com/post-184.html">http://www.isaced.com/post-184.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cordova调试工具Debug]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/19/cordovadiao-shi-gong-ju-debug/"/>
+    <updated>2016-08-19T09:22:07+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/19/cordovadiao-shi-gong-ju-debug</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://rensanning.iteye.com/blog/2018417">http://rensanning.iteye.com/blog/2018417</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cordova 添加plugin]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/19/cordova-tian-jia-plugin/"/>
+    <updated>2016-08-19T09:14:10+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/19/cordova-tian-jia-plugin</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://cordova.apache.org/plugins/">http://cordova.apache.org/plugins/</a></h3>
+
+<h3><a href="https://www.npmjs.com/package/cordova-plugin-progress">https://www.npmjs.com/package/cordova-plugin-progress</a></h3>
+
+<h3><a href="https://github.com/apache?page=3&amp;query=cordova&amp;utf8=%E2%9C%93">https://github.com/apache?page=3&amp;query=cordova&amp;utf8=%E2%9C%93</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[ngCordova-demo]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/19/ngcordova-demo/"/>
+    <updated>2016-08-19T07:57:56+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/19/ngcordova-demo</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f6yqame8igj208m0i40vj.jpg" alt="img" /></p>
+
+<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f6yqam996pj20o20hf7ac.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6yqam17msj20te0bvgr0.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6yqalarpfj20n90cfdjr.jpg" alt="img" /></p>
+
+<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f6yqcktwjdj20ku112gnj.jpg" alt="img" /></p>
+
+<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6yqk89kb7j20ku11276h.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f6yqk8ds8jj20ku112js8.jpg" alt="img" /></p>
+
+<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f6yqk8fs25j20ku112gmb.jpg" alt="img" /></p>
+
+<h3>dialogs</h3>
+
+<pre><code>.controller('DashCtrl', function($scope, $cordovaDialogs) {
+
+   $cordovaDialogs.alert('message', 'title', 'button name')
+    .then(function() {
+      // callback success
+    });
+
+  $cordovaDialogs.confirm('message', 'title', ['button 1','button 2'])
+    .then(function(buttonIndex) {
+      // no button = 0, 'OK' = 1, 'Cancel' = 2
+      var btnIndex = buttonIndex;
+    });
+
+  $cordovaDialogs.prompt('msg', 'title', ['btn 1','btn 2'], 'default text')
+    .then(function(result) {
+      var input = result.input1;
+      // no button = 0, 'OK' = 1, 'Cancel' = 2
+      var btnIndex = result.buttonIndex;
+    });
+
+  // beep 3 times
+  $cordovaDialogs.beep(3);
+
+})
+</code></pre>
+
+<h3>actionsheet</h3>
+
+<pre><code>  .controller('DashCtrl', function($ionicPlatform, $scope, $cordovaActionSheet) {
+    $ionicPlatform.ready(function() {
+
+      var options = {
+        title: '你要做什么?',
+        buttonLabels: ['分享到陈斌彬的技术博客', '分享到朋友圈'],
+        addCancelButtonWithLabel: '取消',
+        androidEnableCancelButton: true,
+        winphoneEnableCancelButton: true,
+        addDestructiveButtonWithLabel: '删除这个'
+      };
+
+      $scope.showToast = function() {
+
+        // $cordovaToast.show(uuid, 'long', 'center');
+        $cordovaActionSheet.show(options)
+            .then(function(btnIndex) {
+              var index = btnIndex;
+            });
+     }
+
+
+ });
+
+})
+</code></pre>
+
+<h3>toast</h3>
+
+<pre><code>  .controller('DashCtrl', function($ionicPlatform, $scope, $cordovaToast) {
+    $ionicPlatform.ready(function() {
+      $cordovaToast.showShortTop('Hello World!!');
+
+      $scope.showToast = function() {
+        $cordovaToast
+            .show('You clicked a button!!', 'long', 'center');
+      }
+    });
+  })
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Getting Started With ngCordova]]></title>
@@ -562,318 +944,6 @@ and thus are ignored when reading this file. Do not forget to remove
 <li><a href="http://www.cnblogs.com/mingforyou/archive/2013/03/31/2991543.html">http://www.cnblogs.com/mingforyou/archive/2013/03/31/2991543.html</a></li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Brew Install Tomcat]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/09/brew-install-tomcat/"/>
-    <updated>2016-08-09T10:12:29+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/09/brew-install-tomcat</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>I recently installed Tomcat 7 and got it working with Eclipse Helios on Mac OSX Lion.</p>
-
-<p>Install Homebrew:</p>
-
-<p>/usr/bin/ruby -e &ldquo;$(curl -fsSL <a href="https://raw.github.com/gist/323731">https://raw.github.com/gist/323731</a>)&rdquo;</p>
-
-<p>Install Tomcat:</p>
-
-<p>sudo brew install tomcat</p>
-
-<p>Test the Tomcat install by starting the server:</p>
-
-<p>sudo catalina start</p>
-
-<p>Set it so that you can start it without using sudo:</p>
-
-<p>sudo chgrp -R your_user_name</p>
-
-<p>sudo chmod -R g+rw /usr/local/Cellar/tomcat/</p>
-
-<p>Stop the Tomcat server (if you have not already):</p>
-
-<p>sudo catalina stop</p>
-
-<p>Test the change to the file permissions for Tomcat by starting the server as yourself without sudo:</p>
-
-<p>catalina start</p>
-
-<p>Stop the Tomcat server (we want Eclipse to do the starting and stopping):
-catalina stop</p>
-
-<p>In Eclipse, open the &lsquo;Servers&rsquo; view and add a new Tomcat server. Key point is to make sure to change the name of the server so that it does not contain any spaces! If you don&rsquo;t have a &lsquo;Servers&rsquo; view, you need to go download &lsquo;Eclipse IDE for Java EE Developers&rsquo;.</p>
-
-<p>All done! You should now be able to start and stop Tomcat from Eclipse. :)</p>
-
-<p>首先保证brew命令能够正常使用；</p>
-
-<p>1.搜索tomcat是否存在：</p>
-
-<pre><code>brew search tomcat
-</code></pre>
-
-<p>2.安装tomcat：</p>
-
-<pre><code>brew install tomcat
-</code></pre>
-
-<p>3.检查是否安装成功：</p>
-
-<pre><code>catalina -h
-</code></pre>
-
-<p>4.运行tomcat：</p>
-
-<pre><code>catalina run
-</code></pre>
-
-<p>Tomcat的默认端口是8080，如果运行成功可通过<code>http://localhost:8080</code>访问</p>
-
-<p>webapp的根目录(CATALINA_HOME)为:<code>/usr/local/Cellar/tomcat/7.0.33/libexec/webapps/ROOT/</code></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AngularJS使用Controller实现URL跳转]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/08/angularjsshi-yong-controllershi-xian-urltiao-zhuan/"/>
-    <updated>2016-08-08T17:04:06+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/08/angularjsshi-yong-controllershi-xian-urltiao-zhuan</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>1.js定义一个controller</p>
-
-<pre><code>function MyCtrl($scope, $location) {
-
-    $scope.jumpToUrl = function(path) {
-
-        //TODO:add code here
-
-    };
-
-}
-</code></pre>
-
-<p>2.html里面应用controller</p>
-
-<pre><code>&lt;div ng-controller=‘MyCtrl’&gt;
-
-    &lt;button ng-click="jumpToUrl('/signin')"&gt;signin&lt;/button&gt;
-
-&lt;/div&gt;
-</code></pre>
-
-<p>3.controller里面TODO的位置填入</p>
-
-<pre><code>$location.path(path);
-</code></pre>
-
-<p>然后运行起来就可以看效果了。</p>
-
-<p>假设当前页面的url是<code>http://127.0.0.1:8080/#/home</code></p>
-
-<pre><code>$location.path(path);执行后就会跳到http://127.0.0.1:8080/#/signin
-</code></pre>
-
-<p>如果你发现页面不能正常跳转，可以在$location.path(path);后面再加上一句</p>
-
-<pre><code>var curUrl = $location.absUrl(); //用来显示url全路径
-</code></pre>
-
-<p>调试跟踪页面时查看curUrl的值到底变成多少，大概就能猜出问题出在哪了。</p>
-
-<h3>Resource Reference</h3>
-
-<ul>
-<li><a href="http://blog.csdn.net/rockwill/article/details/25196127">http://blog.csdn.net/rockwill/article/details/25196127</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac下ionic调试]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/08/macxia-ionicdiao-shi/"/>
-    <updated>2016-08-08T15:36:54+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/08/macxia-ionicdiao-shi</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://my.oschina.net/twinkling/blog/504824?p=">http://my.oschina.net/twinkling/blog/504824?p=</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[UIWebview 的缓存策略和验证，以及 Web 相关]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/08/uiwebview-de-huan-cun-ce-lue-he-yan-zheng-,yi-ji-web-xiang-guan/"/>
-    <updated>2016-08-08T08:25:11+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/08/uiwebview-de-huan-cun-ce-lue-he-yan-zheng-,yi-ji-web-xiang-guan</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>缓存策略 NSURLRequestCachePolicy</p>
-
-<p>NSURLRequestUseProtocolCachePolicy
-缓存策略定义在 web 协议实现中，用于请求特定的URL。是默认的URL缓存策略
-Specifies that the caching logic defined in the protocol implementation, if any, is used for a particular URL load request. This is the default policy for URL load requests.</p>
-
-<p>NSURLRequestReloadIgnoringLocalCacheData
-从服务端获取数据，忽略本地缓存</p>
-
-<p>Specifies that the data for the URL load should be loaded from the originating source. No existing cache data should be used to satisfy a URL load request.</p>
-
-<p>NSURLRequestReloadIgnoringLocalAndRemoteCacheData</p>
-
-<p>不仅忽略本地的缓存数据，还忽略中间网络媒介（如代理服务器）忽略缓存。直接从最原始的服务器拿取
-Specifies that not only should the local cache data be ignored, but that proxies and other intermediates should be instructed to disregard their caches so far as the protocol allows.</p>
-
-<p>NSURLRequestReloadIgnoringCacheData
-被NSURLRequestReloadIgnoringLocalCacheData替换了</p>
-
-<p>Replaced by NSURLRequestReloadIgnoringLocalCacheData.</p>
-
-<p>NSURLRequestReturnCacheDataElseLoad</p>
-
-<p>已经存在的缓存数据用于请求返回，不管它的过期日期和已经存在了多久。如果没有请求对应的缓存数据，从数据源读取
-Specifies that the existing cached data should be used to satisfy the request, regardless of its age or expiration date. If there is no existing data in the cache corresponding the request, the data is loaded from the originating source.</p>
-
-<p>NSURLRequestReturnCacheDataDontLoad</p>
-
-<p>已经存在的缓存数据用于请求返回，不管它的过期日期和已经存在了多久。如果没有请求对应的缓存数据，不要去数据源读取，该请求被设置为失败，这种情况多用于离线模式</p>
-
-<p>Specifies that the existing cache data should be used to satisfy a request, regardless of its age or expiration date. If there is no existing data in the cache corresponding to a URL load request, no attempt is made to load the data from the originating source, and the load is considered to have failed. This constant specifies a behavior that is similar to an “offline” mode.</p>
-
-<p>NSURLRequestReloadRevalidatingCacheData</p>
-
-<p>已经存在的缓存数据先去数据源验证有效性，如果无效，将从数据源获取
-Specifies that the existing cache data may be used provided the origin source confirms its validity, otherwise the URL is loaded from the origin source.</p>
-
-<p>NSURLRequestUseProtocolCachePolicy 和 NSURLRequestReloadRevalidatingCacheData 区别</p>
-
-<p>个人意见，仅供参考，如有错误，请指出来，这对我很重要，谢谢</p>
-
-<p>NSURLRequestReloadRevalidatingCacheData 是一定要和原始的数据源验证 cache 是否有效。
-而NSURLRequestUseProtocolCachePolicy 是根据 web 的协议来控制缓存，服务端返回数据的 head 有相关的信息。它可能会返回中间网络媒介（如代理服务器中的数据）</p>
-
-<p>针对缓存策略做一下本地测试，这是非常有必要的</p>
-
-<pre><code>NSURL *webUrl = [NSURL URLWithString:@"http://localhost/test.txt"];       
-NSURLRequest *request =[NSURLRequest requestWithURL:webUrl cachePolicy:NSURLRequestReloadRevalidatingCacheData timeoutInterval:60];       
-[self.mainWebView loadRequest:request];  
-</code></pre>
-
-<p>这里使用NSURLRequestReloadRevalidatingCacheData， 返回cache数据一定要先验证数据有效。</p>
-
-<h3>Resource Reference</h3>
-
-<ul>
-<li><a href="http://blog.csdn.net/mangosnow/article/details/37831529">http://blog.csdn.net/mangosnow/article/details/37831529</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Graceful-fs Warning When Running Grunt Task]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/08/graceful-fs-warning-when-running-grunt-task/"/>
-    <updated>2016-08-08T07:06:43+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/08/graceful-fs-warning-when-running-grunt-task</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>Warning: (node:2771) fs: re-evaluating native module sources is not supported. If you are using the graceful-fs module, please update it to a more recent version.</p>
-
-<p>If you&rsquo;re using homebrew here is how you can downgrade to v5.11.0</p>
-
-<pre><code>brew tap homebrew/versions
-brew unlink node
-brew install homebrew/versions/node5
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[FKConsole - Xcode控制台中文显示调整插件]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/04/fkconsole-xcodekong-zhi-tai-zhong-wen-xian-shi-diao-zheng-cha-jian/"/>
-    <updated>2016-08-04T08:13:32+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/04/fkconsole-xcodekong-zhi-tai-zhong-wen-xian-shi-diao-zheng-cha-jian</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://www.tuicool.com/articles/yUjaYv">http://www.tuicool.com/articles/yUjaYv</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac查看Http请求分析-httpie]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/04/httpie/"/>
-    <updated>2016-08-04T08:05:55+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/04/httpie</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="https://github.com/cnbin/httpie">https://github.com/cnbin/httpie</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[CocoaPods升级后（最新版本1.0.1），安装第三方库的时候会报如下错误]]></title>
-    <link href="http://cnbin.github.io/blog/2016/07/27/cocoapodssheng-ji-hou-(zui-xin-ban-ben-1-dot-0-1),an-zhuang-di-san-fang-ku-de-shi-hou-hui-bao-ru-xia-cuo-wu/"/>
-    <updated>2016-07-27T17:39:05+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/07/27/cocoapodssheng-ji-hou-(zui-xin-ban-ben-1-dot-0-1),an-zhuang-di-san-fang-ku-de-shi-hou-hui-bao-ru-xia-cuo-wu</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>CocoaPods升级后（最新版本1.0.1），安装第三方库的时候会报如下错误：</p>
-
-<p>　　The dependency <code>AFNetworking (~&gt; 3.1.0)</code> is not used in any concrete target.</p>
-
-<p>原因：CocoaPods升级后，Podfile文件的内容格式要求发生了变化，必须指出指出所用第三方库的target。</p>
-
-<p>解决步骤：</p>
-
-<p>1）检查CocoaPods的版本</p>
-
-<pre><code>        pod --version
-</code></pre>
-
-<p>2) 升级或安装最新版本（目前版本1.0.1）</p>
-
-<p>注意：如果cocoapods已经是1.0.1版本，则跳过该步骤直接进入第三个步骤。</p>
-
-<pre><code>升级命令：sudo gem update -n /usr/local/bin --system
-
-
-
-安装命令：sudo gem install -n /usr/local/bin cocoapods
-</code></pre>
-
-<p>(3)修改Podfile的内容</p>
-
-<p>修改前的Podfile文件的内容：</p>
-
-<pre><code>platform:ios,'7.0'
-pod 'MJRefresh', '~&gt; 3.1.0'
-pod 'SDWebImage', '~&gt; 3.7.6'
-pod 'SVProgressHUD', '~&gt; 2.0.3'
-pod 'AFNetworking', '~&gt; 3.1.0'
-</code></pre>
-
-<p>修改后的Podfile文件的内容：</p>
-
-<pre><code>platform:ios,'7.0'
-target "MyProject" do
-pod 'MJRefresh', '~&gt; 3.1.0'
-pod 'SDWebImage', '~&gt; 3.7.6'
-pod 'SVProgressHUD', '~&gt; 2.0.3'
-pod 'AFNetworking', '~&gt; 3.1.0'
-end
-</code></pre>
-
-<p>　　在Podfile文件中需要明确指出使用第三方库的target,这里target后面跟的就是自己项目本身的Target;也就是项目中的tagrets中的那个项目名称。</p>
 ]]></content>
   </entry>
   
