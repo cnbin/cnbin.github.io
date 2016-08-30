@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ionic | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/ionic/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-23T10:12:51+08:00</updated>
+  <updated>2016-08-30T08:08:43+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ionic 2 - 10分钟Hello Word教程]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/30/ionic-2-10fen-zhong-hello-wordjiao-cheng/"/>
+    <updated>2016-08-30T07:36:44+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/30/ionic-2-10fen-zhong-hello-wordjiao-cheng</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://blog.csdn.net/su_tianbiao/article/details/51140082">http://blog.csdn.net/su_tianbiao/article/details/51140082</a></h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ionic 自定义services文件]]></title>
@@ -159,32 +171,6 @@
     });
   })
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Getting Started With ngCordova]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/18/getting-started-with-ngcordova/"/>
-    <updated>2016-08-18T07:14:12+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/18/getting-started-with-ngcordova</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://thejackalofjavascript.com/getting-started-with-ngcordova/">http://thejackalofjavascript.com/getting-started-with-ngcordova/</a></h3>
-
-<h3><a href="https://www.npmjs.com/package/xenious-cordova-plugin-x-toast">https://www.npmjs.com/package/xenious-cordova-plugin-x-toast</a></h3>
-
-<h3><a href="http://ngcordova.com/docs/plugins/device/">http://ngcordova.com/docs/plugins/device/</a></h3>
-
-<h3><a href="http://www.ionic-china.com/ngCordova/Flashlight.html">http://www.ionic-china.com/ngCordova/Flashlight.html</a></h3>
-
-<h3><a href="http://www.phonegapcn.com/camera">http://www.phonegapcn.com/camera</a></h3>
-
-<h3><a href="http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html">http://cordova.apache.org/announcements/2015/12/08/cordova-ios-4.0.0.html</a></h3>
-
-<h3><a href="http://www.haomou.net/2015/01/05/2015_ionic_ngCordova/">http://www.haomou.net/2015/01/05/2015_ionic_ngCordova/</a></h3>
-
-<h3><a href="https://www.npmjs.com/package/cordova-plugin-flashlight">https://www.npmjs.com/package/cordova-plugin-flashlight</a></h3>
 ]]></content>
   </entry>
   

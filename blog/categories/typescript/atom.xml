@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Typescript | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/typescript/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-08-30T08:08:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[TypeScript 中的 Export 和 Import]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/30/typescript-zhong-de-export-he-import/"/>
+    <updated>2016-08-30T07:33:10+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/30/typescript-zhong-de-export-he-import</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>在 TypeScript 中， 经常要使用 export 和 import 两个关键字， 这两个关键字和 es6 中的语法是一致的， 因为 TypeScript = es6 + type !</p>
+
+<p>注意：目前没有任何浏览器实现 export 和 import ，要在浏览器中执行， 必须借助 TypeScript 或者其它的转换器！</p>
+
+<p>export</p>
+
+<pre><code>export 语句用于从文件（或模块）中导出函数， 对象或者基础类型， 语法如下：
+
+export { name1, name2, …, nameN };
+export { variable1 as name1, variable2 as name2, …, nameN };
+export let name1, name2, …, nameN; // also var
+export let name1 = …, name2 = …, …, nameN; // also var, const
+
+export default expression;
+export default function (…) { … } // also class, function*
+export default function name1(…) { … } // also class, function*
+export { name1 as default, … };
+
+export * from …;
+export { name1, name2, …, nameN } from …;
+export { import1 as name1, import2 as name2, …, nameN } from …;
+</code></pre>
+
+<p>nameN表示要导出的标识符， 可以在另一个文件中通过 import 语句导入。</p>
+
+<p>有两种类型的导出， 分别对应上面的语法：</p>
+
+<p>命名的导出</p>
+
+<pre><code>export { myFunction } // 导出已经声明的函数
+export const foo = Math.sqrt(2) // 导出一个常量
+当需要导出多个值的时候， 命名的导出就非常有用了， 在导入时， 可以使用同样的名字来引用对应的值， 示例：
+
+// mylib.ts
+export function cube(x: number): number {
+    return x * x * x;
+}
+const foo: number = Math.PI * Math.sqrt(2);
+export { foo }
+在另一个文件 main.ts 中， 这样使用：
+
+// main.ts
+import { cube, foo } from './mylib';
+console.log(cube(3)); // 27
+console.log(foo); // 4.555806215962888
+默认的导出
+
+export default function () {} // 导出默认的函数， 不使用花括号
+一个文件（模块）默认的导出只能有一个， 可以是类，函数， 对象等， 示例：
+
+// mylib.ts
+export default function (x: number): number {
+    return x * x * x;
+}
+</code></pre>
+
+<p>在另一个文件 main.ts 中， 这样使用：</p>
+
+<pre><code>// main.ts
+import cube from './mylib';
+console.log(cute(3)); // 27
+import
+</code></pre>
+
+<p>import 与 export 对应， 用于导入其它文件（模块）导出的函数， 对象或者其他基础类型， 语法如下：</p>
+
+<pre><code>import defaultMember from "module-name";
+import * as name from "module-name";
+import { member } from "module-name";
+import { member as alias } from "module-name";
+import { member1 , member2 } from "module-name";
+import { member1 , member2 as alias2 , [...] } from "module-name";
+import defaultMember, { member [ , [...] ] } from "module-name";
+import defaultMember, * as name from "module-name";
+import "module-name";
+</code></pre>
+
+<p>name 用来接收导入的值的对象的名称；
+member, memberN 要导入的外部模块的导出名称；
+defaultMember 要导入的外部模块的默认导出的名称；
+alias, aliasN 要导入的外部模块的导出的别名；
+module-name 要导入的外部模块的名称， 通常是文件名；
+import 常见的用法有：</p>
+
+<p>导入整个模块的内容， 在当前作用域插入 myModule 变量， 包含 my-module.ts 文件中全部导出的绑定：</p>
+
+<pre><code>import * as myModule from 'my-module';
+导入模块的某一个导出成员， 在当前作用域插入 myMember 变量：
+
+import { myMember } from 'my-module';
+导入模块的多个导出成员， 在当前作用域插入 foo 和 bar 变量：
+
+import {foo, bar} from 'my-module';
+导入模块的成员， 并使用一个更好用的名字：
+
+import {reallyReallyLongModuleMemberName as shortName} from 'my-module';
+import {reallyReallyLongModuleMemberName as shortName, anotherLongModuleName as short} from 'my-module';
+将整个模块座位附加功能导入， 但是不导入模块的额导出成员
+
+import 'my-module';
+导入模块的默认导出：
+
+import myDefault from 'my-module';
+导入模块的默认导出和命名导出：
+
+import myDefault, * as myModule from 'my-module';
+// myModule used as a namespace
+或者
+
+import myDefault, {foo, bar} from 'my-module';
+// specific, named imports
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

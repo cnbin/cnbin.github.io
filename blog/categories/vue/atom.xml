@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Vue | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/vue/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-08-30T08:08:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[# Vue Syntax Highlight]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/24/number-vue-syntax-highlight/"/>
+    <updated>2016-08-24T07:57:12+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/24/number-vue-syntax-highlight</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h1>Vue Syntax Highlight</h1>
+
+<p>Sublime Text Syntax highlighting for single-file <a href="http://vuejs.org">Vue.js</a> components (enabled by <a href="https://github.com/vuejs/vue-loader">vue-loader</a> or <a href="https://github.com/vuejs/vueify">vueify</a>).</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/499550/11458853/99ed23aa-9696-11e5-9bf6-43c706487aee.png" alt="screenshot" /></p>
+
+<h3>Install</h3>
+
+<ul>
+<li>Via Package Control: search for <code>Vue Syntax Highlight</code>.</li>
+<li>Manual: clone this repo into your Sublime <code>Packages</code> folder.</li>
+</ul>
+
+
+<p><strong>NOTE:</strong> You still need to install corresponding packages for pre-processors (e.g. Jade, SASS, CoffeeScript) to get proper syntax highlighting for them.</p>
+
+<h3>License</h3>
+
+<p><a href="http://opensource.org/licenses/MIT">MIT</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MAC 版 Sublime Text 3 安装插件管理器]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/24/mac-ban-sublime-text-3-an-zhuang-cha-jian-guan-li-qi/"/>
+    <updated>2016-08-24T07:53:14+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/24/mac-ban-sublime-text-3-an-zhuang-cha-jian-guan-li-qi</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>打开Sublime，按下Control + <code>(Mac)或者Ctrl +</code>(Windows)，然后粘贴上下面的代码：</p>
+
+<pre><code>import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://jingyan.baidu.com/article/455a99508b7ccda1662778e0.html">http://jingyan.baidu.com/article/455a99508b7ccda1662778e0.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

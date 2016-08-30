@@ -4,7 +4,7 @@
   <title><![CDATA[陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-23T10:06:13+08:00</updated>
+  <updated>2016-08-30T08:01:12+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,232 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[关于Angular2的一些资料（持续更新中）]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/30/guan-yu-angular2de-xie-zi-liao-chi-xu-geng-xin-zhong-/"/>
+    <updated>2016-08-30T07:54:41+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/30/guan-yu-angular2de-xie-zi-liao-chi-xu-geng-xin-zhong-</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="https://segmentfault.com/a/1190000003761054">https://segmentfault.com/a/1190000003761054</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Angular2 印象]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/30/angular2-yin-xiang/"/>
+    <updated>2016-08-30T07:50:49+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/30/angular2-yin-xiang</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="https://hacking-with-angular.github.io/2016/08/01/hello-world/">https://hacking-with-angular.github.io/2016/08/01/hello-world/</a></h3>
+
+<h3><a href="https://angular.cn/">angular中文网址</a></h3>
+
+<h3><a href="http://blog.csdn.net/lihongxun945/article/details/49964727">http://blog.csdn.net/lihongxun945/article/details/49964727</a></h3>
+
+<h3><a href="https://dzone.com/articles/typed-front-end-with-angular-2">https://dzone.com/articles/typed-front-end-with-angular-2</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Ionic 2 - 10分钟Hello Word教程]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/30/ionic-2-10fen-zhong-hello-wordjiao-cheng/"/>
+    <updated>2016-08-30T07:36:44+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/30/ionic-2-10fen-zhong-hello-wordjiao-cheng</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://blog.csdn.net/su_tianbiao/article/details/51140082">http://blog.csdn.net/su_tianbiao/article/details/51140082</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[TypeScript 中的 Export 和 Import]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/30/typescript-zhong-de-export-he-import/"/>
+    <updated>2016-08-30T07:33:10+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/30/typescript-zhong-de-export-he-import</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>在 TypeScript 中， 经常要使用 export 和 import 两个关键字， 这两个关键字和 es6 中的语法是一致的， 因为 TypeScript = es6 + type !</p>
+
+<p>注意：目前没有任何浏览器实现 export 和 import ，要在浏览器中执行， 必须借助 TypeScript 或者其它的转换器！</p>
+
+<p>export</p>
+
+<pre><code>export 语句用于从文件（或模块）中导出函数， 对象或者基础类型， 语法如下：
+
+export { name1, name2, …, nameN };
+export { variable1 as name1, variable2 as name2, …, nameN };
+export let name1, name2, …, nameN; // also var
+export let name1 = …, name2 = …, …, nameN; // also var, const
+
+export default expression;
+export default function (…) { … } // also class, function*
+export default function name1(…) { … } // also class, function*
+export { name1 as default, … };
+
+export * from …;
+export { name1, name2, …, nameN } from …;
+export { import1 as name1, import2 as name2, …, nameN } from …;
+</code></pre>
+
+<p>nameN表示要导出的标识符， 可以在另一个文件中通过 import 语句导入。</p>
+
+<p>有两种类型的导出， 分别对应上面的语法：</p>
+
+<p>命名的导出</p>
+
+<pre><code>export { myFunction } // 导出已经声明的函数
+export const foo = Math.sqrt(2) // 导出一个常量
+当需要导出多个值的时候， 命名的导出就非常有用了， 在导入时， 可以使用同样的名字来引用对应的值， 示例：
+
+// mylib.ts
+export function cube(x: number): number {
+    return x * x * x;
+}
+const foo: number = Math.PI * Math.sqrt(2);
+export { foo }
+在另一个文件 main.ts 中， 这样使用：
+
+// main.ts
+import { cube, foo } from './mylib';
+console.log(cube(3)); // 27
+console.log(foo); // 4.555806215962888
+默认的导出
+
+export default function () {} // 导出默认的函数， 不使用花括号
+一个文件（模块）默认的导出只能有一个， 可以是类，函数， 对象等， 示例：
+
+// mylib.ts
+export default function (x: number): number {
+    return x * x * x;
+}
+</code></pre>
+
+<p>在另一个文件 main.ts 中， 这样使用：</p>
+
+<pre><code>// main.ts
+import cube from './mylib';
+console.log(cute(3)); // 27
+import
+</code></pre>
+
+<p>import 与 export 对应， 用于导入其它文件（模块）导出的函数， 对象或者其他基础类型， 语法如下：</p>
+
+<pre><code>import defaultMember from "module-name";
+import * as name from "module-name";
+import { member } from "module-name";
+import { member as alias } from "module-name";
+import { member1 , member2 } from "module-name";
+import { member1 , member2 as alias2 , [...] } from "module-name";
+import defaultMember, { member [ , [...] ] } from "module-name";
+import defaultMember, * as name from "module-name";
+import "module-name";
+</code></pre>
+
+<p>name 用来接收导入的值的对象的名称；
+member, memberN 要导入的外部模块的导出名称；
+defaultMember 要导入的外部模块的默认导出的名称；
+alias, aliasN 要导入的外部模块的导出的别名；
+module-name 要导入的外部模块的名称， 通常是文件名；
+import 常见的用法有：</p>
+
+<p>导入整个模块的内容， 在当前作用域插入 myModule 变量， 包含 my-module.ts 文件中全部导出的绑定：</p>
+
+<pre><code>import * as myModule from 'my-module';
+导入模块的某一个导出成员， 在当前作用域插入 myMember 变量：
+
+import { myMember } from 'my-module';
+导入模块的多个导出成员， 在当前作用域插入 foo 和 bar 变量：
+
+import {foo, bar} from 'my-module';
+导入模块的成员， 并使用一个更好用的名字：
+
+import {reallyReallyLongModuleMemberName as shortName} from 'my-module';
+import {reallyReallyLongModuleMemberName as shortName, anotherLongModuleName as short} from 'my-module';
+将整个模块座位附加功能导入， 但是不导入模块的额导出成员
+
+import 'my-module';
+导入模块的默认导出：
+
+import myDefault from 'my-module';
+导入模块的默认导出和命名导出：
+
+import myDefault, * as myModule from 'my-module';
+// myModule used as a namespace
+或者
+
+import myDefault, {foo, bar} from 'my-module';
+// specific, named imports
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS获取本地通信录、添加联系人信息]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/25/ioshuo-qu-ben-di-tong-xin-lu-,-tian-jia-lian-xi-ren-xin-xi/"/>
+    <updated>2016-08-25T15:23:48+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/25/ioshuo-qu-ben-di-tong-xin-lu-,-tian-jia-lian-xi-ren-xin-xi</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[# Vue Syntax Highlight]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/24/number-vue-syntax-highlight/"/>
+    <updated>2016-08-24T07:57:12+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/24/number-vue-syntax-highlight</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h1>Vue Syntax Highlight</h1>
+
+<p>Sublime Text Syntax highlighting for single-file <a href="http://vuejs.org">Vue.js</a> components (enabled by <a href="https://github.com/vuejs/vue-loader">vue-loader</a> or <a href="https://github.com/vuejs/vueify">vueify</a>).</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/499550/11458853/99ed23aa-9696-11e5-9bf6-43c706487aee.png" alt="screenshot" /></p>
+
+<h3>Install</h3>
+
+<ul>
+<li>Via Package Control: search for <code>Vue Syntax Highlight</code>.</li>
+<li>Manual: clone this repo into your Sublime <code>Packages</code> folder.</li>
+</ul>
+
+
+<p><strong>NOTE:</strong> You still need to install corresponding packages for pre-processors (e.g. Jade, SASS, CoffeeScript) to get proper syntax highlighting for them.</p>
+
+<h3>License</h3>
+
+<p><a href="http://opensource.org/licenses/MIT">MIT</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MAC 版 Sublime Text 3 安装插件管理器]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/24/mac-ban-sublime-text-3-an-zhuang-cha-jian-guan-li-qi/"/>
+    <updated>2016-08-24T07:53:14+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/24/mac-ban-sublime-text-3-an-zhuang-cha-jian-guan-li-qi</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<p>打开Sublime，按下Control + <code>(Mac)或者Ctrl +</code>(Windows)，然后粘贴上下面的代码：</p>
+
+<pre><code>import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())
+</code></pre>
+
+<h3>Resource Reference</h3>
+
+<ul>
+<li><a href="http://jingyan.baidu.com/article/455a99508b7ccda1662778e0.html">http://jingyan.baidu.com/article/455a99508b7ccda1662778e0.html</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Webview初始化]]></title>
@@ -588,362 +814,6 @@ _bridge = [WebViewJavascriptBridge bridgeForWebView:webView];
     return NO;
 }
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ionic上传 Www]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/11/ionishang-chuan-www/"/>
-    <updated>2016-08-11T14:39:13+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/11/ionishang-chuan-www</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>ionic框架可以直接上传www文件夹，不使用cordova内容</p>
-
-<pre><code>/usr/local/Cellar/tomcat/8.5.4/
-</code></pre>
-
-<p><img src="http://ww2.sinaimg.cn/mw690/78f9859egw1f6psxelzexj20cq0a2gmy.jpg" alt="img" /></p>
-
-<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f6psxdtlg8j209u09yq3m.jpg" alt="img" />
-执行命令</p>
-
-<pre><code>catalina run
-</code></pre>
-
-<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6pszmzwafj20tu06wwgy.jpg" alt="img" /></p>
-
-<p><img src="http://ww4.sinaimg.cn/mw690/78f9859egw1f6pszmasofj20r00htdjb.jpg" alt="img" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[如何为Swift进行宏定义]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/10/ru-he-wei-swiftjin-xing-hong-ding-yi/"/>
-    <updated>2016-08-10T07:50:39+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/10/ru-he-wei-swiftjin-xing-hong-ding-yi</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<ul>
-<li><a href="http://www.cnblogs.com/JianweiWang/p/5142306.html">http://www.cnblogs.com/JianweiWang/p/5142306.html</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Oc 调用 Swift（原创）]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/10/oc-diao-yong-swift/"/>
-    <updated>2016-08-10T07:06:09+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/10/oc-diao-yong-swift</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>OC调用Swift的时候，Xcode会自动生成一个xxx-Swfit.h文件。只需要导入这个文件到项目里面就行了。</p>
-
-<p>执行命令：</p>
-
-<pre><code>~find ~/Library/Developer/Xcode/DerivedData -name "*Swift.h"
-</code></pre>
-
-<p>找到所有出现的xxx-Swift.h文件，找到项目的xxx-Swift.h文件.然后<code>#import xxx-Swfit.h</code></p>
-
-<p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1f6oag7lxkyj21da09kk80.jpg" alt="img" /></p>
-
-<p><img src="http://ww3.sinaimg.cn/mw690/78f9859egw1f6oag6v0zlj20hm0be42i.jpg" alt="img" /></p>
-
-<h3>Resource Reference</h3>
-
-<ul>
-<li><a href="http://blog.csdn.net/huangchentao/article/details/35278663">http://blog.csdn.net/huangchentao/article/details/35278663</a></li>
-<li><a href="http://www.th7.cn/Program/IOS/201501/377155.shtml">http://www.th7.cn/Program/IOS/201501/377155.shtml</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[OC与swift相互调用]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/09/ocyu-swiftxiang-hu-diao-yong/"/>
-    <updated>2016-08-09T14:47:51+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/09/ocyu-swiftxiang-hu-diao-yong</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>一、OC调用swift文件</p>
-
-<p>二、swift调用OC文件</p>
-
-<p>三、注意和总结</p>
-
-<p>添加：</p>
-
-<p>四、自定义桥接文件</p>
-
-<p>一、OC调用swift文件</p>
-
-<p>在OC项目中创建一个swift文件的时候，Xcode 会提示 需要创建一个桥接文件，点确定创建桥接文件，Xcode会自动创建一个桥接文件</p>
-
-<p>名字：工程名-Bridging-Header.h</p>
-
-<p>这个桥接文件是 swift 调用OC文件的时候用的</p>
-
-<p>1、
-进入TARGETS ->Build Settings -> Packaging 中</p>
-
-<p>设置Defines Module为YES</p>
-
-<p>设置 Product Module Name ，也可以不设置，默认为工程的名字。这个在后面会用到</p>
-
-<p>2、
-在swift写一个类</p>
-
-<p>注意这个类一定要继承NSObject，不然在OC中没法用</p>
-
-<p>class hello: NSObject {</p>
-
-<pre><code>var address : String
-var gender: String
-
-init(address:String,gender:String){
-    self.address = address
-    self.gender = gender
-}
-
-func method() {
-    print("message \(self.address + self.gender)")
-}
-}
-</code></pre>
-
-<p>3、
-　　在OC需要用到的swift文件中 导入文件 &ldquo;Product Module Name -Swift.h&rdquo;  因为 Product Module Name 默认是工程的名字</p>
-
-<p>所以直接导入 #import &ldquo;工程名-Swift.h&rdquo;</p>
-
-<p>4、
-　　记着写完先command +B编译一下，如果没有报错就可以在OC文件调用swift中的类了</p>
-
-<p>hello *helloss = [[helloalloc]initWithAddress:@&ldquo;上海"gender:@"男&rdquo;];
-[helloss method];</p>
-
-<p>二、swift调用OC文件
-　　在swift项目中创建一个OC文件的时候，Xcode 会提示创建一个桥接文件 点确定创建桥接文件，Xcode会自动创建一个桥接文件</p>
-
-<p>名字：工程名-Bridging-Header.h</p>
-
-<p>　　把swift需要用到的OC文件的头文件放到桥接文件里 工程名-Bridging-Header.h</p>
-
-<p>例如：</p>
-
-<p>1、
-这个就是一个OC文件</p>
-
-<pre><code>//#import "sec.h"
-#import &lt;UIKit/UIKit.h&gt;
-@interface sec : UIViewController
--(void)actionMake;
-@end
-</code></pre>
-
-<p>2、
-在桥接文件中把需要用到OC的头文件导入进去</p>
-
-<pre><code>#import "sec.h"
-</code></pre>
-
-<p>3、
-编译一下，就可以在swift中用swift的语法调用OC文件的方法了</p>
-
-<pre><code>let second = sec()
-second.actionMake()
-</code></pre>
-
-<p>三、注意和总结</p>
-
-<p>注意：
-1、OC项目在导入swift文件前 先按照系统提示创建桥接文件，</p>
-
-<p>2、在 targets -> Build Settings -> Packaging  中设置Defines Module 为YES</p>
-
-<p>3、在OC中调用swift文件的时候，swift中的类 要继承NSObject</p>
-
-<p>不然没办法在OC中调用</p>
-
-<p>4、OC中调用swift文件需要导入”工程名 -Swift.h"</p>
-
-<p>（这个是build Setting -> Packaging->Product Module Name 的名字，而这个属性默认是工程的名字）</p>
-
-<p>5、写完记得command + B 编译 一下</p>
-
-<p>6、swift项目 引用OC文件也需要创建 桥接文件，在这个桥接文件中导入OC文件的头文件</p>
-
-<p>7、桥接文件只有一个，作用只是为了 swift 引用OC文件，OC引用swift 文件虽然也需要创建桥接文件
-        但是不需要在桥接文件中 导入swift文件</p>
-
-<p>8、如果一个项目既有OC引用swift 也有swift引用OC ,就先设置OC调用swift文件
-     在桥接文件 导入OC文件，OC可以定义PCH文件导入”工程名 -Swift.h"</p>
-
-<p>四、自定义桥接文件</p>
-
-<p>如果不用Xcode提示创建桥接文件也可以自定义一个桥接文件</p>
-
-<p>1  使用 Header File  把里面的内容清空。</p>
-
-<p>2、 这文件名可以自定义， 一般还是用 工程名-Bridging-Header.h   例如app - file.h</p>
-
-<p>3    然后在 Build Setting -> Swift Compiler - Code Generation中</p>
-
-<p>4、设置Objective-C Bridging Header 为自定义的桥接文件相对于工程的绝对路径，也就是项目总文件夹的路径，如果在第一层，就直接写自定义的桥接文件的名file.h，如果在下一层，文件夹/桥接文件 app/file.h</p>
-
-<h3>Resource Reference</h3>
-
-<ul>
-<li><a href="http://www.cnblogs.com/mazhiqiang/p/5557002.html">http://www.cnblogs.com/mazhiqiang/p/5557002.html</a></li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ionic/cordova 真机调试]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/09/ionic-slash-cordova-zhen-ji-diao-shi/"/>
-    <updated>2016-08-09T11:24:36+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/09/ionic-slash-cordova-zhen-ji-diao-shi</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>android下简单，连接手机后，直接：</p>
-
-<pre><code>﻿​$ ionic run android
-</code></pre>
-
-<p>ios下比较麻烦点，要先装ios-deploy：</p>
-
-<pre><code>﻿​sudo npm install -g ios-deploy
-</code></pre>
-
-<p>然后：</p>
-
-<pre><code>﻿​ionic run ios --device
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Ionic项目实例《Ionic中文社区》]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/09/ionicxiang-mu-shi-li-oniczhong-wen-she-qu/"/>
-    <updated>2016-08-09T11:22:03+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/09/ionicxiang-mu-shi-li-oniczhong-wen-she-qu</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://www.cnblogs.com/zxj159/p/4788703.html">http://www.cnblogs.com/zxj159/p/4788703.html</a></h3>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Tomcat的Manager显示403 Access Denied]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/09/tomcatde-managerxian-shi-403-access-denied/"/>
-    <updated>2016-08-09T10:25:16+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/09/tomcatde-managerxian-shi-403-access-denied</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<p>管理tomcat的时候遇到了以下问题：</p>
-
-<p>1.刚开始需要用户名密码，不知道用户名和密码是什么，但是输入什么都不正确。</p>
-
-<p>解决办法：</p>
-
-<p>自己在tomcat-users.xml中按格式添加用户 conf文件夹里面</p>
-
-<p>默认是注释掉了的，这主要是考虑到服务器的安全，如果是本地测试，去掉以下这段注释，然后重启动服务器，再输入</p>
-
-<pre><code>&lt;role rolename="tomcat"/&gt;
-&lt;role rolename="role1"/&gt;
-&lt;user username="tomcat" password="tomcat" roles="tomcat"/&gt;
-&lt;user username="both" password="tomcat" roles="tomcat,role1"/&gt;
-&lt;user username="role1" password="tomcat" roles="role1"/&gt;
-</code></pre>
-
-<p>　　<br/>
-　　用户和密码都一目了然了。</p>
-
-<p>2.进入manager界面之后，显示的是403 Access Denied。</p>
-
-<p>解决办法：</p>
-
-<p>在conf/tomcat-users.xml文件中看到这么一段话：</p>
-
-<p>NOTE:  By default, no user is included in the &ldquo;manager-gui&rdquo; role required
-to operate the &ldquo;/manager/html&rdquo; web application.  If you wish to use this app,
-you must define such a user - the username and password are arbitrary.</p>
-
-<p>也就是说，为了考虑安全，tomcat默认还是没有manager-gui的管理权限的，如果想要使用manager
-的话，需要自行加入管理权限（角色）。</p>
-
-<p>需要加一个这样的权限（角色)</p>
-
-<pre><code>&lt;role rolename="manager-gui"/&gt;
-</code></pre>
-
-<p>然后再加到需要的用户名中去</p>
-
-<pre><code>&lt;user username="tomcat" password="tomcat" roles="tomcat,manager-gui"/&gt;
-　　这样OK了。
-
-&lt;?xml version='1.0' encoding='utf-8'?&gt;
-&lt;!--
-Licensed to the Apache Software Foundation (ASF) under one or more
-contributor license agreements.  See the NOTICE file distributed with
-this work for additional information regarding copyright ownership.
-The ASF licenses this file to You under the Apache License, Version 2.0
-(the "License"); you may not use this file except in compliance with
-the License.  You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
---&gt;
-&lt;tomcat-users&gt;
-&lt;!--
-NOTE:  By default, no user is included in the "manager-gui" role required
-to operate the "/manager/html" web application.  If you wish to use this app,
-you must define such a user - the username and password are arbitrary.
---&gt;
-&lt;!--
-NOTE:  The sample user and role entries below are wrapped in a comment
-and thus are ignored when reading this file. Do not forget to remove
-&lt;!.. ..&gt; that surrounds them.
---&gt;
-
-&lt;!--
-&lt;role rolename="tomcat"/&gt;
-&lt;role rolename="role1"/&gt;
-&lt;user username="tomcat" password="tomcat" roles="tomcat"/&gt;
-&lt;user username="both" password="tomcat" roles="tomcat,role1"/&gt;
-&lt;user username="role1" password="tomcat" roles="role1"/&gt;
---&gt;
-&lt;role rolename="manager-gui"/&gt;
-&lt;role rolename="admin-gui"/&gt;
-&lt;user username="ming" password="064417" roles="manager-gui,admin-gui"/&gt;
-
-&lt;/tomcat-users&gt;
-</code></pre>
-
-<h3>Resource Reference</h3>
-
-<ul>
-<li><a href="http://www.cnblogs.com/mingforyou/archive/2013/03/31/2991543.html">http://www.cnblogs.com/mingforyou/archive/2013/03/31/2991543.html</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

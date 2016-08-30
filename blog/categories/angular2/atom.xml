@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Angular2 | 陈斌彬的技术博客]]></title>
+  <link href="http://cnbin.github.io/blog/categories/angular2/atom.xml" rel="self"/>
+  <link href="http://cnbin.github.io/"/>
+  <updated>2016-08-30T08:08:43+08:00</updated>
+  <id>http://cnbin.github.io/</id>
+  <author>
+    <name><![CDATA[陈斌彬]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[关于Angular2的一些资料（持续更新中）]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/30/guan-yu-angular2de-xie-zi-liao-chi-xu-geng-xin-zhong-/"/>
+    <updated>2016-08-30T07:54:41+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/30/guan-yu-angular2de-xie-zi-liao-chi-xu-geng-xin-zhong-</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="https://segmentfault.com/a/1190000003761054">https://segmentfault.com/a/1190000003761054</a></h3>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Angular2 印象]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/30/angular2-yin-xiang/"/>
+    <updated>2016-08-30T07:50:49+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/30/angular2-yin-xiang</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="https://hacking-with-angular.github.io/2016/08/01/hello-world/">https://hacking-with-angular.github.io/2016/08/01/hello-world/</a></h3>
+
+<h3><a href="https://angular.cn/">angular中文网址</a></h3>
+
+<h3><a href="http://blog.csdn.net/lihongxun945/article/details/49964727">http://blog.csdn.net/lihongxun945/article/details/49964727</a></h3>
+
+<h3><a href="https://dzone.com/articles/typed-front-end-with-angular-2">https://dzone.com/articles/typed-front-end-with-angular-2</a></h3>
+]]></content>
+  </entry>
+  
+</feed>
