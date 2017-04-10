@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-30T08:08:43+08:00</updated>
+  <updated>2017-04-10T18:30:09+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -12,6 +12,18 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[IOS弱网测试工具 Network Link Conditione]]></title>
+    <link href="http://cnbin.github.io/blog/2016/08/30/iosruo-wang-ce-shi-gong-ju-network-link-conditione/"/>
+    <updated>2016-08-30T12:51:10+08:00</updated>
+    <id>http://cnbin.github.io/blog/2016/08/30/iosruo-wang-ce-shi-gong-ju-network-link-conditione</id>
+    <content type="html"><![CDATA[<!--More-->
+
+
+<h3><a href="http://blog.sina.com.cn/s/blog_15053a2a90102w9qe.html">http://blog.sina.com.cn/s/blog_15053a2a90102w9qe.html</a></h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Webview初始化]]></title>
@@ -252,18 +264,6 @@ myLabel.attributedText = attributeString;
 <p>Cichlid <a href="https://github.com/dealforest/Cichlid">https://github.com/dealforest/Cichlid</a></p>
 
 <p>CleanHeaders-Xcode <a href="https://github.com/insanoid/CleanHeaders-Xcode">https://github.com/insanoid/CleanHeaders-Xcode</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[项目适配iOS9遇到的一些问题及解决办法（更新两个小问题）]]></title>
-    <link href="http://cnbin.github.io/blog/2016/08/15/xiang-mu-gua-pei-ios9yu-dao-de-xie-wen-ti-ji-jie-jue-ban-fa-geng-xin-liang-ge-xiao-wen-ti/"/>
-    <updated>2016-08-15T08:57:28+08:00</updated>
-    <id>http://cnbin.github.io/blog/2016/08/15/xiang-mu-gua-pei-ios9yu-dao-de-xie-wen-ti-ji-jie-jue-ban-fa-geng-xin-liang-ge-xiao-wen-ti</id>
-    <content type="html"><![CDATA[<!--More-->
-
-
-<h3><a href="http://www.jianshu.com/p/631bd7f12a38">http://www.jianshu.com/p/631bd7f12a38</a></h3>
 ]]></content>
   </entry>
   

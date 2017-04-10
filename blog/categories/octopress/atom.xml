@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | 陈斌彬的技术博客]]></title>
   <link href="http://cnbin.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://cnbin.github.io/"/>
-  <updated>2016-08-30T08:08:43+08:00</updated>
+  <updated>2017-04-10T18:30:09+08:00</updated>
   <id>http://cnbin.github.io/</id>
   <author>
     <name><![CDATA[陈斌彬]]></name>
@@ -491,7 +491,7 @@ Liquid::Template.register_tag('category_list', Jekyll::CategoryListTag)
 <pre><code>&lt;section&gt; 
   &lt;h1&gt;文章分类&lt;/h1&gt; 
   &lt;ul id="categories"&gt; 
-    {%raw%}{% category_list %} {%endraw%} 
+    {% category_list %}  
     &lt;/ul&gt; 
 &lt;/section&gt;
 </code></pre>
@@ -533,29 +533,29 @@ duoshuo_short_name: yourshortname
 
 <p>2.在 <code>source/_layouts/post.html</code> 中的 <code>disqus</code>代码</p>
 
-<pre><code> {%raw%}{% if site.disqus_short_name and page.comments == true %} 
+<pre><code> {% if site.disqus_short_name and page.comments == true %} 
       &lt;section&gt;
         &lt;h1&gt;Comments&lt;/h1&gt;
         &lt;div id="disqus_thread" aria-live="polite"&gt;{% include post/disqus_thread.html %}&lt;/div&gt;
       &lt;/section&gt;
-    {% endif %}{%endraw%}
+    {% endif %}
 </code></pre>
 
 <p>下方添加多说评论模块</p>
 
-<pre><code>{%raw%}{% if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %}
+<pre><code>{% if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %}
   &lt;section&gt;
     &lt;h1&gt;Comments&lt;/h1&gt;
     &lt;div id="comments" aria-live="polite"&gt;{% include post/duoshuo.html %}&lt;/div&gt;
   &lt;/section&gt;
-{% endif %}{%endraw%}
+{% endif %}
 </code></pre>
 
 <p>3.在<code>/source/_includes/post/</code>目录下创建<code>duoshuo.html</code>，
 添加代码</p>
 
-<pre><code>{%raw%}&lt;div class="ds-thread" data-title="{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}"&gt;&lt;/div&gt;{%endraw%}
-{%raw%}
+<pre><code>&lt;div class="ds-thread" data-title="{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}"&gt;&lt;/div&gt;
+
     &lt;script type="text/javascript"&gt;
       var duoshuoQuery = {short_name:"{{ site.duoshuo_short_name }}"};
       (function() {
@@ -566,21 +566,21 @@ duoshuo_short_name: yourshortname
         (document.getElementsByTagName('head')[0] 
         || document.getElementsByTagName('body')[0]).appendChild(ds);
       })();
-    &lt;/script&gt;{%endraw%}
+    &lt;/script&gt;
 </code></pre>
 
 <p>4.修改<code>_includes/article.html</code> 文件，在</p>
 
-<pre><code>{%raw%} {% if site.disqus_short_name and page.comments != false and post.comments != false and site.disqus_show_comment_count == true %}
+<pre><code> {% if site.disqus_short_name and page.comments != false and post.comments != false and site.disqus_show_comment_count == true %}
          | &lt;a href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#disqus_thread"&gt;Comments&lt;/a&gt;
-        {% endif %}{%endraw%}
+        {% endif %}
 </code></pre>
 
 <p>下面添加如下代码</p>
 
-<pre><code> {%raw%}{% if site.duoshuo_short_name and page.comments != false and post.comments != false and site.duoshuo_comments == true %}
+<pre><code> {% if site.duoshuo_short_name and page.comments != false and post.comments != false and site.duoshuo_comments == true %}
           | &lt;a href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#comments"&gt;Comments&lt;/a&gt;
-         {% endif %}{%endraw%}
+         {% endif %}
 </code></pre>
 
 <h3>4.3修改导航栏,添加 about 页面</h3>
@@ -592,9 +592,9 @@ duoshuo_short_name: yourshortname
 <p>修改后的文件如下：</p>
 
 <pre><code>&lt;ul class="main-navigation"&gt; 
-  &lt;li&gt;&lt;a href="{{ root_url }}/"&gt;首页&lt;/a&gt;&lt;/li&gt; 
-  &lt;li&gt;&lt;a href="{{ root_url }}/blog/archives"&gt;归档&lt;/a&gt;&lt;/li&gt; 
-  &lt;li&gt;&lt;a href="{{ root_url }}/about"&gt;关于&lt;/a&gt;&lt;/li&gt; 
+  &lt;li&gt;&lt;a href="/"&gt;首页&lt;/a&gt;&lt;/li&gt; 
+  &lt;li&gt;&lt;a href="/blog/archives"&gt;归档&lt;/a&gt;&lt;/li&gt; 
+  &lt;li&gt;&lt;a href="/about"&gt;关于&lt;/a&gt;&lt;/li&gt; 
 &lt;/ul&gt;
 </code></pre>
 
@@ -647,7 +647,7 @@ duoshuo_short_name: yourshortname
 <p><img src="http://ww1.sinaimg.cn/mw690/78f9859egw1eu4ez79adjj21a406lwhy.jpg" alt="img" /></p>
 
 <pre><code>&lt;p&gt;
-  Copyright &amp;copy; {{ site.time | date: "%Y" }} - {{ site.author }} -
+  Copyright &amp;copy; 2017 - 陈斌彬 -
   &lt;span class="credit"&gt;Powered by &lt;a href="http://octopress.org"&gt;Octopress&lt;/a&gt;&lt;/span&gt;
 
     &lt;script type="text/javascript"&gt;var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255152795'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1255152795%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));&lt;/script&gt;
@@ -756,7 +756,7 @@ $ rake deploy
 
 <p>把 <code>\source\_includes\after_footer.html</code> 文件中的 Twitter 内容给注释掉：</p>
 
-<p><code>&lt;!--{%raw%}{% include twitter_sharing.html %}{%endraw%}--&gt;</code></p>
+<p><code>&lt;!--{% include twitter_sharing.html %}--&gt;</code></p>
 
 <h3>6.3删除 Google font</h3>
 
